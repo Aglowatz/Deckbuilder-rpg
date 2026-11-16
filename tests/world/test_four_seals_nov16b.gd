@@ -55,7 +55,6 @@ func test_it_is_a_small_cellar_door_of_the_town_s_materials() -> void:
 
 func test_four_iron_seals_show_a_padlock_while_locked() -> void:
 	var vault: Node3D = _vault()
-	var xs: Array[float] = []
 	for zone_id: String in VaultGuardian.ZONE_IDS:
 		var seal: Node3D = _seal(vault, zone_id)
 		assert_not_null(seal, zone_id)
@@ -64,15 +63,104 @@ func test_four_iron_seals_show_a_padlock_while_locked() -> void:
 		var face: Sprite3D = seal.get_node("Face") as Sprite3D
 		assert_eq(face.texture, IconArt.texture("ICON-PADLOCK", 128.0), "the face is the padlock picture")
 		assert_true(seal.get_parent().name.begins_with("Leaf"), "the seal sits on a door leaf")
-		xs.append(seal.global_position.x)
-	for index: int in range(1, xs.size()):
-		assert_gt(xs[index], xs[index - 1] + 0.3, "four in a row across the doors")
-	# Locked, the four are identical: nothing tells which Path a seal belongs to.
 	var first_face: Sprite3D = _seal(vault, VaultGuardian.ZONE_IDS[0]).get_node("Face") as Sprite3D
 	for zone_id: String in VaultGuardian.ZONE_IDS:
 		var face: Sprite3D = _seal(vault, zone_id).get_node("Face") as Sprite3D
-		assert_eq(face.modulate, first_face.modulate, "no colour gives the answer away")
-		assert_eq((_seal(vault, zone_id).get_node("Disc") as MeshInstance3D).material_override.resource_name, (_seal(vault, VaultGuardian.ZONE_IDS[0]).get_node("Disc") as MeshInstance3D).material_override.resource_name)
+		assert_eq(face.modulate, first_face.modulate, "no colour light: every padlock is the same dimmed iron")
+
+
+## Fable Nov 16c (the owner's answer to inbox 19): the fixed Path order, clockwise from the top - arm, chef's hat, leaf, skull.
+func test_the_seals_sit_in_the_path_order_clockwise_from_the_top() -> void:
+	assert_eq(VaultGuardian.ZONE_IDS, ["beefcake", "gourmand", "refusemancer", "necrocrat"] as Array[String])
+	var vault: Node3D = _vault()
+	var at: Dictionary = {}
+	for zone_id: String in VaultGuardian.ZONE_IDS:
+		at[zone_id] = _seal(vault, zone_id).global_position - vault.global_position
+	var top: Vector3 = at["beefcake"]
+	var right: Vector3 = at["gourmand"]
+	var bottom: Vector3 = at["refusemancer"]
+	var left: Vector3 = at["necrocrat"]
+	assert_gt(top.y, right.y + 0.3, "the arm is at the top")
+	assert_gt(top.y, left.y + 0.3)
+	assert_lt(bottom.y, right.y - 0.3, "the leaf is at the bottom")
+	assert_gt(right.x, top.x + 0.3, "the chef's hat is on the right (the doors face the player)")
+	assert_lt(left.x, top.x - 0.3, "the skull is on the left")
+	assert_almost_eq(top.x, bottom.x, 0.02)
+	assert_almost_eq(left.y, right.y, 0.02)
+	for a: String in at.keys():
+		for b: String in at.keys():
+			if a < b:
+				assert_gt((at[a] as Vector3).distance_to(at[b] as Vector3), FourSealVault.SEAL_RADIUS * 2.0 + 0.05, "%s and %s do not touch" % [a, b])
+		assert_between((at[a] as Vector3).y, 0.3, FourSealVault.DOOR_HEIGHT - 0.1, "%s is on the door" % a)
+		assert_lt(absf((at[a] as Vector3).x), FourSealVault.DOOR_WIDTH * 0.5 - FourSealVault.SEAL_RADIUS + 0.02)
+
+
+func test_a_locked_seal_shows_a_faint_outline_of_its_path_icon_behind_the_padlock() -> void:
+	var vault: Node3D = _vault()
+	for zone_id: String in VaultGuardian.ZONE_IDS:
+		var seal: Node3D = _seal(vault, zone_id)
+		var ghost: MeshInstance3D = seal.get_node_or_null("Ghost") as MeshInstance3D
+		assert_not_null(ghost, zone_id)
+		assert_true(ghost.visible, "%s: the outline shows while locked" % zone_id)
+		assert_eq(str(ghost.get_meta(&"icon")), IconArt.energy_id(ZoneEffects.path_of(zone_id)), "%s: its own Path's icon" % zone_id)
+		var face: Sprite3D = seal.get_node("Face") as Sprite3D
+		assert_lt(ghost.position.z, face.position.z, "the outline lies behind the padlock")
+		assert_gt((ghost.mesh as QuadMesh).size.x, float(face.texture.get_width()) * face.pixel_size + 0.1, "and reaches out round it")
+		assert_true(ghost.material_override is ShaderMaterial)
+	# Four different outlines.
+	var icons: Dictionary = {}
+	for zone_id: String in VaultGuardian.ZONE_IDS:
+		icons[str(_seal(vault, zone_id).get_node("Ghost").get_meta(&"icon"))] = true
+	assert_eq(icons.size(), 4)
+	# Once it turns, the full icon shows and the outline is gone.
+	Session.pull_vault_lever("gourmand")
+	FourSealVault.reveal(vault, true)
+	var turned: Node3D = _seal(vault, "gourmand")
+	assert_false((turned.get_node("Ghost") as Node3D).visible)
+	var full: Sprite3D = turned.get_node("Face") as Sprite3D
+	assert_eq(full.texture, IconArt.texture(IconArt.energy_id(Affinity.Type.GOURMAND), 128.0))
+	assert_eq(full.modulate, Color.WHITE, "in full colour")
+	assert_true((_seal(vault, "beefcake").get_node("Ghost") as Node3D).visible, "the others keep theirs")
+
+
+func test_the_seal_tooltips_name_the_path_and_the_state() -> void:
+	assert_eq(FourSealVault.tooltip("gourmand"), "Gourmand seal: locked")
+	assert_eq(FourSealVault.tooltip("beefcake"), "Beefcake seal: locked")
+	Session.pull_vault_lever("gourmand")
+	assert_eq(FourSealVault.tooltip("gourmand"), "Gourmand seal: locked", "pulled far away, not yet seen to turn")
+	var vault: Node3D = _vault()
+	FourSealVault.reveal(vault, true)
+	assert_eq(FourSealVault.tooltip("gourmand"), "Gourmand seal: turned")
+	var lines: PackedStringArray = SealTooltips.all_lines().split("\n")
+	assert_eq(lines.size(), 4)
+	assert_true(lines[0].begins_with("Beefcake"), "the fixed Path order")
+	assert_true(lines[1].begins_with("Gourmand"))
+	assert_true(lines[2].begins_with("Refusemancer"))
+	assert_true(lines[3].begins_with("Necrocrat"))
+	# The hero at the door sees all four lines; far away, nothing.
+	var hero: Node3D = Node3D.new()
+	add_child_autofree(hero)
+	var camera: Camera3D = Camera3D.new()
+	add_child_autofree(camera)
+	camera.global_position = vault.global_position + Vector3(0.0, 4.0, 9.0)
+	camera.look_at(vault.global_position + Vector3(0.0, 1.0, 0.0))
+	camera.current = true
+	var tips: SealTooltips = SealTooltips.install(self, vault, hero)
+	autofree(tips.get_parent())
+	await wait_process_frames(2)
+	hero.global_position = vault.global_position + Vector3(0.5, 0.0, 2.0)
+	tips._process(0.0)
+	if tips.seal_at(camera, get_viewport().get_mouse_position()).is_empty():
+		assert_eq(tips.showing, "all")
+		assert_string_contains((tips.find_child("Text", true, false) as Label).text, "Necrocrat seal: locked")
+	hero.global_position = vault.global_position + Vector3(0.0, 0.0, 30.0)
+	tips._process(0.0)
+	if tips.seal_at(camera, get_viewport().get_mouse_position()).is_empty():
+		assert_eq(tips.showing, "")
+	# The mouse over a seal picks that seal.
+	var seal: Node3D = _seal(vault, "refusemancer")
+	assert_eq(tips.seal_at(camera, camera.unproject_position(seal.global_position)), "refusemancer")
+	assert_eq(tips.seal_at(camera, camera.unproject_position(seal.global_position) + Vector2(400, 0)), "")
 
 
 func test_a_pulled_lever_turns_its_seal_the_next_time_the_hero_sees_the_vault() -> void:

@@ -65,7 +65,8 @@ var vendor_title: String = "Vendor"
 ## The Vendor Screen ID of this zone's shop (VS-GRISTLE): its background, the vendor's portrait and speech lines; "" = the plain screen.
 var vendor_screen_id: String = ""
 var mini: MiniDef
-## Which puzzle and minigame screens this zone uses ("tube"/"wheels", "match"/"reps").
+## Which one-time reward spot and minigame this zone has ("tube" = the D.N.A.'s File in Order terminal, "chest" = a reward chest (Fable Nov 16c:
+## the three other puzzles are gone); "match"/"reps"...).
 var puzzle_kind: String = ""
 var puzzle_equipment_id: String = ""
 var minigame_kind: String = ""

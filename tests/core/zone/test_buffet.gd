@@ -432,7 +432,7 @@ func test_hub_has_a_heal_spot_a_vendor_chefs_and_quests() -> void:
 	for entry: Dictionary in def.spots:
 		kinds[str(entry["kind"])] = true
 		assert_true(layout.anchors.has(str(entry["anchor"])), "spot %s has an anchor" % str(entry["id"]))
-	for kind: String in ["heal", "vendor_npc", "quest_npc", "exit", "mini_dungeon", "main_dungeon", "puzzle", "quiz", "minigame"]:
+	for kind: String in ["heal", "vendor_npc", "quest_npc", "exit", "mini_dungeon", "main_dungeon", "reward_chest", "quiz", "minigame"]:
 		assert_true(kinds.has(kind), "a %s spot exists" % kind)
 	assert_between(def.quest_npc_names.size(), 2, 3, "2-3 NPC chefs give quests")
 	assert_between(def.vendor_ids.size(), 8, 10, "the vendor sells 8-10 cards")
@@ -541,51 +541,6 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_gourmand_card() ->
 # ---- Story ----------------------------------------------------------------------------------------------
 
 
-func test_every_sign_npc_gate_and_quest_text_exists_in_the_story_file() -> void:
-	var missing: Array[String] = []
-	var keys: Array[String] = []
-	for sign: BuffetLayout.Sign in layout.signs:
-		keys.append(sign.key)
-	for id: String in ["odalys", "tarragon", "dolcetta", "quiz", "minigame"]:
-		keys.append("npc.%s.intro" % id)
-		keys.append("npc.%s.return" % id)
-	for gate: BuffetGates.Gate in BuffetGates.gates():
-		keys.append(gate.key("open"))
-		if gate.kind == "battle":
-			keys.append(gate.key("intro"))
-			keys.append(gate.key("ask"))
-		else:
-			keys.append(gate.key("pass"))
-			keys.append(gate.key("need"))
-	for quest_id: String in [BuffetZone.QUEST_PANTRY, BuffetZone.QUEST_PIE, BuffetZone.QUEST_MEND]:
-		for part: String in ["offer", "active", "ready", "done"]:
-			keys.append("quest.%s.%s" % [quest_id, part])
-	for key: String in ["hud.objective", "ui.mini.body", "ui.mini.body_cleared", "ui.mini.button", "ui.exit.title", "ui.exit.body", "fx.main_dungeon", "fx.heal_couch", "fx.heal_already", "fx.hit", "fx.wake", "fx.chest", "fx.bounce", "fx.landed", "fx.soup_fall", "fx.soup_fall_log", "fx.gate_open", "fx.pickup", "fx.pickup_again", "fx.oven_done", "fx.oven_missing", "fx.taste_good", "fx.taste_great", "fx.taste_buff", "fx.taste_tip", "fx.taste_spicy", "fx.taste_bland", "fx.taste_broke", "fx.fountain_1", "fx.fountain_2", "fx.fountain_3", "fx.fountain_full", "fx.fountain_limit", "fx.cookie_broke", "fx.cookie_crack", "fortune.hints", "fx.mend_done", "prop.arch", "prop.dispenser", "prop.broken_golem", "prop.stage", "prop.freezer", "prop.kitchen", "prop.stew", "npc.old_meatloaf.broken", "npc.old_meatloaf.fix", "npc.old_meatloaf.mended", "quiz.result.0", "quiz.result.4", "quiz.repeat", "quiz.not_passed", "order.intro", "order.stations", "order.dishes", "order.shouts", "order.win", "order.lose", "order.first", "recipe.intro", "recipe.ingredients", "recipe.hint", "recipe.solved", "recipe.already", "recipe.incomplete", "recipe.wrong"]:
-		keys.append(key)
-	for index: int in range(RecipePuzzle.clues().size()):
-		keys.append("recipe.clue.%d" % (index + 1))
-	for key: String in keys:
-		if not story.lines.has(key):
-			missing.append(key)
-	assert_eq(missing, [] as Array[String], "all text lives in the story file")
-
-
-func test_the_quiz_has_four_questions_about_the_gourmands_with_findable_answers() -> void:
-	assert_eq(story.quiz_questions.size(), 4)
-	var needles: Array[String] = ["feed the kingdom", "food golems", "Yes, Chef", "Nobody leaves hungry"]
-	for index: int in range(4):
-		var question: Dictionary = story.quiz_questions[index] as Dictionary
-		assert_eq((question["a"] as Array).size(), 4)
-		assert_between(int(question["correct"]), 0, 3)
-		var found: bool = false
-		for key: Variant in story.lines.keys():
-			var text: String = " ".join(story.get_lines(str(key)))
-			if str(key).begins_with("sign.") and text.to_lower().contains(needles[index].to_lower()):
-				found = true
-		assert_true(found, "the answer to question %d ('%s') is written on a sign" % [index + 1, needles[index]])
-	assert_true(story.text("sign.golem_oath").contains("feed the kingdom") or story.text("sign.golem_oath").contains("We feed the kingdom"))
-
-
 # ---- Interactables --------------------------------------------------------------------------------------
 
 
@@ -684,45 +639,8 @@ func test_quest_objectives_follow_the_zone_actions() -> void:
 # ---- The recipe puzzle -------------------------------------------------------------------------------------
 
 
-func test_the_recipe_puzzle_has_exactly_one_solution() -> void:
-	var solutions: Array[Array] = RecipePuzzle.solutions()
-	assert_eq(solutions.size(), 1, "exactly one of the 360 stews satisfies every clue")
-	assert_eq(solutions[0], RecipePuzzle.SOLUTION as Array)
-	assert_true(RecipePuzzle.is_solved(RecipePuzzle.SOLUTION))
-	assert_eq(RecipePuzzle.clues().size(), 7)
-
-
-func test_no_single_clue_is_enough_and_wrong_stews_never_solve() -> void:
-	var clues: Array[RecipePuzzle.Clue] = RecipePuzzle.clues()
-	# Dropping any clue must leave more than one possibility (so every clue matters), except the redundant last.
-	var needed: int = 0
-	for skip: int in range(clues.size()):
-		var count: int = 0
-		for a: int in range(6):
-			for b: int in range(6):
-				for c: int in range(6):
-					for d: int in range(6):
-						var order: Array[int] = [a, b, c, d]
-						if not RecipePuzzle.is_complete(order):
-							continue
-						var ok: bool = true
-						for index: int in range(clues.size()):
-							if index != skip and not RecipePuzzle.satisfies(order, clues[index]):
-								ok = false
-								break
-						if ok:
-							count += 1
-		if count > 1:
-			needed += 1
-	assert_gte(needed, 5, "most clues are load-bearing (%d of 7)" % needed)
-	assert_false(RecipePuzzle.is_solved([RecipePuzzle.ONION, RecipePuzzle.MUSHROOM, RecipePuzzle.PAPRIKA, RecipePuzzle.LEEK]))
-	assert_false(RecipePuzzle.is_solved([RecipePuzzle.ONION, RecipePuzzle.ONION, RecipePuzzle.LEEK, RecipePuzzle.PAPRIKA]), "no duplicates")
-	assert_false(RecipePuzzle.is_solved([RecipePuzzle.ONION, RecipePuzzle.MUSHROOM, RecipePuzzle.LEEK]), "needs four")
-	assert_eq(RecipePuzzle.SLOTS * 90, 360, "a 360-stew search space")
-
-
 func test_the_recipe_puzzle_gives_the_ladle_through_the_def() -> void:
-	assert_eq(def.puzzle_kind, "recipe")
+	assert_eq(def.puzzle_kind, "chest")
 	var ladle: EquipmentData = Session.content.equipment_piece(def.puzzle_equipment_id)
 	assert_not_null(ladle)
 	assert_true(Session.grant_equipment(ladle))
@@ -730,82 +648,6 @@ func test_the_recipe_puzzle_gives_the_ladle_through_the_def() -> void:
 
 
 # ---- Order Up! ------------------------------------------------------------------------------------------------------
-
-
-func test_a_flawless_shift_is_18_points_and_three_stars() -> void:
-	var game: OrderGame = OrderGame.play_perfect(0.4)
-	assert_true(game.is_finished())
-	assert_eq(game.points(), OrderGame.max_points())
-	assert_eq(game.stars(), 3)
-	assert_eq(game.mistakes, 0)
-
-
-func test_never_cooking_is_six_timeouts_and_no_stars() -> void:
-	var game: OrderGame = OrderGame.new()
-	game.start(0.0)
-	var time: float = 0.0
-	while not game.is_finished() and time < 400.0:
-		time += 0.25
-		game.advance(time)
-	assert_true(game.is_finished())
-	assert_eq(game.points(), 0)
-	assert_eq(game.stars(), 0)
-
-
-func test_a_wrong_ingredient_tosses_the_plate_and_costs_time() -> void:
-	var game: OrderGame = OrderGame.new()
-	game.start(0.0)
-	var recipe: Array = game.recipe()
-	var left_before: float = game.time_left(1.0)
-	assert_eq(game.press(int(recipe[0]), 1.0), OrderGame.Result.ADDED)
-	var wrong: int = OrderGame.PATTY if int(recipe[1]) != OrderGame.PATTY else OrderGame.CHEESE
-	assert_eq(game.press(wrong, 1.5), OrderGame.Result.WRONG)
-	assert_eq(game.plate.size(), 0, "the stack restarts")
-	assert_eq(game.mistakes, 1)
-	assert_almost_eq(game.time_left(1.5), left_before - 0.5 - OrderGame.PENALTY, 0.001, "and costs time")
-
-
-func test_faster_service_scores_more_and_the_gap_ignores_presses() -> void:
-	var fast: OrderGame = OrderGame.new()
-	fast.start(0.0)
-	var slow: OrderGame = OrderGame.new()
-	slow.start(0.0)
-	var recipe: Array = fast.recipe()
-	for index: int in range(recipe.size()):
-		fast.press(int(recipe[index]), 0.5 + 0.2 * float(index))
-		slow.press(int(recipe[index]), 6.0 + 0.5 * float(index))
-	assert_eq(fast.points_per_ticket[0], 3)
-	assert_lt(slow.points_per_ticket[0], 3)
-	assert_true(fast.in_gap(1.0), "a short pause between tickets")
-	assert_eq(fast.press(OrderGame.BUN, 1.0), OrderGame.Result.IGNORED)
-
-
-func test_star_thresholds_and_rewards() -> void:
-	assert_eq(OrderGame.stars_for(3), 0)
-	assert_eq(OrderGame.stars_for(4), 1)
-	assert_eq(OrderGame.stars_for(9), 2)
-	assert_eq(OrderGame.stars_for(14), 3)
-	var gold_before: int = Session.gold
-	var first: Dictionary = OrderGame.apply_result(3)
-	assert_true(bool(first["first_win"]))
-	assert_gt(int(first["gold"]), 100, "the first clear pays big plus the one-time bonus")
-	assert_eq(Session.gold, gold_before + int(first["gold"]))
-	assert_true(Session.flag(BuffetZone.FLAG_ORDER_FIRST))
-	var again: Dictionary = OrderGame.apply_result(3)
-	assert_false(bool(again["first_win"]))
-	assert_lt(int(again["gold"]), int(first["gold"]), "later shifts pay little")
-	assert_eq(int(OrderGame.apply_result(0)["gold"]), 0, "a failed shift pays nothing")
-
-
-func test_the_minigame_is_a_different_type_from_the_memory_and_timing_games() -> void:
-	assert_eq(def.minigame_kind, "order")
-	assert_ne(def.minigame_kind, ZoneDefs.get_def(DnaZone.ID).minigame_kind)
-	assert_ne(def.minigame_kind, ZoneDefs.get_def(GainlandsZone.ID).minigame_kind)
-	assert_eq(OrderGame.TICKET_COUNT, OrderGame.TICKETS.size())
-	for dish: Array in OrderGame.DISHES:
-		assert_gte(dish.size(), 3)
-		for station: int in dish:
-			assert_between(station, 0, OrderGame.STATION_COUNT - 1)
 
 
 func test_every_spot_can_be_stood_at_and_reached_from_the_spawn_side() -> void:
@@ -823,3 +665,57 @@ func test_every_spot_can_be_stood_at_and_reached_from_the_spawn_side() -> void:
 				if seen.has(_key(int(p.x / STEP), int(p.z / STEP))):
 					found = true
 		assert_true(found, "a player can reach spot %s" % str(entry["id"]))
+
+
+func test_every_sign_npc_gate_and_quest_text_exists_in_the_story_file() -> void:
+	var missing: Array[String] = []
+	var keys: Array[String] = []
+	for sign: BuffetLayout.Sign in layout.signs:
+		keys.append(sign.key)
+	for id: String in ["odalys", "tarragon", "dolcetta", "quiz", "minigame"]:
+		keys.append("npc.%s.intro" % id)
+		keys.append("npc.%s.return" % id)
+	for gate: BuffetGates.Gate in BuffetGates.gates():
+		keys.append(gate.key("open"))
+		if gate.kind == "battle":
+			keys.append(gate.key("intro"))
+			keys.append(gate.key("ask"))
+		else:
+			keys.append(gate.key("pass"))
+			keys.append(gate.key("need"))
+	for quest_id: String in [BuffetZone.QUEST_PANTRY, BuffetZone.QUEST_PIE, BuffetZone.QUEST_MEND]:
+		for part: String in ["offer", "active", "ready", "done"]:
+			keys.append("quest.%s.%s" % [quest_id, part])
+	for key: String in ["hud.objective", "ui.mini.body", "ui.mini.body_cleared", "ui.mini.button", "ui.exit.title", "ui.exit.body", "fx.main_dungeon", "fx.heal_couch", "fx.heal_already", "fx.hit", "fx.wake", "fx.chest", "fx.bounce", "fx.landed", "fx.soup_fall", "fx.soup_fall_log", "fx.gate_open", "fx.pickup", "fx.pickup_again", "fx.oven_done", "fx.oven_missing", "fx.taste_good", "fx.taste_great", "fx.taste_buff", "fx.taste_tip", "fx.taste_spicy", "fx.taste_bland", "fx.taste_broke", "fx.fountain_1", "fx.fountain_2", "fx.fountain_3", "fx.fountain_full", "fx.fountain_limit", "fx.cookie_broke", "fx.cookie_crack", "fortune.hints", "fx.mend_done", "prop.arch", "prop.dispenser", "prop.broken_golem", "prop.stage", "prop.freezer", "prop.kitchen", "npc.old_meatloaf.broken", "npc.old_meatloaf.fix", "npc.old_meatloaf.mended", "quiz.result.0", "quiz.result.4", "quiz.repeat", "quiz.not_passed", "order.intro", "order.stations", "order.dishes", "order.shouts", "order.win", "order.lose", "order.first"]:
+		keys.append(key)
+	for key: String in keys:
+		if not story.lines.has(key):
+			missing.append(key)
+	assert_eq(missing, [] as Array[String], "all text lives in the story file")
+
+
+func test_order_up_rewards() -> void:
+	var gold_before: int = Session.gold
+	var first: Dictionary = OrderGame.apply_result(3)
+	assert_true(bool(first["first_win"]))
+	assert_gt(int(first["gold"]), 100, "the first clear pays big plus the one-time bonus")
+	assert_eq(Session.gold, gold_before + int(first["gold"]))
+	assert_true(Session.flag(BuffetZone.FLAG_ORDER_FIRST))
+	var again: Dictionary = OrderGame.apply_result(3)
+	assert_false(bool(again["first_win"]))
+	assert_lt(int(again["gold"]), int(first["gold"]), "later shifts pay little")
+	assert_eq(int(OrderGame.apply_result(0)["gold"]), 0, "a failed shift pays nothing")
+
+
+## Fable Nov 16c: the Mystery Stew Pot is gone; its ladle lies in a chest at the same spot.
+func test_the_stew_pot_is_a_reward_chest_now() -> void:
+	assert_eq(def.puzzle_kind, "chest")
+	var found: bool = false
+	for spot: Dictionary in def.spots:
+		if str(spot["id"]) == "puzzle":
+			found = true
+			assert_eq(str(spot["kind"]), "reward_chest")
+			assert_string_contains(str(spot["prompt"]), "chest")
+	assert_true(found)
+	assert_false(story.lines.has("recipe.intro"), "the recipe's text is gone")
+	assert_string_contains(" ".join(story.get_lines("sign.stew")), "chest")

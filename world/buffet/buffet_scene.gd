@@ -58,10 +58,6 @@ func _build_zone_extras() -> void:
 		_bridge_exit_armed = player.position.z < BuffetLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM
 
 
-func _make_puzzle_screen() -> OverlayScreen:
-	return RecipePuzzleScreen.new()
-
-
 ## Fable Nov 16b (Part 2): Chef Flambe's pass plays "Order Up", the exact-cost card game (it was the ingredient-stacking `OrderGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
 	return OrderCardScreen.new()

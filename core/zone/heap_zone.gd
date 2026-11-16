@@ -115,7 +115,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_name = "Gristle's Grange"
 	def.vendor_title = "Granny Gristle's Compost Grange - Refusemancer Issue"
 	def.vendor_screen_id = "VS-GRISTLE"
-	def.puzzle_kind = "growth"
+	def.puzzle_kind = "chest"
 	def.puzzle_equipment_id = "seed_satchel"
 	def.minigame_kind = "sort"
 	def.quest_npc_names = [NPC_MARIGOLD, NPC_HOB, NPC_WREN]
@@ -145,7 +145,7 @@ static func build_def() -> ZoneDef:
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town", "exit"),
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon", {"no_plate": true}),
 		_spot("main_dungeon", "The Rotheart", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Descend into the Rotheart", "main_dungeon", {"no_plate": true}),
-		_spot("puzzle", "The Seed Shrine", "puzzle", Vector3(0, 0, 1.4), 1.9, "Plant the seeds (puzzle)", "puzzle"),
+		_spot("puzzle", "The Gardeners' Chest", "puzzle", Vector3(0, 0, 1.4), 1.9, "Open the chest", "reward_chest"),  # Fable Nov 16c: the Seed Shrine garden is gone; its reward is in a chest here
 		_spot("quiz", "Druid Thistlewick, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-THISTLEWICK", "speaker": "Druid Thistlewick"}),
 		_spot("minigame", "Recycle Rhonda, Fair Judge", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-RHONDA", "speaker": "Recycle Rhonda"}),
 		_spot("compost_bin", "The Compost Bin", "compost_bin", Vector3(0, 0, 1.6), 1.8, "Compost some junk", "zone"),
@@ -157,7 +157,7 @@ static func build_def() -> ZoneDef:
 	def.poi_kinds = {
 		"marigold": MapPoi.Kind.QUEST_GIVER, "hob": MapPoi.Kind.VENDOR, "wren": MapPoi.Kind.QUEST_GIVER,
 		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,
-		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
+		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.INTERACTABLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "compost_bin": MapPoi.Kind.INTERACTABLE,
 		"shrine": MapPoi.Kind.INTERACTABLE, "trough": MapPoi.Kind.INTERACTABLE,
 		"stable_1": MapPoi.Kind.STABLE, "stable_2": MapPoi.Kind.STABLE,

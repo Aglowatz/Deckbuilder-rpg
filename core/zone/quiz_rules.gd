@@ -1,7 +1,7 @@
 class_name QuizRules
 extends RefCounted
-## Part G: the Quiz Master's rules. Four multiple-choice questions about the Necrocrats (Afterlife
-## Services and Labor); questions and rewards are data in `ZoneStoryText`. Retries are unlimited.
+## Part G: the Quiz Master's reward rules. Fable Nov 16c: the questions are the card quiz's (`CardQuizGame`, four questions about real
+## cards); the rewards are data in `ZoneStoryText`. Retries are unlimited.
 ## Rewards (designer decision): the FIRST time you pass (>= PASS_SCORE correct) pays the large
 ## reward for that score (`quiz_rewards`); afterwards EVERY finished attempt pays the small flat
 ## `quiz_repeat_reward`. Failing before you have ever passed pays nothing.
@@ -22,15 +22,6 @@ static func payout(story: ZoneStoryText, correct: int, passed_before: bool) -> D
 	var top: int = story.quiz_rewards.size() - 1
 	var tier: Dictionary = story.quiz_rewards[clampi(correct, 0, top)] as Dictionary
 	return {"gold": int(tier.get("gold", 0)), "xp": int(tier.get("xp", 0)), "item": str(tier.get("item", "")), "first_pass": true}
-
-
-## How many of `answers` (chosen answer index per question) are right.
-static func score(story: ZoneStoryText, answers: Array[int]) -> int:
-	var correct: int = 0
-	for index: int in range(mini(answers.size(), story.quiz_questions.size())):
-		if answers[index] == int((story.quiz_questions[index] as Dictionary)["correct"]):
-			correct += 1
-	return correct
 
 
 ## Applies a finished quiz to the Session: pays, records the first pass, sets the "took the quiz"

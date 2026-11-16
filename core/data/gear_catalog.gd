@@ -88,7 +88,7 @@ static func source_hint(piece: EquipmentData, content: ContentSet, quests: Array
 	for zone_id: String in ZoneDefs.all_ids():
 		var def: ZoneDef = ZoneDefs.get_def(zone_id)
 		if def != null and def.puzzle_equipment_id == piece.id:
-			return "Puzzle: %s" % def.display_name
+			return ("Puzzle: %s" if def.puzzle_kind != "chest" else "A chest in %s") % def.display_name
 	if content != null and content.equipment.has(piece.id):
 		return VENDOR_HINT
 	return UNKNOWN_HINT

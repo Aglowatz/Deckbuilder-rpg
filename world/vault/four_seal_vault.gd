@@ -7,8 +7,13 @@ extends RefCounted
 ##
 ## On the doors sit four round iron seals. A seal shows a padlock while its zone's hidden lever is not pulled. Once the lever is
 ## pulled, the next time the hero comes near the vault the seal turns over and shows that Path's icon (a small warm glow, a clunk):
-## `reveal`. No coloured lights: until then nothing tells which Path a seal belongs to. With all four turned the doors stand ajar and
-## warm light falls out of the gap; once the Warden is beaten they stand wide open on the dark stair.
+## `reveal`. No coloured lights. With all four turned the doors stand ajar and warm light falls out of the gap; once the Warden is
+## beaten they stand wide open on the dark stair.
+##
+## Fable Nov 16c (the owner's answer to inbox 19): the four seals sit in the fixed Path order, clockwise from the top - arm (Beefcake),
+## chef's hat (Gourmand), leaf (Refusemancer), skull (Necrocrat) - and a locked seal shows a faint outline of its Path's icon behind
+## the padlock (`Ghost`), so the player can tell which zone's lever is still missing. `tooltip` is what the hover / prompt says
+## ("Gourmand seal: locked"); `SealTooltips` shows it.
 
 const SEAL_PREFIX: String = "Seal_"
 const LEAF_LEFT: String = "LeafLeft"
@@ -22,6 +27,13 @@ const DOOR_WIDTH: float = 1.9
 const DOOR_HEIGHT: float = 1.75
 const SEAL_RADIUS: float = 0.19
 const PADLOCK_ICON: String = "ICON-PADLOCK"
+## Where each seal sits on the shut doors, from the foot of the doors (x across, y up), in `VaultGuardian.ZONE_IDS` order: clockwise from the top.
+const SEAL_SPOTS: Array[Vector2] = [Vector2(0.0, 1.45), Vector2(0.45, 1.02), Vector2(0.0, 0.59), Vector2(-0.45, 1.02)]
+## The faint outline of the Path's icon on a locked seal: how wide it is drawn (in seal radii) and how small the padlock sits on it.
+const GHOST_WIDTH: float = 1.72
+const PADLOCK_WIDTH: float = 0.95
+const ICON_WIDTH: float = 1.5
+const GHOST_SHADER: String = "res://world/vault/seal_ghost.gdshader"
 ## The hero comes this close (metres) and the seals whose levers were pulled since the last visit turn over.
 const REVEAL_RANGE: float = 9.0
 const TURN_SECONDS: float = 0.9
@@ -59,6 +71,16 @@ static func pending() -> Array[String]:
 		if Session.vault_lever_pulled(zone_id) and not Session.flag(seen_flag(zone_id)):
 			result.append(zone_id)
 	return result
+
+
+## The Path's icon of a seal (what its ghost outlines and what it shows once turned).
+static func path_icon(zone_id: String) -> String:
+	return IconArt.energy_id(ZoneEffects.path_of(zone_id))
+
+
+## What a hover or the prompt says about a seal: "Gourmand seal: locked" / "Gourmand seal: turned".
+static func tooltip(zone_id: String) -> String:
+	return "%s seal: %s" % [Affinity.display_name(ZoneEffects.path_of(zone_id)), "turned" if seal_open(zone_id) else "locked"]
 
 
 ## The icon a seal's face shows.
@@ -134,13 +156,14 @@ static func build(parent: Node3D, position: Vector3) -> Node3D:
 		leaf.add_child(planks)
 	for index: int in range(VaultGuardian.ZONE_IDS.size()):
 		var zone_id: String = VaultGuardian.ZONE_IDS[index]
-		var on_left: bool = index < 2
+		# Fable Nov 16c: a diamond in the fixed Path order, clockwise from the top (arm, chef's hat, leaf, skull). The top and the left
+		# seal ride the left leaf, the right and the bottom one the right leaf; each swings with its leaf.
+		var spot: Vector2 = SEAL_SPOTS[index]
+		var on_left: bool = index == 0 or index == 3
 		var leaf_node: Node3D = root.get_node(LEAF_LEFT if on_left else LEAF_RIGHT) as Node3D
-		# Four in a row across the two leaves, at shoulder height; each sits on its leaf and swings with it.
-		var across: float = -0.705 + 0.47 * float(index)
 		var hinge_x: float = (-1.0 if on_left else 1.0) * DOOR_WIDTH * 0.5
 		var seal: Node3D = _seal(zone_id)
-		seal.position = Vector3(across - hinge_x, 1.15, 0.1)
+		seal.position = Vector3(spot.x - hinge_x, spot.y - 0.04, 0.1)
 		leaf_node.add_child(seal)
 	# Warm light out of the gap while the doors stand ajar (no colour: lamplight on the stair).
 	var glow: OmniLight3D = OmniLight3D.new()
@@ -204,6 +227,21 @@ static func _seal(zone_id: String) -> Node3D:
 	rim.material_override = iron_material()
 	rim.set_meta(StyleToon.META_NO_TOON, true)
 	seal.add_child(rim)
+	# The faint outline of the Path's icon behind the padlock (hidden once the seal has turned).
+	var ghost: MeshInstance3D = MeshInstance3D.new()
+	ghost.name = "Ghost"
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2.ONE * SEAL_RADIUS * GHOST_WIDTH
+	ghost.mesh = quad
+	ghost.position.z = 0.033
+	var ghost_material: ShaderMaterial = ShaderMaterial.new()
+	ghost_material.shader = load(GHOST_SHADER) as Shader
+	ghost_material.set_shader_parameter("icon", IconArt.texture(path_icon(zone_id), 128.0))
+	ghost.material_override = ghost_material
+	ghost.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	ghost.set_meta(StyleToon.META_NO_TOON, true)
+	ghost.set_meta(&"icon", path_icon(zone_id))
+	seal.add_child(ghost)
 	var face: Sprite3D = Sprite3D.new()
 	face.name = "Face"
 	face.position.z = 0.036
@@ -228,9 +266,12 @@ static func set_seal(root: Node3D, zone_id: String, open: bool) -> void:
 	var texture: Texture2D = IconArt.texture(icon, 128.0)
 	face.texture = texture
 	if texture != null:
-		face.pixel_size = (SEAL_RADIUS * 1.5) / float(maxi(texture.get_width(), 1))
-	# A padlock sits dimmed on the iron; a turned seal's icon is in full colour.
+		face.pixel_size = (SEAL_RADIUS * (ICON_WIDTH if open else PADLOCK_WIDTH)) / float(maxi(texture.get_width(), 1))
+	# A padlock sits dimmed on the iron, small, over the faint outline of its Path's icon; a turned seal's icon is in full colour.
 	face.modulate = Color.WHITE if open else Color(0.72, 0.7, 0.66)
+	var ghost: Node3D = seal.get_node_or_null("Ghost") as Node3D
+	if ghost != null:
+		ghost.visible = not open
 	seal.set_meta(&"icon", icon)
 	seal.set_meta(&"open", open)
 

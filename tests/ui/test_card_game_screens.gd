@@ -302,3 +302,126 @@ func test_a_controller_reaches_every_control_of_every_game() -> void:
 		assert_true(seen.has(screen.find_child("HowToPlayButton", true, false)), "%s: and the ? button" % zone_id)
 		screen.queue_free()
 		await wait_process_frames(2)
+
+
+# ---- Fable Nov 16c: the card quiz (it was the classroom trivia) --------------------------------------------------------------------
+
+
+func _quiz(zone_id: String, seed_value: int = 11) -> CardQuizScreen:
+	var screen: CardQuizScreen = CardQuizScreen.new()
+	screen.skip_how = true
+	screen.seed_value = seed_value
+	screen.feedback_seconds = 0.0
+	return await _open(screen, zone_id) as CardQuizScreen
+
+
+func test_the_card_quiz_deals_four_questions_from_the_zone_s_own_cards() -> void:
+	for zone_id: String in ["beefcake", "gourmand", "refusemancer", "necrocrat"]:
+		var pool: Array[CardData] = CardGamePool.cards(Session.content, zone_id)
+		for seed_value: int in [1, 2, 3, 4, 5, 6]:
+			var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+			rng.seed = seed_value
+			var game: CardQuizGame = CardQuizGame.deal(pool, rng)
+			assert_eq(game.questions.size(), CardQuizGame.QUESTIONS, "%s seed %d" % [zone_id, seed_value])
+			var kinds: Dictionary = {}
+			var cards: Dictionary = {}
+			for question: CardQuizGame.Question in game.questions:
+				kinds[question.kind] = int(kinds.get(question.kind, 0)) + 1
+				cards[question.card.id] = true
+				assert_true(pool.has(question.card), "a card of the zone's Path or a colourless one")
+				assert_eq(question.choices.size(), CardQuizGame.CHOICES)
+				var distinct: Dictionary = {}
+				for choice: String in question.choices:
+					distinct[choice] = true
+				assert_eq(distinct.size(), CardQuizGame.CHOICES, "four different answers")
+				match question.kind:
+					CardQuizGame.Kind.ART:
+						assert_eq(question.choices[question.correct], question.card.display_name)
+						assert_true(Rect2(0, 0, 1, 1).encloses(question.crop), "the piece lies inside the painting")
+						assert_lt(question.crop.size.x * question.crop.size.y, 0.25, "a piece, not the whole painting")
+					CardQuizGame.Kind.COST:
+						assert_eq(question.choices[question.correct], str(question.card.energy_value()))
+					CardQuizGame.Kind.POWER:
+						assert_true(question.card.is_unit())
+						assert_eq(question.choices[question.correct], str(question.card.attack))
+			assert_eq(int(kinds.get(CardQuizGame.Kind.ART, 0)), 2, "two picture questions")
+			assert_eq(int(kinds.get(CardQuizGame.Kind.COST, 0)), 1)
+			assert_eq(int(kinds.get(CardQuizGame.Kind.POWER, 0)), 1)
+			assert_eq(cards.size(), 4, "four different cards")
+
+
+func test_the_card_quiz_keeps_the_trivia_s_pass_mark() -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5
+	var game: CardQuizGame = CardQuizGame.deal(CardGamePool.cards(Session.content, "necrocrat"), rng)
+	game.answer((game.current().correct + 1) % 4)
+	for _index: int in range(2):
+		game.answer(game.current().correct)
+	assert_false(game.passed(), "not over yet")
+	game.answer(game.current().correct)
+	assert_true(game.is_over())
+	assert_eq(game.correct_count(), 3)
+	assert_eq(QuizRules.PASS_SCORE, 3)
+	assert_true(game.passed(), "three of four pass")
+
+
+func test_every_zone_s_quiz_spot_opens_the_card_quiz_with_its_teacher() -> void:
+	for zone_id: String in ["beefcake", "gourmand", "refusemancer", "necrocrat"]:
+		var screen: CardQuizScreen = await _quiz(zone_id)
+		assert_false(screen.host_portrait().is_empty(), "%s has its quiz-giver" % zone_id)
+		assert_eq(screen.screen_title, CardQuizScreen.title_for(zone_id))
+		assert_eq(screen.music_cue(), "MUS-QUIZ")
+		assert_eq(screen.how_lines().size(), 3)
+		assert_not_null(screen.find_child("HowToPlayButton", true, false), "the ? button")
+		assert_eq(screen.find_children("Answer?", "Button", true, false).size(), 4, "%s: four answers" % zone_id)
+		assert_true(screen.find_children("*", "CardView", true, false).is_empty(), "%s: the card's face (its answer) is not shown before the answer" % zone_id)
+		screen.queue_free()
+		await wait_process_frames(1)
+	assert_eq(CardQuizScreen.title_for("necrocrat"), "Compliance Re-Certification")
+
+
+func test_a_passed_card_quiz_pays_the_trivia_s_reward_and_sets_the_d_n_a_s_quest_flags() -> void:
+	var story: ZoneStoryText = ZoneStoryText.for_zone("necrocrat")
+	Session.level_track_grants = false  # the gold is counted exactly; the reward track pays its own
+	var gold: int = Session.gold
+	var screen: CardQuizScreen = await _quiz("necrocrat")
+	await screen.autoplay(4)
+	assert_eq(screen.state, "done")
+	var panel: Control = screen.result_panel()
+	assert_not_null(panel)
+	assert_true(bool(panel.get_meta("won")))
+	assert_eq(Session.gold - gold, int(story.quiz_rewards[4]["gold"]), "four right pays the old top reward")
+	assert_true(Session.flag(DnaZone.FLAG_QUIZ_PASSED), "Pass Director Ectomund's Compliance quiz")
+	assert_true(Session.flag(DnaZone.FLAG_QUIZ_DONE))
+	# A later attempt, failed, still pays the small fee (as the trivia did).
+	var after: int = Session.gold
+	(panel.find_child("PlayAgain", true, false) as Button).pressed.emit()
+	await wait_process_frames(2)
+	assert_eq(screen.state, "playing")
+	await screen.autoplay(4, 3)
+	assert_false(bool(screen.result_panel().get_meta("won")))
+	assert_eq(Session.gold - after, int(story.quiz_repeat_reward["gold"]))
+
+
+func test_a_failed_first_card_quiz_pays_nothing() -> void:
+	var gold: int = Session.gold
+	var screen: CardQuizScreen = await _quiz("necrocrat")
+	await screen.autoplay(4, 2)
+	assert_eq(screen.game.correct_count(), 2)
+	assert_false(bool(screen.result_panel().get_meta("won")), "two of four is not a pass")
+	assert_eq(Session.gold, gold)
+	assert_false(Session.flag(DnaZone.FLAG_QUIZ_PASSED))
+	assert_true(Session.flag(DnaZone.FLAG_QUIZ_DONE), "the attempt is recorded")
+	assert_string_contains((screen.result_panel().find_child("Reward", true, false) as Label).text, "No reward")
+
+
+func test_an_answer_moves_the_card_quiz_to_the_next_question() -> void:
+	var screen: CardQuizScreen = await _quiz("beefcake")
+	var first: CardQuizGame.Question = screen.game.current()
+	screen.feedback_seconds = 5.0
+	screen.animate = false
+	screen.answer(first.correct)
+	await wait_process_frames(2)
+	assert_eq(screen.game.index(), 1, "answered")
+	assert_eq(screen.find_children("Answer?", "Button", true, false).size(), 4)
+

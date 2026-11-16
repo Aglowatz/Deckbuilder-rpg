@@ -8,17 +8,12 @@ extends Resource
 ## Keys: "npc.<id>.<situation>", "quest.<quest id>.<offer|active|ready|done>", "sign.<id>",
 ## "memo.<id>", "poster.<id>", "fx.<id>" (interactable results), "puzzle.*", "quiz.*", "match.*".
 ## Each value is an Array of lines (one dialogue box each, or one line of a sign).
-## The quiz questions live in `quiz_questions`; every answer is findable on a sign/memo/NPC line
-## here (see the "Quiz source" notes) - if you rewrite a source line, rewrite the question too.
+## Fable Nov 16c: the quiz is the card quiz (`CardQuizGame` deals its questions from the real cards); the written trivia questions are gone.
 
 const PATH: String = "res://data/story/dna_story.tres"
 
 
 @export var lines: Dictionary = {}
-
-## Four multiple-choice questions. Each: "q", "a" (4 answers), "correct" (index into "a"), "where"
-## (design note: which sign/memo/NPC line gives it away - not shown to the player).
-@export var quiz_questions: Array[Dictionary] = []
 
 ## LARGE first-pass reward tiers by correct answers (0-4; only 3 and 4 can be a first pass): gold, XP, and an item id ("" = none). Placeholder numbers.
 ## Small flat reward for every finished attempt after the first pass.

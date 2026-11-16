@@ -492,21 +492,25 @@ func _quiz(zone: GainlandsScene) -> void:
 	await _shot("f_34_professor_quad_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is QuizScreen, "the quiz master opens the quiz")
-	if not (zone._overlay is QuizScreen):
+	_check(zone._overlay is CardQuizScreen, "the quiz master opens the card quiz")
+	if not (zone._overlay is CardQuizScreen):
 		return
-	var story: ZoneStoryText = ZoneStoryText.for_zone(GainlandsZone.ID)
-	var shot_done: bool = false
-	for question: Dictionary in story.quiz_questions:
-		var correct_text: String = str((question["a"] as Array)[int(question["correct"])])
-		var button: Button = driver.find_button(correct_text, zone._overlay)
-		_check(button != null, "the right answer is on screen: %s" % correct_text)
-		if not shot_done:
-			shot_done = true
-			await _shot("f_35_quiz_question")
-		if button != null:
-			await driver.click(driver.button_center(button))
-			await driver.seconds(0.3)
+	# Fable Nov 16c: the card quiz (it was the written trivia): How to play, then four questions about real cards.
+	var quiz: CardQuizScreen = zone._overlay as CardQuizScreen
+	_check(quiz.how_is_open(), "the card quiz opens on How to play")
+	await driver.click_button("Play")
+	await driver.seconds(0.4)
+	_check(quiz.game.questions.size() == CardQuizGame.QUESTIONS, "four questions are dealt")
+	await _shot("f_35_quiz_question")
+	quiz.feedback_seconds = 0.2
+	while not quiz.game.is_over():
+		var right: Button = quiz.find_child("Answer%d" % (quiz.game.current().correct + 1), true, false) as Button
+		_check(right != null, "the right answer is a button")
+		if right == null:
+			break
+		await driver.click(driver.button_center(right))
+		await driver.seconds(1.3)
+	_check(quiz.game.correct_count() == CardQuizGame.QUESTIONS, "four right answers (%d)" % quiz.game.correct_count())
 	await _shot("f_36_quiz_result")
 	_check(Session.flag(GainlandsZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Gainlands quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
@@ -567,36 +571,14 @@ func _power_puzzle(zone: GainlandsScene) -> void:
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
-	_check(zone._overlay is WheelPuzzleScreen, "the control panel opens the attack puzzle")
-	if not (zone._overlay is WheelPuzzleScreen):
-		return
-	var screen: WheelPuzzleScreen = zone._overlay as WheelPuzzleScreen
-	await _shot("f_42_power_puzzle_start")
-	# A wrong attempt first: every wheel feeds its first machine.
-	for wheel: int in range(WheelPuzzle.WHEELS):
-		await driver.click(driver.center_of_control(screen._buttons[wheel]))
-		await driver.seconds(0.08)
-	await driver.click_button("Engage the grid")
-	await driver.seconds(0.4)
-	_check(not Session.flag(GainlandsZone.FLAG_PUZZLE_SOLVED), "a wrong setup does not solve it")
-	await _shot("f_43_power_puzzle_wrong_attempt")
-	await driver.click_button("Reset")
-	await driver.seconds(0.3)
-	var solution: Array = WheelPuzzle.solutions()[0] as Array
-	for wheel: int in range(WheelPuzzle.WHEELS):
-		for press: int in range(int(solution[wheel])):
-			await driver.click(driver.center_of_control(screen._buttons[wheel]))
-			await driver.seconds(0.08)
-	await _shot("f_44_power_puzzle_solution_set")
-	var belt: EquipmentData = Session.content.equipment_piece("swole_belt")
-	_check(not Session.profile.owned_equipment.has(belt), "the belt is not owned before solving")
-	await driver.click_button("Engage the grid")
-	await driver.seconds(0.5)
-	_check(Session.flag(GainlandsZone.FLAG_PUZZLE_SOLVED), "the right setup solves the puzzle")
-	_check(Session.profile.owned_equipment.has(belt), "solving rewards the Gainsmith's Lifting Belt")
+	# Fable Nov 16c: the puzzle is gone; its one-time reward lies in a chest at the same spot.
+	_check(zone._overlay == null, "no puzzle screen opens any more")
+	_check(Session.flag(GainlandsZone.FLAG_PUZZLE_SOLVED), "opening the chest sets the one-time flag")
+	var prize: EquipmentData = Session.content.equipment_piece("swole_belt")
+	_check(Session.profile.owned_equipment.has(prize), "the chest holds the Gainsmith's Lifting Belt")
+	_check(ChestKit.is_open(zone.reward_chest_node), "the chest stands open")
+	await driver.seconds(0.8)
 	await _shot("f_45_power_puzzle_solved")
-	await driver.tap_key(KEY_ESCAPE)
-	await driver.seconds(0.3)
 
 
 func _ground_chest(zone: GainlandsScene) -> void:

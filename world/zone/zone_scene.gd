@@ -640,7 +640,60 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 func _build_spots() -> void:
 	for entry: Dictionary in def.spots:
 		var pos: Vector3 = builder.anchor(str(entry["anchor"])) + (entry["offset"] as Vector3)
-		_add_spot(str(entry["id"]), str(entry["title"]), pos, float(entry["radius"]), str(entry["prompt"]), entry.has("npc"), str(entry["kind"]), entry)
+		var spot: ZoneSpot = _add_spot(str(entry["id"]), str(entry["title"]), pos, float(entry["radius"]), str(entry["prompt"]), entry.has("npc"), str(entry["kind"]), entry)
+		if spot.kind == "reward_chest":
+			_build_reward_chest(spot)
+
+
+# ---- The zone's reward chest (Fable Nov 16c) ---------------------------------------------------------------------
+
+
+## Where the reward chest stands from its spot (the hero stands on the spot, the chest just north of it), and how much bigger than a hidden chest it is.
+const REWARD_CHEST_OFFSET: Vector3 = Vector3(0.0, 0.0, -1.5)
+const REWARD_CHEST_SCALE: float = 2.4
+
+## The zone's reward chest (null in a zone without one).
+var reward_chest_node: Node3D
+
+
+## Fable Nov 16c (Part 1): the three one-time puzzles (the Gainlands' hamster-wheel Power Grid, the Buffet's Mystery Stew Pot, the Dump's Seed
+## Shrine) are gone; each one's one-time reward (`ZoneDef.puzzle_equipment_id`, flag `flag_puzzle_solved`) lies in a chest at the same spot.
+## A save that solved the puzzle finds the chest open and empty.
+func _build_reward_chest(spot: ZoneSpot) -> void:
+	var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
+	chest.name = "RewardChest"
+	add_child(chest)
+	var pos: Vector3 = spot.position + REWARD_CHEST_OFFSET
+	chest.position = Vector3(pos.x, builder.height_at(pos), pos.z)
+	chest.scale = Vector3.ONE * ChestKit.SCALE * REWARD_CHEST_SCALE
+	builder.add_blocker(pos, ChestKit.FOOTPRINT * REWARD_CHEST_SCALE)
+	reward_chest_node = chest
+	if Session.flag(def.flag_puzzle_solved):
+		ChestKit.set_open(chest, true)
+		spot.prompt = "Look in the chest"
+		if spot.marker != null:
+			spot.marker.visible = false
+
+
+func _open_reward_chest(spot: ZoneSpot) -> void:
+	if reward_chest_node != null:
+		player.face(reward_chest_node.position)
+	if Session.flag(def.flag_puzzle_solved):
+		hud.toast("The chest is empty. You have already taken what was in it.", UIStyle.PARCHMENT)
+		return
+	Session.set_flag(def.flag_puzzle_solved)
+	Audio.sfx(&"chest_open")
+	ChestKit.open_animated(reward_chest_node)
+	var piece: EquipmentData = Session.content.equipment_piece(def.puzzle_equipment_id)
+	if piece != null and Session.grant_equipment(piece):
+		hud.toast("%s joins your gear." % piece.source_name, UIStyle.GOLD)
+	else:
+		hud.toast("The chest is empty.", UIStyle.PARCHMENT)
+	spot.prompt = "Look in the chest"
+	if spot.marker != null:
+		spot.marker.visible = false
+	Session.refresh_quests()
+	Session.save_game()
 
 
 # ---- The Beefcake Rift Express (brief 10b) -----------------------------------------------------------------------
@@ -825,7 +878,7 @@ const ROAMER_ENTRANCE_CLEARANCE: float = 20.0
 const EXIT_ROAMER_PATROL: float = 3.0
 ## The exit roamer's home keeps this far from every person and service of the hub (its 3 m patrol plus a touch radius and room to talk).
 const EXIT_ROAMER_PEOPLE_CLEARANCE: float = 9.0
-const EXIT_ROAMER_KEEPS_OFF: Array[String] = ["quest_npc", "vendor_npc", "heal", "rift_station", "quiz", "freed_npc", "shrine", "puzzle", "main_dungeon", "mini_dungeon", "giant_chest", "vault_lever", "hob"]
+const EXIT_ROAMER_KEEPS_OFF: Array[String] = ["quest_npc", "vendor_npc", "heal", "rift_station", "quiz", "freed_npc", "shrine", "puzzle", "reward_chest", "main_dungeon", "mini_dungeon", "giant_chest", "vault_lever", "hob"]
 
 
 static func exit_roamer_clear_of(at: Vector3, people: Array[Vector3]) -> bool:
@@ -1509,6 +1562,8 @@ func _interact(spot: ZoneSpot) -> void:
 			_ask_mini_dungeon(spot)
 		"puzzle":
 			_open_puzzle(spot)
+		"reward_chest":
+			_open_reward_chest(spot)
 		"shrine":
 			_use_shrine(spot)
 		"freed_npc":
@@ -1589,7 +1644,7 @@ func _open_card_match(table: String) -> void:
 
 
 func _open_quiz() -> void:
-	var screen: QuizScreen = QuizScreen.new()
+	var screen: CardQuizScreen = CardQuizScreen.new()  # Fable Nov 16c: the card quiz (it was the classroom trivia, `QuizScreen`)
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 
@@ -2362,6 +2417,7 @@ func _screenshot_open(what: String) -> void:
 			_shot_card_game()
 		"quiz":
 			_open_quiz()
+			_shot_card_game()
 		"matching", "minigame":
 			_open_minigame()
 			_shot_card_game()

@@ -106,7 +106,7 @@ lines = {
 "sign.landfill": ["THE LANDFILL DEPTHS", "Three levels. Mandatory. Bring a nose peg.", "Do not dig deeper than the raccoons. They will consider it competitive."],
 "sign.main_dungeon": ["THE ROTHEART", "The source of the sickness. Do not enter. Do not breathe deeply. Do not lick anything.", "The deeper you go, the more it grows."],
 "sign.inspector_note": ["NOTE FROM A DRUID", "The door is warm because something behind it is thriving, very hard, and lately it seems to be thriving in our direction. Please don't open it."],
-"sign.seed_shrine": ["THE SEED SHRINE", "Plant a seed in a plot and it flips that plot and its four neighbours.", "Bring every plot into bloom to wake the great beanstalk."],
+"sign.seed_shrine": ["THE GARDENERS' CHEST", "The shrine garden has gone to seed and looks after itself.", "The gardeners left their satchel in the chest, for whoever climbs Rust Peak."],
 "sign.scree": ["THE SCREE FIELDS", "Loose rubble, jagged tin and thistles. Impassable on foot.", "Mounts only. Boots are not covered."],
 "sign.scree_rule": ["SCREE RULES", "No walking. No dismounting. No dropping your lunch.", "The scree will find it."],
 "sign.junk_menu": ["TODAY'S JUNK", "Tyres, fridges, one (1) piano.", "Nothing goes to waste. Everything goes to the Dump."],
@@ -132,15 +132,15 @@ lines = {
 "quest.heap_dam.active": ["It's the junk dam on the north bank, I'm afraid. Take Gideon the goat from the north stable and charge it at full tilt. He's never slowed down for anything in his life, and I'd hate for him to start now."],
 "quest.heap_dam.ready": ["Oh, the stream's flowing again, it's practically dancing! Here are the compost boots, as promised, and they're still warm. They do squelch, I'm afraid, but it's a proud sort of squelch."],
 "quest.heap_dam.done": ["The stream's clear, for now. The kingdom will have it full of rubbish again by the end of the week, I expect, but then that's what we're here for, isn't it?"],
-"npc.quiz.intro": ["Ah, a visitor. Sit, if you can find an appliance that will have you. I am Druid Thistlewick, Keeper of the Dump's Questions, and I have sat in this ring of old appliances for forty years.", "The dishwasher and I came to an understanding long ago, though lately it has started talking back. Forty years of companionable silence, and NOW it would like to clear the air.", "I have four questions for you about the Refusemancers, their work and their oath, and you need not guess at them, for every answer is written on a sign somewhere in the Verdant Dump.", "Sort your thoughts as you would your bins: compost, recycling, regret. Answer well and there is gold and seed in it for you, and answer poorly and you will receive only a gentle, rustling sigh."],
+"npc.quiz.intro": ["Ah, a visitor. Sit, if you can find an appliance that will have you. I am Druid Thistlewick, Keeper of the Dump's Questions, and I have sat in this ring of old appliances for forty years.", "The dishwasher and I came to an understanding long ago, though lately it has started talking back. Forty years of companionable silence, and NOW it would like to clear the air.", "I have four questions for you about the cards of the Refusemancers. I will show you a scrap of a picture and you will name the card, or I will name a card and you will tell me its cost or its power.", "Sort your thoughts as you would your bins: compost, recycling, regret. Answer well and there is gold and seed in it for you, and answer poorly and you will receive only a gentle, rustling sigh."],
 "npc.quiz.return": ["Back to improve your score? Good. I have always thought that a druid is only a student who never found a reason to leave the garden."],
-"quiz.result.0": ["Zero. We have found room for growth, rather a lot of it, I'm afraid. No reward this time.", "The signs are patient. I am slightly less so. The dishwasher is not patient at all."],
+"quiz.result.0": ["Zero. We have found room for growth, rather a lot of it, I'm afraid. No reward this time.", "The cards are patient. I am slightly less so. The dishwasher is not patient at all."],
 "quiz.result.1": ["One. A single seed, but every garden starts with one. Plant it, water it, and try again."],
 "quiz.result.2": ["Two. Half-grown. Keep tending those thoughts; we are not harvesting excuses."],
 "quiz.result.3": ["Three! Nearly in bloom. Take your reward and a sprig of mint."],
 "quiz.result.4": ["FOUR! A perfect harvest! You may now call yourself a Certified Refusemancer, First Class.", "Your reward is real. The certificate is compostable. When you tire of showing it off, let it become something humble."],
 "quiz.repeat": ["Another round! The Dump pays a small fee for repeat scholarship."],
-"quiz.not_passed": ["Not a pass. Walk the Verdant Dump, read the signs, and come back. There is no limit on attempts."],
+"quiz.not_passed": ["Not a pass. Look through your cards and come back. There is no limit on attempts."],
 "npc.minigame.intro": ["Step RIGHT up, folks, to the County Fair's one and only SORT IT OUT! I'm Recycle Rhonda, your fair judge and pie inspector, and the finest dumpster-diver in three counties!", "For twenty years I was the voice of Captain Compost Badger and his Sorting Squad at every harvest puppet show, and not a soul knew it was me! All that fame went to a badger in a cape!", "Now, the Rot went and cancelled the pumpkin contest, but it can't cancel ME! So here's today's show: twenty cards somebody threw out, one conveyor and four bins, and that's units, spells, infrastructure and everything else!", "You send each card to the bin for its type before it falls off the end, and I hand out rewards by how well you do, plus a bonus for your first time. So get those gloves on!"],
 "npc.minigame.return": [
 "Well, look who's back for another run! The conveyor's hungry and the bins are ready, champ, and I've got a pie cooling for whoever's still standing afterwards!",
@@ -153,10 +153,6 @@ lines = {
 "sort.win": ["Now THAT is BLUE RIBBON sorting, champ! Reduce, reuse and refuse to quit! All three goats in the crowd are cheering for you, or else they're hungry, and I'll take it either way!"],
 "sort.first": ["It's your very first run at the fair, so here's your first-timer's bonus with no strings attached, and it's a jar of compost salve!", "Go on and rub it in, champ! I mean the salve, mind you, and not the victory, because nobody loves a gloater!"],
 "sort.lose": ["That wasn't quite a run, champ, but don't you fret about it, because the belt isn't going anywhere and neither am I.", "Which is more than I can say for that last card, bless it. That card went everywhere."],
-"growth.intro": ["Twenty-five plots of garden sit in a five-by-five square, some bare and some in bloom. Plant a seed in a plot and that plot and its four neighbours flip between bare and bloom. Bring every plot into bloom to wake the great beanstalk."],
-"growth.hint": ["Work from the top row down: if the plot above a bare plot is bare, plant right below it. Then fix the last row with the first row. Count your seeds; there are only four solutions."],
-"growth.solved": ["Every plot blooms at once. The beanstalk rises, shakes out a seed pouch the size of a satchel, and hands it down with a leaf. It is still warm."],
-"growth.already": ["The garden is in full bloom. Nothing left to plant."],
 "hud.objective.freed": ["The Verdant Dump, healing: the Compost Grange is safe. HP does not come back after battles - sit down to a fresh harvest meal, or walk back down to town."],
 "ui.exit.body.freed": ["Leaving the Verdant Dump ends this visit. Town heals you fully; the roaming golems, scarecrows and gulls have calmed down a lot, and so has the garbage."],
 "sign.hub_main.freed": ["THE COMPOST GRANGE", "Hub of the Verdant Dump. The Refusemancers handle waste removal and agriculture.", "Nothing goes to waste. The Rot is gone, and the doors may be opened again."],
@@ -245,24 +241,3 @@ lines = {
 "dungeon.rh_pool.before": ["Nothing here has rotted in ten years. The pool is full of leaves that stay green, fruit that never softens, and a smell like a held breath.", "Brother Bramble's notes are pinned to a root in a worried hand: 'Nothing rots, so nothing feeds the soil, and the soil is STARVING.'", "Underneath, pressed much harder: 'Everything down here is far TOO alive. And WHO has been eating the COMPOST?'"],
 "dungeon.rh_roots.before": ["Every tendril in the Dump runs to this one place. At its center, wrapped in roots and humming, hangs a seed the size of a fist.", "A tag hangs from it in very tidy handwriting: PROPERTY OF THE PATH-OLOGISTS - LIFE THAT NEVER DIES.", "The tendrils feed on the seed, and the seed feeds on grief. Cut them, and the Rotheart will weaken.", "But the seed won't let go of her, and she won't let go of it."],
 }
-quiz_questions = Array[Dictionary]([{
-"a": ["Waste removal and agriculture", "Tax collection and cartography", "Weather forecasting and sword polishing", "Opening the kingdom's mail"],
-"correct": 0,
-"q": "What are the Refusemancers responsible for?",
-"where": "sign.hub_main (Compost Grange); sign.oath; Brother Bramble's intro line"
-}, {
-"a": ["Animals that eat the garbage and make fertilizer", "Furious plumbers", "Very small dragons", "A committee"],
-"correct": 0,
-"q": "What do the Refusemancers summon to deal with the kingdom's garbage?",
-"where": "sign.oath; Brother Bramble's intro line; sign.trough"
-}, {
-"a": ["Nothing goes to waste", "Waste what you like, we will sort it later", "If it smells, it is art", "Reduce, reuse, panic"],
-"correct": 0,
-"q": "What is the Refusemancers' motto about waste?",
-"where": "sign.hub_main; sign.oath; sign.hub_motto; sign.junk_menu"
-}, {
-"a": ["The crops", "Moustaches", "Opinions", "Debts"],
-"correct": 0,
-"q": "What do Refusemancers use their magic to help grow?",
-"where": "sign.oath; sign.crops; sign.fields; Brother Bramble's intro line"
-}])

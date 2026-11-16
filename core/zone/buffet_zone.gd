@@ -108,7 +108,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_name = "Mirepoix's"
 	def.vendor_title = "Mirepoix's Dessert & Deckery - Gourmand Issue"
 	def.vendor_screen_id = "VS-MIREPOIX"
-	def.puzzle_kind = "recipe"
+	def.puzzle_kind = "chest"
 	def.puzzle_equipment_id = "head_chef_ladle"
 	def.minigame_kind = "order"
 	def.quest_npc_names = [NPC_ODALYS, NPC_TARRAGON, NPC_DOLCETTA]
@@ -135,7 +135,7 @@ static func build_def() -> ZoneDef:
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town", "exit"),
 		_spot("mini_dungeon", "The Walk-In Freezer", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Open the freezer door: three courses", "mini_dungeon", {"no_plate": true}),  # the Pavilion's door carries an icon board, not lettering (Part B)
 		_spot("main_dungeon", "The Test Kitchen", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Enter the Test Kitchen", "main_dungeon", {"no_plate": true}),  # the Test Kitchen gate carries an icon board, not lettering (Part B)
-		_spot("puzzle", "The Mystery Stew Pot", "puzzle", Vector3(0, 0, 1.2), 1.9, "Work out the recipe (puzzle)", "puzzle"),
+		_spot("puzzle", "The Stew Cook's Chest", "puzzle", Vector3(0, 0, 1.2), 1.9, "Open the chest", "reward_chest"),  # Fable Nov 16c: the Mystery Stew Pot is gone; its reward is in a chest here
 		_spot("quiz", "Professor Pate, Keeper of the Cookbook", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PATE", "speaker": "Professor Pate"}),
 		_spot("minigame", "Chef Flambe Fontaine, Host of Dinner in a Dash", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-FLAMBE", "speaker": "Chef Flambe Fontaine"}),
 		_spot("oven", "The Grand Oven", "oven", Vector3(0, 0, 1.6), 1.9, "Bake a Hearty Pot Pie", "zone"),
@@ -147,7 +147,7 @@ static func build_def() -> ZoneDef:
 	def.poi_kinds = {
 		"odalys": MapPoi.Kind.QUEST_GIVER, "tarragon": MapPoi.Kind.QUEST_GIVER, "dolcetta": MapPoi.Kind.VENDOR,
 		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,
-		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
+		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.INTERACTABLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "oven": MapPoi.Kind.INTERACTABLE, "taste_test": MapPoi.Kind.INTERACTABLE,
 		"soup_fountain": MapPoi.Kind.INTERACTABLE, "fortune_cookie": MapPoi.Kind.INTERACTABLE,
 		"old_meatloaf": MapPoi.Kind.INTERACTABLE,

@@ -88,7 +88,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_name = "Benchley's"
 	def.vendor_title = "Benchley's Protein & Pasteboard - Beefcake Issue"
 	def.vendor_screen_id = "VS-BENCHLEY"
-	def.puzzle_kind = "wheels"
+	def.puzzle_kind = "chest"
 	def.puzzle_equipment_id = "swole_belt"
 	def.minigame_kind = "reps"
 	def.quest_npc_names = [NPC_BRENDA, NPC_GUS, NPC_TONY]
@@ -122,7 +122,7 @@ static func build_def() -> ZoneDef:
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon", {"no_plate": true}),  # the fortress gate carries an icon board, not lettering (GC-10)
 		_spot(SWOLYMPUS_TRAIL, "The Ascent of Mount Swolympus", "swolympus_foot", Vector3(0, 0, 0), 2.0, "Climb Mount Swolympus", "zone", {"no_plate": true}),  # Fix pass Nov 4 (B): S-BEEF, reached along the ridge once the gate is open
 		_spot(SWOLYMPUS_GATE, "Mount Swolympus", SWOLYMPUS_GATE, Vector3(-1.8, 0, 1.8), 2.2, SWOLYMPUS_GATE_PROMPT, "zone", {"no_plate": true}),  # the locked trailhead gate (sealed): a closed arch with its own banners, no lettering, nothing walkable behind it (SR-4)
-		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),
+		_spot("puzzle", "The Grid Crew's Strongbox", "puzzle", Vector3(0, 0, 1.0), 1.8, "Open the strongbox", "reward_chest"),  # Fable Nov 16c: the hamster-wheel puzzle is gone; its reward is in a chest here
 		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),
 		_spot("minigame", "Chet Thunderabs, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-THUNDERABS", "speaker": "Chet Thunderabs"}),
 		_spot("protein_stand", "Protein Shake Stand", "protein_stand", Vector3(0, 0, 1.2), 1.7, "Buy a mystery shake (10 gold)", "zone"),
@@ -136,7 +136,7 @@ static func build_def() -> ZoneDef:
 	def.poi_kinds = {
 		"brenda": MapPoi.Kind.QUEST_GIVER, "gus": MapPoi.Kind.QUEST_GIVER, "tony": MapPoi.Kind.VENDOR,
 		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,  # the Iron Cave (S-IRON) is open from the start
-		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
+		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.INTERACTABLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "protein_stand": MapPoi.Kind.INTERACTABLE,
 		"flex_mirror": MapPoi.Kind.INTERACTABLE, "flex_mirror_pec": MapPoi.Kind.INTERACTABLE,
 		"spot_me": MapPoi.Kind.INTERACTABLE, "run_wheel": MapPoi.Kind.INTERACTABLE, "shrine": MapPoi.Kind.INTERACTABLE,

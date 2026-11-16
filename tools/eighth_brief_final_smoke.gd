@@ -346,27 +346,14 @@ func _beanstalk_puzzle_and_chute(zone: HeapScene) -> void:
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
-	_check(zone._overlay is GrowthGridScreen, "the shrine opens the garden puzzle")
-	if zone._overlay is GrowthGridScreen:
-		var screen: GrowthGridScreen = zone._overlay as GrowthGridScreen
-		await _shot("h_26_seed_shrine_start")
-		await driver.click(driver.center_of_control(screen._buttons[0]))
-		await driver.seconds(0.1)
-		_check(not Session.flag(HeapZone.FLAG_PUZZLE_SOLVED), "one seed does not solve it")
-		await _shot("h_27_seed_shrine_one_seed")
-		await driver.click_button("Reset the garden")
-		await driver.seconds(0.2)
-		var satchel: EquipmentData = Session.content.equipment_piece("seed_satchel")
-		_check(not Session.profile.owned_equipment.has(satchel), "the satchel is not owned before solving")
-		for cell: int in GrowthGrid.shortest_solution():
-			await driver.click(driver.center_of_control(screen._buttons[cell]))
-			await driver.seconds(0.06)
-		await driver.seconds(0.4)
-		_check(Session.flag(HeapZone.FLAG_PUZZLE_SOLVED), "the right plantings bloom the whole garden")
-		_check(Session.profile.owned_equipment.has(satchel), "solving rewards the Refusemancer Seed Satchel")
-		await _shot("h_28_seed_shrine_solved")
-		await driver.tap_key(KEY_ESCAPE)
-		await driver.seconds(0.3)
+	# Fable Nov 16c: the puzzle is gone; its one-time reward lies in a chest at the same spot.
+	_check(zone._overlay == null, "no puzzle screen opens any more")
+	_check(Session.flag(HeapZone.FLAG_PUZZLE_SOLVED), "opening the chest sets the one-time flag")
+	var prize: EquipmentData = Session.content.equipment_piece("seed_satchel")
+	_check(Session.profile.owned_equipment.has(prize), "the chest holds the Refusemancer Seed Satchel")
+	_check(ChestKit.is_open(zone.reward_chest_node), "the chest stands open")
+	await driver.seconds(0.8)
+	await _shot("h_28_seed_shrine_solved")
 	# The summit chest, then the trash chute down.
 	var chest: Vector3 = zone.builder.chest_positions()["chest_peak_b"] as Vector3
 	var gold_before: int = Session.gold
@@ -649,26 +636,25 @@ func _quiz(zone: HeapScene) -> void:
 	await _shot("h_47_elder_fennel_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is QuizScreen, "the quiz master opens the quiz")
-	if not (zone._overlay is QuizScreen):
+	_check(zone._overlay is CardQuizScreen, "the quiz master opens the card quiz")
+	if not (zone._overlay is CardQuizScreen):
 		return
-	var story: ZoneStoryText = ZoneStoryText.for_zone(HeapZone.ID)
-	var shot_done: bool = false
-	for _round: int in story.quiz_questions.size():
-		var button: Button = null
-		var correct_text: String = ""
-		for question: Dictionary in story.quiz_questions:
-			correct_text = str((question["a"] as Array)[int(question["correct"])])
-			button = driver.find_button(correct_text, zone._overlay)
-			if button != null:
-				break
-		_check(button != null, "a right answer is on screen (the quiz shuffles question order)")
-		if not shot_done:
-			shot_done = true
-			await _shot("h_48_quiz_question")
-		if button != null:
-			await driver.click(driver.button_center(button))
-			await driver.seconds(0.3)
+	# Fable Nov 16c: the card quiz (it was the written trivia): How to play, then four questions about real cards.
+	var quiz: CardQuizScreen = zone._overlay as CardQuizScreen
+	_check(quiz.how_is_open(), "the card quiz opens on How to play")
+	await driver.click_button("Play")
+	await driver.seconds(0.4)
+	_check(quiz.game.questions.size() == CardQuizGame.QUESTIONS, "four questions are dealt")
+	await _shot("h_48_quiz_question")
+	quiz.feedback_seconds = 0.2
+	while not quiz.game.is_over():
+		var right: Button = quiz.find_child("Answer%d" % (quiz.game.current().correct + 1), true, false) as Button
+		_check(right != null, "the right answer is a button")
+		if right == null:
+			break
+		await driver.click(driver.button_center(right))
+		await driver.seconds(1.3)
+	_check(quiz.game.correct_count() == CardQuizGame.QUESTIONS, "four right answers (%d)" % quiz.game.correct_count())
 	await _shot("h_49_quiz_result")
 	_check(Session.flag(HeapZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Dump's quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])

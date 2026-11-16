@@ -270,11 +270,11 @@ func _card_game(screen: CardGameScreen, zone_id: String) -> CardGameScreen:
 func test_screens_name_their_own_music() -> void:
 	var screens: Dictionary = {
 		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new()],
-		"MUS-QUIZ": [QuizScreen.new()],
+		"MUS-QUIZ": [_card_game(CardQuizScreen.new(), "necrocrat")],
 		"MUS-MINIGAME-NECRO": [MatchGameScreen.new(), _card_game(FileCardScreen.new(), "necrocrat")],
-		"MUS-MINIGAME-GOUR": [OrderGameScreen.new(), _card_game(OrderCardScreen.new(), "gourmand")],
-		"MUS-MINIGAME-BEEF": [RepGameScreen.new(), _card_game(RepsCardScreen.new(), "beefcake")],
-		"MUS-MINIGAME-REF": [SortGameScreen.new(), _card_game(SortCardScreen.new(), "refusemancer")],
+		"MUS-MINIGAME-GOUR": [_card_game(OrderCardScreen.new(), "gourmand")],
+		"MUS-MINIGAME-BEEF": [_card_game(RepsCardScreen.new(), "beefcake")],
+		"MUS-MINIGAME-REF": [_card_game(SortCardScreen.new(), "refusemancer")],
 	}
 	for cue: Variant in screens.keys():
 		for screen: Object in screens[cue] as Array:

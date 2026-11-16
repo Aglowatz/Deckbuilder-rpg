@@ -763,8 +763,6 @@ func _place_feature(prop: BuffetLayout.Prop, pos: Vector3) -> void:
 			node = P.closed_kitchen(story)
 		"cheese_wheel":
 			node = P.cheese_wheel(prop.variant)
-		"stew_pot":
-			node = P.stew_pot(story)
 		"pancake_stack":
 			node = P.pancake_stack(prop.variant)
 		"mill_pillar":

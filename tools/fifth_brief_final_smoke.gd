@@ -293,26 +293,25 @@ func _quiz_master(zone: DnaScene) -> void:
 	await driver.seconds(0.3)
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is QuizScreen, "the quiz master opens the quiz")
-	if not (zone._overlay is QuizScreen):
+	_check(zone._overlay is CardQuizScreen, "the quiz master opens the card quiz")
+	if not (zone._overlay is CardQuizScreen):
 		return
-	var story: ZoneStoryText = ZoneStoryText.shared()
-	var shot_done: bool = false
-	for _round: int in story.quiz_questions.size():
-		var button: Button = null
-		var correct_text: String = ""
-		for question: Dictionary in story.quiz_questions:
-			correct_text = str((question["a"] as Array)[int(question["correct"])])
-			button = driver.find_button(correct_text, zone._overlay)
-			if button != null:
-				break
-		_check(button != null, "a right answer is on screen (the quiz shuffles question order)")
-		if not shot_done:
-			shot_done = true
-			await _shot("e_15_quiz_question")
-		if button != null:
-			await driver.click(driver.button_center(button))
-			await driver.seconds(0.3)
+	# Fable Nov 16c: the card quiz (it was the written trivia): How to play, then four questions about real cards.
+	var quiz: CardQuizScreen = zone._overlay as CardQuizScreen
+	_check(quiz.how_is_open(), "the card quiz opens on How to play")
+	await driver.click_button("Play")
+	await driver.seconds(0.4)
+	_check(quiz.game.questions.size() == CardQuizGame.QUESTIONS, "four questions are dealt")
+	await _shot("e_15_quiz_question")
+	quiz.feedback_seconds = 0.2
+	while not quiz.game.is_over():
+		var right: Button = quiz.find_child("Answer%d" % (quiz.game.current().correct + 1), true, false) as Button
+		_check(right != null, "the right answer is a button")
+		if right == null:
+			break
+		await driver.click(driver.button_center(right))
+		await driver.seconds(1.3)
+	_check(quiz.game.correct_count() == CardQuizGame.QUESTIONS, "four right answers (%d)" % quiz.game.correct_count())
 	await _shot("e_16_quiz_result")
 	_check(Session.flag(DnaZone.FLAG_QUIZ_DONE), "finishing the quiz sets the quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])

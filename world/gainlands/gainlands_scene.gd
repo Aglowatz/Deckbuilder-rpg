@@ -69,10 +69,6 @@ func _build_zone_extras() -> void:
 		_bridge_exit_armed = player.position.z < GainlandsLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM
 
 
-func _make_puzzle_screen() -> OverlayScreen:
-	return WheelPuzzleScreen.new()
-
-
 ## Fable Nov 16b (Part 2): Chet Thunderabs' studio plays "Reps", the higher-or-lower card game (it was the Rep Counter, `RepGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
 	return RepsCardScreen.new()

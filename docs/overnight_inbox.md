@@ -4,6 +4,27 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 16c - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov16_evening.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16c`.
+
+1. **The card quiz asks four questions: two pictures, one cost, one power.** Your brief gave the three kinds but not the mix. The four
+   cards are always different, from the zone's Path plus colourless. One constant: `CardQuizGame.KINDS`.
+2. **A cost or power question shows the card's painting and its name, not the card face** (the face prints the answer). After every
+   answer the whole card turns up, so a wrong answer teaches the right one.
+3. **The old written trivia questions are deleted** (16 questions in four story files), with the classroom screen. The teachers' lines
+   that said "every answer is on a sign" now say what the quiz asks (12 lines: `git diff pre-fable-nov16c -- data/story`).
+4. **The three chests' names are mine:** "The Grid Crew's Strongbox" (Gainlands), "The Stew Cook's Chest" (Buffet), "The Gardeners'
+   Chest" (Dump), each with a three-line sign at the spot. The chest is 2.4 times a hidden chest, so it shows behind the hero.
+5. **The Buffet's stew pot model is gone from the Pancake summit** with its puzzle. Say if the pot should stay as scenery.
+6. **No quest step needed a puzzle**, so no quest changed. The gear list now says "A chest in the Gainlands" where it said "Puzzle".
+7. **A save that had solved a puzzle finds its chest open and empty** (the same flag): nobody gets the reward twice.
+8. **The seals form a diamond on the cellar doors** (top arm, right chef's hat, bottom leaf, left skull): "clockwise from the top"
+   read as four points of a circle. The tooltip shows on a mouse hover over one seal, and as all four lines when the hero stands at
+   the door (for keyboard and controller).
+9. **The old minigames' rule code is deleted with their screens.** `RepGame`, `OrderGame` and `SortGame` keep only their reward
+   tables, because the card games pay through them.
+
 ## Fable Nov 16b - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16b`.

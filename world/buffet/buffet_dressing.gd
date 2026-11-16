@@ -37,7 +37,7 @@ const DECALS: Array = [
 	["BUFF-DEC-FLOUR", "oven", Vector2(-1.6, 2.4), 1.6, 20.0], ["BUFF-DEC-FLOUR", "", Vector2(40.0, 60.0), 2.0, 0.0], ["BUFF-DEC-FLOUR", "", Vector2(60.0, 60.0), 2.0, 70.0],
 	["BUFF-DEC-FLOUR", "", Vector2(55.0, 27.0), 1.4, 110.0], ["BUFF-DEC-FLOUR", "old_meatloaf", Vector2(-2.6, 1.0), 1.2, 0.0],
 	["BUFF-DEC-STEAM", "soup_fountain", Vector2(2.4, 1.2), 1.6, 0.0], ["BUFF-DEC-STEAM", "oven", Vector2(3.4, 1.4), 1.4, 40.0],
-	["BUFF-DEC-STEAM", "", Vector2(50.0, 49.2), 2.0, 0.0], ["BUFF-DEC-STEAM", "puzzle", Vector2(0.0, 2.0), 1.6, 0.0], ["BUFF-DEC-STEAM", "taste_test", Vector2(2.0, 1.6), 1.3, 0.0],
+	["BUFF-DEC-STEAM", "", Vector2(50.0, 49.2), 2.0, 0.0], ["BUFF-DEC-STEAM", "taste_test", Vector2(2.0, 1.6), 1.3, 0.0],
 ]
 
 

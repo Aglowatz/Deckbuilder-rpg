@@ -287,10 +287,6 @@ static func south_corner_target(target: Vector3, hero: Vector3) -> Vector3:
 	return held
 
 
-func _make_puzzle_screen() -> OverlayScreen:
-	return GrowthGridScreen.new()
-
-
 ## Fable Nov 16b (Part 2): the fair stage plays "Sort It Out" with cards, sorted by type (it was the junk-sorting `SortGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
 	return SortCardScreen.new()

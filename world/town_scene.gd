@@ -719,6 +719,7 @@ const NPC_SIZE: Dictionary = {"tailor": 1.5}
 ## Playtest v0.4.0 Part A: floating name labels as screen UI - vendors ("Sable - Cards") and quest givers always, everyone else when the hero
 ## is close - and a glow at the feet of vendors (gold) and quest givers (green). The black-market dealer keeps no label and no glow.
 var npc_labels: NpcLabels
+var seal_tooltips: SealTooltips
 const QUEST_SPOT_IDS: Array[String] = ["elder", "guard", "npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat", "rescuer"]
 
 
@@ -964,6 +965,8 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	_add_spot("vault4", "The Cellar of the Four Seals", town.anchors["vault4"] as Vector3, 2.2)
 	four_seal_vault = FourSealVault.build(self, town.anchors["vault4_mouth"] as Vector3)
+	# Fable Nov 16c: "Gourmand seal: locked" on a mouse hover, all four lines for a hero standing at the door.
+	seal_tooltips = SealTooltips.install(self, four_seal_vault, player, func() -> bool: return _locked or (dialogue != null and dialogue.active))
 	_hang_freed_banners()
 	_place_plinth_statues()
 	# Fourth brief, Part F: The Restless Cairn - the Graveyard's scripted-battle trigger. Unlike

@@ -517,7 +517,7 @@ func test_hub_has_a_heal_spot_a_vendor_npcs_and_quests() -> void:
 	for entry: Dictionary in def.spots:
 		kinds[str(entry["kind"])] = true
 		assert_true(layout.anchors.has(str(entry["anchor"])), "spot %s has an anchor" % str(entry["id"]))
-	for kind: String in ["heal", "vendor_npc", "quest_npc", "exit", "mini_dungeon", "main_dungeon", "puzzle", "quiz", "minigame"]:
+	for kind: String in ["heal", "vendor_npc", "quest_npc", "exit", "mini_dungeon", "main_dungeon", "reward_chest", "quiz", "minigame"]:
 		assert_true(kinds.has(kind), "a %s spot exists" % kind)
 	assert_between(def.quest_npc_names.size(), 2, 3)
 	assert_between(def.vendor_ids.size(), 8, 10)
@@ -623,41 +623,6 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_card() -> void:
 # ---- Story ---------------------------------------------------------------------------------------------------
 
 
-func test_every_text_key_the_zone_needs_exists_in_the_story_file() -> void:
-	var keys: Array[String] = []
-	for sign: HeapLayout.Sign in layout.signs:
-		keys.append(sign.key)
-	for id: String in ["marigold", "hob", "wren", "quiz", "minigame"]:
-		keys.append("npc.%s.intro" % id)
-		keys.append("npc.%s.return" % id)
-	for quest_id: String in [HeapZone.QUEST_HERD, HeapZone.QUEST_FERT, HeapZone.QUEST_DAM]:
-		for part: String in ["offer", "active", "ready", "done"]:
-			keys.append("quest.%s.%s" % [quest_id, part])
-	for key: String in ["hud.objective", "ui.mini.body", "ui.mini.body_cleared", "ui.mini.button", "ui.exit.title", "ui.exit.body", "fx.main_dungeon", "fx.heal_couch", "fx.heal_already", "fx.hit", "fx.wake", "fx.chest", "fx.pickup", "fx.pickup_again", "fx.compost_done", "fx.compost_missing", "fx.compost_limit", "fx.shrine_blessing", "fx.shrine_again", "fx.trough_done", "fx.trough_missing", "fx.trough_limit", "fx.crop_no_fertilizer", "fx.crop_planted", "fx.crop_growing", "fx.crop_harvest", "fx.herd_1", "fx.herd_2", "fx.herd_3", "fx.herd_again", "fx.bridge_done", "fx.grow", "fx.grown", "fx.climb_up", "fx.climb_down", "fx.mounted", "fx.dismounted", "fx.dismount_scree", "fx.barricade_hint", "fx.smash_gate", "fx.smash_dam", "fx.slide", "fx.slid", "fx.hazard_fall", "fx.hazard_fall_log", "prop.barn", "prop.swap_shed", "prop.shrine", "prop.arch", "prop.crop_plot", "prop.fair", "prop.landfill", "prop.composting", "prop.barricade", "quiz.result.0", "quiz.result.4", "quiz.repeat", "quiz.not_passed", "sort.intro", "sort.bins", "sort.items", "sort.shouts", "sort.win", "sort.lose", "sort.first", "growth.intro", "growth.hint", "growth.solved", "growth.already"]:
-		keys.append(key)
-	var missing: Array[String] = []
-	for key: String in keys:
-		if not story.lines.has(key):
-			missing.append(key)
-	assert_eq(missing, [] as Array[String], "all text lives in the story file")
-	assert_eq(story.get_lines("sort.items").size(), SortGame.ITEM_BINS.size(), "a name for every junk piece")
-	assert_eq(story.get_lines("sort.bins").size(), SortGame.BIN_COUNT)
-
-
-func test_the_quiz_has_four_questions_about_the_refusemancers_with_findable_answers() -> void:
-	assert_eq(story.quiz_questions.size(), 4)
-	var needles: Array[String] = ["waste removal", "animals", "nothing goes to waste", "crops"]
-	for index: int in range(4):
-		var question: Dictionary = story.quiz_questions[index] as Dictionary
-		assert_eq((question["a"] as Array).size(), 4)
-		var found: bool = false
-		for key: Variant in story.lines.keys():
-			var text: String = " ".join(story.get_lines(str(key)))
-			if str(key).begins_with("sign.") and text.to_lower().contains(needles[index]):
-				found = true
-		assert_true(found, "the answer to question %d ('%s') is written on a sign" % [index + 1, needles[index]])
-
-
 # ---- Interactables ----------------------------------------------------------------------------------------------
 
 
@@ -739,34 +704,8 @@ func test_quest_objectives_follow_the_zone_actions() -> void:
 # ---- The Seed Shrine puzzle ------------------------------------------------------------------------------------------
 
 
-func test_the_garden_has_solutions_and_the_shortest_is_long() -> void:
-	var solutions: Array[Array] = GrowthGrid.solutions()
-	assert_gte(solutions.size(), 1, "the garden is solvable")
-	assert_lte(solutions.size(), 4, "a 5 x 5 board has at most four solutions")
-	var shortest: Array[int] = GrowthGrid.shortest_solution()
-	assert_gte(shortest.size(), 8, "the shortest solution needs at least 8 seeds (%d)" % shortest.size())
-	var board: Array[bool] = GrowthGrid.start_board()
-	assert_false(GrowthGrid.is_solved(board), "the garden does not start solved")
-	for cell: int in shortest:
-		board = GrowthGrid.plant(board, cell)
-	assert_true(GrowthGrid.is_solved(board), "planting the shortest solution blooms everything")
-
-
-func test_planting_flips_a_plot_and_its_neighbours() -> void:
-	assert_eq(GrowthGrid.flipped_by(0).size(), 3, "a corner flips three plots")
-	assert_eq(GrowthGrid.flipped_by(2).size(), 4, "an edge flips four")
-	assert_eq(GrowthGrid.flipped_by(12).size(), 5, "the middle flips five")
-	var board: Array[bool] = GrowthGrid.all_bloom()
-	board = GrowthGrid.plant(board, 12)
-	assert_false(board[12])
-	assert_false(board[7])
-	assert_true(board[0])
-	board = GrowthGrid.plant(board, 12)
-	assert_true(GrowthGrid.is_solved(board), "planting twice undoes it")
-
-
 func test_the_garden_puzzle_gives_the_satchel_through_the_def() -> void:
-	assert_eq(def.puzzle_kind, "growth")
+	assert_eq(def.puzzle_kind, "chest")
 	var satchel: EquipmentData = Session.content.equipment_piece(def.puzzle_equipment_id)
 	assert_not_null(satchel)
 	assert_true(Session.grant_equipment(satchel))
@@ -776,57 +715,32 @@ func test_the_garden_puzzle_gives_the_satchel_through_the_def() -> void:
 # ---- Sort It Out! --------------------------------------------------------------------------------------------------------
 
 
-func test_a_flawless_run_is_three_stars_and_a_full_streak() -> void:
-	var game: SortGame = SortGame.play_perfect(0.4)
-	assert_true(game.is_finished())
-	assert_eq(game.correct_count(), SortGame.PIECES)
-	assert_eq(game.stars(), 3)
-	assert_eq(game.best_streak, SortGame.PIECES)
-	var expected: int = 0
-	for streak: int in range(1, SortGame.PIECES + 1):
-		expected += 3 if streak >= 8 else (2 if streak >= 4 else 1)
-	assert_eq(game.points_total, expected)
+func test_the_minigame_is_a_different_type_from_the_other_three() -> void:
+	assert_eq(def.minigame_kind, "sort")
+	for zone_id: String in [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID]:
+		assert_ne(def.minigame_kind, ZoneDefs.get_def(zone_id).minigame_kind)
 
 
-func test_never_sorting_loses_every_piece() -> void:
-	var game: SortGame = SortGame.new()
-	game.advance(SortGame.end_time(SortGame.PIECES - 1) + 1.0)
-	assert_true(game.is_finished())
-	assert_eq(game.correct_count(), 0)
-	assert_eq(game.stars(), 0)
+func test_every_text_key_the_zone_needs_exists_in_the_story_file() -> void:
+	var keys: Array[String] = []
+	for sign: HeapLayout.Sign in layout.signs:
+		keys.append(sign.key)
+	for id: String in ["marigold", "hob", "wren", "quiz", "minigame"]:
+		keys.append("npc.%s.intro" % id)
+		keys.append("npc.%s.return" % id)
+	for quest_id: String in [HeapZone.QUEST_HERD, HeapZone.QUEST_FERT, HeapZone.QUEST_DAM]:
+		for part: String in ["offer", "active", "ready", "done"]:
+			keys.append("quest.%s.%s" % [quest_id, part])
+	for key: String in ["hud.objective", "ui.mini.body", "ui.mini.body_cleared", "ui.mini.button", "ui.exit.title", "ui.exit.body", "fx.main_dungeon", "fx.heal_couch", "fx.heal_already", "fx.hit", "fx.wake", "fx.chest", "fx.pickup", "fx.pickup_again", "fx.compost_done", "fx.compost_missing", "fx.compost_limit", "fx.shrine_blessing", "fx.shrine_again", "fx.trough_done", "fx.trough_missing", "fx.trough_limit", "fx.crop_no_fertilizer", "fx.crop_planted", "fx.crop_growing", "fx.crop_harvest", "fx.herd_1", "fx.herd_2", "fx.herd_3", "fx.herd_again", "fx.bridge_done", "fx.grow", "fx.grown", "fx.climb_up", "fx.climb_down", "fx.mounted", "fx.dismounted", "fx.dismount_scree", "fx.barricade_hint", "fx.smash_gate", "fx.smash_dam", "fx.slide", "fx.slid", "fx.hazard_fall", "fx.hazard_fall_log", "prop.barn", "prop.swap_shed", "prop.shrine", "prop.arch", "prop.crop_plot", "prop.fair", "prop.landfill", "prop.composting", "prop.barricade", "quiz.result.0", "quiz.result.4", "quiz.repeat", "quiz.not_passed", "sort.intro", "sort.bins", "sort.items", "sort.shouts", "sort.win", "sort.lose", "sort.first"]:
+		keys.append(key)
+	var missing: Array[String] = []
+	for key: String in keys:
+		if not story.lines.has(key):
+			missing.append(key)
+	assert_eq(missing, [] as Array[String], "all text lives in the story file")
 
 
-func test_a_wrong_bin_breaks_the_streak_and_early_presses_are_ignored() -> void:
-	var game: SortGame = SortGame.new()
-	assert_eq(game.press(SortGame.COMPOST, 0.1), SortGame.Result.IGNORED, "nothing on the belt yet")
-	var time: float = SortGame.spawn_time(0) + 0.3
-	assert_eq(game.press(SortGame.bin_of(0), time), SortGame.Result.CORRECT)
-	time = SortGame.spawn_time(1) + 0.3
-	var wrong: int = (SortGame.bin_of(1) + 1) % SortGame.BIN_COUNT
-	assert_eq(game.press(wrong, time), SortGame.Result.WRONG)
-	assert_eq(game.streak, 0)
-	assert_eq(game.correct_count(), 1)
-	assert_eq(game.outcomes, [1, 0] as Array[int])
-
-
-func test_pieces_arrive_faster_and_every_bin_is_used() -> void:
-	assert_gt(SortGame.spawn_time(1) - SortGame.spawn_time(0), SortGame.spawn_time(19) - SortGame.spawn_time(18), "the belt speeds up")
-	var used: Dictionary = {}
-	for piece: int in range(SortGame.PIECES):
-		used[SortGame.bin_of(piece)] = true
-		assert_gt(SortGame.end_time(piece), SortGame.spawn_time(piece) + 2.0, "every piece gets at least 2 seconds")
-	assert_eq(used.size(), SortGame.BIN_COUNT)
-	var distinct: Dictionary = {}
-	for index: int in SortGame.ORDER:
-		distinct[index] = true
-	assert_eq(distinct.size(), SortGame.PIECES, "every junk piece appears once")
-
-
-func test_star_thresholds_and_rewards() -> void:
-	assert_eq(SortGame.stars_for(6), 0)
-	assert_eq(SortGame.stars_for(7), 1)
-	assert_eq(SortGame.stars_for(13), 2)
-	assert_eq(SortGame.stars_for(18), 3)
+func test_sort_it_out_rewards() -> void:
 	var gold_before: int = Session.gold
 	var first: Dictionary = SortGame.apply_result(3)
 	assert_true(bool(first["first_win"]))
@@ -839,7 +753,14 @@ func test_star_thresholds_and_rewards() -> void:
 	assert_eq(int(SortGame.apply_result(0)["gold"]), 0)
 
 
-func test_the_minigame_is_a_different_type_from_the_other_three() -> void:
-	assert_eq(def.minigame_kind, "sort")
-	for zone_id: String in [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID]:
-		assert_ne(def.minigame_kind, ZoneDefs.get_def(zone_id).minigame_kind)
+## Fable Nov 16c: the Seed Shrine garden is gone; its satchel lies in a chest at the same spot.
+func test_the_seed_shrine_is_a_reward_chest_now() -> void:
+	assert_eq(def.puzzle_kind, "chest")
+	var found: bool = false
+	for spot: Dictionary in def.spots:
+		if str(spot["id"]) == "puzzle":
+			found = true
+			assert_eq(str(spot["kind"]), "reward_chest")
+	assert_true(found)
+	assert_false(story.lines.has("growth.intro"), "the garden's text is gone")
+	assert_string_contains(" ".join(story.get_lines("sign.seed_shrine")), "chest")

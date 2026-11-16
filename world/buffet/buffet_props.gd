@@ -584,17 +584,6 @@ static func closed_kitchen(_story: ZoneStoryText) -> Node3D:
 	return root
 
 
-static func stew_pot(_story: ZoneStoryText) -> Node3D:
-	var root: Node3D = Node3D.new()
-	var pot: Node3D = BuffetModels.food("pot-stew")
-	root.add_child(pot)
-	pot.scale = Vector3.ONE * 3.2
-	cylinder(root, 0.95, 0.95, 0.06, M.soup(Color(0.45, 0.75, 0.25)), Vector3(0, 1.1, 0), 18)
-	steam(root, Vector3(0, 1.4, 0), 14, 0.7, 1.3)
-	IconSign.attach(root, "ICON-NODE-HEAL", Vector3(0, 2.4, 0.9), 0.7)
-	return root
-
-
 static func cheese_wheel(variant: int) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var wheel: Node3D = BuffetModels.food("cheese")

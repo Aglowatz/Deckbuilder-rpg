@@ -76,12 +76,12 @@ func test_plinth_statues_cover_the_four_zones() -> void:
 	assert_eq(EndingDefs.PATH_ICONS.size(), TownScene.PLINTH_STATUES.size())
 
 
-func test_the_quiz_draws_on_the_painted_board() -> void:
-	assert_true(UiArt.has(QuizScreen.CLASSROOM_ART))
-	var art: Vector2 = UiArt.texture(QuizScreen.CLASSROOM_ART).get_size()
-	assert_almost_eq(art.x / art.y, 1.5, 0.02, "the classroom keeps its 3:2 canvas (the board rect assumes it)")
-	assert_true(Rect2(550, 135, 1081, 487).encloses(QuizScreen.PAINTED_BOARD_RECT), "the question stays inside the painted board")
-	assert_false(QuizScreen.new().has_method("_build_stand_in"), "the coded room stand-in is gone")
+## Fable Nov 16c: the card quiz keeps the painted classroom as its room.
+func test_the_quiz_keeps_the_painted_classroom() -> void:
+	assert_true(UiArt.has(CardQuizScreen.CLASSROOM_ART))
+	var quiz: CardQuizScreen = CardQuizScreen.new()
+	assert_eq(quiz.room_art(), CardQuizScreen.CLASSROOM_ART)
+	quiz.free()
 
 
 func test_the_shelf_board_is_a_trimmed_strip() -> void:

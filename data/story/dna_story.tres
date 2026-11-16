@@ -49,7 +49,7 @@ lines = {
 "npc.matching.return.freed": ["the queue moved. it actually moved! agnes called my number at 3am and i was away from my desk, so she just... called it again. nobody's ever called me twice before.","wanna play one more round before i pass on? i'm kidding, probably. i burned you a mix cd just in case, though, and track four is mostly me saying sorry about a tuesday."],
 "npc.pip.intro": ["This is Requisitions, and I am Clerk Ledgerbone, junior clerk, third class. Cards are issued here in triplicate, and every one of them is Necrocrat-issue: authorized, stamped and slightly haunted.", "For the record, it is the stamp that is haunted, and not the cards. It applied to the new management for a raise, the application was denied, and it has taken the matter very personally ever since.", "I must inform you that there are no returns and no exchanges. An exception may be requested on Form 13-B, which I gather you have already heard about."],
 "npc.pip.return": ["You are welcome to requisition something, or simply to stand near the desk. A visitor makes me look busy, which I have noted in your favour, and I would be obliged if you stayed a while."],
-"npc.quiz.intro": ["Ah, a candidate for re-certification. I am Director Ectomund, Compliance Examiner, and since examining is all I have done for three hundred years, I have begun to suspect that it is also all I am.", "The exam has not changed in that time: four questions on the Necrocrats, and every answer is somewhere on the premises, in the signs, the memos or the staff, for any candidate who troubles to look.", "The new management asked me to remove the questions on ethics. They are not in the exam. They are also, I notice, not in the building.", "Answer correctly and you will be rewarded; answer incorrectly and you will be rewarded rather less. I am not a monster, you understand, merely an examiner, though I grant you the distinction is a fine one."],
+"npc.quiz.intro": ["Ah, a candidate for re-certification. I am Director Ectomund, Compliance Examiner, and since examining is all I have done for three hundred years, I have begun to suspect that it is also all I am.", "The exam has been revised once in that time: four questions on the Department's cards. I show a portion of a picture and the candidate names the card, or I name a card and the candidate states its cost or its power.", "The new management asked me to remove the questions on ethics. They are not in the exam. They are also, I notice, not in the building.", "Answer correctly and you will be rewarded; answer incorrectly and you will be rewarded rather less. I am not a monster, you understand, merely an examiner, though I grant you the distinction is a fine one."],
 "npc.quiz.return": ["You are back, I see. Statistically you have failed already, as most candidates have, and I confess that I am rather looking forward to making it official."],
 "npc.quiz.return.freed": ["Back again, I see. You may be glad to hear that the ethics questions have been returned to the building, though not yet to the exam, for I believe in one reform at a time.","Statistically, you will still fail a question, and statistically I will still enjoy it. That is not corruption. That is personality."],
 "poster.hang_in_there": ["HANG IN THERE!", "(The poster is a skeleton on a branch. It has been there since 1650.)"],
@@ -58,11 +58,8 @@ lines = {
 "poster.synergy": ["SYNERGY", "Together Everyone Achieves More. Eventually. Posthumously."],
 "poster.wellness": ["WELLNESS WEDNESDAY", "Breathe in. Breathe out. (Optional for you.)"],
 "puzzle.already": ["The cabinet hums contentedly to itself. Nothing more is owed for filing it again."],
-"puzzle.bins": ["Harvest", "Accounts Payable", "Reaping", "Limbo", "Complaints", "Records", "Haunting", "Pest Control"],
-"puzzle.hint": ["Every junction flips after a capsule passes. The first capsule only cares about the three junctions on its own path - set those first, then work out the next."],
 "puzzle.intro": ["Under the wall of pneumatic tubes stands a grey filing cabinet. Seven cards lie on it, in no order at all.", "File them by cost, lowest first, by swapping two at a time. Then stamp the file."],
 "puzzle.solved": ["Every card sits in its drawer, in order. The tubes cough politely and drop a small, heavy parcel in the tray."],
-"puzzle.souls": ["Mr. Hargrove", "Dame Wilhelmina", "Little Timmy B.", "A Very Tired Clerk", "The Mayor (acting)", "Gertrude, 3rd Floor", "Sir Reginald Pent", "Unknown (Please Hold)"],
 "quest.dna_audit.active": ["Two items remain outstanding: pass Director Ectomund's quiz, and find one hidden stash in the filing mazes. The stashes are kept in corners that nobody visits, which in this building describes most corners."],
 "quest.dna_audit.done": ["The audit is closed, and the auditors have gone home, which for them means going back to their desks. Your part in it is on file, and I have filed it somewhere I shall be able to find it again."],
 "quest.dna_audit.offer": ["Compliance is conducting an audit, and I am required to supply a fresh pair of hands for two items. Item one is to pass Director Ectomund's re-certification quiz. Item two is to find a hidden stash in the filing mazes.", "I would go myself, but policy forbids me to leave the desk, and in any case my legs are on loan to Accounts. I filed for their return some time ago, and I have not yet had a reply."],
@@ -75,9 +72,9 @@ lines = {
 "quest.dna_onboarding.done": ["You're officially one of us now, which I hope is all right. I wouldn't read the contract, though, if I were you. I read mine all the way through, once, and I've been in line ever since."],
 "quest.dna_onboarding.offer": ["You're new to the floor, aren't you? Then I'm ever so sorry, but there's mandatory onboarding. You punch in at the time clock by the front desk, and you pour yourself a cup from the breakroom machine, just here.", "Please don't skip it, if you don't mind my asking. HR lives in the walls here, and these days HR reports to him, so I try not to lean on anything. It feels a bit like telling them things."],
 "quest.dna_onboarding.ready": ["Oh, you've punched in, and you've had your coffee, and nobody's been written up for anything! That's your onboarding done, so here's your welcome kit.", "The welcome is really the main part of the kit, so: welcome. I hope that came out warmly. I've had years in the queue to practise it, and I've never had anybody to say it to until now."],
-"quiz.not_passed": ["That is not a pass. Study the signs and come back; there is no limit on attempts, and I will be here. I am always here."],
+"quiz.not_passed": ["That is not a pass. Study your cards and come back; there is no limit on attempts, and I will be here. I am always here."],
 "quiz.repeat": ["Re-certified again. For the paperwork, the Department pays you a small processing fee. It has never paid in that direction before."],
-"quiz.result.0": ["Zero. That is impressive in its own way, but it earns you nothing.", "Try again. The signs aren't going anywhere. Since the transfer, neither is anyone here."],
+"quiz.result.0": ["Zero. That is impressive in its own way, but it earns you nothing.", "Try again. The cards aren't going anywhere. Since the transfer, neither is anyone here."],
 "quiz.result.1": ["One correct, which earns you a token. I have noted your potential in the margin, in very small writing."],
 "quiz.result.2": ["Two. Half-credit, and half-credit is the highest honour a Necrocrat can hope for."],
 "quiz.result.3": ["Three correct, one shy of perfect. Take your reward; a perfect score would have made me suspicious."],
@@ -101,7 +98,7 @@ lines = {
 "sign.now_serving": ["NOW SERVING:", "THREE (since 1291)", "(Estimated wait for number four: 400 years. The Department of Necrotic Affairs appreciates your patience.)"],
 "sign.printer": ["PRINTER", "Out of toner. Out of body. Contact IT (deceased). Please specify which problem."],
 "sign.puzzle": ["FILE IN ORDER", "Seven cards. Lowest cost first. Nine swaps. Stamp when ready. Do not file them under Accounts Payable."],
-"sign.quiz": ["COMPLIANCE TESTING", "Annual re-certification: 4 questions. Failure is not an option. It is a form."],
+"sign.quiz": ["COMPLIANCE TESTING", "Annual re-certification: 4 questions on the Department's cards. Failure is not an option. It is a form."],
 "sign.records": ["RECORDS BASEMENT", "Every life, filed under 'Pending'."],
 "sign.filed_complaint": ["FILED COMPLAINT", "A complaint, filed in 1873, about the filing system. It is filed under C, for Complaint, and also under F, for Filing, and also under P, for Pending.", "The response is filed under R. The response is blank."],
 "shrine.used": ["The stamp has been used and the form is complete. Nothing else will be approved today, or any other day."],
@@ -236,24 +233,3 @@ lines = {
 "freed_npc.prudence": ["Prudence Pallor, Deputy Head of the Department. For ten years I stamped DENIED on everything, because the paperwork was valid and I was too tired to ask whether it was right. I am sorry for it.", "{villain} did not need to corrupt us, you know, because our own rules did the work for him. These days I read a thing properly first, and I stamp APPROVED on whatever deserves it.", "The stamp is a good deal lighter than I remembered. I don't suppose you have anything with you that I could approve?"],
 "freed_npc.mortimer": ["Mortimer Grimsby, formerly CE-No, currently number 4,000,214 in the Waiting Room of Eternity. Gerald was 4,000,212, and he has been very patient with me.", "You held 4,000,213, and you did not wait for it to be called. I find that I keep returning to that.", "I made others wait a great deal longer than you did, and every one of them was a person. I did not know that then, and it is considerably worse to know it now.", "The authorization was valid. I have begun to wonder whether that was ever the right question."],
 }
-quiz_questions = Array[Dictionary]([{
-"a": ["Department of Necrotic Affairs", "Division of Nocturnal Accounting", "Directorate of Newly Arrived", "Department of Neglected Alumni"],
-"correct": 0,
-"q": "What does the D.N.A. stand for?",
-"where": "sign.lobby_main, Lobby reception wall"
-}, {
-"a": ["\"Rest in Pieces\"", "\"Your Death, Our Priority.\"", "\"We Never Forget (Your Paperwork)\"", "\"Ask Again Tomorrow\""],
-"correct": 1,
-"q": "What is the Necrocrats' official motto?",
-"where": "sign.motto in the Lobby; memo.motto on the Cubicle Farm B board"
-}, {
-"a": ["Form 7-Q", "Form 13-B", "Form 99-Z", "Form 1-A"],
-"correct": 1,
-"q": "Which form is required to ride the elevator to the Records Basement?",
-"where": "sign.elevator_rule at the Elevator Bank; memo.records; Agnes Overdue's return dialogue"
-}, {
-"a": ["Mandatory Fun Day", "Mandatory Silence Hour", "Quarterly Haunting", "Casual Friday (Formal)"],
-"correct": 0,
-"q": "Which mandatory event is held every Friday?",
-"where": "sign.fun_day in the Lobby; memo.fun_day in Cubicle Farm A"
-}])

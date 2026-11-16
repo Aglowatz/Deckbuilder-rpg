@@ -278,7 +278,7 @@ func test_falling_costs_one_hp_and_is_logged() -> void:
 
 
 func test_hub_has_a_heal_spot_vendor_npcs_and_quests() -> void:
-	for kind: String in ["heal", "exit", "mini_dungeon", "main_dungeon", "puzzle", "quiz", "minigame", "vendor_npc"]:
+	for kind: String in ["heal", "exit", "mini_dungeon", "main_dungeon", "reward_chest", "quiz", "minigame", "vendor_npc"]:
 		var found: bool = false
 		for spot: Dictionary in def.spots:
 			if str(spot["kind"]) == kind:
@@ -418,19 +418,6 @@ func test_every_sign_npc_and_travel_text_exists_in_the_story_file() -> void:
 		assert_true(story.lines.has("travel.dest.%s" % point.dest_anchor), "destination name for %s" % point.dest_anchor)
 
 
-func test_the_quiz_has_four_questions_about_energy_and_transport_with_findable_answers() -> void:
-	assert_eq(story.quiz_questions.size(), 4)
-	var haystack: String = ""
-	for value: Variant in story.lines.values():
-		haystack += " ".join(PackedStringArray(value as Array)).to_lower() + "\n"
-	for question: Dictionary in story.quiz_questions:
-		assert_eq((question["a"] as Array).size(), 4)
-		var answer: String = str((question["a"] as Array)[int(question["correct"])]).to_lower().replace("\"", "").trim_suffix(".")
-		assert_true(haystack.contains(answer), "answer '%s' is on a sign or in the dialogue" % answer)
-	for key: String in ["quiz.result.0", "quiz.result.4", "quiz.not_passed"]:
-		assert_true(story.lines.has(key))
-
-
 # ---- Interactables -----------------------------------------------------------------------------------------------
 
 
@@ -496,80 +483,14 @@ func test_running_the_wheel_powers_the_grid_once() -> void:
 # ---- The power-routing puzzle ---------------------------------------------------------------------------------------
 
 
-func test_the_power_puzzle_has_exactly_one_solution() -> void:
-	var found: Array[Array] = WheelPuzzle.solutions()
-	assert_eq(found.size(), 1, "exactly one of the 729 switch settings powers all three machines")
-	var all_off: Array[int] = [0, 0, 0, 0, 0, 0]
-	assert_false(WheelPuzzle.is_solved(all_off))
-	var solution: Array[int] = []
-	solution.assign(found[0] as Array)
-	assert_true(WheelPuzzle.is_solved(solution))
-	assert_eq(WheelPuzzle.delivered(solution), WheelPuzzle.TARGET)
-	assert_lte(WheelPuzzle.running(solution), WheelPuzzle.MAX_RUNNING)
-
-
-func test_every_wheel_feeds_two_different_machines() -> void:
-	for wheel: int in range(WheelPuzzle.WHEELS):
-		assert_ne(WheelPuzzle.WIRING[wheel][0], WheelPuzzle.WIRING[wheel][1])
-		assert_eq(WheelPuzzle.machine_of(wheel, 0), -1)
-
-
-func test_running_too_many_wheels_never_solves_it() -> void:
-	var solution: Array[int] = []
-	solution.assign(WheelPuzzle.solutions()[0] as Array)
-	var lazy: Array[int] = solution.duplicate()
-	for wheel: int in range(WheelPuzzle.WHEELS):
-		if lazy[wheel] == 0:
-			lazy[wheel] = 1
-	assert_false(WheelPuzzle.is_solved(lazy))
-
-
 func test_the_puzzle_gives_the_gainlands_equipment_through_the_def() -> void:
-	assert_eq(def.puzzle_kind, "wheels")
+	assert_eq(def.puzzle_kind, "chest")
 	assert_eq(def.puzzle_equipment_id, "swole_belt")
 	assert_not_null(Session.content.equipment_piece(def.puzzle_equipment_id))
 	assert_ne(def.flag_puzzle_solved, DnaZone.FLAG_PUZZLE_SOLVED, "a separate one-time flag from the D.N.A.'s")
 
 
 # ---- The Rep Counter minigame --------------------------------------------------------------------------------------
-
-
-func test_rep_game_judges_by_timing() -> void:
-	assert_eq(RepGame.rate(0.0), RepGame.Rating.PERFECT)
-	assert_eq(RepGame.rate(-0.05), RepGame.Rating.PERFECT)
-	assert_eq(RepGame.rate(0.15), RepGame.Rating.GOOD)
-	assert_eq(RepGame.rate(0.3), RepGame.Rating.OK)
-	assert_eq(RepGame.rate(0.5), RepGame.Rating.MISS)
-
-
-func test_a_flawless_set_is_24_points_and_three_stars() -> void:
-	var presses: Array[float] = []
-	for beat: float in RepGame.BEATS:
-		presses.append(beat)
-	var game: RepGame = RepGame.play(presses)
-	assert_eq(game.points(), RepGame.max_points())
-	assert_eq(game.points(), 24)
-	assert_eq(game.stars(), 3)
-	assert_true(game.is_finished())
-
-
-func test_never_pressing_is_eight_misses_and_no_stars() -> void:
-	var game: RepGame = RepGame.play([] as Array[float])
-	assert_eq(game.points(), 0)
-	assert_eq(game.stars(), 0)
-	assert_eq(game.ratings.size(), RepGame.REPS)
-
-
-func test_star_thresholds_and_stray_taps() -> void:
-	assert_eq(RepGame.stars_for(19), 2)
-	assert_eq(RepGame.stars_for(20), 3)
-	assert_eq(RepGame.stars_for(14), 2)
-	assert_eq(RepGame.stars_for(13), 1)
-	assert_eq(RepGame.stars_for(8), 1)
-	assert_eq(RepGame.stars_for(7), 0)
-	var game: RepGame = RepGame.new()
-	assert_eq(game.press(0.2), -1, "a tap far before the first beat is ignored")
-	assert_eq(game.next_rep, 0)
 
 
 func test_rewards_depend_on_stars_and_the_first_clear_bonus_is_one_time() -> void:
@@ -593,3 +514,16 @@ func test_the_minigame_is_a_different_type_from_the_memory_game() -> void:
 	assert_eq(def.minigame_kind, "reps")
 	assert_ne(def.minigame_kind, ZoneDefs.get_def(DnaZone.ID).minigame_kind)
 	assert_ne(def.flag_minigame_first, DnaZone.FLAG_MATCH_FIRST)
+
+
+## Fable Nov 16c: the hamster-wheel Power Grid puzzle is gone; its belt lies in a strongbox at the same spot.
+func test_the_power_grid_is_a_reward_chest_now() -> void:
+	assert_eq(def.puzzle_kind, "chest")
+	var found: bool = false
+	for spot: Dictionary in def.spots:
+		if str(spot["id"]) == "puzzle":
+			found = true
+			assert_eq(str(spot["kind"]), "reward_chest")
+	assert_true(found)
+	assert_false(story.lines.has("wheel.intro"), "the panel's text is gone")
+	assert_string_contains(" ".join(story.get_lines("sign.puzzle")), "STRONGBOX")

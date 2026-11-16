@@ -121,7 +121,7 @@ class Prop:
 	## Food Kit based: "broccoli", "cauliflower", "fork", "knife", "spoon", "cake", "donut", "pie", "pancakes",
 	## "cheese", "loaf", "plate", "pot", "mug", "shaker", "lollipop", "jar", "cupcake", "layer_cake", "icecream",
 	## "pudding"; procedural: "stall", "oven", "fountain", "table", "gazebo", "stage", "freezer", "kitchen_door",
-	## "arch", "stew_pot", "wheel", "salt_flat", "candy_jar", "bread_hollow", "counter", "cabinet", "signal"
+	## "arch", "wheel", "salt_flat", "candy_jar", "bread_hollow", "counter", "cabinet", "signal"
 	var kind: String = ""
 	var pos: Vector3 = Vector3.ZERO
 	var yaw: float = 0.0
@@ -664,7 +664,6 @@ func _features() -> void:
 	_prop("cheese_wheel", 8.5, 24.0, 10.0, 1.2, 3.0, 2)
 	_prop("cheese_wheel", 31.0, 16.5, 0.0, 0.9, 2.3, 1)
 	# Pancake Plateau: stacks of pancakes and the mystery stew pot on the summit.
-	_prop("stew_pot", 82.0, 12.0, 0.0, 1.0, 1.9)
 	_prop("pancake_stack", 70.0, 10.0, 0.0, 1.0, 2.4, 0)
 	_prop("pancake_stack", 85.0, 27.5, 0.0, 0.9, 2.1, 1)
 	_prop("pancake_stack", 68.0, 26.0, 0.0, 0.8, 1.9, 2)

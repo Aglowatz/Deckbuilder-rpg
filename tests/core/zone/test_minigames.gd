@@ -12,24 +12,6 @@ func before_each() -> void:
 	story = ZoneStoryText.shared()
 
 
-func test_quiz_has_four_questions_each_with_a_valid_correct_answer() -> void:
-	assert_eq(story.quiz_questions.size(), 4)
-	for question: Dictionary in story.quiz_questions:
-		assert_eq((question["a"] as Array).size(), 4)
-		assert_between(int(question["correct"]), 0, 3)
-
-
-func test_every_quiz_answer_is_discoverable_in_the_zone_text() -> void:
-	# The correct answer's key words must appear in at least one sign/memo/NPC line.
-	var haystack: String = ""
-	for key: Variant in story.lines.keys():
-		haystack += " ".join(story.get_lines(str(key))).to_lower() + " "
-	for question: Dictionary in story.quiz_questions:
-		var answer: String = str((question["a"] as Array)[int(question["correct"])]).to_lower().replace("\"", "")
-		var needle: String = answer.trim_suffix(".")
-		assert_true(haystack.contains(needle), "answer '%s' appears in the zone's signs/memos/dialogue" % needle)
-
-
 func test_quiz_first_pass_reward_scales_and_failing_pays_nothing() -> void:
 	assert_eq(int(QuizRules.payout(story, 2, false)["gold"]), 0, "below the pass mark pays nothing")
 	assert_gt(int(QuizRules.payout(story, 4, false)["gold"]), int(QuizRules.payout(story, 3, false)["gold"]), "a better first pass pays more")
@@ -50,15 +32,6 @@ func test_quiz_first_pass_pays_large_then_every_attempt_pays_small() -> void:
 	QuizRules.apply(story, 4)
 	assert_eq(Session.gold - after_large, small * 2, "and again, forever")
 	assert_true(Session.flag(DnaZone.FLAG_QUIZ_DONE))
-
-
-func test_quiz_scoring() -> void:
-	var answers: Array[int] = []
-	for question: Dictionary in story.quiz_questions:
-		answers.append(int(question["correct"]))
-	assert_eq(QuizRules.score(story, answers), 4)
-	answers[0] = (answers[0] + 1) % 4
-	assert_eq(QuizRules.score(story, answers), 3)
 
 
 func test_match_game_has_eight_pairs_and_matching_works() -> void:

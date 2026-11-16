@@ -205,8 +205,10 @@ func test_pack_shop() -> void:
 
 
 func test_minigames() -> void:
-	var screens: Array[OverlayScreen] = [QuizScreen.new(), CardMatchScreen.new(), GrowthGridScreen.new(), MatchGameScreen.new(), OrderGameScreen.new(),
-		RecipePuzzleScreen.new(), RepGameScreen.new(), SortGameScreen.new(), TubePuzzleScreen.new(), RepsCardScreen.new(), OrderCardScreen.new(), SortCardScreen.new(), FileCardScreen.new()]  # (the Gainlands wheel panel reads its zone's text, so it needs a zone run: covered by the gamepad smoke)
+	# Fable Nov 16c: the old non-card screens are deleted; the card quiz joins the four card minigames.
+	var quiz: CardQuizScreen = CardQuizScreen.new()
+	quiz.zone_id = "beefcake"
+	var screens: Array[OverlayScreen] = [quiz, CardMatchScreen.new(), MatchGameScreen.new(), RepsCardScreen.new(), OrderCardScreen.new(), SortCardScreen.new(), FileCardScreen.new()]
 	for screen: OverlayScreen in screens:
 		var what: String = screen.get_script().get_global_name()
 		add_child(screen)
