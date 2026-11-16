@@ -102,7 +102,8 @@ func play_cleared(zone_id: String) -> void:
 			if alive != null:
 				tween.parallel().tween_property(alive, "scale", Vector3(1.04, 0.03, 1.0), 1.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 				tween.tween_callback(func() -> void: alive.visible = false)
-			_add_parted_circles(mover.get_parent() as Node3D, zone_id)
+			if not mover.has_meta(&"gate"):
+				_add_parted_circles(mover.get_parent() as Node3D, zone_id)
 		Gatekeepers.Obstacle.THORNS:
 			Audio.sfx(&"chest_open")
 			for part: Node in mover.find_children("*", "MeshInstance3D", true, false):
@@ -261,8 +262,107 @@ func _process(delta: float) -> void:
 			node.scale = Vector3(1.0 + BREATH_AMOUNT.x * phase, 1.0 + BREATH_AMOUNT.y * phase, 1.0)
 
 
+## Fable Nov 16b (Part 3): the Dump's entrance is a real gate. The thorn wall painting showed two old trees side by side as one flat card
+## beside the path. Its three parts are now separate pieces (tools/art/dump_gate_pieces.py cuts them from the approved painting): the two
+## trees stand on either side of the path the hero comes up from town, a few steps before the travel prompt, leaning in until their
+## branches cross over it; the thorns alone ("Alive") lie across the forest road until Moss Mulligan is beaten, and are gone afterwards
+## (the withered card with its two tree halves, the old "Dead", is not shown any more).
+const GATE_TREE_LEFT: String = "KIT-HEAP-GATE-TREE-L"
+const GATE_TREE_RIGHT: String = "KIT-HEAP-GATE-TREE-R"
+const THICKET_ART: String = "KIT-HEAP-THORN-THICKET"
+const THICKET_HEIGHT: float = 3.7
+const GATE_TREE_HEIGHT: float = 6.3
+## The gate's middle, from the travel spot (the road's arrival anchor): south of it, on the path from town (metres; +z is south).
+const GATE_FROM_SPOT: Vector3 = Vector3(0.6, 0.0, 4.4)
+## Each trunk's distance from the path's middle, its lean toward the other (degrees) and its turn toward the path (degrees).
+const GATE_HALF_WIDTH: float = 2.0
+const GATE_LEAN: float = 12.5
+const GATE_TURN: float = 14.0
+const GATE_TRUNK_RADIUS: float = 0.62
+## How much a gate tree thins when the hero stands behind it, and how far beside the card that still counts (metres).
+const GATE_FADE: float = 0.5
+const GATE_FADE_REACH: float = 0.2
+
+## The gate's two trees ("Left", "Right"), for the tests and the shots.
+var dump_gate: Node3D
+
+
+static func gate_pieces() -> bool:
+	for id: String in [GATE_TREE_LEFT, GATE_TREE_RIGHT, THICKET_ART]:
+		if not EnvKit.has(id) or not EnvKit.has_art(id):
+			return false
+	return true
+
+
+## Where the gate's middle is in the world.
+static func dump_gate_centre(town: TownBuilder) -> Vector3:
+	return (town.anchors.get("portal_%s" % HeapZone.ID, Vector3.ZERO) as Vector3) + GATE_FROM_SPOT
+
+
+## The same place from the town's constants (for the builders that plant trees before the anchors exist).
+static func gate_centre() -> Vector3:
+	var cell: Vector2i = TownBuilder.PORTAL_CELLS[HeapZone.ID] as Vector2i
+	return HexGrid.cell_to_world(cell.x, cell.y) * TownBuilder.SCALE - (TownBuilder.PORTAL_OUT[HeapZone.ID] as Vector3) * TownBuilder.PORTAL_ENTRY + GATE_FROM_SPOT
+
+
+## No tree stands in the gate or between it and the camera (the camera looks north: from just behind the gate line to six and a half metres
+## south of it, a little wider than the gate), so both gate trees and the path through them show from wherever the hero walks up.
+static func in_gate_view(pos: Vector3) -> bool:
+	var gate: Vector3 = gate_centre()
+	return absf(pos.x - gate.x) < GATE_HALF_WIDTH + 2.4 and pos.z > gate.z - 2.2 and pos.z < gate.z + 6.5
+
+
+func _build_dump_gate() -> void:
+	if _town == null:
+		return  # (a wall built on its own, in a test: no town to stand the gate in)
+	dump_gate = Node3D.new()
+	dump_gate.name = "DumpGate"
+	add_child(dump_gate)
+	dump_gate.position = dump_gate_centre(_town)
+	for spec: Array in [[GATE_TREE_LEFT, "Left", -1.0], [GATE_TREE_RIGHT, "Right", 1.0]]:
+		var side: float = float(spec[2])
+		var tree: Node3D = ZoneClusters.card_prop(str(spec[0]), GATE_TREE_HEIGHT, true)
+		if tree == null:
+			continue
+		tree.name = str(spec[1])
+		# The trunk stands at the card's outer third (the branch reaches inward): the card is moved so the trunk is at the half-width.
+		var width: float = GATE_TREE_HEIGHT * EnvKit.aspect(str(spec[0]))
+		tree.position = Vector3(side * (GATE_HALF_WIDTH - width * 0.2), 0.0, -0.3 * side)
+		tree.rotation = Vector3(0.0, deg_to_rad(-GATE_TURN * side), deg_to_rad(GATE_LEAN * side))
+		dump_gate.add_child(tree)
+		for mesh: Node in tree.find_children("*", "MeshInstance3D", true, false):
+			(mesh as Node3D).set_meta(&"no_range_cull", true)
+			(mesh as Node3D).set_meta(&"no_wind", true)
+		# A tree card between the camera and the hero fades almost away (the card shader's own rule: 86 % inside a corridor as wide as the
+		# card and 1.6 m more). The gate is a landmark the hero walks through and stands behind at the travel prompt: it would vanish there.
+		# Its own copy of the material thins it by half at most, and only when the hero is right behind the card.
+		var body: MeshInstance3D = tree.get_node_or_null("Body") as MeshInstance3D
+		if body != null and body.material_override is ShaderMaterial:
+			var own: ShaderMaterial = (body.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+			own.set_shader_parameter("fade_strength", GATE_FADE)
+			own.set_shader_parameter("fade_reach", GATE_FADE_REACH)
+			body.material_override = own
+			KitFoliage.follow_hero(own)
+		var trunk: Vector3 = dump_gate.position + Vector3(side * GATE_HALF_WIDTH, 0.0, -0.3 * side)
+		_town.obstacles.append(Vector3(trunk.x, trunk.z, GATE_TRUNK_RADIUS))
+
+
 func _painted_thorns(holder: Node3D, is_cleared: bool) -> void:
 	holder.set_meta(&"painted", true)
+	if gate_pieces():
+		holder.set_meta(&"gate", true)
+		var thicket: Node3D = ZoneClusters.card_prop(THICKET_ART, THICKET_HEIGHT, true)
+		thicket.name = "Alive"
+		thicket.visible = not is_cleared
+		holder.add_child(thicket)
+		if not is_cleared:
+			_breathers.append(thicket)
+		var gone: Node3D = Node3D.new()
+		gone.name = "Dead"
+		gone.visible = is_cleared
+		holder.add_child(gone)
+		_build_dump_gate()
+		return
 	for state: Array in [[THORN_ART, "Alive"], [THORN_ART_DEAD, "Dead"]]:
 		var card: Node3D = ZoneClusters.card_prop(str(state[0]), THORN_ART_HEIGHT, true)
 		if card == null:
@@ -425,7 +525,7 @@ func _seal(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	body.set_meta(&"no_wind", true)
 	root.add_child(body)
 	if is_cleared:
-		if kind == Gatekeepers.Obstacle.THORNS and painted_thorns():
+		if kind == Gatekeepers.Obstacle.THORNS and painted_thorns() and not gate_pieces():
 			_add_parted_circles(root, zone_id)  # Import Nov 8: the withered wall is parted, its sides stay solid
 		return
 	var shut: Array = []

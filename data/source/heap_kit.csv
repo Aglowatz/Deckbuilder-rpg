@@ -74,3 +74,6 @@ KIT-HEAP-THORNWALL,"Breathing thorn wall",Prop,CUTOUT,"See docs/art/art_needed_n
 KIT-HEAP-THORNWALL-DEAD,"Withered thorn wall (parted)",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).","1536x1024 PNG, transparent","Moss Mulligan's gate (HeapGate thorn wall)",2,Approved
 DUMP-HERO-RACCOON-STATUE,"Raccoon king statue",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","768x1024 PNG, transparent","The statue by the Rotheart's gate",2,Approved
 DUMP-PROP-MILL-SAILS,"Mill sails",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","1024x1024 PNG, transparent","The windmill's sails (spinning)",2,Approved
+KIT-HEAP-GATE-TREE-L,"Gate tree (left)",Prop,CUTOUT,"Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b).","494x980, transparent","The Dump gate in Crosspath: the old tree on the left of the path",2,Approved
+KIT-HEAP-GATE-TREE-R,"Gate tree (right)",Prop,CUTOUT,"Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b).","499x926, transparent","The Dump gate in Crosspath: the old tree on the right of the path",2,Approved
+KIT-HEAP-THORN-THICKET,"Breathing thorn thicket",Prop,CUTOUT,"Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b).","1027x795, transparent","The thorns across the forest road until Moss Mulligan is beaten",2,Approved

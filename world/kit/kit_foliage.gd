@@ -45,6 +45,13 @@ static func set_hero(pos: Vector3) -> void:
 			material_value.set_shader_parameter("hero_pos", pos)
 
 
+## A card material made outside `card_material` (a copy with its own fade settings) that should still know where the hero is.
+static func follow_hero(material_value: ShaderMaterial) -> void:
+	if material_value != null and not _card_materials.has(material_value):
+		material_value.set_shader_parameter("hero_pos", _hero)
+		_card_materials.append(material_value)
+
+
 static func hero_pos() -> Vector3:
 	return _hero
 

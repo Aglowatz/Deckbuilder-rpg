@@ -494,8 +494,8 @@ func _mark_line(start: Vector3, dir: Vector3, length: float) -> void:
 
 
 func _tree(kind: String, pos: Vector3, scale_value: float) -> void:
-	if not TreeCards.KINDS.has(kind):
-		return
+	if not TreeCards.KINDS.has(kind) or HubObstacles.in_gate_view(pos):
+		return  # (Fable Nov 16b, Part 3: no boundary tree in the Dump's tree gate or in front of it)
 	blockers.append(pos)
 	if not _trees.has(kind):
 		_trees[kind] = [] as Array[Dictionary]

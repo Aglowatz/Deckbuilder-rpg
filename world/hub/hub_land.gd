@@ -695,6 +695,8 @@ func _add_tree(kind: String, pos: Vector3, scale_value: float) -> void:
 		return
 	if kind != "sunflower" and kind != "dump_reed" and blocks_view(pos):
 		return
+	if HubObstacles.in_gate_view(pos):
+		return  # Fable Nov 16b (Part 3): nothing in the Dump's tree gate or in front of it
 	if not _trees.has(kind):
 		_trees[kind] = [] as Array[Dictionary]
 	(_trees[kind] as Array[Dictionary]).append({"pos": Vector3(pos.x, GROUND_Y, pos.z), "scale": scale_value})

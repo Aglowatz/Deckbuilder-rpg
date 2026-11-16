@@ -57,6 +57,21 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
 12. **Three of the four games have no painted room** (only MG-BG-GYM exists): they use the zone's loading painting, blurred, behind
     a wood and brass frame. Batch 17 rows are added for the three rooms (Part 7).
 
+13. **The Dump's gate stands on the path from town, not across the forest road.** The camera looks north and the forest road leaves
+    west, so an arch across that road is always seen edge-on (that is why the old card was turned to face you and stood beside the
+    path). The two trees now straddle the path you walk up from town, 4.4 m before the travel prompt: you walk north through the
+    arch and reach the prompt, the sign and Moss Mulligan behind it. Say if you want it somewhere else: `HubObstacles.GATE_FROM_SPOT`.
+14. **The gate's pieces are cut from the approved thorn wall painting, nothing is newly painted.** `tools/art/dump_gate_pieces.py`
+    separates the left tree, the right tree and the violet thorns (three kit pieces). While the road is sealed the thorns alone lie
+    across the forest road; **once Moss Mulligan is beaten nothing stands there** (the withered, parted card was the flat with two
+    tree halves, so it is no longer shown). A withered thicket without trees would be a small Batch 17 picture; row added.
+15. **I did not find a boulder to move.** The dark shape in front of the old card in your screenshot is a hedge clump of the
+    boundary; it does not cover the new gate. No tree is planted in the gate or within 6.5 m in front of it any more. One small
+    pine still stands by the left tree's foot from the highest camera: it comes from a planter I could not identify in the time
+    I gave it, and it does not hide the arch.
+16. **A gate tree thins by half while the hero stands right behind it** (every other tree card fades almost away there, and the
+    gate vanished exactly at the travel prompt). Say if you would rather it never thinned.
+
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov16`.
