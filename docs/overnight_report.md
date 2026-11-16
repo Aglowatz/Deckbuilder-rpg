@@ -1,3 +1,197 @@
+# Fable Nov 16 (day) - report: clean-up, Deck Station, four card minigames, the Dump gate, the vault, the Buffet's edges
+
+Brief: `docs/prompts/fable_nov16_day.md`. Start tag `pre-fable-nov16b`. Questions: `docs/overnight_inbox.md`, "Fable Nov 16b"
+(28 items). Shots: `docs/overnight_shots/nov16b/`. No public upload. No difficulty setting, the battle board untouched, Primm's fight
+untouched, no new painted art. Ran on Fable 5.2. The Overnight Nov 15-16 report follows below.
+
+## In short
+
+- **Disk:** 20.1 GB freed (12.8 GB free before, 32.9 GB after). One empty folder is left for you (see below).
+- **Deck Station:** the deck list is a narrow column down the whole right side. A 62-card deck shows whole at 1920x1080 (it showed
+  one row before); 23 rows at a 130 % UI scale.
+- **Four card minigames** replace one non-card game per Path zone, at the same spot, host and rewards: Reps, Order Up, Sort It Out,
+  File in Order. **The trivia in the four zones and the other three puzzles are not replaced** (inbox 7: your call).
+- **The Dump's entrance** in Crosspath is an arch of two trees over the path, walked through to the travel prompt.
+- **The Four Seals** is a small cellar door in a grassy bank with four iron seals (padlock, then the Path's icon), and a gold-framed
+  toast replaces the lever's cutaway.
+- **The Buffet:** gravy all round the table at the ground's edge, and a food forest to the east horizon.
+- **Tests:** **the full suite did not finish.** Shards 1 to 20 of 41 ran: 1959 of 1960 passed, 0 failing. Then the session's memory guard stopped the run. Every test file touching today's work passed when run on its own. The three walk smokes and the NPC probe pass.
+- **The zip:** **not rebuilt.** `builds\TheWaywardPath-v1.0.0-windows.zip` is still last night's build (04:21) and has none of today's work in it.
+
+## What you must still do
+
+0. **Finish Part 6 yourself, or ask me to.** With the other programs closed:
+   `bash tools/run_tests.sh --from=21 --min-free=900` (shards 21 to 41, about 30 minutes), then
+   `bash tools/export_windows.sh 1.0.0` (or with `EXPORT_LOW_MEMORY_OK=1` in front), then
+   `bash tools/run_release_smoke_exported.sh` and the three `tools/play_exported.sh` checks. To stop the guard killing long runs,
+   start Claude Code with `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1` set in its environment.
+1. **Remove one empty folder.** Close the ChatGPT app, then run:
+   `Remove-Item -Recurse -Force "C:\Users\asche\Documents\Codex"`
+   (`...\Codex\2026-11-15\files-mentioned-by-the-user-batch` was held open by another program; everything in it is already gone.)
+2. **Decide inbox 7:** whether the classroom trivia (four zones) and the three other puzzles (hamster wheels, stew pot, garden)
+   should also go, and what should stand there.
+3. **Look at four places where taste matters:** the gate's position on the path from town (inbox 13), the cellar door staying
+   where the vault stood (inbox 17), the Buffet's north side without its layer-cake rim (inbox 23), and the hosts' rewritten lines
+   (inbox 10).
+4. **Play one round of each new game** with a mouse and with a controller. They are tested by code and by screenshots, not by hand.
+5. **Batch 17** grew by 7 items (21 items, 65 images). The new references are not on the Drive yet:
+   `python tools/art/batch17_build.py` copies them.
+
+## Part 0 - disk space
+
+| | Free on C: |
+|---|---|
+| Before | 12.8 GB (13,766,610,944 bytes) |
+| After | 32.9 GB (35,341,123,584 bytes) |
+| **Freed** | **20.1 GB** |
+
+Deleted: the seven old zips in `builds/`, `builds/_export/`, `builds/_testpack/`, and everything inside `_movie/`, `_screenshots/`
+(11 GB), `_art_inbox/`, `_art_source/`, `_logs/` and `Documents\Codex\`. Kept: `builds/TheWaywardPath-v1.0.0-windows.zip`,
+`builds/trailer_rc1.mp4`, `.godot/`, `.git/`, `_asset_library/`, `build_cache/`, everything git tracks.
+
+The five scratch folders are emptied, not removed: 169 tool and test files name `_screenshots/` and 28 name `_logs/`, and some
+write there without creating the folder first. Nothing a tool or test reads back was in them.
+
+## Part 1 - the Deck Station's deck list
+
+| | Before | After |
+|---|---|---|
+| 1920x1080 | `p1_deck_before_1080.png`: one card row under a big header | `p1_deck_after_1080.png`: every row of a 62-card deck |
+| 1280x720 | `p1_deck_before_720.png` | `p1_deck_after_720.png` |
+| 115 % / 130 % UI scale | held at 100 % | `p1_deck_after_115.png`, `p1_deck_after_130.png`: 23 rows |
+| Large text | | `p1_deck_after_large_text.png` |
+| A row hovered | | `p1_deck_after_hover.png`: the card beside the row |
+
+- **Shape:** a column the screen's whole height, right of the slot racks. The collection took the freed width: 8 cards a row (7).
+- **A row:** cost, Path icon, name, copies ("2/3"), - and +. Groups by type (Units, Spells, Tools, Traps, Wonders,
+  Infrastructure), each with a small header and its count. A gold scrollbar when the deck is longer than the column.
+- **Header:** the deck's name, the five slot buttons, three rule checks (cards / at least 45, copy caps, Paths), the cost curve.
+- **Footer:** Save Deck, Save as new slot, Reset, Fill Infrastructure, Suggest a deck.
+- **Removed:** the Primm hint and the two summary lines. The "Tip: Building a deck" pop-up stays, moved clear of the column.
+- **Controller:** down from the first row passes every row and reaches the footer; right of a row's - is its +. A bug fixed on
+  the way: after the first + or -, no row could be focused again.
+- **Deck logic:** unchanged. The row buttons call the same add and remove as before.
+
+## Part 2 - four card minigames
+
+**Inventory.** Each Path zone has a replayable minigame with a host, a one-time puzzle, a trivia quiz and Dex's card-matching
+table. The D.N.A.'s replayable game (Kyle's) is card matching too. Kept exactly: Dex's four tables and Kyle's game. Replaced: the
+three replayable non-card games and, in the D.N.A., the tube puzzle from your screenshot. Not replaced: the trivia and the other
+three puzzles (inbox 7).
+
+| Zone | Game | Replaces | Rules | Reward (same as the game it replaces) |
+|---|---|---|---|---|
+| Gainlands | **Reps** | Rep Counter, Chet Thunderabs | One unit face up. Is the next card's power higher or lower? A tie is right. Eight in a row wins; a miss resets the streak; the fourth miss ends the set | First win: up to 210 gold, 70 XP, a Healing Salve, a Beefcake Pack. Later wins: up to 50 gold, 5 XP |
+| Endless Buffet | **Order Up** | Order Up!, Chef Flambe | A ticket shows a total; pick cards from a row of six whose costs add up to it exactly. Three tickets; two swaps of the row; the third wrong plate ends the shift | First win: up to 210 gold, 70 XP, a Scroll of Insight, a Gourmand Pack. Later: up to 50 gold, 5 XP |
+| Verdant Dump | **Sort It Out** | Sort It Out!, Recycle Rhonda | Twenty cards on a belt; send each to the bin of its type (Unit, Spell, Infrastructure, Other) before it falls off. Sixteen wins; the fifth lost card stops the belt. It speeds up gently (9 s a card at the start, 6.7 s at the end) | First win: up to 210 gold, 70 XP, a Healing Salve, a Refusemancer Pack. Later: up to 50 gold, 5 XP |
+| D.N.A. | **File in Order** | Pneumatic Soul Routing, the Mail Room's terminal | Seven cards; put them in ascending cost (ties by power) by swapping two at a time, nine swaps at most. The stamp checks: the first wrong check is free and marks the cards out of place, the second is REJECTED | The Soul Courier's Lanyard, once. Replays pay nothing |
+
+Stars count slips in a won game: none 3, one or two 2, more 1. The gold above is for 3 stars.
+
+**Every game** uses the game's real cards (the zone's Path plus colourless), opens on a one-screen "How to play" with three lines
+and a looping example, has a "?" to reopen it, ends on a win or lose panel with the reward, and can be played with mouse, keys or
+controller. Reps sits on the painted gym; the other three on their zone's loading painting, blurred, in a wood and brass frame.
+
+**Winnable on a first try:** Reps deals in the player's favour (someone who only guesses away from the nearer edge wins 84 % of
+first sets; a coin flip wins 8 %). Every Order Up row holds a right answer, also after a swap. Seven cards never need more than
+six swaps. Sort It Out allows four lost cards.
+
+**Shots** (`p2_<game>_...png`, game = `reps`, `order`, `sort`, `file`): `_how`, `_mid`, `_win`, `_lose`, `_mid_720`,
+`_mid_large_text`: 24 pictures.
+
+**Also changed:** 18 lines of the hosts and signs that described the old rules; the D.N.A. spot is "Mail Room Filing Terminal".
+No quest, feat or glossary entry named the old games. **Tests:** 17 for the rules, 12 for the screens. Rules and decisions:
+`docs/design/card_minigames.md`.
+
+## Part 3 - the Dump's entrance from Crosspath
+
+| | Before | After |
+|---|---|---|
+| Default camera | `p3_gate_before_default.png`: two trees side by side as one flat card beside the path | `p3_gate_after_default.png` |
+| Low camera | `p3_gate_before_low.png` | `p3_gate_after_low.png`: the arch over the path |
+| At the travel prompt | `p3_gate_before_at_prompt.png` | `p3_gate_after_at_prompt.png`, `p3_gate_after_at_prompt_low.png` |
+| Road still sealed | | `p3_gate_after_sealed.png`: the thorns alone across the forest road |
+
+- One tree stands on each side of the path from town, turned toward it and leaning in 12.5 degrees; the tops cross over the path.
+- The hero walks north through the arch to the travel prompt, the sign and Moss Mulligan, 4.4 m behind it.
+- The flat two-tree card is not built any more. The three pieces are cut from the approved painting; nothing is newly painted.
+- No tree is planted in the gate or within 6.5 m in front of it. I found no boulder that covers it (inbox 15).
+
+## Part 4 - the Four Seals
+
+| | Before | After |
+|---|---|---|
+| Locked | `p4_vault_before_locked.png` | `p4_vault_after_locked.png`, `p4_vault_after_locked_low.png` |
+| 2 of 4 | `p4_vault_before_2of4.png` | `p4_vault_after_2of4.png`, `p4_vault_after_2of4_low.png` |
+| 4 of 4 | | `p4_vault_after_4of4_low.png`: doors ajar, the quest marker, the map icon |
+| Open (the Warden beaten) | | `p4_vault_after_open.png`, `p4_vault_after_open_low.png` |
+| The toast | | `p4_toast.png` |
+
+- **Placement:** a 1.75 m cellar door in a grassy bank (the old frame stood 4.75 m), a hedge on each side, an apple tree half in
+  front, stepping stones up to it. Fieldstone, planks, beams, hedge and grass from the town's painted set. No purple.
+- **Seals:** four round iron seals with a padlock. When a zone's lever is pulled, its seal turns to that Path's icon, with a small
+  warm glow and a clunk, the next time the hero comes within 9 m. No colour lights; locked seals are identical. With all four the
+  doors stand ajar; after the Warden they stand open.
+- **Toast:** the Path's icon on an iron seal, "A seal turns in Crosspath", one line, "2 of 4" with four pips. About six seconds, or
+  until clicked. The lever no longer holds the hero for three seconds.
+- **Map and marker:** on the map and minimap from the first lever on (a padlock and the count). The quest step and its place line
+  are reworded.
+
+## Part 5 - the Buffet's edges
+
+| | Before | After |
+|---|---|---|
+| Front edge | `p5_before_front.png`, `_low` | `p5_after_front.png`, `_low` |
+| East side | `p5_before_east.png`, `p5_before_east_north.png`, `_low` | `p5_after_east.png`, `p5_after_east_north.png`, `_low` |
+| Entrance | `p5_before_entrance.png`, `_low` | `p5_after_entrance.png`, `_low` |
+
+- **Water:** the gravy lies all round the table at the river's level, 0.38 m under zero (the moat lay 2.6 m down, south side
+  only). No slab side, step or blank band. A short wet shore runs under it; pebbles and crumbs lie along the water line; the shared
+  water shader draws the foam.
+- **East forest:** about 900 broccoli and cauliflower trees in four layers to the horizon, leeks and herbs at the front, cake
+  stands, cloches and stock pots as boulders, on painted crumb soil. The gravy river runs on through it. It stands outside the
+  table: nobody can walk there, and nothing on the table is behind a tree.
+- **Alive:** 8 steam plumes, 9 butterflies, 4 birds, 14 warm light patches, swaying leaves. Low builds none of the first four.
+- **Frame rate on Medium** (average fps, before -> after): beside the forest 102 -> 92, the front edge 83 -> 83, the bridge 86 -> 83.
+
+## Part 6 - checks and build
+
+| Check | Result |
+|---|---|
+| Crosspath walk smoke | **Pass** (the loop, 7 shop doors, the alley, the lakeshore, the hatch) |
+| Buffet walk smoke | **Pass** (bridge to plaza, every NPC and game, the Freezer, the Test Kitchen, back to town) |
+| Dump walk smoke | **Pass** |
+| NPC visibility probe | **Pass**: 150 checks, 0 failed |
+| Full test suite | **Not finished.** Shards 1 to 20 of 41: 1959 of 1960 passed, 0 failing (the one other is an old no-assert test). The run was in the background and the session's memory guard stopped it at shard 21 (1.1 GB of RAM free). I did not start it again: the guard's notice says not to |
+| Export 1.0.0, the exported smoke, the three play checks | **Not run.** I did not build a release on a suite that had not finished |
+
+**What did run for today's code.** Each of these test files passed on its own, in a fresh process: the Deck Station column (6) and
+slots (6), the card games' rules (17) and screens (12), the Dump gate (5), the Four Seals (8) and the vault guardian (9), the
+Buffet's edges (5) and its older slice tests (18), plus the screen-fit, controller-focus (19), music (23), Batch 13 (10), hub world
+(5), Nov 14 (19) and Nov 15b (4) files they touch. Two caveats: the controller-focus, music and compile-every-script files ran after
+Part 2 and not again after Parts 3 to 5; and the UI and world test folders sit in shards 21 to 41, so only the files named here
+are covered from those.
+
+**The zip.** `C:\Dev\Deckbuilder-rpguilds\TheWaywardPath-v1.0.0-windows.zip` is last night's build. Do not upload it as
+today's.
+
+## Part 7 - art for the next batch
+
+Seven items added to `docs/art/batch17_nov16.csv` and `docs/prompts/chatgpt_batch17.md` (items 15 to 21; Batch 17 is now 21 items,
+65 images):
+
+| Item | Pictures |
+|---|---|
+| The cellar door of the Four Seals, closed and open | 2 |
+| An iron seal, locked and blank | 2 |
+| Minigame rooms: the kitchen pass, the fair's conveyor, the mail room | 3 |
+| Reps: bench, barbell, four plates | 6 |
+| Ticket, bell, four bins, filing cabinet, APPROVED and REJECTED stamps | 9 |
+| The Dump's gate as one grown arch; the withered thorns without trees | 2 |
+| The Buffet's forest: fruit tart, tall cake stand, a sheet of butterflies and birds | 3 |
+
+---
+
 # Overnight Nov 15-16 - report: Batch 16, the open items, save safety, fresh eyes, Batch 17, 1.0.0
 
 Brief: `docs/prompts/fable_nov16_overnight.md`. Start tag `pre-overnight-nov16`. Questions: `docs/overnight_inbox.md`, "Overnight Nov
