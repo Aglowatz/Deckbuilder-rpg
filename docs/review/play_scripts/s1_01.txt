@@ -1,0 +1,56 @@
+wait 5
+shot s1_01_01_title
+dump
+button New Game
+wait 3
+shot s1_01_02_after_new
+dump
+button Start here
+wait 14
+shot s1_01_03_opening
+dump
+key E
+wait 1.5
+shot s1_01_04
+dump
+key E
+wait 1.5
+shot s1_01_05
+dump
+key E
+wait 1.5
+shot s1_01_06
+dump
+key E
+wait 1.5
+shot s1_01_07
+dump
+key E
+wait 1.5
+shot s1_01_08
+dump
+key E
+wait 1.5
+shot s1_01_09
+dump
+key E
+wait 1.5
+shot s1_01_10
+dump
+key E
+wait 1.5
+shot s1_01_11
+dump
+key E
+wait 1.5
+shot s1_01_12
+dump
+key E
+wait 1.5
+shot s1_01_13
+dump
+key E
+wait 1.5
+shot s1_01_14
+dump
+scene

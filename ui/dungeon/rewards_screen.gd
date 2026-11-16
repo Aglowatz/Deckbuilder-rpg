@@ -90,7 +90,7 @@ func _build_rewards() -> void:
 	# Overnight Nov 4-5, Part 2.2: the boss is down, so the run's gold is paid again (Session.pay_clear_bonus does it as the dungeon closes).
 	var bonus: int = Session.clear_bonus_preview(_offer.gold) if Session.trial_finished else 0
 	if bonus > 0:
-		var bonus_label: Label = UIKit.label("Clear bonus: +%d gold  (everything this run paid you, once more)" % bonus, &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		var bonus_label: Label = UIKit.label("Clear bonus: +%d gold  (the gold this dungeon's rooms paid you, once more)" % bonus, &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 		bonus_label.name = "ClearBonus"
 		_column.add_child(bonus_label)
 	if _offer.cards.is_empty():

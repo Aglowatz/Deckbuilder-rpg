@@ -1,0 +1,35 @@
+wait 2
+dev load s2_c
+wait 13
+dev travel capital
+wait 14
+dev gold 3000
+scene
+shot s2_08_01_capital
+key M
+wait 2
+shot s2_08_02_map
+button Point me to
+wait 1.5
+shot s2_08_03_list
+dump
+button Crease
+wait 1.5
+shot s2_08_04_picked
+dump
+key Escape
+wait 1.5
+scene
+shot s2_08_05_world
+hold W 2
+scene
+hold W 2
+scene
+shot s2_08_06_w4
+hold W 2
+scene
+hold W 2
+scene
+shot s2_08_07_w8
+dump
+dev save s2_cap

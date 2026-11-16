@@ -1,0 +1,31 @@
+wait 2
+dev load c13cap
+wait 14
+dev heal
+dev travel dungeon S-CAP
+wait 12
+scene
+shot s3_04_01_tunnels_entry
+dump
+key E
+wait 2
+shot s3_04_02_after_e
+dump
+key Enter
+wait 2
+shot s3_04_03_after_enter
+dump
+dev travel dungeon S-CAP -2
+wait 12
+scene
+shot s3_04_04_nearboss
+dump
+key E
+wait 2
+shot s3_04_05_nearboss_e
+dump
+key Enter
+wait 2
+shot s3_04_06_nearboss_enter
+dump
+scene

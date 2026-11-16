@@ -19,6 +19,7 @@ extends Control
 enum Kind { SHRINE, WELL, EVENT, TREASURE, RESCUE, CHALLENGE, FIGHT }
 
 const KIND_LABEL: Array[String] = ["Shrine", "Well", "Event", "Treasure", "Rescue", "Challenge", "Before the fight"]
+const WELL_ICON: String = "ICON-NODE-WELL"
 const KIND_ICON: Array[String] = ["ICON-NODE-HEAL", "ICON-NODE-CHALLENGE", "ICON-NODE-EVENT", "ICON-NODE-TREASURE", "ICON-NODE-RESCUE", "ICON-NODE-CHALLENGE", "ICON-NODE-BATTLE"]
 ## The colour wash over the banner and the glow behind the icon.
 const KIND_WASH: Array[Color] = [Color("3fc1b4"), Color("4f8fd6"), Color("c98a3e"), Color("e0b040"), Color("d9735e"), Color("8f62d0"), Color("c2473d")]
@@ -333,7 +334,9 @@ func _build_banner(column: VBoxContainer) -> void:
 	icon.position = Vector2((card_width - 8.0) * 0.5 - icon_px * 0.5, banner_height * 0.5 - icon_px * 0.5 - 4.0)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	banner.add_child(icon)
-	set_icon(KIND_ICON[int(kind)])
+	# Overnight Nov 16 (critic S1, finding 10): the Well's banner showed the challenge icon (playing cards and a lightning bolt). It takes
+	# its own picture, ICON-NODE-WELL, as soon as that is imported (Batch 17); until then the challenge icon stays.
+	set_icon(WELL_ICON if kind == Kind.WELL and IconArt.has(WELL_ICON) else KIND_ICON[int(kind)])
 
 
 ## The banner's picture: `texture` (the dungeon's painted map) shown round `focus` (0..1 on the picture), `span` of it wide and high,

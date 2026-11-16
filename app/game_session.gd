@@ -4026,6 +4026,7 @@ func complete_battle(context: BattleContext) -> void:
 	if not context.won or run.failed:
 		# Fix pass Nov 7 (owner decisions D1, D2): this replaces the Nov 4-5 retry in place - a loss in the cave sends the hero back to the
 		# forest clearing at full HP and the cave starts over (cards and gold won are kept; nothing else is lost).
+		keep_cave_cards_in_deck()
 		abandon_run(CAVE_LOSS_NOTICE)
 		toasts.show_toast(CAVE_LOSS_NOTICE, UIStyle.GOLD, CardIcons.ui("fountain"))
 		return
@@ -4290,6 +4291,15 @@ func complete_trial() -> void:
 ## Fix pass Nov 7 (D1): retired - a cave loss always respawns in the forest clearing now; kept false for old callers.
 func tutorial_retry_on_loss() -> bool:
 	return false
+
+
+## Overnight Nov 16 (critic S1, finding 5): in the first cave a reward card "joins your deck", and after a loss it was only in the
+## collection (Deck 0/3, Own 1): the next try started without it. The cards won on a lost first run stay in the deck.
+func keep_cave_cards_in_deck() -> void:
+	if run == null or profile == null or profile.intro_dungeon_cleared or deck == null:
+		return
+	for card: CardData in run.gained_cards:
+		deck.cards.append(card)
 
 
 const CAVE_LOSS_NOTICE: String = "You come round in the forest clearing at full HP. The cave starts over; the cards and gold you won are kept."

@@ -361,12 +361,44 @@ func _frame_of(world_xz: Vector2) -> Rect2:
 func _draw_board(cells: Rect2, screen: Rect2) -> void:
 	# Phase 2 cycle 17: only the map itself sits on a dark board with a soft shadow; the whole canvas used to be filled, leaving dead dark
 	# strips either side of a square map.
+	# Overnight Nov 16 (critic S1, finding 6): the picture is drawn by the minimap's shader on its own layer behind the markers (crisp
+	# edges, rounded stair-steps); stretched by the GPU it was a blur in the forest and coarse blocks in the towns. The soft shadow is
+	# a few outlines round the board now, because this canvas draws over the picture's layer.
 	for step: int in range(4):
-		var grow: float = 6.0 + float(step) * 6.0
-		_canvas.draw_rect(Rect2(screen.position - Vector2(grow, grow) + Vector2(0.0, 6.0), screen.size + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.1))
-	_canvas.draw_rect(screen, Color(0.04, 0.05, 0.08, 0.95))
-	_canvas.draw_texture_rect_region(_raster.texture, screen, Rect2(Vector2(MapRaster.PAD, MapRaster.PAD) + cells.position, cells.size))
+		var grow: float = 3.0 + float(step) * 6.0
+		_canvas.draw_rect(Rect2(screen.position - Vector2(grow, grow) + Vector2(0.0, 6.0), screen.size + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.12 - 0.02 * float(step)), false, 6.0)
+	var picture: ColorRect = _picture_layer(screen == _inset_screen and _inset_cells.size.x > 0.0)
+	picture.position = screen.position
+	picture.size = screen.size
+	picture.visible = true
+	var material: ShaderMaterial = picture.material as ShaderMaterial
+	material.set_shader_parameter("map_tex", _raster.texture)
+	material.set_shader_parameter("tex_size", Vector2(_raster.image.get_width(), _raster.image.get_height()))
+	material.set_shader_parameter("region_pos", Vector2(MapRaster.PAD, MapRaster.PAD) + cells.position)
+	material.set_shader_parameter("region_size", cells.size)
+	material.set_shader_parameter("pixels_across", screen.size.x)
 	_canvas.draw_rect(screen, Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
+
+
+var _picture_layers: Array[ColorRect] = [null, null]
+
+
+## The picture layer of the main map (false) or of the inset (true): a rect behind the canvas's own drawing, made on first use.
+func _picture_layer(for_inset: bool) -> ColorRect:
+	var index: int = 1 if for_inset else 0
+	if _picture_layers[index] == null:
+		var layer: ColorRect = ColorRect.new()
+		layer.name = "MapPicture_%s" % ("inset" if for_inset else "main")
+		layer.show_behind_parent = true
+		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var material: ShaderMaterial = ShaderMaterial.new()
+		material.shader = load("res://ui/shaders/minimap_picture.gdshader") as Shader
+		material.set_shader_parameter("radius", 0.0)
+		material.set_shader_parameter("backdrop", Color(0.04, 0.05, 0.08, 0.95))
+		layer.material = material
+		_canvas.add_child(layer)
+		_picture_layers[index] = layer
+	return _picture_layers[index]
 
 
 ## True once any of the world rect `rect` (x / z) has been revealed (its centre, its corners' quarter points).
@@ -379,6 +411,9 @@ func _part_revealed(rect: Rect2) -> bool:
 
 
 func _draw_map() -> void:
+	for layer: ColorRect in _picture_layers:
+		if layer != null:
+			layer.visible = false
 	var placed: Dictionary = map_layout(_canvas.size, _fog.origin, Vector2(float(_fog.width), float(_fog.height)), inset.get("rect", Rect2()) as Rect2)
 	_main_cells = placed["main_cells"] as Rect2
 	_main_screen = placed["main_screen"] as Rect2
@@ -487,7 +522,7 @@ func _draw_map() -> void:
 		_name_spots.append({"at": at, "radius": icon_radius * 1.35 + 6.0, "label": poi.label})
 		if not MAJOR_LABEL_KINDS.has(poi.kind) and scale_px < MINOR_LABEL_MIN_SCALE:
 			continue
-		var text: String = poi.label
+		var text: String = map_name(poi.label)
 		var frame_now: Rect2 = _frame_of(Vector2(poi.pos.x, poi.pos.z))
 		var name_key: String = "%s|%s" % [text, "inset" if frame_now == _inset_screen else "main"]
 		if written.has(name_key):
@@ -530,6 +565,18 @@ static func place_label(at: Vector2, extent: Vector2, icon_radius: float, frame:
 
 
 ## The order names are written in: landmark kinds first (dungeons, exits, shops, healers, quest givers...), then the minor places. Pure.
+## Overnight Nov 16 (critic S1, finding 11): the name written on the map is the short one - a person's name without the title after
+## " - " or ", " ("Bertram Beetsworth - Assistant to the Regional Merchant" ran under the Point-me panel and over other markers). The
+## hover text and the Point-me list keep the whole label.
+static func map_name(label: String) -> String:
+	var short: String = label
+	for cut: String in [" - ", ", "]:
+		var at: int = short.find(cut)
+		if at >= 4:
+			short = short.substr(0, at)
+	return short
+
+
 static func label_order(points: Array[MapPoi]) -> Array[MapPoi]:
 	var major: Array[MapPoi] = []
 	var minor: Array[MapPoi] = []

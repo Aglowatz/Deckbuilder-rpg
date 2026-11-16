@@ -1,0 +1,59 @@
+wait 2
+dev load s2_c
+wait 13
+dev travel capital
+wait 14
+dev gold 3000
+skip_dialogue 4
+wait 1
+button Got it
+wait 1
+hold D 1.6
+scene
+hold W 1.3
+scene
+shot s2_10_01_stall
+key E
+wait 1.5
+shot s2_10_02_talk
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+shot s2_10_03_shop
+dump
+button Card Packs
+wait 1.5
+shot s2_10_04_packs
+dump
+button Back
+wait 1
+button Items
+wait 1.5
+shot s2_10_05_items
+dump
+button Back
+wait 1
+button Cards
+wait 1.5
+shot s2_10_06_cards
+dump
+scene

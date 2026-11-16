@@ -1,0 +1,26 @@
+wait 4
+dev load midgame_real
+wait 14
+dev travel town
+wait 14
+skip_dialogue
+scene
+hold W 1.5
+scene
+key J
+wait 1.5
+key J
+wait 1
+hold S 2
+scene
+key C
+wait 1.5
+key C
+wait 1
+hold D 2
+scene
+key M
+wait 1.5
+button Point me
+wait 1
+shot vb_town_list

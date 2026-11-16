@@ -1,0 +1,51 @@
+wait 2
+dev load s1_e
+wait 6
+dev travel town
+wait 15
+hold S 4
+scene
+shot s1_14_01_south
+hold S 4
+scene
+shot s1_14_02_south
+hold S 5
+scene
+shot s1_14_03_south
+hold S 5
+scene
+shot s1_14_04_south
+hold D 4
+scene
+shot s1_14_05_east
+hold W+D 4
+scene
+shot s1_14_06_east
+dev travel zone refusemancer
+wait 16
+scene
+shot s1_14_10_zone
+dump
+key E
+wait 1.5
+dump
+hold W 4
+scene
+shot s1_14_11_zone
+hold W 4
+scene
+shot s1_14_12_zone
+key E
+wait 1.5
+shot s1_14_13_zone
+dump
+hold W 4
+scene
+shot s1_14_14_zone
+hold A 3
+scene
+shot s1_14_15_zone
+key M
+wait 2.5
+shot s1_14_16_zonemap
+dump

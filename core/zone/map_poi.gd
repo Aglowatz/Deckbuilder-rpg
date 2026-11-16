@@ -97,7 +97,7 @@ static func kind_name(poi_kind: Kind) -> String:
 		Kind.FERRY:
 			return "Raft / rotating platform"
 		Kind.GATE:
-			return "Golem gate"
+			return "Guarded gate"  # Overnight Nov 16 (critic S3, finding 15): it marks Captain Spotless too; it said "Golem gate"
 		Kind.STABLE:
 			return "Stable (mounts)"
 		Kind.GROWTH:

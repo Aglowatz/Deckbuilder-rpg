@@ -72,12 +72,21 @@ opening forest). On that PC the exported build picks the Low-end preset by itsel
 
 Upload in this order (captured in game at 1920x1080, `screenshots/`): see `screenshots/README.md` for the list and what each shows.
 
-## Cover image
+## Cover image, banner, logo and icon (Nov 16: the new logo with the four Path icons)
 
-Recommendation: **TITLE-KEYART** (`assets/art/keyart/TITLE-KEYART.webp`, the hero on the road above the four lands with the castle behind)
-cropped to itch.io's 630x500 cover: keep the hero on the left third and the castle and the green D.N.A. tower in frame; put
-**LOGO-WORDMARK** over the sky. The source is 1672x941, so crop a 1176x941 window from x = 120 and scale down. Banner (960x? header): the
-same key art, full width, with the wordmark. Do not use STORY-* stills as the cover (spoilers).
+Ready-made files are in `logo/` (made from Batch 16's LOGO-WORDMARK, LOGO-EMBLEM and APP-ICON; the older ITCH-COVER and STEAM-* pictures on
+the Drive still carry the old logo with the dumbbell and the quill and must not be used):
+
+| File | Use it for |
+|---|---|
+| `logo/cover_630x500.png` | itch.io's cover image: the title key art (the hero on the road above the four lands) with the new wordmark over the sky |
+| `logo/banner_960x540.png` | the page's header banner (the whole key art with the wordmark) |
+| `logo/wordmark.png` | the game's name with the four Path icons under it, transparent (page body, a devlog header) |
+| `logo/emblem.png` | the round crossroads emblem, transparent |
+| `logo/app_icon_512.png`, `logo/app_icon_256.png` | the app icon (the same picture the exe and the window now carry) |
+
+Do not use STORY-* stills as the cover (spoilers). For a sharper cover, crop a 1176x941 window from x = 120 of
+`assets/art/keyart/TITLE-KEYART.webp` and put `wordmark.png` over the sky.
 
 ## Tags (itch.io allows up to 10)
 

@@ -1,0 +1,58 @@
+wait 2
+dev load s1_a
+wait 7
+key B
+wait 2
+shot s1_04_01_deck
+key Escape
+wait 1
+hold W+D 1.5
+shot s1_04_02
+hold W 1.5
+shot s1_04_03
+hold W+D 1.5
+shot s1_04_04
+key E
+wait 1.2
+dump
+hold W 1.5
+shot s1_04_05
+key E
+wait 1.5
+dump
+shot s1_04_06
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_04_07
+wait 8
+shot s1_04_08
+dump
+scene

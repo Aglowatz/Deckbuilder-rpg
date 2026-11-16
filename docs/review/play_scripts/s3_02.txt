@@ -1,0 +1,43 @@
+wait 2
+dev load c13cap
+wait 14
+hold W 7.5
+scene
+key E
+wait 1
+shot s3_02_01_spotless
+dump
+key E
+wait 1
+shot s3_02_02_spotless2
+skip_dialogue
+wait 1
+hold W 3
+scene
+shot s3_02_03_gate
+hold W 3
+scene
+shot s3_02_04_plaza
+hold W 3
+scene
+shot s3_02_05_plaza2
+key M
+wait 1.5
+shot s3_02_06_map
+key M
+wait 1
+hold A 4
+scene
+shot s3_02_07_west
+hold W 4
+scene
+shot s3_02_08_nw
+hold D 8
+scene
+shot s3_02_09_east
+hold W 5
+scene
+shot s3_02_10_north
+key M
+wait 1.5
+shot s3_02_11_map2

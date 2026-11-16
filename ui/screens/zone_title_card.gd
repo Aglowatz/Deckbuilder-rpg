@@ -119,6 +119,10 @@ static func show_in(scene: Node, key: String, allowed: bool = true) -> ZoneTitle
 	# it waits until no dialogue is open.
 	if bool(Session.pending_zone_result.get("woke_at_hub", false)):
 		return null
+	# Overnight Nov 16 (critic S1, finding 8): the same after a loss in the first cave - the "you come round in the forest clearing"
+	# toast sat on top of the forest's banner and hid its title.
+	if key == Areas.START and Session.town_notice == Session.CAVE_LOSS_NOTICE:
+		return null
 	var card: ZoneTitleCard = make(key)
 	if card != null:
 		_add_when_quiet(scene, card)

@@ -1,0 +1,203 @@
+wait 5
+button New Game
+wait 4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+wait 2
+move 1185 400
+wait 1
+shot s1_03_01_hover_necro
+click 928 300
+wait 1
+shot s1_03_02_pick_refuse
+dump
+button More
+wait 1.5
+shot s1_03_03_more
+dump
+button Back
+button Close
+key Escape
+wait 1
+shot s1_03_04_after_more
+button Begin
+wait 4
+shot s1_03_05_begin
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_03_106
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_03_112
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_03_118
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_03_124
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_03_130
+scene
+dev save s1_a
+key M
+wait 2
+shot s1_03_20_map
+dump
+key Escape
+wait 1
+key J
+wait 1.5
+shot s1_03_21_quests
+dump
+key Escape
+wait 1
+hold W 2
+shot s1_03_22_w

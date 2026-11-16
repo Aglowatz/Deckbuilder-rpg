@@ -1,0 +1,48 @@
+wait 2
+dev load s2_c
+wait 13
+dev travel town
+wait 14
+key B
+wait 3
+button Got it
+wait 0.8
+button Cover
+wait 1.5
+shot s2_14_01_cover
+dump
+key Escape
+wait 1
+shot s2_14_02_after_cover
+click 1488 462
+wait 1
+shot s2_14_03_plus
+click 97 360
+wait 1
+shot s2_14_04_added
+dump
+button Reset
+wait 1
+button Suggest a deck
+wait 2
+shot s2_14_05_suggest
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+key Escape
+wait 1
+shot s2_14_06_closed
+button Resume
+wait 1
+dev travel zone gourmand
+wait 14
+key M
+wait 2
+button Point me to
+wait 1.5
+shot s2_14_07_buffet_list
+key Escape
+wait 1
+scene

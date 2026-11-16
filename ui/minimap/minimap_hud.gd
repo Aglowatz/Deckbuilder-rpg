@@ -79,6 +79,7 @@ func _add_frame() -> void:
 	var picture: ShaderMaterial = ShaderMaterial.new()
 	picture.shader = load("res://ui/shaders/minimap_picture.gdshader") as Shader
 	picture.set_shader_parameter("radius", FRAME_RADIUS)
+	picture.set_shader_parameter("pixels_across", FRAME_RADIUS * 2.0)
 	_picture.material = picture
 	add_child(_picture)
 	var frame: TextureRect = TextureRect.new()

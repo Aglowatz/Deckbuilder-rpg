@@ -1,0 +1,34 @@
+wait 2
+dev load s2_c
+wait 13
+dev travel town
+wait 14
+key B
+wait 3
+shot s2_13_01_deck
+dump
+button Got it
+wait 0.8
+move 1305 800
+wait 1.2
+shot s2_13_02_deck_hover
+button Back
+wait 1
+button Card backs
+button Backs
+wait 1.5
+shot s2_13_03_backs
+dump
+key Escape
+wait 1.5
+shot s2_13_04_after_esc
+key M
+wait 2
+button Point me to
+wait 1.5
+shot s2_13_05_list
+key Escape
+wait 1
+key Escape
+wait 1
+scene

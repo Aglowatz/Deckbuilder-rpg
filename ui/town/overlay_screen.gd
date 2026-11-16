@@ -163,8 +163,22 @@ func request_close() -> void:
 	closed.emit()
 
 
+## Overnight Nov 16 (critic S1, finding 12): the key that opens a page closes it again (C on the Character page did nothing; J already
+## toggled the quest log). Screen class -> its opening action.
+const TOGGLE_ACTIONS: Dictionary = {"CharacterScreen": &"open_character", "DeckbuilderScreen": &"open_deck", "PacksScreen": &"open_packs", "WardrobeScreen": &"open_wardrobe"}
+
+
+## The action that opened this screen ("" when it has no key of its own).
+func toggle_action() -> StringName:
+	var script: Script = get_script() as Script
+	return TOGGLE_ACTIONS.get(str(script.get_global_name()) if script != null else "", &"") as StringName
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if is_visible_in_tree() and UiInput.is_back(event):
+	if not is_visible_in_tree():
+		return
+	var toggle: StringName = toggle_action()
+	if UiInput.is_back(event) or (toggle != &"" and InputMap.has_action(toggle) and event.is_action_pressed(toggle) and UiInput.is_fresh_press(event)):
 		get_viewport().set_input_as_handled()
 		request_close()
 

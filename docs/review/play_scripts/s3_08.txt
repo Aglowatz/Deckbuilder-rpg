@@ -1,0 +1,77 @@
+wait 2
+dev load c13castle
+wait 13
+dev primm 1
+wait 6
+click 1322 340
+wait 2
+key E
+wait 0.5
+shot s3_08_d01
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d02
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d03
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d04
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d05
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d06
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d07
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d08
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_08_d09
+key E
+wait 1.2
+skip_dialogue 30
+wait 1.5
+shot s3_08_20_card
+dump
+button Continue
+wait 3
+shot s3_08_21_intro
+key E
+wait 3
+button Keep Hand
+wait 2.5
+shot s3_08_22_hand
+dump
+pilot 45
+shot s3_08_23_afterpilot
+dump
+key E
+wait 2.5
+shot s3_08_24_post
+dump
+button Continue
+wait 3
+shot s3_08_25_post2
+dump
+scene

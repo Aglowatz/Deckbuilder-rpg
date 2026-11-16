@@ -1,0 +1,42 @@
+wait 2
+dev load s2_c
+wait 14
+dev heal
+dev travel dungeon D-TTK
+wait 13
+key R
+wait 1.5
+shot s2_06_01_rules
+dump
+key Escape
+wait 1
+click 397 650
+wait 2.5
+shot s2_06_02_node1
+dump
+button Fight
+button Enter
+button Start
+button Open
+button Take
+button Continue
+wait 4
+shot s2_06_03_next
+dump
+button Keep Hand
+wait 3
+shot s2_06_04_battle
+dump
+pilot 55
+wait 2
+shot s2_06_05_after
+dump
+skip_dialogue 10
+wait 2
+shot s2_06_06_map
+dump
+click 600 760
+wait 2.5
+shot s2_06_07_node2
+dump
+scene

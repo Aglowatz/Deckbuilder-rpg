@@ -1,0 +1,111 @@
+wait 2
+dev load s1_e
+wait 6
+dev travel town
+wait 15
+scene
+hold A 1.2
+hold W 4
+scene
+shot s1_13_01
+hold W 2.5
+scene
+shot s1_13_02
+hold W 2.5
+scene
+shot s1_13_03
+key E
+wait 1.5
+shot s1_13_04
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_13_e4
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_13_e8
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_13_e12
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_13_e16
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_13_e20
+scene
+key J
+wait 1.5
+shot s1_13_11_quests
+dump
+key J
+wait 1
+hold S 9
+hold D 1.2
+scene
+shot s1_13_12
+hold S 5
+scene
+shot s1_13_13_south
+hold S 5
+scene
+shot s1_13_14_south
+hold S 5
+scene
+shot s1_13_15_south
+hold D 5
+scene
+shot s1_13_16_east
+key B
+wait 2.5
+shot s1_13_17_deckstation

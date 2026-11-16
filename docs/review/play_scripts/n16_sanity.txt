@@ -1,0 +1,8 @@
+wait 5
+shot n16_sanity_title
+dump
+scene
+dev load c13cap
+wait 14
+scene
+shot n16_sanity_cap

@@ -1,0 +1,130 @@
+wait 2
+dev load s1_f
+wait 9
+click 1548 55
+wait 1
+scene
+hold A 1.2
+hold W 4
+scene
+shot s1_12_01
+hold W 2.5
+scene
+shot s1_12_02
+hold W 2.5
+scene
+shot s1_12_03
+key E
+wait 1.5
+shot s1_12_04
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_12_e5
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_12_e10
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_12_e15
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_12_e20
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+shot s1_12_e25
+key E
+wait 1.0
+dump
+scene
+shot s1_12_10
+key J
+wait 1.5
+shot s1_12_11_quests
+dump
+key J
+wait 1
+key B
+wait 2.5
+shot s1_12_12_deckstation
+click 1548 55
+wait 1.5
+shot s1_12_13
+hold W 2
+scene
+shot s1_12_14
+hold A 3
+scene
+shot s1_12_15
+dev save s1_g
+hold S 4
+scene
+shot s1_12_16
+hold D 4
+scene
+shot s1_12_17

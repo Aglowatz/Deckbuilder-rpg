@@ -1,0 +1,23 @@
+wait 4
+dev load n8_postcave
+wait 14
+scene
+key M
+wait 1.5
+button Point me
+wait 1
+dump
+shot va_town_list
+key Escape
+wait 0.5
+key Escape
+wait 0.5
+dev travel zone gourmand
+wait 14
+skip_dialogue
+key M
+wait 1.5
+button Point me
+wait 1
+dump
+shot va_buffet_list

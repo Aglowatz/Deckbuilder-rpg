@@ -38,6 +38,8 @@ static func get_def(zone_id: String) -> ZoneDef:
 			# Overnight Nov 7-8, Part 6.3: Dex Shufflewick's card-matching table in every Path zone.
 			made.npcs.append(CardMatchCircuit.npc_entry(made.id))
 			made.spots.append(CardMatchCircuit.spot_entry(made.id))
+			# Overnight Nov 16 (critic S2, finding 1): Dex is on the zone's map and in its "Point me to..." list (he had no marker at all)
+			made.poi_kinds["cardsharp"] = MapPoi.Kind.MINIGAME
 	return _cache[zone_id] as ZoneDef
 
 

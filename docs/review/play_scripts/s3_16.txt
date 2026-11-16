@@ -1,0 +1,81 @@
+wait 2
+dev load c13castle
+wait 12
+dev primm 1
+wait 5
+click 1322 340
+wait 2
+skip_dialogue 40
+wait 1
+button Continue
+wait 3
+key E
+wait 2.5
+button Keep Hand
+wait 2
+click 1470 268
+wait 0.3
+click 1470 268
+click 1465 850
+wait 1
+click 746 474
+wait 0.4
+click 710 530
+wait 1
+key Space
+wait 5
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+click 1465 850
+wait 1
+key Space
+wait 6
+shot s3_16_01_state
+dump
+button Continue
+wait 3
+shot s3_16_02_post
+dump
+button again
+wait 3
+shot s3_16_03_again
+dump
+scene

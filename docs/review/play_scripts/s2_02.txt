@@ -1,0 +1,63 @@
+wait 2
+dev load s2_a
+wait 14
+move 41 238
+wait 1.2
+shot s2_02_01_zonefx1
+move 82 238
+wait 1.2
+shot s2_02_02_zonefx2
+dump
+key E
+wait 1.5
+shot s2_02_03_soup
+dump
+skip_dialogue 6
+hold A 0.6
+scene
+key E
+wait 1.5
+shot s2_02_04_sign
+skip_dialogue 4
+hold D 2.8
+scene
+hold W 0.8
+scene
+shot s2_02_05_near_mirepoix
+key E
+wait 1.5
+shot s2_02_06_talk1
+dump
+key E
+wait 1
+shot s2_02_07_talk2
+dump
+key E
+wait 1
+shot s2_02_08_talk3
+dump
+key E
+wait 1
+shot s2_02_09_talk4
+dump
+skip_dialogue 30
+wait 1
+shot s2_02_10_after
+dump
+scene
+hold W 1.2
+scene
+key E
+wait 1.5
+shot s2_02_11_talkB1
+dump
+key E
+wait 1
+shot s2_02_12_talkB2
+dump
+skip_dialogue 30
+wait 1
+scene
+shot s2_02_13_end
+dump
+dev save s2_b

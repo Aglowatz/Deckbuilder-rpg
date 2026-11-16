@@ -1,0 +1,149 @@
+wait 2
+dev load s1_a
+wait 6
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+hold W 1.0
+key E
+wait 1.2
+button Enter
+wait 2.5
+button Got it
+wait 0.8
+click 501 496
+wait 2.5
+button Skip tips
+wait 0.5
+button Keep Hand
+wait 1.2
+button Speed
+wait 0.3
+button Speed
+wait 0.3
+pilot 45
+wait 2.2
+button Continue
+wait 2.2
+click 800 500
+wait 0.5
+button Take
+wait 2
+click 740 663
+wait 2.2
+shot s1_10_n2_a
+dump
+button Drink
+button Fight
+button Draw
+button Lower
+button Pray
+button Rest
+button Kneel
+button Open
+button Search
+button Look
+button Accept
+button Yes
+button Enter
+wait 2.2
+shot s1_10_n2_b
+dump
+button Keep Hand
+wait 1
+pilot 38
+wait 2.2
+button Continue
+wait 2.2
+shot s1_10_n2_c
+click 800 500
+wait 0.5
+button Take
+wait 1.5
+skip_dialogue 4
+button Continue
+button Leave
+button Close
+button Got it
+wait 1.5
+shot s1_10_n2_d
+dev save s1_c
+click 937 431
+wait 2.2
+shot s1_10_n3_a
+dump
+button Drink
+button Fight
+button Draw
+button Lower
+button Pray
+button Rest
+button Kneel
+button Open
+button Search
+button Look
+button Accept
+button Yes
+button Enter
+wait 2.2
+shot s1_10_n3_b
+dump
+button Keep Hand
+wait 1
+pilot 38
+wait 2.2
+button Continue
+wait 2.2
+shot s1_10_n3_c
+click 800 500
+wait 0.5
+button Take
+wait 1.5
+skip_dialogue 4
+button Continue
+button Leave
+button Close
+button Got it
+wait 1.5
+shot s1_10_n3_d
+dev save s1_d
+click 1153 551
+wait 2.2
+shot s1_10_n4_a
+dump
+button Drink
+button Fight
+button Draw
+button Lower
+button Pray
+button Rest
+button Kneel
+button Open
+button Search
+button Look
+button Accept
+button Yes
+button Enter
+wait 2.2
+shot s1_10_n4_b
+dump
+button Keep Hand
+wait 1
+pilot 38
+wait 2.2
+button Continue
+wait 2.2
+shot s1_10_n4_c
+click 800 500
+wait 0.5
+button Take
+wait 1.5
+skip_dialogue 4
+button Continue
+button Leave
+button Close
+button Got it
+wait 1.5
+shot s1_10_n4_d
+scene
+dev save s1_e

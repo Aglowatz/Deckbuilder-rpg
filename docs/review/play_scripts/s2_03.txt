@@ -1,0 +1,84 @@
+wait 2
+dev load s2_b
+wait 14
+move 800 450
+hold W 2.0
+hold D 1.3
+scene
+hold W 1.5
+scene
+shot s2_03_01_pos
+key E
+wait 1.5
+shot s2_03_02_talk
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+shot s2_03_03_talk_late
+skip_dialogue 30
+wait 1
+scene
+shot s2_03_04_after
+dump
+hold W 0.7
+scene
+key E
+wait 1.5
+shot s2_03_05_talkB
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+shot s2_03_06_talkB_late
+skip_dialogue 30
+wait 1
+scene
+shot s2_03_07_after
+dump
+key J
+wait 1.5
+button Side
+wait 1
+shot s2_03_08_side
+dump
+key Escape
+wait 1
+scene
+dev save s2_c

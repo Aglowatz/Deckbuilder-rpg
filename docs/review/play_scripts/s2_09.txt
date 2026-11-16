@@ -1,0 +1,62 @@
+wait 2
+dev load s2_cap
+wait 14
+skip_dialogue 6
+button Got it
+wait 1
+button Got it
+wait 1
+scene
+key M
+wait 2
+shot s2_09_01_map
+button Point me to
+wait 1.5
+shot s2_09_02_list
+dump
+key Escape
+wait 1.5
+shot s2_09_03_crease
+hold W 0.7
+scene
+shot s2_09_04_near
+key E
+wait 1.5
+shot s2_09_05_talk
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+dump
+shot s2_09_06_talk_end
+dump
+button Card Packs
+wait 1.5
+shot s2_09_07_packs
+dump
+button Items
+wait 1.5
+shot s2_09_08_items
+dump
+button Cards
+wait 1.5
+shot s2_09_09_cards
+dump
+scene

@@ -52,7 +52,8 @@ const ACCENT: Color = Color("f2c35a")
 const LOCKED_FILL: Color = Color(0.06, 0.05, 0.09, 0.85)
 const DIVIDER: Color = Color(0.91, 0.69, 0.29, 0.4)
 
-const SUBTITLE: String = "Equip up to 4 single-use items"
+## Overnight Nov 16 (critic S1, finding 15): it said "up to 4" right above "Equipped 0 of 2" at level 1; the count line below says how many.
+const SUBTITLE: String = "Single-use items for your next fights"
 const SLOTS_NOTE: String = "Additional slots unlock as you level up. One charge is consumed per use."
 const FOOTER: String = "Select an item, then choose an empty slot to equip."
 const PACKS_EMPTY: String = "No unopened packs"

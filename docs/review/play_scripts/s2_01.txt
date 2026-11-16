@@ -1,0 +1,30 @@
+wait 4
+shot s2_01_01_title
+dev load bot_refusemancer_enter_gourmand
+wait 14
+scene
+shot s2_01_02_arrive
+dump
+key M
+wait 2
+shot s2_01_03_map
+dump
+key Escape
+wait 1
+hold W 3
+wait 1
+scene
+shot s2_01_04_walk
+hold W 3
+scene
+shot s2_01_05_walk2
+key J
+wait 2
+shot s2_01_06_quests
+dump
+key Escape
+wait 1
+hold W 3
+scene
+shot s2_01_07_walk3
+dev save s2_a

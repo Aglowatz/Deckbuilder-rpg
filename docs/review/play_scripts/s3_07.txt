@@ -1,0 +1,96 @@
+wait 2
+dev load c13castle
+wait 14
+scene
+shot s3_07_00_castle
+dev heal
+dev primm 1
+wait 6
+scene
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d01
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d02
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d03
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d04
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d05
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d06
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d07
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d08
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d09
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d10
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d11
+dump
+key E
+wait 1.2
+key E
+wait 0.5
+shot s3_07_d12
+dump
+key E
+wait 2
+shot s3_07_20_state
+dump
+button Continue
+wait 3
+key E
+wait 3
+button Keep Hand
+wait 2.5
+shot s3_07_21_hand
+dump
+pilot 55
+shot s3_07_22_afterpilot
+dump
+scene

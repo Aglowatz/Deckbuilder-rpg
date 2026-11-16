@@ -1,0 +1,46 @@
+wait 2
+dev load s1_a
+wait 7
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+wait 0.5
+button Enter
+wait 3
+button Got it
+wait 1
+click 501 496
+wait 2
+shot s1_05_01_node1
+dump
+button Fight
+button Begin
+button Continue
+button Enter
+wait 2
+shot s1_05_02
+dump
+wait 6
+shot s1_05_03
+dump
+button Got it
+wait 1
+button Got it
+wait 1
+shot s1_05_04
+dump
+pilot 55
+shot s1_05_05
+dump
+wait 3
+shot s1_05_06
+dump
+skip_dialogue 8
+wait 2
+shot s1_05_07
+dump
+scene
+click 740 663
+wait 2
+shot s1_05_08_node2
+dump

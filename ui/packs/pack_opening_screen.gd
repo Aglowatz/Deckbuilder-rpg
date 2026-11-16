@@ -374,7 +374,7 @@ func _add_card_labels(index: int, holder: Control, entry: PackOpening.Entry, col
 		badge.add_theme_stylebox_override("normal", UIStyle.box(Color("ffd24a"), Color("fff3b0"), 3, 14, 6))
 		badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		badge.size = Vector2(96, 48)
-		badge.position = Vector2(-18, -14)
+		badge.position = Vector2(-30, -46)  # Overnight Nov 16 (critic S2, finding 11): above the corner, off the name
 		badge.pivot_offset = badge.size * 0.5
 		badge.rotation = -0.18
 		badge.scale = Vector2(2.2, 2.2)
@@ -403,7 +403,7 @@ func _conversion_text(entry: PackOpening.Entry) -> String:
 		parts.append("+%d %s essence" % [int(entry.essence[path]), Affinity.display_name(int(path) as Affinity.Type)])
 	if entry.gold > 0:
 		parts.append("+%d gold" % entry.gold)
-	return "Extra copy (you own 4):\n%s" % ", ".join(parts)
+	return "Extra copy (at its copy cap):\n%s" % ", ".join(parts)
 
 
 # ---- Summary --------------------------------------------------------------------------------------------
@@ -425,6 +425,7 @@ func _show_conversions() -> void:
 
 func _release_toasts() -> void:
 	if _toast_held and Session.toasts != null:
+		Session.toasts.drop("Extra copy of")  # each card's own label says what it became (critic S2, finding 5)
 		Session.toasts.release()
 	_toast_held = false
 

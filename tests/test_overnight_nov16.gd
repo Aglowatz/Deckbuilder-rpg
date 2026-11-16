@@ -86,3 +86,51 @@ func test_the_capital_s_rim_ruins_are_stored_with_their_lists() -> void:
 	# the landmark models are built live: stored copies broke the walk to Rollo (the Capital walk smoke)
 	var builder: String = FileAccess.get_file_as_string("res://world/capital/capital_builder.gd")
 	assert_false(builder.contains("fetch_node(\"capital_landmark"), "no landmark is stored")
+
+
+# ---- Part 4: the first-hour critic's small fixes -------------------------------------------------------------------------------
+
+
+func test_the_map_writes_short_names() -> void:
+	assert_eq(FullMapScreen.map_name("Bertram Beetsworth - Assistant to the Regional Merchant"), "Bertram Beetsworth")
+	assert_eq(FullMapScreen.map_name("Kestrel, Resistance Scout"), "Kestrel")
+	assert_eq(FullMapScreen.map_name("The Harvest Meal"), "The Harvest Meal")
+	assert_eq(FullMapScreen.map_name("Dex"), "Dex")
+
+
+func test_a_page_s_own_key_closes_it() -> void:
+	for pair: Array in [[CharacterScreen, &"open_character"], [DeckbuilderScreen, &"open_deck"], [PacksScreen, &"open_packs"], [WardrobeScreen, &"open_wardrobe"]]:
+		var name_of: String = str((pair[0] as Script).get_global_name())
+		assert_eq(OverlayScreen.TOGGLE_ACTIONS.get(name_of, &""), pair[1], "%s closes on its own key" % name_of)
+		assert_true(InputMap.has_action(pair[1] as StringName), "%s is a bound action" % str(pair[1]))
+
+
+func test_cards_won_in_a_lost_first_cave_stay_in_the_deck() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.REFUSEMANCER)
+	Session.profile.intro_dungeon_cleared = false
+	var before: int = Session.deck.size()
+	var run: DungeonRun = DungeonRun.new()
+	var won: CardData = Session.deck.cards[0]
+	run.gained_cards.append(won)
+	Session.run = run
+	Session.keep_cave_cards_in_deck()
+	assert_eq(Session.deck.size(), before + 1, "the reward card that 'joins your deck' is still in it after the loss")
+	# after the cave is cleared, rewards go to the collection: nothing is pushed into the deck
+	Session.profile.intro_dungeon_cleared = true
+	Session.keep_cave_cards_in_deck()
+	assert_eq(Session.deck.size(), before + 1)
+	Session.run = null
+
+
+func test_the_dump_s_entrance_pennants_carry_no_single_leaf() -> void:
+	for id: String in HeapLandmarks.ENTRANCE_PENNANTS:
+		assert_true(id in ["DUMP-SHEET-ENTRANCE-FLAGS-02", "DUMP-SHEET-ENTRANCE-FLAGS-05"], "%s is a paw-print pennant" % id)
+		assert_true(EnvKit.has_art(id))
+
+
+func test_small_texts_from_the_first_hour() -> void:
+	assert_false(CharacterScreen.SUBTITLE.contains("4"), "no 'up to 4' above 'Equipped 0 of 2'")
+	assert_eq(NodeCard.WELL_ICON, "ICON-NODE-WELL")
+	assert_true(Session.CAVE_LOSS_NOTICE.contains("cards and gold you won are kept"))

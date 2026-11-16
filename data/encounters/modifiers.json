@@ -77,7 +77,7 @@
 		{
 			"name": "Plated Just So",
 			"text": "The Doppelganger's units get +1/+1. Every dish is plated just so.",
-			"icon": "delapouite/chef-toque",
+			"icon": "delapouite/fork-knife-spoon",
 			"kind": "stat",
 			"atk": 1,
 			"def": 1

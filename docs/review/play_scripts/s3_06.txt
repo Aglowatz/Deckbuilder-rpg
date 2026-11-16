@@ -1,0 +1,68 @@
+wait 2
+dev load c13cap
+wait 14
+dev heal
+dev travel dungeon S-CAP -2
+wait 12
+click 1319 184
+wait 2
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+button Continue
+wait 3
+key E
+wait 3
+button Keep Hand
+wait 3
+shot s3_06_01_hand
+drag 560 790 700 500
+wait 2
+shot s3_06_02_drag1
+dump
+drag 680 790 800 500
+wait 2
+drag 800 790 900 500
+wait 2
+shot s3_06_03_drag3
+move 78 190
+wait 1.2
+shot s3_06_04_rulehover
+dev win
+wait 4
+shot s3_06_05_win
+dump
+key E
+wait 2
+shot s3_06_06_win2
+dump
+key E
+wait 2
+shot s3_06_07_win3
+dump
+key E
+wait 2
+shot s3_06_08_win4
+dump
+skip_dialogue 15
+wait 3
+scene
+shot s3_06_09_after
+dump
+button Menu
+wait 1.5
+shot s3_06_10_menu
+dump
+button Collection
+wait 2
+shot s3_06_11_collection
+dump
+button Bestiary
+wait 2
+shot s3_06_12_bestiary
+dump

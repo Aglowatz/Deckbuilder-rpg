@@ -1,0 +1,58 @@
+wait 2
+dev load s1_a
+wait 7
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+hold W 1.0
+key E
+wait 1.5
+button Enter
+wait 3
+button Got it
+wait 1
+click 501 496
+wait 2.5
+button Got it
+wait 0.8
+shot s1_07_01
+button Keep Hand
+wait 1.5
+shot s1_07_02
+button Got it
+wait 0.6
+click 507 790
+wait 1.2
+shot s1_07_03
+button Got it
+wait 0.6
+click 700 790
+wait 1.2
+shot s1_07_04
+button Got it
+wait 0.6
+rclick 900 790
+wait 1
+shot s1_07_05_preview
+key Escape
+wait 0.5
+button Speed
+wait 0.3
+button Speed
+wait 0.3
+shot s1_07_06
+pilot 60
+shot s1_07_07
+wait 3
+shot s1_07_08
+dump
+skip_dialogue 10
+wait 2
+shot s1_07_09
+dump
+scene
+dev save s1_b
+click 740 663
+wait 2.5
+shot s1_07_10_node2
+dump

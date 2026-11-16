@@ -694,6 +694,10 @@ func _extra_pois() -> Array[MapPoi]:
 		# Fable Nov 12c (A8.3): "Point me to..." lists the way down to the Crease while its quest runs (a quest-giver point: an
 		# interactable one falls off the end of the list)
 		result.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, builder.anchor("manhole"), "The Crease (the manhole on the Gate Plaza)"))
+	elif Session.flag(CapitalZone.FLAG_HUB_KNOWN):
+		# Overnight Nov 16 (critic S3, finding 6): once the Crease is known the manhole stays on the map as a way down (it had no marker
+		# at all after the first visit, and no sign since Nov 14).
+		result.append(MapPoi.make(MapPoi.Kind.EXIT, builder.anchor("manhole"), "Manhole to the Crease"))
 	if OldHob.funeral_waiting(Session.flags):
 		# Fable Nov 12 (Part 4.4, the RC5 critic's #5): the toast named Grave Row and nothing pointed there
 		result.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, _hob_position(), "Old Hob at Grave Row (the city is gathering)"))

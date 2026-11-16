@@ -8,7 +8,10 @@ uniform vec2 tex_size = vec2(64.0, 64.0);
 // The part of the map shown, in texels.
 uniform vec2 region_pos = vec2(0.0, 0.0);
 uniform vec2 region_size = vec2(42.0, 42.0);
+// The circle the picture is clipped to (the frame of the minimap); 0 or less = no clip (the full map draws the whole rectangle).
 uniform float radius = 88.0;
+// How many screen pixels the shown region is drawn across (for the one-pixel soft edge).
+uniform float pixels_across = 176.0;
 uniform vec4 backdrop : source_color = vec4(0.04, 0.05, 0.08, 0.9);
 varying vec2 local_position;
 
@@ -53,11 +56,13 @@ void fragment() {
 	if (same(c2, best) < 0.5 && t2 > second_t) { second = c2; second_t = t2; }
 	if (same(c3, best) < 0.5 && t3 > second_t) { second = c3; second_t = t3; }
 	// texels per screen pixel: the lead of the winning colour changes by about two per texel across an edge
-	float per_pixel = region_size.x / (radius * 2.0);
+	float per_pixel = region_size.x / max(pixels_across, 1.0);
 	float edge = clamp(0.5 + (best_t - second_t) / (4.0 * per_pixel), 0.0, 1.0);
 	vec4 map = mix(second, best, edge);
 	vec4 shown = vec4(mix(backdrop.rgb, map.rgb, map.a), max(backdrop.a, map.a));
-	float d = length(local_position - vec2(radius, radius));
-	shown.a *= 1.0 - smoothstep(radius - 1.5, radius, d);
+	if (radius > 0.0) {
+		float d = length(local_position - vec2(radius, radius));
+		shown.a *= 1.0 - smoothstep(radius - 1.5, radius, d);
+	}
 	COLOR = shown;
 }

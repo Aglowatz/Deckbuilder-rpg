@@ -84,6 +84,19 @@ func release() -> void:
 		_column.visible = true
 
 
+## Overnight Nov 16 (critic S2, finding 5): removes the waiting toasts whose text holds `containing` (the pack screen drops the "Extra
+## copy of ... converted" toasts it held: each card already says what it turned into, and the toasts covered the cards and the title).
+func drop(containing: String) -> int:
+	var dropped: int = 0
+	for panel: Node in _column.get_children():
+		for label: Node in panel.find_children("*", "Label", true, false):
+			if (label as Label).text.contains(containing):
+				panel.queue_free()
+				dropped += 1
+				break
+	return dropped
+
+
 func _process(_delta: float) -> void:
 	if _column.get_child_count() > 0 and _holds == 0 and QuestNoticeLayer.dialogue_open(get_tree()):
 		for child: Node in _column.get_children():

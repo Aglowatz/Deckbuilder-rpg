@@ -1,0 +1,56 @@
+wait 2
+dev load c13castle
+wait 13
+dev primm 1
+wait 6
+click 1322 340
+wait 2
+skip_dialogue 40
+wait 1.5
+button Continue
+wait 3
+key E
+wait 3
+button Keep Hand
+wait 2.5
+move 397 190
+wait 1.2
+shot s3_09_01_hover_last
+move 37 190
+wait 1.2
+shot s3_09_02_hover_first
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+button End
+wait 6
+shot s3_09_03_state
+dump
+button End
+wait 6
+button End
+wait 6
+shot s3_09_04_state
+dump
+button Continue
+wait 3
+shot s3_09_05_post
+dump
+button Fight Primm again
+wait 4
+shot s3_09_06_again
+dump
+scene

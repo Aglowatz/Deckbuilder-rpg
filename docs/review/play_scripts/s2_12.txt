@@ -1,0 +1,49 @@
+wait 2
+dev load s2_c
+wait 13
+dev travel town
+wait 14
+skip_dialogue 5
+wait 1
+button Got it
+wait 0.5
+scene
+key P
+wait 2
+shot s2_12_01_packs
+dump
+button Open
+wait 2.5
+shot s2_12_02_pack_sealed
+click 800 450
+wait 2.5
+shot s2_12_03_pack_opened
+dump
+button Done
+wait 1
+key Escape
+wait 1
+key B
+wait 2.5
+shot s2_12_04_deck
+dump
+button Got it
+wait 0.5
+button Card Back
+button Card back
+wait 1.5
+shot s2_12_05_backs
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot s2_12_06_town
+key M
+wait 2
+button Point me to
+wait 1.5
+shot s2_12_07_list
+key Escape
+wait 1
+scene

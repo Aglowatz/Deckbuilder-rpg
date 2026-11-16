@@ -1,0 +1,79 @@
+wait 2
+dev load s1_a
+wait 7
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+hold W 1.0
+key E
+wait 1.5
+button Enter
+wait 3
+button Got it
+wait 1
+click 501 496
+wait 2.5
+button Skip tips
+wait 0.5
+button Keep Hand
+wait 1.5
+button Speed
+wait 0.4
+button Speed
+wait 0.4
+pilot 45
+wait 2.5
+shot s1_09_01_victory
+button Continue
+wait 2.5
+shot s1_09_02_after
+dump
+skip_dialogue 6
+wait 1
+button Continue
+wait 2
+shot s1_09_03
+dump
+scene
+dev save s1_c
+click 740 663
+wait 2.5
+shot s1_09_04_node2
+dump
+button Drink
+button Fight
+button Draw
+button Lower
+button Pray
+button Rest
+button Open
+button Take
+button Search
+button Look
+button Accept
+wait 2.5
+shot s1_09_05
+dump
+button Keep Hand
+wait 1
+pilot 40
+wait 2.5
+button Continue
+wait 2
+skip_dialogue 6
+button Continue
+button Leave
+button Close
+button Got it
+wait 2
+shot s1_09_06
+dump
+scene
+click 937 431
+wait 2.5
+shot s1_09_07_node3
+dump
+click 1153 551
+wait 2.5
+shot s1_09_08_node4
+dump

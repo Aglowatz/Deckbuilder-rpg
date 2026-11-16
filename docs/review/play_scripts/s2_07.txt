@@ -1,0 +1,40 @@
+wait 2
+dev load s2_c
+wait 13
+dev heal
+dev travel dungeon D-TTK -2
+wait 12
+shot s2_07_01_map
+click 1364 212
+wait 2.5
+shot s2_07_02_boss_pre
+dump
+button Continue
+wait 3
+shot s2_07_03_intro
+dump
+skip_dialogue 20
+wait 2
+button Continue
+wait 2
+shot s2_07_04_hand
+dump
+button Keep Hand
+wait 2.5
+button Skip tips
+wait 0.5
+button Speed
+wait 0.3
+button Speed
+wait 0.5
+move 37 190
+wait 1.2
+shot s2_07_05_rule_hover
+click 560 760
+wait 1.5
+shot s2_07_06_played
+dump
+pilot 95
+shot s2_07_07_late
+dump
+scene
