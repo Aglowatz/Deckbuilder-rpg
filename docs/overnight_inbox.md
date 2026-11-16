@@ -4,6 +4,15 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 16b - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16b`.
+
+1. **Disk space: 20.1 GB freed** (12.8 GB free before, 32.9 GB after). Everything on your list is gone except one empty folder:
+   `C:\Users\asche\Documents\Codex\2026-11-15\files-mentioned-by-the-user-batch` is held open by another program (most likely the
+   ChatGPT app). Close that app and run `Remove-Item -Recurse -Force "C:\Users\asche\Documents\Codex"`. The five scratch folders
+   (`_screenshots`, `_logs`, `_movie`, `_art_inbox`, `_art_source`) are emptied, not removed: tools still write into them.
+
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov16`.
