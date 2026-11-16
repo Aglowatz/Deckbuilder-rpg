@@ -72,6 +72,25 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
 16. **A gate tree thins by half while the hero stands right behind it** (every other tree card fades almost away there, and the
     gate vanished exactly at the travel prompt). Say if you would rather it never thinned.
 
+17. **The vault stands where it stood, and is hidden by what it is now.** It is a 1.75 m cellar door in a grassy bank (the old
+    frame was 4.75 m), with a hedge on each side and an apple tree half in front, beside the stone hut north of the square. I did
+    not move it to the orchard: the quest text, the quest marker and the walk to it stay as they were. Say if it should move:
+    `TownBuilder.FOUR_SEAL_CELL`.
+18. **It is built from the town's painted materials, not a new painting:** fieldstone, planks, beams, hedge, grass, cobbles. The
+    iron (straps, seals) is the beam painting darkened, because the town kit has no iron. A painted cellar door with four seal
+    sockets is a Batch 17 row.
+19. **A seal turns when you next come within 9 m of the cellar, not when the lever is pulled.** Until then it shows the padlock, and
+    all four padlocks are identical: nothing tells which Path a seal is. The toast in the zone does show that zone's Path icon
+    (as your brief asks), so the player learns which seal they just turned, never which ones are left.
+20. **The lever's three-second cutaway card is gone.** The hero is free again 1.1 s after the pull; the toast stays about six
+    seconds or until it is clicked, at the top of the screen.
+21. **The cellar is on the map from the first lever on** (a padlock and "2 of 4"; the dungeon door once all four have turned; gone
+    once the Warden is beaten). Before the first lever it stays a secret, as before. With all four turned the doors stand ajar
+    with lamplight in the gap; they stand wide open after the Warden.
+22. **Texts changed with it:** "Examine the cellar door", "Open the cellar of the Four Seals", the sealed door's two lines, "N of 4
+    seals have turned", the quest step and its place line. The quest is still "The Four Seals"; the Warden, the signet and the
+    cloak keep their names.
+
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov16`.

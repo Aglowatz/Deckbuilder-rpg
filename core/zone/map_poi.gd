@@ -51,6 +51,9 @@ var dungeon_id: String = ""
 ## Fable pass Nov 10 (Part 1.6): how many goals of the same name this "Point me to..." row stands for (nine roaming scavengers, fourteen
 ## hidden stashes: one row, "one of 14", pointing at the first).
 var group_count: int = 1
+## Fable Nov 16b (Part 4): an icon of this point's own instead of its kind's (the cellar of the Four Seals: a padlock while a seal is still
+## locked). "" = the kind's icon.
+var icon_override: String = ""
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

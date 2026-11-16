@@ -560,6 +560,6 @@ static func _four_seals() -> QuestData:
 		levers.part(QuestObjective.TargetKind.SPOT, zone_id, "vault_lever", "A hidden lever", Condition.flag(str(VaultGuardian.flag_for(zone_id))))
 	quest.objectives = [
 		levers,
-		QuestObjective.make("Open the Four-Seal Vault", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),
+		QuestObjective.make("Open the cellar of the Four Seals", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "A cellar door in a grassy bank behind a hedge, north of Crosspath's square"),
 	] as Array[QuestObjective]
 	return quest

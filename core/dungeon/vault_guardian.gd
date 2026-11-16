@@ -58,10 +58,10 @@ const LOSE_LINES: Array[String] = [
 	"[calm] The seals hold. Come back stronger. The vault is not going anywhere.",
 ]
 const SEALED_LINES: Array[String] = [
-	"A great door of stone, carved with four seals.",
-	"It is cold to the touch. The seals do not move. Something, somewhere far away, must open them.",
+	"A cellar door of old planks bound in iron, set into the bank. Four round iron seals sit on it, each stamped with a padlock.",
+	"The iron is cold. The seals do not move. Something, somewhere far away, must turn them.",
 ]
-const EMPTY_LINES: Array[String] = ["The vault stands open. Its Warden is gone, and so is everything it kept."]
+const EMPTY_LINES: Array[String] = ["The cellar stands open. Its Warden is gone, and so is everything it kept."]
 
 
 static func flag_for(zone_id: String) -> StringName:
@@ -88,7 +88,7 @@ static func all_pulled(flags: Dictionary) -> bool:
 ## The text of the cutaway when a lever is pulled: something happened far away.
 static func pulled_message(count: int) -> String:
 	if count >= ZONE_IDS.size():
-		return "Far away, the last seal shatters. The great vault door grinds open... (4/4)"
+		return "Far away, the last seal turns. An old cellar door comes unstuck... (4/4)"
 	return "Far away, a great lock grinds open... (%d/%d)" % [count, ZONE_IDS.size()]
 
 

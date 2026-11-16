@@ -36,6 +36,8 @@ static func poi(canvas: CanvasItem, centre: Vector2, point: MapPoi, radius: floa
 	if point.path_tint.a > 0.0:
 		path_ring(canvas, centre, radius, point.path_tint)
 	var icon: String = icon_id(point.kind)
+	if point.icon_override != "" and IconArt.has(point.icon_override):
+		icon = point.icon_override
 	if icon != "":
 		_poi_icon(canvas, centre, icon, radius, point.locked)
 	else:

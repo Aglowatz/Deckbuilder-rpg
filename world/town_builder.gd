@@ -363,7 +363,10 @@ func _build_props() -> void:
 	var vault4_mountain: Vector3 = cell_center(FOUR_SEAL_CELL.x, FOUR_SEAL_CELL.y)
 	anchors["vault4_mouth"] = vault4_mountain + Vector3(0, 0, 1.5)
 	anchors["vault4"] = (anchors["vault4_mouth"] as Vector3) + Vector3(0, 0, 1.4)
-	obstacles.append(Vector3(vault4_mountain.x, vault4_mountain.z + 1.5, 1.2))
+	# Fable Nov 16b (Part 4): the vault is a cellar door in a grassy bank (FourSealVault): its stone face, the bank behind it and the
+	# hedges beside it are solid; the stepping stones in front are the way in.
+	for circle: Vector3 in FourSealVault.SOLID:
+		obstacles.append(Vector3(vault4_mountain.x + circle.x, vault4_mountain.z + 1.5 + circle.y, circle.z))
 	_build_hidden_chests()
 	expansion = TownExpansion.build(root, self)
 	_build_dev_shrine()

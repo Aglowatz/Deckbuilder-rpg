@@ -122,11 +122,11 @@ func test_the_lever_and_the_vault_are_built_from_the_save() -> void:
 	assert_almost_eq(LeverKit.handle_of(lever).rotation_degrees.z, LeverKit.HANDLE_UP_DEGREES, 0.01)
 	var holder: Node3D = Node3D.new()
 	add_child_autofree(holder)
+	# Fable Nov 16b (Part 4): the vault is a cellar door with four iron seals (padlock -> the Path's icon); tests/world/test_four_seals_nov16b.gd.
 	var vault: Node3D = FourSealVault.build(holder, Vector3.ZERO)
 	for zone_id: String in VaultGuardian.ZONE_IDS:
-		var light: OmniLight3D = vault.get_node("Light_%s" % zone_id) as OmniLight3D
-		assert_eq(light.light_energy, 0.0, "all four seals start dark")
+		assert_eq(str(vault.find_child("Seal_%s" % zone_id, true, false).get_meta(&"icon")), FourSealVault.PADLOCK_ICON, "all four seals start locked")
 	Session.pull_vault_lever("beefcake")
-	FourSealVault.refresh(vault)
-	assert_gt((vault.get_node("Light_beefcake") as OmniLight3D).light_energy, 0.0, "a pulled lever lights its seal")
-	assert_eq((vault.get_node("Light_gourmand") as OmniLight3D).light_energy, 0.0)
+	FourSealVault.reveal(vault, true)
+	assert_true(bool(vault.find_child("Seal_beefcake", true, false).get_meta(&"open")), "a pulled lever turns its seal")
+	assert_false(bool(vault.find_child("Seal_gourmand", true, false).get_meta(&"open")))

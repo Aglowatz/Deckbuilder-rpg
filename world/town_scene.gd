@@ -962,7 +962,7 @@ func _build_spots() -> void:
 	_add_spot("chest_back", "A Hidden Chest", town.anchors["chest_back"] as Vector3, 1.3)
 	_add_spot("lever", "An Old Lever", town.anchors["lever"] as Vector3, 1.2)
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
-	_add_spot("vault4", "The Four-Seal Vault", town.anchors["vault4"] as Vector3, 2.2)
+	_add_spot("vault4", "The Cellar of the Four Seals", town.anchors["vault4"] as Vector3, 2.2)
 	four_seal_vault = FourSealVault.build(self, town.anchors["vault4_mouth"] as Vector3)
 	_hang_freed_banners()
 	_place_plinth_statues()
@@ -1220,6 +1220,9 @@ func _process(delta: float) -> void:
 	if arrival_pending and not arrival_active and not SceneManager.busy:
 		_begin_cave_arrival()
 	_watch_lock(delta)
+	# Fable Nov 16b (Part 4): the seals whose levers were pulled since the last visit turn over when the hero comes near the cellar door.
+	if four_seal_vault != null and not _locked and FourSealVault.should_reveal(four_seal_vault, player.position):
+		FourSealVault.reveal(four_seal_vault)
 	if town.undercroft != null:
 		town.undercroft.update(player.position, delta)
 	_update_fountain_silhouette()
@@ -1382,7 +1385,7 @@ func _prompt_text(spot: Spot) -> String:
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 		"vault4":
-			return "Open the Four-Seal Vault" if Session.vault_unlocked() and not Session.vault_defeated() else "Examine the vault door"
+			return "Open the cellar of the Four Seals" if Session.vault_unlocked() and not Session.vault_defeated() else "Examine the cellar door"
 		"graveyard_cairn":
 			return "Disturb the cairn"
 		"rift_station":
@@ -2693,7 +2696,7 @@ func _open_four_seal_vault() -> void:
 	if not Session.vault_unlocked():
 		Audio.sfx(&"ui_error")
 		var lines: Array[String] = VaultGuardian.SEALED_LINES.duplicate()
-		lines.append("%d of 4 seals are broken." % Session.vault_levers_pulled())
+		lines.append("%d of 4 seals have turned." % FourSealVault.open_count())
 		dialogue.start("", lines)
 		return
 	_locked = true
@@ -3133,9 +3136,27 @@ func _collect_pois() -> Array[MapPoi]:
 		elif spot.id.begins_with("portal_"):
 			var zone_id: String = spot.id.trim_prefix("portal_")
 			result.append(_tint_own_path(MapPoi.make(MapPoi.Kind.EXIT, spot.position, spot.title, false, _portal_is_locked(zone_id)), zone_id))
+	var cellar: MapPoi = four_seals_poi()
+	if cellar != null:
+		result.append(cellar)
 	if quest_markers != null:
 		quest_markers.add_map_pois(result)
 	return result
+
+
+## Fable Nov 16b (Part 4): the cellar of the Four Seals on the map and the minimap. It is a secret until the first hidden lever is pulled
+## (the quest starts then); from then on it is marked with a padlock and how many seals have turned, with the dungeon door icon once all
+## four have, and it is gone from the map once the Warden is beaten. Null while it stays hidden.
+func four_seals_poi() -> MapPoi:
+	if Session.vault_levers_pulled() == 0 or Session.vault_defeated() or not town.anchors.has("vault4"):
+		return null
+	var turned: int = FourSealVault.open_count()
+	var total: int = VaultGuardian.ZONE_IDS.size()
+	var poi: MapPoi = MapPoi.make(MapPoi.Kind.DUNGEON, town.anchors["vault4"] as Vector3, "The Cellar of the Four Seals (%d of %d)" % [turned, total])
+	if turned < total:
+		poi.icon_override = FourSealVault.PADLOCK_ICON
+		poi.locked = true
+	return poi
 
 
 ## Fix pass Nov 7 (item 1): the player's own Path road - its exit and its gatekeeper - carries a ring in the Path's colour and says so in its
