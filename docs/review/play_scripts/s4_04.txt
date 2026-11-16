@@ -1,0 +1,134 @@
+wait 4
+dev load s1_a
+wait 11
+dev travel dungeon D-TUT -2
+wait 6
+button Got it
+wait 0.5
+click 1311 263
+wait 1
+key E
+wait 0.5
+key E
+wait 0.5
+key E
+wait 0.5
+key E
+wait 0.5
+key E
+wait 0.5
+key E
+wait 0.8
+button Continue
+wait 2.5
+key E
+wait 1.5
+dev win
+wait 2.5
+button Continue
+wait 1.5
+key 1
+wait 0.6
+shot s4_04_00_pick
+click 710 755
+wait 2.2
+shot s4_04_01
+dump
+scene
+key E
+wait 2.2
+shot s4_04_02
+dump
+scene
+key E
+wait 2.2
+shot s4_04_03
+dump
+scene
+key E
+wait 2.2
+shot s4_04_04
+dump
+scene
+key E
+wait 2.2
+shot s4_04_05
+dump
+scene
+key E
+wait 2.2
+shot s4_04_06
+dump
+scene
+key E
+wait 2.2
+shot s4_04_07
+dump
+scene
+key E
+wait 2.2
+shot s4_04_08
+dump
+scene
+key E
+wait 2.2
+shot s4_04_09
+dump
+scene
+key E
+wait 2.2
+shot s4_04_10
+dump
+scene
+key E
+wait 2
+scene
+button Leave
+wait 12
+scene
+shot s4_04_20_outside
+dump
+wait 2.2
+shot s4_04_21
+dump
+key E
+wait 2.2
+shot s4_04_22
+dump
+key E
+wait 2.2
+shot s4_04_23
+dump
+key E
+wait 2.2
+shot s4_04_24
+dump
+key E
+wait 2.2
+shot s4_04_25
+dump
+key E
+wait 2.2
+shot s4_04_26
+dump
+key E
+wait 2.2
+shot s4_04_27
+dump
+key E
+wait 2.2
+shot s4_04_28
+dump
+key E
+wait 2.2
+shot s4_04_29
+dump
+key E
+wait 2.2
+shot s4_04_30
+dump
+key E
+wait 2
+scene
+shot s4_04_40
+dev save s4_cave

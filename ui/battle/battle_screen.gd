@@ -1397,6 +1397,15 @@ func _input(event: InputEvent) -> void:
 			return
 		if mode == Mode.OVER and _result_panel != null:
 			get_viewport().set_input_as_handled()
+			# Overnight Nov 16 (critic S4, finding 1): on Primm's defeat panel the key presses the button that is lit - "Fight Primm
+			# again" unless the player moved to "Leave the castle". It always left, and the castle started over.
+			if Session.can_retry_primm(context):
+				var leave: Control = _result_panel.find_child("LeaveCastle", true, false) as Control
+				if leave != null and leave.has_focus():
+					_continue()
+				else:
+					_retry_primm()
+				return
 			_continue()
 			return
 		if _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled and event.is_action_pressed(&"battle_advance"):

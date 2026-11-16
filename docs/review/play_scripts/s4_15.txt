@@ -1,0 +1,169 @@
+wait 4
+dev load c13castle
+wait 13
+dev heal
+dev primm 1
+wait 6
+click 1322 340
+wait 2
+skip_dialogue 70
+wait 1
+button Continue
+wait 6.5
+button Keep
+wait 1.5
+drag 560 800 800 520
+wait 1.2
+drag 674 800 800 450
+wait 1.5
+shot s4_15_01_hand
+dump
+dev lose
+wait 3.5
+shot s4_15_02_defeat
+dump
+button Fight
+wait 5
+dev autowin on
+dev win
+wait 2.5
+button Continue
+wait 1.5
+skip_dialogue 14
+wait 4
+button Continue
+wait 1.5
+skip_dialogue 16
+wait 4
+shot s4_end_00
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_01
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_02
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_03
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_04
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_05
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_06
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_07
+dump
+key E
+key 1
+button Take
+wait 2.2
+shot s4_end_08
+dump
+key E
+wait 2.2
+shot s4_end_09
+dump
+key E
+wait 2.2
+shot s4_end_10
+dump
+key E
+wait 2.2
+shot s4_end_11
+dump
+key E
+wait 2.2
+shot s4_end_12
+dump
+key E
+wait 2.2
+shot s4_end_13
+dump
+key E
+wait 2.2
+shot s4_end_14
+dump
+key E
+wait 2.2
+shot s4_end_15
+dump
+key E
+wait 2.2
+shot s4_end_16
+dump
+key E
+wait 2.2
+shot s4_end_17
+dump
+key E
+wait 2.2
+shot s4_end_18
+dump
+key E
+wait 2.2
+shot s4_end_19
+dump
+key E
+wait 2.2
+shot s4_end_20
+dump
+key E
+wait 2.2
+shot s4_end_21
+dump
+key E
+wait 2.2
+shot s4_end_22
+dump
+key E
+wait 2.2
+shot s4_end_23
+dump
+key E
+wait 2.2
+shot s4_end_24
+dump
+key E
+wait 2.2
+shot s4_end_25
+dump
+key E
+wait 2.2
+shot s4_end_26
+dump
+key E
+wait 2.2
+shot s4_end_27
+dump
+key E
+wait 2.2
+shot s4_end_28
+dump
+scene
+dev save s4_end

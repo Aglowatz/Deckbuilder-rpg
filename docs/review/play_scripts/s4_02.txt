@@ -1,0 +1,45 @@
+wait 4
+dev load s1_a
+wait 12
+dev travel dungeon D-TUT -2
+wait 6
+button Got it
+wait 0.6
+click 1311 263
+wait 1.5
+shot s4_02_01_bosspop
+dump
+button Fight
+wait 4
+shot s4_02_02_fightstart
+dump
+pilot 80
+wait 1.5
+shot s4_02_03_after
+dump
+scene
+key E
+wait 1.2
+shot s4_02_04
+dump
+key E
+wait 1.2
+shot s4_02_05
+dump
+key E
+wait 1.2
+shot s4_02_06
+dump
+key E
+wait 1.2
+shot s4_02_07
+dump
+key E
+wait 1.2
+shot s4_02_08
+dump
+key E
+wait 1.2
+shot s4_02_09
+dump
+scene

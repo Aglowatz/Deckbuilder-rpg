@@ -14,6 +14,9 @@ ICON = "painted cozy-fantasy game icon, soft visible brushwork, warm painterly l
 PIECE = "painted cozy-fantasy game asset in the zone kit's style, soft visible brushwork, warm painterly light, clean readable silhouette, transparent background, no text, "
 PORTRAIT = "painted cozy-fantasy character portrait, soft visible brushwork, warm painterly light, transparent background, no text, "
 UI = "painted cozy-fantasy game UI asset, soft visible brushwork, warm painterly light, clean readable silhouette, transparent background, no text, "
+FOUR = ("the four Path icons of the attached sheet: a gold flexed arm on a red disc (Beefcake), a white chef's hat on a cream disc with a copper rim (Gourmand), "
+        "a green leaf inside three rust-orange recycling arrows on a moss-green disc (Refusemancer), and a pale skull wrapped in green ghost-flame on a dark slate disc (Necrocrat)")
+RING = FOUR + ", arranged in a ring, clockwise from the top: arm, chef's hat, leaf, skull"
 STONE = ("a statue carved from one block of pale grey weathered stone: no skin or cloth colours anywhere, only stone, with a little moss and lichen in the folds and "
          "soft chisel marks; ")
 STAND = ("STANDING: the whole figure upright on a low round stone base (the game stands it on its own square plinth, so paint no plinth), seen from the front, "
@@ -95,6 +98,30 @@ CRITIC_ROWS = [
      "   - R: the Refusemancer Path icon (ref %NN% ICON-ENERGY-R): one green leaf inside three rust-orange recycling arrows on a moss-green disc. No cog, no ring of leaves.\n"
      "   - G: the Gourmand Path icon (ref %NN% ICON-ENERGY-G): the white chef's hat alone on a cream disc with a copper rim. No ladle, no whisk.\n"
      "   - C: keep the gold compass star; in its four quarters put the four Path icons of the sheet, small, clockwise from the top: arm, chef's hat, leaf, skull."),
+    ("tunnels", "MAP-S-CAP / BB-S-CAP", "The Old Service Tunnels (the Capital's side dungeon, Sergeant Scuff): its room map and its battle board",
+     "assets/art/maps/MAP-S-CAP.webp; assets/art/battleboards/BB-S-CAP.webp",
+     "Critic S3 (Nov 16), findings 1 and 2: the mural over the Four-Faction Junction on the map, and the floor medallion in the middle of the battle board, show the four "
+     "Paths as a sun, a wave, a sprig and a flame round a star. They fill the middle of the table for the whole fight.",
+     "the same two pictures repainted exactly as they are, with one change each: the four symbols in the quarters (the mural on the map, the floor medallion on the board) become " + FOUR + ", one per quarter, clockwise from the top left: arm, chef's hat, leaf, skull.",
+     "MAP-S-CAP, BB-S-CAP", "assets/art/maps/MAP-S-CAP.webp; assets/art/battleboards/BB-S-CAP.webp", "the same sizes as the references", "PNG",
+     ["assets/art/maps/MAP-S-CAP.webp", "assets/art/battleboards/BB-S-CAP.webp", "docs/art/path_icon_sheet.png", "assets/art/icons/ICON-ENERGY-B.webp", "assets/art/icons/ICON-ENERGY-G.webp",
+      "assets/art/icons/ICON-ENERGY-R.webp", "assets/art/icons/ICON-ENERGY-N.webp"], "16",
+     "**MAP-S-CAP** and **BB-S-CAP** (each the same size as its reference). Repaint refs %NN% MAP-S-CAP and BB-S-CAP exactly as they are: the same brick tunnels, "
+     "composition, light and style. The only change in each: the four symbols in the four quarters (the mural over the junction on the map; the round floor medallion in the middle of "
+     "the battle board) become the four Path icons of the attached sheet, one per quarter, clockwise from the top left: the gold flexed arm on red, the white chef's hat on cream, the green leaf "
+     "in three rust arrows on moss green, the pale skull in green flame on slate. No sun, wave, sprig, flame or star."),
+    ("maren_stick", "NPC-ELDER (and its expressions)", "Elder Maren's dialogue portrait: every talk with her, the four memory scenes above all",
+     "assets/art/portraits/NPC-ELDER.webp, NPC-ELDER_HAPPY.webp, NPC-ELDER_WORRIED.webp",
+     "Critic S4 (Nov 16), finding 3: Maren says the royal crest's four signs are 'the same as the ones carved on this stick of mine', and the stick in her portrait "
+     "shows a sun, a sprig, a crescent moon and a drop.",
+     PORTRAIT + "the same old tortoise in her shawl repainted exactly (face, glasses, clothes, pose, framing, style) in each of the three pictures, with one change: the "
+     "four small carvings on her walking stick become " + FOUR + ", one above the other from the top: arm, chef's hat, leaf, skull.",
+     "NPC-ELDER, NPC-ELDER_HAPPY, NPC-ELDER_WORRIED", "assets/art/portraits/NPC-ELDER.webp, _HAPPY.webp, _WORRIED.webp", "1024x1536 each", "PNG with transparency",
+     ["assets/art/portraits/NPC-ELDER.webp", "assets/art/portraits/NPC-ELDER_HAPPY.webp", "assets/art/portraits/NPC-ELDER_WORRIED.webp", "docs/art/path_icon_sheet.png"], "16",
+     "**NPC-ELDER**, **NPC-ELDER_HAPPY** and **NPC-ELDER_WORRIED** (1024x1536 each, transparent). Repaint refs %NN% NPC-ELDER, NPC-ELDER_HAPPY and NPC-ELDER_WORRIED "
+     "exactly: the same old tortoise, glasses, shawl, pose, framing and style, each with its own expression. The only change, the same in all three: the four small "
+     "carvings on her walking stick become the four Path icons of the attached sheet, one above the other from the top: the flexed arm, the chef's hat, the leaf in "
+     "three arrows, the skull in flame. If a picture does not show the stick, leave that picture as it is."),
     ("dump_pennants", "DUMP-SHEET-ENTRANCE-FLAGS-07 / -08", "The Verdant Dump's entrance bridge: the two pennants a player sees first in the zone",
      "assets/art/zone_kits/heap/DUMP-SHEET-ENTRANCE-FLAGS-01.webp (a single leaf: no longer used at the entrance)",
      "Critic S1 (Nov 16), finding 4: a single leaf on a pennant reads as the Path's sign and is not the Refusemancer icon. The game now hangs the two paw-print pennants there; "

@@ -1,0 +1,31 @@
+wait 4
+dev load s4_cave
+wait 14
+scene
+shot s4_05_01_town
+key J
+wait 1.5
+shot s4_05_02_quests
+dump
+key J
+wait 1
+scene
+key M
+wait 2
+shot s4_05_03_map
+dump
+button Point me
+wait 1.2
+shot s4_05_04_point
+dump
+button Tilly
+wait 1.5
+shot s4_05_05_after_pick
+dump
+key Escape
+wait 1
+scene
+shot s4_05_06
+hold W 2
+scene
+shot s4_05_07

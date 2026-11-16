@@ -1,0 +1,144 @@
+wait 4
+dev load midgame_real
+wait 13
+dev travel town
+wait 13
+dev freed gourmand
+dev freed refusemancer
+wait 4
+skip_dialogue 8
+wait 1
+scene
+hold D 0.45
+hold W 2.6
+hold A 0.3
+hold W 2.2
+scene
+key E
+wait 1
+skip_dialogue 40
+wait 1.5
+scene
+key E
+wait 2.4
+shot s4_11_01
+dump
+key E
+wait 2.4
+shot s4_11_02
+dump
+key E
+wait 2.4
+shot s4_11_03
+dump
+key E
+wait 2.4
+shot s4_11_04
+dump
+key E
+wait 2.4
+shot s4_11_05
+dump
+key E
+wait 2.4
+shot s4_11_06
+dump
+key E
+wait 2.4
+shot s4_11_07
+dump
+key E
+wait 2.4
+shot s4_11_08
+dump
+key E
+wait 2.4
+shot s4_11_09
+dump
+key E
+wait 2.4
+shot s4_11_10
+dump
+key E
+wait 2.4
+shot s4_11_11
+dump
+key E
+wait 2.4
+shot s4_11_12
+dump
+key E
+wait 2.4
+shot s4_11_13
+dump
+key E
+wait 2.4
+shot s4_11_14
+dump
+key E
+wait 2.4
+shot s4_11_15
+dump
+key E
+wait 2.4
+shot s4_11_16
+dump
+key E
+wait 2.4
+shot s4_11_17
+dump
+key E
+wait 2.4
+shot s4_11_18
+dump
+key E
+wait 2.4
+shot s4_11_19
+dump
+key E
+wait 2.4
+shot s4_11_20
+dump
+key E
+wait 2.4
+shot s4_11_21
+dump
+key E
+wait 2.4
+shot s4_11_22
+dump
+key E
+wait 2.4
+shot s4_11_23
+dump
+key E
+wait 2.4
+shot s4_11_24
+dump
+key E
+wait 2.4
+shot s4_11_25
+dump
+key E
+wait 2.4
+shot s4_11_26
+dump
+key E
+wait 2.4
+shot s4_11_27
+dump
+key E
+wait 2.4
+shot s4_11_28
+dump
+key E
+wait 2.4
+shot s4_11_29
+dump
+key E
+wait 2.4
+shot s4_11_30
+dump
+key E
+wait 2
+scene

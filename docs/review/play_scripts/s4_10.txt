@@ -1,0 +1,144 @@
+wait 4
+dev load midgame_real
+wait 13
+dev travel town
+wait 13
+dev freed beefcake
+dev freed gourmand
+dev freed refusemancer
+dev freed necrocrat
+wait 1
+hold D 0.45
+hold W 2.6
+hold A 0.3
+hold W 2.2
+scene
+key E
+wait 1
+skip_dialogue 40
+wait 1
+scene
+shot s4_10_00
+key E
+wait 2.4
+shot s4_10_01
+dump
+key E
+wait 2.4
+shot s4_10_02
+dump
+key E
+wait 2.4
+shot s4_10_03
+dump
+key E
+wait 2.4
+shot s4_10_04
+dump
+key E
+wait 2.4
+shot s4_10_05
+dump
+key E
+wait 2.4
+shot s4_10_06
+dump
+key E
+wait 2.4
+shot s4_10_07
+dump
+key E
+wait 2.4
+shot s4_10_08
+dump
+key E
+wait 2.4
+shot s4_10_09
+dump
+key E
+wait 2.4
+shot s4_10_10
+dump
+key E
+wait 2.4
+shot s4_10_11
+dump
+key E
+wait 2.4
+shot s4_10_12
+dump
+key E
+wait 2.4
+shot s4_10_13
+dump
+key E
+wait 2.4
+shot s4_10_14
+dump
+key E
+wait 2.4
+shot s4_10_15
+dump
+key E
+wait 2.4
+shot s4_10_16
+dump
+key E
+wait 2.4
+shot s4_10_17
+dump
+key E
+wait 2.4
+shot s4_10_18
+dump
+key E
+wait 2.4
+shot s4_10_19
+dump
+key E
+wait 2.4
+shot s4_10_20
+dump
+key E
+wait 2.4
+shot s4_10_21
+dump
+key E
+wait 2.4
+shot s4_10_22
+dump
+key E
+wait 2.4
+shot s4_10_23
+dump
+key E
+wait 2.4
+shot s4_10_24
+dump
+key E
+wait 2.4
+shot s4_10_25
+dump
+key E
+wait 2.4
+shot s4_10_26
+dump
+key E
+wait 2.4
+shot s4_10_27
+dump
+key E
+wait 2.4
+shot s4_10_28
+dump
+key E
+wait 2.4
+shot s4_10_29
+dump
+key E
+wait 2.4
+shot s4_10_30
+dump
+key E
+wait 2
+scene

@@ -1,0 +1,72 @@
+wait 4
+dev load c13castle
+wait 13
+dev heal
+dev primm 1
+wait 6
+click 1322 340
+wait 2.3
+shot s4_13_01
+dump
+key E
+wait 2.3
+shot s4_13_02
+dump
+key E
+wait 2.3
+shot s4_13_03
+dump
+key E
+wait 2.3
+shot s4_13_04
+dump
+key E
+wait 2.3
+shot s4_13_05
+dump
+key E
+wait 2.3
+shot s4_13_06
+dump
+key E
+wait 2.3
+shot s4_13_07
+dump
+key E
+wait 1
+skip_dialogue 12
+wait 1
+shot s4_13_08_pop
+dump
+button Continue
+wait 7
+shot s4_13_10_fight
+dump
+drag 507 800 800 520
+wait 1.2
+drag 655 800 700 520
+wait 1.2
+drag 803 800 900 520
+wait 1.2
+shot s4_13_11_played
+dump
+button End
+wait 1.5
+shot s4_13_12_endturn
+dump
+pilot 16
+shot s4_13_13_turn2
+dev lose
+wait 1.5
+shot s4_13_14_defeat
+dump
+wait 1.5
+shot s4_13_15_defeat2
+button Fight
+wait 5
+shot s4_13_16_again
+dump
+wait 4
+shot s4_13_17_again2
+dump
+scene

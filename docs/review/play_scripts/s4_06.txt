@@ -1,0 +1,62 @@
+wait 4
+dev load s4_cave
+wait 14
+key M
+wait 1.5
+button Point me
+wait 1
+click 800 180
+wait 1.2
+shot s4_06_01_picked
+click 1548 55
+wait 1
+shot s4_06_02_route
+hold A 3.3
+scene
+hold W 6
+scene
+shot s4_06_03
+hold W 5.5
+scene
+shot s4_06_04
+key E
+wait 2.2
+shot s4_06_05
+dump
+key E
+wait 2.2
+shot s4_06_06
+dump
+key E
+wait 2.2
+shot s4_06_07
+dump
+key E
+wait 2.2
+shot s4_06_08
+dump
+key E
+wait 2.2
+shot s4_06_09
+dump
+key E
+wait 2.2
+shot s4_06_10
+dump
+key E
+wait 2.2
+shot s4_06_11
+dump
+key E
+wait 2.2
+shot s4_06_12
+dump
+key E
+wait 2.2
+shot s4_06_13
+dump
+key E
+wait 2.2
+shot s4_06_14
+dump
+scene

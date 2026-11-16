@@ -1,0 +1,8 @@
+wait 4
+dev load s1_a
+wait 14
+dev travel dungeon D-TUT -2
+wait 8
+shot s4_01_01_cave
+dump
+scene

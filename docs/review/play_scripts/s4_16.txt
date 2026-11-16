@@ -1,0 +1,179 @@
+wait 4
+dev load c13castle
+wait 12
+dev autowin on
+dev primm 1
+wait 5.5
+click 1322 340
+wait 2
+skip_dialogue 70
+wait 1
+button Continue
+wait 5
+button Continue
+wait 1.5
+skip_dialogue 14
+wait 5
+button Continue
+wait 1.5
+skip_dialogue 12
+wait 4
+shot s4_end_30
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_31
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_32
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_33
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_34
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_35
+dump
+key E
+key 1
+button Take
+wait 2.0
+shot s4_end_36
+dump
+key E
+wait 2.0
+shot s4_end_37
+dump
+key E
+wait 2.0
+shot s4_end_38
+dump
+key E
+wait 2.0
+shot s4_end_39
+dump
+key E
+wait 2.0
+shot s4_end_40
+dump
+key E
+wait 2.0
+shot s4_end_41
+dump
+key E
+wait 2.0
+shot s4_end_42
+dump
+key E
+wait 2.0
+shot s4_end_43
+dump
+key E
+wait 2.0
+shot s4_end_44
+dump
+key E
+wait 2.0
+shot s4_end_45
+dump
+key E
+wait 2.0
+shot s4_end_46
+dump
+key E
+wait 2.0
+shot s4_end_47
+dump
+key E
+wait 2.0
+shot s4_end_48
+dump
+key E
+wait 2.0
+shot s4_end_49
+dump
+key E
+wait 2.0
+shot s4_end_50
+dump
+key E
+wait 2.0
+shot s4_end_51
+dump
+key E
+wait 2.0
+shot s4_end_52
+dump
+key E
+wait 2.0
+shot s4_end_53
+dump
+key E
+wait 2.0
+shot s4_end_54
+dump
+key E
+wait 2.0
+shot s4_end_55
+dump
+key E
+wait 2.0
+shot s4_end_56
+dump
+key E
+wait 2.0
+shot s4_end_57
+dump
+key E
+wait 2.0
+shot s4_end_58
+dump
+key E
+wait 2.0
+shot s4_end_59
+dump
+key E
+wait 2.0
+shot s4_end_60
+dump
+key E
+wait 2.0
+shot s4_end_61
+dump
+key E
+wait 2.0
+shot s4_end_62
+dump
+key E
+wait 2.0
+shot s4_end_63
+dump
+key E
+wait 2.0
+shot s4_end_64
+dump
+key E
+wait 2.0
+shot s4_end_65
+dump
+key E
+wait 2.0
+shot s4_end_66
+dump
+scene

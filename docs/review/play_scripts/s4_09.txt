@@ -1,0 +1,160 @@
+wait 4
+dev load midgame_real
+wait 13
+dev travel town
+wait 13
+dev freed beefcake
+wait 1
+hold D 0.45
+hold W 2.6
+hold A 0.3
+hold W 2.2
+scene
+key E
+wait 2.2
+shot s4_09_01
+dump
+key E
+wait 2.2
+shot s4_09_02
+dump
+key E
+wait 2.2
+shot s4_09_03
+dump
+key E
+wait 2.2
+shot s4_09_04
+dump
+key E
+wait 2.2
+shot s4_09_05
+dump
+key E
+wait 2.2
+shot s4_09_06
+dump
+key E
+wait 2.2
+shot s4_09_07
+dump
+key E
+wait 2.2
+shot s4_09_08
+dump
+key E
+wait 2.2
+shot s4_09_09
+dump
+key E
+wait 2.2
+shot s4_09_10
+dump
+key E
+wait 2.2
+shot s4_09_11
+dump
+key E
+wait 2.2
+shot s4_09_12
+dump
+key E
+wait 2.2
+shot s4_09_13
+dump
+key E
+wait 2.2
+shot s4_09_14
+dump
+key E
+wait 2.2
+shot s4_09_15
+dump
+key E
+wait 2.2
+shot s4_09_16
+dump
+key E
+wait 2.2
+shot s4_09_17
+dump
+key E
+wait 2
+scene
+dev freed gourmand
+wait 1
+key E
+wait 2.2
+shot s4_09_21
+dump
+key E
+wait 2.2
+shot s4_09_22
+dump
+key E
+wait 2.2
+shot s4_09_23
+dump
+key E
+wait 2.2
+shot s4_09_24
+dump
+key E
+wait 2.2
+shot s4_09_25
+dump
+key E
+wait 2.2
+shot s4_09_26
+dump
+key E
+wait 2.2
+shot s4_09_27
+dump
+key E
+wait 2.2
+shot s4_09_28
+dump
+key E
+wait 2.2
+shot s4_09_29
+dump
+key E
+wait 2.2
+shot s4_09_30
+dump
+key E
+wait 2.2
+shot s4_09_31
+dump
+key E
+wait 2.2
+shot s4_09_32
+dump
+key E
+wait 2.2
+shot s4_09_33
+dump
+key E
+wait 2.2
+shot s4_09_34
+dump
+key E
+wait 2.2
+shot s4_09_35
+dump
+key E
+wait 2.2
+shot s4_09_36
+dump
+key E
+wait 2.2
+shot s4_09_37
+dump
+key E
+wait 2.2
+shot s4_09_38
+dump
+key E
+wait 2
+scene

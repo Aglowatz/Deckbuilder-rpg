@@ -134,3 +134,26 @@ func test_small_texts_from_the_first_hour() -> void:
 	assert_false(CharacterScreen.SUBTITLE.contains("4"), "no 'up to 4' above 'Equipped 0 of 2'")
 	assert_eq(NodeCard.WELL_ICON, "ICON-NODE-WELL")
 	assert_true(Session.CAVE_LOSS_NOTICE.contains("cards and gold you won are kept"))
+
+
+func test_dex_is_on_every_path_zone_s_map() -> void:
+	for zone_id: String in CardMatchCircuit.ZONES:
+		var def: ZoneDef = ZoneDefs.get_def(zone_id)
+		assert_eq(def.poi_kinds.get("cardsharp", -1), MapPoi.Kind.MINIGAME, "%s: Dex has a map marker" % zone_id)
+
+
+func test_late_game_small_texts() -> void:
+	assert_eq(MapPoi.kind_name(MapPoi.Kind.GATE), "Guarded gate")
+	var lines: String = FileAccess.get_file_as_string("res://data/vendors/vendor_lines.json")
+	assert_false(lines.contains("Fifty gold"), "Fig Sly names no price his packs do not have")
+	var capital: String = FileAccess.get_file_as_string("res://world/capital/capital_scene.gd")
+	assert_true(capital.contains("\"Manhole to the Crease\""), "the manhole stays on the Capital's map")
+
+
+func test_the_key_on_primm_s_defeat_panel_presses_the_lit_button() -> void:
+	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd")
+	var at: int = source.find("if mode == Mode.OVER and _result_panel != null:")
+	assert_gt(at, 0)
+	var block: String = source.substr(at, 700)
+	assert_true(block.contains("Session.can_retry_primm(context)"), "the retry choice is checked before the key continues")
+	assert_lt(block.find("_retry_primm()"), block.rfind("_continue()"), "Fight Primm again is the key's default")
