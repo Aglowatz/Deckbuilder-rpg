@@ -3391,6 +3391,23 @@ func _screenshot_open(what: String) -> void:
 			_use_well()
 		"deck":
 			_open_deck_station()
+		"deck_full":  # Fable Nov 16b (Part 1): a mid-game deck (every card type, 20-odd different cards) in the Deck Station's list
+			Session.set_flag(&"tip_deck")
+			Session.add_xp(ProgressionTable.xp_to_reach(12) - Session.profile.xp)
+			var full_ids: Array[String] = []
+			var full_cards: Array[CardData] = []
+			for prefix: String in ["B", "C"]:
+				for number: int in range(1, 12):
+					var full_card: CardData = Session.content.card("%s-%02d" % [prefix, number])
+					if full_card != null and not full_card.is_token and Session.card_available(full_card):
+						for _copy: int in range(mini(2, Session.copy_cap(full_card))):
+							full_ids.append(full_card.id)
+							full_cards.append(full_card)
+			Session.add_cards(full_cards)
+			for _basic: int in range(18):
+				full_ids.append("BAS-B")
+			Session.use_deck(Session.new_saved_deck("Kitchen Muscle", full_ids))
+			_open_deck_station()
 		"deck_slots":  # Oct 22, Part 2: the slot racks with several saved decks (covers, names, Path icons, In use)
 			Session.set_flag(&"tip_deck")
 			Session.add_xp(ProgressionTable.xp_to_reach(7) - Session.profile.xp)

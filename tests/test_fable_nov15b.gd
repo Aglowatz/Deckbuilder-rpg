@@ -53,12 +53,13 @@ func test_the_root_ramps_slab_rises_to_the_north() -> void:
 	assert_gt(checked, 0)
 
 
-## Part 4 - the Wardrobe, the Card Packs page and the Deck Station are laid out on the whole canvas: they are held at 100 % (not cropped).
+## Part 4 - the Wardrobe and the Card Packs page are laid out on the whole canvas: they are held at 100 % (not cropped). (Fable Nov 16b:
+## the Deck Station's deck list is a full-height column now and follows the UI scale: tests/ui/test_deck_station_column.gd.)
 func test_the_full_canvas_screens_are_held_at_100_percent() -> void:
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
-	for script: GDScript in [WardrobeScreen, PacksScreen, DeckbuilderScreen]:
+	for script: GDScript in [WardrobeScreen, PacksScreen]:
 		var screen: OverlayScreen = script.new() as OverlayScreen
 		add_child_autofree(screen)
 		Settings.set_ui_scale(1.3)

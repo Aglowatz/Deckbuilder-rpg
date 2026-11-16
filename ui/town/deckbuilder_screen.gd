@@ -12,10 +12,15 @@ const COLUMNS: int = 7
 ## spacers are measured from the racks at the screen's real size (`_relayout`); these are only the first guess.
 const RACK_TOP_CLEARANCE: float = 50.0
 const RACK_BOTTOM_CLEARANCE: float = 196.0
-## The deck panel takes this share of the screen width, between the two bounds (it used to be 590 px wide at least and grew with its longest line).
-const PANEL_SHARE: float = 0.31
-const PANEL_MIN: float = 440.0
-const PANEL_MAX: float = 600.0
+## Fable Nov 16b (Part 1): "Your Deck" is a narrow column down the whole right-hand side of the screen, beside the slot racks (it was a
+## panel squeezed between the two racks that showed one card row at a time). It takes the room right of the racks, between these bounds.
+const PANEL_MIN: float = 292.0
+const PANEL_MAX: float = 470.0
+## The gap between the column and the screen's edge, and between the column and the racks / the collection.
+const PANEL_EDGE: float = 8.0
+const PANEL_GAP: float = 12.0
+## The deck list's group order (one small header with a count per card type).
+const LIST_GROUPS: Array[Array] = [[CardEnums.CardType.UNIT, "Units"], [CardEnums.CardType.SPELL, "Spells"], [CardEnums.CardType.TOOL, "Tools"], [CardEnums.CardType.TRAP, "Traps"], [CardEnums.CardType.WONDER, "Wonders"], [CardEnums.CardType.INFRASTRUCTURE, "Infrastructure"]]
 
 var editor: DeckEditor
 var _filter: CardFilterBar
@@ -51,8 +56,8 @@ var _bottom_spacer: Control
 var _deck_panel: PanelContainer
 ## Overnight Oct 30-31, Part 7: the deck's shape (cost curve, Paths and types); "works well with" goes in the hovered card's preview.
 var _curve_chart: DeckCurveChart
-var _shape_label: Label
-var _primm_label: Label
+## The gap kept free in the collection's row for the deck column (which is a child of the screen itself, laid over the right-hand side).
+var _side_spacer: Control
 var _grid_scroll: ScrollContainer
 ## Overnight Oct 31 - Nov 1 (mid-game critic #14): said under the filters when none of your cards match them (the board was just blank).
 var _empty_note: Label
@@ -99,6 +104,14 @@ func _build() -> void:
 	add_child(_preview)
 	_compact = size.y > 100.0 and size.y < 900.0
 	_card_scale = CARD_SCALE_SHORT if _compact else CARD_SCALE
+	if size.x > 100.0:
+		# Fable Nov 16b: the collection takes the width the deck column freed - one more column of slightly smaller tiles when that fills the
+		# row (8 at 1920x1080), never tiles under 90 % of the usual size.
+		var room: float = deck_column_rect(size, _uses_deck_box()).position.x - PANEL_GAP - float(SCREEN_MARGIN) - 16.0
+		var more: int = _columns_for(room) + 1
+		var fitted: float = ((room + 10.0) / float(more) - 10.0) / CardView.SIZE.x
+		if fitted >= _card_scale * 0.9:
+			_card_scale = fitted - 0.001
 	if _uses_deck_box():
 		# Playtest v0.4.0 Part F: the saved-deck slots live in the racks painted at the top and the bottom of the station (DeckRack); the
 		# collection and the deck list sit between them.
@@ -129,7 +142,7 @@ func _build() -> void:
 	_grid.add_theme_constant_override("v_separation", 10)
 	_grid_scroll.add_child(_grid)
 	# The number of columns follows the room the collection has (it was a fixed 7, which pushed the deck panel off a 1280 px screen).
-	_grid.columns = _columns_for(size.x - PANEL_MIN - 90.0 if size.x > 100.0 else 1300.0)
+	_grid.columns = _columns_for(size.x - PANEL_MAX - 90.0 if size.x > 100.0 else 1300.0)
 	_grid_scroll.resized.connect(func() -> void: _grid.columns = _columns_for(_grid_scroll.size.x))
 	_empty_note = UIKit.label("No cards match these filters. Change them above to see your cards again.", &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	_empty_note.name = "NoCardsMatch"
@@ -137,8 +150,10 @@ func _build() -> void:
 	left.add_child(_empty_note)
 	left.move_child(_empty_note, _grid_scroll.get_index())
 	_fill_grid()
+	_side_spacer = UIKit.spacer(0, int(PANEL_MIN))
+	split.add_child(_side_spacer)
 	_deck_panel = _build_deck_panel() as PanelContainer
-	split.add_child(_deck_panel)
+	add_child(_deck_panel)
 	_toast = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -156,7 +171,7 @@ func _build() -> void:
 	_relayout()
 	_relayout.call_deferred()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), "" if DeckValidator.max_colors(Session.profile, _active_modifiers()) == 1 else "s", min_size], Vector2(1000, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), "" if DeckValidator.max_colors(Session.profile, _active_modifiers()) == 1 else "s", min_size], Vector2(minf(1000.0, deck_column_rect(size, _uses_deck_box()).position.x - 830.0) if size.x > 100.0 else 600.0, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast; Nov 16b: and of the deck column
 
 
 ## How many collection columns fit in `width` pixels (at least 2).
@@ -170,9 +185,13 @@ func _columns_for(width: float) -> int:
 func _relayout() -> void:
 	if not is_inside_tree() or size.x < 100.0 or _deck_panel == null:
 		return
-	_deck_panel.custom_minimum_size.x = clampf(size.x * PANEL_SHARE, PANEL_MIN, PANEL_MAX)
-	_toast.size = Vector2(minf(900.0, size.x - 80.0), 40)
-	_toast.position = Vector2((size.x - _toast.size.x) * 0.5, size.y - _toast.size.y - 50.0)
+	var column: Rect2 = deck_column_rect(size, _uses_deck_box())
+	_deck_panel.position = column.position
+	_deck_panel.size = column.size
+	# The collection's row ends a gap before the column (the row itself ends SCREEN_MARGIN before the screen's edge; 22 = the row's own gap).
+	_side_spacer.custom_minimum_size.x = maxf(0.0, size.x - float(SCREEN_MARGIN) - column.position.x + PANEL_GAP - 22.0)
+	_toast.size = Vector2(minf(900.0, column.position.x - 80.0), 40)
+	_toast.position = Vector2((column.position.x - _toast.size.x) * 0.5, size.y - _toast.size.y - 50.0)
 	if _top_spacer == null or _bottom_spacer == null:
 		return
 	var body_top: float = (body.global_position.y - global_position.y) / maxf(scale.y, 0.01)
@@ -188,91 +207,151 @@ func _relayout() -> void:
 		title_label.visible = title_end < top_rack.position.x - 8.0
 
 
+## Where the deck column sits on a screen of `view` pixels: right of the slot racks, the screen's whole height.
+static func deck_column_rect(view: Vector2, with_racks: bool = true) -> Rect2:
+	var left: float = view.x - PANEL_EDGE - clampf(view.x * 0.24, PANEL_MIN, PANEL_MAX)
+	if with_racks:
+		left = maxf(DeckRack.cell_rect(4, view).end.x + DeckRack.INSET.x + PANEL_GAP, view.x - PANEL_EDGE - PANEL_MAX)
+	var width: float = maxf(PANEL_MIN, view.x - PANEL_EDGE - left)
+	return Rect2(view.x - PANEL_EDGE - width, PANEL_EDGE, width, view.y - PANEL_EDGE * 2.0)
+
+
 func _build_deck_panel() -> Control:
-	var panel: PanelContainer = UIKit.panel()
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	panel.name = "DeckPanel"
-	panel.custom_minimum_size = Vector2(PANEL_MIN, 0)
-	var column: VBoxContainer = UIKit.vbox(8)
+	var frame_box: StyleBoxFlat = UIStyle.box(Color(0.07, 0.05, 0.11, 0.96), UIStyle.GOLD_DIM, 2, 10)
+	frame_box.content_margin_left = 10.0
+	frame_box.content_margin_right = 10.0
+	frame_box.content_margin_top = 8.0
+	frame_box.content_margin_bottom = 8.0
+	panel.add_theme_stylebox_override("panel", frame_box)
+	var column: VBoxContainer = UIKit.vbox(6 if not _compact else 4)
 	panel.add_child(column)
-	# On a short canvas the slot line under it already names the deck, so the heading makes room for the list.
-	if not _compact:
-		column.add_child(UIKit.label("Your Deck", &"HeadingLabel", 30))
+	# The header: the deck's name with the screen's close button at its end (the column covers the screen's top-right corner), the slot
+	# buttons, then the three rule checks beside the cost curve.
+	var name_row: HBoxContainer = UIKit.hbox(8)
+	name_row.name = "NameRow"
+	column.add_child(name_row)
+	_editing_label = UIKit.label("Your Deck", &"HeadingLabel", 22 if not _compact else 19, UIStyle.GOLD)
+	_editing_label.name = "DeckName"
+	_editing_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_editing_label.clip_text = true
+	_editing_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_editing_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	name_row.add_child(_editing_label)
+	if _close_button != null and _close_button.icon != null:
+		_close_button.get_parent().remove_child(_close_button)
+		var close_px: float = 44.0 if not _compact else 38.0
+		_close_button.custom_minimum_size = Vector2(close_px, close_px)
+		_close_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		name_row.add_child(_close_button)
 	if _uses_deck_box():
 		column.add_child(_build_deck_bar())
-	_count_label = UIKit.label("", &"", 22, UIStyle.PARCHMENT)
-	_wrap(_count_label)
+	_count_label = UIKit.label("", &"", 15, UIStyle.MUTED)
+	_count_label.visible = false
 	column.add_child(_count_label)
-	# Overnight Oct 30-31, Part 7: the cost curve stands beside the rule rows, so the deck list keeps its height.
-	var rules_row: HBoxContainer = UIKit.hbox(10)
+	var rules_row: HBoxContainer = UIKit.hbox(8)
+	rules_row.name = "RulesRow"
 	column.add_child(rules_row)
-	_rules_box = UIKit.vbox(2)
+	_rules_box = UIKit.vbox(1)
+	_rules_box.name = "RuleChecks"
 	_rules_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_rules_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	rules_row.add_child(_rules_box)
 	_curve_chart = DeckCurveChart.new()
 	_curve_chart.name = "CostCurve"
-	_curve_chart.custom_minimum_size = Vector2(170, 76)
+	_curve_chart.custom_minimum_size = Vector2(132, 62) if not _compact else Vector2(116, 54)
 	_curve_chart.tooltip_text = "Cost curve: your spells and units by energy cost (Infrastructure left out)."
 	rules_row.add_child(_curve_chart)
-	_warning_label = UIKit.label("", &"", 19, Color("ffb066"))
+	_warning_label = UIKit.label("", &"", 15, Color("ffb066"))
+	_warning_label.visible = false
 	_wrap(_warning_label)
 	column.add_child(_warning_label)
-	_shape_label = UIKit.label("", &"", 15, UIStyle.MUTED)
-	_shape_label.name = "DeckShape"
-	_shape_label.clip_text = true
-	_shape_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_shape_label.custom_minimum_size = Vector2(PANEL_MIN - 40.0, 0)
-	column.add_child(_shape_label)
-	# Fixes Nov 8 (owner): when Primm's castle is next, the station says what his first phase rewards (no numbers changed on him).
-	_primm_label = UIKit.label("", &"", 17, UIStyle.GOLD)
-	_primm_label.name = "PrimmAdvice"
-	_wrap(_primm_label)
-	column.add_child(_primm_label)
+	# The list: one slim row per card, most of the deck in view at once, a gold bar for the rest.
 	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.name = "DeckListScroll"
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	ScrollKit.list(scroll)
+	scroll.get_v_scroll_bar().custom_minimum_size = Vector2(12, 0)
 	var frame: PanelContainer = UIKit.panel(&"DarkPanel")
+	frame.name = "DeckListFrame"
+	var list_box: StyleBoxFlat = UIStyle.box(Color(0, 0, 0, 0.32), Color(1, 1, 1, 0.08), 1, 8)
+	list_box.content_margin_left = 4.0
+	list_box.content_margin_right = 4.0
+	list_box.content_margin_top = 4.0
+	list_box.content_margin_bottom = 4.0
+	frame.add_theme_stylebox_override("panel", list_box)
 	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	frame.custom_minimum_size = Vector2(0, 96)
 	frame.add_child(scroll)
-	# Fix pass Nov 7 (item 3, C2b F4): the list scrolls - with the wheel over any row, and to a focused row.
-	scroll.follow_focus = true
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
 	_list_scroll = scroll
 	column.add_child(frame)
-	_list_box = UIKit.vbox(3)
+	_list_box = UIKit.vbox(2 if not _compact else 1)
+	_list_box.name = "DeckList"
 	_list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_list_box)
-	# A flow row: on a narrow panel Reset moves under the other two instead of running past the panel's edge.
+	# The footer: a flow row, so the buttons take two rows on a wide column and three on a narrow one.
 	var buttons: HFlowContainer = HFlowContainer.new()
-	buttons.add_theme_constant_override("h_separation", 10)
-	buttons.add_theme_constant_override("v_separation", 8)
+	buttons.name = "DeckButtons"
+	buttons.add_theme_constant_override("h_separation", 6)
+	buttons.add_theme_constant_override("v_separation", 5)
 	column.add_child(buttons)
-	var button_height: float = 54.0 if not _compact else 46.0
-	_save_button = FancyButton.make("Save Deck", &"PrimaryButton", Vector2(150, button_height))
-	_save_button.pressed.connect(_save)
+	_save_button = _foot_button("Save Deck", &"PrimaryButton", "", _save)
 	buttons.add_child(_save_button)
 	# Fix pass Nov 7 (item 3, C2 F2): Save Deck saves the deck's own slot at once; picking another slot is its own button.
 	if _uses_deck_box():
-		var save_new: FancyButton = FancyButton.make("Save as new slot", &"", Vector2(170, button_height))
+		var save_new: FancyButton = _foot_button("Save as new slot", &"", "Keep this deck in another slot (the racks light up; Esc cancels).", open_save_picker)
 		save_new.name = "SaveAsNewSlot"
-		save_new.tooltip_text = "Keep this deck in another slot (the racks light up; Esc cancels)."
-		save_new.pressed.connect(open_save_picker)
 		buttons.add_child(save_new)
-	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(110, button_height))
-	reset.tooltip_text = "Go back to the saved deck."
-	reset.pressed.connect(_reset)
-	buttons.add_child(reset)
-	var fill: FancyButton = FancyButton.make("Fill Infrastructure", &"", Vector2(150, button_height))
-	fill.tooltip_text = "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size."
-	fill.pressed.connect(_autofill)
-	buttons.add_child(fill)
+	buttons.add_child(_foot_button("Reset", &"", "Go back to the saved deck.", _reset))
+	buttons.add_child(_foot_button("Fill Infrastructure", &"", "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size.", _autofill))
 	if _uses_deck_box():
-		var suggest: FancyButton = FancyButton.make("Suggest a deck", &"", Vector2(170, button_height))
+		var suggest: FancyButton = _foot_button("Suggest a deck", &"", "Builds a deck from your collection for the Path(s) you choose: a cost curve, units first, the best cards you own within the copy caps. Review it, then Save Deck.", open_suggest)
 		suggest.name = "SuggestDeck"
-		suggest.tooltip_text = "Builds a deck from your collection for the Path(s) you choose: a cost curve, units first, the best cards you own within the copy caps. Review it, then Save Deck."
-		suggest.pressed.connect(open_suggest)
 		buttons.add_child(suggest)
 	return panel
+
+
+## A footer button of the deck column: small and flat in the game's gold and ink (the framed button's ornament needs more room than a
+## 300 px column has for five of them).
+func _foot_button(text: String, variation: StringName, tip: String, callback: Callable) -> FancyButton:
+	var button: FancyButton = FancyButton.make(text, variation, Vector2(0, 38.0 if not _compact else 32.0))
+	button.tooltip_text = tip
+	button.add_theme_font_size_override("font_size", 17 if not _compact else 15)
+	button.add_theme_font_override("font", UIStyle.font_bold())
+	var primary: bool = variation == &"PrimaryButton"
+	var fill: Color = Color("c98f2c") if primary else Color(0.13, 0.1, 0.18, 0.95)
+	var rim: Color = Color("f5d27a") if primary else UIStyle.GOLD_DIM
+	var states: Dictionary = {"normal": [fill, rim], "hover": [fill.lightened(0.14), UIStyle.GOLD], "pressed": [fill.darkened(0.15), UIStyle.GOLD], "focus": [Color(0, 0, 0, 0), Color("ffe08a")], "disabled": [Color(0.1, 0.09, 0.13, 0.8), Color(1, 1, 1, 0.12)]}
+	for state: String in states.keys():
+		var box: StyleBoxFlat = UIStyle.box(states[state][0] as Color, states[state][1] as Color, 3 if state == "focus" else 2, 9)
+		box.content_margin_left = 12.0
+		box.content_margin_right = 12.0
+		box.content_margin_top = 2.0
+		box.content_margin_bottom = 2.0
+		button.add_theme_stylebox_override(state, box)
+	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		button.add_theme_color_override(color_name, Color("1c1408") if primary else UIStyle.PARCHMENT)
+	button.add_theme_color_override("font_disabled_color", UIStyle.MUTED)
+	button.pressed.connect(callback)
+	return button
+
+
+## Narrow side margins for a small button (done once it is in the tree, where its themed look is known).
+func _slim(button: Button, side: float, vertical: float = -1.0) -> void:
+	button.ready.connect(func() -> void:
+		for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+			var box: StyleBox = button.get_theme_stylebox(state)
+			if box != null:
+				var slim: StyleBox = box.duplicate() as StyleBox
+				slim.content_margin_left = minf(box.content_margin_left, side)
+				slim.content_margin_right = minf(box.content_margin_right, side)
+				if vertical >= 0.0:
+					slim.content_margin_top = minf(box.content_margin_top, vertical)
+					slim.content_margin_bottom = minf(box.content_margin_bottom, vertical)
+				button.add_theme_stylebox_override(state, slim), CONNECT_ONE_SHOT)
 
 
 # ---- Saved decks (brief 16, Group E; Overnight Oct 17, Part 4: the ten-slot Deck Box; Playtest v0.4.0, Part F: the slot racks) --------
@@ -293,13 +372,6 @@ func _build_rack() -> void:
 	_rack.slot_pressed.connect(_on_rack_slot)
 	_rack.z_index = 5
 	add_child(_rack)
-	# Fable Nov 15b (Part 4): between the racks at the top and the bottom the deck list has room for one row at 115 % and two at 130 %.
-	# Until the station is relaid for a short canvas it says it needs the whole 1920x1080, so UiScale.fit holds it at 100 %.
-	var hold: Control = Control.new()
-	hold.name = "ScaleHold"
-	hold.custom_minimum_size = Vector2(1920, 1080)
-	hold.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(hold)
 	resized.connect(func() -> void:
 		if _rack != null and is_instance_valid(_rack) and size.x > 100.0 and _rack.canvas != size:
 			_rack.canvas = size
@@ -320,15 +392,8 @@ func rack_tile(slot: int) -> FancyButton:
 
 
 func _build_deck_bar() -> Control:
-	var column: VBoxContainer = UIKit.vbox(6)
-	column.name = "DeckBar"
-	_editing_label = UIKit.label("", &"", 20, UIStyle.PARCHMENT)
-	_editing_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_editing_label.clip_text = true
-	_editing_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	column.add_child(_editing_label)
-	var bar: HBoxContainer = UIKit.hbox(6)
-	column.add_child(bar)
+	var bar: HBoxContainer = UIKit.hbox(4)
+	bar.name = "DeckBar"
 	var rename: FancyButton = _bar_button("Rename", "Give this deck another name.", _on_rename_deck)
 	rename.name = "RenameDeck"
 	bar.add_child(rename)
@@ -344,26 +409,18 @@ func _build_deck_bar() -> Control:
 	var delete: FancyButton = _bar_button("Delete", "Delete this deck (your cards stay in the collection).", _box_delete)
 	delete.name = "BoxDelete"
 	bar.add_child(delete)
-	return column
+	return bar
 
 
 func _bar_button(text: String, tip: String, callback: Callable) -> FancyButton:
-	var button: FancyButton = FancyButton.make(text, &"GhostButton", Vector2(0, 40))
+	var height: float = 30.0 if not _compact else 26.0
+	var button: FancyButton = FancyButton.make(text, &"GhostButton", Vector2(0, height))
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button.custom_minimum_size = Vector2(0, 40)
 	button.clip_text = true
 	button.tooltip_text = tip
-	button.add_theme_font_size_override("font_size", 17)
-	# Oct 22: slim side margins so five buttons keep their whole word on a narrow panel ("Renam" was cut). Done once the button is in the
-	# tree, where its GhostButton look is known.
-	button.ready.connect(func() -> void:
-		for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
-			var box: StyleBox = button.get_theme_stylebox(state)
-			if box != null:
-				var slim: StyleBox = box.duplicate() as StyleBox
-				slim.content_margin_left = minf(box.content_margin_left, 4.0)
-				slim.content_margin_right = minf(box.content_margin_right, 4.0)
-				button.add_theme_stylebox_override(state, slim), CONNECT_ONE_SHOT)
+	button.add_theme_font_size_override("font_size", 15 if not _compact else 13)
+	# Slim margins so five buttons keep their whole word on a narrow column ("Renam" was cut).
+	_slim(button, 2.0, 2.0)
 	button.pressed.connect(callback)
 	return button
 
@@ -389,9 +446,10 @@ func _refresh_deck_bar() -> void:
 		return
 	var saved: DeckBox.SavedDeck = _editing_deck()
 	if saved == null:
-		_editing_label.text = "Slot %d: a new deck (not saved yet)" % (_new_slot + 1)
+		_editing_label.text = "%d: New deck (unsaved)" % (_new_slot + 1)
 	else:
-		_editing_label.text = "Slot %d: %s%s" % [saved.slot + 1, saved.name, "  (in use)" if _editing == Session.deck_box.active else ""]
+		_editing_label.text = "%d: %s" % [saved.slot + 1, saved.name]
+	_editing_label.tooltip_text = "Slot %d: %s%s" % [_editing_slot() + 1, saved.name if saved != null else "a new deck (not saved yet)", "  (in use)" if saved != null and _editing == Session.deck_box.active else ""]
 	_use_button.disabled = saved == null or _editing == Session.deck_box.active
 	_use_button.text = "In use" if saved != null and _editing == Session.deck_box.active else "Use"
 
@@ -879,7 +937,7 @@ func _refresh() -> void:
 			label.text = "In deck: %d" % in_deck
 		else:
 			# Cards Oct 27, Part 3: "NEW" until the station is next closed (Session.new_cards: the cards that joined the collection since).
-			label.text = "%sDeck %s  Own %d" % ["NEW  " if Session.new_cards.has(str(id)) else "", editor.cap_text(card), editor.owned(card)]
+			label.text = ("NEW  %s  Own %d" if Session.new_cards.has(str(id)) else "Deck %s  Own %d") % [editor.cap_text(card), editor.owned(card)]  # Nov 16b: the NEW line fits the narrower tile
 			label.add_theme_color_override("font_color", UIStyle.GOLD if Session.new_cards.has(str(id)) else UIStyle.PARCHMENT)
 		var view: CardView = _dim_by_id[id] as CardView
 		view.modulate = Color(1, 1, 1, 1) if in_deck > 0 or card.is_basic else Color(0.82, 0.82, 0.86, 1)
@@ -906,11 +964,13 @@ func _rebuild_rules() -> void:
 	for color: Affinity.Type in colors:
 		color_names.append(UIStyle.affinity_name(color))
 	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy caps: %s; infrastructure unlimited" % _caps_summary())
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d Path%s (%s)" % [limit, "" if limit == 1 else "s", ", ".join(color_names) if not color_names.is_empty() else "none yet"])
+	var minimum: int = DeckValidator.min_deck_size(_active_modifiers())
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "%d cards / at least %d" % [editor.deck.size(), minimum], "At least %d cards (you have %d)" % [minimum, editor.deck.size()])
+	var caps_ok: bool = not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES)
+	_rule_row(caps_ok, "Copy caps" if caps_ok else "Over a copy cap", "Copy caps: %s; infrastructure unlimited" % _caps_summary())
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "%d of %d Path%s" % [colors.size(), limit, "" if limit == 1 else "s"], "At most %d Path%s (%s)" % [limit, "" if limit == 1 else "s", ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
-		_rule_row(false, "You use cards you do not own")
+		_rule_row(false, "Cards you do not own", "You use cards you do not own")
 
 
 ## "Common 3, Uncommon 2, Epic 1, Legendary 1" at the player's level.
@@ -921,15 +981,23 @@ func _caps_summary() -> String:
 	return ", ".join(parts)
 
 
-func _rule_row(ok: bool, text: String) -> void:
-	var row: HBoxContainer = UIKit.hbox(10)
+## One rule check: a green or red dot and a few words; the whole rule is the row's tooltip.
+func _rule_row(ok: bool, text: String, detail: String = "") -> void:
+	var row: HBoxContainer = UIKit.hbox(6)
+	row.tooltip_text = detail
+	row.mouse_filter = Control.MOUSE_FILTER_PASS
+	row.set_meta("ok", ok)
 	var dot: Panel = Panel.new()
-	dot.custom_minimum_size = Vector2(16, 16)
+	dot.custom_minimum_size = Vector2(12, 12)
 	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	dot.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.GOOD if ok else UIStyle.DANGER, Color(0, 0, 0, 0.4), 2, 8))
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dot.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.GOOD if ok else UIStyle.DANGER, Color(0, 0, 0, 0.4), 2, 6))
 	row.add_child(dot)
-	var line: Label = UIKit.label(text, &"", 19 if not _compact else 17, UIStyle.PARCHMENT if ok else Color("ff9d98"))
-	_wrap(line)
+	var line: Label = UIKit.label(text, &"", 16 if not _compact else 14, UIStyle.PARCHMENT if ok else Color("ff9d98"))
+	line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.clip_text = true
+	line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(line)
 	_rules_box.add_child(row)
 
@@ -941,80 +1009,179 @@ func _wrap(label: Label) -> void:
 	label.custom_minimum_size = Vector2(60, 0)
 
 
+## Which list group a card belongs to (an index into LIST_GROUPS): its type; anything else sits with the spells.
+static func list_group(card: CardData) -> int:
+	if card.is_infrastructure():
+		return LIST_GROUPS.size() - 1
+	for index: int in range(LIST_GROUPS.size()):
+		if int(LIST_GROUPS[index][0]) == int(card.type):
+			return index
+	return 1
+
+
+## The deck as list rows: [[group index, copies in the group, [[card, copies], ...]], ...] in LIST_GROUPS order, each group by cost then name.
+static func list_groups(deck_cards: Array[CardData]) -> Array[Array]:
+	var copies: Dictionary = {}
+	var by_id: Dictionary = {}
+	for card: CardData in deck_cards:
+		copies[card.id] = int(copies.get(card.id, 0)) + 1
+		by_id[card.id] = card
+	var buckets: Array[Array] = []
+	for index: int in range(LIST_GROUPS.size()):
+		buckets.append([])
+	for id: Variant in by_id.keys():
+		buckets[list_group(by_id[id] as CardData)].append(by_id[id])
+	var result: Array[Array] = []
+	for index: int in range(LIST_GROUPS.size()):
+		var cards: Array = buckets[index]
+		if cards.is_empty():
+			continue
+		cards.sort_custom(func(a: CardData, b: CardData) -> bool:
+			if a.energy_value() != b.energy_value():
+				return a.energy_value() < b.energy_value()
+			return a.display_name < b.display_name)
+		var rows: Array[Array] = []
+		var total: int = 0
+		for card: CardData in cards:
+			rows.append([card, int(copies[card.id])])
+			total += int(copies[card.id])
+		result.append([index, total, rows])
+	return result
+
+
 func _rebuild_list() -> void:
+	# The row under the focus is rebuilt with the rest: remember which card and which of its two buttons had it.
+	var focus_owner: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	var focus_card: String = str(focus_owner.get_meta("card_id", "")) if focus_owner != null and _list_box.is_ancestor_of(focus_owner) else ""
+	var focus_step: String = str(focus_owner.get_meta("step", "")) if focus_card != "" else ""
 	for child: Node in _list_box.get_children():
+		_list_box.remove_child(child)
 		child.queue_free()
-	var counts: Dictionary = editor.deck.copy_counts()
-	var entries: Array[CardData] = []
-	for id: Variant in counts.keys():
-		var card: CardData = _cards_by_id.get(str(id)) as CardData
-		if card == null:
-			card = Session.card_by_id(str(id))
-		entries.append(card)
-	entries.sort_custom(func(a: CardData, b: CardData) -> bool:
-		if a.is_infrastructure() != b.is_infrastructure():
-			return b.is_infrastructure()
-		if a.energy_value() != b.energy_value():
-			return a.energy_value() < b.energy_value()
-		return a.display_name < b.display_name)
-	var last_group: String = ""
-	for card: CardData in entries:
-		var group: String = "Infrastructure" if card.is_infrastructure() else "Spells and units"
-		if group != last_group:
-			last_group = group
-			_list_box.add_child(UIKit.label(group, &"MutedLabel", 19))
-		_list_box.add_child(_list_row(card, int(counts[card.id])))
+	var refocus: Control = null
+	for group: Array in list_groups(editor.deck.cards):
+		var spec: Array = LIST_GROUPS[int(group[0])]
+		_list_box.add_child(_group_header(str(spec[1]), int(group[1]), int(spec[0]) as CardEnums.CardType))
+		for entry: Array in group[2]:
+			var row: Control = _list_row(entry[0] as CardData, int(entry[1]))
+			_list_box.add_child(row)
+			if (entry[0] as CardData).id == focus_card:
+				refocus = row.find_child("Plus" if focus_step == "plus" else "Minus", true, false) as Control
+	# FancyButton turns its focus off when it enters the tree; the screen made its first rows focusable once, and every rebuilt row lost
+	# the keyboard and the controller again (after the first + or - no row could be reached).
+	if is_inside_tree():
+		UiInput.make_focusable(_list_box)
+	if focus_card == "":
+		return
+	if refocus == null:
+		# The last copy left the deck: the focus moves to the first row instead of being lost.
+		refocus = _list_box.find_child("Minus", true, false) as Control
+	if refocus != null:
+		refocus.grab_focus.call_deferred()
+
+
+func _group_header(title: String, count: int, type: CardEnums.CardType) -> Control:
+	var row: HBoxContainer = UIKit.hbox(5)
+	row.name = "Group%s" % title
+	row.mouse_filter = Control.MOUSE_FILTER_PASS
+	var icon: TextureRect = IconArt.rect(IconArt.type_id(type), 16.0)
+	if icon != null:
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(icon)
+	var label: Label = UIKit.label("%s  %d" % [title, count], &"", 14 if not _compact else 13, UIStyle.GOLD_DIM.lightened(0.25))
+	label.add_theme_font_override("font", UIStyle.font_bold())
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(label)
+	return row
+
+
+## The height of one deck-list row (the list shows about 20 at 1920x1080 and 12 at 1280x720 or more).
+func row_height() -> float:
+	return 26.0 if not _compact else 23.0
 
 
 func _list_row(card: CardData, count: int) -> Control:
-	var tint: Color = UIStyle.affinity_color(card.color)
+	var height: float = row_height()
 	var row: PanelContainer = PanelContainer.new()
+	row.name = "Row_%s" % card.id
+	row.set_meta("card_id", card.id)
 	row.mouse_filter = Control.MOUSE_FILTER_PASS  # Fix pass Nov 7 (item 3): the wheel over a row scrolls the list
-	row.add_theme_stylebox_override("panel", UIStyle.box(Color(1, 1, 1, 0.05), Color(0, 0, 0, 0), 0, 8))
-	var line: HBoxContainer = UIKit.hbox(8)
+	var plain: StyleBoxFlat = UIStyle.box(Color(1, 1, 1, 0.05), Color(0, 0, 0, 0), 0, 5)
+	plain.content_margin_left = 3.0
+	plain.content_margin_right = 2.0
+	plain.content_margin_top = 0.0
+	plain.content_margin_bottom = 0.0
+	row.add_theme_stylebox_override("panel", plain)
+	row.custom_minimum_size = Vector2(0, height)
+	var line: HBoxContainer = UIKit.hbox(4)
 	row.add_child(line)
-	var bar: Panel = Panel.new()
-	bar.custom_minimum_size = Vector2(6, 28)
-	bar.add_theme_stylebox_override("panel", UIStyle.box(tint, Color(0, 0, 0, 0), 0, 3))
-	line.add_child(bar)
-	if card.is_multipath():
-		var bar2: Panel = Panel.new()
-		bar2.custom_minimum_size = Vector2(6, 28)
-		bar2.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.affinity_color(card.color2), Color(0, 0, 0, 0), 0, 3))
-		line.add_child(bar2)
-	if Settings.colorblind_symbols:
-		for path: Affinity.Type in card.paths():
-			var path_symbol: TextureRect = IconArt.rect(IconArt.energy_id(path), 26.0, "%s Path" % UIStyle.affinity_name(path))
-			if path_symbol != null:
-				line.add_child(path_symbol)
-	var cost: Label = UIKit.label("" if card.is_infrastructure() else str(card.energy_value()), &"", 20, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
-	cost.custom_minimum_size = Vector2(30, 28)
-	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_infrastructure() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 14))
+	var cost: Label = UIKit.label("" if card.is_infrastructure() else str(card.energy_value()), &"", 15 if not _compact else 14, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
+	cost.name = "Cost"
+	cost.custom_minimum_size = Vector2(height - 4.0, height - 4.0)
+	cost.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	cost.add_theme_font_override("font", UIStyle.font_bold())
+	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_infrastructure() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 11))
 	cost.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	cost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	line.add_child(cost)
-	var name_label: Label = UIKit.label(card.display_name if not card.display_name.is_empty() else "%s Infrastructure" % UIStyle.affinity_name(card.color), &"", 21, UIStyle.PARCHMENT)
+	var row_paths: Array[Affinity.Type] = card.paths()
+	if row_paths.is_empty():
+		row_paths = [Affinity.Type.NEUTRAL]
+	for path: Affinity.Type in row_paths:
+		var path_symbol: TextureRect = IconArt.rect(IconArt.energy_id(path), height - 6.0)
+		if path_symbol != null:
+			path_symbol.name = "PathIcon"
+			path_symbol.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			path_symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			line.add_child(path_symbol)
+	var name_label: Label = UIKit.label(card.display_name if not card.display_name.is_empty() else "%s Infrastructure" % UIStyle.affinity_name(card.color), &"", 17 if not _compact else 15, UIStyle.PARCHMENT)
+	name_label.name = "CardName"
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.clip_text = true
 	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	line.add_child(name_label)
-	line.add_child(_step_button("-", func() -> void: _remove(card)))
-	var count_label: Label = UIKit.label("x%d" % count if card.is_unlimited() else editor.cap_text(card), &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	count_label.custom_minimum_size = Vector2(52, 0)
+	var minus: Button = _step_button("-", func() -> void: _remove(card))
+	minus.name = "Minus"
+	minus.set_meta("card_id", card.id)
+	minus.set_meta("step", "minus")
+	line.add_child(minus)
+	var count_label: Label = UIKit.label("x%d" % count if card.is_unlimited() else editor.cap_text(card), &"", 16 if not _compact else 14, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	count_label.name = "Copies"
+	count_label.custom_minimum_size = Vector2(34, 0)
+	count_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	line.add_child(count_label)
 	var plus: Button = _step_button("+", func() -> void: _add(card))
+	plus.name = "Plus"
+	plus.set_meta("card_id", card.id)
+	plus.set_meta("step", "plus")
 	var blocked: String = editor.why_not_add(card)
 	if blocked != "":
 		plus.modulate = Color(1, 1, 1, 0.45)
 		plus.tooltip_text = blocked
 	line.add_child(plus)
-	row.mouse_entered.connect(func() -> void: _preview.show_for(row, card))
-	row.mouse_exited.connect(_preview.hide_preview)
+	# The card itself is the row's preview: under the pointer, or beside the row a controller stands on.
+	var lit: StyleBoxFlat = plain.duplicate() as StyleBoxFlat
+	lit.bg_color = Color(1, 0.86, 0.5, 0.16)
+	var show_card: Callable = func() -> void:
+		row.add_theme_stylebox_override("panel", lit)
+		_preview.show_for(row, card)
+	var hide_card: Callable = func() -> void:
+		row.add_theme_stylebox_override("panel", plain)
+		_preview.hide_preview()
+	row.mouse_entered.connect(show_card)
+	row.mouse_exited.connect(hide_card)
+	for step: Button in [minus, plus]:
+		step.focus_entered.connect(show_card)
+		step.focus_exited.connect(hide_card)
 	return row
 
 
 func _step_button(symbol: String, callback: Callable) -> Button:
-	var button: FancyButton = FancyButton.make(symbol, &"GhostButton", Vector2(40, 32) if not _compact else Vector2(32, 28))
-	button.add_theme_font_size_override("font_size", 22)
+	var side: float = row_height() - 2.0
+	var button: FancyButton = FancyButton.make(symbol, &"GhostButton", Vector2(side + 4.0, side))
+	button.add_theme_font_size_override("font_size", 17 if not _compact else 15)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_slim(button, 2.0, 0.0)
 	button.pressed.connect(callback)
 	return button
 
@@ -1033,43 +1200,12 @@ func _autofill() -> void:
 	_refresh()
 
 
-## Overnight Oct 30-31, Part 7: the cost curve and the "Paths ... / Units ... Spells ..." line under it.
+## Overnight Oct 30-31, Part 7: the cost curve. (Fable Nov 16b: the "Paths ... / Units ..." line went with the list's own group counts,
+## and the Primm advice with every other hint in the column.)
 func _refresh_shape() -> void:
 	if _curve_chart == null:
 		return
 	_curve_chart.set_curve(DeckInsights.cost_curve(editor.deck.cards))
-	_shape_label.text = shape_text(editor.deck.cards)
-	_shape_label.tooltip_text = _shape_label.text
-	if _primm_label != null:
-		_primm_label.text = primm_advice(editor.deck.cards, Session.flags)
-		_primm_label.visible = not _primm_label.text.is_empty()
-
-
-## Fixes Nov 8: the "Primm deck" advice while the castle is next (all four zones free or the Capital's gate open, Primm not yet beaten): under
-## his Standardization every unit is a 3/3 and only two cards a turn, so many cheap units beat a few big ones. "" otherwise.
-const PRIMM_CHEAP_COST: int = 2
-const PRIMM_UNITS_TARGET: int = 18
-
-
-static func castle_next(flags: Dictionary) -> bool:
-	if bool(flags.get("primm_defeated", false)):
-		return false
-	if bool(flags.get(str(CapitalZone.FLAG_GATE_OPEN), false)):
-		return true
-	for zone_id: String in Gatekeepers.IDS:
-		if not ZoneCompletion.is_completed(flags, zone_id):
-			return false
-	return true
-
-
-static func primm_advice(cards: Array[CardData], flags: Dictionary) -> String:
-	if not castle_next(flags):
-		return ""
-	var cheap_units: int = 0
-	for card: CardData in cards:
-		if card.is_unit() and card.energy_value() <= PRIMM_CHEAP_COST:
-			cheap_units += 1
-	return "Primm deck: in his first phase every unit is a 3/3 and you may play two cards a turn, so cheap units are as good as big ones. This deck has %d units costing %d or less; about %d+ works well." % [cheap_units, PRIMM_CHEAP_COST, PRIMM_UNITS_TARGET]
 
 
 ## "Beefcake 27, Colorless 4  |  Units 18, Spells 5, Tools 2, Traps 1, Infrastructure 19" for a deck.

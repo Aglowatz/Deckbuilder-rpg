@@ -12,6 +12,17 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
    `C:\Users\asche\Documents\Codex\2026-11-15\files-mentioned-by-the-user-batch` is held open by another program (most likely the
    ChatGPT app). Close that app and run `Remove-Item -Recurse -Force "C:\Users\asche\Documents\Codex"`. The five scratch folders
    (`_screenshots`, `_logs`, `_movie`, `_art_inbox`, `_art_source`) are emptied, not removed: tools still write into them.
+2. **Deck Station: the rule checks are three short lines now** ("62 cards / at least 45", "Copy caps", "1 of 1 Path"); the full rule
+   (the caps per rarity, the Path names) is each line's tooltip. The long "N cards - N infrastructure, N units and spells" line and
+   the "Beefcake 31, Colorless 14 | Units 17 ..." line are gone: the list's own group headers carry those counts. Say if you want
+   the caps spelled out in the column again.
+3. **Deck Station: the screen's close button sits in the column's top corner** (the column covers the screen's top-right corner), and
+   the footer buttons are small flat gold buttons, not the framed ones: five framed buttons do not fit a 300 px column.
+4. **Deck Station: it follows the UI scale again.** It was held at 100 % since Nov 15b because the list had room for one row at
+   115 %. At 115 % and 130 % it now shows 23 rows. The Wardrobe and the Card Packs page are still held at 100 %.
+5. **Deck Station: the collection shows 8 cards a row** at 1920x1080 (7 before), on tiles 5 % smaller, in the width the column freed.
+6. **A controller bug found and fixed on the way:** after the first + or - in the deck list, no list row could be focused any more
+   with the keyboard or a controller (the rebuilt rows came back unfocusable). It had been so since the list got its buttons.
 
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 
