@@ -352,7 +352,8 @@ func _flow_castle() -> void:
 			if context.boss_phase >= 0:
 				saw_boss_phases += 1
 				await driver.seconds(1.2)
-				_check((scene as BattleScreen).find_child("PhaseRulePanel", true, false) != null, "boss phase %d shows its rule" % (context.boss_phase + 1))
+				var battle: BattleScreen = scene as BattleScreen
+				_check(battle.hud.rule_text_is_shown(context.rules_text) != (battle.find_child("PhaseRulePanel", true, false) != null), "boss phase %d shows its rule once" % (context.boss_phase + 1))
 				await _shot("2%d_boss_phase_%d" % [context.boss_phase, context.boss_phase + 1])
 			await _force_win(scene)
 		elif scene is RewardsScreen:

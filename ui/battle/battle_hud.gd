@@ -117,6 +117,7 @@ var rule_row: RuleIconRow
 func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	if badges.is_empty():
 		return
+	_shown_badges = badges
 	# Fix pass Nov 7 (Part 5, C2 F14 / C4c F9): a second call replaces the row (it was drawn twice, one over the other)
 	var at_y: float = _side_y
 	if rule_row != null and is_instance_valid(rule_row):
@@ -129,6 +130,18 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	add_child(rule_row)
 	_refresh_setup_note()
 	_refresh_jam()
+
+
+## Fable Nov 15b (Part 1): the badges in the rule row, so a rule already shown there is not written out a second time.
+var _shown_badges: Array[RuleBadges.Badge] = []
+
+
+## True when a shown badge already carries this rule line (Primm's phase badges do, since Fable Nov 15).
+func rule_text_is_shown(text: String) -> bool:
+	for badge: RuleBadges.Badge in _shown_badges:
+		if badge != null and not badge.hidden and badge.text == text:
+			return true
+	return false
 
 
 ## Where the next panel under the enemy portrait goes (zone effects, encounter rules, the Capital's panels stack down the left side).
@@ -157,7 +170,9 @@ func set_capital_panels(flags: Dictionary, rules_text: String) -> void:
 		services.position = Vector2(24, y)
 		add_child(services)
 		y += 40.0 + 30.0 * float(CapitalDebuffs.all().size())
-	if not rules_text.is_empty():
+	# Fable Nov 15b (Part 1): Primm's phase has its own rule badge now, so the gold panel would say the same line twice; it only
+	# shows for a phase rule with no badge.
+	if not rules_text.is_empty() and not rule_text_is_shown(rules_text):
 		var panel: PanelContainer = UIKit.panel(&"DarkPanel")
 		panel.name = "PhaseRulePanel"
 		panel.position = Vector2(24, y)
