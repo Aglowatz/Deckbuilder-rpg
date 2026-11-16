@@ -460,11 +460,14 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("access", "reduce_flashing", reduce_flashing)
 	config.set_value("input", "pad_prompts", pad_prompts)
 	Keybinds.save_to(config)
-	config.save(path)
+	config.save(SaveGuard.safe(path))  # a test run writes its own copy under user://test_saves/, never the player's settings
 
 
 func load_settings(path: String = PATH) -> void:
 	var config: ConfigFile = ConfigFile.new()
+	# a test run reads back its own copy when it wrote one (SaveGuard); reading the player's file is harmless
+	if SaveGuard.safe(path) != path and FileAccess.file_exists(SaveGuard.safe(path)):
+		path = SaveGuard.safe(path)
 	if config.load(path) != OK:
 		graphics_quality = GraphicsQuality.recommended()
 		# Size pass Nov 3 (Part 6): first launch on an integrated GPU, a software renderer, a 4 GB machine or the Compatibility renderer

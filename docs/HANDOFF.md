@@ -74,6 +74,29 @@ checks the exe and the pack (every MD5, baked shaders, size), zips with CRC chec
 Draft/Restricted until release, the Support link, playtesters, the public flip, butler). Page text, tags, cover advice: `docs/release/itch_page/`.
 Playtester notes: `docs/release/rc1_notes.md`.
 
+## 2b. Tests and your saves (Nov 16)
+
+A test run can never write your real saves. Twice a test run rewrote campaign 1's autosave; since Nov 16 it is blocked at the
+lowest level, not by a setting a test can change.
+
+- **What is protected:** everything under `%APPDATA%\Deckbuilder-RPG\saves\` (all three campaigns, every slot, the autosave, its
+  backup and thumbnails), the old `save.json`, `feats_account.json`, `meta.cfg` and (for writes) `settings.cfg`.
+- **How:** `SaveGuard` (`core/data/save_guard.gd`). In test mode every file call of the save system (`SaveSystem`, `SaveSlots`,
+  `CampaignSlots`, the Session's old-save reset, `FeatAccount`, `TitleMeta`, `Settings.save_settings`) turns a path into one of those
+  files into the same path under `user://test_saves/` first. It does not matter what a test sets `Session.save_path`,
+  `SaveSlots.dir` or `CampaignSlots.root` to, or which flags the run was started with.
+- **Test mode is:** GUT on the command line (`gut_cmdln.gd` or any `-gtest` / `-gdir` / `-gconfig` / `-gexit` flag), or the
+  environment variable `WAYWARD_TEST_SAVES=1` (`tools/run_tests.sh`, `gut_one.sh` and `gut_group.sh` set it). It is decided once per
+  process and cannot be switched off from inside.
+- **The checks:** `tests/test_save_guard.gd` tries every old way into the real folder and fails if any real file changed.
+  `tools/run_tests.sh` lists the real folder before the first shard and after the last one, prints `Real saves: untouched (N files
+  checked)` and **fails the run** with `REAL SAVES TOUCHED` if anything changed.
+- **Not covered:** the windowed smokes, the shot tools and the play-script driver are not GUT runs. They use `--no-save` or their own
+  folders (`user://shot_saves/`, `user://dev_saves/`), as before. Set `WAYWARD_TEST_SAVES=1` in front of any tool to give it the
+  same protection.
+- **If you add a new file the player owns** (a second account file, say), add it to `SaveGuard.REAL_FILES` and open it through
+  `SaveGuard.safe(path)`.
+
 ## 3. The art pipeline
 
 1. **Make the image in ChatGPT** from a row of the art list (`docs/art/art_audit_nov9.csv`, verdict REDO; the next batch goes in

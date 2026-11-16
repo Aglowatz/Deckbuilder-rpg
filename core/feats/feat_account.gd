@@ -22,9 +22,9 @@ static func _load() -> void:
 		return
 	_loaded = true
 	_unlocked = {}
-	if not FileAccess.file_exists(path):
+	if not FileAccess.file_exists(SaveGuard.safe(path)):
 		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveGuard.safe(path)))
 	if parsed is Dictionary:
 		for key: Variant in ((parsed as Dictionary).get("unlocked", {}) as Dictionary).keys():
 			_unlocked[str(key)] = int(((parsed as Dictionary)["unlocked"] as Dictionary)[key])
@@ -61,10 +61,10 @@ static func record(id: String, enabled: bool = true) -> bool:
 
 
 static func _save() -> void:
-	var dir: String = path.get_base_dir()
+	var dir: String = SaveGuard.safe(path).get_base_dir()
 	if not dir.is_empty():
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
-	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	var file: FileAccess = FileAccess.open(SaveGuard.safe(path), FileAccess.WRITE)
 	if file == null:
 		return
 	file.store_string(JSON.stringify({"version": VERSION, "unlocked": _unlocked}, "\t"))

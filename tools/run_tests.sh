@@ -59,6 +59,20 @@ wait_for_memory() {
 LOGDIR="_logs/gut"
 mkdir -p "$LOGDIR"
 [ "$FROM" = "1" ] && rm -f "$LOGDIR"/shard_*.log
+
+# Overnight Nov 16 (Part 3.1): a test run must never touch the player's real saves. SaveGuard (core/data/save_guard.gd) redirects every
+# save path in a GUT run; this is the check from outside: the real folder is listed (name, size, time) before the first shard and after
+# the last one, and the run FAILS when anything in it changed. A resumed run (--from=K) keeps the first listing.
+export WAYWARD_TEST_SAVES=1
+real_saves() {
+	local root="${APPDATA:-$HOME/.local/share}/Deckbuilder-RPG"
+	[ -n "$APPDATA" ] && root="$(cygpath -u "$APPDATA" 2>/dev/null || echo "$APPDATA")/Deckbuilder-RPG"
+	{ find "$root/saves" -type f -printf '%P|%s|%T@
+' 2>/dev/null
+	  for f in save.json feats_account.json meta.cfg settings.cfg; do [ -f "$root/$f" ] && find "$root/$f" -printf '%f|%s|%T@
+'; done; } | sort
+}
+if [ "$FROM" = "1" ] || [ ! -f "$LOGDIR/real_saves_before.txt" ]; then real_saves > "$LOGDIR/real_saves_before.txt"; fi
 "$GODOT" --headless --path . --import >/dev/null 2>&1
 
 mapfile -t FILES < <(find "$ONLY" -name 'test_*.gd' | sort)
@@ -110,4 +124,15 @@ done
 	[ -n "$FAILS" ] && echo -e "Failing tests:$FAILS"
 	[ -n "$CRASHED" ] && echo -e "Crashed shards:$CRASHED"
 } | tee "$LOGDIR/summary.txt"
-[ -z "$FAILS" ] && [ -z "$CRASHED" ]
+real_saves > "$LOGDIR/real_saves_after.txt"
+TOUCHED=""
+if ! diff -q "$LOGDIR/real_saves_before.txt" "$LOGDIR/real_saves_after.txt" >/dev/null; then
+	TOUCHED=1
+	{
+		echo "REAL SAVES TOUCHED: the player's save folder changed during this test run (it must never). Before (<) and after (>):"
+		diff "$LOGDIR/real_saves_before.txt" "$LOGDIR/real_saves_after.txt"
+	} | tee -a "$LOGDIR/summary.txt"
+else
+	echo "Real saves: untouched ($(wc -l < "$LOGDIR/real_saves_after.txt") files checked)" | tee -a "$LOGDIR/summary.txt"
+fi
+[ -z "$FAILS" ] && [ -z "$CRASHED" ] && [ -z "$TOUCHED" ]

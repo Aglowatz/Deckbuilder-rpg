@@ -9,12 +9,18 @@ const VERSION: int = 1
 
 
 static func exists(path: String = PATH) -> bool:
+	path = SaveGuard.safe(path)
 	return FileAccess.file_exists(path) or FileAccess.file_exists(backup_path(path))
 
 
 ## Overnight Oct 18, Part 3: crash-safe. The new save is written to `<path>.tmp` first and read back; only a complete file replaces the
 ## old one, and the previous save is kept as `<path>.bak` (what `read` falls back to when the main file is missing or corrupted).
 static func write(data: Dictionary, path: String = PATH) -> bool:
+	# Overnight Nov 16 (Part 3.1): in a test run a path into the player's save folder is redirected under user://test_saves/ (SaveGuard)
+	path = SaveGuard.safe(path)
+	if SaveGuard.test_mode() and SaveGuard.is_protected(path):
+		push_error("SaveSystem: a test run tried to write the player's file %s" % path)
+		return false
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
 	var temp: String = path + ".tmp"
 	var file: FileAccess = FileAccess.open(temp, FileAccess.WRITE)
@@ -47,6 +53,7 @@ static func backup_path(path: String = PATH) -> String:
 
 ## Returns the saved dictionary, or an empty one when there is no (valid) save. A missing or corrupted file falls back to its backup.
 static func read(path: String = PATH) -> Dictionary:
+	path = SaveGuard.safe(path)
 	var data: Dictionary = _parse(path)
 	if data.is_empty() and FileAccess.file_exists(backup_path(path)):
 		data = _parse(backup_path(path))
@@ -56,6 +63,7 @@ static func read(path: String = PATH) -> Dictionary:
 
 
 static func _parse(path: String) -> Dictionary:
+	path = SaveGuard.safe(path)
 	if not FileAccess.file_exists(path):
 		return {}
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
@@ -71,6 +79,7 @@ static func _parse(path: String) -> Dictionary:
 
 
 static func delete(path: String = PATH) -> void:
+	path = SaveGuard.safe(path)
 	for each: String in [path, backup_path(path), path + ".tmp"]:
 		if FileAccess.file_exists(each):
 			DirAccess.remove_absolute(each)

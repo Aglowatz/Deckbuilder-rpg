@@ -106,9 +106,9 @@ func _ready() -> void:
 			save_enabled = false
 	# Fable Nov 12d: a GUT run never writes the player's real autosave. Twelve test files switch saving back on at the default path,
 	# and a full run rewrote campaign 1's autosave.json with test state. Under GUT the default path is a scratch file.
-	for arg: String in OS.get_cmdline_args():
-		if arg.ends_with("gut_cmdln.gd") and save_path == SaveSystem.PATH:
-			save_path = "user://gut_temp_directory/session_autosave.json"
+	# Overnight Nov 16 (Part 3.1): the real protection is SaveGuard, under every file call of the save system; this keeps the old scratch path.
+	if SaveGuard.test_mode() and save_path == SaveSystem.PATH:
+		save_path = "user://gut_temp_directory/session_autosave.json"
 	if save_enabled and save_path == SaveSystem.PATH:
 		SaveSlots.migrate_legacy()
 
@@ -144,10 +144,11 @@ func save_is_compatible() -> bool:
 func discard_incompatible_save() -> bool:
 	if not has_save() or save_is_compatible():
 		return false
-	var backup: String = save_path + ".old"
+	var real_path: String = SaveGuard.safe(save_path)
+	var backup: String = real_path + ".old"
 	if FileAccess.file_exists(backup):
 		DirAccess.remove_absolute(backup)
-	DirAccess.rename_absolute(save_path, backup)
+	DirAccess.rename_absolute(real_path, backup)
 	save_reset_message = "Your old save came from an earlier version of the game (the new card set, Resources and renamed terms) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
 	return true
 

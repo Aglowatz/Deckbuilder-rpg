@@ -4,6 +4,7 @@
 # Prints GUT's summary lines and every failure. Re-imports first (new class_name scripts).
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."
+export WAYWARD_TEST_SAVES=1  # SaveGuard: a test run never writes the player's real saves
 "$GODOT" --headless --path . --import >/dev/null 2>&1
 run() {
 	echo "=== GUT group: $*"

@@ -14,7 +14,7 @@ static var active: int = 1
 
 
 static func dir_for(campaign: int) -> String:
-	return root if campaign <= 1 else root.path_join("campaign_%d/" % campaign)
+	return SaveGuard.safe(root if campaign <= 1 else root.path_join("campaign_%d/" % campaign))
 
 
 static func is_valid(campaign: int) -> bool:
@@ -35,7 +35,7 @@ static func activate(campaign: int) -> void:
 ## Whether the saves currently go to one of the campaign folders (not a tool's or a test's own folder).
 static func uses_campaign_folder() -> bool:
 	for campaign: int in range(1, COUNT + 1):
-		if SaveSlots.dir == dir_for(campaign):
+		if SaveGuard.safe(SaveSlots.dir) == dir_for(campaign):
 			return true
 	return false
 

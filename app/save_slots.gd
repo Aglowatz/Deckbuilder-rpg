@@ -14,11 +14,11 @@ static var dir: String = "user://saves/"
 
 
 static func path_for(slot: int) -> String:
-	return dir.path_join("autosave.json" if slot == AUTOSAVE else "slot_%d.json" % slot)
+	return SaveGuard.safe(dir.path_join("autosave.json" if slot == AUTOSAVE else "slot_%d.json" % slot))
 
 
 static func thumb_path(slot: int) -> String:
-	return dir.path_join("autosave.png" if slot == AUTOSAVE else "slot_%d.png" % slot)
+	return SaveGuard.safe(dir.path_join("autosave.png" if slot == AUTOSAVE else "slot_%d.png" % slot))
 
 
 static func is_valid_slot(slot: int) -> bool:
@@ -64,7 +64,7 @@ static func load_data(slot: int) -> Dictionary:
 static func write(slot: int, data: Dictionary, thumbnail: Image) -> bool:
 	if not is_valid_slot(slot):
 		return false
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path_for(slot).get_base_dir()))
 	if not SaveSystem.write(data, path_for(slot)):
 		return false
 	if thumbnail != null:
@@ -108,16 +108,17 @@ static func any_save() -> bool:
 ## Moves the old single save into slot 1 (and keeps it as the autosave so Continue still works). Nothing is lost: the old file is renamed `save.json.migrated`.
 ## Returns true when a save was migrated.
 static func migrate_legacy() -> bool:
-	if not FileAccess.file_exists(LEGACY_PATH):
+	var legacy: String = SaveGuard.safe(LEGACY_PATH)  # a test run never renames the player's old save
+	if not FileAccess.file_exists(legacy):
 		return false
-	var data: Dictionary = SaveSystem.read(LEGACY_PATH)
+	var data: Dictionary = SaveSystem.read(legacy)
 	if data.is_empty():
 		return false
 	if not exists(1):
 		var migrated: Dictionary = data.duplicate(true)
 		var meta: Dictionary = (migrated.get("meta", {}) as Dictionary).duplicate()
 		meta["name"] = "Earlier save"
-		meta["saved_at"] = FileAccess.get_modified_time(LEGACY_PATH)
+		meta["saved_at"] = FileAccess.get_modified_time(legacy)
 		meta["level"] = int(data.get("level", 1))
 		meta["gold"] = int(data.get("gold", 0))
 		if not meta.has("location"):
@@ -126,10 +127,10 @@ static func migrate_legacy() -> bool:
 		write(1, migrated, null)
 	if not exists(AUTOSAVE):
 		write(AUTOSAVE, data, null)
-	var backup: String = LEGACY_PATH + ".migrated"
+	var backup: String = legacy + ".migrated"
 	if FileAccess.file_exists(backup):
 		DirAccess.remove_absolute(backup)
-	DirAccess.rename_absolute(LEGACY_PATH, backup)
+	DirAccess.rename_absolute(legacy, backup)
 	return true
 
 
