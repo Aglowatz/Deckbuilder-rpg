@@ -183,7 +183,8 @@ func _use_spot(zone: BuffetScene, id: String, shot_name: String, opens_screen: b
 		if zone.builder.is_walkable(near):
 			stand = near
 			start = near + dir * 3.5
-			if not zone.builder.is_walkable(start):
+			# Fable Nov 15b: the run-up must be clear too (the heal table's started behind the ruler statue and walked into it)
+			if not zone.builder.is_walkable(start) or not zone.builder.is_walkable(near + dir * 1.75):
 				start = near + dir * 1.5
 			if not zone.builder.is_walkable(start):
 				start = near
@@ -192,6 +193,11 @@ func _use_spot(zone: BuffetScene, id: String, shot_name: String, opens_screen: b
 	await _walk_to(zone, stand, 0.9, 8.0)
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.frames(4)
+	if zone._near != spot:
+		# Fable Nov 15b: at the edge of a wide spot a neighbour's prompt can be the nearer one (Odalys beside Dolcetta): step in closer
+		await _walk_to(zone, spot.position, 1.6, 4.0)
+		await _dismiss_dialogue(zone.dialogue)
+		await driver.frames(4)
 	_check(zone._near == spot, "%s: the prompt is up (near %s)" % [id, zone._near.id if zone._near != null else "nothing"])
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.7)

@@ -2309,6 +2309,14 @@ func _teleport(anchor_name: String) -> void:
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 12.0
 		return
+	if anchor_name.begins_with("xz:"):
+		# Fable Nov 15b (shots): any ground spot in any zone, "xz:<x>,<z>" (the Dump had its own)
+		var parts: PackedStringArray = anchor_name.trim_prefix("xz:").split(",")
+		player.position = Vector3(float(parts[0]), 0.0, float(parts[1]) if parts.size() > 1 else 0.0)
+		player.position.y = builder.height_at(player.position)
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 30.0
+		return
 	if builder.has_anchor(anchor_name):
 		pos = builder.anchor(anchor_name)
 	elif builder.chest_positions().has(anchor_name):

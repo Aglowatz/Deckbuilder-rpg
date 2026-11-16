@@ -121,6 +121,9 @@ static func build_def() -> ZoneDef:
 	def.quest_npc_names = [NPC_MARIGOLD, NPC_HOB, NPC_WREN]
 	def.ruler_name = "The Rot"
 	def.ruler_tint = Color("5a2f6e")
+	# Fable Nov 15b (Part 3): the default offset (-9, 0, 3) put the statue at (41, 129), inside the Rift Station at (42, 130): the pillar
+	# of light shone through the stone figure. It stands on open grass north-west of the plaza's middle now, at (44.5, 126.5), clear of the greenhouse front.
+	def.statue_offset = Vector3(-5.5, 0.0, 0.5)
 	def.gloom_tint = Color(0.52, 0.4, 0.62)
 	def.freed_npcs = [
 		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(0.7, 1.0, 0.7), "scale": 1.2, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
