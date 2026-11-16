@@ -1,3 +1,83 @@
+# Fable Nov 15b - report: the hour pass (verify, your answers, small fixes)
+
+Brief: `docs/prompts/fable_nov15_hour.md`. Start tag `pre-fable-nov15b`. Questions: `docs/overnight_inbox.md`, "Fable Nov 15b" (7 items).
+Shots: `docs/overnight_shots/nov15b/`. One Godot at a time, no sub-agents. No public upload. Primm's fight, the battle board and the
+difficulty are untouched. Ran on Fable 5.2, Nov 15 (evening). The Fable Nov 15 report follows below.
+
+## In short
+
+- **Both Dump objects from your screenshots are found and fixed.** Neither was what last pass removed. The "floating door" was the
+  **fridge** by the market; the "wooden block" was the **giant root ramp's slab, tilted the wrong way**.
+- **Primm's rule line shows once** (its phase badge); everything else in your answers was "keep as built".
+- **Walk smokes:** the Gainlands', the Buffet's and the Dump's pass. The statue shots found **Compostella's statue standing inside
+  the Dump's Rift Station**; it is moved.
+- **UI scale:** the Wardrobe, the Card Packs page and the Deck Station no longer crop at 115 % and 130 %. They are held at 100 %
+  (the fallback in the brief), not rebuilt.
+- **Tests:** all 40 shards ran: 3121 of 3124 passed, **1 failing**, 2 pending (the same two as before). The one failure was mine (the new rocks by the fridge chest stood too near the lever); I moved them and re-ran that file and the three other Dump and pass files: 89 of 89 pass. The full suite was not run a second time after that one-line layout change. The memory guard stopped the background run after shard 17; shards 18 to 40 were finished in the foreground.
+- **The zip:** **rebuilt.** `C:\Dev\Deckbuilder-rpguilds\TheWaywardPath-v1.0.0-windows.zip`, 778,087,866 bytes (778 MB), built Nov 15 19:48. Free memory stayed at 2.0 to 2.15 GB for the whole 10-minute wait (the rule is 2.2), so the export ran with the low-memory flag, as the brief says: `EXPORT OK`. The exported smoke prints PASSED (1.0.0); the three exported play checks ran to "done" and their six logs hold 0 script errors. Not uploaded anywhere.
+
+## The parts
+
+| Part | What | Result | Shots |
+|---|---|---|---|
+| 1 | Your answers | Primm's duplicate rule line removed from the gold panel; nothing else needed a change (the Gate Plaza and palace-approach signs already show the purple swirl) | none (a test pins it) |
+| 2 | The Dump against your screenshots | Fridge removed, ramp fixed, tree wall re-checked | `ref_dump_*` (yours), `p2_fridge_before` / `_after`, `p2_ramp_before` / `_after`, `p2_treasure_field`, `p2_top_right_tree_wall` |
+| 3 | Three walk smokes + statue shots | All three pass; one real find (the Dump's statue) | `p3_statue_<zone>_standing` / `_toppled`, `p3_statue_heap_standing_before` |
+| 4 | UI scale 130 % | Nothing cropped at 115 % or 130 %; held at 100 % | `p4_wardrobe_*`, `p4_packs_all_*`, `p4_deck_*` (10 = 100 %, 115, 13 = 130 %) |
+| 5 | Tests, build, report | see "In short" | |
+
+## Part 1 - your answers
+
+- **Primm's rule shows once.** His phase badges stay; the gold "Primm's rule" panel under the HUD no longer repeats the same line
+  (`BattleHud.rule_text_is_shown`). The panel still appears for a phase rule that has no badge, so nothing can go unshown. Nothing
+  else in his fight changed.
+- **Kept as built:** Nov 15 items 1, 2, 3, 5, 6, 7, 8 and Nov 14 items 2, 3, 4, 5, 6, 8, 9, 11, 12. No code change.
+- **Nov 14 item 7:** the two signs already carry the purple travel swirl; no change.
+
+## Part 2 - the Verdant Dump
+
+- **The "floating door" (`ref_dump_floating_door.png`) was the fridge** in the market's east corner, at (77, 132). It was turned so the
+  walk saw its blank green back and its open door: one thick slab and one thin one. Removed. Its chest (the Leaf Crown) is still
+  there, with rocks, a bush, mushrooms and flowers along the rim behind it.
+- **The "wooden block" (`ref_dump_wooden_block.png`) was the giant root ramp** from the farm terrace up to the compost terrace, at
+  x 62 to 67, z 54 to 70. Its bark slab was rotated the wrong way: the foot stood 3.5 m up in the air on the rope posts, the head
+  was buried, and the walk went up the slope through it. One sign flipped (`HeapTerraces.root_ramp`); it lies on the slope now. A
+  test checks the foot is on the lower terrace and the head on the upper one. I fixed it instead of removing it, because it is one
+  of the three ways up (inbox 1).
+- **Last pass's removals** (the hay bale by the barn, the hollow log) were neither of these. They stay removed.
+- **The top-right tree wall:** the walk-grid flood test still finds no walker cell in the treasure field, and the four treasure
+  chests are reached on the mount only. The field's shot is `p2_treasure_field.png`: four chests with their glow in open ground.
+- **New tool:** `tools/heap_plain_probe.gd` lists the Dump's meshes with their colour, or every mesh in a rectangle
+  (`HEAP_PROBE_RECT="x0,z0,x1,z1"`). `tools/heap_odd_probe.gd` could not see either object: the fridge sits on the ground, and the
+  ramp is longer than its slab limit.
+
+## Part 3 - walk smokes and statues
+
+- **Gainlands:** OK. **Verdant Dump:** OK (run again after the statue moved: OK).
+- **Endless Buffet:** failed first on two steps, both faults of the smoke (written Oct 18, the zone has moved since): Odalys' prompt
+  was checked from the edge of her wide spot, where Dolcetta's is nearer, and the heal table's run-up started behind the ruler
+  statue. The smoke now steps in closer and checks its run-up is clear. It passes.
+- **The Dump's statue stood inside the Rift Station** (`p3_statue_heap_standing_before.png`): the default spot was (41, 129), the
+  station is at (42, 130). It stands in the open plaza at (44.5, 126.5) now (`HeapZone` `statue_offset`).
+- The Gainlands' and the Buffet's statues stand clear, standing and toppled.
+- `--at=xz:<x>,<z>` now works for shots in every zone (it was the Dump's only).
+
+## Part 4 - UI scale
+
+- All three screens fill the whole 1920x1080 canvas. The Wardrobe and the Card Packs page are laid out at fixed positions; the Deck
+  Station re-flowed, but between its racks the deck list had one row at 115 % and two at 130 %.
+- Each now tells `UiScale.fit` it needs the whole canvas, so the screen is held at 100 % while the setting is higher. At 100 % nothing
+  changed. This is the brief's fallback (cap the scale on that screen); a real larger layout needs scrolling pages (inbox 4).
+- A test opens all three at 130 % and checks the factor is 1.0.
+
+## Not done / still open
+
+- A second full test run after the last layout fix (see Tests above). The play checks cover the first minutes, the menus and a save, not a playthrough: play the Dump's market and the root ramp yourself before uploading.
+- The fair stage's plain-colour blocks on the farm terrace (inbox 6).
+- Batch 16 is still waiting on its images.
+
+---
+
 # Fable Nov 15 - report: the owner's four fixes
 
 Brief: `docs/prompts/fable_nov15_fixes.md`. Start tag `pre-fable-nov15`. Questions: `docs/overnight_inbox.md`, "Fable Nov 15" (10 items).

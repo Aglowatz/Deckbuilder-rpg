@@ -1,11 +1,11 @@
-Estimated export payload: **845.1 MB** (7363 source files)
+Estimated export payload: **843.7 MB** (7367 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
 | audio: music/ambience | 123 | 295.0 |
 | other images | 992 | 205.6 |
 | world textures (TEX/ENV/DEC, kit) | 153 | 79.4 |
-| other (scripts, scenes, data) | 1191 | 72.2 |
+| other (scripts, scenes, data) | 1195 | 70.8 |
 | UI and icons | 1630 | 45.9 |
 | world test art (assets/art/world_test) | 1433 | 40.8 |
 | card art | 684 | 22.8 |
@@ -19,14 +19,14 @@ Estimated export payload: **845.1 MB** (7363 source files)
 | world: normal/roughness maps | 54 | 4.5 |
 | vendor screens | 14 | 2.2 |
 | fonts | 5 | 0.6 |
-| **Total** | 7363 | **845.1** |
+| **Total** | 7367 | **843.7** |
 
 ### 30 largest files (packed size)
 
 | MB | File |
 |---:|---|
 | 6.1 | `assets/audio/music/MUS-CREDITS.ogg` |
-| 4.2 | `build_cache/capital_rim_c96cbbdb3c1f.bin` |
+| 4.2 | `build_cache/capital_rim_v2_c96cbbdb3c1f.bin` |
 | 3.7 | `assets/audio/music/MUS-SIPHON-BOSS.ogg` |
 | 3.6 | `assets/audio/music/MUS-REF-DUN-BATTLE.ogg` |
 | 3.6 | `assets/audio/music/MUS-REF-BOSS.ogg` |
