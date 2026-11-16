@@ -86,7 +86,9 @@ static func root_ramp(ramp: HeapLayout.Ramp, twist: float) -> Node3D:
 	var rise: float = ramp.y1 - ramp.y0
 	var angle: float = atan2(rise, length)
 	var centre: Vector3 = Vector3(cx, (ramp.y0 + ramp.y1) * 0.5 - 0.3, rect.get_center().y)
-	var basis: Basis = Basis(Vector3.RIGHT, -angle)
+	# Fable Nov 15b (Part 2): the slab was tilted the wrong way (-angle): its foot stood a tier up in the air on the rope posts, a brown
+	# platform the hero walked through, and its head was buried. The north end is the high one.
+	var basis: Basis = Basis(Vector3.RIGHT, angle)
 	var slope_len: float = sqrt(length * length + rise * rise)
 	mesh.box("bark", centre, Vector3(rect.size.x + 0.6, 0.7, slope_len + 1.0), basis, 0.12, 0.85)
 	var up_slope: Vector3 = Vector3(0.0, rise, -length).normalized()
