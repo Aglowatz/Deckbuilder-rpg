@@ -370,30 +370,38 @@ func _puzzle(zone: DnaScene) -> void:
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(zone._overlay is TubePuzzleScreen, "the routing terminal opens the puzzle")
-	if not (zone._overlay is TubePuzzleScreen):
+	# Fable Nov 16b: the terminal plays "File in Order" (seven cards into ascending cost); it was Pneumatic Soul Routing.
+	_check(zone._overlay is FileCardScreen, "the Mail Room terminal opens File in Order")
+	if not (zone._overlay is FileCardScreen):
 		return
-	var screen: TubePuzzleScreen = zone._overlay as TubePuzzleScreen
-	await _shot("e_22_puzzle_start")
-	# A wrong attempt first (all junctions left), to show a failed run and the reset button.
-	await driver.click_button("Send capsules")
-	await driver.seconds(9.0)
-	_check(not Session.flag(DnaZone.FLAG_PUZZLE_SOLVED), "the all-left setup does not solve it")
-	await _shot("e_23_puzzle_wrong_attempt")
-	await driver.click_button("Reset")
-	await driver.seconds(0.3)
-	for index: int in range(TubePuzzle.JUNCTIONS):
-		if TubePuzzle.SOLUTION[index] == 1:
-			await driver.click(driver.button_center(screen._buttons[index]))
-			await driver.seconds(0.15)
-	await _shot("e_24_puzzle_solution_set")
+	var screen: FileCardScreen = zone._overlay as FileCardScreen
+	_check(screen.how_is_open(), "File in Order opens on How to play")
+	await _shot("e_22_file_how_to_play")
+	await driver.click_button("Play")
+	await driver.seconds(0.5)
 	var piece: EquipmentData = Session.content.equipment_piece("courier_lanyard")
-	_check(not Session.profile.owned_equipment.has(piece), "the lanyard is not owned before solving")
-	await driver.click_button("Send capsules")
-	await driver.seconds(9.0)
-	_check(Session.flag(DnaZone.FLAG_PUZZLE_SOLVED), "the right setup solves the puzzle")
-	_check(Session.profile.owned_equipment.has(piece), "solving rewards the Soul Courier's Lanyard")
-	await _shot("e_25_puzzle_solved")
+	_check(not Session.profile.owned_equipment.has(piece), "the lanyard is not owned before filing")
+	# The free check on the scattered cards first, then file them with the number keys and stamp again.
+	await driver.tap_key(KEY_SPACE)
+	await driver.seconds(0.8)
+	_check(not screen.game.is_over() and screen.game.free_checks_left() == 0, "the first wrong stamp is free")
+	_check(not Session.flag(DnaZone.FLAG_PUZZLE_SOLVED), "a wrong order does not solve it")
+	await _shot("e_23_file_free_check")
+	var wanted: Array[CardData] = screen.game.sorted_cards()
+	for index: int in range(screen.game.cards.size()):
+		if screen.game.cards[index] != wanted[index]:
+			await driver.tap_key(KEY_1 + index)
+			await driver.frames(4)
+			await driver.tap_key(KEY_1 + screen.game.cards.find(wanted[index]))
+			await driver.seconds(0.5)
+	_check(screen.game.in_order() and screen.game.swaps <= 6, "the cards are in order in %d swaps" % screen.game.swaps)
+	await _shot("e_24_file_in_order")
+	await driver.tap_key(KEY_SPACE)
+	await driver.seconds(2.2)
+	_check(screen.game.approved, "the right order is approved")
+	_check(Session.flag(DnaZone.FLAG_PUZZLE_SOLVED), "the approval solves the terminal")
+	_check(Session.profile.owned_equipment.has(piece), "it rewards the Soul Courier's Lanyard")
+	await _shot("e_25_file_approved")
 	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 

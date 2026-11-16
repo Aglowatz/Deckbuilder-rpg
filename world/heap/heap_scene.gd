@@ -291,8 +291,9 @@ func _make_puzzle_screen() -> OverlayScreen:
 	return GrowthGridScreen.new()
 
 
+## Fable Nov 16b (Part 2): the fair stage plays "Sort It Out" with cards, sorted by type (it was the junk-sorting `SortGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
-	return SortGameScreen.new()
+	return SortCardScreen.new()
 
 
 ## Waking after a faint puts the hero in the plaza, not back on the entrance bridge.

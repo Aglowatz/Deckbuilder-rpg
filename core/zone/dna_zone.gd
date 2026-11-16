@@ -102,7 +102,7 @@ static func build_def() -> ZoneDef:
 		_spot("suggestion", "Suggestion Box", "suggestion", Vector3.ZERO, 1.3, "Drop in a suggestion", "zone"),
 		_spot("mini_dungeon", "Sub-Basement 3", "mini_dungeon", Vector3.ZERO, 1.5, "Take the elevator to Quarterly Reviews", "mini_dungeon"),
 		_spot("main_dungeon", "The Hall of Final Approvals", "main_dungeon", Vector3.ZERO, 1.7, "Take a number and enter the Hall of Final Approvals", "main_dungeon", {"no_plate": true}),
-		_spot("puzzle", "Soul Routing Terminal", "puzzle", Vector3.ZERO, 1.7, "Route the souls (puzzle)", "puzzle"),
+		_spot("puzzle", "Mail Room Filing Terminal", "puzzle", Vector3.ZERO, 1.7, "File the cards (card game)", "puzzle"),  # Fable Nov 16b: "File in Order" (was the Soul Routing Terminal)
 		_spot("quiz", "Director Ectomund, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-ECTOMUND", "speaker": "Director Ectomund"}),
 		_spot("matching", "Kyle, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "npc_id": "NPC-KYLE", "speaker": "Kyle"}),
 		_spot("shrine", "Stamp of Approval", "shrine", Vector3.ZERO, 1.5, "Press the Stamp of Approval", "shrine"),  # kept from the Executive Approach (SR-7): one card from the zone table, once

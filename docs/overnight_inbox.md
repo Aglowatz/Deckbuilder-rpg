@@ -23,6 +23,39 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
 5. **Deck Station: the collection shows 8 cards a row** at 1920x1080 (7 before), on tiles 5 % smaller, in the width the column freed.
 6. **A controller bug found and fixed on the way:** after the first + or - in the deck list, no list row could be focused any more
    with the keyboard or a controller (the rebuilt rows came back unfocusable). It had been so since the list got its buttons.
+7. **The minigame inventory, and what I did not replace.** Every Path zone has three non-card games and Dex's table:
+
+   | Zone | Replayable minigame (host) | One-time puzzle | Trivia | Card matching |
+   |---|---|---|---|---|
+   | Gainlands | Rep Counter (Chet Thunderabs) -> **Reps** | Power Grid panel (hamster wheels) | Professor Pump | Dex |
+   | Endless Buffet | Order Up! (Chef Flambe) -> **Order Up** | Mystery Stew Pot (recipe) | Professor Pate | Dex |
+   | Verdant Dump | Sort It Out! (Recycle Rhonda) -> **Sort It Out** | Seed Shrine (garden grid) | Druid Thistlewick | Dex |
+   | D.N.A. | Kyle's matching game (a card-matching game: kept) | Pneumatic Soul Routing -> **File in Order** | Director Ectomund | Dex |
+
+   Your four designs fit exactly one game per zone (the three replayable games, and in the D.N.A., where that game is card
+   matching, the tube puzzle you photographed), so those four are replaced. **Still in the game, not card games: the classroom
+   trivia in all four zones** (your brief names it, but each zone's one design is already used at its minigame spot, and the D.N.A.
+   quest "Pass Director Ectomund's Compliance quiz" hangs on it) **and the other three puzzles** (hamster wheels, stew pot, garden).
+   Say which of these should go and what should stand there: a second spot per zone could open the same card game, or they can
+   simply be removed.
+8. **Rules I had to decide** (all in `docs/design/card_minigames.md`; each is one constant):
+   - Reps: "up to 3 misses allowed" = the fourth miss ends the set. The deal leans the player's way so a first set is winnable
+     (84 % for someone who guesses away from the nearer edge; 8 % for a coin flip). A plain random deal wins about 1 set in 4.
+   - Order Up: a plate with the wrong total is "sent back"; the third ends the shift (your brief gave no way to lose). Every row
+     holds a right answer, also after a swap.
+   - Sort It Out: the fifth lost card stops the belt at once (16 can no longer be reached).
+   - File in Order: the second wrong stamp is REJECTED; so is a wrong order when the ninth swap is spent.
+   - Stars (the old rewards are paid by stars): no slip 3, one or two slips 2, more 1.
+9. **File in Order keeps the tube puzzle's reward rule**: the Soul Courier's Lanyard once, then nothing (it can be replayed for
+   fun). The terminal is now called "Mail Room Filing Terminal"; the pneumatic tubes stay on the wall and in the Mail Room's lore.
+10. **Hosts' lines changed where they described the old rules** (four story files, 17 lines): Chet's "eight reps to one beat",
+    Flambe's "stack each dish in the right order before the timer dings", Rhonda's "compost, metal, glass and paper" and her jam
+    jar, the Mail Room's signs. They are yours: `git diff pre-fable-nov16b -- data/story` shows each one.
+11. **The old four screens are still in the repo, unused** (`RepGameScreen`, `OrderGameScreen`, `SortGameScreen`,
+    `TubePuzzleScreen`): one line per zone scene puts one back. Their reward functions are what the new games pay through. Say
+    when they can be deleted. The four old brief smokes (fifth to eighth) are rewritten for the new games but **not run**.
+12. **Three of the four games have no painted room** (only MG-BG-GYM exists): they use the zone's loading painting, blurred, behind
+    a wood and brass frame. Batch 17 rows are added for the three rooms (Part 7).
 
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 

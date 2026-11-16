@@ -1542,6 +1542,13 @@ func _interact(spot: ZoneSpot) -> void:
 			_interact_zone(spot)
 
 
+## Fable Nov 16b (Part 2): `--mg=how|mid|win|lose` puts the open card minigame in that state for a shot (a fixed deal, no waits).
+func _shot_card_game() -> void:
+	var game_screen: CardGameScreen = _overlay as CardGameScreen
+	if game_screen != null and _screenshot_args.has("mg"):
+		game_screen.shot_state(str(_screenshot_args["mg"]))
+
+
 func _open_puzzle(spot: ZoneSpot) -> void:
 	player.face(spot.position)
 	var screen: OverlayScreen = _make_puzzle_screen()
@@ -2352,10 +2359,12 @@ func _screenshot_open(what: String) -> void:
 			for spot: ZoneSpot in spots:
 				if spot.kind == "puzzle":
 					_open_puzzle(spot)
+			_shot_card_game()
 		"quiz":
 			_open_quiz()
 		"matching", "minigame":
 			_open_minigame()
+			_shot_card_game()
 		"card_match":
 			_open_card_match(def.id)  # Batch 15: Dex's table (MG-BG-MATCHTABLE, UI-CARDBACK-DEX)
 		"map":

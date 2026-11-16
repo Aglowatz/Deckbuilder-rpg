@@ -693,41 +693,42 @@ func _sort_it_out(zone: HeapScene) -> void:
 	await _shot("h_50_blue_ribbon_bev_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is SortGameScreen, "Bev launches Sort It Out!")
-	if not (zone._overlay is SortGameScreen):
+	# Fable Nov 16b: the fair stage sorts cards by type (Unit, Spell, Infrastructure, Other); it was junk into compost, metal, glass, paper.
+	_check(zone._overlay is SortCardScreen, "Rhonda launches Sort It Out")
+	if not (zone._overlay is SortCardScreen):
 		return
-	var screen: SortGameScreen = zone._overlay as SortGameScreen
+	var screen: SortCardScreen = zone._overlay as SortCardScreen
 	var gold_before: int = Session.gold
-	await _shot("h_51_sort_it_out_start")
-	await driver.click_button("Start the run")
+	_check(screen.how_is_open(), "Sort It Out opens on How to play")
+	await _shot("h_51_sort_it_out_how_to_play")
+	await driver.click_button("Play")
 	await driver.seconds(0.5)
-	await _shot("h_52_sort_it_out_countdown")
 	var guard: int = 0
 	var shot_taken: bool = false
 	var wrong_done: bool = false
-	while not screen.game.is_finished() and guard < 9000:
+	while not screen.game.is_finished() and guard < 12000:
 		guard += 1
 		await driver.frames(1)
-		if screen._state != "playing" or not screen.game.front_visible(screen._clock):
+		if screen.state != "playing" or not screen.game.front_visible(screen.clock):
 			continue
-		var piece: int = screen.game.next_piece
-		var wanted: int = SortGame.bin_of(piece)
-		if not shot_taken and piece == 6:
+		var card: int = screen.game.next_card
+		var wanted: int = screen.game.bin_of(card)
+		if not shot_taken and card == 6:
 			shot_taken = true
 			await _shot("h_53_sort_it_out_belt")
-		if SortGame.spawn_time(piece) + 0.35 > screen._clock:
+		if SortCardGame.spawn_time(card) + 0.5 > screen.clock:
 			continue
-		if piece == 2 and not wrong_done:
+		if card == 2 and not wrong_done:
 			wrong_done = true
-			var wrong_bin: int = (wanted + 1) % SortGame.BIN_COUNT
-			await driver.tap_key(KEY_1 + wrong_bin)
+			await driver.tap_key(KEY_1 + (wanted + 1) % SortCardGame.BIN_COUNT)
 			await driver.frames(3)
 			continue
 		await driver.tap_key(KEY_1 + wanted)
 	await driver.seconds(1.6)
 	_check(screen.game.is_finished(), "the run finished")
-	_check(screen.game.outcomes.has(0), "a wrong bin counted as a mistake")
-	_check(screen.game.stars() >= 2, "sorting nearly everything right earned stars (%d sorted, %d stars)" % [screen.game.correct_count(), screen.game.stars()])
+	_check(screen.game.outcomes.has(0), "a wrong bin counted as a lost card")
+	_check(screen.game.is_won() and screen.game.stars() >= 2, "sorting nearly everything right earned stars (%d sorted, %d stars)" % [screen.game.correct_count(), screen.game.stars()])
+	_check(screen.result_panel() != null, "the win panel is up")
 	_check(Session.gold > gold_before and Session.flag(HeapZone.FLAG_SORT_FIRST), "the run paid out with the one-time first-clear bonus")
 	await _shot("h_54_sort_it_out_result")
 	await driver.tap_key(KEY_ESCAPE)

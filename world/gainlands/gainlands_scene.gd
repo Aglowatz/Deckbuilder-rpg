@@ -73,8 +73,9 @@ func _make_puzzle_screen() -> OverlayScreen:
 	return WheelPuzzleScreen.new()
 
 
+## Fable Nov 16b (Part 2): Chet Thunderabs' studio plays "Reps", the higher-or-lower card game (it was the Rep Counter, `RepGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
-	return RepGameScreen.new()
+	return RepsCardScreen.new()
 
 
 ## Waking after a faint: the plaza, not the bridge end.

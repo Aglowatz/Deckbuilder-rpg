@@ -524,41 +524,38 @@ func _rep_counter(zone: GainlandsScene) -> void:
 	await _shot("f_37_jazzy_jules_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is RepGameScreen, "Chet Thunderabs launches the Rep Counter")
-	if not (zone._overlay is RepGameScreen):
+	# Fable Nov 16b: the studio plays "Reps" (higher or lower on a card's power); it was the Rep Counter.
+	_check(zone._overlay is RepsCardScreen, "Chet Thunderabs launches Reps")
+	if not (zone._overlay is RepsCardScreen):
 		return
-	var screen: RepGameScreen = zone._overlay as RepGameScreen
+	var screen: RepsCardScreen = zone._overlay as RepsCardScreen
 	var gold_before: int = Session.gold
-	await _shot("f_38_rep_counter_start")
-	await driver.click_button("Start the set")
+	_check(screen.how_is_open(), "Reps opens on How to play")
+	await _shot("f_38_reps_how_to_play")
+	await driver.click_button("Play")
 	await driver.seconds(0.5)
-	await _shot("f_39_rep_counter_countdown")
-	var rep: int = 0
+	# One miss on purpose (the plates come off the bar), then right guesses with the real keys until the set is done.
+	var missed: bool = false
 	var guard: int = 0
 	var shot_taken: bool = false
-	while rep < RepGame.REPS and guard < 4000:
+	while not screen.game.is_over() and guard < 60:
 		guard += 1
-		await driver.frames(1)
-		if screen._state != "playing":
-			continue
-		var beat: float = RepGame.BEATS[rep]
-		if not shot_taken and screen._clock > beat - 0.4:
+		var higher: bool = screen.game.upcoming().attack >= screen.game.current().attack
+		if not missed and screen.game.streak == 2 and screen.game.upcoming().attack != screen.game.current().attack:
+			missed = true
+			higher = not higher
+		await driver.tap_key(KEY_UP if higher else KEY_DOWN)
+		await driver.seconds(1.7)
+		if not shot_taken and screen.game.streak == 5:
 			shot_taken = true
-			await _shot("f_40_rep_counter_rings_closing")
-		if screen._clock >= beat - 0.012:
-			if rep == 2:
-				rep += 1
-				continue
-			await driver.tap_key(KEY_SPACE)
-			rep += 1
-	await driver.seconds(1.8)
-	var game: RepGame = screen.game
-	_check(game.is_finished(), "the set finished")
-	_check(game.points() >= RepGame.THREE_STAR_POINTS - 3, "timed presses scored points (%d / %d)" % [game.points(), RepGame.max_points()])
-	_check(game.ratings.has(RepGame.Rating.MISS), "a skipped rep counted as a miss")
-	_check(game.stars() >= 1, "the set earned stars (%d)" % game.stars())
+			await _shot("f_40_reps_plates_on_the_bar")
+	await driver.seconds(2.2)
+	_check(screen.game.is_won(), "eight right in a row finished the set")
+	_check(screen.game.misses == 1, "the wrong guess counted as a miss")
+	_check(screen.game.stars() >= 1, "the set earned stars (%d)" % screen.game.stars())
+	_check(screen.result_panel() != null, "the win panel is up")
 	_check(Session.gold > gold_before and Session.flag(GainlandsZone.FLAG_REPS_FIRST), "the performance paid out with the one-time first-clear bonus")
-	await _shot("f_41_rep_counter_result")
+	await _shot("f_41_reps_result")
 	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 

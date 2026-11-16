@@ -62,8 +62,9 @@ func _make_puzzle_screen() -> OverlayScreen:
 	return RecipePuzzleScreen.new()
 
 
+## Fable Nov 16b (Part 2): Chef Flambe's pass plays "Order Up", the exact-cost card game (it was the ingredient-stacking `OrderGameScreen`).
 func _make_minigame_screen() -> OverlayScreen:
-	return OrderGameScreen.new()
+	return OrderCardScreen.new()
 
 
 ## Waking after a faint puts the hero in the plaza, not back on the bridge.

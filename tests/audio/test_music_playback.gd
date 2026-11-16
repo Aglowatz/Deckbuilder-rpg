@@ -261,14 +261,20 @@ func test_dialogue_ducks_the_music_a_little_and_releases() -> void:
 	assert_almost_eq(_manager.duck_db(), 0.0, 0.01)
 
 
+## Fable Nov 16b: a zone card minigame set to its zone (it reads the zone the player is in otherwise).
+func _card_game(screen: CardGameScreen, zone_id: String) -> CardGameScreen:
+	screen.zone_id = zone_id
+	return screen
+
+
 func test_screens_name_their_own_music() -> void:
 	var screens: Dictionary = {
 		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new()],
 		"MUS-QUIZ": [QuizScreen.new()],
-		"MUS-MINIGAME-NECRO": [MatchGameScreen.new()],
-		"MUS-MINIGAME-GOUR": [OrderGameScreen.new()],
-		"MUS-MINIGAME-BEEF": [RepGameScreen.new()],
-		"MUS-MINIGAME-REF": [SortGameScreen.new()],
+		"MUS-MINIGAME-NECRO": [MatchGameScreen.new(), _card_game(FileCardScreen.new(), "necrocrat")],
+		"MUS-MINIGAME-GOUR": [OrderGameScreen.new(), _card_game(OrderCardScreen.new(), "gourmand")],
+		"MUS-MINIGAME-BEEF": [RepGameScreen.new(), _card_game(RepsCardScreen.new(), "beefcake")],
+		"MUS-MINIGAME-REF": [SortGameScreen.new(), _card_game(SortCardScreen.new(), "refusemancer")],
 	}
 	for cue: Variant in screens.keys():
 		for screen: Object in screens[cue] as Array:

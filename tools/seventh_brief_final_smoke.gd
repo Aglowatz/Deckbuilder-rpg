@@ -669,41 +669,38 @@ func _order_up(zone: BuffetScene) -> void:
 	await _shot("g_48_chef_turbo_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is OrderGameScreen, "Chef Turbo launches Order Up!")
-	if not (zone._overlay is OrderGameScreen):
+	# Fable Nov 16b: the pass plays the card game "Order Up" (costs that add up to the ticket); it was the ingredient-stacking game.
+	_check(zone._overlay is OrderCardScreen, "Chef Flambe launches Order Up")
+	if not (zone._overlay is OrderCardScreen):
 		return
-	var screen: OrderGameScreen = zone._overlay as OrderGameScreen
+	var screen: OrderCardScreen = zone._overlay as OrderCardScreen
 	var gold_before: int = Session.gold
-	await _shot("g_49_order_up_start")
-	await driver.click_button("Start the shift")
+	_check(screen.how_is_open(), "Order Up opens on How to play")
+	await _shot("g_49_order_up_how_to_play")
+	await driver.click_button("Play")
 	await driver.seconds(0.5)
-	await _shot("g_50_order_up_countdown")
+	# A wrong plate first (every card: always too much), then the three tickets with the number keys and the bell.
+	for index: int in range(OrderCardGame.ROW_SIZE):
+		await driver.tap_key(KEY_1 + index)
+		await driver.frames(3)
+	await driver.tap_key(KEY_SPACE)
+	await driver.seconds(1.0)
+	_check(screen.game.sent_back == 1, "a wrong total is sent back")
+	await _shot("g_51_order_up_sent_back")
 	var guard: int = 0
-	var shot_ticket: bool = false
-	var tossed: bool = false
-	while not screen.game.is_finished() and guard < 6000:
+	while not screen.game.is_over() and guard < 6:
 		guard += 1
-		await driver.frames(1)
-		if screen._state != "playing" or screen.game.is_finished() or screen.game.in_gap(screen._clock):
-			continue
-		var recipe: Array = screen.game.recipe()
-		var wanted: int = int(recipe[screen.game.plate.size()])
-		if screen.game.current == 0 and not tossed and screen.game.plate.size() == 1:
-			tossed = true
-			var wrong: int = OrderGame.CHEESE if wanted != OrderGame.CHEESE else OrderGame.TOMATO
-			await driver.tap_key(KEY_1 + wrong)
+		for index: int in screen.game.solution():
+			await driver.tap_key(KEY_1 + index)
 			await driver.frames(4)
-			_check(screen.game.mistakes == 1 and screen.game.plate.size() == 0, "a wrong ingredient tosses the plate")
-			await _shot("g_51_order_up_tossed_plate")
-			continue
-		if not shot_ticket and screen.game.current == 3 and screen.game.plate.size() == 2:
-			shot_ticket = true
-			await _shot("g_52_order_up_ticket_in_progress")
-		await driver.seconds(0.18)
-		await driver.tap_key(KEY_1 + wanted)
-	await driver.seconds(2.6)
-	_check(screen.game.is_finished(), "the shift finished")
-	_check(screen.game.stars() >= 2, "assembling every dish in order earned stars (%d points, %d stars)" % [screen.game.points(), screen.game.stars()])
+		if screen.game.ticket == 1:
+			await _shot("g_52_order_up_plate_ready")
+		await driver.tap_key(KEY_SPACE)
+		await driver.seconds(1.4)
+	await driver.seconds(1.2)
+	_check(screen.game.is_won(), "three tickets finished the shift")
+	_check(screen.game.stars() >= 2, "one plate sent back still earned stars (%d)" % screen.game.stars())
+	_check(screen.result_panel() != null, "the win panel is up")
 	_check(Session.gold > gold_before and Session.flag(BuffetZone.FLAG_ORDER_FIRST), "the shift paid out with the one-time first-clear bonus")
 	await _shot("g_53_order_up_result")
 	await driver.tap_key(KEY_ESCAPE)

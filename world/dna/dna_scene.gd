@@ -46,8 +46,10 @@ func _grade_enemy(model: Node3D) -> void:
 	DnaMaterials.grade_node(model, 0.4)
 
 
+## Fable Nov 16b (Part 2): the Mail Room's terminal plays "File in Order", the filing card game (it was "Pneumatic Soul Routing",
+## `TubePuzzleScreen`). Same spot, same one-time reward (`solved`).
 func _make_puzzle_screen() -> OverlayScreen:
-	return TubePuzzleScreen.new()
+	return FileCardScreen.new()
 
 
 func _make_minigame_screen() -> OverlayScreen:
