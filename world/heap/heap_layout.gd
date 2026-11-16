@@ -570,19 +570,34 @@ static func wall_rise(x: float, z: float, out: float) -> float:
 	return 2.6 * smoothstep(0.0, 1.3, d) + 2.2 * smoothstep(2.4, 3.4, d) + 1.7 * smoothstep(4.4, 5.4, d)
 
 
+## Fable Nov 16c (Part 3): the valley's walls come down toward the south and are gone before the two south corners (1 = the full wall,
+## 0 = none). The cameras stand south of the hero looking north: in the rounded south corners the wall curved round in front of the
+## lens, hid the hero and showed a pale wedge through its back, and the camera had to be held 12 m to the side to keep it out of the
+## frame (which is what made it fight the player by the fridge chest and the vault lever). With no wall there the camera simply follows.
+const SOUTH_OPEN_FROM: float = 24.0
+const SOUTH_OPEN_TO: float = 10.0
+
+
+static func south_open(z: float) -> float:
+	return 1.0 - smoothstep(MAX_CORNER.y - SOUTH_OPEN_FROM, MAX_CORNER.y - SOUTH_OPEN_TO, z)
+
+
 func ground_height(x: float, z: float) -> float:
 	var edge: float = edge_distance(x, z)
 	if edge < 0.0:
 		if on_entrance(x, z):
 			return 0.0
-		if z > MAX_CORNER.y - 2.0 and x > MIN_CORNER.x + 2.0 and x < MAX_CORNER.x - 2.0:
-			# the south rim steps down a metre to the meadow the overflow pool lies in (the entrance bridge crosses it)
-			return -1.0 * smoothstep(0.0, 2.5, -edge)
+		# the south rim steps down a metre to the meadow the overflow pool lies in (the entrance bridge crosses it)
+		var south_step: float = -1.0 * smoothstep(0.0, 2.5, -edge)
+		if z > MAX_CORNER.y - 2.0:
+			return south_step  # (Fable Nov 16c: round both south corners too - it was a wall there, with a crease where the two rules met)
 		# the valley's walls: the land climbs steeply beyond the west, east and north rims, except on the Rotheart's mound behind the north rim (flat, the
 		# plateau's level, so the tree and its roots stand where the root gate is)
 		var inner: Vector2 = Vector2(clampf(x, MIN_CORNER.x + 0.5, MAX_CORNER.x - 0.5), clampf(z, MIN_CORNER.y + 0.5, MAX_CORNER.y - 0.5))
 		var mound: float = 1.0 - smoothstep(30.0, 40.0, absf(x - ROTHEART.x)) if z < MIN_CORNER.y else 0.0
-		return tier_height(tier_at(inner.x, inner.y)) + (wall_rise(x, z, -edge) + (-edge) * 0.08) * (1.0 - mound)
+		var walled: float = tier_height(tier_at(inner.x, inner.y)) + (wall_rise(x, z, -edge) * south_open(z) + (-edge) * 0.08) * (1.0 - mound)
+		# ...and the open land beside the south corners sinks to the meadow's level over the last eight metres (no step between the two)
+		return lerpf(walled, south_step, smoothstep(MAX_CORNER.y - 10.0, MAX_CORNER.y - 2.0, z))
 	var ramp: Ramp = ramp_at(x, z)
 	if ramp != null:
 		return ramp.height_at(z)
@@ -1242,6 +1257,53 @@ func _mushroom_trees(_scatter_clear: Array[Vector3]) -> void:
 	# last, off the seeded stream, so nothing else moves)
 	_prop("mushroom_tree", 24.5, 128.0, 40.0, 1.1)
 	_prop("mushroom_tree", 76.0, 126.0, 200.0, 1.0)
+	_open_rim_edge()
+
+
+## Fable Nov 16c (Part 3): where the valley's walls come down toward the south (`south_open`), a low line of rocks and bushes marks the
+## edge of the walkable land instead - along the east and the west rim's last stretch and round both south corners. Knee-high, just
+## outside the edge (nothing on the walkable side moves), never between the camera and the hero. Placed off the seeded stream.
+const OPEN_RIM_OUT: float = 0.9
+
+
+func _open_rim_edge() -> void:
+	var from_z: float = MAX_CORNER.y - SOUTH_OPEN_FROM + 2.0
+	var arc_z: float = MAX_CORNER.y - CORNER_RADIUS
+	for side: float in [-1.0, 1.0]:
+		var rim_x: float = MAX_CORNER.x if side > 0.0 else MIN_CORNER.x
+		var count: int = 0
+		# the straight stretch, north to south
+		var z: float = from_z
+		while z < arc_z:
+			_open_rim_piece(rim_x + side * (OPEN_RIM_OUT + 0.25 * sin(z * 1.7)), z, count)
+			count += 1
+			z += 2.1 + 0.5 * sin(z * 0.9 + side)
+		# round the corner to the south rim
+		var centre: Vector2 = Vector2(rim_x - side * CORNER_RADIUS, arc_z)
+		for step: int in range(1, 6):
+			var angle: float = PI * 0.5 * float(step) / 5.0
+			var out: float = CORNER_RADIUS + OPEN_RIM_OUT
+			_open_rim_piece(centre.x + side * cos(angle) * out, centre.y + sin(angle) * out, count)
+			count += 1
+
+
+func _open_rim_piece(x: float, z: float, index: int) -> void:
+	# open ground round every anchor and chest (the vault lever stands 2.5 m from the east rim): no piece there
+	for key: Variant in anchors.keys():
+		var anchor: Vector3 = anchors[key] as Vector3
+		if Vector2(x - anchor.x, z - anchor.z).length() < ANCHOR_CLEARANCE:
+			return
+	for id: Variant in chests.keys():
+		var chest: Vector3 = chests[id] as Vector3
+		if Vector2(x - chest.x, z - chest.z).length() < 1.9:
+			return
+	match index % 4:
+		0, 2:
+			_prop("rock", x, z, fmod(float(index) * 97.0, 360.0), 0.8 + 0.25 * float(index % 3))
+		1:
+			_prop("bush", x, z, 0.0, 0.9)
+		_:
+			_prop("mushrooms", x, z, 0.0, 1.0)
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

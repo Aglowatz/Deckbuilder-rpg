@@ -33,25 +33,65 @@ func test_the_fair_stage_is_dressed_from_the_dump_kit() -> void:
 		assert_true(EnvKit.has_art(id), "%s (the painted cloth bunting) is imported" % id)
 
 
-func test_the_dump_camera_is_held_in_from_the_south_corners() -> void:
+## Fable Nov 16c (Part 3): the hold of Nov 16 is gone - it left the lens up to 12 m to the side of the hero by the fridge chest and
+## the vault lever (the camera "fought" the player). The pale wedge it was hiding is solved at its cause: the valley's walls come down
+## before the south corners, so no cliff stands between the trailing camera and the hero.
+func test_the_dump_camera_follows_in_the_south_corners() -> void:
+	assert_false(HeapScene.new().has_method("south_corner_target"), "the corner hold is gone")
+	var scene: HeapScene = HeapScene.new()
+	var target: Vector3 = Vector3(79.0, 9.0, 150.0)
+	assert_eq(scene._camera_soft_bounds(target), target, "the Dump holds its camera nowhere")
+	scene.free()
+
+
+func test_the_dump_s_walls_come_down_before_the_south_corners() -> void:
+	var layout: HeapLayout = HeapLayout.new()
+	layout.build()
 	var max_corner: Vector2 = HeapLayout.MAX_CORNER
 	var min_corner: Vector2 = HeapLayout.MIN_CORNER
-	# in the south-east corner the camera stands well west of the hero; in the south-west corner well east
-	var hero_se: Vector3 = Vector3(max_corner.x - 5.0, 0.0, max_corner.y - 5.0)
-	var held_se: Vector3 = HeapScene.south_corner_target(hero_se + Vector3(0.0, 6.0, 15.0), hero_se)
-	assert_lt(held_se.x, hero_se.x - 4.0, "held in from the east rim")
-	assert_eq(held_se.y, 6.0, "its height is untouched")
-	assert_eq(held_se.z, hero_se.z + 15.0)
-	var hero_sw: Vector3 = Vector3(min_corner.x + 5.0, 0.0, max_corner.y - 5.0)
-	assert_gt(HeapScene.south_corner_target(hero_sw + Vector3(0.0, 6.0, 15.0), hero_sw).x, hero_sw.x + 4.0, "held in from the west rim")
-	# the middle of the south band (the bridge head) and everything north of the band are untouched
-	var hero_mid: Vector3 = Vector3((min_corner.x + max_corner.x) * 0.5, 0.0, max_corner.y - 5.0)
-	assert_eq(HeapScene.south_corner_target(hero_mid + Vector3(0.0, 6.0, 15.0), hero_mid), hero_mid + Vector3(0.0, 6.0, 15.0))
-	var hero_north: Vector3 = Vector3(max_corner.x - 5.0, 0.0, max_corner.y - HeapScene.SOUTH_CORNER_BAND - 1.0)
-	assert_eq(HeapScene.south_corner_target(hero_north + Vector3(0.0, 6.0, 15.0), hero_north), hero_north + Vector3(0.0, 6.0, 15.0))
-	# the hold grows smoothly: no jump at the band's edge
-	var just_in: Vector3 = Vector3(max_corner.x - 5.0, 0.0, max_corner.y - HeapScene.SOUTH_CORNER_BAND + 0.5)
-	assert_almost_eq(HeapScene.south_corner_target(just_in + Vector3(0.0, 6.0, 15.0), just_in).x, just_in.x, 0.2)
+	assert_eq(HeapLayout.south_open(max_corner.y - 60.0), 1.0, "the full wall up the valley")
+	assert_eq(HeapLayout.south_open(max_corner.y - 8.0), 0.0, "none at the corners")
+	assert_between(HeapLayout.south_open(max_corner.y - 17.0), 0.2, 0.8, "it comes down gradually")
+	# up the valley the wall still stands 5 m beyond the east and west rims
+	for rim_x: float in [max_corner.x + 6.0, min_corner.x - 6.0]:
+		assert_gt(layout.ground_height(rim_x, max_corner.y - 50.0) - layout.ground_height(clampf(rim_x, min_corner.x + 2.0, max_corner.x - 2.0), max_corner.y - 50.0), 4.0, "the valley wall stands at x %.0f" % rim_x)
+	# beside the fridge chest and the vault lever, and round both south corners, the land beyond the rim is low: nothing for the
+	# camera (about 20 m south of the hero, 9 m up) to stand in or look through
+	for z: float in [max_corner.y - 9.0, max_corner.y - 4.0, max_corner.y + 1.0, max_corner.y + 6.0]:
+		for x: float in [max_corner.x + 1.5, max_corner.x + 6.0, max_corner.x - 3.0, min_corner.x - 1.5, min_corner.x - 6.0, min_corner.x + 3.0]:
+			if HeapLayout.edge_distance(x, z) >= 0.0:
+				continue
+			assert_lt(layout.ground_height(x, z), 1.2, "no wall at (%.1f, %.1f): %.2f m" % [x, z, layout.ground_height(x, z)])
+	# no step where the corner's rule meets the south rim's
+	for x: float in [max_corner.x - 1.0, max_corner.x + 3.0, min_corner.x - 3.0]:
+		var z: float = max_corner.y - 2.6
+		var last: float = layout.ground_height(x, z)
+		while z < max_corner.y + 4.0:
+			z += 0.25
+			var here: float = layout.ground_height(x, z)
+			if HeapLayout.edge_distance(x, z) < 0.0 and HeapLayout.edge_distance(x, z - 0.25) < 0.0:
+				assert_lt(absf(here - last), 0.45, "no crease at (%.1f, %.2f)" % [x, z])
+			last = here
+
+
+func test_a_low_line_of_rocks_and_bushes_marks_the_open_edge() -> void:
+	var layout: HeapLayout = HeapLayout.new()
+	layout.build()
+	var east: int = 0
+	var west: int = 0
+	for prop: HeapLayout.Prop in layout.props:
+		if not (prop.kind in ["rock", "bush", "mushrooms"]):
+			continue
+		var edge: float = HeapLayout.edge_distance(prop.pos.x, prop.pos.z)
+		if edge < 0.0 and edge > -2.0 and prop.pos.z > HeapLayout.MAX_CORNER.y - HeapLayout.SOUTH_OPEN_FROM:
+			if prop.pos.x > 50.0:
+				east += 1
+			else:
+				west += 1
+			assert_eq(prop.radius, 0.0, "outside the walkable land: it blocks nothing")
+	assert_gt(east, 6, "the east rim's open stretch and its corner are marked (%d pieces)" % east)
+	assert_gt(west, 6, "the west one too (%d pieces)" % west)
+
 
 
 func test_the_minimap_picture_shader_is_in_place() -> void:

@@ -32,6 +32,18 @@ Brief: `docs/prompts/fable_nov16_evening.md`. Report: top of `docs/overnight_rep
     the sky at the Low camera; "Moss Mulligan" in your screenshot hangs over empty grass). The labels were placed before the camera's
     final tilt each frame. Labels, speech barks and the quest edge pointer are now placed after it. Zones were not affected.
 
+12. **The Dump's camera: the cause was last night's own fix for the pale corner wedge.** It held the lens in from the side rims in the
+    south band: by the fridge chest it stood 6 m to the side of the hero, in the very corner 11.8 m, and the hero stood at 81 % of the
+    frame's width (89 % at the Low camera). That hold is deleted. Measured now: the hero stays at the middle of the frame through the
+    whole walk in and out of both corners, and moves 0.8 px between two frames at most (1.6 px at Low).
+13. **The wedge is solved at its cause: the valley's side walls come down toward the south.** They are full height up the valley, start
+    sinking 24 m before the south rim and are gone 10 m before it, so no cliff curves round in front of the camera at either corner.
+    The land beside the corners is low meadow like the south rim, and a knee-high line of rocks, bushes and mushrooms marks the edge
+    of the walkable ground there. **This changes the look of both south corners** (grass slope instead of a rock wall): see
+    `p3_after_*`. Two constants if you want the wall to end later or sooner: `HeapLayout.SOUTH_OPEN_FROM` / `SOUTH_OPEN_TO`.
+14. **A new tool measures a camera:** `bash tools/run_heap_corner_camera.sh <tag> [0|3]` walks both corners with real keys and fails
+    if the hero leaves the middle of the frame or jumps.
+
 ## Fable Nov 16b - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16b`.
