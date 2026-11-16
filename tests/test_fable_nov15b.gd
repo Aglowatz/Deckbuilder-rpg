@@ -51,3 +51,23 @@ func test_the_root_ramps_slab_rises_to_the_north() -> void:
 		assert_lt(south_low, ramp.y0 + 0.6, "%s: the foot lies on the lower terrace (it stood in the air)" % ramp.id)
 		assert_gt(north_low, ramp.y0 + (ramp.y1 - ramp.y0) * 0.5, "%s: the head is up at the upper terrace" % ramp.id)
 	assert_gt(checked, 0)
+
+
+## Part 4 - the Wardrobe, the Card Packs page and the Deck Station are laid out on the whole canvas: they are held at 100 % (not cropped).
+func test_the_full_canvas_screens_are_held_at_100_percent() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	for script: GDScript in [WardrobeScreen, PacksScreen, DeckbuilderScreen]:
+		var screen: OverlayScreen = script.new() as OverlayScreen
+		add_child_autofree(screen)
+		Settings.set_ui_scale(1.3)
+		await wait_process_frames(8)
+		var scaler: UiScale = screen.get_node_or_null(^"UiScaleFit") as UiScale
+		assert_not_null(scaler)
+		if scaler != null:
+			assert_almost_eq(scaler.current_factor(), 1.0, 0.011, "%s fits the screen at a 130 %% UI scale" % script.get_global_name())
+		Settings.set_ui_scale(1.0)
+		screen.queue_free()
+		await wait_process_frames(2)
+	Session.save_enabled = true

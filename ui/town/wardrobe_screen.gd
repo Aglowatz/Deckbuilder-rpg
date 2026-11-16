@@ -44,6 +44,9 @@ func _build() -> void:
 	_page = Control.new()
 	_page.name = "WardrobePage"
 	_page.size = Vector2(1920, 1080)
+	# Fable Nov 15b (Part 4): the page is laid out on the whole 1920x1080 canvas, so nothing larger fits: saying so lets UiScale.fit
+	# hold this screen at 100 % (it was cropped at the right and bottom above that)
+	_page.custom_minimum_size = Vector2(1920, 1080)
 	_page.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_page)
 	var title: Label = _text("WARDROBE", 64, UIStyle.GOLD, Vector2(52, 14), 700)

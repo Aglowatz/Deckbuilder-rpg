@@ -293,6 +293,13 @@ func _build_rack() -> void:
 	_rack.slot_pressed.connect(_on_rack_slot)
 	_rack.z_index = 5
 	add_child(_rack)
+	# Fable Nov 15b (Part 4): between the racks at the top and the bottom the deck list has room for one row at 115 % and two at 130 %.
+	# Until the station is relaid for a short canvas it says it needs the whole 1920x1080, so UiScale.fit holds it at 100 %.
+	var hold: Control = Control.new()
+	hold.name = "ScaleHold"
+	hold.custom_minimum_size = Vector2(1920, 1080)
+	hold.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(hold)
 	resized.connect(func() -> void:
 		if _rack != null and is_instance_valid(_rack) and size.x > 100.0 and _rack.canvas != size:
 			_rack.canvas = size
