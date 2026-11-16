@@ -273,8 +273,9 @@ func test_the_buffets_entrance_has_a_bank_and_a_forest_nobody_walks_through() ->
 		x += 0.5
 	assert_true(builder.is_walkable(Vector3(BuffetLayout.BRIDGE_X, 0.0, 73.0)), "the way in stays open")
 	assert_true(builder.is_walkable(builder.anchor("plaza")), "and so does the plaza")
-	assert_true(BuffetBuilder.BANK_RINGS[BuffetBuilder.BANK_RINGS.size() - 1].y > 1.0, "the bank ends under the gravy")
-	assert_true(FileAccess.get_file_as_string("res://world/buffet/buffet_builder.gd").contains("_build_south_bank()"))
+	# Fable Nov 16b (Part 5): the south bank became the shore that runs all round the table (BuffetShore), still ending under the gravy.
+	assert_lt(BuffetShore.SHORE_RINGS[BuffetShore.SHORE_RINGS.size() - 1].y, BuffetShore.WATER_Y - 1.0, "the shore ends under the gravy")
+	assert_true(FileAccess.get_file_as_string("res://world/buffet/buffet_builder.gd").contains("BuffetShore.build(self)"))
 
 
 # (Fable Nov 15, Part 1: the organised rows became a wasteland like the Capital's - tests/test_fable_nov15.gd)

@@ -91,6 +91,23 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
     seals have turned", the quest step and its place line. The quest is still "The Four Seals"; the Warden, the signet and the
     cloak keep their names.
 
+23. **The Buffet's gravy now lies all round the table at the river's own level** (0.38 m under zero; the moat lay at 2.6 m and only
+    on the south side). The table's cake-layer rim is under the gravy everywhere, so the layer-cake side the north half used to
+    show is gone too. The Test Kitchen and Potato Peak stand in the gravy like islands. Say if you want the layer cake back on the
+    north side: it means lowering the gravy there.
+24. **The east forest stands just outside the table, not on it.** Its first row is 0.7 m beyond the table's east edge; nothing on
+    the table moved, and the walk grid there was already closed. The gravy river runs on east through the forest in its own
+    channel. The forest's land ends in a wooded coast about 20 m north and 40 m south of the table.
+25. **No fruit-tart boulder exists in the Buffet kit.** The "boulders" are the kit's cake stands, cloches and stock pots, set large.
+    A fruit tart and a larger cake stand are Batch 17 rows.
+26. **The butterflies and birds are code-drawn** (two small round wings each, 9 butterflies and 4 birds, one draw call for all).
+    They read as specks of colour at the camera's distance; painted ones would be a small sheet (Batch 17 row). Steam: 8 slow
+    plumes. Light: 14 warm patches on the forest floor. The Low preset builds none of the four.
+27. **Frame rate on Medium, before -> after** (average fps, same three spots): beside the forest 102 -> 92, the front edge 83 -> 83,
+    the bridge 86 -> 83. Draw calls +21 to +32.
+28. **The gravy's colour changed a little.** Open gravy with nothing under it came out violet on the shared shader, so the sea has
+    its own warm brown pair of colours. The river and the ponds on the table are untouched.
+
 ## Overnight Nov 16 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov16`.

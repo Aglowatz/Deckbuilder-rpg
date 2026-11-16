@@ -34,6 +34,10 @@ var _fountain_streams: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
+## Fable Nov 16b (Part 5): the edges - the gravy sea, the shore and the east forest.
+var shore: BuffetShore
+
+
 func build(parent: Node3D) -> void:
 	_rng.seed = 91
 	layout.build()
@@ -43,7 +47,6 @@ func build(parent: Node3D) -> void:
 	root.name = "Buffet"
 	parent.add_child(root)
 	_build_table_rim()
-	_build_south_bank()
 	LoadTiming.detail("buffet: _build_table_rim")
 	_build_terrain()
 	LoadTiming.detail("buffet: _build_terrain")
@@ -67,8 +70,11 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("buffet: _build_landmarks")
 	_build_bridge()
 	LoadTiming.detail("buffet: _build_bridge")
-	_build_moat()
-	LoadTiming.detail("buffet: _build_moat")
+	# Fable Nov 16b (Part 5): the gravy all round at the river's level, the wet shore, the east food forest (BuffetShore). It replaces
+	# the stepped south bank and the moat's plane 2.2 m below the ground.
+	shore = BuffetShore.build(self)
+	_dress_moat(BuffetShore.WATER_Y)
+	LoadTiming.detail("buffet: shore")
 	_build_landing_stages()
 	LoadTiming.detail("buffet: _build_landing_stages")
 	_index_obstacles()
