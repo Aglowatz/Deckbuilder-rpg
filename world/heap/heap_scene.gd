@@ -261,6 +261,32 @@ func _update_entrance_exit() -> void:
 		Session.leave_zone()
 
 
+## Overnight Nov 16 (Part 2.2): at the Dump's two south corners the trailing camera stood in the rounded rim cliff and a pale wedge of
+## open sky crossed the edge of the frame (the default camera; the rim drawn from behind on Nov 13 closed most of it, not all). In the
+## south band the camera is held in from the east and west rims, more the further south the hero stands; the aim slides with it, so
+## the hero stands off-centre and the corner's cliff stays out of the lens. Nothing changes in the rest of the zone.
+const SOUTH_CORNER_BAND: float = 18.0
+const SOUTH_CORNER_HOLD: float = 17.0
+
+
+func _camera_soft_bounds(target: Vector3) -> Vector3:
+	var held: Vector3 = south_corner_target(target, player.position)
+	if look_rig != null:
+		look_rig.look_shift = look_rig.look_shift.lerp(Vector3(held.x - target.x, 0.0, 0.0), 1.0 - exp(-CityCamera.follow_rate() * get_process_delta_time()))
+	return held
+
+
+## The rule itself (for the test): `target` held in from the side rims while the hero stands in the south band.
+static func south_corner_target(target: Vector3, hero: Vector3) -> Vector3:
+	var depth: float = clampf((hero.z - (HeapLayout.MAX_CORNER.y - SOUTH_CORNER_BAND)) / SOUTH_CORNER_BAND, 0.0, 1.0)
+	if depth <= 0.0:
+		return target
+	var margin: float = SOUTH_CORNER_HOLD * smoothstep(0.0, 1.0, depth)
+	var held: Vector3 = target
+	held.x = clampf(target.x, HeapLayout.MIN_CORNER.x + margin, HeapLayout.MAX_CORNER.x - margin)
+	return held
+
+
 func _make_puzzle_screen() -> OverlayScreen:
 	return GrowthGridScreen.new()
 

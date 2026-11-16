@@ -4,6 +4,34 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 16 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov16`.
+
+1. **The Path feats badge (ICON-FEAT-PATHS) is a heading, not a group icon.** It came as a shield with the four medallions (the prompt
+   asked for a hexagon). It sits once on the Feats page as the "Path feats" heading above the Beefcake, Gourmand, Necrocrat and
+   Refusemancer groups; each group keeps its own Path icon. Say if you want it somewhere else.
+2. **Crosspath's two ring banners (TOWN-SHEET-FREED-BANNERS-05 / -06) are in the game for the first time.** They were imported in
+   October and never hung. They go up on the next two lamp posts of the square once all four zones are free.
+3. **The gilded packs came with painted medallions** (the prompt asked for a plain dark disc for the game to draw on). They match the
+   style guide, so the painting shows and the code overlay is off for UI-PACK-N, UI-PACK-R and the three new gilded packs. The
+   Beefcake and Gourmand Path packs and the Beefcake gilded pack are the older paintings and still carry the code-drawn icon.
+4. **Baron Quadzilla is a speaking boss now** (he has a portrait), so his boss intro slides his dialogue portrait in instead of his
+   Bestiary square. A proper cut-out (`CUT-QUADZILLA`) would be one small picture; it is not in Batch 17 unless you want it.
+5. **The Dump's south corners: the camera is held in, the hero stands off-centre there.** The rim drawn from behind (Nov 13) did not
+   close the pale wedge on the default camera, and I could not find one mesh to blame. In the southern 18 m of the Dump the camera
+   now keeps up to 17 m off the east and west rims (the Crease's rule). Low camera: it was already clean.
+6. **Crosspath's south edge is a wooded ravine.** Tree crowns stand in the cleft (three rows, their tops under the camera's line to
+   the hero), the dark sheet lies under them. The thin pale line of the rock lip between the hedge and the crowns is still there.
+7. **The Capital's later visit is 6.0 s, not much better than 6.1 s.** Only the rim ruins could be stored safely (453 ms to 95 ms).
+   Storing the landmark models as well broke the walk to Rollo in the Transit Yards (the Capital walk smoke caught it), so they are
+   built live again. What is left: buildings 0.63 s, props 0.6 s, the castle and landmarks 0.4 s, the first frames 0.85 s, the
+   dressing 0.4 s, fades 0.7 s. A real cut needs each piece stored together with its state; that is a day's careful work, not a
+   night's.
+8. **Already done before tonight, checked again:** the Tidy-Bots' wind-up tell (Nov 13), the Crease's east wall (a quarter of the
+   frame), the Wanderer's feathered portrait edge, the Capital map's district names, Crease inset and unstacked labels (the names
+   show as each district is explored).
+
 ## Fable Nov 15b - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov15_hour.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov15b`.

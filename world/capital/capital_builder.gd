@@ -933,6 +933,9 @@ func _build_landmarks() -> void:
 	great_wall_boxes.append(AABB(Vector3(gate_x - 5.2, 8.8, gate_z - 2.4), Vector3(10.4, 6.4, 4.8)).grow(0.6))
 
 
+## Overnight Nov 16 (Part 2.9): the landmark models are built live on every visit. Storing the watchtower, the camp, the tunnel mouth and
+## the gate's crown as subtrees (BuildCache.fetch_node) saved about 70 ms and made the Capital walk smoke fail: the hero could no longer
+## reach Rollo in the Transit Yards. Do not cache them without finding out what a stored landmark loses.
 ## The castle's own distance haze for the half the hero stands in (data/zone_styles/capital_outside.json / capital_inside.json "far_haze", CAP-22): a
 ## lighter haze than the mood's fog, so the castle reads over the great wall from every outside region and the same from both halves.
 func set_castle_haze(inside: bool) -> void:

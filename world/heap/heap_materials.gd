@@ -96,13 +96,16 @@ static func terrain() -> Material:
 	return StyleTerrain.material(0.14, 0.0)
 
 
-## The underside of the land (HeapBuilder's "LandBack"): only back faces, a flat shadowed rock that takes the zone's fog.
+## The underside of the land (HeapBuilder's "LandBack"): only back faces, a flat shadowed rock. Overnight Nov 16 (Part 2.2): it takes no
+## fog. With the zone's fog over it the far parts of the dark stone turned the fog's own pale mauve, which was the pale wedge still
+## left at the two south corners on the default camera.
 static func land_back() -> StandardMaterial3D:
 	if not _cache.has("land_back"):
 		var material: StandardMaterial3D = StandardMaterial3D.new()
 		material.albedo_color = Color(0.16, 0.12, 0.17)
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		material.cull_mode = BaseMaterial3D.CULL_FRONT
+		material.disable_fog = true
 		_cache["land_back"] = material
 	return _cache["land_back"] as StandardMaterial3D
 

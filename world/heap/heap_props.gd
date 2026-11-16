@@ -299,14 +299,42 @@ static func fair_stage(_story: ZoneStoryText) -> Node3D:
 	belt.name = "Belt"
 	for index: int in range(7):
 		B.cylinder(root, 0.1, 0.1, 0.72, H.flat(H.METAL), Vector3(-1.9 + float(index) * 0.63, 1.02, -0.2), 8).rotation_degrees.x = 90.0
-	var bin_colors: Array[Color] = [Color(0.45, 0.32, 0.18), Color(0.55, 0.6, 0.65), Color(0.4, 0.7, 0.5), Color(0.3, 0.5, 0.85)]
+	# Overnight Nov 16 (Part 2.1): the stage's dressing is the Dump kit's - four scrap-wood sorting bins (plank crates with a dark inside,
+	# a rim and something sorted in each), painted cloth bunting (DUMP-SHEET-FLAGS) in two rows and a plank sign board for the icon.
+	# It was four flat one-colour boxes, eight square paper flags and a flat blue banner board.
+	var kit: KitMesh = HeapKitProps.kit_mesh()
 	for index: int in range(4):
-		B.box(root, Vector3(0.8, 0.7, 0.7), H.flat(bin_colors[index]), Vector3(-1.5 + float(index) * 1.0, 0.65, 0.9))
-	# Bunting and the blue-ribbon banner.
-	for index: int in range(8):
-		var flag: MeshInstance3D = B.box(root, Vector3(0.3, 0.3, 0.02), H.flat([Color(1.0, 0.4, 0.4), Color(1.0, 0.9, 0.3), Color(0.4, 0.8, 1.0), Color(0.6, 1.0, 0.5)][index % 4]), Vector3(-2.3 + float(index) * 0.66, 3.2 - 0.25 * sin(float(index) * 0.45), -1.2), Vector3(0, 0, 45))
-		flag.name = "Flag%d" % index
-	B.box(root, Vector3(5.2, 0.9, 0.1), H.flat(Color(0.2, 0.35, 0.8)), Vector3(0, 3.9, -1.25))
+		var x: float = -1.5 + float(index) * 1.0
+		var turn: Basis = Basis(Vector3.UP, 0.06 * float(index % 3 - 1))
+		kit.box("plank", Vector3(x, 0.65, 0.9), Vector3(0.82, 0.7, 0.72), turn, 0.03, 0.88)
+		kit.box("wood_dark", Vector3(x, 1.004, 0.9), Vector3(0.68, 0.02, 0.58), turn, 0.0)
+		for side: float in [-1.0, 1.0]:
+			kit.box("wood", Vector3(x + side * 0.39, 1.02, 0.9), Vector3(0.08, 0.08, 0.76), turn, 0.01)
+			kit.box("wood", Vector3(x, 1.02, 0.9 + side * 0.34), Vector3(0.82, 0.08, 0.08), turn, 0.01)
+		kit.box("rope", Vector3(x, 0.72, 1.27), Vector3(0.3, 0.06, 0.04), turn, 0.0)
+		match index:
+			0:  # bottles
+				for bottle: int in range(3):
+					kit.lathe("cloth_teal" if bottle != 1 else "cloth_green", Vector3(x - 0.2 + 0.2 * float(bottle), 1.0, 0.82 + 0.1 * float(bottle % 2)), [Vector2(0.07, 0.0), Vector2(0.075, 0.2), Vector2(0.03, 0.3)], 8, 1.0, false, true)
+			1:  # cogs and cans
+				kit.tube("rust", Vector3(x - 0.12, 1.02, 0.86), Vector3(x - 0.12, 1.07, 0.86), 0.2, 10, true)
+				kit.lathe("tin", Vector3(x + 0.18, 1.0, 0.98), [Vector2(0.08, 0.0), Vector2(0.08, 0.18), Vector2(0.07, 0.19)], 8, 1.0, false, true)
+			2:  # greens for the compost
+				kit.box("cloth_green", Vector3(x, 1.06, 0.9), Vector3(0.56, 0.14, 0.46), Basis(Vector3.UP, 0.5), 0.05)
+			3:  # rags
+				kit.box("cloth_rust", Vector3(x - 0.1, 1.05, 0.88), Vector3(0.42, 0.1, 0.36), Basis(Vector3.UP, -0.3), 0.04)
+				kit.box("cloth_cream", Vector3(x + 0.14, 1.08, 0.96), Vector3(0.3, 0.08, 0.3), Basis(Vector3.UP, 0.4), 0.03)
+	var lower: Array[String] = ["DUMP-SHEET-FLAGS-01", "DUMP-SHEET-FLAGS-03", "DUMP-SHEET-FLAGS-05"]
+	for index: int in range(lower.size()):
+		HeapLandmarks._card(kit, lower[index], Vector3(-1.72 + 1.72 * float(index), 3.42, -1.16), 1.12, Vector3(0, 0, 1))
+	HeapLandmarks._card(kit, "DUMP-SHEET-FLAGS-02", Vector3(-1.95, 4.5, -1.2), 1.2, Vector3(0, 0, 1))
+	HeapLandmarks._card(kit, "DUMP-SHEET-FLAGS-06", Vector3(1.95, 4.5, -1.2), 1.3, Vector3(0, 0, 1))
+	kit.box("plank", Vector3(0, 3.95, -1.25), Vector3(1.9, 1.3, 0.1), Basis.IDENTITY, 0.02, 0.92)
+	kit.box("cloth_cream", Vector3(0, 3.95, -1.195), Vector3(1.56, 1.06, 0.01), Basis.IDENTITY, 0.0)
+	for side: float in [-1.0, 1.0]:
+		kit.tube("wood_dark", Vector3(side * 2.55, 0.3, -1.3), Vector3(side * 2.55, 4.6, -1.3), 0.08, 6, true)
+		kit.box("rope", Vector3(side * 0.8, 4.52, -1.25), Vector3(0.14, 0.12, 0.14), Basis.IDENTITY, 0.0)
+	root.add_child(HeapKitProps.kit_body(kit, "FairDressing"))
 	IconSign.attach(root, "ICON-MAP-MINIGAME", Vector3(0, 3.9, -1.18), 1.1)
 	return root
 

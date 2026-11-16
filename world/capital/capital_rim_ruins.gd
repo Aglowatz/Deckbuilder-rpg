@@ -45,11 +45,35 @@ var mounds: Array[Vector3] = []
 
 static func build(parent: Node3D, rim: CapitalRim, share: float = 1.0) -> CapitalRimRuins:
 	var ruins: CapitalRimRuins = CapitalRimRuins.new()
-	ruins.root = Node3D.new()
-	ruins.root.name = "RimRuins"
-	ruins.root.set_meta(&"no_wind", true)
+	var kept: float = clampf(share, 0.4, 1.0)
+	# Overnight Nov 16 (Part 2.9): the finished ruins are one stored subtree per density (0.45 s of every later visit). Nothing in them is
+	# walked on or blocks a walk; the lists of what stands where travel with the subtree as metadata.
+	# They are merged into their own batches before they are stored (like the skyline), so the stored copy is not merged again each visit.
+	var node: Node3D = BuildCache.fetch_node("capital_rim_ruins_m_%d" % int(round(kept * 100.0)), func() -> Node:
+		ruins.root = Node3D.new()
+		ruins.root.name = "RimRuins"
+		ruins.root.set_meta(&"no_wind", true)
+		parent.add_child(ruins.root)
+		ruins._place(rim, kept)
+		KitBatch.merge_static(ruins.root)
+		parent.remove_child(ruins.root)
+		ruins.root.set_meta(&"placed", {"houses": ruins.houses, "fragments": ruins.fragments, "statues": ruins.statues, "crystals": ruins.crystals, "mounds": ruins.mounds})
+		return ruins.root) as Node3D
+	if node == null:
+		ruins.root = Node3D.new()
+		ruins.root.name = "RimRuins"
+		ruins.root.set_meta(&"no_wind", true)
+		ruins._place(rim, kept)
+		node = ruins.root
+	elif node != ruins.root:
+		ruins.root = node
+		var placed: Dictionary = node.get_meta(&"placed", {}) as Dictionary
+		ruins.houses.assign(placed.get("houses", []) as Array)
+		ruins.fragments.assign(placed.get("fragments", []) as Array)
+		ruins.statues.assign(placed.get("statues", []) as Array)
+		ruins.crystals.assign(placed.get("crystals", []) as Array)
+		ruins.mounds.assign(placed.get("mounds", []) as Array)
 	parent.add_child(ruins.root)
-	ruins._place(rim, clampf(share, 0.4, 1.0))
 	return ruins
 
 

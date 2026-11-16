@@ -28,6 +28,8 @@ const ROADS: Dictionary = {
 	"final": {"tex": "res://assets/art/textures/town_stone_albedo.webp", "width": 4.2, "wobble": 0.0, "wave": 100.0, "tint": Color(1.08, 1.05, 0.98)},
 }
 ## Where the Gainlands gorge crosses the meadow road (metres past the passage mouth) and its size.
+## How many trees stand in the cleft (the test).
+var gorge_wood_count: int = 0
 const GORGE_FROM: float = 3.0
 const GORGE_WIDTH: float = 7.2
 const GORGE_LENGTH: float = 90.0
@@ -401,6 +403,7 @@ func _build_gorge() -> void:
 				ModelKit.place(root, model, pos, _rng.randf() * 360.0, 1.6 + _rng.randf() * 1.2)
 			along += 3.2 + _rng.randf() * 2.4
 	_build_gorge_lip(root, c, out, right)
+	_build_gorge_wood(c, out, right)
 
 
 ## Batch 15 pass (Part 3.7): the town side of the gorge gets a natural edge. From Crosspath's south edge the camera looks straight down on
@@ -412,7 +415,7 @@ const GORGE_HEDGE_BACK: float = 0.75
 const GORGE_HEDGE_GAP: float = 3.6
 const GORGE_HEDGE_HEIGHT: float = 0.55
 const GORGE_SHADE: Color = Color(0.1, 0.085, 0.1, 0.9)
-const GORGE_SHADE_DEPTH: float = 0.45
+const GORGE_SHADE_DEPTH: float = 4.4  # Overnight Nov 16: under the crowns of the trees in the cleft (0.45 cut straight through them)
 const GORGE_SHADE_GAP: float = 7.0
 
 
@@ -453,6 +456,47 @@ func _build_gorge_lip(root: Node3D, c: Vector3, out: Vector3, right: Vector3) ->
 		shade.set_meta(PaintedClasses.META_NO_PAINT, true)
 		shade.transform = Transform3D(Basis(out, Vector3.UP, right), c + right * half * (GORGE_SHADE_GAP + length * 0.5) + Vector3(0.0, GROUND_Y - GORGE_SHADE_DEPTH, 0.0))
 		root.add_child(shade)
+
+
+## Overnight Nov 16 (Part 2.8): the cleft south of Crosspath is a wooded ravine. From the town's south edge the camera looks down into
+## it, and below the hedge the view was a pale strip of rock lip and a flat violet-black sheet with straight edges (the "mist band").
+## Painted trees now stand in the cleft, their crowns just reaching the lip: two staggered rows of oaks, birches and fruit trees along
+## its whole length (not beside the bridge, where the rock walls stay in view), and low bushes on the far lip. Their tops stay under
+## the camera's line to the hero's feet on the default and the Low camera, so nothing hides the walk. Visual only.
+const GORGE_WOOD_GAP: float = 5.2
+const GORGE_WOOD_STEP: float = 2.7
+## [metres across the cleft from its middle (+ = away from the town), how far the crown's top stands over the ground].
+const GORGE_WOOD_ROWS: Array[Vector2] = [Vector2(-1.9, 0.75), Vector2(0.9, 0.3), Vector2(3.1, -0.4)]
+const GORGE_WOOD_KINDS: Array[String] = ["oak", "birch", "oak", "fruit", "oak"]
+
+
+func _build_gorge_wood(c: Vector3, out: Vector3, right: Vector3) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 16112026
+	var fields: Dictionary = {}
+	for row_index: int in range(GORGE_WOOD_ROWS.size()):
+		var row: Vector2 = GORGE_WOOD_ROWS[row_index]
+		for half: float in [-1.0, 1.0]:
+			var along: float = GORGE_WOOD_GAP + GORGE_WOOD_STEP * 0.5 * float(row_index % 2)
+			while along < GORGE_LENGTH * 0.5 + 6.0:
+				var kind: String = GORGE_WOOD_KINDS[rng.randi() % GORGE_WOOD_KINDS.size()]
+				var card: Vector2 = (TreeCards.KINDS[kind] as Dictionary)["size"] as Vector2
+				var scale_value: float = rng.randf_range(1.35, 1.7)
+				var top: float = row.y + rng.randf_range(-0.25, 0.2)
+				var at: Vector3 = c + out * (row.x + rng.randf_range(-0.35, 0.35)) + right * half * along
+				at.y = GROUND_Y + top - card.y * scale_value
+				if not fields.has(kind):
+					fields[kind] = [] as Array[Dictionary]
+				(fields[kind] as Array[Dictionary]).append({"pos": at, "scale": scale_value})
+				gorge_wood_count += 1
+				along += GORGE_WOOD_STEP * rng.randf_range(0.8, 1.25)
+	for kind: Variant in fields.keys():
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(self, str(kind), fields[kind] as Array[Dictionary], false)
+		if field != null:
+			field.name = "GorgeWood_%s" % str(kind)
+			field.set_meta(&"no_range_cull", true)
+			field.set_meta(&"no_occlusion_fade", true)
+			field.extra_cull_margin = 200.0
 
 
 # ---- Roads -----------------------------------------------------------------------------------------------------------------------------------

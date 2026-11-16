@@ -27,6 +27,16 @@ static func _instance(mesh: KitMesh, node_name: String, never_fade: bool) -> Mes
 	return body
 
 
+## A mesh with the Dump kit's material slots (plank, wood, wood_dark, rope, the cloths, rust, tin...) for a `HeapProps` piece that is dressed
+## from the kit (the fair stage's bins and bunting); `kit_body` is its mesh instance, never hidden by the occlusion fade when it is low.
+static func kit_mesh() -> KitMesh:
+	return _mesh()
+
+
+static func kit_body(mesh: KitMesh, node_name: String) -> MeshInstance3D:
+	return _instance(mesh, node_name, false)
+
+
 ## The kit's rusty corrugated scrap sheets (DUMP-WALL-SCRAP, art import Oct 22) for re-skinning a built `HeapProps` piece (the stables, the fair stage,
 ## the junk barricades): a mesh with the one slot "scrap" (UVs in metres, so the sheets tile at the kit's density), or null while the surface has no
 ## art (the piece then keeps its flat palette boxes). The caller adds its slabs and hangs `scrap_body` of it on the piece.

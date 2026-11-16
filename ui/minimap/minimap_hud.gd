@@ -29,6 +29,8 @@ var _reveal_timer: float = 0.0
 var _poi_timer: float = 0.0
 ## Metres across the window: the whole area for tiny ones (the starting clearing), `VIEW_SPAN` otherwise.
 var _view_span: float = VIEW_SPAN
+## The framed minimap's picture layer (see `_add_frame`); null on the plain square minimap.
+var _picture: ColorRect
 var _framed: bool = false
 
 
@@ -66,6 +68,19 @@ func _add_frame() -> void:
 	mask.set_shader_parameter("center", FRAME_CENTER)
 	mask.set_shader_parameter("radius", FRAME_RADIUS)
 	material = mask
+	# Overnight Nov 16 (Part 2.7): the map picture is its own layer behind this control's markers, drawn by a shader that keeps the
+	# edges crisp and rounds the cells' stair-steps (`minimap_picture.gdshader`); it was a GPU-stretched copy of a 3x enlarged picture.
+	_picture = ColorRect.new()
+	_picture.name = "MapPicture"
+	_picture.show_behind_parent = true
+	_picture.position = FRAME_CENTER - Vector2(FRAME_RADIUS, FRAME_RADIUS)
+	_picture.size = Vector2(FRAME_RADIUS, FRAME_RADIUS) * 2.0
+	_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var picture: ShaderMaterial = ShaderMaterial.new()
+	picture.shader = load("res://ui/shaders/minimap_picture.gdshader") as Shader
+	picture.set_shader_parameter("radius", FRAME_RADIUS)
+	_picture.material = picture
+	add_child(_picture)
 	var frame: TextureRect = TextureRect.new()
 	frame.texture = UiArt.texture("UI-MINIMAP-FRAME")
 	frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -157,10 +172,17 @@ func _draw_framed() -> void:
 	var window: Rect2 = Rect2(FRAME_CENTER - Vector2(FRAME_RADIUS, FRAME_RADIUS), Vector2(FRAME_RADIUS, FRAME_RADIUS) * 2.0)
 	var scale_px: float = window.size.x / _view_span
 	var centre_xz: Vector2 = Vector2(_player.position.x, _player.position.z)
-	draw_rect(window, Color(0.04, 0.05, 0.08, 0.9))
 	var centre_px: Vector2 = raster.to_pixel(centre_xz)
 	var half: Vector2 = Vector2(_view_span, _view_span) * 0.5
-	draw_texture_rect_region(raster.display_texture(), window, MapRaster.display_region(Rect2(centre_px - half, half * 2.0)))
+	if _picture != null:
+		var picture: ShaderMaterial = _picture.material as ShaderMaterial
+		picture.set_shader_parameter("map_tex", raster.texture)
+		picture.set_shader_parameter("tex_size", Vector2(raster.image.get_width(), raster.image.get_height()))
+		picture.set_shader_parameter("region_pos", centre_px - half)
+		picture.set_shader_parameter("region_size", half * 2.0)
+	else:
+		draw_rect(window, Color(0.04, 0.05, 0.08, 0.9))
+		draw_texture_rect_region(raster.display_texture(), window, MapRaster.display_region(Rect2(centre_px - half, half * 2.0)))
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
 		if poi.objective and poi.tracked_goal:
