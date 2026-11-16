@@ -293,23 +293,15 @@ NOV16B_ROWS = [
      "   - CABINET: a grey steel filing cabinet seven drawers wide and one drawer high, each drawer with a blank label holder and a handle. Ref %NN% p2_file_win.\n"
      "   - STAMP-APPROVED and STAMP-REJECTED: **these two carry a word.** A rubber-stamp imprint, a rounded rectangle with the word APPROVED in green ink and the word "
      "REJECTED in red ink, a little uneven as a real stamp is. Refs %NN% p2_file_win, p2_file_lose."),
-    ("dump_gate", "KIT-HEAP-GATE-ARCH / KIT-HEAP-THORN-THICKET-DEAD", "Crosspath: the tree gate on the path to the Verdant Dump, and the thorns across the forest road once "
-     "Moss Mulligan is beaten",
-     "assets/art/zone_kits/heap/KIT-HEAP-GATE-TREE-L.webp, -R.webp (cut out of KIT-HEAP-THORNWALL on Nov 16b); (nothing is shown for the withered thorns)",
-     "The gate is the thorn wall's two trees cut apart and leaned together: each is still a flat card, and their branches cross rather than grow into one another. Once the "
-     "road is free, nothing marks where the thorns stood.",
-     PIECE + "ARCH: two old gnarled trees like the attached ones standing a path's width apart and grown together overhead into one arch, their branches knotted, ivy and "
-     "bracket fungus on the trunks, mossy stones at the roots, seen from the front, the opening between the trunks empty and wide enough for a person. THICKET-DEAD: the "
-     "attached violet thorn thicket withered: grey-brown, dry, shrunk to knee height and parted in the middle, the glowing pods gone dark, no trees in the picture.",
-     "KIT-HEAP-GATE-ARCH, KIT-HEAP-THORN-THICKET-DEAD", "assets/art/zone_kits/heap/<ID>.webp", "ARCH 1536x1536, THICKET-DEAD 1536x1024", "PNG with transparency",
-     ["assets/art/zone_kits/heap/KIT-HEAP-THORNWALL.webp", "assets/art/zone_kits/heap/KIT-HEAP-THORNWALL-DEAD.webp", "assets/art/zone_kits/heap/KIT-HEAP-GATE-TREE-L.webp",
-      "assets/art/zone_kits/heap/KIT-HEAP-THORN-THICKET.webp", SHOTS + "p3_gate_after_low.png"], "6",
-     "**KIT-HEAP-GATE-ARCH** (1536x1536) and **KIT-HEAP-THORN-THICKET-DEAD** (1536x1024), both transparent.\n"
-     "   - GATE-ARCH: the two old trees of ref %NN% KIT-HEAP-THORNWALL (ref %NN% KIT-HEAP-GATE-TREE-L is one of them cut out) standing a path's width apart and **grown "
-     "together overhead into one arch**: branches knotted into each other, ivy and bracket fungus on the trunks, mossy stones at the roots. Seen from the front. The "
-     "opening between the trunks is empty and wide enough to walk through. No thorns. Ref %NN% p3_gate_after_low is the game's stand-in.\n"
-     "   - THORN-THICKET-DEAD: the violet thicket of ref %NN% KIT-HEAP-THORN-THICKET withered: grey-brown, dry, shrunk to knee height and parted in the middle, its pods "
-     "gone dark. No trees in the picture (ref %NN% KIT-HEAP-THORNWALL-DEAD is the old version with the trees: paint only its thorns)."),
+    ("dump_gate", "KIT-HEAP-THORN-THICKET-DEAD", "Crosspath: the thorns across the forest road to the Verdant Dump once Moss Mulligan is beaten",
+     "(nothing is shown for the withered thorns)",
+     "Once the road is free, nothing marks where the thorns stood. (The tree gate of Nov 16b is removed: no arch is wanted any more.)",
+     PIECE + "the attached violet thorn thicket withered: grey-brown, dry, shrunk to knee height and parted in the middle, the glowing pods gone dark, no trees in the "
+     "picture.",
+     "KIT-HEAP-THORN-THICKET-DEAD", "assets/art/zone_kits/heap/<ID>.webp", "1536x1024", "PNG with transparency",
+     ["assets/art/zone_kits/heap/KIT-HEAP-THORNWALL-DEAD.webp", "assets/art/zone_kits/heap/KIT-HEAP-THORN-THICKET.webp"], "6",
+     "**KIT-HEAP-THORN-THICKET-DEAD** (1536x1024), transparent: the violet thicket of ref %NN% KIT-HEAP-THORN-THICKET withered: grey-brown, dry, shrunk to knee height and "
+     "parted in the middle, its pods gone dark. No trees in the picture (ref %NN% KIT-HEAP-THORNWALL-DEAD is the old version with the trees: paint only its thorns)."),
     ("buffet_forest", "BUFF-PROP-FRUIT-TART / BUFF-PROP-CAKESTAND-TALL / BUFF-SHEET-FLIERS", "The Endless Buffet's east food forest: boulders between the broccoli trees, and the "
      "butterflies and birds over it",
      "(the boulders are the kit's small cake stand, cloche and stock pot set large; the fliers are code-drawn round wings)",

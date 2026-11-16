@@ -3925,62 +3925,6 @@
 			"use": "The stables, the fair stage and the junk barricades re-skinned from the kit",
 			"zone": "heap"
 		},
-		"KIT-HEAP-GATE-TREE-L": {
-			"aspect": 0.504,
-			"asset": "Gate tree (left)",
-			"category": "Prop",
-			"desc": "Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b): no new painting.",
-			"from_px": [
-				494,
-				980
-			],
-			"group": "prop",
-			"id": "KIT-HEAP-GATE-TREE-L",
-			"lock": "CUTOUT",
-			"pivot": [
-				0.5,
-				1.0
-			],
-			"priority": "2",
-			"px": [
-				494,
-				980
-			],
-			"sheet_status": "Approved",
-			"size": "494x980, transparent",
-			"slot": "prop.kit-heap-gate-tree-l",
-			"tinted": false,
-			"use": "The Dump gate in Crosspath: the old tree on the left of the path",
-			"zone": "heap"
-		},
-		"KIT-HEAP-GATE-TREE-R": {
-			"aspect": 0.539,
-			"asset": "Gate tree (right)",
-			"category": "Prop",
-			"desc": "Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b): no new painting.",
-			"from_px": [
-				499,
-				926
-			],
-			"group": "prop",
-			"id": "KIT-HEAP-GATE-TREE-R",
-			"lock": "CUTOUT",
-			"pivot": [
-				0.5,
-				1.0
-			],
-			"priority": "2",
-			"px": [
-				499,
-				926
-			],
-			"sheet_status": "Approved",
-			"size": "499x926, transparent",
-			"slot": "prop.kit-heap-gate-tree-r",
-			"tinted": false,
-			"use": "The Dump gate in Crosspath: the old tree on the right of the path",
-			"zone": "heap"
-		},
 		"KIT-HEAP-THORN-THICKET": {
 			"aspect": 1.292,
 			"asset": "Breathing thorn thicket",

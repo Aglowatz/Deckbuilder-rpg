@@ -41,6 +41,10 @@ static func install(parent: Node, hero: Node3D, cam: Camera3D, blocked_check: Ca
 
 func _ready() -> void:
 	layer = 4
+	# Fable Nov 16c: after the look rig. A scene aims its camera in its own _process and `WorldLookRig` tilts it later in the same frame; a
+	# point projected in between lands off the picture by the tilt (names floated well above their figures in Crosspath, in the sky at
+	# the Low camera).
+	process_priority = 1000
 
 
 ## `anchor` is a node at the top of the figure (a spot's marker); `kind` is "vendor", "quest" or "npc"; `always` marks vendors, quest

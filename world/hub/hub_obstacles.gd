@@ -262,89 +262,66 @@ func _process(delta: float) -> void:
 			node.scale = Vector3(1.0 + BREATH_AMOUNT.x * phase, 1.0 + BREATH_AMOUNT.y * phase, 1.0)
 
 
-## Fable Nov 16b (Part 3): the Dump's entrance is a real gate. The thorn wall painting showed two old trees side by side as one flat card
-## beside the path. Its three parts are now separate pieces (tools/art/dump_gate_pieces.py cuts them from the approved painting): the two
-## trees stand on either side of the path the hero comes up from town, a few steps before the travel prompt, leaning in until their
-## branches cross over it; the thorns alone ("Alive") lie across the forest road until Moss Mulligan is beaten, and are gone afterwards
-## (the withered card with its two tree halves, the old "Dead", is not shown any more).
-const GATE_TREE_LEFT: String = "KIT-HEAP-GATE-TREE-L"
-const GATE_TREE_RIGHT: String = "KIT-HEAP-GATE-TREE-R"
+## The Dump's entrance in Crosspath. Fable Nov 16b cut the thorn wall painting into its thorns and its two trees and stood the trees as a
+## gate over the path from town. Fable Nov 16c (Part 2, the owner's call): **the two gate trees are gone** - nothing stands on the path.
+## The thorns alone ("Alive", tools/art/dump_gate_pieces.py cuts them from the approved painting) still lie across the forest road until
+## Moss Mulligan is beaten, and are gone afterwards. The approach is plain country: the path, grass, two low bushes beside it, and no
+## tree in the hero's view of the travel prompt, the sign and Moss Mulligan (`in_dump_approach`).
 const THICKET_ART: String = "KIT-HEAP-THORN-THICKET"
 const THICKET_HEIGHT: float = 3.7
-const GATE_TREE_HEIGHT: float = 6.3
-## The gate's middle, from the travel spot (the road's arrival anchor): south of it, on the path from town (metres; +z is south).
-const GATE_FROM_SPOT: Vector3 = Vector3(0.6, 0.0, 4.4)
-## Each trunk's distance from the path's middle, its lean toward the other (degrees) and its turn toward the path (degrees).
-const GATE_HALF_WIDTH: float = 2.0
-const GATE_LEAN: float = 12.5
-const GATE_TURN: float = 14.0
-const GATE_TRUNK_RADIUS: float = 0.62
-## How much a gate tree thins when the hero stands behind it, and how far beside the card that still counts (metres).
-const GATE_FADE: float = 0.5
-const GATE_FADE_REACH: float = 0.2
+## The middle of the approach, from the travel spot (the road's arrival anchor): south of it, on the path from town (metres; +z is south).
+const APPROACH_FROM_SPOT: Vector3 = Vector3(0.6, 0.0, 4.4)
+## Half the width kept free of trees, and how far north and south of the middle.
+const APPROACH_HALF_WIDTH: float = 4.4
+const APPROACH_NORTH: float = 2.2
+const APPROACH_SOUTH: float = 6.5
+## Two low bushes beside the path (from the middle of the approach; x, z, size): knee-high, clear of the path, never in front of the prompt.
+const APPROACH_BUSHES: Array[Vector3] = [Vector3(-2.7, 0.4, 0.85), Vector3(2.9, -0.9, 0.7), Vector3(-3.3, -1.6, 0.6)]
+const BUSH_RADIUS: float = 0.45
 
-## The gate's two trees ("Left", "Right"), for the tests and the shots.
-var dump_gate: Node3D
+## The bushes of the approach (one mesh), for the tests and the shots.
+var dump_approach: Node3D
 
 
 static func gate_pieces() -> bool:
-	for id: String in [GATE_TREE_LEFT, GATE_TREE_RIGHT, THICKET_ART]:
-		if not EnvKit.has(id) or not EnvKit.has_art(id):
-			return false
-	return true
+	return EnvKit.has(THICKET_ART) and EnvKit.has_art(THICKET_ART)
 
 
-## Where the gate's middle is in the world.
-static func dump_gate_centre(town: TownBuilder) -> Vector3:
-	return (town.anchors.get("portal_%s" % HeapZone.ID, Vector3.ZERO) as Vector3) + GATE_FROM_SPOT
+## Where the middle of the approach is in the world.
+static func dump_approach_centre(town: TownBuilder) -> Vector3:
+	return (town.anchors.get("portal_%s" % HeapZone.ID, Vector3.ZERO) as Vector3) + APPROACH_FROM_SPOT
 
 
 ## The same place from the town's constants (for the builders that plant trees before the anchors exist).
-static func gate_centre() -> Vector3:
+static func approach_centre() -> Vector3:
 	var cell: Vector2i = TownBuilder.PORTAL_CELLS[HeapZone.ID] as Vector2i
-	return HexGrid.cell_to_world(cell.x, cell.y) * TownBuilder.SCALE - (TownBuilder.PORTAL_OUT[HeapZone.ID] as Vector3) * TownBuilder.PORTAL_ENTRY + GATE_FROM_SPOT
+	return HexGrid.cell_to_world(cell.x, cell.y) * TownBuilder.SCALE - (TownBuilder.PORTAL_OUT[HeapZone.ID] as Vector3) * TownBuilder.PORTAL_ENTRY + APPROACH_FROM_SPOT
 
 
-## No tree stands in the gate or between it and the camera (the camera looks north: from just behind the gate line to six and a half metres
-## south of it, a little wider than the gate), so both gate trees and the path through them show from wherever the hero walks up.
-static func in_gate_view(pos: Vector3) -> bool:
-	var gate: Vector3 = gate_centre()
-	return absf(pos.x - gate.x) < GATE_HALF_WIDTH + 2.4 and pos.z > gate.z - 2.2 and pos.z < gate.z + 6.5
+## No tree stands on the approach or between it and the camera (the camera looks north), so the path, the travel prompt, the sign and
+## Moss Mulligan show from wherever the hero walks up.
+static func in_dump_approach(pos: Vector3) -> bool:
+	var middle: Vector3 = approach_centre()
+	return absf(pos.x - middle.x) < APPROACH_HALF_WIDTH and pos.z > middle.z - APPROACH_NORTH and pos.z < middle.z + APPROACH_SOUTH
 
 
-func _build_dump_gate() -> void:
+func _build_dump_approach() -> void:
 	if _town == null:
-		return  # (a wall built on its own, in a test: no town to stand the gate in)
-	dump_gate = Node3D.new()
-	dump_gate.name = "DumpGate"
-	add_child(dump_gate)
-	dump_gate.position = dump_gate_centre(_town)
-	for spec: Array in [[GATE_TREE_LEFT, "Left", -1.0], [GATE_TREE_RIGHT, "Right", 1.0]]:
-		var side: float = float(spec[2])
-		var tree: Node3D = ZoneClusters.card_prop(str(spec[0]), GATE_TREE_HEIGHT, true)
-		if tree == null:
-			continue
-		tree.name = str(spec[1])
-		# The trunk stands at the card's outer third (the branch reaches inward): the card is moved so the trunk is at the half-width.
-		var width: float = GATE_TREE_HEIGHT * EnvKit.aspect(str(spec[0]))
-		tree.position = Vector3(side * (GATE_HALF_WIDTH - width * 0.2), 0.0, -0.3 * side)
-		tree.rotation = Vector3(0.0, deg_to_rad(-GATE_TURN * side), deg_to_rad(GATE_LEAN * side))
-		dump_gate.add_child(tree)
-		for mesh: Node in tree.find_children("*", "MeshInstance3D", true, false):
-			(mesh as Node3D).set_meta(&"no_range_cull", true)
-			(mesh as Node3D).set_meta(&"no_wind", true)
-		# A tree card between the camera and the hero fades almost away (the card shader's own rule: 86 % inside a corridor as wide as the
-		# card and 1.6 m more). The gate is a landmark the hero walks through and stands behind at the travel prompt: it would vanish there.
-		# Its own copy of the material thins it by half at most, and only when the hero is right behind the card.
-		var body: MeshInstance3D = tree.get_node_or_null("Body") as MeshInstance3D
-		if body != null and body.material_override is ShaderMaterial:
-			var own: ShaderMaterial = (body.material_override as ShaderMaterial).duplicate() as ShaderMaterial
-			own.set_shader_parameter("fade_strength", GATE_FADE)
-			own.set_shader_parameter("fade_reach", GATE_FADE_REACH)
-			body.material_override = own
-			KitFoliage.follow_hero(own)
-		var trunk: Vector3 = dump_gate.position + Vector3(side * GATE_HALF_WIDTH, 0.0, -0.3 * side)
-		_town.obstacles.append(Vector3(trunk.x, trunk.z, GATE_TRUNK_RADIUS))
+		return  # (a wall built on its own, in a test: no town to dress)
+	var middle: Vector3 = dump_approach_centre(_town)
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("leaf", EnvKit.material("ENV-HEDGE", false, Color(0.62, 0.72, 0.5)))
+	for bush: Vector3 in APPROACH_BUSHES:
+		var at: Vector3 = Vector3(bush.x, 0.0, bush.y)
+		var size: float = bush.z
+		mesh.blob("leaf", at + Vector3(0.0, 0.34 * size, 0.0), Vector3(0.62, 0.5, 0.62) * size, 4, 9, 0.75)
+		mesh.blob("leaf", at + Vector3(0.38 * size, 0.26 * size, 0.2 * size), Vector3(0.42, 0.36, 0.42) * size, 4, 8, 0.75)
+		mesh.blob("leaf", at + Vector3(-0.3 * size, 0.24 * size, -0.22 * size), Vector3(0.4, 0.34, 0.4) * size, 4, 8, 0.75)
+		_town.obstacles.append(Vector3(middle.x + bush.x, middle.z + bush.y, BUSH_RADIUS * size))
+	dump_approach = mesh.instance("DumpApproach")
+	dump_approach.set_meta(&"no_wind", true)
+	add_child(dump_approach)
+	dump_approach.position = middle
 
 
 func _painted_thorns(holder: Node3D, is_cleared: bool) -> void:
@@ -361,7 +338,7 @@ func _painted_thorns(holder: Node3D, is_cleared: bool) -> void:
 		gone.name = "Dead"
 		gone.visible = is_cleared
 		holder.add_child(gone)
-		_build_dump_gate()
+		_build_dump_approach()
 		return
 	for state: Array in [[THORN_ART, "Alive"], [THORN_ART_DEAD, "Dead"]]:
 		var card: Node3D = ZoneClusters.card_prop(str(state[0]), THORN_ART_HEIGHT, true)

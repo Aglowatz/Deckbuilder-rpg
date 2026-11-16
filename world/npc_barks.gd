@@ -49,6 +49,10 @@ func entry_count() -> int:
 
 func _ready() -> void:
 	layer = 4
+	# Fable Nov 16c: after the look rig. A scene aims its camera in its own _process and `WorldLookRig` tilts it later in the same frame; a
+	# point projected in between lands off the picture by the tilt (names floated well above their figures in Crosspath, in the sky at
+	# the Low camera).
+	process_priority = 1000
 	_rng.randomize()
 	_bubble = PanelContainer.new()
 	_bubble.name = "BarkBubble"

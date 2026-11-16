@@ -792,8 +792,8 @@ var _outskirt_rows: Array[TownLayout.Shop] = []
 
 ## Crosspath pass: where no tree of the old map may stand in the hub (buildings, streets, the square, the alley, the loop lane, the lake, outside the walkable country).
 func _keeps_clear(pos: Vector3) -> bool:
-	if hub_land and HubObstacles.in_gate_view(pos):
-		return true  # Fable Nov 16b (Part 3): nothing grows in the Dump's tree gate or in front of it
+	if hub_land and HubObstacles.in_dump_approach(pos):
+		return true  # Fable Nov 16c (Part 2): no tree on the approach to the Dump's travel spot
 	if TownLayout.is_paved(pos, 0.8) or TownLayout.in_footprint(pos, 1.0) or _in_outskirt(pos, 1.0):
 		return true
 	if TownLayout.ALLEY.grow(1.2).has_point(Vector2(pos.x, pos.z)) or not TownBounds.contains(pos) or TownBounds.in_lake(pos):

@@ -25,6 +25,13 @@ Brief: `docs/prompts/fable_nov16_evening.md`. Report: top of `docs/overnight_rep
 9. **The old minigames' rule code is deleted with their screens.** `RepGame`, `OrderGame` and `SortGame` keep only their reward
    tables, because the card games pay through them.
 
+10. **The Dump's entrance: three low bushes stand beside the path where the gate stood** (hedge blobs from the town kit, knee-high, solid).
+    The strip in front of the travel prompt stays free of trees, as it was for the gate. Batch 17's gate row now asks only for the
+    withered thicket (no arch).
+11. **A fault found and fixed on the way: in Crosspath the NPC name labels floated too high** (about 170 px at the default camera, in
+    the sky at the Low camera; "Moss Mulligan" in your screenshot hangs over empty grass). The labels were placed before the camera's
+    final tilt each frame. Labels, speech barks and the quest edge pointer are now placed after it. Zones were not affected.
+
 ## Fable Nov 16b - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16b`.

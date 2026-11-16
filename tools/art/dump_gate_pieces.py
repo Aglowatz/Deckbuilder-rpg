@@ -3,7 +3,7 @@ trees with violet thorns between them) into its three parts - the left tree, the
 stand on either side of the path as an arch and the thorns can block the forest road on their own. No new painting: every pixel is
 from the approved picture.
 
-Usage: python tools/art/dump_gate_pieces.py            (writes assets/art/zone_kits/heap/KIT-HEAP-GATE-TREE-L / -R / KIT-HEAP-THORN-THICKET.webp)
+Usage: python tools/art/dump_gate_pieces.py            (writes assets/art/zone_kits/heap/KIT-HEAP-THORN-THICKET.webp; the gate trees are gone since Nov 16c)
        python tools/art/dump_gate_pieces.py --preview   (also writes PNG previews on a grey ground to _screenshots/gate_pieces/)
 
 How: the thorns are the only violet / magenta thing in the picture. A tree is the connected run of opaque, non-violet pixels that
@@ -70,7 +70,7 @@ def main():
         piece = image.copy()
         piece.putalpha(ImageChops.multiply(alpha, mask))
         piece = main_body_only(piece, seed)
-        pieces['KIT-HEAP-GATE-TREE-%s' % side] = piece.crop(piece.getbbox())
+        # (Fable Nov 16c: the two gate trees are no longer written - the gate is removed; their masks still shape the thicket)
     # The thicket: what is left, without the trees (their mask grown a little so no trunk-coloured rim stays behind).
     grown = trees.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(1.0))
     thicket = image.copy()
