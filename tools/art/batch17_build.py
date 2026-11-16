@@ -198,6 +198,137 @@ CARRIED_ROWS = [
      "gold halo."),
 ]
 
+# Fable Nov 16b (Part 7): painted art that would lift the day's new pieces - the cellar of the Four Seals, the four card minigames, the
+# Dump's tree gate, the Buffet's east forest. Each is built from existing art or code today; none of these is in the game yet.
+SHOTS = "docs/overnight_shots/nov16b/"
+MG_BG = ("a full-screen background for a card minigame, painted cozy-fantasy interior in the style of the attached gym background, soft visible brushwork, warm "
+         "painterly light, no characters, no text, the middle two thirds of the picture calm and a little darker so cards and buttons laid over it stay readable, ")
+NOV16B_ROWS = [
+    ("cellar_door", "TOWN-PROP-CELLAR-FOURSEALS-CLOSED / -OPEN", "Crosspath: the cellar of the Four Seals, a hidden door in a grassy bank north of the square (the side quest "
+     "\"The Four Seals\")",
+     "(built in code from the town kit: ENV-WALL-FOUNDATION, ENV-WALL-PLANK, ENV-BEAM, ENV-HEDGE)",
+     "Fable Nov 16b rebuilt the vault (it was a tall purple box) as a small cellar door from the town's painted surfaces. It fits the town now, but it is boxes with "
+     "textures: a painted door would give it the hand-made look of the town's other doors.",
+     PIECE + "a low cellar door set into a grassy bank, seen from the front and a little from above: a fieldstone surround with two short stone posts and a mossy stone "
+     "lintel, a heavy timber frame, a pair of old plank doors with three iron straps each and an iron ring, moss and a little ivy on the stone, grass over the top. On the "
+     "doors, four round empty iron sockets in a row at shoulder height (flat dark iron discs with a raised rim, nothing on them: the game draws a padlock or a Path icon on "
+     "each). CLOSED: the doors shut. OPEN: the same picture with both doors swung wide open on a dark stone stair going down, the four sockets still on the doors.",
+     "TOWN-PROP-CELLAR-FOURSEALS-CLOSED, TOWN-PROP-CELLAR-FOURSEALS-OPEN", "assets/art/env_kit/<ID>.webp", "1536x1024 each", "PNG with transparency",
+     [SHOTS + "p4_vault_after_locked_low.png", SHOTS + "p4_vault_after_open_low.png", "assets/art/env_kit/ENV-DOOR-01.webp", "assets/art/env_kit/ENV-WALL-FOUNDATION.webp",
+      "assets/art/env_kit/ENV-WALL-PLANK.webp"], "6",
+     "**TOWN-PROP-CELLAR-FOURSEALS-CLOSED** and **TOWN-PROP-CELLAR-FOURSEALS-OPEN** (1536x1024 each, transparent). A low cellar door set into a grassy bank, seen from the "
+     "front and a little from above, in the style of the town's door (ref %NN% ENV-DOOR-01) and its stone and planks (refs %NN% ENV-WALL-FOUNDATION, ENV-WALL-PLANK): a "
+     "fieldstone surround with two short posts and a mossy lintel, a heavy timber frame, a pair of old plank doors with three iron straps each and an iron ring, moss and a "
+     "little ivy, grass over the top. On the doors, **four round empty iron sockets** in a row at shoulder height: flat dark iron discs with a raised rim and nothing on "
+     "them (the game draws a padlock or a Path icon on each). No purple anywhere.\n"
+     "   - CLOSED: the doors shut, as in ref %NN% p4_vault_after_locked_low (that is the game's stand-in built from boxes: keep its size and layout).\n"
+     "   - OPEN: the same picture with both doors swung wide open on a dark stone stair going down, as in ref %NN% p4_vault_after_open_low."),
+    ("seal", "TOWN-PROP-SEAL-LOCKED / -BLANK", "The four iron seals on the cellar door of the Four Seals, and the seal on the \"A seal turns in Crosspath\" toast",
+     "(code: a dark cylinder with a ring, the padlock icon ICON-PADLOCK drawn on it)",
+     "The seals are plain dark discs. Two small paintings would make them read as old iron.",
+     ICON + "a round seal of old dark iron seen straight on: a thick raised rim with four small rivets, a slightly domed face, worn edges, a little rust and one streak of "
+     "moss. LOCKED: a padlock in relief in the middle of the face, the same dark iron. BLANK: the same seal with a flat empty face (the game draws a Path icon there).",
+     "TOWN-PROP-SEAL-LOCKED, TOWN-PROP-SEAL-BLANK", "assets/art/icons/<ID>.webp", "512x512 each", "PNG with transparency",
+     ["assets/art/icons/ICON-PADLOCK.webp", SHOTS + "p4_toast.png", SHOTS + "p4_vault_after_2of4_low.png", "docs/art/path_icon_sheet.png"], "5",
+     "**TOWN-PROP-SEAL-LOCKED** and **TOWN-PROP-SEAL-BLANK** (512x512 each, transparent). A round seal of old dark iron seen straight on: a thick raised rim with four "
+     "small rivets, a slightly domed face, worn edges, a little rust and one streak of moss.\n"
+     "   - LOCKED: a padlock in relief in the middle of the face, in the same dark iron (the shape of ref %NN% ICON-PADLOCK).\n"
+     "   - BLANK: the same seal with a flat, empty face. The game draws one of the four Path icons on it, so leave the middle clear and a little lighter.\n"
+     "   Refs %NN% p4_toast and p4_vault_after_2of4_low show where they are used."),
+    ("mg_rooms", "MG-BG-PASS / MG-BG-CONVEYOR / MG-BG-FILING", "The backgrounds of three of the four new card minigames: Order Up (the Endless Buffet), Sort It Out (the Verdant "
+     "Dump), File in Order (the D.N.A.)",
+     "(none: each uses its zone's loading painting, blurred, behind a wood and brass frame)",
+     "Only the Gainlands' game has its own room (MG-BG-GYM). The other three sit on a blurred loading picture.",
+     MG_BG + "three rooms. PASS: a show kitchen's serving pass in the Endless Buffet, a long steel and copper counter across the lower third, a brass ticket rail above it, "
+     "heat lamps, copper pans on the back wall, a brass call bell on the counter's right end. CONVEYOR: the county fair stage in the Verdant Dump at dusk, a scrap-wood "
+     "conveyor belt running left to right across the middle on barrels and crates, bunting and lanterns above, mossy junk and wildflowers at the sides. FILING: the D.N.A.'s "
+     "mail room, grey-green office walls, a long grey steel filing cabinet with seven drawers across the lower third, pneumatic tubes along the ceiling, a banker's lamp, "
+     "stacks of paper, a faint green ghost-glow.",
+     "MG-BG-PASS, MG-BG-CONVEYOR, MG-BG-FILING", "assets/art/ui/<ID>.webp", "1536x1024 each", "PNG",
+     ["assets/art/ui/MG-BG-GYM.webp", SHOTS + "p2_order_mid.png", SHOTS + "p2_sort_mid.png", SHOTS + "p2_file_mid.png", "assets/art/keyart/LOAD-BUFFET.webp",
+      "assets/art/keyart/LOAD-DUMP.webp", "assets/art/keyart/LOAD-DNA.webp"], "7",
+     "**MG-BG-PASS**, **MG-BG-CONVEYOR** and **MG-BG-FILING** (1536x1024 each, a full painted background, not transparent). Three backgrounds for card minigames, in the "
+     "style and framing of ref %NN% MG-BG-GYM: an interior with no characters and no text, the middle two thirds calm and a little darker so cards laid over it stay "
+     "readable.\n"
+     "   - MG-BG-PASS (the Endless Buffet, palette of ref %NN% LOAD-BUFFET): a show kitchen's serving pass. A long steel and copper counter across the lower third, a brass "
+     "ticket rail above it, heat lamps, copper pans on the back wall, a brass call bell at the counter's right end. Ref %NN% p2_order_mid shows the game laid over it.\n"
+     "   - MG-BG-CONVEYOR (the Verdant Dump, palette of ref %NN% LOAD-DUMP): the county fair stage at dusk. A scrap-wood conveyor belt running left to right across the "
+     "middle on barrels and crates, bunting and lanterns above, mossy junk and wildflowers at the sides. Ref %NN% p2_sort_mid.\n"
+     "   - MG-BG-FILING (the D.N.A., palette of ref %NN% LOAD-DNA): the mail room. Grey-green office walls, a long grey steel filing cabinet with seven drawers across the "
+     "lower third, pneumatic tubes along the ceiling, a banker's lamp, stacks of paper, a faint green ghost-glow. Ref %NN% p2_file_mid."),
+    ("mg_reps", "MG-PROP-BENCH / MG-PROP-BARBELL / MG-PROP-PLATE-01..04", "The Gainlands' card minigame \"Reps\": the weight bench beside the cards (a plate goes on the bar "
+     "for every right guess)",
+     "(code: two grey posts, a line for the bar, coloured rounded rectangles for the plates)",
+     "The bench and barbell are drawn with lines and flat rectangles over the painted gym.",
+     PIECE + "props for a neon 3 a.m. gym, painted to sit on the attached gym background: BENCH: a squat rack with two steel uprights and a padded bench, seen from the "
+     "front, empty hooks at chest height. BARBELL: a steel barbell seen from the front, the bar only, with collars. PLATE-01 to -04: four weight plates seen edge-on from "
+     "the front (tall rounded slabs), from large to small: red, blue, yellow, green, each with a worn rim.",
+     "MG-PROP-BENCH, MG-PROP-BARBELL, MG-PROP-PLATE-01, MG-PROP-PLATE-02, MG-PROP-PLATE-03, MG-PROP-PLATE-04", "assets/art/ui/<ID>.webp", "BENCH 1024x1024, BARBELL 1536x256, "
+     "plates 256x512 each", "PNG with transparency",
+     [SHOTS + "p2_reps_mid.png", SHOTS + "p2_reps_win.png", "assets/art/ui/MG-BG-GYM.webp"], "5",
+     "**MG-PROP-BENCH** (1024x1024), **MG-PROP-BARBELL** (1536x256) and **MG-PROP-PLATE-01** to **-04** (256x512 each), all transparent. Props for the gym of ref %NN% "
+     "MG-BG-GYM, all seen from the front, to replace the lines and rectangles on the left of ref %NN% p2_reps_mid.\n"
+     "   - BENCH: a squat rack: two steel uprights with empty hooks at chest height and a padded bench between them.\n"
+     "   - BARBELL: a steel barbell, the bar only, with a collar near each end, lying level.\n"
+     "   - PLATE-01 to -04: four weight plates seen edge-on (tall rounded slabs), from the largest to the smallest: red, blue, yellow, green, each with a worn rim. The game "
+     "slides them onto the bar's ends."),
+    ("mg_props", "MG-PROP-TICKET / -BELL / -BIN-01..04 / -CABINET / -STAMP-APPROVED / -STAMP-REJECTED", "Order Up (the ticket and the bell), Sort It Out (the four bins), File "
+     "in Order (the cabinet and the two stamps)",
+     "(code: cream rectangles for the tickets, coloured boxes for the bins, a grey panel for the cabinet, large rotated words for the stamps)",
+     "The three games' props are flat panels. They work; paintings would make them match the cards on the table.",
+     PIECE + "props for three card minigames, each seen from the front. TICKET: a blank cream order ticket with a torn top edge and a hole for the rail, nothing written on "
+     "it. BELL: a brass call bell. BIN-01 to -04: four wooden sorting crates with an open top, painted brick red, slate blue, mustard and plum, each with a blank round "
+     "plaque on the front (the game draws a card-type icon there). CABINET: a grey steel filing cabinet seven drawers wide and one drawer high, each drawer with a blank "
+     "label holder and a handle. STAMP-APPROVED: a rubber-stamp imprint in green ink, a rounded rectangle with the word APPROVED, a little uneven. STAMP-REJECTED: the same "
+     "in red ink with the word REJECTED.",
+     "MG-PROP-TICKET, MG-PROP-BELL, MG-PROP-BIN-01, MG-PROP-BIN-02, MG-PROP-BIN-03, MG-PROP-BIN-04, MG-PROP-CABINET, MG-PROP-STAMP-APPROVED, MG-PROP-STAMP-REJECTED",
+     "assets/art/ui/<ID>.webp", "TICKET 512x384, BELL 512x512, bins 768x512 each, CABINET 2048x512, stamps 1536x512 each", "PNG with transparency",
+     [SHOTS + "p2_order_mid.png", SHOTS + "p2_sort_mid.png", SHOTS + "p2_file_win.png", SHOTS + "p2_file_lose.png"], "5",
+     "**MG-PROP-TICKET** (512x384), **MG-PROP-BELL** (512x512), **MG-PROP-BIN-01** to **-04** (768x512 each), **MG-PROP-CABINET** (2048x512), **MG-PROP-STAMP-APPROVED** "
+     "and **MG-PROP-STAMP-REJECTED** (1536x512 each), all transparent, each seen from the front.\n"
+     "   - TICKET: a blank cream order ticket with a torn top edge and a punched hole. Nothing written on it (the game writes the number). Ref %NN% p2_order_mid.\n"
+     "   - BELL: a brass call bell.\n"
+     "   - BIN-01 to -04: four wooden sorting crates with an open top, painted brick red, slate blue, mustard and plum, each with a blank round plaque on the front (the "
+     "game draws an icon there). Ref %NN% p2_sort_mid.\n"
+     "   - CABINET: a grey steel filing cabinet seven drawers wide and one drawer high, each drawer with a blank label holder and a handle. Ref %NN% p2_file_win.\n"
+     "   - STAMP-APPROVED and STAMP-REJECTED: **these two carry a word.** A rubber-stamp imprint, a rounded rectangle with the word APPROVED in green ink and the word "
+     "REJECTED in red ink, a little uneven as a real stamp is. Refs %NN% p2_file_win, p2_file_lose."),
+    ("dump_gate", "KIT-HEAP-GATE-ARCH / KIT-HEAP-THORN-THICKET-DEAD", "Crosspath: the tree gate on the path to the Verdant Dump, and the thorns across the forest road once "
+     "Moss Mulligan is beaten",
+     "assets/art/zone_kits/heap/KIT-HEAP-GATE-TREE-L.webp, -R.webp (cut out of KIT-HEAP-THORNWALL on Nov 16b); (nothing is shown for the withered thorns)",
+     "The gate is the thorn wall's two trees cut apart and leaned together: each is still a flat card, and their branches cross rather than grow into one another. Once the "
+     "road is free, nothing marks where the thorns stood.",
+     PIECE + "ARCH: two old gnarled trees like the attached ones standing a path's width apart and grown together overhead into one arch, their branches knotted, ivy and "
+     "bracket fungus on the trunks, mossy stones at the roots, seen from the front, the opening between the trunks empty and wide enough for a person. THICKET-DEAD: the "
+     "attached violet thorn thicket withered: grey-brown, dry, shrunk to knee height and parted in the middle, the glowing pods gone dark, no trees in the picture.",
+     "KIT-HEAP-GATE-ARCH, KIT-HEAP-THORN-THICKET-DEAD", "assets/art/zone_kits/heap/<ID>.webp", "ARCH 1536x1536, THICKET-DEAD 1536x1024", "PNG with transparency",
+     ["assets/art/zone_kits/heap/KIT-HEAP-THORNWALL.webp", "assets/art/zone_kits/heap/KIT-HEAP-THORNWALL-DEAD.webp", "assets/art/zone_kits/heap/KIT-HEAP-GATE-TREE-L.webp",
+      "assets/art/zone_kits/heap/KIT-HEAP-THORN-THICKET.webp", SHOTS + "p3_gate_after_low.png"], "6",
+     "**KIT-HEAP-GATE-ARCH** (1536x1536) and **KIT-HEAP-THORN-THICKET-DEAD** (1536x1024), both transparent.\n"
+     "   - GATE-ARCH: the two old trees of ref %NN% KIT-HEAP-THORNWALL (ref %NN% KIT-HEAP-GATE-TREE-L is one of them cut out) standing a path's width apart and **grown "
+     "together overhead into one arch**: branches knotted into each other, ivy and bracket fungus on the trunks, mossy stones at the roots. Seen from the front. The "
+     "opening between the trunks is empty and wide enough to walk through. No thorns. Ref %NN% p3_gate_after_low is the game's stand-in.\n"
+     "   - THORN-THICKET-DEAD: the violet thicket of ref %NN% KIT-HEAP-THORN-THICKET withered: grey-brown, dry, shrunk to knee height and parted in the middle, its pods "
+     "gone dark. No trees in the picture (ref %NN% KIT-HEAP-THORNWALL-DEAD is the old version with the trees: paint only its thorns)."),
+    ("buffet_forest", "BUFF-PROP-FRUIT-TART / BUFF-PROP-CAKESTAND-TALL / BUFF-SHEET-FLIERS", "The Endless Buffet's east food forest: boulders between the broccoli trees, and the "
+     "butterflies and birds over it",
+     "(the boulders are the kit's small cake stand, cloche and stock pot set large; the fliers are code-drawn round wings)",
+     "The forest has no boulder of its own in the kit, and its butterflies and birds are plain coloured dots at close range.",
+     PIECE + "FRUIT-TART: a fruit tart the size of a boulder, a golden crust with a fluted edge, glazed berries and kiwi slices, a wedge missing, sitting on crumb soil. "
+     "CAKESTAND-TALL: a three-tier cake stand as tall as a tree, pale china with a gold rim, a few petits fours left on each tier. SHEET-FLIERS: a sprite sheet, a grid of 4 "
+     "columns and 2 rows on a transparent ground: top row, a butterfly with macaron-coloured wings seen from above in four wing positions from wide open to closed; bottom "
+     "row, a small dark songbird seen from below in four wing positions.",
+     "BUFF-PROP-FRUIT-TART, BUFF-PROP-CAKESTAND-TALL, BUFF-SHEET-FLIERS", "assets/art/zone_kits/buffet/<ID>.webp", "1024x1024, 1024x1536, 2048x1024", "PNG with transparency",
+     ["assets/art/zone_kits/buffet/BUFF-PROP-CAKESTAND.webp", "assets/art/zone_kits/buffet/BUFF-TREE-BROCCOLI.webp", SHOTS + "p5_after_east.png",
+      SHOTS + "p5_after_east_low.png"], "4",
+     "**BUFF-PROP-FRUIT-TART** (1024x1024), **BUFF-PROP-CAKESTAND-TALL** (1024x1536) and **BUFF-SHEET-FLIERS** (2048x1024), all transparent, in the style of ref %NN% "
+     "BUFF-PROP-CAKESTAND and BUFF-TREE-BROCCOLI. They stand in the forest of refs %NN% p5_after_east, p5_after_east_low.\n"
+     "   - FRUIT-TART: a fruit tart the size of a boulder: a golden crust with a fluted edge, glazed berries and kiwi slices, a wedge missing.\n"
+     "   - CAKESTAND-TALL: a three-tier cake stand as tall as a tree: pale china with a gold rim, a few petits fours left on each tier.\n"
+     "   - SHEET-FLIERS: a sprite sheet, an even grid of 4 columns and 2 rows. Top row: one butterfly with macaron-coloured wings seen from above, in four wing positions "
+     "from wide open to closed. Bottom row: one small dark songbird seen from below, in four wing positions."),
+]
+
 HEAD = ["id", "where it is used", "current file", "problem", "needed image (existing style)", "target id(s)", "game file", "size", "format", "status", "references to attach", "severity x visibility"]
 
 
@@ -209,7 +340,7 @@ def main():
     drive = "--no-drive" not in sys.argv
     if drive:
         os.makedirs(DRIVE, exist_ok=True)
-    all_rows = ROWS + CRITIC_ROWS + CARRIED_ROWS
+    all_rows = ROWS + CRITIC_ROWS + CARRIED_ROWS + NOV16B_ROWS
     rows = []
     copied = 0
     missing = []
@@ -248,6 +379,8 @@ def main():
         "\"Repaint exactly\" means: keep everything in the reference as it is and change only what the item names.",
         "",
         "**Items 1 to 5 are one set:** five stone statues, each as two pictures (standing and toppled). All ten must look carved by the same hand from the same pale grey stone, at the same scale on the canvas.",
+        "",
+        "**Items %d to %d were added on Nov 16** for the day's new pieces (the cellar of the Four Seals, four card minigames, the Dump's tree gate, the Buffet's forest). Each one names the game's stand-in among its references: keep the stand-in's size and layout and paint over its look." % (len(all_rows) - len(NOV16B_ROWS) + 1, len(all_rows)),
         "",
     ]
     for number, row in enumerate(all_rows, 1):

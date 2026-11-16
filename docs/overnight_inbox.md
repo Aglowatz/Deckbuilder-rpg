@@ -48,7 +48,7 @@ Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.
    - Stars (the old rewards are paid by stars): no slip 3, one or two slips 2, more 1.
 9. **File in Order keeps the tube puzzle's reward rule**: the Soul Courier's Lanyard once, then nothing (it can be replayed for
    fun). The terminal is now called "Mail Room Filing Terminal"; the pneumatic tubes stay on the wall and in the Mail Room's lore.
-10. **Hosts' lines changed where they described the old rules** (four story files, 17 lines): Chet's "eight reps to one beat",
+10. **Hosts' lines changed where they described the old rules** (four story files, 18 lines): Chet's "eight reps to one beat",
     Flambe's "stack each dish in the right order before the timer dings", Rhonda's "compost, metal, glass and paper" and her jam
     jar, the Mail Room's signs. They are yours: `git diff pre-fable-nov16b -- data/story` shows each one.
 11. **The old four screens are still in the repo, unused** (`RepGameScreen`, `OrderGameScreen`, `SortGameScreen`,
