@@ -8,18 +8,23 @@ extends RefCounted
 ## whatever flags the run was started with.
 ##
 ## Test mode: GUT is on the command line (`gut_cmdln.gd`, or any `-gtest` / `-gdir` / `-gconfig` / `-gexit` flag), or the environment
-## variable WAYWARD_TEST_SAVES is 1 (a tool that wants the same protection). It is decided once per process and cannot be switched off.
+## variable WAYWARD_TEST_SAVES is 1 (a tool that wants the same protection: the exported-build play runs and smokes set it, so a critic
+## or a check playing the exported game sees a fresh install and never the player's campaigns). It is decided once per process and
+## cannot be switched off.
 ##
 ## Protected: `user://saves/` (every campaign, slot, autosave, backup, temp file and thumbnail), the pre-slots `user://save.json`,
-## the account's feats (`user://feats_account.json`), the title screen's memory (`user://meta.cfg`) and, for writes, the settings
-## (`user://settings.cfg`). `tests/test_save_guard.gd` fails when a test run changes any of them; `tools/run_tests.sh` compares the
+## the account's feats (`user://feats_account.json`), the title screen's memory (`user://meta.cfg`) and, in a GUT run, the settings
+## (`user://settings.cfg`; the exported-build tools seed and restore that file themselves). A GUT run starts with an empty
+## `user://test_saves/`; a WAYWARD_TEST_SAVES run keeps what earlier runs left there. `tests/test_save_guard.gd` fails when a test run changes any of them; `tools/run_tests.sh` compares the
 ## real folder before the first shard and after the last one and fails the run when it changed.
 
 const TEST_DIR: String = "user://test_saves/"
 const REAL_SAVES: String = "user://saves/"
 const REAL_FILES: Array[String] = ["user://save.json", "user://feats_account.json", "user://meta.cfg", "user://settings.cfg"]
+const SETTINGS_FILE: String = "user://settings.cfg"
 
 static var _mode: int = -1
+static var _gut: bool = false
 ## The real files as they were when this process first asked (path -> "size|modified time"); see `real_fingerprint`.
 static var startup_fingerprint: Dictionary = {}
 
@@ -30,18 +35,18 @@ static func test_mode() -> bool:
 	if _mode < 0:
 		_mode = 1 if _detect() else 0
 		if _mode == 1:
-			_wipe(TEST_DIR)
+			if _gut:
+				_wipe(TEST_DIR)
 			startup_fingerprint = real_fingerprint()
 	return _mode == 1
 
 
 static func _detect() -> bool:
-	if OS.get_environment("WAYWARD_TEST_SAVES") == "1":
-		return true
 	for arg: String in OS.get_cmdline_args() + OS.get_cmdline_user_args():
 		if arg.contains("gut_cmdln") or arg.begins_with("-gtest") or arg.begins_with("-gdir") or arg.begins_with("-gconfig") or arg.begins_with("-gexit"):
+			_gut = true
 			return true
-	return false
+	return OS.get_environment("WAYWARD_TEST_SAVES") == "1"
 
 
 ## `path` as the save system may use it: unchanged in the real game, redirected under `TEST_DIR` in a test run when it points at one
@@ -59,6 +64,8 @@ static func redirected(path: String) -> String:
 	if normal == REAL_SAVES.trim_suffix("/") or normal.begins_with(REAL_SAVES):
 		return TEST_DIR + normal.trim_prefix("user://")
 	for file: String in REAL_FILES:
+		if file == SETTINGS_FILE and _mode == 1 and not _gut:
+			continue  # an exported-build tool run: its script seeds and restores the settings file itself
 		if normal == file or normal.begins_with(file + "."):
 			return TEST_DIR + normal.trim_prefix("user://")
 	return path

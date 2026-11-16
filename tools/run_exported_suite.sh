@@ -12,6 +12,8 @@ cd "$(dirname "$0")/.."
 root="$(pwd -W 2>/dev/null || pwd)"
 pck="$1"; driver="$2"; quality="$3"; bot="$4"; shift 4
 user_dir="$APPDATA/Deckbuilder-RPG"
+# Overnight Nov 16 (Part 3.1): an exported-build run never reads or writes the player's real saves (SaveGuard: user://test_saves/ instead).
+export WAYWARD_TEST_SAVES=1
 mkdir -p _screenshots/exported "$user_dir"
 for f in settings.cfg boot_state.cfg; do
 	if [ -f "$user_dir/$f" ]; then cp -f "$user_dir/$f" "$user_dir/$f.suite_backup"; fi

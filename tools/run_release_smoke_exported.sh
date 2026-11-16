@@ -3,6 +3,8 @@
 # --script, so the stock Godot binary of the same version runs the pack with tools/release_smoke_exported.gd from disk. It runs from a
 # folder outside the project so the project itself is not picked up. Usage: bash tools/run_release_smoke_exported.sh [pck]
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64.exe"
+# Overnight Nov 16 (Part 3.1): the smoke saves and loads under user://test_saves/, never in the player's real save folder (SaveGuard).
+export WAYWARD_TEST_SAVES=1
 cd "$(dirname "$0")/.."
 root="$(pwd -W 2>/dev/null || pwd)"
 pck="${1:-$root/builds/_export/TheWaywardPath.pck}"

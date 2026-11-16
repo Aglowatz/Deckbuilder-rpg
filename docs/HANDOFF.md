@@ -91,9 +91,12 @@ lowest level, not by a setting a test can change.
 - **The checks:** `tests/test_save_guard.gd` tries every old way into the real folder and fails if any real file changed.
   `tools/run_tests.sh` lists the real folder before the first shard and after the last one, prints `Real saves: untouched (N files
   checked)` and **fails the run** with `REAL SAVES TOUCHED` if anything changed.
-- **Not covered:** the windowed smokes, the shot tools and the play-script driver are not GUT runs. They use `--no-save` or their own
-  folders (`user://shot_saves/`, `user://dev_saves/`), as before. Set `WAYWARD_TEST_SAVES=1` in front of any tool to give it the
-  same protection.
+- **The exported-build runs are covered too:** `tools/run_exported_suite.sh` (so `play_exported.sh` and the critics' runs) and
+  `tools/run_release_smoke_exported.sh` set `WAYWARD_TEST_SAVES=1`: the exported game then shows a fresh install's title screen and
+  saves under `user://test_saves/`. The developer snapshots (`user://dev_saves/`) are not player saves and work as before.
+- **Not covered:** the windowed editor smokes, the shot tools and the editor play-script driver are not GUT runs. They use
+  `--no-save` or their own folders (`user://shot_saves/`, `user://dev_saves/`), as before. Put `WAYWARD_TEST_SAVES=1` in front of
+  any tool to give it the same protection.
 - **If you add a new file the player owns** (a second account file, say), add it to `SaveGuard.REAL_FILES` and open it through
   `SaveGuard.safe(path)`.
 
