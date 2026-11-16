@@ -1008,10 +1008,11 @@ func _features() -> void:
 	_prop("compost_heap", 24.0, 114.0, 0.0, 1.0, 0.0)
 	# Fable Nov 15b (Part 2): the fridge that stood here (77, 132) showed the walk its blank back and its open door: two flat green slabs,
 	# the owner's "floating door". It is gone; its chest sits in a nook of rocks, a bush, mushrooms and flowers under the mushroom tree.
-	_prop("rock", 77.6, 131.6, 70.0, 1.25)
-	_prop("rock", 76.6, 133.0, 190.0, 0.95)
-	_prop("bush", 78.3, 129.9, 0.0, 1.1, 0.6)
-	_prop("mushrooms", 76.2, 131.2, 0.0, 1.1)
+	# (the solid pieces stand along the south rim: 5.5 m clear of the lever and the shrine, 1.9 m clear of the chest)
+	_prop("rock", 77.2, 133.4, 70.0, 1.25)
+	_prop("rock", 75.4, 133.7, 190.0, 0.95)
+	_prop("bush", 72.8, 133.4, 0.0, 1.1, 0.6)
+	_prop("mushrooms", 76.4, 132.9, 0.0, 1.1)
 	_prop("flowers", 75.6, 133.2, 0.0, 1.0)
 	_prop("flowers", 77.4, 130.2, 0.0, 1.0)
 	# the market's small things (the reference: planter boxes, barrels, crates, lanterns at the stalls and the plaza's mouths), each a shared kit prop

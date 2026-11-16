@@ -1,4 +1,4 @@
-Batch 16 for my cozy-fantasy deckbuilder RPG "The Wayward Path". Make all the images below, one at a time, without stopping to ask me questions. Save each one as a PNG named exactly as given in **bold**.
+Batch 16 for my cozy-fantasy deckbuilder RPG "The Wayward Path". Make all 23 items below (46 images in all), one at a time, without stopping to ask me questions. Save each one as a PNG named exactly as given in **bold**.
 
 I've attached reference images. Each reference's filename starts with the item number it belongs to (for example, 04_scuff__... is for item 4).
 
@@ -66,12 +66,14 @@ House style for everything: painted cozy-fantasy game art, soft visible brushwor
 20. **DNA-PROP-CRATES** (512x512) and **DNA-PROP-CABINET-TIPPED** (768x512), both transparent, front three-quarter view, in the grey-green office style of ref 20 (the cabinet and the filing tower; the screenshot shows the rows they stand in).
    - CRATES: a neat stack of three grey archive crates with brass corner caps and a blank label;
    - CABINET-TIPPED: a grey-green filing cabinet lying on its side, two drawers slid open, papers spilling out.
-21. **UI-PACK-GILDED-N** (512x768, transparent). A Necrocrat version of the gilded foil pack in ref 21 UI-PACK-GILDED: the same shape, crimped ends, gold foil and cream centre stripe.
+21. **UI-PACK-GILDED-N** (1024x1536, transparent). A Necrocrat version of the gilded foil pack in ref 21 UI-PACK-GILDED: the same shape, crimped ends, gold foil and cream centre stripe.
    - The round medallion in the middle shows the Necrocrat Path icon (ref 21 ICON-ENERGY-N): a pale skull facing front, wrapped in green ghost-flame, on a dark slate disc, **fully inside the circle**. No quill. Ref 21 "current" shows the pack as it is now, with the wrong skull-and-quill icon.
    - The small repeating pattern on the gold foil uses tiny skulls in ghost-flame instead of dumbbells.
-22. **UI-PACK-GILDED-G** and **UI-PACK-GILDED-R** (512x768 each, transparent). The same gilded foil pack as item 21, for the Gourmand and the Refusemancer (added by Fable Nov 15: the one gilded wrapper carries dumbbells on every Path's pack).
+22. **UI-PACK-GILDED-G** and **UI-PACK-GILDED-R** (1024x1536 each, transparent). The same gilded foil pack as item 21 (ref 22 UI-PACK-GILDED), for the Gourmand and the Refusemancer.
    - G: the small repeating pattern on the gold foil is tiny chef's hats; R: tiny leaves inside recycling arrows. No dumbbells.
-   - The round medallion can stay a plain dark disc inside its gold ring: the game draws the Path icon on it.
-23. **UI-PACK-N** and **UI-PACK-R** (512x768 each, transparent), repainted exactly as they are (refs: the current files), with one change each:
+   - The round medallion shows that Path's icon (ref 22 ICON-ENERGY-G / -R), fully inside the gold ring.
+23. **UI-PACK-N** and **UI-PACK-R** (1024x1536 each, transparent). Repaint ref 23 UI-PACK-N and UI-PACK-R exactly as they are, with one change each:
    - UI-PACK-N: the medallion shows the Necrocrat icon (ICON-ENERGY-N: a pale skull facing front, wrapped in green ghost-flame, on a dark slate disc), fully inside the gold ring. No quill, no scroll.
    - UI-PACK-R: the medallion shows the Refusemancer icon (ICON-ENERGY-R: one green leaf inside three rust-orange recycling arrows, on a mossy green disc), fully inside the gold ring.
+
+When all 46 images are done, put them in one zip.

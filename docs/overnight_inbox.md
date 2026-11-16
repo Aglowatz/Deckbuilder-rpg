@@ -4,6 +4,32 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 15b - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov15_hour.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov15b`.
+
+1. **The "wooden block you can walk through" was the giant root ramp, and I fixed it instead of removing it.** Your screenshot shows
+   the ramp from the farm terrace up to the compost terrace (east of the middle stairs). Its bark slab had been tilted the wrong way
+   since it was built: the low end stood a tier up in the air on its rope posts (the brown platform) and the high end was buried, while
+   the walk itself went up the slope through it. It is one of the three ways up, so it stays; it lies on the slope now. Say if you
+   would rather it were stone stairs.
+2. **The "floating door" was the fridge beside the market** (east corner, under the big mushroom tree): from the walk you saw its
+   blank back and its open door, two flat green slabs. Removed; its chest (the Leaf Crown) sits in a nook of rocks, a bush, mushrooms
+   and flowers. Last pass's hay bale and hollow log were neither of your two things; they stay removed.
+3. **Compostella's statue stood inside the Dump's Rift Station.** The statue shots for Part 3 found it: the default spot was one metre
+   from the station, so the pillar of light shone through the stone figure. It stands in the open plaza now, at (44.5, 126.5),
+   between the station and the greenhouse. Say if you want it elsewhere.
+4. **UI scale: the three screens are held at 100 %, not rebuilt.** The Wardrobe, the Card Packs page and the Deck Station fill the
+   whole 1920x1080 canvas, so there is nothing larger that fits; at 115 % and 130 % they now look as they do at 100 % (nothing
+   cropped) while every other screen grows. Making them truly bigger means giving each a scrolling layout; say if you want that.
+5. **The Buffet's walk smoke had two stale steps** (Odalys moved on Nov 10; the heal table's run-up started behind the statue). Both
+   were faults of the smoke, not the zone; the smoke is fixed and passes.
+6. **The fair stage on the farm terrace** (beside the trash chute) still has plain-colour blocks: a flat blue banner and four flat
+   sorting bins. Not on your list and not touched; it would be a small Batch 16 row or a kit re-dress.
+7. **A slip of mine:** one test command ran the whole suite in a single process for a few minutes before I stopped it (the
+   `-gconfig=` flag was missing). Nothing was changed by it in the repo; if your own autosave looks odd, that is why (the known
+   GUT-writes-the-real-autosave gotcha).
+
 ## Fable Nov 15 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov15_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov15`. Part 5 (Batch 16) was
