@@ -487,7 +487,7 @@ static func game_ids() -> Dictionary:
 	for group: Variant in FeatDefs.GROUP_ICONS:
 		ids[str(FeatDefs.GROUP_ICONS[group])] = "Feat group: %s" % str(group)
 	ids[FeatDefs.SECRET_ICON] = "Feat: hidden"
-	ids["ICON-FEAT-PATHS"] = "Feat group: the four Paths (unused until its Batch 16 redo)"
+	ids["ICON-FEAT-PATHS"] = "Feat badge: the four Paths (the Path feats heading)"
 	return ids
 
 

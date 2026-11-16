@@ -46,8 +46,10 @@ const APPROACH_LAMPS: Array[Vector3] = [
 ]
 ## The office debris kept in the wasteland: [id, x, z, height, roll in degrees (a card lying on its side)].
 const OFFICE_DEBRIS: Array = [
-	["DNA-SHEET-CABINETS-02", 35.6, 65.4, 1.5, 86.0], ["DNA-SHEET-CABINETS-05", 58.2, 67.6, 1.4, -84.0], ["DNA-SHEET-FILING-TOWERS-01", 31.2, 62.8, 2.2, 9.0],
-	["DNA-SHEET-CABINETS-01", 66.5, 63.2, 1.5, -88.0], ["DNA-SHEET-FILING-TOWERS-03", 14.5, 50.6, 2.1, -7.0], ["DNA-SHEET-CABINETS-03", 63.4, 51.2, 1.5, 85.0],
+	# Batch 16 (Nov 16): the painted tipped cabinet and archive crates (they were upright cabinet cards turned on their side)
+	["DNA-PROP-CABINET-TIPPED", 35.6, 65.4, 1.2, 0.0], ["DNA-PROP-CABINET-TIPPED", 58.2, 67.6, 1.15, 0.0], ["DNA-SHEET-FILING-TOWERS-01", 31.2, 62.8, 2.2, 9.0],
+	["DNA-PROP-CRATES", 66.5, 63.2, 1.4, 0.0], ["DNA-SHEET-FILING-TOWERS-03", 14.5, 50.6, 2.1, -7.0], ["DNA-PROP-CABINET-TIPPED", 63.4, 51.2, 1.15, 0.0],
+	["DNA-PROP-CRATES", 33.2, 67.4, 1.3, 0.0], ["DNA-PROP-CRATES", 17.4, 52.0, 1.25, 0.0],
 ]
 ## Drifts of paper and forms on the ash: [id, x, z, width, yaw].
 const PAPER_DRIFTS: Array = [

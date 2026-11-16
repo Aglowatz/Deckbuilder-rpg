@@ -263,8 +263,10 @@ func _stage(label: String) -> void:
 
 
 ## Art import Oct 29: the town gets louder - one Path banner (TOWN-SHEET-FREED-BANNERS) hangs from a lamp post of the square for each freed
-## zone, in the order the zones are listed (Beefcake red barbell, Gourmand ladle, Necrocrat stamp, Refusemancer leaf).
+## zone, in the order the zones are listed. Batch 16 (Nov 16): each carries its Path's canonical icon (the arm, the chef's hat, the skull in flame,
+## the leaf in arrows), and once all four zones are free the two ring banners (-05, -06: the four icons in a ring) hang on the next two posts.
 const FREED_BANNERS: Dictionary = {"beefcake": "TOWN-SHEET-FREED-BANNERS-01", "gourmand": "TOWN-SHEET-FREED-BANNERS-02", "necrocrat": "TOWN-SHEET-FREED-BANNERS-03", "refusemancer": "TOWN-SHEET-FREED-BANNERS-04"}
+const RING_BANNERS: Array[String] = ["TOWN-SHEET-FREED-BANNERS-05", "TOWN-SHEET-FREED-BANNERS-06"]
 const FREED_BANNER_WIDTH: float = 0.9
 const FREED_BANNER_TOP: float = 3.0
 
@@ -286,6 +288,21 @@ func _hang_freed_banners() -> void:
 		var banner: MeshInstance3D = KitPieces.wall(self, id, posts[index] + Vector3(0.0, FREED_BANNER_TOP - height * 0.5, 0.16), 0.0, FREED_BANNER_WIDTH)
 		if banner != null:
 			banner.name = "FreedBanner_%s" % zone_id
+		index += 1
+	var all_free: bool = _screenshot_args.has("banners")
+	if not all_free:
+		all_free = true
+		for zone_id: String in FREED_BANNERS.keys():
+			all_free = all_free and Session.is_zone_completed(zone_id)
+	if not all_free:
+		return
+	for id: String in RING_BANNERS:
+		if index >= posts.size() or not EnvKit.has_art(id):
+			break
+		var ring_height: float = FREED_BANNER_WIDTH / maxf(EnvKit.aspect(id), 0.01)
+		var ring: MeshInstance3D = KitPieces.wall(self, id, posts[index] + Vector3(0.0, FREED_BANNER_TOP - ring_height * 0.5, 0.16), 0.0, FREED_BANNER_WIDTH)
+		if ring != null:
+			ring.name = "FreedBanner_ring_%d" % index
 		index += 1
 
 

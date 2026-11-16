@@ -29,6 +29,10 @@ const GILDED_PACK_IDS: Dictionary = {
 	Affinity.Type.REFUSEMANCER: "UI-PACK-GILDED-R",
 }
 
+## Batch 16 (Nov 16): pack paintings whose own medallion already is the Path's canonical icon, whole and centred in the gold ring. No
+## icon is laid over these (`_build_medallion`); the older paintings (UI-PACK-B, UI-PACK-G and the one shared UI-PACK-GILDED) keep it.
+const PAINTED_MEDALLIONS: Array[String] = ["UI-PACK-N", "UI-PACK-R", "UI-PACK-GILDED-N", "UI-PACK-GILDED-G", "UI-PACK-GILDED-R"]
+
 var pack: PackData
 var _top_clip: Control
 var _body_clip: Control
@@ -235,7 +239,7 @@ class PackFace:
 			# (a Path's own gilded wrapper, UI-PACK-GILDED-N / -G / -R, is painted in its colours: no tint over it)
 			if not art_id.begins_with("UI-PACK-GILDED-"):
 				picture.modulate = Color.WHITE.lerp(pack.art_color.lightened(0.15), 0.4)
-		if pack.kind == PackData.Kind.GILDED or pack.kind == PackData.Kind.PATH:
+		if (pack.kind == PackData.Kind.GILDED or pack.kind == PackData.Kind.PATH) and not PackArt.PAINTED_MEDALLIONS.has(art_id):
 			_build_medallion()
 
 	## Fable Nov 15 (Part 4b): the round medallion in the middle of a Path Pack and of a Gilded pack carries the Path's canonical icon

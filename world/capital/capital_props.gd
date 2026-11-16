@@ -131,7 +131,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"crease_table":
 			return _crease_painted(CREASE_TABLE, crease_table)
 		"crease_stall":
-			return _crease_painted(CREASE_STALL, crease_stall)
+			return _crease_painted(CREASE_STALL_2 if prop.variant == 1 else CREASE_STALL, crease_stall)
 		"tea_urn":
 			return _crease_painted(CREASE_URN, tea_urn)
 		"map_table":
@@ -1143,11 +1143,14 @@ static func height_post() -> Node3D:
 ## keeps its code-built version as the fallback when the art is missing; the spots, anchors and blocking circles are the layout's, unchanged.
 const CREASE_URN: Array = ["CAP-SHEET-CREASE-01", 1.7]
 const CREASE_TABLE: Array = ["CAP-SHEET-CREASE-02", 1.6]
-const CREASE_STALL: Array = ["CAP-SHEET-CREASE-03", 2.6]
+## Batch 16 (Nov 16): the market's own painted furniture - Fig Sly's stall (plum awning), the supply stall beside it (green awning) and
+## the rope-handled crate stacks (they were the Crease sheet's one stall twice and the rubble sheet's scattered crates).
+const CREASE_STALL: Array = ["CAP-PROP-CREASE-STALL-01", 3.0]
+const CREASE_STALL_2: Array = ["CAP-PROP-CREASE-STALL-02", 2.9]
 const CREASE_BEDROLLS: Array = ["CAP-SHEET-CREASE-04", 0.75]
 const CREASE_COLUMN: Array = ["CAP-SHEET-CREASE-05", 3.4]
 const CREASE_LADDER: Array = ["CAP-SHEET-CREASE-06", 4.0]
-const CREASE_CRATES: Array = ["CAP-SHEET-RUBBLE-06", 1.3]
+const CREASE_CRATES: Array = ["CAP-PROP-CREASE-CRATES", 1.35]
 
 
 ## The painted Crease piece `art` ([id, height]) standing on the prop's spot, else `fallback`'s code-built prop. A column keeps its

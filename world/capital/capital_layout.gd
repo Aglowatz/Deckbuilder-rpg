@@ -984,7 +984,7 @@ func _crease() -> void:
 	for index: int in range(NETWORK_DESTINATIONS.size()):
 		_prop("shaft_hatch", 9.0 + 5.0 * float(index), 119.0 + fz, 0.0, 1.0, 0.0, index)
 	# the market: a second stall beside Fig's and stacks of crates round them (all north of where the vendors stand)
-	_prop("crease_stall", 36.6, 103.6 + fz, 0.0, 1.0, 1.1)
+	_prop("crease_stall", 36.6, 103.6 + fz, 0.0, 1.0, 1.1, 1)  # Batch 16: the supply stall (CAP-PROP-CREASE-STALL-02); Fig Sly's is -01
 	_prop("crease_crate", 33.8, 103.4 + fz, 0.0, 1.0, 0.8)
 	_prop("crease_crate", 39.4, 105.6 + fz, 0.0, 1.0, 0.8)
 	_prop("crease_crate", 27.2, 102.2 + fz, 0.0, 1.0, 0.8)

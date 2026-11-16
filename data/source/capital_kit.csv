@@ -69,3 +69,6 @@ CAP-PROP-PORTRAIT-PRIMM-01,"Primm portrait on an easel (bust)",Prop,CUTOUT,"See 
 CAP-PROP-PORTRAIT-PRIMM-02,"Primm portrait on an easel (blessing)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The avenue, the castle door and the palace front",1,Approved
 CAP-PROP-PORTRAIT-PRIMM-03,"Primm portrait on an easel (rosette)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The avenue, the castle door and the palace front",1,Approved
 CAP-PROP-RUBBLE-ROW,"Rubble row",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","2048x512 PNG, transparent","The Capital's rim and the Transit Yards (hides edges)",2,Approved
+CAP-PROP-CREASE-STALL-01,"Crease stall (Fig Sly, plum awning)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","768x768 PNG, transparent","The Crease market",2,Approved
+CAP-PROP-CREASE-STALL-02,"Crease stall (supplies, green awning)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","768x768 PNG, transparent","The Crease market",2,Approved
+CAP-PROP-CREASE-CRATES,"Crease crates",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x512 PNG, transparent","The Crease market",2,Approved

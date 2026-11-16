@@ -57,10 +57,9 @@ const CACHE_GROUP: StringName = &"portraits"
 const HELD_EXPRESSIONS: Dictionary = {}
 
 
-## Fable Nov 14 (1.1): a speaker with no portrait of his own yet borrows another picture in the dialogue box (Sergeant Scuff: the
-## Correction Officer's talk frame, until NPC-SCUFF arrives with Batch 16). `has_portrait` stays false for these, so the boss intro
-## shows the crisp Bestiary square instead of this small figure blown up.
-const STAND_INS: Dictionary = {"NPC-SCUFF": "res://assets/art/world_test/sprites/FOE_CORRECTION_OFFICER/FRONT_TALK.png"}
+## A speaker with no portrait of their own yet borrows another picture in the dialogue box (`has_portrait` stays false for these, so a
+## boss intro shows the Bestiary square). Empty since Batch 16 (Nov 16): Sergeant Scuff has NPC-SCUFF.
+const STAND_INS: Dictionary = {}
 
 
 static func _load_any(portrait_id: String, expression: String) -> Texture2D:

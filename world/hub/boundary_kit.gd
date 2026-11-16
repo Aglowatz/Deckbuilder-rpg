@@ -232,7 +232,9 @@ func _shore(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 			var stone: Vector3 = start + dir * (along + 0.8) + out * (0.6 + _rng.randf() * 0.6)
 			var r: float = 0.35 + _rng.randf() * 0.3
 			# Fable Nov 14 (Part 3.2): rounded river stones in the ridge's painted rock (they were 3-ring, 7-sided blobs: dark faceted polygons)
-			_river_stones(stone, r)
+			# Batch 16 (Nov 16): the painted shore stones (TOWN-PROP-SHORE-STONES-01..03) when imported; the modelled ones otherwise
+			if not _painted_stones(stone, r):
+				_river_stones(stone, r)
 		along += 2.2 + _rng.randf() * 2.2
 
 
@@ -271,6 +273,28 @@ static func lake_shape() -> PackedVector2Array:
 		points = next_points
 		sharp = next_sharp
 	return points
+
+
+## Batch 16 (Nov 16): the painted shore stones of the town kit, one card per group: a big stone with pebbles, three medium stones or a
+## low flat stone with a reed. [id, height in metres at radius 0.5].
+const SHORE_STONE_ART: Array = [["TOWN-PROP-SHORE-STONES-01", 0.78], ["TOWN-PROP-SHORE-STONES-02", 0.46], ["TOWN-PROP-SHORE-STONES-03", 0.92]]
+
+
+## One painted stone group at `at` (its size follows `radius`); false when the art is not imported.
+func _painted_stones(at: Vector3, radius: float) -> bool:
+	var pick: Array = SHORE_STONE_ART[_stone_rng.randi() % SHORE_STONE_ART.size()] as Array
+	var id: String = str(pick[0])
+	if not EnvKit.has(id) or not EnvKit.has_art(id):
+		return false
+	var piece: Node3D = KitPieces.stand(root, id, at, float(pick[1]) * (radius / 0.5), false)
+	if piece == null:
+		return false
+	piece.name = "ShoreStonesPainted"
+	for node: Node in piece.find_children("*", "GeometryInstance3D", true, false) + [piece]:
+		node.set_meta(&"no_occlusion_fade", true)
+		node.set_meta(&"no_wind", true)
+	stone_count += 1
+	return true
 
 
 ## A small group of rounded stones half sunk in the bank: one of about `radius` and one or two pebbles beside it (smooth normals, the painted rock).

@@ -72,3 +72,6 @@ UI-PACK-LOCKED-G,Locked pack (Gourmand),Packs,The locked Path pack on the Card P
 UI-PACK-LOCKED-N,Locked pack (Necrocrat),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
 UI-PACK-LOCKED-R,Locked pack (Refusemancer),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
 UI-NODE-BANNER,Pop-up banner base,Screen pieces,The base of the non-combat dungeon pop-up banner (NodeCard).,1600x500 PNG,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-PACK-GILDED-N,Gilded Pack (Necrocrat),Packs,"The Gilded Necrocrat pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved
+UI-PACK-GILDED-G,Gilded Pack (Gourmand),Packs,"The Gilded Gourmand pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved
+UI-PACK-GILDED-R,Gilded Pack (Refusemancer),Packs,"The Gilded Refusemancer pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved

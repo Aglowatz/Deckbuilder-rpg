@@ -124,6 +124,8 @@ func _ready() -> void:
 	# Screenshot helpers: show the Rescuer or Elder Maren without playing their scenes.
 	if str(_screenshot_args.get("show", "")) == "rescuer":
 		_spawn_rescuer()
+		if _screenshot_args.has("walk") and _rescuer != null:  # Batch 16 (Nov 16): her own masked walk, held mid-stride for a shot (no fade)
+			NpcSprites.walk_off(self, _rescuer, RESCUER_LEAVE * 3.0, RESCUER_LEAVE_SECONDS * 6.0, 0.0)
 	elif str(_screenshot_args.get("show", "")) == "maren":
 		var mouth: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 		_maren = _make_maren()

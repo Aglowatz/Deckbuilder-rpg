@@ -66,6 +66,8 @@ func refresh() -> void:
 		var defs: Array[FeatDefs.Def] = FeatDefs.in_group(group)
 		if defs.is_empty():
 			continue
+		if group == FeatDefs.PATH_GROUPS[0]:
+			_list.add_child(_paths_heading())
 		var heading: Label = UIKit.label(group, &"", 24, UIStyle.GOLD)
 		heading.name = "Group_%s" % group.replace(" ", "_")
 		heading.add_theme_font_override("font", UIStyle.font_bold())
@@ -77,6 +79,18 @@ func refresh() -> void:
 		_list.add_child(heading_row)
 		for def: FeatDefs.Def in defs:
 			_list.add_child(_row(def))
+
+
+## Batch 16 (Nov 16): the Path feats badge (ICON-FEAT-PATHS: the four Path icons on one shield) over the four one-Path groups.
+func _paths_heading() -> HBoxContainer:
+	var row: HBoxContainer = UIKit.hbox(12)
+	row.name = "PathFeatsHeading"
+	if IconArt.has(FeatDefs.PATHS_BADGE):
+		row.add_child(IconArt.rect(FeatDefs.PATHS_BADGE, 64.0))
+	var heading: Label = UIKit.label(FeatDefs.PATHS_HEADING, &"", 28, UIStyle.GOLD)
+	heading.add_theme_font_override("font", UIStyle.font_bold())
+	row.add_child(heading)
+	return row
 
 
 ## The [title, text] a feat shows: "???" and "A hidden feat." until a hidden one is earned.

@@ -8,7 +8,7 @@ func before_each() -> void:
 
 
 func test_the_list_has_every_character_row() -> void:
-	assert_eq(NpcRegistry.all().size(), 81, "Fable Nov 14: + Sergeant Scuff. Fixes Nov 8: + Dex Shufflewick. 68 list characters plus the eleven the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well; Batch 11: Hesper, the Exit Clerk, Gary, Tarragon, Billie Muckfoot, Sorrel, the Secret Dealer)")
+	assert_eq(NpcRegistry.all().size(), 83, "Batch 16 (Nov 16): + Baron Quadzilla and the Restless Cairn (their portraits). Fable Nov 14: + Sergeant Scuff. Fixes Nov 8: + Dex Shufflewick. 68 list characters plus the eleven the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well; Batch 11: Hesper, the Exit Clerk, Gary, Tarragon, Billie Muckfoot, Sorrel, the Secret Dealer)")
 	var entry: NpcRegistry.Entry = NpcRegistry.find("NPC-ELDER")
 	assert_not_null(entry)
 	assert_eq(entry.name, "Elder Maren")
@@ -37,7 +37,8 @@ func test_speakers_resolve_by_name_alias_and_prefix() -> void:
 	assert_eq(NpcRegistry.resolve_speaker("A Secret Dealer"), "NPC-DEALER", "an extra alias")
 	assert_eq(NpcRegistry.resolve_speaker("Gate Guard"), "", "an NPC with no list match has no portrait")
 	assert_eq(NpcRegistry.resolve_speaker(""), "")
-	assert_eq(NpcRegistry.resolve_speaker("The Restless Cairn"), "")
+	assert_eq(NpcRegistry.resolve_speaker("The Restless Cairn"), "NPC-CAIRN")  # Batch 16: it has a portrait
+	assert_eq(NpcRegistry.resolve_speaker("The Store Room Ghosts"), "")
 
 
 func test_story_speakers() -> void:

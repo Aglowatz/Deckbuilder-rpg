@@ -64,7 +64,7 @@ func test_an_npc_with_no_portrait_shows_the_plain_box() -> void:
 	var panel: PanelContainer = box.get("_panel") as PanelContainer
 	assert_eq(panel.position.x, 410.0, "the plain box keeps its old position and width")
 	assert_eq(panel.size.x, 1100.0)
-	box.start("The Restless Cairn", ["It is counting."] as Array[String])
+	box.start("The Store Room Ghosts", ["It is counting."] as Array[String])  # Batch 16: the Cairn has a portrait now
 	assert_eq(box.npc_id, "")
 
 

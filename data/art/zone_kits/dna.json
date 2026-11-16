@@ -585,6 +585,64 @@
 			"use": "Plants (used sparingly)",
 			"zone": "dna"
 		},
+		"DNA-PROP-CABINET-TIPPED": {
+			"aspect": 1.604,
+			"asset": "Tipped filing cabinet",
+			"category": "Prop",
+			"cleared_alpha": 5545,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				768,
+				512
+			],
+			"group": "prop",
+			"id": "DNA-PROP-CABINET-TIPPED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				730,
+				455
+			],
+			"sheet_status": "Approved",
+			"size": "768x512 PNG, transparent",
+			"slot": "prop.dna-prop-cabinet-tipped",
+			"tinted": false,
+			"use": "The wasteland outside the D.N.A.",
+			"zone": "dna"
+		},
+		"DNA-PROP-CRATES": {
+			"aspect": 1.062,
+			"asset": "Archive crates",
+			"category": "Prop",
+			"cleared_alpha": 4477,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "DNA-PROP-CRATES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				426,
+				401
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.dna-prop-crates",
+			"tinted": false,
+			"use": "The wasteland outside the D.N.A.",
+			"zone": "dna"
+		},
 		"DNA-PROP-DESK": {
 			"aspect": 1.255,
 			"asset": "Office desk",

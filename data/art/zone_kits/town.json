@@ -3,14 +3,14 @@
 	"density": 400.0,
 	"items": {
 		"DEC-PLINTH-BEEF": {
-			"aspect": 0.706,
+			"aspect": 0.647,
 			"asset": "Fountain plinth statue (Beefcake)",
 			"category": "Plinth statue",
-			"cleared_alpha": 20480,
+			"cleared_alpha": 6050,
 			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
 			"from_px": [
-				1024,
-				1024
+				768,
+				1088
 			],
 			"group": "prop",
 			"id": "DEC-PLINTH-BEEF",
@@ -21,8 +21,8 @@
 			],
 			"priority": "2",
 			"px": [
-				710,
-				1006
+				695,
+				1074
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -32,14 +32,14 @@
 			"zone": "town"
 		},
 		"DEC-PLINTH-GOUR": {
-			"aspect": 0.682,
+			"aspect": 0.649,
 			"asset": "Fountain plinth statue (Gourmand)",
 			"category": "Plinth statue",
-			"cleared_alpha": 25842,
+			"cleared_alpha": 6230,
 			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
 			"from_px": [
-				1024,
-				1024
+				768,
+				1088
 			],
 			"group": "prop",
 			"id": "DEC-PLINTH-GOUR",
@@ -50,8 +50,8 @@
 			],
 			"priority": "2",
 			"px": [
-				687,
-				1008
+				697,
+				1074
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -61,14 +61,14 @@
 			"zone": "town"
 		},
 		"DEC-PLINTH-NECRO": {
-			"aspect": 0.68,
+			"aspect": 0.645,
 			"asset": "Fountain plinth statue (Necrocrat)",
 			"category": "Plinth statue",
-			"cleared_alpha": 13986,
+			"cleared_alpha": 76052,
 			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
 			"from_px": [
-				1024,
-				1024
+				768,
+				1088
 			],
 			"group": "prop",
 			"id": "DEC-PLINTH-NECRO",
@@ -79,8 +79,8 @@
 			],
 			"priority": "2",
 			"px": [
-				679,
-				999
+				697,
+				1080
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -90,14 +90,14 @@
 			"zone": "town"
 		},
 		"DEC-PLINTH-REF": {
-			"aspect": 0.687,
+			"aspect": 0.648,
 			"asset": "Fountain plinth statue (Refusemancer)",
 			"category": "Plinth statue",
-			"cleared_alpha": 13334,
+			"cleared_alpha": 4868,
 			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
 			"from_px": [
-				1024,
-				1024
+				768,
+				1088
 			],
 			"group": "prop",
 			"id": "DEC-PLINTH-REF",
@@ -108,8 +108,8 @@
 			],
 			"priority": "2",
 			"px": [
-				695,
-				1011
+				698,
+				1077
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -234,6 +234,93 @@
 			"use": "The square",
 			"zone": "town"
 		},
+		"TOWN-PROP-SHORE-STONES-01": {
+			"aspect": 1.504,
+			"asset": "Shore stones (one large stone, two pebbles)",
+			"category": "Prop",
+			"cleared_alpha": 2814,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				512,
+				384
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-SHORE-STONES-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				397,
+				264
+			],
+			"sheet_status": "Approved",
+			"size": "512x384 PNG, transparent",
+			"slot": "prop.town-prop-shore-stones-01",
+			"tinted": false,
+			"use": "The lake bank of Crosspath",
+			"zone": "town"
+		},
+		"TOWN-PROP-SHORE-STONES-02": {
+			"aspect": 3.522,
+			"asset": "Shore stones (three medium stones)",
+			"category": "Prop",
+			"cleared_alpha": 3149,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				512,
+				384
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-SHORE-STONES-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				472,
+				134
+			],
+			"sheet_status": "Approved",
+			"size": "512x384 PNG, transparent",
+			"slot": "prop.town-prop-shore-stones-02",
+			"tinted": false,
+			"use": "The lake bank of Crosspath",
+			"zone": "town"
+		},
+		"TOWN-PROP-SHORE-STONES-03": {
+			"aspect": 1.132,
+			"asset": "Shore stones (a low flat stone)",
+			"category": "Prop",
+			"cleared_alpha": 5837,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				512,
+				384
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-SHORE-STONES-03",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				368,
+				325
+			],
+			"sheet_status": "Approved",
+			"size": "512x384 PNG, transparent",
+			"slot": "prop.town-prop-shore-stones-03",
+			"tinted": false,
+			"use": "The lake bank of Crosspath",
+			"zone": "town"
+		},
 		"TOWN-SHEET-FREED-BANNERS": {
 			"asset": "Freed-zone banners",
 			"category": "Cutout sheet",
@@ -266,204 +353,222 @@
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-01": {
-			"aspect": 1.029,
-			"asset": "Freed-zone banners 1",
+			"aspect": 1.014,
+			"asset": "Freed-zone banner: Beefcake",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2458,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 5885,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				601,
-				584
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				601,
-				584
+				640,
+				631
 			],
 			"sheet_cell": [
-				68,
-				71,
-				601,
-				584
+				68.0,
+				71.0,
+				601.0,
+				584.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-01",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-02": {
-			"aspect": 1.024,
-			"asset": "Freed-zone banners 2",
+			"aspect": 1.009,
+			"asset": "Freed-zone banner: Gourmand",
 			"category": "Cutout sheet",
-			"cleared_alpha": 3090,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 6005,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				598,
-				584
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				598,
-				584
+				640,
+				634
 			],
 			"sheet_cell": [
-				725,
-				71,
-				598,
-				584
+				725.0,
+				71.0,
+				598.0,
+				584.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-02",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-03": {
-			"aspect": 1.024,
-			"asset": "Freed-zone banners 3",
+			"aspect": 1.013,
+			"asset": "Freed-zone banner: Necrocrat",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2790,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 7922,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				599,
-				585
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				599,
-				585
+				640,
+				632
 			],
 			"sheet_cell": [
-				1380,
-				71,
-				599,
-				585
+				1380.0,
+				71.0,
+				599.0,
+				585.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-03",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-04": {
-			"aspect": 1.02,
-			"asset": "Freed-zone banners 4",
+			"aspect": 1.011,
+			"asset": "Freed-zone banner: Refusemancer",
 			"category": "Cutout sheet",
-			"cleared_alpha": 3363,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 6147,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				601,
-				589
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				601,
-				589
+				640,
+				633
 			],
 			"sheet_cell": [
-				68,
-				710,
-				601,
-				589
+				68.0,
+				710.0,
+				601.0,
+				589.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-04",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-05": {
-			"aspect": 1.021,
-			"asset": "Freed-zone banners 5",
+			"aspect": 1.002,
+			"asset": "Freed-zone banner: four Paths (ring)",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2913,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 5320,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				597,
-				585
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				597,
-				585
+				640,
+				639
 			],
 			"sheet_cell": [
-				726,
-				711,
-				597,
-				585
+				726.0,
+				711.0,
+				597.0,
+				585.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-05",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
 			"zone": "town"
 		},
 		"TOWN-SHEET-FREED-BANNERS-06": {
-			"aspect": 1.02,
-			"asset": "Freed-zone banners 6",
+			"aspect": 1.0,
+			"asset": "Freed-zone banner: four Paths (ring, second)",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2784,
-			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"cleared_alpha": 5201,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
 			"from_px": [
-				598,
-				586
+				640,
+				640
 			],
 			"group": "banner",
 			"id": "TOWN-SHEET-FREED-BANNERS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "TOWN-SHEET-FREED-BANNERS",
 			"pivot": [
 				0.5,
 				0.03
 			],
+			"priority": "2",
 			"px": [
-				598,
-				586
+				640,
+				640
 			],
 			"sheet_cell": [
-				1380,
-				711,
-				598,
-				586
+				1380.0,
+				711.0,
+				598.0,
+				586.0
 			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
 			"slot": "banner.town-sheet-freed-banners-06",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",

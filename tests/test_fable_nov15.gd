@@ -248,6 +248,10 @@ func test_pack_medallions_carry_the_canonical_path_icon_inside_the_ring() -> voi
 				continue
 			assert_false(PackArt.art_id_for(pack).is_empty(), "%s has its painted wrapper" % pack.display_name)
 			var face: Control = _pack_face(pack)
+			if PackArt.PAINTED_MEDALLIONS.has(PackArt.art_id_for(pack)):
+				# Batch 16 (Nov 16): the new painting carries the canonical icon itself; nothing is drawn over it
+				assert_null(face.get_node_or_null("PathMedallion"), "%s: its painted medallion shows, no icon over it" % pack.display_name)
+				continue
 			var medallion: TextureRect = face.get_node_or_null("PathMedallion") as TextureRect
 			assert_not_null(medallion, "%s shows its Path's icon" % pack.display_name)
 			if medallion == null:

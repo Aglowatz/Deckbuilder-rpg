@@ -61,10 +61,10 @@
 			"zone": "final"
 		},
 		"CAP-BANNER-FREED-03": {
-			"aspect": 0.614,
+			"aspect": 0.5,
 			"asset": "Freed banner: the Dump",
 			"category": "Prop",
-			"cleared_alpha": 3368,
+			"cleared_alpha": 3033,
 			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
 			"from_px": [
 				384,
@@ -79,8 +79,8 @@
 			],
 			"priority": "2",
 			"px": [
-				380,
-				619
+				382,
+				764
 			],
 			"sheet_status": "Approved",
 			"size": "384x768 PNG, transparent",
@@ -90,10 +90,10 @@
 			"zone": "final"
 		},
 		"CAP-BANNER-FREED-04": {
-			"aspect": 0.613,
+			"aspect": 0.496,
 			"asset": "Freed banner: the D.N.A.",
 			"category": "Prop",
-			"cleared_alpha": 2601,
+			"cleared_alpha": 2952,
 			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
 			"from_px": [
 				384,
@@ -108,8 +108,8 @@
 			],
 			"priority": "2",
 			"px": [
-				380,
-				620
+				381,
+				768
 			],
 			"sheet_status": "Approved",
 			"size": "384x768 PNG, transparent",
@@ -803,6 +803,93 @@
 			"slot": "prop.cap-prop-campfire",
 			"tinted": false,
 			"use": "Resistance camp",
+			"zone": "final"
+		},
+		"CAP-PROP-CREASE-CRATES": {
+			"aspect": 1.062,
+			"asset": "Crease crates",
+			"category": "Prop",
+			"cleared_alpha": 2952,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "CAP-PROP-CREASE-CRATES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				446,
+				420
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.cap-prop-crease-crates",
+			"tinted": false,
+			"use": "The Crease market",
+			"zone": "final"
+		},
+		"CAP-PROP-CREASE-STALL-01": {
+			"aspect": 0.966,
+			"asset": "Crease stall (Fig Sly, plum awning)",
+			"category": "Prop",
+			"cleared_alpha": 8385,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				768,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-PROP-CREASE-STALL-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				706,
+				731
+			],
+			"sheet_status": "Approved",
+			"size": "768x768 PNG, transparent",
+			"slot": "prop.cap-prop-crease-stall-01",
+			"tinted": false,
+			"use": "The Crease market",
+			"zone": "final"
+		},
+		"CAP-PROP-CREASE-STALL-02": {
+			"aspect": 0.957,
+			"asset": "Crease stall (supplies, green awning)",
+			"category": "Prop",
+			"cleared_alpha": 6102,
+			"desc": "See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",
+			"from_px": [
+				768,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-PROP-CREASE-STALL-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				705,
+				737
+			],
+			"sheet_status": "Approved",
+			"size": "768x768 PNG, transparent",
+			"slot": "prop.cap-prop-crease-stall-02",
+			"tinted": false,
+			"use": "The Crease market",
 			"zone": "final"
 		},
 		"CAP-PROP-GOLD-URN": {

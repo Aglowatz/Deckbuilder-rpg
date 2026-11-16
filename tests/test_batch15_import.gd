@@ -47,13 +47,19 @@ func test_elowen_walks_in_five_directions_and_the_disguise_borrows_her_walk() ->
 			assert_true(ResourceLoader.exists("res://assets/art/world_test/sprites/ELOWEN/%s_WALK%d_n.png" % [dir_name, frame]), "its normal map")
 	var walker: Dictionary = SpriteLibrary.info("TOWNSFOLK_A")
 	assert_eq(float(info["fig_h"]), float(walker["fig_h"]), "the same figure scale as the walkers and her own idle")
-	# the disguise set has no walk: a disguised Rescuer gets Elowen's set when she walks off
+	# Batch 16 (Nov 16): the disguise has its own masked walk (SPR-RESCUER-*_WALK), built like Elowen's; she no longer borrows Elowen's set
+	var rescuer: Dictionary = SpriteLibrary.info(RescuerDisguise.SPRITE)
+	assert_eq((rescuer["walk_dirs"] as Array).size(), 5, "the Rescuer walks in five directions of her own")
+	assert_eq(float(rescuer["fig_h"]), float(info["fig_h"]), "at Elowen's figure scale")
+	for dir_name: String in ["FRONT", "FRONTSIDE", "SIDE", "BACKSIDE", "BACK"]:
+		for frame: int in range(1, 5):
+			assert_true((rescuer["frames"] as Array).has("%s_WALK%d" % [dir_name, frame]), "Rescuer %s walk frame %d" % [dir_name, frame])
+			assert_true(ResourceLoader.exists("res://assets/art/world_test/sprites/RESCUER/%s_WALK%d_n.png" % [dir_name, frame]), "its normal map")
 	var actor: SpriteActor = NpcSprites.make_actor(RescuerDisguise.SPRITE)
 	add_child_autofree(actor)
-	assert_true(actor.sprite.walk_dirs().is_empty(), "the disguise has no walk frames of its own")
-	assert_true(NpcSprites.use_walk_set(actor))
 	assert_eq(actor.sprite.walk_dirs().size(), 5)
-	assert_false(NpcSprites.use_walk_set(actor), "a set that can walk is left alone")
+	assert_false(NpcSprites.use_walk_set(actor), "a set that can walk is left alone: she stays masked")
+	assert_eq(actor.character, RescuerDisguise.SPRITE)
 
 
 func test_a_moving_elowen_plays_her_walk_and_idles_when_she_stops() -> void:

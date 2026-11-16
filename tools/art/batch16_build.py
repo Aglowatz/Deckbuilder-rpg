@@ -161,7 +161,7 @@ def main():
             if drive:
                 Image.open(ref).convert("RGBA").save(os.path.join(DRIVE, name))
                 copied += 1
-        rows.append([idn, where, current, problem, needed, targets, game_file, size, fmt, "To make (Batch 16)", "; ".join(refs) + "  ->  " + ", ".join(names), score])
+        rows.append([idn, where, current, problem, needed, targets, game_file, size, fmt, "In game", "; ".join(refs) + "  ->  " + ", ".join(names), score])
     with open("docs/art/batch16_nov14.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, quoting=csv.QUOTE_ALL)
         w.writerow(HEAD)

@@ -35,6 +35,7 @@
 		"dungeon.dg_s_necro_boss": "NPC-BETTY",
 		"dungeon.dg_s_ref_boss": "NPC-RACCOONKING",
 		"dungeon.dg_s_cap_boss": "NPC-SCUFF",
+		"dungeon.dg_s_iron_boss": "NPC-QUADZILLA",
 		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
 		"dungeon.dg_lab_boss": "NPC-SIPHON",
 		"dungeon.dg_lab_rescue": "NPC-ELOWEN",
@@ -50,7 +51,27 @@
 			"portrait_id": "NPC-SCUFF",
 			"species": "",
 			"species_type": "Human",
-			"notes": "Fable Nov 14 (1.1): one of Captain Spotless's officers, sent below to sweep the tunnels. No portrait of his own yet (Batch 16): the dialogue box shows the Correction Officer's talk frame (Portraits.STAND_INS) and the Bestiary shows BST-CORRECTION-OFFICER."
+			"notes": "Fable Nov 14 (1.1): one of Captain Spotless's officers, sent below to sweep the tunnels. Batch 16 (Nov 16): his own portrait NPC-SCUFF, cut-out CUT-SCUFF and Bestiary square BST-ENFORCER-SERGEANT-SCUFF."
+		},
+		{
+			"id": "NPC-QUADZILLA",
+			"name": "Baron Quadzilla",
+			"role": "The Leg Press Lord (boss of the Iron Cave)",
+			"location": "The Iron Cave (S-IRON)",
+			"portrait_id": "NPC-QUADZILLA",
+			"species": "Toad",
+			"species_type": "Animal",
+			"notes": "Batch 16 (Nov 16): a dialogue portrait for his opening and closing lines (he had a name plate only)."
+		},
+		{
+			"id": "NPC-CAIRN",
+			"name": "The Restless Cairn",
+			"role": "The Graveyard's scripted battle",
+			"location": "Crosspath, the Graveyard",
+			"portrait_id": "NPC-CAIRN",
+			"species": "",
+			"species_type": "Object",
+			"notes": "Batch 16 (Nov 16): a dialogue portrait for its lines before and after the fight (it had a name plate only)."
 		},
 		{
 			"id": "NPC-TOWNSFOLK",

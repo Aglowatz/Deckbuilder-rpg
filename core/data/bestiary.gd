@@ -103,12 +103,14 @@ static func art(entry_name: String) -> Texture2D:
 const ART_CACHE_GROUP: StringName = &"bestiary"
 
 
-## Fable Nov 14 (1.1): entrance cut-outs asked for and not painted yet (Batch 16); their intro shows the Bestiary square meanwhile.
-const CUTOUTS_AWAITING_ART: Array[String] = ["CUT-SCUFF"]
+## Entrance cut-outs not painted yet.
+## Batch 16 (Nov 16): CUT-SCUFF is in. Baron Quadzilla has a dialogue portrait now (NPC-QUADZILLA), which makes him a speaking boss with
+## no cut-out of his own: his intro slides the portrait in (the seated figure, transparent) until a CUT-QUADZILLA is painted.
+const CUTOUTS_AWAITING_ART: Array[String] = ["CUT-QUADZILLA"]
 
 
 ## Fable Nov 14 (1.1): entries that borrow another entry's picture until their own is painted (Batch 16: BST-ENFORCER-SERGEANT-SCUFF).
-const ART_STAND_INS: Dictionary = {"Enforcer Sergeant Scuff": "BST-CORRECTION-OFFICER"}
+const ART_STAND_INS: Dictionary = {}  # Batch 16 (Nov 16): BST-ENFORCER-SERGEANT-SCUFF is in
 
 
 static func _load_art(id: String, entry_name: String) -> Texture2D:

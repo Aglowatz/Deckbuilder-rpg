@@ -96,8 +96,8 @@ static func rescuer_key() -> String:
 
 ## Batch 15 (Elowen's walk): a painted figure walks off by `offset` over `seconds`, fading out over the last `fade_seconds`, then `then` runs (the caller frees it).
 ## The walk frames, their direction (from the path against the camera), the mirroring and the frame rate are the sprite's own (WorldSprite follows the node's
-## movement); a figure that stops plays its idle again. The Rescuer's disguise set has no walk of its own, so she walks in Elowen's frames (hooded, seen from behind
-## on her usual paths) and gets her own set back if she is still there afterwards.
+## movement); a figure that stops plays its idle again. Batch 16 (Nov 16): the Rescuer's disguise set has its own masked walk (SPR-RESCUER-*_WALK), so she
+## walks away as herself; only a set with no walk frames at all still borrows Elowen's (`use_walk_set`).
 static func walk_off(owner: Node, npc: Node3D, offset: Vector3, seconds: float, fade_seconds: float, then: Callable = Callable()) -> Tween:
 	use_walk_set(npc)
 	var tween: Tween = owner.create_tween().set_parallel(true)

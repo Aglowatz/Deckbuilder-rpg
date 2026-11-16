@@ -9,8 +9,8 @@ const GROUP_ORDER: Array[String] = ["Story", "Zones", "Side dungeons", "Challeng
 ## Trigger kinds the tracker understands (the test checks every feat uses one).
 const KINDS: Array[String] = ["flag", "flags", "zones", "counter", "collection", "dungeon", "snapshot", "quest", "battle", "moment"]
 
-## Fable Nov 14 (Part 4): the four one-Path groups show their own canonical Path icon (PathIcons); ICON-FEAT-PATHS (a dumbbell, a leaf, a
-## ladle and a stamp: not the Path icons) is no longer used and waits for its Batch 16 redo.
+## Fable Nov 14 (Part 4): the four one-Path groups show their own canonical Path icon (PathIcons). Batch 16 (Nov 16): ICON-FEAT-PATHS was
+## repainted with the four Path icons and is the badge over the four one-Path groups (`PATHS_BADGE`, the "Path feats" heading).
 ## Art import Oct 29: the feat icon of each group (ICON-FEAT-*, eight pictures for ten groups: the four one-Path groups share PATHS);
 ## an unearned hidden feat shows SECRET.
 const GROUP_ICONS: Dictionary = {
@@ -26,6 +26,10 @@ const GROUP_ICONS: Dictionary = {
 	"Dual Path": "ICON-FEAT-MIXED",
 }
 const SECRET_ICON: String = "ICON-FEAT-SECRET"
+## The badge shown once, over the four one-Path groups (the first of `PATH_GROUPS` in GROUP_ORDER).
+const PATHS_BADGE: String = "ICON-FEAT-PATHS"
+const PATHS_HEADING: String = "Path feats"
+const PATH_GROUPS: Array[String] = ["Beefcake", "Gourmand", "Necrocrat", "Refusemancer"]
 
 
 static func group_icon(group: String) -> String:
