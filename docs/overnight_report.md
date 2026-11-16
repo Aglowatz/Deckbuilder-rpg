@@ -1,3 +1,173 @@
+# Overnight Nov 15-16 - report: Batch 16, the open items, save safety, fresh eyes, Batch 17, 1.0.0
+
+Brief: `docs/prompts/fable_nov16_overnight.md`. Start tag `pre-overnight-nov16`. Questions: `docs/overnight_inbox.md`, "Overnight Nov
+16" (16 items). Shots: `docs/overnight_shots/nov16/`. No public upload. No difficulty setting, no battle-board change, Primm's fight
+untouched, no approved art repainted. Ran on Fable 5.2. The Fable Nov 15b report follows below.
+
+## In short
+
+- **Batch 16 is in the game: all 46 pictures**, each wired, shot and checked against the Path icon guide. **Fig Sly has two hands**
+  in his shop and in his dialogue.
+- **The open items:** five of the nine needed work and four of those are done (the Dump's fair stage, the Dump's south corners, the
+  minimap, Crosspath's south edge). **The Capital's load time is not improved** (see Part 2). The other four were done already.
+- **A test run can no longer write your saves.** It is blocked under every file call of the save system and checked from outside
+  on every run.
+- **Four fresh-eyes sittings** on the exported build: first hour 6 / 6 / 7, midgame 7 / 6 / 7, late game 5 / 6 / 6, and a fourth for
+  what those three missed, 7 / 7 / 6 (clarity / fun / polish). 19 findings fixed, the rest triaged and logged.
+- **Batch 17 is prepared:** 14 items, 38 pictures.
+- **Tests:** all 40 shards after the last change of the night: **3151 of 3153 passed, 0 failing**, 2 risky (the two old no-assert tests).
+- **The zip:** `C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v1.0.0-windows.zip`, 783,638,031 bytes (784 MB), built Nov 16 04:21.
+  The exported smoke prints PASSED (1.0.0); the three exported play checks ran to "done" with 0 script errors. Not uploaded.
+
+## What you must still do before uploading
+
+1. **Play the first ten minutes of the zip yourself**, and one fight. The checks cover the title, the menus, a new game and a save;
+   they are not a playthrough.
+2. **Look at five things I changed where taste matters:** Crosspath's south edge (tree crowns in the ravine), the Dump's two south
+   corners (the camera holds in and the hero stands off-centre), the minimap and the full map (drawn differently), the Feats page's
+   new "Path feats" heading, and Fig Sly's changed price line (inbox 9).
+3. **Read inbox items 9 to 14.** They are the choices only you can make: five story lines critics flagged, the smiling-sun banners
+   still on the freed Capital's wall, the ending that nothing tracks after Primm falls, the roofs over Maren's home.
+4. **Use the new logo files** in `docs/release/itch_page/logo/` for the page (cover, banner, icon). The older ITCH-COVER and STEAM-*
+   pictures on the Drive carry the old logo.
+5. **Then the usual:** `docs/release/itch_upload.md`.
+
+Nothing here blocks the upload. The zip's own icon is the new app icon.
+
+## Part 1 - Batch 16 (46 pictures, all in the game)
+
+The full table with every picture, its place, its shot and its check against the icon guide is `docs/art/import_nov16_batch16.md`.
+
+| Pictures | In the game as | Shot (`docs/overnight_shots/nov16/b16_...`) |
+|---|---|---|
+| V-FIGSLY | Fig Sly's shop portrait and dialogue portrait. **Two hands** (one on the lapel, one at his side); a critic counted two as well | `figsly_shop`, `dlg_npc_V-FIGSLY` |
+| STORY-MEMORY-3, -4, STORY-REUNION, STORY-EPI-FILE-COMPLETE | Their story scenes. The crest reads arm, chef's hat, leaf, skull clockwise from the top; each banner carries one icon | `still_STORY-*_1600x900` |
+| NPC-SCUFF, CUT-SCUFF, BST-ENFORCER-SERGEANT-SCUFF | Sergeant Scuff's portrait, boss cut-out and Bestiary square. The Correction Officer stand-ins are gone | `dlg_npc_NPC-SCUFF`, `bestiary_scuff` |
+| UI-CARDBACK-B, -N | The Beefcake and Necrocrat card backs | `battle_backs` |
+| ICON-FEAT-PATHS | A "Path feats" heading on the Feats page, above the four one-Path groups (inbox 1) | `feats` |
+| DEC-PLINTH-* (4) | The four plinth statues round Crosspath's fountain | `town_square_freed` |
+| TOWN-SHEET-FREED-BANNERS-01..06 | 01 to 04 one per freed zone; **05 and 06 hang for the first time**, once all four zones are free (inbox 2) | `town_square_freed` |
+| CAP-BANNER-FREED-03, -04 | The freed Capital's Refusemancer and Necrocrat banners | (same places as the Batch 15 shots) |
+| LOGO-EMBLEM, LOGO-WORDMARK, APP-ICON | The title, loading and pause screens, the credits, the window icon, the **Windows export icon** (`assets/icon/app_icon.ico`), the itch page kit | `title`, `credits` |
+| TOWN-PROP-SHORE-STONES-01..03 | Crosspath's lake bank, in place of the modelled stones | `lakeshore` |
+| CAP-PROP-CREASE-STALL-01, -02, -CRATES | The Crease market: Fig Sly in front of stall 01, the supply stall beside it, five crate stacks | `crease_market` |
+| SPR-RESCUER-*_WALK (5) | The Rescuer walks away in her own masked frames (mirrored, normal maps, Elowen's scale) | `rescuer_walk` |
+| NPC-QUADZILLA, NPC-CAIRN | Baron Quadzilla's and the Restless Cairn's lines | `dlg_npc_NPC-QUADZILLA`, `dlg_npc_NPC-CAIRN` |
+| DNA-PROP-CRATES, DNA-PROP-CABINET-TIPPED | The debris outside the D.N.A. | `dna_debris` |
+| UI-PACK-GILDED-G / -N / -R, UI-PACK-N, UI-PACK-R | Their packs. The code-drawn icon is off for these five: the paintings carry the right medallion, whole and centred (inbox 3) | `packs_all` |
+
+**Against the icon guide:** every Path sign in the 46 pictures is the canonical icon. Two notes: the feats badge is a shield, not the
+hexagon asked for; the gilded packs came with painted medallions, not the plain disc asked for. Both are right as painted.
+
+**Size** (`docs/build_size_policy.md`): the zip went from 778.1 MB (Nov 15) to 783.6 MB, **5.6 MB more**. The pack is 860.5 MB, over
+the 750 MB warning as before, on purpose (music at q6). Source art in `assets/`: +6.8 MB.
+
+## Part 2 - the open items
+
+| # | Item | Result | Shots (`p2_...`) |
+|---|---|---|---|
+| 1 | The Dump's fair stage | **Done.** Four plank sorting bins with something sorted in each, painted cloth bunting in two rows, a plank sign board for the icon. No flat blue banner, no flat bins | `fair_stage_before`, `fair_stage_after` |
+| 2 | The Dump's two south corners | **Done.** The Nov 13 fix had left a pale wedge on the default camera. The camera now holds in from the side rims in the Dump's southern 18 m (inbox 5). Low camera was clean | `dump_se_default_before` / `_after`, `dump_sw_default_before` / `_after`, `dump_se_low`, `dump_sw_low` |
+| 3 | The Tidy-Bots' tell | **Done already** (Nov 13: they stop, flash twice and sound an alert) | |
+| 4 | The Crease's east wall | **Done already** (a quarter of the frame when the hero hugs it) | `crease_east` |
+| 5 | The Wanderer's portrait edge | **Done already** (feathered) | |
+| 6 | The Capital's map | **Done already**: district names (they appear as you explore), the Crease as its own inset, labels that do not stack. Tonight the map also writes short names | `capital_map` |
+| 7 | The minimap | **Done.** Drawn by a new shader: crisp edges in the forest, the Capital's stair-steps become slanted lines and rounded corners. The full map uses it too | `minimap_forest_before` / `_after`, `minimap_capital_before` / `_after`, `p4_map_*_after` |
+| 8 | Crosspath's south edge | **Done.** The flat violet band is a wooded ravine: tree crowns rise out of the cleft, their tops under the camera's line to the hero (inbox 6) | `crosspath_south_before` / `_after`, `crosspath_south_low_before` / `_after` |
+| 9 | The Capital's later-visit load | **Not done: about 6 s before and after.** Storing the rim ruins cut their step from 0.45 s to 0.1 s (6.12 s to 6.02 s for the visit), but with them stored the Capital walk smoke could not walk to Rollo; so did storing four landmark models. Both are built live again. The numbers of what is left are in inbox 7 | |
+
+## Part 3 - your saves are safe from test runs
+
+- **How it is blocked.** `SaveGuard` (`core/data/save_guard.gd`) sits under every file call of the save system. In a test run, a path
+  into your save folder becomes the same path under `user://test_saves/` before anything is opened, written, renamed or deleted. It
+  does not matter what a test sets, or which flags the run was started with.
+- **What is protected:** all three campaigns, every slot, the autosave, backups and thumbnails; the old `save.json`; the account's
+  feats; the title screen's memory; and, in a test run, the settings.
+- **The test that fails if a run touches the real folder:** `tests/test_save_guard.gd` tries every old way in on purpose and compares
+  your real files with how they were when the run started.
+- **The check from outside:** `tools/run_tests.sh` lists your real folder before the first shard and after the last, prints `Real
+  saves: untouched (14 files checked)` and fails the run if anything changed.
+- **The exported play runs are covered too.** They used to read your real campaigns (and one check pressed Save Game on them). They
+  now start like a fresh install and save in the test folder (inbox 15).
+- **Documented:** `docs/HANDOFF.md`, section 2b.
+- **The full suite ran three times tonight**, the last time after the last code change.
+
+## Part 4 - fresh eyes on the exported build
+
+Each critic had one brief and nothing else: no repo, no reports. Reports and the full triage: `docs/review/critic_nov16/`.
+
+| Sitting | Clarity | Fun | Polish | Top issues it found |
+|---|---|---|---|---|
+| 1. The first hour | 6 | 6 | 7 | Blurry, blocky maps; a reward card that "joins your deck" and is gone after a loss; one loss restarts the cave; the Dump pennant's single leaf |
+| 2. The midgame | 7 | 6 | 7 | Dex cannot be found; the Refusemancer card back is not the Path icon; pack notices cover the result; "Fifty gold" against 360; the way out of the Buffet square is not shown |
+| 3. The late game | 5 | 6 | 6 | The tunnels' mural and board show a sun, a wave, a sprig and a flame; the freed Capital still flies the smiling sun; nothing tracks the ending after Primm; no map marker for the manhole |
+| 4. What the three missed | 7 | 7 | 6 | On Primm's defeat panel E left the castle; Maren's stick shows the wrong four signs; roofs over Maren's home; memory text over the picture |
+
+**The story checks hold** (sitting 4 read them line by line): Maren's failing eyes, and that she does not know him until the fourth
+memory; bars, never glass; "Tessar" first in the fourth memory, with the name plate changing then. **The icons hold** on every crest,
+pack, banner and logo the critics saw. Wrong signs were found only in older art: the tunnels' map and board, three card backs,
+Maren's stick, a Dump pennant. All are Batch 17 rows.
+
+**Fixed (19):**
+
+- Cards won in a lost first cave stay in the deck (inbox 10).
+- C, B, P and T close the page they open.
+- On Primm's defeat panel the key presses the lit button, "Fight Primm again". It always left the castle.
+- The full map is crisp and writes short names. Dex is on every zone's map and list. The manhole to the Crease stays on the map.
+- The Dump's entrance pennants are the paw print, not a single leaf.
+- The pack result drops the notices that covered it; NEW! sits above the card; "at its copy cap" replaces "you own 4".
+- "Plated Just So" has its own icon; Fig's price line; the item subtitle; the clear bonus line; "Guarded gate" for "Golem gate".
+- No forest banner under the cave-loss notice. The Well takes its own icon as soon as Batch 17 brings it.
+
+**Not the game, the test (7):** the Dev Shrine in town, "no marker for Maren", the hero who stopped moving, "Turn 1 on turn 6" and
+three more came from the test pack's debug binary, from debug jumps into states the game cannot reach, or from the scripted player. I
+checked the first three in a normal save. They are marked in the triage.
+
+**Logged, not fixed:** every M and L item, and the S items that are your lines or your rules. The ones worth your time are inbox 11
+to 14. **No sitting reached the credits**; the ending was read up to "File Complete".
+
+## Part 5 - Batch 17 (prepared only)
+
+`docs/art/batch17_nov16.csv`, `docs/prompts/chatgpt_batch17.md`, 67 numbered references in `G:/My Drive/Card Game Art/Batch 17
+References/`. Rebuild with `python tools/art/batch17_build.py`. **14 items, 38 pictures:**
+
+| # | Item | Pictures | Why |
+|---|---|---|---|
+| 1-5 | The five ruler statues in stone, each standing and toppled: Clench, the Grand Chef, Mortimer, Compostella, Primm | 10 | Asked for; they are a grey-tinted flat picture today |
+| 6 | ICON-NODE-WELL | 1 | Critic: the Well's pop-up shows playing cards. The game uses it by itself once imported |
+| 7 | UI-CARDBACK-R, -G, -C | 3 | Critic: not the Path icons (I checked all five backs) |
+| 8 | MAP-S-CAP, BB-S-CAP | 2 | Critic: the tunnels' mural and board show the old four signs |
+| 9 | NPC-ELDER and its two expressions | 3 | Critic: Maren's stick shows a sun, a sprig, a moon and a drop |
+| 10 | Two Dump entrance pennants with the real icon | 2 | Critic: the single leaf (the game hangs paw prints meanwhile) |
+| 11 | The six painted world maps | 6 | Critic, twice: blocky maps. Carried over from Batch 15. The biggest item; it can wait |
+| 12 | CUT-QUADZILLA | 1 | He is a speaking boss now and has no cut-out (inbox 4) |
+| 13 | UI-PACK-G, UI-PACK-GILDED-B | 2 | The last two packs off the guide; the code icon can go once they are in |
+| 14 | The eight echo Bestiary pictures | 8 | Carried over from Batch 15: the only Bestiary pictures missing |
+
+**Still marked REDO: nothing.** The statue poses in the prompt are written from the five cut-outs, which I looked at.
+
+## Part 6 - tests, the build, the release kit
+
+- **Tests:** 40 shards, 3151 of 3153 passed, 0 failing, 2 risky, real saves untouched (14 files checked). Run in full three times; the last run (25 minutes, ended 04:56) came after the last code change. The export was built from that same code. The same two no-assert tests as before are the "risky" ones.
+- **Walk smokes:** the Dump's and Crosspath's pass. The Capital's passes on the final code (it is what caught the two caches).
+- **The export:** free memory stayed under 2.2 GB for the ten-minute wait (1.7 GB), so it ran with the low-memory flag, in the
+  foreground: `EXPORT OK`. Peak 1.65 GB.
+- **Exported smoke:** PASSED (1.0.0). **Three exported play checks:** all ran to "done"; `SCRIPT ERROR` count 0 in all six logs. Check
+  B's save and load steps no longer run (inbox 15).
+- **The itch page kit:** `logo/` (cover 630x500, banner, wordmark, emblem, app icon), `screenshots/nov16/` (six fresh pictures with a
+  README), `page.md` updated. `docs/release/ship_checklist.md`, `v1.0.0_notes.md` and `CHANGELOG.md` updated.
+- **A test build was exported twice during the night** for the critics. Its zip, `builds/TheWaywardPath-v1.0.0-test-nov16-windows.zip`
+  (787 MB), is still there: delete it when you like. It is not the release.
+
+## Not done / still open
+
+- The Capital's load time (Part 2, item 9).
+- The credits were not seen by a critic.
+- The triage's "Logged" rows: about 45, most of them small.
+- One slip of mine, in inbox 16: for 17 minutes I ran the game beside a critic's last runs.
+
+---
+
 # Fable Nov 15b - report: the hour pass (verify, your answers, small fixes)
 
 Brief: `docs/prompts/fable_nov15_hour.md`. Start tag `pre-fable-nov15b`. Questions: `docs/overnight_inbox.md`, "Fable Nov 15b" (7 items).

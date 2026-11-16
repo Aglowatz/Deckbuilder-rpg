@@ -64,7 +64,8 @@ Status: **done** (in the game), **done tonight** (added Nov 8-9), **todo** (with
 | AI disclosure text | done tonight (`ai_disclosure.md`) |
 | System requirements (measured) | see `page.md` (measured tonight from the soak and the perf logs) |
 | 8-10 screenshots at 1920x1080 | see `screenshots/` (captured tonight) |
-| Cover image recommendation | `page.md` (from the existing key art) |
+| Cover image, banner, logo, app icon | **done Nov 16**: ready-made files in `logo/` with the new logo (the four Path icons); `page.md` says which is which. The older ITCH-COVER and STEAM-* pictures on the Drive carry the old logo: do not use them |
+| Fresh screenshots of the improved areas | **done Nov 16**: `screenshots/nov16/` (see its README) |
 
 ## Bigger missing items (not done tonight)
 

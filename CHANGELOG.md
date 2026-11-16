@@ -2,6 +2,14 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 16, Batch 16 art (46 pictures): Fig Sly with two hands; Sergeant Scuff's own portrait, cut-out and Bestiary picture; portraits
+  for Baron Quadzilla and the Restless Cairn; the Rescuer's masked walk; the four Path icons on the logo, the app icon, two card
+  backs, five packs, four story pictures, Crosspath's plinth statues and freed banners and the freed Capital's banners; painted shore
+  stones, the Crease's market, the D.N.A.'s debris.
+- Nov 16: the minimap and the full map are drawn crisply and the map writes short names; Dex and the manhole to the Crease have
+  map markers; the Dump's fair stage is dressed from its kit and its south corners are clean; Crosspath's south edge is a wooded
+  ravine; cards won in a lost first cave stay in the deck; a page's own key closes it; the key on Primm's defeat panel presses "Fight
+  Primm again"; a test run can no longer write the player's saves.
 - The writing: 1,245 lines rewritten (the main story, the core cast, side content, passing lines) and 66 loading tips; one voice and
   one endearment per character; Bertram Beetsworth clipped again; Elder Maren gives her name in her welcome at the cave mouth.
 - Batch 15 art (39 pictures): painted Capital windows (lit in the freed city), Primm's easel portraits, rubble rows on the Capital's

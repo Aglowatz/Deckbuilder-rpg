@@ -23,14 +23,39 @@ Brief: `docs/prompts/fable_nov16_overnight.md`. Report: top of `docs/overnight_r
    now keeps up to 17 m off the east and west rims (the Crease's rule). Low camera: it was already clean.
 6. **Crosspath's south edge is a wooded ravine.** Tree crowns stand in the cleft (three rows, their tops under the camera's line to
    the hero), the dark sheet lies under them. The thin pale line of the rock lip between the hedge and the crowns is still there.
-7. **The Capital's later visit is 6.0 s, not much better than 6.1 s.** Only the rim ruins could be stored safely (453 ms to 95 ms).
-   Storing the landmark models as well broke the walk to Rollo in the Transit Yards (the Capital walk smoke caught it), so they are
-   built live again. What is left: buildings 0.63 s, props 0.6 s, the castle and landmarks 0.4 s, the first frames 0.85 s, the
-   dressing 0.4 s, fades 0.7 s. A real cut needs each piece stored together with its state; that is a day's careful work, not a
-   night's.
+7. **The Capital's later visit is still about 6 s: not improved.** I stored two pieces between visits (the rim ruins, then four
+   landmark models). The ruins step fell from 0.45 s to 0.1 s, but with either piece stored the Capital walk smoke could no longer
+   walk to Rollo in the Transit Yards, every time; built live it passes, every time. I did not find why, so both are built live again
+   and the Capital is exactly as it was. What a later visit spends: buildings 0.63 s, props 0.6 s, the castle and landmarks 0.45 s,
+   the ruins 0.45 s, the first frames 0.85 s, the dressing 0.4 s, fades 0.7 s. A real cut is a day's careful work with the walk smoke
+   run after each piece.
 8. **Already done before tonight, checked again:** the Tidy-Bots' wind-up tell (Nov 13), the Crease's east wall (a quarter of the
    frame), the Wanderer's feathered portrait edge, the Capital map's district names, Crease inset and unstacked labels (the names
    show as each district is explored).
+
+9. **Fig Sly's line about the price is changed.** He said "Gilded Packs? Never heard of them. Fifty gold. Don't tell Primm." and
+   every Gilded pack costs 360 (a critic's find). It reads "Price is on the wrapper." now (`data/vendors/vendor_lines.json`). It is
+   your line: say what it should be.
+10. **Cards won in a lost first cave stay in the deck.** The reward screen says "joins your deck", and after a loss the card was only
+    in the collection. A new player's second try now starts with what the first one won. Say if a loss should cost them.
+11. **Lines a critic flagged that I did not touch (they are yours):** "Four banners fly from the same pole" over a picture of four
+    poles; Maren's "Come and find me on the square" while she waits at her home; "I still can't see her face" right after a picture
+    that shows the Queen's face; "the same way I have been holding yours" (it reads as if she already knows, one memory early);
+    Fragment 4's "a coat too fine for the cold" against the ragged cloak in the picture.
+12. **The freed Capital still flies the smiling sun** on the outer wall, the gate and Grave Row (Batch 15 changed the avenue and the
+    castle only). A critic read it as a miss. Say if those should come down too: it is a code change, no new art.
+13. **Nothing tracks the ending after Primm falls.** The map marks "Old Hob at Grave Row (the city is gathering)", but the quest
+    tracker already shows the postgame quest. Two critics did not find the ending on foot. A tracked step "Join the gathering at the
+    end of Grave Row" would fix it; I left the quest order alone.
+14. **Roofs between the camera and the hero in Crosspath** were named by three of the four critics (the square, Tilly's yard and,
+    worst, Maren's home, where all four memory talks happen). Not touched tonight: it is the town's camera and fader, and it needs
+    your eye.
+15. **The exported play check B no longer tests Save and Load.** It used the Continue button, which only existed because the run
+    read your real saves. Under the save guard the exported game starts like a fresh install, so those steps find no button. The
+    exported smoke still saves and loads (in the test folder) and passes. The check wants a New Game at its start; not rewritten.
+16. **A slip of mine:** critic 3 wrote its report early and went on playing, and I took the report for the end. For about 17 minutes
+    my own checks ran the game beside its last runs (the house rule is one at a time). Three of its runs loaded 5 s slower; nothing
+    else came of it. I waited for each critic's finish notice after that.
 
 ## Fable Nov 15b - yours to decide (the safest choice was taken)
 

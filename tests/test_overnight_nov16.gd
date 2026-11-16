@@ -78,12 +78,10 @@ func test_crosspath_s_south_cleft_is_wooded() -> void:
 		assert_true(TreeCards.KINDS.has(kind), "%s is a painted tree" % kind)
 
 
-func test_the_capital_s_rim_ruins_are_stored_with_their_lists() -> void:
-	var source: String = FileAccess.get_file_as_string("res://world/capital/capital_rim_ruins.gd")
-	assert_true(source.contains("BuildCache.fetch_node(\"capital_rim_ruins_m_"), "the ruins are stored per density")
-	assert_true(source.contains("KitBatch.merge_static(ruins.root)"), "merged before they are stored, so a later visit does not merge them again")
-	assert_true(source.contains("&\"placed\""), "the lists of what stands where travel with the stored subtree")
-	# the landmark models are built live: stored copies broke the walk to Rollo (the Capital walk smoke)
+func test_the_capital_s_ruins_and_landmarks_are_built_live() -> void:
+	# storing either as a subtree broke the walk to Rollo (the Capital walk smoke); see the notes in both files
+	var ruins: String = FileAccess.get_file_as_string("res://world/capital/capital_rim_ruins.gd")
+	assert_false(ruins.contains("BuildCache.fetch_node("), "the rim ruins are not stored")
 	var builder: String = FileAccess.get_file_as_string("res://world/capital/capital_builder.gd")
 	assert_false(builder.contains("fetch_node(\"capital_landmark"), "no landmark is stored")
 
