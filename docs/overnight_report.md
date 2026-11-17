@@ -1,3 +1,220 @@
+# Fable Nov 16 (evening) - report: your answers, the Dump's entrance and camera, the Buffet's castle, forest and west edge, 1.0.0
+
+Brief: `docs/prompts/fable_nov16_evening.md`. Start tag `pre-fable-nov16c`. Questions: `docs/overnight_inbox.md`, "Fable Nov 16c"
+(26 items). Shots: `docs/overnight_shots/nov16c/`. No public upload. No difficulty setting, the battle board untouched, Primm's fight
+untouched, no new painted art. Ran on Fable 5.2. The Fable Nov 16 (day) report follows below.
+
+## In short
+
+| Part | Done? | What |
+|---|---|---|
+| 1. Your answers | **Done** | The trivia is a card quiz in all four zones. The three puzzles are gone; a chest holds each reward. The seals sit in Path order with a faint icon outline and a tooltip. Eight old screens and their rule code are deleted. |
+| 2. The Dump's entrance | **Done** | The two gate trees, their code and their art are gone. The path runs open to the prompt, the sign and Moss Mulligan. |
+| 3. The Dump's camera | **Done** | The camera follows in both south corners. The cause was last night's own wedge fix. |
+| 4. The Buffet | **Done** | The castle is one gingerbread house. The entrance trees are a low hedge. The river thins into the outer gravy; the black line is gone. Steam, statue and banners fixed. |
+| 5. Verify and build | **Done** | Smokes and all 41 test shards green. 1.0.0 exported; the exported smoke and the three exported play checks pass. |
+
+- **Tests:** all 41 shards ran: **3194 of 3196 passed, 0 failing**, 2 pending; your real saves were not touched (14 files checked).
+- **Smokes:** the Crosspath, Buffet and Dump walk smokes pass. The NPC visibility probe passes (150 checks). A new card games smoke
+  plays each zone's card game, the card quiz and the chest with real clicks: 137 checks, 0 failed.
+- **The zip:** **rebuilt with everything above.** `builds\TheWaywardPath-v1.0.0-windows.zip`, 784,409,895 bytes (749 MB), Nov 16 19:23. Not uploaded anywhere.
+
+## What you must still do
+
+1. **Play the card quiz once in each zone**, with a mouse and with a controller. It is tested by code, by a smoke with real clicks
+   and by screenshots, not by hand.
+2. **Look at both south corners of the Dump** (inbox 13): the rock wall beside them is a grass slope now. That is what lets the camera
+   follow. `p3_after_*`.
+3. **Look at the castle** (inbox 15 to 18): one chimney is left in its roof, and the Dining Hall wings in front of it are unchanged.
+4. **Look at the hedge right of the Buffet's entrance** (inbox 19): it is waist-high, not knee-high.
+5. **The old zone smokes** (`run_fifth` to `run_eighth_brief_final_smoke.sh`) cannot reach their zones from town any more; that was so
+   before this pass. I updated their quiz and chest steps but could not run them. `tools/run_card_games_smoke.sh` covers the same
+   ground from inside each zone. Say if the old four should be repaired or deleted.
+6. **One small thing I saw only after the export:** the quiz's header reads "Card Quiz" in every zone. The per-zone names
+   ("Fitness Theory Exam", "Compliance Re-Certification" ...) are set but not shown. I left the code as the zip has it; it is a
+   two-line fix for the next build (inbox 25).
+
+
+## Part 1 - your answers
+
+### The card quiz (it was the trivia)
+
+| | Shot |
+|---|---|
+| How to play | `c1_quiz_gain_how.png` |
+| A picture question | `c1_quiz_gain_mid.png`, `c1_quiz_dna_mid.png`, `c1_quiz_gain_mid_720.png` |
+| Passed / not passed | `c1_quiz_gain_win.png`, `c1_quiz_gain_lose.png` |
+
+**The rules:**
+
+- **Where:** at the same four teachers (Professor Pump, Professor Pate, Druid Thistlewick, Director Ectomund), in the painted classroom.
+- **Four questions**, about four different real cards of that zone's Path or colourless ones, in a shuffled order:
+  - two show **a cropped piece of a card's art** and ask "Which card is this?" (four card names);
+  - one shows a card's art and name and asks **its cost** (four numbers);
+  - one shows a unit's art and name and asks **its power** (four numbers).
+- The card's face is not shown before the answer (it prints the cost and the power). After each answer the whole card turns up.
+- **Three right answers pass**, as before. The first pass pays the old reward for that score; after it every attempt pays the old
+  small fee; a fail before the first pass pays nothing.
+- The quest flags are the old ones: the D.N.A.'s "Pass Director Ectomund's Compliance quiz" works.
+- It has the How to play screen, the "?" button and the win / lose panels of the other card games. Keys 1 to 4 or the buttons.
+
+The 16 written questions are deleted. 12 teacher and sign lines that said "the answers are on the signs" now say what the quiz asks.
+
+### The chests (they were the three puzzles)
+
+| Zone | Removed puzzle | Chest at the same spot | Holds (once) | Shot |
+|---|---|---|---|---|
+| Gainlands | Power Grid (hamster wheels) | The Grid Crew's Strongbox | Gainsmith's Lifting Belt | `c1_chest_gainlands.png` |
+| Endless Buffet | Mystery Stew Pot | The Stew Cook's Chest | Head Chef's Ladle | `c1_chest_buffet.png` |
+| Verdant Dump | Seed Shrine (garden) | The Gardeners' Chest | Refusemancer Seed Satchel | `c1_chest_dump.png` |
+
+- A save that had solved the puzzle finds the chest open and empty.
+- No quest step needed a puzzle, so no quest changed. The sign at each spot and the gear list's "where from" line are updated.
+- The stew pot model is gone from the Pancake summit (inbox 5).
+
+### The seals
+
+`c1_seals_locked.png`, `c1_seals_locked_close.png`, `c1_seals_2of4.png`, `c1_seals_2of4_close.png`.
+
+- The four seals form a diamond on the cellar doors: arm at the top, chef's hat right, leaf at the bottom, skull left.
+- A locked seal shows a small padlock over a **faint pale outline of its Path's icon**. When it turns, the full icon shows.
+- **Tooltip:** the mouse over a seal says "Gourmand seal: locked" (or "turned"). Standing at the door shows all four lines, for
+  keyboard and controller.
+
+### Deleted, kept
+
+- **Deleted:** `RepGameScreen`, `OrderGameScreen`, `SortGameScreen`, `TubePuzzleScreen`, the three puzzle screens, the trivia screen,
+  and the rule code of all of them. `RepGame`, `OrderGame` and `SortGame` keep only their reward tables.
+- **Kept as they are:** the compact deck-rule lines, the vault's place, the Buffet's north side.
+
+## Part 2 - the Dump's entrance in Crosspath
+
+| | Before | After |
+|---|---|---|
+| Default camera | `p2_entrance_before_default.png` | `p2_entrance_after_default.png` |
+| Low camera | `p2_entrance_before_low.png` | `p2_entrance_after_low.png` |
+| Road still sealed | | `p2_entrance_after_sealed.png` |
+
+- The two gate trees, `HubObstacles.GATE_FROM_SPOT` and the rest of the gate code, and the two cut-out tree pictures are deleted.
+- Three low bushes stand beside the path. No tree stands in the view of the prompt, the sign and Moss Mulligan.
+- The thorns across the forest road until Moss Mulligan is beaten are unchanged.
+- **A fault found on the way and fixed:** in Crosspath every NPC's name floated about 170 px above its figure (in the sky at the Low
+  camera). "Moss Mulligan" in your screenshot hangs over empty grass for this reason. Names, barks and the quest pointer now sit
+  where they belong.
+
+## Part 3 - the Dump's camera in the south corners
+
+**The cause:** last night's fix for the pale corner wedge. It held the camera in from the side rims in the south 18 m of the zone.
+
+| Walking into the south-east corner and out | Before | After |
+|---|---|---|
+| Where the hero stands across the frame (0.50 = the middle) | 0.50 to 0.81 (0.89 at Low) | 0.50 all the way |
+| The camera's distance to the side of the hero | up to 11.8 m | under 1 m |
+| Biggest jump of the hero on screen between two frames | 18.1 px (21.7 px at Low) | 0.8 px (1.6 px at Low) |
+
+The south-west corner measured the same before (the hero at 0.22 of the frame, 0.15 at Low) and is the same after as the south-east.
+
+**The fix:**
+
+- The hold is deleted. The camera follows the hero everywhere in the Dump.
+- The wedge is solved at its cause. The valley's side walls now sink over the last 24 m toward the south and are gone before the
+  corners, so no cliff curves round in front of the camera.
+- A knee-high line of rocks, bushes and mushrooms marks the edge of the walkable ground there.
+- The chest and the lever are in plain view at both cameras.
+
+**Shots** (a walk of five stops, both cameras, before and after): `p3_before_default_se_3_toward_lever.jpg`, `_4_lever`, `_5_chest`,
+`_6_corner`, `_8_out`, and `p3_before_default_sw_4_corner.jpg`; the same names with `after`, and with `low`.
+
+To measure it again: `bash tools/run_heap_corner_camera.sh after 0` (default camera) or `... after 3` (Low).
+
+## Part 4 - the Endless Buffet
+
+### 4.1 The castle
+
+| | Before | After |
+|---|---|---|
+| From the entrance | `p4_before_entrance.jpg`, `_low` | `p4_after_entrance.jpg`, `_low` |
+| From the hub | `p4_before_hub.jpg`, `_low` | `p4_after_hub.jpg`, `_low` |
+| On the road north | `p4_before_road.jpg`, `_low` | `p4_after_road.jpg`, `_low` |
+| At its door | `p4_before_forecourt.jpg`, `_low` | `p4_after_forecourt.jpg`, `_low` |
+
+- **Before:** a kitchen-laboratory. A copper great hall and dome with a chef's hat, two copper tanks, two glass greenhouses, a whisk
+  crane and a ladle crane with hanging loads, seven chimney stacks, four cake towers, oven arches in the wall.
+- **After:** one gingerbread house. A tall biscuit body under one steep pie-crust gable roof, the gable to the front.
+  - Thick white frosting along the eaves (with drips), down the gable's edges (scalloped), along the ridge and down the corners.
+  - Gumdrops in pink, mint, yellow, red and lilac on the ridge, the gable and the walls.
+  - The kit's frosted and candy-cane windows; a round candy-cane window high in the gable.
+  - Candy-cane posts at the door and at the wall's corners. The kit's frosted gingerbread door.
+  - Two towers only: the gate's, under frosting-topped cones.
+- The door, the gate's size, the solid circles and the walk grid are unchanged. Only art the kit already had is used.
+
+### 4.2 The trees by the entrance
+
+`p4_before_entrance.jpg` / `p4_after_entrance.jpg`, `p4_before_hub.jpg` / `p4_after_hub.jpg`.
+
+- 14 of the 18 trees right of the bridge are gone, and the grove of three on the plaza's corner. The hub shows from the entrance.
+- A low hedge stands where the trunks stood, as solid as they were: the walk grid is the same.
+- Four trees stay at the east end, where the stand runs into the east border's forest. That forest is untouched.
+
+### 4.3 The west side
+
+`p4_before_west.jpg` / `p4_after_west.jpg` (and `_low`), and side by side, enlarged: `p4_west_before_after_zoom.png`.
+
+- **The slab and the straight cut:** the river ended a metre past the table's edge. It now runs out 18 m and thins away, and on the
+  west side it widens into a delta. The outer gravy shows through more and more: no edge.
+- **The faint black line:** it was the game's outline pass drawing the shore that lies under the gravy. The shore now runs down to a
+  flat bed, and the outline pass draws nothing under the gravy in the Buffet.
+- **The rest of the edge:** I checked the west, south-west, north-west, east and south sides (`p4_after_west_south`, `_north_west`,
+  `_east`, `_entrance`). The line was there all round; it is gone all round. The east end of the river had the same cut and has the
+  same fix.
+
+### 4.4 The quick checks
+
+| Thing | Was it a fault? | What I did | Shot |
+|---|---|---|---|
+| The grey lady | Half. She is the ruler's stone statue (your Nov 15 request), but she read as a faded picture | Warm, darker stone; moved off the paving, west of the Hearty Meal | `p4_after_statue.jpg` |
+| The steam "discs" | Yes | Every puff is a soft round fading card now, in the whole zone | `p4_after_steam.jpg` |
+| The banner pole on the path | Yes | The ruler's two banners flank the road north at the plaza's far end, off the paving | `p4_after_hub.jpg` |
+
+### FPS (Medium, 1920x1080, this machine)
+
+| Place | Before | After |
+|---|---|---|
+| The castle's door | 71.3 | 71.8 to 72.1 |
+| The hub | 81.0 | 76.1 to 82.4 (four runs; the spread is the machine's) |
+| The entrance bridge | 82.7 | 81.0 to 84.6 |
+| The west shore | not measured | 73.1 |
+
+The castle draws 9 fewer objects than before. The Dump and Crosspath changes add nothing that costs frames.
+
+## Part 5 - verify and build
+
+1. **Smokes** (each run alone, in the foreground):
+   - Crosspath walk smoke: OK (the loop round the town, 7 shop doors, the alley, the lakeshore, the hatch).
+   - Buffet walk smoke: OK (bridge, plaza, NPCs, quiz, Dinner in a Dash, the chest on the summit, both dungeons' doors, lever, back to town).
+   - Dump walk smoke: OK (the same round in the Dump, the chest on Rust Peak included).
+   - NPC visibility probe: OK, 150 checks, 0 failed.
+   - **Card games smoke (new, `bash tools/run_card_games_smoke.sh`): OK, 137 checks, 0 failed.** In each of the four zones, with real
+     keys and clicks: the host's card game opens on How to play, is won and pays; the card quiz opens with its teacher, deals four
+     questions from the zone's cards, is answered by clicking, pays the trivia's top reward and sets its flags; the chest gives its
+     gear once (the D.N.A.: File in Order gives the lanyard).
+   - The four old zone smokes (fifth to eighth brief) do not get from town into their zones any more (see "What you must still do").
+2. **Tests:** `bash tools/run_tests.sh --min-free=900`, all 41 shards in five foreground pieces: **3194 of 3196 passed, 0 failing**,
+   2 pending. Real saves untouched (14 files checked before and after).
+3. **Export:** free memory stayed at 1.6 GB for the 10 minutes, so the export ran with `EXPORT_LOW_MEMORY_OK=1`. `EXPORT OK`: the zip's
+   CRCs, contents and size checked by the script. Peak memory 1,689 MB.
+   - One stale Godot process from this afternoon (11 MB, started 14:20) blocked the export's own check; I ended that one process.
+4. **The exported build:**
+   - `bash tools/run_release_smoke_exported.sh`: **PASSED (1.0.0)**, 0 script errors.
+   - The three `tools/play_exported.sh` checks (`exported_rc1_a`, `_b`, `_c`) each ran to "done"; `grep -c "SCRIPT ERROR"` on their
+     six logs prints 0 six times. Run b opens the Gainlands quiz: the exported build shows the card quiz.
+5. **Where the zip is:** `builds\TheWaywardPath-v1.0.0-windows.zip` (784,409,895 bytes). The unpacked build is `builds\_export\`.
+
+**The memory guard** stopped one background run again this evening (the smokes). Everything was then run in the foreground, as your
+brief says. Nothing is left unrun.
+
+---
+
 # Fable Nov 16 (day) - report: clean-up, Deck Station, four card minigames, the Dump gate, the vault, the Buffet's edges
 
 Brief: `docs/prompts/fable_nov16_day.md`. Start tag `pre-fable-nov16b`. Questions: `docs/overnight_inbox.md`, "Fable Nov 16b"
