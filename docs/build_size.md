@@ -1,4 +1,4 @@
-Estimated export payload: **849.0 MB** (7436 source files)
+Estimated export payload: **849.1 MB** (7436 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
@@ -19,7 +19,7 @@ Estimated export payload: **849.0 MB** (7436 source files)
 | world: normal/roughness maps | 54 | 4.5 |
 | vendor screens | 14 | 2.2 |
 | fonts | 5 | 0.6 |
-| **Total** | 7436 | **849.0** |
+| **Total** | 7436 | **849.1** |
 
 ### 30 largest files (packed size)
 

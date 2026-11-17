@@ -1,3 +1,136 @@
+# Overnight Nov 16-17 (Opus) - report: a full playthrough, six harsh critics, fixes, 1.0.0
+
+Brief: `docs/prompts/opus_nov17_overnight.md`. Start tag `pre-overnight-nov17`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 17".
+Critic reports, triage and plans: `docs/review/critic_nov17/`. Shots: `docs/overnight_shots/nov17/`. No public upload. Ran on Opus 5.5.
+
+**A note on time:** the session sat idle from about 23:00 to 06:50 (it waited for input after a tool step), so the night ran as a day:
+Part 1 in the evening, Parts 2-5 from 06:50 to the afternoon. Everything in the brief was done; the critics had smaller budgets than
+planned and the re-checks are short.
+
+## The verdict
+
+| Lens | Before (Nov 16 or earlier) | Tonight, round 1 | Re-check on the fixed build |
+|---|---|---|---|
+| 1. Combat and deckbuilding | fun 6 (never higher) | **4/10** (provisional: one fight finished) | **4/10** (C5 F4 P6) |
+| 2. The late game and the ending | clarity 5 | **4/10** (never reached the ending) | **4/10** (C3 F3 P6); the town quest fix seen |
+| 3. The story and the writing | blind readers: rewrite = old | **6/10** | - |
+| 4. The world's look (art director) | 6.2 (Nov 12) | **5.5/10** (painted ~8, the 3D world ~4.5) | - |
+| 5. The first 30 minutes and the menus | first hour 6 / 6 / 7 | **4/10** | - |
+| 6. The new card games | never played | **3/10** (reached only Reps) | - |
+
+Tonight's critics were told to score against Slay the Spire, Inscryption, Octopath and Sea of Stars, not "good for a small team"; the
+numbers are lower than earlier sittings partly for that reason, and partly because they play through a scripted driver that cannot react
+inside a turn (critics 1, 2 and 6 say so plainly). Read the scores as "where the game stands against the best", not as a regression.
+
+**The three weakest parts of the game right now, in plain words:**
+
+1. **Fights are slow and the choices are thin.** A first-room fight takes about 8 turns; most turns the right play is obvious (play the
+   one infrastructure, then whatever fits); a new card is 1 in 45, so winning one rarely changes how you play; bosses do nothing for two
+   turns and then flood the board. This is the core loop, and it is why fun has never passed 6.
+2. **Finding things.** Several places a player must reach were missing from "Point me to..." (the Capital road, the quiz teachers, the
+   card-game hosts) and the main line could vanish (no main quest with four lands free if Brannoch was skipped). Tonight's fixes close
+   the ones that were bugs; walking in the 3D world still costs critics many runs.
+3. **The 3D world's look against the painted art.** The dungeon maps, cards, portraits and Crosspath score 7-8.5; the D.N.A. (a greybox
+   look), the Capital (flat pastel fills) and the Buffet (washed out, a flat sea) score 3.5-5, and every zone has its own colour filter.
+
+**Would I ship this tonight? Yes, as a free itch.io release - with honest expectations.** There is no blocker left that stops a game:
+the full no-shortcut playthrough went from a new game to Primm with no soft-lock, no lost main-line marker and no trap; every test is
+green; the exported build runs clean. What players will feel is a slow, gentle deckbuilder with lovely painted art, good jokes and an
+uneven 3D world. That is a fair free game; it is not yet a game reviewers recommend. The next real gain is in the combat pacing (owner
+decisions 1-2), not in more content.
+
+## The playthrough's facts (Part 1, `docs/review/critic_nov17/playthrough.md`)
+
+One complete game on the Refusemancer Path with the new **strict bot** (`bash tools/run_strict_playthrough.sh refusemancer`): every fight
+played by the game's planning AI, real walking along the quest arrow's route, every quest done by walking up and pressing E, no flags
+set, no fight decreed until a 10-loss wall. Three sittings of the same save (the bot crashed twice on its own code and continued from
+the save it had just made).
+
+| Chapter | Bot time | Level / gold at the end | Losses |
+|---|---|---|---|
+| Forest + the Forgotten Cave | 1.6 min | L3 / 520 | 0 |
+| Crosspath: Settling In | 2.9 min | L5 / 554 | 0 |
+| Verdant Dump (gatekeeper, side quest + Landfill Depths, the Rotheart) | 19 min | L10 / 1,379 | 3 |
+| Gainlands (gatekeeper, a favour by play, the House of Gains) | about 15 min | L13 / 1,484 | 2 |
+| D.N.A. | 5.5 min | L14 / 1,524 | 0 |
+| Endless Buffet | 6.0 min | L16 / 2,619 | 0 |
+| Capital: Captain Spotless | 2.4 min | L17 / 2,769 | 2 |
+| The Crease, Fig Sly | 0.4 min | L17 / 1,809 | 0 |
+| Primm's Castle and Primm | 42 min | L24, **wall** (decreed) | 10 |
+
+- **Level and gold at each main dungeon:** Rotheart L8 (514), House of Gains L10 (444), Hall of Final Approvals L13 (384), Test Kitchen
+  L14 (1,099), Spotless L16 (2,344), the castle L17 (1,809), Primm first reached at L19. 1.40 h of game time at the fastest battle speed;
+  59 fights won, 12 lost.
+- **Blockers and their fixes:** no soft-lock, no unwinnable fight below Primm, no trap. Found: the Rescuer's four cave-mouth scenes had
+  no marker (**fixed**: a "!"), and "Free the Four Zones" (the castle's marker) depended on talking to Brannoch (**fixed**: it starts by
+  itself once a zone is free). **Primm's Castle is the wall** (owner decision 2). The ending's own flow was not reached by the bot (the
+  decree skips it), and both late-game critics lost to Primm: **no one has seen the credits from a real Primm win tonight**. The ending,
+  the credits and the new tracker are covered by tests, and the Nov 16 critic reached "File Complete".
+
+## What was fixed (shots in `docs/overnight_shots/nov17/fixes/`)
+
+| Fix | From | Shot / test |
+|---|---|---|
+| The card quiz header names each zone's exam ("Compliance Re-Certification", ...) | known item | `quiz_header_dna.jpg`; test |
+| Card-game hosts said "[missing text: quiz.start]" in every zone | found tonight | test |
+| The freed Capital flies the four Paths' banners on its wall, towers, gate, houses, lamps and decrees | known item | `capital_freed_banners.jpg`; tests |
+| After Primm: "The City Gathers" (see the ending, the gathering in Grave Row), then "After the Fall" (the Lab and the Gallery, marked) | known item | tests |
+| The four old zone smokes deleted; the docs point at `run_card_games_smoke.sh` | known item | - |
+| The Rescuer wears a "!" while she waits at the cave mouth | playthrough | - |
+| "Free the Four Zones" starts by itself once a zone is free and leads over a side quest | playthrough, critic 2 | test; the re-check saw it |
+| "Point me to..." lists the roads out (the Capital), the quiz teachers, the card-game hosts and the filing terminal | critics 2, 6 | tests |
+| The Crease's back wall hides the sky and the skyline | critic 4 #1 | `crease_before.jpg` / `crease_after.jpg` |
+| The Path choice selects on any click, with a gold frame | critic 5 #1 (blocker) | - |
+| Peek can always be closed (Done, E, Space, Enter; the rest stays on top) | critic 5 | test |
+| The forest's J / C / P say where they open | critic 5 | - |
+| No "F8" in the pause menu with a controller | critic 5 | - |
+| DEFEAT no longer covers the result panel's text | critic 2 | the re-check saw it |
+| Hand cards say "On play" / "On death" / "On attack" instead of "Effect" | critic 1 | test |
+| Card-game pop-ups keep the controller's focus (no guess under How to play, no "?" on the result screen) | critic 6 | - |
+| Reps' rules say a miss resets the reps | critic 6 | - |
+| 11 single lines of dialogue (Primm's cut-in, the Tuesday payoff, Escoffina x2, the seed, the Hollow Warden, Prudence, Mortimer's number, a missing "little prince" setup, the Rescuer's "stay down", Primm's "simply not true") | critics 2, 3 | revert file `docs/dialogue/nov17_single_lines_ids.txt` |
+
+**Not fixed (logged in the triage with a plan):** what the board-layout rule protects (the hand overflowing, attackers covering
+blockers), every combat number (owner decisions 1-2), the 3D world's materials (the L-plans), the walk out of Crosspath on foot (the
+critics walked blind; the arrow and "Point me to..." now lead there), the story's structure (Elowen, the hero's voice), the Buffet's
+haze, the forest's darkness.
+
+**Checks:** the full suite, 41 shards, 0 failing (one stale log line, re-run green), real saves untouched; the Capital, Crosspath, Dump
+and Buffet walk smokes pass; the NPC visibility probe 150 checks, 0 failed; the card games smoke 137 checks, 0 failed; the exported smoke
+PASSED; exported play checks A, B and C with 0 script errors (B could not seed A's settings file and ran with defaults).
+
+## The owner's decisions (with context: `docs/overnight_inbox.md`, "Overnight Nov 17")
+
+1. **Combat pacing:** try a 40-card minimum with 15 infrastructure in the sims. Both combat critics' "one change" was a card pick after
+   every dungeon fight. Recommendation: sim the 40-card deck first, then decide on the card pick.
+2. **Primm's free Militia and the castle's 4th room.** Recommendation: Standing Army with 2 Militia, or Setting Up through turn 3.
+3. **Elowen says her own name** at the gate before Plume does. Recommendation: yes (one line).
+4. **The hero's own voice in the finale:** replace two quoted lessons with his own. Recommendation: yes (a small scene edit).
+5. **One colour grade** for all zones, Crosspath's as the base. Recommendation: yes.
+6. **The Opening Forest's brightness** (+0.5 EV, a rim light, keep the teal dusk). Recommendation: yes.
+7. **An intent strip for bosses** (L5). Recommendation: yes.
+8. **Reps keeps the streak after a miss.** Recommendation: yes.
+9. **"Free the Four Zones" starts by itself** (done tonight; say if it should stay Brannoch's alone).
+10. **The post-Primm quest names** ("The City Gathers", "After the Fall"; they are mine).
+11. **The hero's cloak colour** (teal or brown; a Batch 17 row).
+12. **The five lines still yours from Nov 16** (Maren's "holding yours" is now flagged by two critics).
+
+## The L-item plans
+
+`docs/review/critic_nov17/l_plans.md`: L1 the D.N.A.'s walls and lights, L2 the Capital's facades and floor, L3 the primitive sweep,
+L4 the Gainlands' rock and brick, L5 an intent strip for bosses (needs a yes).
+
+## Batch 17 additions
+
+Three rows added to `docs/art/batch17_nov16.csv`: GAIN-PROP-BARBELL (+ a plate), the hero portrait's cloak colour (owner: teal or
+brown), BUFF-PROP-VEG / DUMP-PROP-PIG (painted cards for the low-poly vegetables and the cube pig).
+
+## Where the zip is
+
+**`builds\TheWaywardPath-v1.0.0-windows.zip`, 784,415,439 bytes (748 MB), Nov 17 12:32**, rebuilt with everything above. Not uploaded
+anywhere. The test pack for exported-build runs: `builds\_testpack\TheWaywardPath_test.pck`.
+
+
 # Fable Nov 16 (evening) - report: your answers, the Dump's entrance and camera, the Buffet's castle, forest and west edge, 1.0.0
 
 Brief: `docs/prompts/fable_nov16_evening.md`. Start tag `pre-fable-nov16c`. Questions: `docs/overnight_inbox.md`, "Fable Nov 16c"
