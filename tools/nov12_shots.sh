@@ -9,7 +9,7 @@
 cd "$(dirname "$0")/.."
 tag="$1"; shift
 if [ -z "$tag" ]; then echo "usage: bash tools/nov12_shots.sh <tag> [set ...]"; exit 2; fi
-sets="${*:-gainlands buffet dump dna capital_before capital_after town ui dungeons battle_zone_beefcake battle_zone_gourmand battle_zone_refusemancer battle_zone_necrocrat battle_tutorial battle_dungeon_d-pc battle_primm}"
+sets="${*:-gainlands buffet dump dna capital_before capital_after crease town ui dungeons battle_zone_beefcake battle_zone_gourmand battle_zone_refusemancer battle_zone_necrocrat battle_tutorial battle_dungeon_d-pc battle_primm}"
 for s in $sets; do
 	taskkill //F //IM Godot_v4.7.2-stable_win64.exe >/dev/null 2>&1
 	rm -rf "_screenshots/play/n12_${tag}_$s"

@@ -8,6 +8,7 @@ extends Node
 ##   key <Name>                     tap a key: E, Space, Escape, Enter, W, Tab, F10, Up, Down, Left, Right, 1 ...
 ##   hold <Name>[+<Name>] <seconds> hold one or more keys (walking: hold W 2, hold W+A 1.5)
 ##   click <x> <y>                  left click; rclick <x> <y> right click; move <x> <y> hover
+##   pad <a|b|x|y|lb|rb|back|start|up|down|left|right> [s]   tap a controller button; stick <x> <y> <s> hold the left stick (Nov 17)
 ##   drag <x1> <y1> <x2> <y2>       drag and drop (playing a card)
 ##   button <text>                  click the first visible button whose text contains <text>
 ##   shot <name>                    save a screenshot
@@ -101,6 +102,25 @@ func _run_line(line: String) -> void:
 			await driver.frames(2)
 		"click":
 			await driver.click(_canvas(parts))
+		"pad":
+			# Overnight Nov 17 (the critics' controller checks): `pad <a|b|x|y|lb|rb|back|start|up|down|left|right> [hold seconds]` taps a
+			# game-pad button (device 0, an Xbox layout), as a controller would
+			var pad_index: int = _pad_button(parts[1] if parts.size() > 1 else "a")
+			if pad_index < 0:
+				_say("  unknown pad button %s" % rest)
+			else:
+				await _pad_event(pad_index, true)
+				await driver.seconds(float(parts[2]) if parts.size() > 2 else 0.08)
+				await _pad_event(pad_index, false)
+				await driver.frames(2)
+		"stick":
+			# `stick <x> <y> <seconds>`: the left stick held at (x, y) in -1..1 (walking with a controller), then let go
+			var sx: float = float(parts[1]) if parts.size() > 1 else 0.0
+			var sy: float = float(parts[2]) if parts.size() > 2 else 0.0
+			await _stick(sx, sy)
+			await driver.seconds(float(parts[3]) if parts.size() > 3 else 1.0)
+			await _stick(0.0, 0.0)
+			await driver.frames(2)
 		"rclick":
 			await driver.click(_canvas(parts), MOUSE_BUTTON_RIGHT)
 		"move":
@@ -736,3 +756,33 @@ func _finish() -> void:
 	if _log_file != null:
 		_log_file.close()
 	get_tree().quit(0)
+
+
+# ---- Overnight Nov 17: controller input for the critics ------------------------------------------------------------------------------------
+
+
+func _pad_button(name: String) -> int:
+	var table: Dictionary = {"a": JOY_BUTTON_A, "b": JOY_BUTTON_B, "x": JOY_BUTTON_X, "y": JOY_BUTTON_Y, "lb": JOY_BUTTON_LEFT_SHOULDER,
+		"rb": JOY_BUTTON_RIGHT_SHOULDER, "back": JOY_BUTTON_BACK, "start": JOY_BUTTON_START, "up": JOY_BUTTON_DPAD_UP,
+		"down": JOY_BUTTON_DPAD_DOWN, "left": JOY_BUTTON_DPAD_LEFT, "right": JOY_BUTTON_DPAD_RIGHT}
+	return int(table.get(name.to_lower(), -1))
+
+
+func _pad_event(button: int, pressed: bool) -> void:
+	var event: InputEventJoypadButton = InputEventJoypadButton.new()
+	event.device = 0
+	event.button_index = button as JoyButton
+	event.pressed = pressed
+	event.pressure = 1.0 if pressed else 0.0
+	Input.parse_input_event(event)
+	await driver.frames(1)
+
+
+func _stick(x: float, y: float) -> void:
+	for axis: Array in [[JOY_AXIS_LEFT_X, x], [JOY_AXIS_LEFT_Y, y]]:
+		var event: InputEventJoypadMotion = InputEventJoypadMotion.new()
+		event.device = 0
+		event.axis = axis[0] as JoyAxis
+		event.axis_value = float(axis[1])
+		Input.parse_input_event(event)
+	await driver.frames(1)
