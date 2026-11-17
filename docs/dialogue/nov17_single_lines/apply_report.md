@@ -13,8 +13,8 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 ## Totals
 
 - Rows: 11
-- Applied: 11
-- Skipped (blank new line, unchanged, or applied before): 0
+- Applied: 1
+- Skipped (blank new line, unchanged, or applied before): 10
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,28 +24,18 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| The Capital | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
-| D.N.A. | 3 | 3 | 0 | 0 | 0 | 0 | 0 |
-| Endless Buffet | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
+| The Capital | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| D.N.A. | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
+| Endless Buffet | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
 | Verdant Dump | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
-| Prologue (Opening Forest) | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+| Prologue (Opening Forest) | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
 
-## Applied (11)
+## Applied (1)
 
 | id | Before | After |
 |---|---|---|
-| `data/encounters/boss_intros.json::Primm/line::0` | Do mind the floor. It has just been polished, by seventeen people, whom I thank daily, in writing. | Let us be quick and tidy about this. I have a kingdom to straighten afterwards. |
-| `data/story/dna_story.tres::dungeon.ha_boss.after::3` | "The authorization was valid, and it was always valid. But the office is now vacant, and policy is policy." | So it was never valid. Ten years of no, filed on a Tuesday. The office is now vacant, and policy is policy. |
-| `data/story/gourmand_story.tres::cutscene.wonder.6::2` | Take my old name: Escoffina. I was always prouder of the work than of the title, and that name could do with somebody making a fresh start in it. | Take my given name, Escoffina. Everyone calls me Chef; the name is wasted on me, and it could do with a fresh start. |
-| `data/story/gourmand_story.tres::cutscene.wonder.2::0` | I do not know what to call myself. Your name was the only one I had, and now it is yours again. | Your title was the only name I had, and now it is yours again. |
-| `data/story/refusemancer_story.tres::cutscene.sever.1::0` | It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it. | It's the seed his groundskeeper brought me: life that never dies. |
-| `data/encounters/boss_intros.json::Hollow Warden/line::0` | Then I will do what I was left here to do. | Nobody leaves this cave. I was left here to see to that. |
-| `data/story/intro_story.tres::necrocrat_npc_intro_lines::2` | The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why. | The transfer of authority is valid, and policy says I must stop you. |
-| `data/story/dna_story.tres::freed_npc.mortimer::1` | You held 4,000,213, and you did not wait for it to be called. I find that I keep returning to that. | Your number was zero, and you did not wait for it to be called. |
-| `data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1` | Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you? | Maren keeps starting a story about a boy at court, then stops. You knew me, didn't you? |
-| `data/story/intro_story.tres::prologue.rescuer.1::0` | Easy, now. Stay down for a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all. | Easy, now. Slowly. Get your breath back before you try to walk. |
-| `data/story/capital_story.tres::cutscene.primm_p2.3::0` | That is simply not true. I made the wells, and I made the roads. | Decide who you are? I decided who everyone was. I made the wells, and I made the roads. |
+| `data/story/refusemancer_story.tres::cutscene.sever.1::0` | It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it. | It's the seed, {villain}'s gift, carried here by his groundskeeper: life that never dies. |
 
 ## Conflicts (0)
 

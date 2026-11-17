@@ -145,11 +145,14 @@ func test_peek_done_keeps_unchosen_cards_on_top() -> void:
 	a.uid = 101
 	var b: CardInstance = CardInstance.new()
 	b.uid = 102
+	a.data = Session.content.cards.values()[0] as CardData
+	b.data = a.data
 	var panel: PeekPanel = PeekPanel.make([a, b] as Array[CardInstance])
+	add_child_autofree(panel)
+	await wait_process_frames(2)
 	var got: Array = []
-	panel.chosen.connect(func(top: Array[int], bottom: Array[int]) -> void: got = [top, bottom])
+	panel.chosen.connect(func(top: Array[int], bottom: Array[int]) -> void: got.append_array([top, bottom]))
 	panel.pick(102, false)
 	panel._finish()
 	assert_eq(got[0], [101], "the unchosen card stays on top")
 	assert_eq(got[1], [102])
-	panel.free()

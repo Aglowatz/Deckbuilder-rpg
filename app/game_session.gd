@@ -2510,8 +2510,8 @@ func offer_auto_quests() -> void:
 	# now"). Once a zone is free the quest starts by itself (his lines still play when he is met).
 	if completed_zone_count() > 0 and not flag(&"primm_defeated") and not quest_log.is_active(QuestDefinitions.FREE_ZONES) 			and not quest_log.is_completed(QuestDefinitions.FREE_ZONES) and start_quest(QuestDefinitions.FREE_ZONES, false):
 		started.append(QuestDefinitions.FREE_ZONES)
-		var now_tracked: QuestData = QuestCatalog.find(quest_log.tracked_id())
-		if now_tracked == null or not now_tracked.is_main():
+		var was_tracked: QuestData = QuestCatalog.find(tracked_before)
+		if was_tracked == null or not was_tracked.is_main() or not quest_log.is_active(tracked_before):
 			tracked_before = QuestDefinitions.FREE_ZONES
 	# A batch of new quests (the first time in town) tracks the first of them by order (the first zone line), not the last one started;
 	# a quest the player was already following stays tracked.

@@ -40,7 +40,7 @@ func test_corrupted_envoys_fit_each_factions_situation() -> void:
 	var story: StoryText = StoryText.shared()
 	assert_true("\n".join(story.npc_intro_lines("beefcake")).contains("regime"))
 	assert_true("\n".join(story.npc_intro_lines("gourmand")).contains("Special Sauce"))
-	assert_true("\n".join(story.npc_intro_lines("necrocrat")).contains("authorization is valid"))
+	assert_true("\n".join(story.npc_intro_lines("necrocrat")).contains("authority is valid"))  # Nov 17: "The transfer of authority is valid" (critic 3 #11)
 	assert_true("\n".join(story.npc_intro_lines("refusemancer")).contains("Rot"))
 
 

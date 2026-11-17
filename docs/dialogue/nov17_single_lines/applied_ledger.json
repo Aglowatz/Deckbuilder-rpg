@@ -32,7 +32,7 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Archdruid Compostella",
 		"before": "It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it.",
-		"after": "It's the seed his groundskeeper brought me: life that never dies."
+		"after": "It's the seed, {villain}'s gift, carried here by his groundskeeper: life that never dies."
 	},
 	{
 		"id": "data/encounters/boss_intros.json::Hollow Warden/line::0",

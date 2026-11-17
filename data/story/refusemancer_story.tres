@@ -231,7 +231,7 @@ lines = {
 "event.rh_pulsing_wall.result.1": ["You breathe in time with the wall, and it quiets. A small bit of warmth moves from the roots into you. You feel mended, and a little ashamed."],
 "event.rh_pulsing_wall.result.2": ["It bleeds sap and fury, and a glittering stone drops out of the cut. It'll fetch good gold, though it costs you a long scrape down one arm."],
 "cutscene.sever.1.speaker": ["Archdruid Compostella"],
-"cutscene.sever.1": ["It's the seed his groundskeeper brought me: life that never dies.", "So I planted the seed where she had stood, and it took. It has been feeding on my grief for ten years. Nothing here rots, and that is my doing."],
+"cutscene.sever.1": ["It's the seed, {villain}'s gift, carried here by his groundskeeper: life that never dies.", "So I planted the seed where she had stood, and it took. It has been feeding on my grief for ten years. Nothing here rots, and that is my doing."],
 "cutscene.sever.2.speaker": ["You"],
 "cutscene.sever.2": ["Something that can never die isn't a gift. It's a grief that never gets to end. Let it rot."],
 "cutscene.sever.3.speaker": ["Archdruid Compostella"],
