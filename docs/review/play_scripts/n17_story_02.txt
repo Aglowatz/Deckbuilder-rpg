@@ -1,0 +1,74 @@
+# story critic run 2: rest of the opening (path choice, walk to cave, Maren)
+wait 4
+button New Game
+wait 4
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+shot n17story_02_a
+dump
+key E
+wait 1.5
+shot n17story_02_b
+dump
+button Beefcake
+wait 2
+shot n17story_02_c
+dump
+key E
+wait 1.5
+shot n17story_02_d
+dump
+key E
+wait 1.5
+shot n17story_02_e
+key E
+wait 1.5
+shot n17story_02_f
+key E
+wait 1.5
+shot n17story_02_g
+dump
+key E
+wait 1.5
+shot n17story_02_h
+dump
+key E
+wait 1.5
+key E
+wait 1.5
+shot n17story_02_i
+dump
+hold W 4
+wait 1
+shot n17story_02_j
+dump
+hold W 4
+wait 1
+shot n17story_02_k
+dump
+scene
+dev save n17story_open2

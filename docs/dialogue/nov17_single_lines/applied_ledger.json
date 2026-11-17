@@ -1,0 +1,79 @@
+[
+	{
+		"id": "data/encounters/boss_intros.json::Primm/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "Primm",
+		"before": "Do mind the floor. It has just been polished, by seventeen people, whom I thank daily, in writing.",
+		"after": "Let us be quick and tidy about this. I have a kingdom to straighten afterwards."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.after::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "\"The authorization was valid, and it was always valid. But the office is now vacant, and policy is policy.\"",
+		"after": "So it was never valid. Ten years of no, filed on a Tuesday. The office is now vacant, and policy is policy."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.6::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Take my old name: Escoffina. I was always prouder of the work than of the title, and that name could do with somebody making a fresh start in it.",
+		"after": "Take my given name, Escoffina. Everyone calls me Chef; the name is wasted on me, and it could do with a fresh start."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.2::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "I do not know what to call myself. Your name was the only one I had, and now it is yours again.",
+		"after": "Your title was the only name I had, and now it is yours again."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.1::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it.",
+		"after": "It's the seed his groundskeeper brought me: life that never dies."
+	},
+	{
+		"id": "data/encounters/boss_intros.json::Hollow Warden/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "Hollow Warden",
+		"before": "Then I will do what I was left here to do.",
+		"after": "Nobody leaves this cave. I was left here to see to that."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_intro_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why.",
+		"after": "The transfer of authority is valid, and policy says I must stop you."
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.mortimer::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "You held 4,000,213, and you did not wait for it to be called. I find that I keep returning to that.",
+		"after": "Your number was zero, and you did not wait for it to be called."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you?",
+		"after": "Maren keeps starting a story about a boy at court, then stops. You knew me, didn't you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Easy, now. Stay down for a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all.",
+		"after": "Easy, now. Slowly. Get your breath back before you try to walk."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "That is simply not true. I made the wells, and I made the roads.",
+		"after": "Decide who you are? I decided who everyone was. I made the wells, and I made the roads."
+	}
+]

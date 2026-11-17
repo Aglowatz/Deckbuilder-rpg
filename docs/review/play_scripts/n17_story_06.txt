@@ -1,0 +1,72 @@
+# story critic run 6: around the fountain to Maren (memory), then the ending
+wait 4
+dev load n17story_maren_near
+wait 10
+hold D+Shift 1.2
+hold W+Shift 9
+key E
+wait 2
+shot n17story_06_a
+dump
+key E
+wait 2
+shot n17story_06_b
+dump
+key E
+wait 2
+shot n17story_06_c
+dump
+key E
+wait 2
+shot n17story_06_d
+dump
+key E
+wait 2
+shot n17story_06_e
+dump
+key E
+wait 2
+shot n17story_06_f
+dump
+key E
+wait 2
+shot n17story_06_g
+dump
+key E
+wait 2
+shot n17story_06_h
+dump
+# the ending
+dev load c13end
+wait 12
+shot n17story_06_end0
+scene
+dump
+pilot 12
+wait 3
+shot n17story_06_end1
+dump
+key E
+wait 2.5
+shot n17story_06_end2
+dump
+key E
+wait 2.5
+shot n17story_06_end3
+dump
+key E
+wait 2.5
+shot n17story_06_end4
+dump
+key E
+wait 2.5
+shot n17story_06_end5
+dump
+key E
+wait 2.5
+shot n17story_06_end6
+dump
+key E
+wait 2.5
+shot n17story_06_end7
+dump

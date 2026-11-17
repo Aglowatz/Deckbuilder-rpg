@@ -88,3 +88,26 @@ reach = how many players meet it (all / most / some / few); effort S (an hour or
 | G8 | Reps' "Power" vs the mana number on the card | minor | all | S | - | Logged |
 | G9 | The barbell prop is grey blocks | minor | all | L | art | Batch 17 row candidate |
 | G10 | Nine boxes before the first Reps | minor | all | S | - | Logged |
+
+## Critic 3 - the story and the writing (6/10; read the whole main story, saw the opening in game)
+
+| # | Issue | Sev | Reach | Effort | Owner? | Plan / status |
+|---|---|---|---|---|---|---|
+| S1 | Elowen's name is taken from her (Plume names her) and her rescue is a postgame hook: the warmest bond never pays off before the credits | major | all | M | **yes (story)** | **Owner** |
+| S2 | The hero's finale argument is a collage of other characters' lines; he has little voice of his own | major | all | M | **yes (story; no broad rewrite)** | **Owner** |
+| S3 | Primm both does and does not know who the hero is | major | all | S | story | Partly: logged; the intro line is the owner's (the cut-in line was changed, L8) |
+| S4 | The D.N.A.'s Tuesday payoff contradicts itself | major | most | S | no | **Fixed** (one line) |
+| S5 | After the ending the Gate Road still looks blighted against the ending's words | major | all | M | no | Logged (c13end is an old snapshot; the freed Capital look was rebuilt Nov 12; to check on a fresh save) |
+| S6 | "Best student" and Maren's "I taught the royal children" repeat | minor | all | S | story | Logged (one of them is in the owner's list) |
+| S7 | Hob's "What are you writing?" gag runs six times; two explanations of "nothing dies" | minor | all | S | story | Logged |
+| S8 | Who gave the seed shifts | minor | most | S | no | **Fixed** (Compostella's line names the groundskeeper) |
+| S9 | Escoffina: name vs title | minor | most | S | no | **Fixed** (two lines) |
+| S10 | Reaching Maren's door for a memory is hard on foot | minor | some | - | - | Logged (blind walking; the Rescuer and Maren are marked) |
+
+**Single lines changed** (`docs/dialogue/nov17_single_lines.csv`; revert with `node tools/apply_dialogue_pass.js
+--csv=docs/dialogue/nov17_single_lines.csv --revert=docs/dialogue/nov17_single_lines_ids.txt`): Primm's cut-in, Mortimer's Tuesday line,
+the Grand Chef's and the Doppelganger's naming lines, Compostella's seed line, the Hollow Warden's opening line, Prudence's first
+"authorization", Mortimer's number, the Wanderer's "a story about a little prince" (no such scene existed), the Rescuer's "stay down"
+(the hero stands), Primm's "That is simply not true". **Not touched (the owner's list from Nov 16):** Maren's "the same way I have been
+holding yours", "Four banners fly from the same pole", "find me on the square", "I still can't see her face", "a coat too fine". Plume's
+slip line was left (the fix would assert a fact about Elowen's father).

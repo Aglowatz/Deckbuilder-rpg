@@ -1,0 +1,50 @@
+# story critic run 1: opening from New Game
+wait 4
+shot n17story_01_title
+button New Game
+wait 4
+shot n17story_01_a
+dump
+key E
+wait 1.5
+shot n17story_01_b
+key E
+wait 1.5
+shot n17story_01_c
+key E
+wait 1.5
+shot n17story_01_d
+key E
+wait 1.5
+shot n17story_01_e
+key E
+wait 1.5
+shot n17story_01_f
+key E
+wait 1.5
+shot n17story_01_g
+key E
+wait 1.5
+shot n17story_01_h
+key E
+wait 1.5
+shot n17story_01_i
+key E
+wait 1.5
+shot n17story_01_j
+key E
+wait 1.5
+shot n17story_01_k
+dump
+key E
+wait 1.5
+shot n17story_01_l
+key E
+wait 1.5
+shot n17story_01_m
+key E
+wait 1.5
+shot n17story_01_n
+dump
+scene
+dev save n17story_open1
