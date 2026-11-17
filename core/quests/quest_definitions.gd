@@ -114,7 +114,8 @@ static func _city_gathers() -> QuestData:
 	quest.auto_give = true
 	quest.prerequisite = Condition.flag("primm_defeated")
 	quest.objectives = [
-		QuestObjective.make("See the ending", Condition.any_of([Condition.flag(FLAG_ENDING_SEEN), Condition.flag(FLAG_FUNERAL_SEEN)] as Array[Condition])),
+		# it plays by itself straight after Primm's fall (no place to mark): a no-place step for the audit
+		QuestObjective.make("See the ending", Condition.any_of([Condition.flag(FLAG_ENDING_SEEN), Condition.flag(FLAG_FUNERAL_SEEN)] as Array[Condition])).in_menu(),
 		QuestObjective.make("Join the gathering at the end of Grave Row", Condition.flag(FLAG_FUNERAL_SEEN))
 			.at(QuestObjective.TargetKind.NPC, CapitalZone.ID, "old_hob", "Grave Row, in the Capital's north-west: Old Hob waits at its end"),
 	] as Array[QuestObjective]
