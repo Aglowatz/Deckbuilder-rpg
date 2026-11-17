@@ -699,8 +699,22 @@ func _chip_names() -> Array[String]:
 	if data.type != CardEnums.CardType.UNIT and data.type != CardEnums.CardType.TRAP:
 		names.append(_type_text().split("-")[-1].strip_edges())
 	if names.is_empty() and data.rules_text != "":
-		names.append("Effect")
+		names.append(trigger_chip(data))
 	return names
+
+
+## Overnight Nov 17 (combat critic #9: "a generic Effect tag, so you must right-click every card"): a card with no keyword says WHEN its
+## text happens - "On play", "On death", "On attack" ... - instead of "Effect" ("Effect" only when nothing more is known).
+static func trigger_chip(card: CardData) -> String:
+	var words: Dictionary = {
+		CardEnums.Trigger.ON_ENTER: "On play", CardEnums.Trigger.ON_DEATH: "On death", CardEnums.Trigger.ON_ATTACK: "On attack",
+		CardEnums.Trigger.ON_BLOCK: "On block", CardEnums.Trigger.START_OF_TURN: "Each turn", CardEnums.Trigger.END_OF_TURN: "End of turn",
+		CardEnums.Trigger.ON_DAMAGE_TAKEN: "When hit",
+	}
+	for effect: EffectData in card.effects:
+		if effect != null and words.has(effect.trigger):
+			return str(words[effect.trigger])
+	return "Effect"
 
 
 ## Battle feel, Part A: hovering a keyword chip or badge explains the keyword in one line (Trap too). Other chips stay plain.

@@ -94,3 +94,19 @@ func test_after_the_fall_completes_with_both_parts() -> void:
 	Session.refresh_quests()
 	var quest: QuestData = QuestCatalog.find(QuestDefinitions.AFTER_THE_FALL)
 	assert_true(Session.quest_log.objective_met(quest, 0, Session.unlock_state()))
+
+
+# ---- the combat critic's #9: a card with no keyword says when its text happens ------------------------------------------------------
+
+
+func test_a_card_without_keywords_names_its_trigger_not_effect() -> void:
+	var card: CardData = CardData.new()
+	card.rules_text = "When this enters, draw a card."
+	var effect: EffectData = EffectData.new()
+	effect.trigger = CardEnums.Trigger.ON_ENTER
+	card.effects = [effect] as Array[EffectData]
+	assert_eq(CardView.trigger_chip(card), "On play")
+	effect.trigger = CardEnums.Trigger.ON_DEATH
+	assert_eq(CardView.trigger_chip(card), "On death")
+	card.effects = [] as Array[EffectData]
+	assert_eq(CardView.trigger_chip(card), "Effect", "nothing known: as before")
