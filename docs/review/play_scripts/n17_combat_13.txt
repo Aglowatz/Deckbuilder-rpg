@@ -1,0 +1,43 @@
+wait 4
+dev load bot_refusemancer_enter_refusemancer
+wait 8
+dev travel town
+wait 12
+skip_dialogue 5
+shot n17combat_13_town
+key B
+wait 3
+shot n17combat_13_deck1
+dump
+move 700 450
+wait 1
+shot n17combat_13_deck2
+button Suggest
+wait 2
+shot n17combat_13_deck3
+dump
+key Escape
+wait 1.5
+key P
+wait 2.5
+shot n17combat_13_packs1
+dump
+button Open
+wait 3
+shot n17combat_13_packs2
+dump
+wait 2
+click 800 450
+wait 2
+shot n17combat_13_packs3
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+key M
+wait 1.5
+button Point me to
+wait 1.5
+shot n17combat_13_point
+dump

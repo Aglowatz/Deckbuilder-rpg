@@ -1,0 +1,75 @@
+wait 4
+dev load n17late_pc3
+wait 5
+dev travel dungeon D-PC -2
+wait 13
+skip_dialogue 4
+click 1322 340
+wait 2.5
+key E
+wait 1.4
+key E
+wait 1.4
+key E
+wait 1.4
+key E
+wait 1.4
+key E
+wait 1.4
+key E
+wait 1.4
+key E
+wait 1.4
+shot n17late_12_d1
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+shot n17late_12_d2
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+shot n17late_12_d3
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+key E
+wait 1.4
+dump
+shot n17late_12_battle0
+scene
+dev save n17late_pc4
+pilot 45
+shot n17late_12_battle1
+dump
+scene
+dev save n17late_pc4

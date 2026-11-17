@@ -1,0 +1,30 @@
+wait 4
+dev load n17combat_dump_b
+wait 10
+skip_dialogue 3
+hold D 1.4
+hold W 3
+wait 0.5
+shot n17combat_04_a
+scene
+hold W 3
+wait 0.5
+shot n17combat_04_b
+scene
+hold W+A 3
+wait 0.5
+shot n17combat_04_c
+scene
+hold W 3
+wait 1
+shot n17combat_04_d
+scene
+hold W+D 3
+wait 2
+shot n17combat_04_e
+scene
+dump
+dev save n17combat_dump_c
+wait 2
+shot n17combat_04_f
+dump

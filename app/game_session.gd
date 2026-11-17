@@ -2505,6 +2505,14 @@ func offer_auto_quests() -> void:
 	for quest: QuestData in QuestCatalog.all():
 		if quest.auto_give and start_quest(quest.id, false):
 			started.append(quest.id)
+	# Overnight Nov 17 (the full playthrough and the late critic's #1): "Free the Four Zones" carries the castle's marker but only Brannoch
+	# gives it; a hero who freed a zone without ever talking to him had no main quest at all with four lands free ("Nothing here right
+	# now"). Once a zone is free the quest starts by itself (his lines still play when he is met).
+	if completed_zone_count() > 0 and not flag(&"primm_defeated") and not quest_log.is_active(QuestDefinitions.FREE_ZONES) 			and not quest_log.is_completed(QuestDefinitions.FREE_ZONES) and start_quest(QuestDefinitions.FREE_ZONES, false):
+		started.append(QuestDefinitions.FREE_ZONES)
+		var now_tracked: QuestData = QuestCatalog.find(quest_log.tracked_id())
+		if now_tracked == null or not now_tracked.is_main():
+			tracked_before = QuestDefinitions.FREE_ZONES
 	# A batch of new quests (the first time in town) tracks the first of them by order (the first zone line), not the last one started;
 	# a quest the player was already following stays tracked.
 	if started.size() == 1:

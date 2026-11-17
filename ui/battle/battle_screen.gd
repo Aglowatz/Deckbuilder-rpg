@@ -2452,6 +2452,7 @@ func _show_result() -> void:
 		tutorial.queue_free()
 		tutorial = null
 	await board.clear_board()
+	hud.clear_banner()  # Overnight Nov 17: the result word never sits over the panel's text
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE

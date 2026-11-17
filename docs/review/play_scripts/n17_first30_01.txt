@@ -1,0 +1,8 @@
+# first30 run 1: title, settings, new game, opening
+wait 4
+shot n17first30_01_title
+dump
+button Settings
+wait 1.5
+shot n17first30_01_set_a
+dump

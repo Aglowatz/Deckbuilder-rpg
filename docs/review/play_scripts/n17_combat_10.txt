@@ -1,0 +1,136 @@
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 8
+dev travel dungeon D-TTK -2
+wait 8
+shot n17combat_10_map
+dump
+click 1364 212
+wait 4
+shot n17combat_10_intro
+skip_dialogue 8
+wait 1
+shot n17combat_10_rules
+button Continue
+wait 5
+button Keep Hand
+wait 2
+button Got it
+wait 1
+shot n17combat_10_t1a
+dump
+click 450 800
+wait 1
+click 600 800
+wait 1
+click 750 800
+wait 1
+click 900 800
+wait 1
+click 1050 800
+wait 1
+shot n17combat_10_t1b
+key Space
+wait 3
+shot n17combat_10_t1c
+key Space
+wait 1
+button Don't ask again
+click 710 518
+wait 4
+shot n17combat_10_t1e
+wait 3
+shot n17combat_10_t2a
+dump
+click 450 800
+wait 1
+click 600 800
+wait 1
+click 750 800
+wait 1
+click 900 800
+wait 1
+click 1050 800
+wait 1
+shot n17combat_10_t2b
+key Space
+wait 3
+shot n17combat_10_t2c
+key Space
+wait 1
+button Don't ask again
+click 710 518
+wait 4
+shot n17combat_10_t2e
+wait 3
+shot n17combat_10_t3a
+dump
+click 450 800
+wait 1
+click 600 800
+wait 1
+click 750 800
+wait 1
+click 900 800
+wait 1
+click 1050 800
+wait 1
+shot n17combat_10_t3b
+key Space
+wait 3
+shot n17combat_10_t3c
+key Space
+wait 1
+button Don't ask again
+click 710 518
+wait 4
+shot n17combat_10_t3e
+wait 3
+shot n17combat_10_t4a
+dump
+click 450 800
+wait 1
+click 600 800
+wait 1
+click 750 800
+wait 1
+click 900 800
+wait 1
+click 1050 800
+wait 1
+shot n17combat_10_t4b
+key Space
+wait 3
+shot n17combat_10_t4c
+key Space
+wait 1
+button Don't ask again
+click 710 518
+wait 4
+shot n17combat_10_t4e
+wait 3
+shot n17combat_10_t5a
+dump
+click 450 800
+wait 1
+click 600 800
+wait 1
+click 750 800
+wait 1
+click 900 800
+wait 1
+click 1050 800
+wait 1
+shot n17combat_10_t5b
+key Space
+wait 3
+shot n17combat_10_t5c
+key Space
+wait 1
+button Don't ask again
+click 710 518
+wait 4
+shot n17combat_10_t5e
+wait 3
+dump
+shot n17combat_10_end

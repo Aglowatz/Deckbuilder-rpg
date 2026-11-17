@@ -1,0 +1,23 @@
+wait 4
+dev load n17late_pc
+wait 6
+dev travel dungeon D-PC -2
+wait 14
+shot n17late_10_a
+dump
+key E
+wait 1.2
+shot n17late_10_b
+key E
+wait 1.2
+shot n17late_10_c
+key E
+wait 1.2
+shot n17late_10_d
+dump
+skip_dialogue 20
+wait 1
+shot n17late_10_map
+dump
+scene
+dev save n17late_pc2

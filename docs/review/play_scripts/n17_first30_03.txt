@@ -1,0 +1,146 @@
+# first30 run 3: new game again, read the opening by hand
+wait 4
+button New Game
+wait 3
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op6
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op12
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op18
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op24
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op30
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op36
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_op42
+key E
+wait 2.3
+dump
+key E
+wait 2.3
+dump
+shot n17first30_03_end
+scene
+dev save n17first30_03

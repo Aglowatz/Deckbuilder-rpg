@@ -1,0 +1,59 @@
+wait 4
+dev load n17late_h
+wait 6
+dev travel capital
+wait 14
+skip_dialogue 4
+wait 1
+scene
+hold D 1.2
+scene
+hold W 1.2
+scene
+shot n17late_09_a
+key E
+wait 1.5
+shot n17late_09_fig1
+dump
+key E
+wait 1.5
+shot n17late_09_fig2
+dump
+skip_dialogue 12
+wait 1.5
+shot n17late_09_fig3
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+scene
+hold A 2.5
+scene
+shot n17late_09_b
+key E
+wait 1.5
+shot n17late_09_wren1
+dump
+key E
+wait 1.5
+shot n17late_09_wren2
+dump
+key E
+wait 1.5
+shot n17late_09_wren3
+dump
+skip_dialogue 20
+wait 1
+shot n17late_09_c
+dump
+dev save n17late_i
+dev travel dungeon D-PC
+wait 14
+shot n17late_09_pc1
+dump
+skip_dialogue 6
+wait 1
+shot n17late_09_pc2
+dump
+dev save n17late_pc

@@ -43,3 +43,18 @@ reach = how many players meet it (all / most / some / few); effort S (an hour or
 | C8 | The boss intro says "The Grand Chef", the board "The Doppelganger" | minor | most | S | story | Logged: the impostor is the twist; critic 3 to judge |
 | C9 | Hand cards show a generic "Effect" chip | minor | all | S | no | **Fixed** (the chip says when: On play, On death, On attack ...) |
 | C10 | Path identity blurs in a two-Path deck | minor | some | M | - | Logged |
+
+## Critic 2 - the late game and the ending (4/10; did not reach the ending: Primm phase 1 lost on turn 6 at L17)
+
+| # | Issue | Sev | Reach | Effort | Owner? | Plan / status |
+|---|---|---|---|---|---|---|
+| L1 | With four lands free there was no main quest ("Nothing here right now"); the HUD tracked a side quest | blocker | some (whoever skipped Brannoch) | S | no | **Fixed**: once a zone is free, Free the Four Zones starts by itself and leads over a side quest (same as playthrough P3) |
+| L2 | Crosspath's "Point me to..." had no entry for the Capital | major | all | S | no | **Fixed**: exits come right after dungeons and gates; the cap is 22 |
+| L3 | The north exit is hard to find on foot (the lawn stops you under the label) | major | some | M | no | Logged (the critic's blind scripting played a part; the road is marked once L2 points at it) |
+| L4 | DEFEAT drawn over the defeat panel's own text | major | all who lose | S | no | **Fixed**: the word clears as the panel opens |
+| L5 | Primm's three free Militia decide phase 1 | major | all | S | **yes (Primm unchanged)** | **Owner** |
+| L6 | Standing Army says 3/3, the board shows 3/1 with a -2 | minor | all | S | Primm rules | Logged (a debuff on the board, not the rule; Primm unchanged) |
+| L7 | Primm's long pre-fight scene replays on every re-entry | minor | some | S | - | Logged |
+| L8 | Primm's cut-in line repeats his first Model Room line | minor | all | S | single line | **Fixed** (one line, `docs/dialogue/nov17_single_lines.csv`) |
+| L9 | "Usually level 21" with a level-16 hero and nothing says where to level | minor | some | S | - | Logged (the hint already shows amber 2+ levels under) |
+| L10 | The tracker's pager flips to a side quest while a shop is open | minor | some | S | - | Logged |

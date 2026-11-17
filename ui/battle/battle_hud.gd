@@ -637,6 +637,16 @@ func show_banner(text: String, color: Color, hold: float = 0.5) -> void:
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
 
 
+## Overnight Nov 17 (the late critic's #4: "DEFEAT drawn over its own explanation"): the result panel takes the screen - the word and its
+## band fade out at once, whatever was left of their hold.
+func clear_banner() -> void:
+	var fade: Tween = _banner.create_tween()
+	fade.tween_property(_banner, "modulate:a", 0.0, 0.12)
+	for child: Node in _banner.get_parent().get_children():
+		if child.name.begins_with("BannerBand") and child is CanvasItem:
+			(child as CanvasItem).queue_free()
+
+
 ## The band behind the result word: the word's colour, clear at both ends, drawn under it for `seconds`, then gone.
 func _show_banner_band(color: Color, seconds: float) -> void:
 	var gradient: Gradient = Gradient.new()

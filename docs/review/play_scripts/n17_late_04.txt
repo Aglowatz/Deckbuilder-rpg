@@ -1,0 +1,34 @@
+wait 4
+dev load n17late_c
+wait 8
+scene
+hold W 3
+scene
+hold D 0.35
+scene
+hold W 4
+wait 1
+scene
+shot n17late_04_a
+hold W 3
+wait 12
+shot n17late_04_arrive
+scene
+dump
+wait 3
+shot n17late_04_arrive2
+skip_dialogue 6
+wait 2
+shot n17late_04_arrive3
+scene
+dump
+key M
+wait 2
+shot n17late_04_cmap
+button Point me
+wait 1.5
+shot n17late_04_cpoint
+dump
+key Escape
+wait 1
+dev save n17late_d

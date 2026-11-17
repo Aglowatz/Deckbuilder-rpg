@@ -1,0 +1,174 @@
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 8
+dev travel dungeon D-TTK -2
+wait 8
+click 1364 212
+wait 4
+skip_dialogue 8
+wait 2
+button Continue
+wait 9
+button Keep Hand
+wait 1.5
+button Got it
+wait 0.5
+shot n17combat_11_t1a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t1b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t2a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t2b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t3a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t3b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t4a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t4b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t5a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t5b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t6a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t6b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+shot n17combat_11_t7a
+click 1250 800
+wait 0.8
+click 1120 800
+wait 0.8
+click 990 800
+wait 0.8
+click 860 800
+wait 0.8
+click 730 800
+wait 0.8
+click 600 800
+wait 0.8
+click 470 800
+wait 0.8
+shot n17combat_11_t7b
+key Space
+wait 2.5
+key Space
+wait 0.8
+click 710 518
+wait 4.5
+dump
+shot n17combat_11_end
+wait 2
+dump
+shot n17combat_11_end2

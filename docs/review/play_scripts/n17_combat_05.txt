@@ -1,0 +1,13 @@
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 10
+skip_dialogue 3
+scene
+shot n17combat_05_buffet
+dev travel dungeon D-TTK
+wait 12
+skip_dialogue 10
+shot n17combat_05_ttk
+scene
+dump
+dev save n17combat_ttk0

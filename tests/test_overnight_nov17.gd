@@ -110,3 +110,28 @@ func test_a_card_without_keywords_names_its_trigger_not_effect() -> void:
 	assert_eq(CardView.trigger_chip(card), "On death")
 	card.effects = [] as Array[EffectData]
 	assert_eq(CardView.trigger_chip(card), "Effect", "nothing known: as before")
+
+
+# ---- the late critic's #1: with a zone free, Free the Four Zones is there even if Brannoch was never met ------------------------------
+
+
+func test_a_freed_zone_starts_free_the_four_zones_without_brannoch() -> void:
+	Session.set_flag(&"trial_cleared")
+	Session.complete_zone("refusemancer")
+	Session.quest_log.active.erase(QuestDefinitions.FREE_ZONES)
+	Session.quest_log.active.append("buf_mend")
+	Session.quest_log.track("buf_mend")
+	Session.offer_auto_quests()
+	assert_true(Session.quest_log.is_active(QuestDefinitions.FREE_ZONES), "the main line is in the log")
+	assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.FREE_ZONES, "and it leads, not a side quest")
+
+
+func test_the_capital_road_is_in_crosspath_s_point_me_list() -> void:
+	var points: Array[MapPoi] = []
+	for i: int in range(20):
+		points.append(MapPoi.make(MapPoi.Kind.VENDOR, Vector3(i, 0, 0), "Shop %d" % i))
+	points.append(MapPoi.make(MapPoi.Kind.EXIT, Vector3.ZERO, "The Capital"))
+	var names: Array[String] = []
+	for poi: MapPoi in FullMapScreen.where_to_places(points):
+		names.append(poi.label)
+	assert_has(names, "The Capital", "roads out are not cut by a busy town's shops")
