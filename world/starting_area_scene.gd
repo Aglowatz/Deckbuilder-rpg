@@ -566,6 +566,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
 		return
+	# Overnight Nov 17 (the first-30-minutes critic's #5: J, C and P did nothing here, with no word why): the hero says where they open
+	if not _locked and not dialogue.active and not Session.flag(&"primm_defeated"):
+		for action: StringName in [&"open_quests", &"open_character", &"open_packs", &"open_wardrobe"]:
+			if event.is_action_pressed(action):
+				get_viewport().set_input_as_handled()
+				if _barks != null:
+					_barks.say(player, "No quests, no kit, no packs out here. That all starts in town, past the cave.")
+				return
 	if _locked or dialogue.active:
 		return
 	# New brief (third), Part D: the hidden tunnel - E/Space only, like the town's hidden chests

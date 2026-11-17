@@ -108,10 +108,22 @@ func _refresh() -> void:
 		else:
 			label.text = "Choose"
 	if _done != null:
-		_done.disabled = not is_complete()
+		# Overnight Nov 17 (the first-30-minutes critic's #8: "no way out until you press Top or Bottom"): Done always works; a card not
+		# chosen stays on top, in its order
+		_done.disabled = false
+		_done.text = "Done" if is_complete() else "Done (rest on top)"
 
 
 func _finish() -> void:
-	if not is_complete():
-		return
+	for card: CardInstance in cards:
+		if not top_order.has(card.uid) and not bottom_order.has(card.uid):
+			top_order.append(card.uid)
 	chosen.emit(top_order.duplicate(), bottom_order.duplicate())
+
+
+## E, Space or Enter is Done (every other pop-up of the battle closes with them).
+func _unhandled_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode in [KEY_E, KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]:
+		get_viewport().set_input_as_handled()
+		_finish()

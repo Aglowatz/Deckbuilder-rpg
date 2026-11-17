@@ -1,0 +1,21 @@
+# Gainlands: find Chet, open Reps
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone beefcake
+wait 14
+scene
+shot n17cardgames_01_arrive
+key M
+wait 2
+shot n17cardgames_01_map
+dump
+button Point me
+wait 2
+shot n17cardgames_01_pointlist
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot n17cardgames_01_after

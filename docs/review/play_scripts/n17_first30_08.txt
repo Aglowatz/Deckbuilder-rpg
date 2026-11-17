@@ -1,0 +1,30 @@
+# first30 run 8: first cave room, first fight: look and read the tips
+wait 4
+dev load n17first30_07
+wait 6
+shot n17first30_08_map
+click 501 496
+wait 3
+shot n17first30_08_n1
+dump
+key E
+wait 2
+shot n17first30_08_n2
+dump
+key E
+wait 2
+dump
+key E
+wait 3
+shot n17first30_08_n3
+dump
+key E
+wait 2
+shot n17first30_08_n4
+dump
+key E
+wait 2
+shot n17first30_08_n5
+dump
+scene
+dev save n17first30_08

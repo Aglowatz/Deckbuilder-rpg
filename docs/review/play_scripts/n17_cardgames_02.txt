@@ -1,0 +1,24 @@
+# Gainlands: walk to Chet
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone beefcake
+wait 14
+key E
+wait 1
+hold W+Shift 2.5
+wait 0.5
+key M
+wait 1.5
+shot n17cardgames_02_map1
+key Escape
+wait 0.5
+hold D+Shift 1.5
+wait 0.5
+key M
+wait 1.5
+shot n17cardgames_02_map2
+key Escape
+wait 0.5
+shot n17cardgames_02_view
+dump

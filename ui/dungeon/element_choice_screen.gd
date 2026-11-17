@@ -126,6 +126,37 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 	plan.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.add_child(plan)
 	_tiles[offer.affinity] = tile
+	# Overnight Nov 17 (the first-30-minutes critic's blocker: a click on the cards or the icon only showed the description): a clear layer
+	# over the whole tile takes every click and hover itself, whatever the card views inside do with the mouse; and the picked tile wears
+	# a thick gold frame (it looked no different).
+	var frame: Panel = Panel.new()
+	frame.name = "SelectedFrame"
+	var frame_box: StyleBoxFlat = StyleBoxFlat.new()
+	frame_box.bg_color = Color(0, 0, 0, 0)
+	frame_box.border_color = UIStyle.GOLD
+	frame_box.set_border_width_all(6)
+	frame_box.set_corner_radius_all(14)
+	frame.add_theme_stylebox_override("panel", frame_box)
+	frame.set_anchors_preset(Control.PRESET_FULL_RECT)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.visible = false
+	tile.add_child(frame)
+	var catcher: Control = Control.new()
+	catcher.name = "ClickLayer"
+	catcher.set_anchors_preset(Control.PRESET_FULL_RECT)
+	catcher.mouse_filter = Control.MOUSE_FILTER_STOP
+	catcher.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	catcher.gui_input.connect(func(event: InputEvent) -> void:
+		var click: InputEventMouseButton = event as InputEventMouseButton
+		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			tile.grab_focus()
+			_select(offer.affinity)
+			catcher.accept_event())
+	catcher.mouse_entered.connect(func() -> void:
+		Audio.sfx(&"ui_hover", -8.0)
+		_show(offer.affinity))
+	catcher.mouse_exited.connect(func() -> void: _show(Affinity.Type.NEUTRAL))
+	tile.add_child(catcher)
 	# Fix pass Nov 7 (item 5, C1 F3): the whole column is one click target - the sample cards, the name and the blurb no longer swallow the
 	# click (only the header and icon used to select). Again after a frame: card views set their own filters when they enter the tree.
 	_pass_clicks_through(tile)
@@ -135,7 +166,8 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 
 static func _pass_clicks_through(tile: Control) -> void:
 	for child: Node in tile.find_children("*", "Control", true, false):
-		(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if child.name != "ClickLayer":
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 ## The strip under the tiles: the hovered / focused Path's identity and playstyle (a hint line when nothing is highlighted).
@@ -288,6 +320,9 @@ func _select(color: Affinity.Type) -> void:
 		var tint: Color = UIStyle.affinity_color(int(key) as Affinity.Type)
 		var is_selected: bool = int(key) == int(color)
 		UiSkin.choice_tile(tile, tint, is_selected)
+		var frame: Node = tile.get_node_or_null("SelectedFrame")
+		if frame is CanvasItem:
+			(frame as CanvasItem).visible = is_selected
 	_confirm.disabled = false
 	_confirm.text = "Begin as %s" % UIStyle.affinity_name(color)
 	if _pick_first != null:

@@ -1,0 +1,40 @@
+# first30 run 7: the forest, walk to the cave, enter, first rooms
+wait 4
+dev load n17first30_06
+wait 13
+shot n17first30_07_start
+dump
+hold W+D 1.5
+wait 0.5
+shot n17first30_07_w1
+hold W 1.5
+wait 0.5
+shot n17first30_07_w2
+dump
+hold W+D 1.5
+wait 0.5
+shot n17first30_07_w3
+dump
+key E
+wait 3
+shot n17first30_07_w4
+dump
+key E
+wait 2
+dump
+wait 8
+shot n17first30_07_cave1
+dump
+scene
+key E
+wait 2
+shot n17first30_07_cave2
+dump
+key E
+wait 2
+dump
+key E
+wait 2
+shot n17first30_07_cave3
+dump
+dev save n17first30_07

@@ -1,0 +1,74 @@
+# first30 run 13: controller only from the forest snapshot
+wait 4
+dev load n17first30_06
+wait 13
+pad start
+wait 1.5
+shot n17first30_13_pause
+dump
+pad down
+wait 0.4
+pad down
+wait 0.4
+shot n17first30_13_pause_nav
+pad b
+wait 1
+pad back
+wait 2
+shot n17first30_13_map
+dump
+pad b
+wait 1
+pad x
+wait 2
+shot n17first30_13_deck
+dump
+pad b
+wait 1.5
+shot n17first30_13_afterb
+stick 0.6 -0.8 1.5
+stick 0 -1 1.5
+stick 0.6 -0.8 1.5
+wait 0.5
+shot n17first30_13_atcave
+dump
+pad a
+wait 2
+shot n17first30_13_cavepop
+dump
+pad a
+wait 5
+shot n17first30_13_dmap
+dump
+pad a
+wait 1
+pad right
+wait 0.5
+shot n17first30_13_dmap_nav
+pad a
+wait 4
+shot n17first30_13_b1
+dump
+pad a
+wait 1.5
+pad a
+wait 1.5
+shot n17first30_13_b2
+dump
+pad right
+wait 0.5
+pad right
+wait 0.5
+shot n17first30_13_b3
+pad a
+wait 1.5
+shot n17first30_13_b4
+dump
+pad y
+wait 1.5
+shot n17first30_13_b5
+dump
+pad start
+wait 1.5
+shot n17first30_13_b6
+dump

@@ -1,0 +1,2 @@
+# Overnight Nov 17: single lines changed after the critics (revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov17_single_lines.csv --revert=docs/dialogue/nov17_single_lines_ids.txt)
+data/encounters/boss_intros.json::Primm/line::0

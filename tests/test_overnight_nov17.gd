@@ -135,3 +135,21 @@ func test_the_capital_road_is_in_crosspath_s_point_me_list() -> void:
 	for poi: MapPoi in FullMapScreen.where_to_places(points):
 		names.append(poi.label)
 	assert_has(names, "The Capital", "roads out are not cut by a busy town's shops")
+
+
+# ---- the first-30-minutes critic's #8: Peek can always be closed; unchosen cards stay on top ----------------------------------------
+
+
+func test_peek_done_keeps_unchosen_cards_on_top() -> void:
+	var a: CardInstance = CardInstance.new()
+	a.uid = 101
+	var b: CardInstance = CardInstance.new()
+	b.uid = 102
+	var panel: PeekPanel = PeekPanel.make([a, b] as Array[CardInstance])
+	var got: Array = []
+	panel.chosen.connect(func(top: Array[int], bottom: Array[int]) -> void: got = [top, bottom])
+	panel.pick(102, false)
+	panel._finish()
+	assert_eq(got[0], [101], "the unchosen card stays on top")
+	assert_eq(got[1], [102])
+	panel.free()

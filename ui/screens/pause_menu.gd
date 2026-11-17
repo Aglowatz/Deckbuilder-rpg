@@ -79,7 +79,8 @@ func _build_menu() -> void:
 	IconArt.button_icon(feats_button, "ICON-UI-FEATS", 40.0)  # art import Oct 31
 	feats_button.pressed.connect(_show_feats)
 	column.add_child(feats_button)
-	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)", &"", Vector2(0, 54))
+	# Overnight Nov 17 (critic 5 #9): the keyboard key only when no controller is plugged in
+	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)" if Input.get_connected_joypads().is_empty() else "Report a Problem", &"", Vector2(0, 54))
 	feedback.name = "FeedbackButton"
 	feedback.pressed.connect(SceneManager.open_feedback)
 	column.add_child(feedback)

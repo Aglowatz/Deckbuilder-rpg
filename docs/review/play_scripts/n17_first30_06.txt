@@ -1,0 +1,103 @@
+# first30 run 6: try every way to select a Path
+wait 4
+button New Game
+wait 3
+skip_dialogue 14
+key E
+wait 3
+log TRY1 click Gourmand icon
+move 671 330
+wait 0.5
+click 671 330
+wait 1
+shot n17first30_06_try1
+dump
+log TRY2 click Gourmand title
+click 671 274
+wait 1
+dump
+log TRY3 click Gourmand blurb
+click 671 500
+wait 1
+dump
+log TRY4 button Gourmand
+button Gourmand
+wait 1
+dump
+log TRY5 keys
+key Right
+wait 0.5
+key Enter
+wait 1
+shot n17first30_06_try5
+dump
+log TRY6 pad
+pad right
+wait 0.5
+pad a
+wait 1
+shot n17first30_06_try6
+dump
+click 820 740
+wait 2
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_06_p4
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_06_p8
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_06_p12
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_06_p16
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_06_end
+scene
+dev save n17first30_06

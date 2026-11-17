@@ -1,0 +1,203 @@
+# first30 run 14: J/C/P again one at a time, then the first fight by hand to the end
+wait 4
+dev load n17first30_06
+wait 13
+key J
+wait 2
+shot n17first30_14_J
+dump
+key Escape
+wait 1
+key C
+wait 2
+shot n17first30_14_C
+dump
+key Escape
+wait 1
+key P
+wait 2
+shot n17first30_14_P
+dump
+key Escape
+wait 1
+dump
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+key E
+wait 2
+button Enter
+wait 4
+button Got it
+wait 1
+click 501 496
+wait 4
+button Keep Hand
+wait 1
+button Skip tips
+wait 0.5
+log TURN 1
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t1
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+log TURN 2
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t2
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+log TURN 3
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t3
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+log TURN 4
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t4
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+log TURN 5
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t5
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+log TURN 6
+click 507 780
+wait 1.2
+button Top
+button Done
+click 660 780
+wait 1.2
+button Top
+button Done
+click 810 780
+wait 1.2
+button Top
+button Done
+key Space
+wait 1.5
+button Select All
+wait 0.5
+shot n17first30_14_t6
+button Attack
+wait 2
+key Space
+wait 1
+key Space
+wait 5
+key Space
+wait 1
+dump
+shot n17first30_14_end
+dump
+scene

@@ -1,0 +1,54 @@
+# first30 run 12: the menus from the forest (map, quest log, character, deck, packs, wardrobe, pause)
+wait 4
+dev load n17first30_06
+wait 13
+key M
+wait 2
+shot n17first30_12_map
+dump
+button Point me
+wait 1.5
+shot n17first30_12_pointme
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+key J
+wait 2
+shot n17first30_12_quests
+dump
+key Escape
+wait 1
+key C
+wait 2
+shot n17first30_12_char
+dump
+key Escape
+wait 1
+key B
+wait 2.5
+shot n17first30_12_deck
+dump
+key Escape
+wait 1.5
+key P
+wait 2
+shot n17first30_12_packs
+dump
+key Escape
+wait 1
+key T
+wait 2
+shot n17first30_12_wardrobe
+dump
+key Escape
+wait 1
+key Escape
+wait 1.5
+shot n17first30_12_pause
+dump
+key Escape
+wait 1
+shot n17first30_12_back
+dump

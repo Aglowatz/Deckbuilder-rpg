@@ -1,0 +1,45 @@
+# first30 run 9: back to the cave, first fight by hand
+wait 4
+dev load n17first30_06
+wait 13
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+key E
+wait 2
+button Enter
+wait 4
+button Got it
+wait 1
+click 501 496
+wait 4
+shot n17first30_09_f1
+dump
+key E
+wait 1.5
+shot n17first30_09_f2
+dump
+key E
+wait 1.5
+shot n17first30_09_f3
+dump
+key E
+wait 1.5
+shot n17first30_09_f4
+dump
+key E
+wait 1.5
+shot n17first30_09_f5
+dump
+key E
+wait 1.5
+shot n17first30_09_f6
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+shot n17first30_09_f7
+dump
+scene

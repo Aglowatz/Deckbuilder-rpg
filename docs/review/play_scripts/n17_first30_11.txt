@@ -1,0 +1,185 @@
+# first30 run 11: first fight by hand, handling Peek, attacking
+wait 4
+dev load n17first30_06
+wait 13
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+key E
+wait 2
+button Enter
+wait 4
+button Got it
+wait 1
+click 501 496
+wait 4
+button Keep Hand
+wait 1
+log TURN 1
+button Got it
+click 507 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 660 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 810 780
+wait 1.5
+button Top
+button Done
+button Got it
+shot n17first30_11_t1a
+key Space
+wait 2
+button Got it
+shot n17first30_11_t1b
+dump
+click 811 500
+wait 1
+click 811 230
+wait 1
+key Space
+wait 2.5
+shot n17first30_11_t1c
+dump
+key Space
+wait 6
+log TURN 2
+button Got it
+click 507 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 660 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 810 780
+wait 1.5
+button Top
+button Done
+button Got it
+shot n17first30_11_t2a
+key Space
+wait 2
+button Got it
+shot n17first30_11_t2b
+dump
+click 811 500
+wait 1
+click 811 230
+wait 1
+key Space
+wait 2.5
+shot n17first30_11_t2c
+dump
+key Space
+wait 6
+log TURN 3
+button Got it
+click 507 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 660 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 810 780
+wait 1.5
+button Top
+button Done
+button Got it
+shot n17first30_11_t3a
+key Space
+wait 2
+button Got it
+shot n17first30_11_t3b
+dump
+click 811 500
+wait 1
+click 811 230
+wait 1
+key Space
+wait 2.5
+shot n17first30_11_t3c
+dump
+key Space
+wait 6
+log TURN 4
+button Got it
+click 507 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 660 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 810 780
+wait 1.5
+button Top
+button Done
+button Got it
+shot n17first30_11_t4a
+key Space
+wait 2
+button Got it
+shot n17first30_11_t4b
+dump
+click 811 500
+wait 1
+click 811 230
+wait 1
+key Space
+wait 2.5
+shot n17first30_11_t4c
+dump
+key Space
+wait 6
+log TURN 5
+button Got it
+click 507 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 660 780
+wait 1.5
+button Top
+button Done
+button Got it
+click 810 780
+wait 1.5
+button Top
+button Done
+button Got it
+shot n17first30_11_t5a
+key Space
+wait 2
+button Got it
+shot n17first30_11_t5b
+dump
+click 811 500
+wait 1
+click 811 230
+wait 1
+key Space
+wait 2.5
+shot n17first30_11_t5c
+dump
+key Space
+wait 6
+shot n17first30_11_end
+dump
+scene

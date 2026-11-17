@@ -1,0 +1,108 @@
+# first30 run 10: first fight by hand (click cards, attack, end turn)
+wait 4
+dev load n17first30_06
+wait 13
+hold W+D 1.5
+hold W 1.5
+hold W+D 1.5
+key E
+wait 2
+button Enter
+wait 4
+button Got it
+wait 1
+click 501 496
+wait 4
+button Keep Hand
+wait 1
+button Got it
+wait 1
+log TURN 1
+click 507 780
+wait 1.5
+dump
+click 660 780
+wait 1.5
+click 810 780
+wait 1.5
+shot n17first30_10_t1a
+dump
+click 960 780
+wait 1.5
+key Space
+wait 2.5
+shot n17first30_10_t1b
+dump
+key Space
+wait 2
+button End
+wait 6
+shot n17first30_10_t1c
+dump
+log TURN 2
+click 507 780
+wait 1.5
+dump
+click 660 780
+wait 1.5
+click 810 780
+wait 1.5
+shot n17first30_10_t2a
+dump
+click 960 780
+wait 1.5
+key Space
+wait 2.5
+shot n17first30_10_t2b
+dump
+key Space
+wait 2
+button End
+wait 6
+shot n17first30_10_t2c
+dump
+log TURN 3
+click 507 780
+wait 1.5
+dump
+click 660 780
+wait 1.5
+click 810 780
+wait 1.5
+shot n17first30_10_t3a
+dump
+click 960 780
+wait 1.5
+key Space
+wait 2.5
+shot n17first30_10_t3b
+dump
+key Space
+wait 2
+button End
+wait 6
+shot n17first30_10_t3c
+dump
+log TURN 4
+click 507 780
+wait 1.5
+dump
+click 660 780
+wait 1.5
+click 810 780
+wait 1.5
+shot n17first30_10_t4a
+dump
+click 960 780
+wait 1.5
+key Space
+wait 2.5
+shot n17first30_10_t4b
+dump
+key Space
+wait 2
+button End
+wait 6
+shot n17first30_10_t4c
+dump
+scene

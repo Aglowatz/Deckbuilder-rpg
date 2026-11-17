@@ -58,3 +58,18 @@ reach = how many players meet it (all / most / some / few); effort S (an hour or
 | L8 | Primm's cut-in line repeats his first Model Room line | minor | all | S | single line | **Fixed** (one line, `docs/dialogue/nov17_single_lines.csv`) |
 | L9 | "Usually level 21" with a level-16 hero and nothing says where to level | minor | some | S | - | Logged (the hint already shows amber 2+ levels under) |
 | L10 | The tracker's pager flips to a side quest while a shop is open | minor | some | S | - | Logged |
+
+## Critic 5 - the first 30 minutes and the menus (4/10; reached the cave's first fight; controller run done)
+
+| # | Issue | Sev | Reach | Effort | Owner? | Plan / status |
+|---|---|---|---|---|---|---|
+| F1 | The Path screen only selects on the Path's name; the picked tile looks no different | blocker | all | S | no | **Fixed**: a click layer over each whole tile, a gold frame on the picked one |
+| F2 | Nothing can be saved before the Path choice; retries replay the opening | major | some | S | - | Logged (the opening is about 25 lines; a skip exists for dialogue) |
+| F3 | The first duel is slow: stacked tips, a 3 HP scavenger alive on turn 5 | major | all | M | yes (first-duel AI, tips) | **Owner** (with C3) |
+| F4 | A save inside the cave reloads at the forest with the cave reset | major | some | - | rule | By design (dungeon runs are never saved; the owner's rule since Oct); logged |
+| F5 | J, C and P did nothing in the forest, with no word | major | most | S | no | **Fixed**: the hero says those start in town |
+| F6 | Hand cards cut off at the bottom; infrastructure half-hidden | major | all | M | **board layout stays** | Logged (owner rule) |
+| F7 | The Path screen's sample cards are too small to read | minor | all | S | - | Logged |
+| F8 | The Peek pop-up could not be closed without choosing | minor | most | S | no | **Fixed**: Done always works (unchosen cards stay on top); E, Space, Enter confirm |
+| F9 | The pause menu says F8 with a controller | minor | some | S | no | **Fixed** (no key shown while a pad is connected) |
+| F10 | The forest is very dark; the hero's cloak is teal in the wake picture and brown in the portrait | minor | all | M/L | taste / art | **Owner** (with A7); the cloak is a Batch 17 row |

@@ -1,0 +1,108 @@
+# first30 run 4: new game, opening already read in run 3, choose a Path, read what follows
+wait 4
+button New Game
+wait 3
+skip_dialogue 14
+wait 1
+move 671 420
+wait 1
+shot n17first30_04_hover
+dump
+click 671 300
+wait 1
+button More
+wait 1.5
+shot n17first30_04_more
+dump
+key Escape
+wait 1
+shot n17first30_04_afteresc
+dump
+button Begin
+wait 2
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_04_p5
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_04_p10
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_04_p15
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_04_p20
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+key E
+wait 2.2
+dump
+shot n17first30_04_p25
+key E
+wait 2.2
+dump
+shot n17first30_04_end
+scene
+dev save n17first30_04
