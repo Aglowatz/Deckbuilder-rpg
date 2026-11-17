@@ -1,0 +1,59 @@
+# Run 6: TTK first room by hand for several turns, then pilot to finish, then reward flow
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 10
+dev travel dungeon D-TTK
+wait 11
+click 411 224
+wait 4
+button Continue
+wait 4
+button Keep Hand
+wait 2
+shot n17rcombat_06_t1a
+dump
+rclick 600 780
+wait 1.5
+shot n17rcombat_06_t1_rclick
+key Escape
+wait 1
+click 433 790
+wait 2
+shot n17rcombat_06_t1b
+dump
+click 600 790
+wait 2
+shot n17rcombat_06_t1c
+dump
+button End
+wait 2
+shot n17rcombat_06_t1_enemy1
+wait 3
+shot n17rcombat_06_t1_enemy2
+wait 3
+shot n17rcombat_06_t2a
+dump
+click 500 790
+wait 2
+click 700 790
+wait 2
+shot n17rcombat_06_t2b
+dump
+button To Combat
+wait 2
+shot n17rcombat_06_t2c
+dump
+key Space
+wait 2
+button End
+wait 3
+shot n17rcombat_06_t2_enemy
+wait 4
+shot n17rcombat_06_t3a
+dump
+pilot 50
+shot n17rcombat_06_end
+button Continue
+wait 3
+shot n17rcombat_06_after1
+dump

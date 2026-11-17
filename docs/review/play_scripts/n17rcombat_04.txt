@@ -1,0 +1,18 @@
+# Run 4: TTK first room, pilot whole fight, reward screen
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 10
+dev travel dungeon D-TTK
+wait 11
+click 411 224
+wait 5
+shot n17rcombat_04_a_enter
+dump
+log PILOT START
+pilot 100
+log PILOT END
+shot n17rcombat_04_c_end
+dump
+wait 2
+shot n17rcombat_04_d_reward
+dump

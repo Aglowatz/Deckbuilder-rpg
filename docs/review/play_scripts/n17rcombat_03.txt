@@ -1,0 +1,22 @@
+# Run 3: first TTK room, pilot whole fight, reward screen
+wait 4
+dev load n17rcombat_ttk
+wait 8
+click 411 224
+wait 6
+shot n17rcombat_03_a_enter
+dump
+key E
+wait 1
+key E
+wait 3
+shot n17rcombat_03_b_start
+log PILOT START
+pilot 105
+log PILOT END
+shot n17rcombat_03_c_end
+dump
+scene
+wait 2
+shot n17rcombat_03_d_reward
+dump

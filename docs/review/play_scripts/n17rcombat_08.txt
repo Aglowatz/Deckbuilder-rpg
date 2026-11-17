@@ -1,0 +1,30 @@
+# Run 8: TTK first room at higher speed, pilot to finish, then every reward screen
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 10
+dev travel dungeon D-TTK
+wait 11
+click 411 224
+wait 4
+button Continue
+wait 4
+button Keep Hand
+wait 1
+button Got it
+button Speed
+wait 0.5
+shot n17rcombat_08_a_speed
+pilot 85
+shot n17rcombat_08_b_end
+button Continue
+wait 3
+shot n17rcombat_08_c_reward1
+dump
+button Continue
+wait 3
+shot n17rcombat_08_d_reward2
+dump
+key E
+wait 3
+shot n17rcombat_08_e_reward3
+dump

@@ -111,3 +111,20 @@ the Grand Chef's and the Doppelganger's naming lines, Compostella's seed line, t
 (the hero stands), Primm's "That is simply not true". **Not touched (the owner's list from Nov 16):** Maren's "the same way I have been
 holding yours", "Four banners fly from the same pole", "find me on the square", "I still can't see her face", "a coat too fine". Plume's
 slip line was left (the fix would assert a fact about Elowen's father).
+
+## Part 4 - re-checks on the fixed build (fresh agents, the same briefs, 8 runs, three anchor shots and the round-1 score)
+
+| Lens | Round 1 | Re-check | What changed in what they saw |
+|---|---|---|---|
+| 1. Combat | 4 (C6 F4 P6) | **4** (C5 F4 P6) | Same pace and thin choices. New findings: a normal fight's reward has no card pick (owner decision 1); "One Infrastructure per turn" toast outlives its turn; three "Victory" moments; a hover preview over the banner |
+| 2. Late game | 4 (C3 F4 P6) | **4** (C3 F3 P6) | Fixed and seen: town's log now shows Free the Four Zones with a where-to-go line (it was "Nothing here right now"); DEFEAT no longer covers the panel text. Still: walking out of town on foot failed for this critic too; Primm phase 1 lost on turn 6 to the Militia (owner decision 2) |
+
+Neither re-check reached further than round 1, so the numbers cannot show the fixes; the screenshots do (`n17rlate_03_journal` against
+the anchor `n17late_03_cmain`).
+
+## Found by me tonight (not by a critic)
+
+| # | Issue | Status |
+|---|---|---|
+| M1 | Every zone's quiz host said "[missing text: quiz.start]" (and the result remark): a missing story key is not empty | **Fixed** (`CardGameScreen.story_line`), test |
+| M2 | The strict playthrough tool: `tools/run_strict_playthrough.sh` (real walking, quests by E, no decree) | New tool |
