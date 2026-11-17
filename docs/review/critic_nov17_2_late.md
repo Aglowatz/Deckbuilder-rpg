@@ -11,7 +11,7 @@ scored clarity 5: "nothing tracks the ending after Primm". Judge it like the las
 ## What to play, in order
 
 1. **The Capital, all four lands freed:** `dev load bot_refusemancer_capital_ready` (a hero in Crosspath with all four Path zones freed,
-   about level 18). Walk the imperial road north out of town into the Capital (it is on the map). Follow the quest tracker (top right) and
+   about level 16). Walk the imperial road north out of town into the Capital (it is on the map). Follow the quest tracker (top right) and
    the map's "Point me to...". Get past the great gate's guard, find the resistance's hideout **the Crease** under the city and its people
    (Wren, Fig Sly's Black Market), and **the Old Service Tunnels** if you can find them (`dev travel dungeon S-CAP` after one run of
    trying).

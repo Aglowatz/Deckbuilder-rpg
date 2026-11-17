@@ -1,0 +1,9 @@
+wait 4
+shot n17chk_title
+dev load bot_refusemancer_capital_ready
+wait 12
+scene
+shot n17chk_cap
+dev load bot_beefcake_enter_necrocrat
+wait 12
+scene
