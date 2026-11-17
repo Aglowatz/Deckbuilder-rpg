@@ -1,0 +1,558 @@
+playthrough: path refusemancer, real fights true, save/load true
+playthrough: PASS  the starting forest loads on a new game
+playthrough: UI the Rescuer's Path choice: Refusemancer (the tile's chosen signal)
+playthrough: PASS  the Forgotten Cave opens
+playthrough: FIGHT the Forgotten Cave (fight 1) | board dungeon:hollow | L1, 120 gold, deck 45
+playthrough: fight won for real: the Forgotten Cave (fight 1) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 1) (turn -1)
+playthrough: FIGHT the Forgotten Cave (fight 2) | board dungeon:hollow | L1, 160 gold, deck 45
+playthrough: fight won for real: the Forgotten Cave (fight 2) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 2) (turn -1)
+playthrough: FIGHT the Forgotten Cave (fight 3) | board dungeon:hollow | L1, 200 gold, deck 45
+playthrough: fight won for real: the Forgotten Cave (fight 3) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 3) (turn -1)
+playthrough: PASS  the tutorial cave is cleared by play
+playthrough: CHAPTER Chapter 0: the forest and the Forgotten Cave | 1.6 min wall, 1.2 min game | L3, 520 gold, deck 48, 0 gear
+playthrough: PASS  the town loads after the tutorial
+playthrough: PASS  strict: Maren's welcome is heard
+playthrough: talked to Tilly Tonic
+playthrough: UI Character page: equipped Tilly's Power Wraps (CharacterScreen.equip_selected_into's calls)
+playthrough: talked to Sable
+playthrough: UI Sable's shop: bought 4 cards (the shop's buy calls)
+playthrough: talked to Pip Threadwell
+playthrough: UI Packs page: opened 1 packs (PacksScreen.open_all)
+playthrough: UI Deck Station: saved the deck to its slot (Session.save_deck_to_slot, the Save button's call)
+playthrough: FIGHT the store room ghosts (try 1) | board town | L4, 345 gold, deck 48
+playthrough: fight won for real: the store room ghosts (try 1) (level 4)
+playthrough: FIGHT won the store room ghosts (try 1) (turn -1)
+playthrough: talked to Bertram
+playthrough: FIGHT the armory's one fight (try 1) | board town | L5, 540 gold, deck 48
+playthrough: fight won for real: the armory's one fight (try 1) (level 5)
+playthrough: FIGHT won the armory's one fight (try 1) (turn -1)
+playthrough: talked to Bertram
+playthrough: UI Character page: equipped Starter Blade (Session.equip_item, the Weapon slot's call)
+playthrough: PASS  Maren's early-game chain is done (merchants, deck edit, ghosts, armory)
+playthrough: CHAPTER Chapter 1: Crosspath, Settling In | 2.9 min wall, 2.8 min game | L5, 554 gold, deck 48, 2 gear
+playthrough: PASS  the zone main lines wait for Maren's send-off
+playthrough: ISSUE MARKER: no marker on town spot guard (tracked quest fragments; its arrow points at Elder Maren at (27, -12)) (L5, 554 gold, Town at (14.3, 18.7))
+playthrough: ISSUE TRAPPED: could not walk to town spot guard at (19.4, -14.3) - stuck after 15 s from (14.3, 18.7), route 13 points; moved there (L5, 554 gold, Town at (14.3, 18.7))
+playthrough: FAIL  Brannoch gives Free the Four Zones on the imperial road
+playthrough: tend deck (after the tutorial): 1 packs opened, 4 cards bought, Paths ["Refusemancer"], deck 45 cards, level 5, gold 204
+playthrough: tend deck (before refusemancer gatekeeper try 1): 0 packs opened, 1 cards bought, Paths ["Refusemancer"], deck 45 cards, level 5, gold 104
+playthrough: ISSUE MARKER: no marker on town spot npc_refusemancer (tracked quest fragments; its arrow points at Elder Maren at (27, -12)) (L5, 104 gold, Town at (19.4, -13.3))
+playthrough: FIGHT refusemancer gatekeeper (try 1) | board zone:refusemancer | L5, 104 gold, deck 45
+playthrough: fight won for real: refusemancer gatekeeper (try 1) (level 5)
+playthrough: FIGHT won refusemancer gatekeeper (try 1) (turn -1)
+playthrough: PASS  Maren sends the hero down their own Path (the four zone lines start)
+playthrough: PASS  the hero's own Path line is the tracked quest
+playthrough: PASS  refusemancer: walking down the road enters the zone
+playthrough: PASS  save/load at enter_refusemancer (zone:refusemancer): the same state
+playthrough: UI Quest log: tracked side_s_ref
+playthrough: FIGHT side_s_ref (a step's fight) | board zone:refusemancer | L5, 304 gold, deck 45
+playthrough: fight won for real: side_s_ref (a step's fight) (level 5)
+playthrough: FIGHT won side_s_ref (a step's fight) (turn -1)
+playthrough: FIGHT side_s_ref (a step's fight) | board zone:refusemancer | L5, 364 gold, deck 45
+playthrough: fight won for real: side_s_ref (a step's fight) (level 5)
+playthrough: FIGHT won side_s_ref (a step's fight) (turn -1)
+playthrough: ISSUE MARKER: no marker on refusemancer side dungeon door (tracked quest main_refusemancer; its arrow points at Magic Bean at (34, 106)) (L6, 569 gold, HeapZone at (49.7, 126.2))
+playthrough: ISSUE TRAPPED: could not walk to refusemancer side dungeon door at (31.0, 11.1) - stuck after 56 s from (49.7, 126.2), route 13 points; moved there (L6, 569 gold, HeapZone at (44.2, 99.6))
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 1) | board BB-S-REF | L6, 569 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 1) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 2) | board BB-S-REF | L6, 599 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 2) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 3) | board BB-S-REF | L6, 629 gold, deck 45
+playthrough: LOSS refusemancer side dungeon S-REF (fight 3) - level 6, deck Refusemancer deck, 45 cards, turn 25
+playthrough: tend deck (refusemancer side dungeon S-REF try 2): 1 packs opened, 9 cards bought, Paths ["Refusemancer"], deck 45 cards, level 6, gold 229
+playthrough: re-entering refusemancer side dungeon S-REF (try 2)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (S-REF) at (31.0, 11.1) - stuck after 23 s from (50.0, 126.0), route 14 points; moved there (L6, 229 gold, HeapZone at (44.1, 99.6))
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 1) | board BB-S-REF | L6, 229 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 1) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 2) | board BB-S-REF | L6, 259 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 2) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 3) | board BB-S-REF | L6, 289 gold, deck 45
+playthrough: LOSS refusemancer side dungeon S-REF (fight 3) - level 6, deck Refusemancer deck, 45 cards, turn 18
+playthrough: tend deck (refusemancer side dungeon S-REF try 3): 0 packs opened, 3 cards bought, Paths ["Refusemancer"], deck 45 cards, level 6, gold 139
+playthrough: re-entering refusemancer side dungeon S-REF (try 3)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (S-REF) at (31.0, 11.1) - stuck after 27 s from (50.0, 126.0), route 8 points; moved there (L6, 139 gold, HeapZone at (43.7, 99.6))
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 1) | board BB-S-REF | L6, 139 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 1) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 2) | board BB-S-REF | L6, 169 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 2) (turn -1)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 3) | board BB-S-REF | L7, 199 gold, deck 45
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 3) (level 7)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 3) (turn -1)
+playthrough: CHAPTER refusemancer side dungeon S-REF | 13.1 min wall, 12.3 min game | L8, 514 gold, deck 45, 4 gear
+playthrough: PASS  refusemancer: the favour side_s_ref is done by play
+playthrough: PASS  refusemancer: a favour done pays the midpoint gear (dumpster_gloves)
+playthrough: FAIL  refusemancer: the main dungeon opens from its door
+playthrough: ISSUE BLOCKER: refusemancer: the main dungeon door did not open (L8, 514 gold, HeapZone at (49.3, 10.1))
+playthrough: FIGHT refusemancer boss (fight 1) | board BB-ROT | L8, 514 gold, deck 45
+playthrough: fight won for real: refusemancer boss (fight 1) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 1) (turn -1)
+playthrough: FIGHT refusemancer boss (fight 2) | board BB-ROT | L8, 544 gold, deck 45
+playthrough: LOSS refusemancer boss (fight 2) - level 8, deck Refusemancer deck, 45 cards, turn 20
+playthrough: tend deck (refusemancer boss try 2): 2 packs opened, 4 cards bought, Paths ["Refusemancer"], deck 45 cards, level 8, gold 219
+playthrough: re-entering refusemancer boss (try 2)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-HOG) at (50.0, 10.6) - too slow after 75 s from (50.0, 126.0), route 8 points; moved there (L8, 219 gold, HeapZone at (44.7, 100.8))
+playthrough: ISSUE SHORTCUT: re-entered D-HOG by its call (no door by play from HeapZone at (50.0, 11.6)) (L8, 219 gold, HeapZone at (50.0, 11.6))
+playthrough: FIGHT refusemancer boss (fight 1) | board BB-ROT | L8, 219 gold, deck 45
+playthrough: fight won for real: refusemancer boss (fight 1) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 1) (turn -1)
+playthrough: FIGHT refusemancer boss (fight 2) | board BB-ROT | L8, 249 gold, deck 45
+playthrough: fight won for real: refusemancer boss (fight 2) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 2) (turn -1)
+playthrough: FIGHT refusemancer boss (fight 3) | board BB-ROT | L8, 304 gold, deck 45
+playthrough: fight won for real: refusemancer boss (fight 3) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 3) (turn -1)
+playthrough: FIGHT refusemancer boss (fight 4) | board BB-ROT | L8, 334 gold, deck 45
+playthrough: fight won for real: refusemancer boss (fight 4) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 4) (turn -1)
+playthrough: PASS  refusemancer: beating the boss frees the zone
+playthrough: PASS  refusemancer: its main quest line completes
+playthrough: CHAPTER Zone 1: refusemancer freed | 5.9 min wall, 5.6 min game | L10, 1379 gold, deck 45, 6 gear
+playthrough: PASS  refusemancer: Maren gives back a memory fragment
+playthrough: PASS  save/load at town_after_refusemancer (town): the same state
+playthrough: ISSUE MARKER: no marker on town spot rescuer (tracked quest fragments; its arrow points at Elder Maren at (27, -12)) (L10, 1379 gold, Town at (25.2, 19.2))
+playthrough: tend deck (after refusemancer): 3 packs opened, 16 cards bought, Paths ["Refusemancer"], deck 45 cards, level 10, gold 479
+playthrough: tend deck (before beefcake gatekeeper try 1): 0 packs opened, 6 cards bought, Paths ["Refusemancer"], deck 45 cards, level 10, gold 179
+playthrough: FIGHT beefcake gatekeeper (try 1) | board zone:beefcake | L10, 179 gold, deck 45
+playthrough: fight won for real: beefcake gatekeeper (try 1) (level 10)
+playthrough: FIGHT won beefcake gatekeeper (try 1) (turn -1)
+playthrough: PASS  beefcake: walking down the road enters the zone
+playthrough: PASS  save/load at enter_beefcake (zone:beefcake): the same state
+playthrough: UI Quest log: tracked gain_power
+playthrough: PASS  beefcake: the favour gain_power is done by play
+playthrough: PASS  beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: PASS  beefcake: the main dungeon opens from its door
+playthrough: FIGHT beefcake boss (fight 1) | board BB-HOG | L10, 444 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 1) (level 10)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+playthrough: FIGHT beefcake boss (fight 2) | board BB-HOG | L11, 649 gold, deck 45
+playthrough: LOSS beefcake boss (fight 2) - level 11, deck Refusemancer deck, 45 cards, turn 14
+playthrough: tend deck (beefcake boss try 2): 1 packs opened, 9 cards bought, Paths ["Refusemancer"], deck 45 cards, level 11, gold 224
+playthrough: re-entering beefcake boss (try 2)
+playthrough: FIGHT beefcake boss (fight 1) | board zone:beefcake | L11, 224 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 1) (level 11)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+playthrough: tend deck (beefcake boss try 3): 0 packs opened, 3 cards bought, Paths ["Refusemancer"], deck 45 cards, level 11, gold 124
+playthrough: re-entering beefcake boss (try 3)
+playthrough: FIGHT beefcake boss (fight 1) | board zone:beefcake | L11, 124 gold, deck 45
+playthrough: RESUME Snapshot loaded: bot_refusemancer_enter_beefcake
+playthrough: PASS  beefcake: walking down the road enters the zone
+playthrough: PASS  save/load at enter_beefcake (zone:beefcake): the same state
+playthrough: UI Quest log: tracked gain_power
+playthrough: PASS  beefcake: the favour gain_power is done by play
+playthrough: PASS  beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: PASS  beefcake: the main dungeon opens from its door
+playthrough: FIGHT beefcake boss (fight 1) | board BB-HOG | L10, 444 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 1) (level 10)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+playthrough: FIGHT beefcake boss (fight 2) | board BB-HOG | L11, 649 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 2) (level 11)
+playthrough: FIGHT won beefcake boss (fight 2) (turn -1)
+playthrough: FIGHT beefcake boss (fight 3) | board BB-HOG | L11, 664 gold, deck 45
+playthrough: LOSS beefcake boss (fight 3) - level 11, deck Refusemancer deck, 45 cards, turn 29
+playthrough: tend deck (beefcake boss try 2): 1 packs opened, 9 cards bought, Paths ["Refusemancer"], deck 45 cards, level 11, gold 239
+playthrough: re-entering beefcake boss (try 2)
+playthrough: ISSUE SHORTCUT: re-entered D-HFA by its call (no door by play from Battle) (L11, 239 gold, Battle)
+playthrough: FIGHT beefcake boss (fight 1) | board BB-HOG | L11, 239 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 1) (level 11)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+playthrough: FIGHT beefcake boss (fight 2) | board BB-HOG | L11, 314 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 2) (level 11)
+playthrough: FIGHT won beefcake boss (fight 2) (turn -1)
+playthrough: FIGHT beefcake boss (fight 3) | board BB-HOG | L11, 329 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 3) (level 11)
+playthrough: FIGHT won beefcake boss (fight 3) (turn -1)
+playthrough: FIGHT beefcake boss (fight 4) | board BB-HOG | L11, 359 gold, deck 45
+playthrough: fight won for real: beefcake boss (fight 4) (level 11)
+playthrough: FIGHT won beefcake boss (fight 4) (turn -1)
+playthrough: PASS  beefcake: beating the boss frees the zone
+playthrough: PASS  beefcake: its main quest line completes
+playthrough: CHAPTER Zone 2: beefcake freed | 6.9 min wall, 29.7 min game | L13, 1484 gold, deck 45, 11 gear
+playthrough: PASS  beefcake: Maren gives back a memory fragment
+playthrough: PASS  save/load at town_after_beefcake (town): the same state
+playthrough: ISSUE MARKER: no marker on town spot rescuer (tracked quest fragments; its arrow points at Elder Maren at (27, -12)) (L13, 1484 gold, Town at (25.2, 19.2))
+playthrough: tend deck (after beefcake): 3 packs opened, 21 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 13, gold 544
+playthrough: tend deck (before necrocrat gatekeeper try 1): 0 packs opened, 8 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 13, gold 184
+playthrough: FIGHT necrocrat gatekeeper (try 1) | board zone:necrocrat | L13, 184 gold, deck 45
+playthrough: fight won for real: necrocrat gatekeeper (try 1) (level 13)
+playthrough: FIGHT won necrocrat gatekeeper (try 1) (turn -1)
+playthrough: PASS  necrocrat: walking down the road enters the zone
+playthrough: PASS  save/load at enter_necrocrat (zone:necrocrat): the same state
+playthrough: ISSUE BLOCKER: necrocrat: side_s_necro was not offered by barnaby (L13, 384 gold, DnaZone at (26.1, 51.7))
+playthrough: ISSUE TRAPPED: could not walk to necrocrat main dungeon door at (45.5, 3.4) - stuck after 21 s from (26.1, 51.7), route 16 points; moved there (L13, 384 gold, DnaZone at (43.1, 28.2))
+playthrough: PASS  necrocrat: the main dungeon opens from its door
+playthrough: FIGHT necrocrat boss (fight 1) | board BB-HFA | L13, 384 gold, deck 45
+playthrough: fight won for real: necrocrat boss (fight 1) (level 13)
+playthrough: FIGHT won necrocrat boss (fight 1) (turn -1)
+playthrough: FIGHT necrocrat boss (fight 2) | board BB-HFA | L13, 414 gold, deck 45
+playthrough: fight won for real: necrocrat boss (fight 2) (level 13)
+playthrough: FIGHT won necrocrat boss (fight 2) (turn -1)
+playthrough: FIGHT necrocrat boss (fight 3) | board BB-HFA | L13, 519 gold, deck 45
+playthrough: fight won for real: necrocrat boss (fight 3) (level 13)
+playthrough: FIGHT won necrocrat boss (fight 3) (turn -1)
+playthrough: FIGHT necrocrat boss (fight 4) | board BB-HFA | L13, 549 gold, deck 45
+playthrough: fight won for real: necrocrat boss (fight 4) (level 13)
+playthrough: FIGHT won necrocrat boss (fight 4) (turn -1)
+playthrough: PASS  necrocrat: beating the boss frees the zone
+playthrough: PASS  necrocrat: its main quest line completes
+playthrough: CHAPTER Zone 3: necrocrat freed | 5.5 min wall, 5.0 min game | L14, 1524 gold, deck 45, 13 gear
+playthrough: ISSUE TRAPPED: could not walk to the way back to town at (46.5, 66.6) - stuck after 21 s from (45.5, 4.8), route 0 points; moved there (L14, 1524 gold, DnaZone at (45.7, 48.8))
+playthrough: PASS  necrocrat: Maren gives back a memory fragment
+playthrough: PASS  save/load at town_after_necrocrat (town): the same state
+playthrough: ISSUE MARKER: no marker on town spot rescuer (tracked quest fragments; its arrow points at Elder Maren at (27, -12)) (L14, 1524 gold, Town at (25.2, 19.2))
+playthrough: tend deck (after necrocrat): 4 packs opened, 20 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 14, gold 699
+playthrough: tend deck (before gourmand gatekeeper try 1): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 14, gold 699
+playthrough: FIGHT gourmand gatekeeper (try 1) | board zone:gourmand | L14, 899 gold, deck 45
+playthrough: fight won for real: gourmand gatekeeper (try 1) (level 14)
+playthrough: FIGHT won gourmand gatekeeper (try 1) (turn -1)
+playthrough: PASS  gourmand: walking down the road enters the zone
+playthrough: PASS  save/load at enter_gourmand (zone:gourmand): the same state
+playthrough: ISSUE BLOCKER: gourmand: side_s_gour was not offered by odalys (L14, 1099 gold, BuffetZone at (57.2, 60.2))
+playthrough: ISSUE MARKER: no marker on gourmand main dungeon door (tracked quest buf_mend; its arrow points at Sea Salt Crystals at (38, 52)) (L14, 1099 gold, BuffetZone at (57.2, 60.2))
+playthrough: ISSUE TRAPPED: could not walk to gourmand main dungeon door at (57.0, 11.4) - stuck after 21 s from (57.2, 60.2), route 8 points; moved there (L14, 1099 gold, BuffetZone at (52.4, 30.6))
+playthrough: PASS  gourmand: the main dungeon opens from its door
+playthrough: FIGHT gourmand boss (fight 1) | board BB-TTK | L14, 1099 gold, deck 45
+playthrough: fight won for real: gourmand boss (fight 1) (level 14)
+playthrough: FIGHT won gourmand boss (fight 1) (turn -1)
+playthrough: FIGHT gourmand boss (fight 2) | board BB-TTK | L15, 1299 gold, deck 45
+playthrough: fight won for real: gourmand boss (fight 2) (level 15)
+playthrough: FIGHT won gourmand boss (fight 2) (turn -1)
+playthrough: FIGHT gourmand boss (fight 3) | board BB-TTK | L15, 1454 gold, deck 45
+playthrough: fight won for real: gourmand boss (fight 3) (level 15)
+playthrough: FIGHT won gourmand boss (fight 3) (turn -1)
+playthrough: FIGHT gourmand boss (fight 4) | board BB-TTK | L15, 1484 gold, deck 45
+playthrough: fight won for real: gourmand boss (fight 4) (level 15)
+playthrough: FIGHT won gourmand boss (fight 4) (turn -1)
+playthrough: PASS  gourmand: beating the boss frees the zone
+playthrough: PASS  gourmand: its main quest line completes
+playthrough: CHAPTER Zone 4: gourmand freed | 6.0 min wall, 5.6 min game | L16, 2619 gold, deck 45, 15 gear
+playthrough: ISSUE TRAPPED: could not walk to the way back to town at (50.0, 89.2) - stuck after 20 s from (57.0, 12.8), route 18 points; moved there (L16, 2619 gold, BuffetZone at (52.4, 29.4))
+playthrough: PASS  gourmand: Maren gives back a memory fragment
+playthrough: PASS  save/load at town_after_gourmand (town): the same state
+playthrough: ISSUE MARKER: no marker on town spot rescuer (tracked quest buf_mend; its arrow points at The Endless Buffet at (69, 12)) (L16, 2969 gold, Town at (25.2, 19.2))
+playthrough: tend deck (after gourmand): 4 packs opened, 13 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 16, gold 2344
+playthrough: SNAPSHOT Snapshot saved: bot_refusemancer_capital_ready
+playthrough: tend deck (before the Capital): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 16, gold 2344
+playthrough: PASS  the imperial road enters the Capital
+playthrough: PASS  with all four zones free, every broken service is restored
+playthrough: CHAPTER The Capital: through the gate | 1.7 min wall, 1.4 min game | L16, 2344 gold, deck 45, 15 gear
+playthrough: ISSUE MARKER: no marker on the manhole on the Gate Plaza (tracked quest under_the_capital; its arrow points at Captain Spotless at (60, 78)) (L16, 2344 gold, CapitalZone at (58.2, 78.5))
+playthrough: HELD hero cannot move at (58.2, 78.5); buttons on screen: ▾ Under the Capital, ◂ [, ] ▸, ▸ Services restored: 4 of 4, Menu, Take the examination, Not yet; dialogue false
+playthrough: ISSUE TRAPPED: could not walk to the manhole on the Gate Plaza at (48.5, 52.0) - stuck after 18 s from (58.2, 78.5), route 0 points; moved there (L16, 2344 gold, CapitalZone at (57.6, 74.3))
+playthrough: PASS  strict: the manhole leads to the Crease
+playthrough: RESUME Snapshot loaded: bot_refusemancer_capital_ready
+playthrough: SNAPSHOT Snapshot saved: bot_refusemancer_capital_ready
+playthrough: tend deck (before the Capital): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 16, gold 2344
+playthrough: PASS  the imperial road enters the Capital
+playthrough: PASS  with all four zones free, every broken service is restored
+playthrough: confirm 'Take the examination'
+playthrough: FIGHT Captain Spotless (try 1) | board capital:in | L16, 2344 gold, deck 45
+playthrough: LOSS Captain Spotless (try 1) - level 16, deck Refusemancer deck, 45 cards, turn 16
+playthrough: confirm 'Take the examination'
+playthrough: FIGHT Captain Spotless (try 2) | board capital:in | L16, 2344 gold, deck 45
+playthrough: LOSS Captain Spotless (try 2) - level 16, deck Refusemancer deck, 45 cards, turn 12
+playthrough: confirm 'Take the examination'
+playthrough: FIGHT Captain Spotless (try 3) | board capital:in | L16, 2344 gold, deck 45
+playthrough: fight won for real: Captain Spotless (try 3) (level 16)
+playthrough: FIGHT won Captain Spotless (try 3) (turn -1)
+playthrough: CHAPTER The Capital: through the gate | 2.4 min wall, 43.3 min game | L17, 2769 gold, deck 45, 15 gear
+playthrough: PASS  strict: the manhole leads to the Crease
+playthrough: PASS  strict: Fig Sly's Black Market is browsed
+playthrough: tend deck (before the castle): 0 packs opened, 14 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 17, gold 1809
+playthrough: CHAPTER The Capital: the Crease | 0.4 min wall, 0.3 min game | L17, 1809 gold, deck 45, 15 gear
+playthrough: ISSUE MARKER: no marker on Primm's Castle door (tracked quest buf_mend; its arrow points at The Road Back to Crosspath at (60, 120)) (L17, 1809 gold, CapitalZone at (30.5, 141.7))
+playthrough: HELD hero cannot move at (30.5, 141.7); buttons on screen: ▾ Mend the Meatloaf, ◂ [, ] ▸, ▸ Services restored: 4 of 4, Menu, Continue; dialogue false
+playthrough: ISSUE TRAPPED: could not walk to Primm's Castle door at (60.0, 13.0) - stuck after 18 s from (30.5, 141.7), route 0 points; moved there (L17, 1809 gold, CapitalZone at (33.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: PASS  the castle opens
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L17, 1809 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 17)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L17, 1874 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 17)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L17, 1904 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 17)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L17, 1934 gold, deck 45
+playthrough: LOSS Primm (fight 4) - level 17, deck Refusemancer deck, 45 cards, turn 10
+playthrough: tend deck (Primm try 2): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 17, gold 1934
+playthrough: re-entering Primm (try 2)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L17, 1934 gold, CapitalZone at (20.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L17, 1934 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 17)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L17, 1999 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 17)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L17, 2029 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 17)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L17, 2184 gold, deck 45
+playthrough: fight won for real: Primm (fight 4) (level 17)
+playthrough: FIGHT won Primm (fight 4) (turn -1)
+playthrough: FIGHT Primm (fight 5) | board BB-PC | L18, 2239 gold, deck 45
+playthrough: fight won for real: Primm (fight 5) (level 18)
+playthrough: FIGHT won Primm (fight 5) (turn -1)
+playthrough: FIGHT Primm (fight 6) | board BB-PC | L18, 2269 gold, deck 45
+playthrough: fight won for real: Primm (fight 6) (level 18)
+playthrough: FIGHT won Primm (fight 6) (turn -1)
+playthrough: FIGHT Primm (fight 7) | board BB-PC | L18, 2424 gold, deck 45
+playthrough: fight won for real: Primm (fight 7) (level 18)
+playthrough: FIGHT won Primm (fight 7) (turn -1)
+playthrough: FIGHT Primm (fight 8) | board BB-PC | L18, 2574 gold, deck 45
+playthrough: fight won for real: Primm (fight 8) (level 18)
+playthrough: FIGHT won Primm (fight 8) (turn -1)
+playthrough: FIGHT Primm (fight 9) | board BB-PC | L18, 2629 gold, deck 45
+playthrough: fight won for real: Primm (fight 9) (level 18)
+playthrough: FIGHT won Primm (fight 9) (turn -1)
+playthrough: FIGHT Primm (fight 10) | board boss:final | L19, 2959 gold, deck 45
+playthrough: fight won for real: Primm (fight 10) (level 19)
+playthrough: FIGHT won Primm (fight 10) (turn -1)
+playthrough: FIGHT Primm (fight 11) | board boss:final | L19, 2959 gold, deck 45
+playthrough: fight won for real: Primm (fight 11) (level 19)
+playthrough: FIGHT won Primm (fight 11) (turn -1)
+playthrough: FIGHT Primm (fight 12) | board boss:final | L19, 2959 gold, deck 45
+playthrough: LOSS Primm (fight 12) - level 19, deck Refusemancer deck, 45 cards, turn 16
+playthrough: tend deck (Primm try 3): 1 packs opened, 9 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 19, gold 2579
+playthrough: re-entering Primm (try 3)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L19, 2579 gold, CapitalZone at (20.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L19, 2579 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 19)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L19, 2644 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 19)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L19, 2674 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 19)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L19, 2704 gold, deck 45
+playthrough: LOSS Primm (fight 4) - level 19, deck Refusemancer deck, 45 cards, turn 10
+playthrough: tend deck (Primm try 4): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 19, gold 2704
+playthrough: re-entering Primm (try 4)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L19, 2704 gold, CapitalZone at (20.6, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L19, 2704 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 19)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L19, 2769 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 19)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L19, 2799 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 19)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L19, 2829 gold, deck 45
+playthrough: fight won for real: Primm (fight 4) (level 19)
+playthrough: FIGHT won Primm (fight 4) (turn -1)
+playthrough: FIGHT Primm (fight 5) | board BB-PC | L19, 2884 gold, deck 45
+playthrough: fight won for real: Primm (fight 5) (level 19)
+playthrough: FIGHT won Primm (fight 5) (turn -1)
+playthrough: FIGHT Primm (fight 6) | board BB-PC | L20, 3169 gold, deck 45
+playthrough: fight won for real: Primm (fight 6) (level 20)
+playthrough: FIGHT won Primm (fight 6) (turn -1)
+playthrough: FIGHT Primm (fight 7) | board BB-PC | L20, 3249 gold, deck 45
+playthrough: fight won for real: Primm (fight 7) (level 20)
+playthrough: FIGHT won Primm (fight 7) (turn -1)
+playthrough: FIGHT Primm (fight 8) | board BB-PC | L20, 3399 gold, deck 45
+playthrough: fight won for real: Primm (fight 8) (level 20)
+playthrough: FIGHT won Primm (fight 8) (turn -1)
+playthrough: FIGHT Primm (fight 9) | board BB-PC | L20, 3454 gold, deck 45
+playthrough: LOSS Primm (fight 9) - level 20, deck Refusemancer deck, 45 cards, turn 10
+playthrough: tend deck (Primm try 5): 2 packs opened, 11 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 20, gold 3034
+playthrough: re-entering Primm (try 5)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L20, 3034 gold, CapitalZone at (20.5, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L20, 3034 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 20)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L20, 3099 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 20)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L20, 3129 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 20)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L20, 3159 gold, deck 45
+playthrough: LOSS Primm (fight 4) - level 20, deck Refusemancer deck, 45 cards, turn 14
+playthrough: tend deck (Primm try 6): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 20, gold 3159
+playthrough: re-entering Primm (try 6)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L20, 3159 gold, CapitalZone at (20.5, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L20, 3159 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 20)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L21, 3224 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 21)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L21, 3254 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 21)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L21, 3284 gold, deck 45
+playthrough: LOSS Primm (fight 4) - level 21, deck Refusemancer deck, 45 cards, turn 10
+playthrough: tend deck (Primm try 7): 2 packs opened, 4 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 21, gold 3149
+playthrough: re-entering Primm (try 7)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L21, 3149 gold, CapitalZone at (20.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L21, 3149 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 21)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L21, 3214 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 21)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L21, 3244 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 21)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L21, 3274 gold, deck 45
+playthrough: fight won for real: Primm (fight 4) (level 21)
+playthrough: FIGHT won Primm (fight 4) (turn -1)
+playthrough: FIGHT Primm (fight 5) | board BB-PC | L21, 3424 gold, deck 45
+playthrough: fight won for real: Primm (fight 5) (level 21)
+playthrough: FIGHT won Primm (fight 5) (turn -1)
+playthrough: FIGHT Primm (fight 6) | board BB-PC | L22, 3529 gold, deck 45
+playthrough: fight won for real: Primm (fight 6) (level 22)
+playthrough: FIGHT won Primm (fight 6) (turn -1)
+playthrough: FIGHT Primm (fight 7) | board boss:final | L22, 3644 gold, deck 45
+playthrough: fight won for real: Primm (fight 7) (level 22)
+playthrough: FIGHT won Primm (fight 7) (turn -1)
+playthrough: FIGHT Primm (fight 8) | board boss:final | L22, 3644 gold, deck 45
+playthrough: LOSS Primm (fight 8) - level 22, deck Refusemancer deck, 45 cards, turn 18
+playthrough: tend deck (Primm try 8): 0 packs opened, 11 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 22, gold 2884
+playthrough: re-entering Primm (try 8)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L22, 2884 gold, CapitalZone at (20.6, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L22, 2884 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 22)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L22, 2949 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 22)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L22, 2979 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 22)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L22, 3009 gold, deck 45
+playthrough: LOSS Primm (fight 4) - level 22, deck Refusemancer deck, 45 cards, turn 12
+playthrough: tend deck (Primm try 9): 0 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 22, gold 3009
+playthrough: re-entering Primm (try 9)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L22, 3009 gold, CapitalZone at (20.6, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L22, 3009 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 22)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L22, 3074 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 22)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L22, 3104 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 22)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L22, 3184 gold, deck 45
+playthrough: fight won for real: Primm (fight 4) (level 22)
+playthrough: FIGHT won Primm (fight 4) (turn -1)
+playthrough: FIGHT Primm (fight 5) | board BB-PC | L22, 3289 gold, deck 45
+playthrough: fight won for real: Primm (fight 5) (level 22)
+playthrough: FIGHT won Primm (fight 5) (turn -1)
+playthrough: FIGHT Primm (fight 6) | board BB-PC | L23, 3449 gold, deck 45
+playthrough: fight won for real: Primm (fight 6) (level 23)
+playthrough: FIGHT won Primm (fight 6) (turn -1)
+playthrough: FIGHT Primm (fight 7) | board BB-PC | L23, 3479 gold, deck 45
+playthrough: fight won for real: Primm (fight 7) (level 23)
+playthrough: FIGHT won Primm (fight 7) (turn -1)
+playthrough: FIGHT Primm (fight 8) | board BB-PC | L23, 3629 gold, deck 45
+playthrough: fight won for real: Primm (fight 8) (level 23)
+playthrough: FIGHT won Primm (fight 8) (turn -1)
+playthrough: FIGHT Primm (fight 9) | board BB-PC | L23, 3684 gold, deck 45
+playthrough: fight won for real: Primm (fight 9) (level 23)
+playthrough: FIGHT won Primm (fight 9) (turn -1)
+playthrough: FIGHT Primm (fight 10) | board boss:final | L23, 3799 gold, deck 45
+playthrough: LOSS Primm (fight 10) - level 23, deck Refusemancer deck, 45 cards, turn 14
+playthrough: tend deck (Primm try 10): 2 packs opened, 0 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 23, gold 3849
+playthrough: re-entering Primm (try 10)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L23, 3849 gold, CapitalZone at (20.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: FIGHT Primm (fight 1) | board BB-PC | L23, 3849 gold, deck 45
+playthrough: fight won for real: Primm (fight 1) (level 23)
+playthrough: FIGHT won Primm (fight 1) (turn -1)
+playthrough: FIGHT Primm (fight 2) | board BB-PC | L23, 3964 gold, deck 45
+playthrough: fight won for real: Primm (fight 2) (level 23)
+playthrough: FIGHT won Primm (fight 2) (turn -1)
+playthrough: FIGHT Primm (fight 3) | board BB-PC | L23, 3994 gold, deck 45
+playthrough: fight won for real: Primm (fight 3) (level 23)
+playthrough: FIGHT won Primm (fight 3) (turn -1)
+playthrough: FIGHT Primm (fight 4) | board BB-PC | L24, 4024 gold, deck 45
+playthrough: fight won for real: Primm (fight 4) (level 24)
+playthrough: FIGHT won Primm (fight 4) (turn -1)
+playthrough: FIGHT Primm (fight 5) | board BB-PC | L24, 4079 gold, deck 45
+playthrough: fight won for real: Primm (fight 5) (level 24)
+playthrough: FIGHT won Primm (fight 5) (turn -1)
+playthrough: FIGHT Primm (fight 6) | board BB-PC | L24, 4109 gold, deck 45
+playthrough: fight won for real: Primm (fight 6) (level 24)
+playthrough: FIGHT won Primm (fight 6) (turn -1)
+playthrough: FIGHT Primm (fight 7) | board BB-PC | L24, 4139 gold, deck 45
+playthrough: fight won for real: Primm (fight 7) (level 24)
+playthrough: FIGHT won Primm (fight 7) (turn -1)
+playthrough: FIGHT Primm (fight 8) | board BB-PC | L24, 4289 gold, deck 45
+playthrough: fight won for real: Primm (fight 8) (level 24)
+playthrough: FIGHT won Primm (fight 8) (turn -1)
+playthrough: FIGHT Primm (fight 9) | board BB-PC | L24, 4394 gold, deck 45
+playthrough: LOSS Primm (fight 9) - level 24, deck Refusemancer deck, 45 cards, turn 8
+playthrough: ISSUE BLOCKER: WALL Primm: carried out 10 times - the bot could not win in 10 tries; decreed to see the rest (L24, 4394 gold, CapitalZone at (22.0, 150.0))
+playthrough: NOTE WALL: Primm: carried out 10 times - decreed after 10 tries
+playthrough: NOTE DEV HELP: Primm - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: Primm never finished on the real map (9 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L24, 4394 gold, CapitalZone at (20.4, 134.3))
+playthrough: confirm 'Enter the castle'
+playthrough: PASS  Primm is defeated
+playthrough: CHAPTER The castle and Primm | 42.2 min wall, 39.8 min game | L25, 5064 gold, deck 45, 18 gear
+playthrough: ISSUE BLOCKER: the ending did not start by itself after Primm (L25, 5064 gold, DungeonMap)
+playthrough: ==== strict summary ====
+playthrough: walks { "walked": 6, "trapped": 11, "metres": 312.622217655182, "seconds": 221.145 }
+playthrough: CHAPTERLIST The Capital: through the gate | 2.4 min wall, 43.3 min game | L17, 2769 gold, deck 45, 15 gear
+playthrough: CHAPTERLIST The Capital: the Crease | 0.4 min wall, 0.3 min game | L17, 1809 gold, deck 45, 15 gear
+playthrough: CHAPTERLIST The castle and Primm | 42.2 min wall, 39.8 min game | L25, 5064 gold, deck 45, 18 gear
+playthrough: ISSUELIST MARKER: no marker on Primm's Castle door (tracked quest buf_mend; its arrow points at The Road Back to Crosspath at (60, 120)) (L17, 1809 gold, CapitalZone at (30.5, 141.7))
+playthrough: ISSUELIST TRAPPED: could not walk to Primm's Castle door at (60.0, 13.0) - stuck after 18 s from (30.5, 141.7), route 0 points; moved there (L17, 1809 gold, CapitalZone at (33.4, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L17, 1934 gold, CapitalZone at (20.4, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L19, 2579 gold, CapitalZone at (20.4, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L19, 2704 gold, CapitalZone at (20.6, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L20, 3034 gold, CapitalZone at (20.5, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L20, 3159 gold, CapitalZone at (20.5, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L21, 3149 gold, CapitalZone at (20.4, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L22, 2884 gold, CapitalZone at (20.6, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L22, 3009 gold, CapitalZone at (20.6, 134.3))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L23, 3849 gold, CapitalZone at (20.4, 134.3))
+playthrough: ISSUELIST BLOCKER: WALL Primm: carried out 10 times - the bot could not win in 10 tries; decreed to see the rest (L24, 4394 gold, CapitalZone at (22.0, 150.0))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-PC) at (60.0, 13.0) - stuck after 18 s from (22.0, 150.0), route 0 points; moved there (L24, 4394 gold, CapitalZone at (20.4, 134.3))
+playthrough: ISSUELIST BLOCKER: the ending did not start by itself after Primm (L25, 5064 gold, DungeonMap)
+playthrough: ---- 6 steps, 6 passed, 0 failed ----
+playthrough: fights { "won": 59, "lost": 12, "stalled": 0, "decreed": 0 }
+playthrough: FULL path=refusemancer completed=true postgame_lab=false gallery=false level=25 game_hours=1.40 wall_hours=0.76 gold_earned=5710 gold_now=5064 losses=12 walls=1
+playthrough: FULL loss Captain Spotless (try 1) - level 16, deck Refusemancer deck, 45 cards, turn 16
+playthrough: FULL loss Captain Spotless (try 2) - level 16, deck Refusemancer deck, 45 cards, turn 12
+playthrough: FULL loss Primm (fight 4) - level 17, deck Refusemancer deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 12) - level 19, deck Refusemancer deck, 45 cards, turn 16
+playthrough: FULL loss Primm (fight 4) - level 19, deck Refusemancer deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 9) - level 20, deck Refusemancer deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 4) - level 20, deck Refusemancer deck, 45 cards, turn 14
+playthrough: FULL loss Primm (fight 4) - level 21, deck Refusemancer deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 8) - level 22, deck Refusemancer deck, 45 cards, turn 18
+playthrough: FULL loss Primm (fight 4) - level 22, deck Refusemancer deck, 45 cards, turn 12
+playthrough: FULL loss Primm (fight 10) - level 23, deck Refusemancer deck, 45 cards, turn 14
+playthrough: FULL loss Primm (fight 9) - level 24, deck Refusemancer deck, 45 cards, turn 8
+playthrough: FULL wall Primm: carried out 10 times
+playthrough: NOTE WALL: Primm: carried out 10 times - decreed after 10 tries
+playthrough: NOTE DEV HELP: Primm - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: Primm never finished on the real map (9 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: [x] the imperial road enters the Capital
+playthrough: [x] with all four zones free, every broken service is restored
+playthrough: [x] strict: the manhole leads to the Crease
+playthrough: [x] strict: Fig Sly's Black Market is browsed
+playthrough: [x] the castle opens
+playthrough: [x] Primm is defeated

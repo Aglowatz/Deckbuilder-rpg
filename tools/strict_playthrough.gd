@@ -58,6 +58,10 @@ func _resume_from(snapshot_name: String) -> void:
 	await driver.frames(5)
 	print("%s: RESUME %s" % [TAG, DevActions.load_snapshot(snapshot_name)])
 	_last_gold = Session.gold
+	if _arg("ending_check", "0") == "1":
+		await _ending_check()
+		_finish()
+		return
 	var town: TownScene = await _to_town()
 	var order: Array[String] = [_path_zone]
 	for other: String in Gatekeepers.IDS:
@@ -1166,3 +1170,77 @@ func _postgame() -> void:
 
 func _undercroft(town: TownScene) -> void:
 	pass  # an optional side room: not on the story's path
+
+
+## `--ending_check=1` (with `--resume=<a save at the castle>`): the castle's boss rooms are decreed (the fights end won through the
+## normal completion path), so that what comes AFTER Primm is played for real: the ending, the credits, the return to the Capital, the
+## tracker, the funeral, the next goal. The full run decreed Primm after its wall and so never reached the ending's own flow.
+func _ending_check() -> void:
+	await _wait_for_walkable()
+	await driver.seconds(2.0)
+	for _attempt: int in range(3):
+		Session.begin_zone_visit(CapitalZone.ID)
+		Session.enter_main_dungeon()
+		if await _wait_for(DungeonMapScreen) != null:
+			break
+	print("%s: ending check: in %s" % [TAG, get_tree().current_scene.name])
+	var started: int = Time.get_ticks_msec()
+	while float(Time.get_ticks_msec() - started) / 1000.0 < 600.0:
+		await driver.seconds(0.4)
+		var scene: Node = get_tree().current_scene
+		if scene is EndingScreen:
+			break
+		if SceneManager.busy:
+			continue
+		if scene is BattleScreen and (scene as BattleScreen).mode != BattleScreen.Mode.OVER:
+			await _force_win(scene as BattleScreen)
+			continue
+		if scene is BattleScreen and (scene as BattleScreen)._result_shown:
+			(scene as BattleScreen)._continue()
+			continue
+		if scene is RewardsScreen:
+			await _take_rewards(scene as RewardsScreen)
+			continue
+		if scene is DungeonMapScreen:
+			var ms: DungeonMapScreen = scene as DungeonMapScreen
+			if ms._dialogue != null and ms._dialogue.active:
+				await _dismiss_dialogue(ms._dialogue)
+				continue
+			if ms._modal != null:
+				await _drive_modal(ms._modal)
+				continue
+			for cut: Node in scene.find_children("*", "CutsceneScreen", true, false):
+				(cut as CutsceneScreen).advance()
+			await _dismiss_popups()
+			var map: DungeonMap = Session.dungeon_map
+			if map != null and map.boss() != null:
+				if not map.is_available(map.boss().id) and map.current != map.boss().id:
+					DevActions.walk_map_to(map, map.boss().id)
+					await driver.seconds(0.5)
+				if is_instance_valid(ms) and get_tree().current_scene == ms and not ms._busy:
+					ms._on_node_chosen(map.boss().id)
+				await driver.seconds(1.5)
+			continue
+		await _dismiss_popups()
+		await driver.tap_key(KEY_E)
+	var ending: Node = get_tree().current_scene
+	_step(ending is EndingScreen, "ending check: Primm's fall plays the ending by itself")
+	if ending is EndingScreen:
+		_step(Session.quest_log.tracked_id() == QuestDefinitions.CITY_GATHERS, "ending check: during the ending the tracker shows The City Gathers (%s)" % Session.quest_log.tracked_id())
+		await _play_ending(ending as EndingScreen)
+		var capital: Node = get_tree().current_scene
+		await driver.seconds(2.0)
+		var quest: QuestData = QuestCatalog.find(QuestDefinitions.CITY_GATHERS)
+		_step(Session.quest_log.tracked_id() == QuestDefinitions.CITY_GATHERS and Session.quest_log.current_index(quest, Session.unlock_state()) == 1, "ending check: after the credits the tracker says: join the gathering in Grave Row")
+		if capital is ZoneScene:
+			await _shot("p_after_credits")
+			await _go_and_use(capital, ZoneScene.OLD_HOB_KEY, "Old Hob in Grave Row (the funeral)")
+			var guard: int = 0
+			while guard < 50 and not Session.flag(&"royal_funeral_seen"):
+				guard += 1
+				await driver.tap_key(KEY_E)
+				await driver.seconds(0.3)
+			await _settle(get_tree().current_scene, 3.0)
+			_step(Session.flag(&"royal_funeral_seen"), "ending check: the funeral plays at Old Hob")
+			_step(Session.quest_log.tracked_id() == QuestDefinitions.AFTER_THE_FALL, "ending check: then the tracker shows After the Fall (%s)" % Session.quest_log.tracked_id())
+			await _shot("p_after_funeral")

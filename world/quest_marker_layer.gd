@@ -246,6 +246,10 @@ func refresh() -> void:
 	Hitch.start("quest_markers")
 	var state: UnlockState = Session.unlock_state()
 	_marks = QuestMarkers.giver_marks(area, Session.quest_log, QuestCatalog.all(), state)
+	if area == "town" and not _marks.has("rescuer") and not (resolve.call("rescuer") as Dictionary).is_empty():
+		# Overnight Nov 17 (the full playthrough): the Rescuer waits at the cave mouth after each freed zone with a story scene, and nothing
+		# marked her - the tracker points at Maren. She wears a "!" while she waits (the spot exists only then).
+		_marks["rescuer"] = QuestMarkers.MARK_OFFER
 	for spot_id: Variant in _mark_nodes.keys():
 		if not _marks.has(spot_id) or str((_mark_nodes[spot_id] as Node).get_meta(&"mark")) != str(_marks[spot_id]):
 			(_mark_nodes[spot_id] as Node).queue_free()
