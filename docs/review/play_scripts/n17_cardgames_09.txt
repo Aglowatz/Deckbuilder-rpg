@@ -1,0 +1,49 @@
+# Scout three zones: maps and point-me lists
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone gourmand
+wait 14
+key E
+wait 0.5
+shot n17cardgames_09_gourmand_view
+key M
+wait 1.5
+shot n17cardgames_09_gourmand_map
+button Point me
+wait 1.5
+shot n17cardgames_09_gourmand_list
+key Escape
+wait 0.5
+key Escape
+wait 0.5
+dev travel zone refusemancer
+wait 14
+key E
+wait 0.5
+shot n17cardgames_09_refusemancer_view
+key M
+wait 1.5
+shot n17cardgames_09_refusemancer_map
+button Point me
+wait 1.5
+shot n17cardgames_09_refusemancer_list
+key Escape
+wait 0.5
+key Escape
+wait 0.5
+dev travel zone necrocrat
+wait 14
+key E
+wait 0.5
+shot n17cardgames_09_necrocrat_view
+key M
+wait 1.5
+shot n17cardgames_09_necrocrat_map
+button Point me
+wait 1.5
+shot n17cardgames_09_necrocrat_list
+key Escape
+wait 0.5
+key Escape
+wait 0.5

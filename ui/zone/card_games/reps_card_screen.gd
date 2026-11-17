@@ -55,7 +55,7 @@ func how_lines() -> Array[String]:
 	return [
 		"One card is face up. Will the next card's POWER (its first number) be higher or lower?",
 		"Eight right in a row finishes the set. A tie counts as right.",
-		"A miss tips the plates off the bar. Three misses are allowed; the fourth ends the set.",
+		"A miss tips the plates off the bar and your reps start again from 0. Three misses are allowed; the fourth ends the set.",
 	]
 
 

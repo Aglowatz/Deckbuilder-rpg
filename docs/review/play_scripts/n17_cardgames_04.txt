@@ -1,0 +1,64 @@
+# Gainlands: talk Chet through to Reps
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone beefcake
+wait 14
+key E
+wait 1
+hold W+Shift 2.5
+wait 0.3
+hold D+Shift 3
+wait 0.5
+dev save n17cardgames_chet
+wait 1
+key E
+wait 1.5
+key E
+wait 1.3
+shot n17cardgames_04_t01
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t02
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t03
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t04
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t05
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t06
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t07
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t08
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t09
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t10
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t11
+dump
+key E
+wait 1.3
+shot n17cardgames_04_t12
+dump

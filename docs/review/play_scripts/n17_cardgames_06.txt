@@ -1,0 +1,26 @@
+# Gainlands: Chet -> Reps, read how to play, start
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone beefcake
+wait 14
+key E
+wait 1
+hold W+Shift 2.5
+wait 0.3
+hold D+Shift 3
+wait 0.5
+key E
+wait 1.5
+skip_dialogue 12
+wait 1
+key E
+wait 1.5
+skip_dialogue 10
+wait 1.5
+shot n17cardgames_06_open
+dump
+key E
+wait 1.5
+shot n17cardgames_06_open2
+dump

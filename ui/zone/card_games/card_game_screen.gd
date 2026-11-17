@@ -366,6 +366,25 @@ func how_is_open() -> bool:
 	return _how != null and is_instance_valid(_how)
 
 
+## Overnight Nov 17 (the card games critic #5-6: with How to play open, the pad's A made a guess on the table under it; on the result
+## screen the D-pad reached the header's "?"): while an overlay is up, nothing outside it takes focus; the old focus modes come back when
+## it closes.
+func _trap_focus(layer: Control) -> void:
+	var held: Array[Control] = []
+	for node: Node in find_children("*", "Control", true, false):
+		var control: Control = node as Control
+		if control == layer or layer.is_ancestor_of(control) or control.focus_mode == Control.FOCUS_NONE:
+			continue
+		control.set_meta(&"trap_focus_mode", control.focus_mode)
+		control.focus_mode = Control.FOCUS_NONE
+		held.append(control)
+	layer.tree_exiting.connect(func() -> void:
+		for control: Control in held:
+			if is_instance_valid(control) and control.has_meta(&"trap_focus_mode"):
+				control.focus_mode = int(control.get_meta(&"trap_focus_mode")) as Control.FocusMode
+				control.remove_meta(&"trap_focus_mode"))
+
+
 ## A dimmed full-screen layer with a framed panel in the middle; the panel's content box is its "box" meta.
 func _overlay_panel(layer_name: String) -> Control:
 	var layer: Control = Control.new()
@@ -374,6 +393,7 @@ func _overlay_panel(layer_name: String) -> Control:
 	layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	layer.z_index = 60
 	add_child(layer)
+	_trap_focus(layer)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.04, 0.72)
 	UIKit.full_rect(shade)

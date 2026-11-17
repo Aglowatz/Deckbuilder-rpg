@@ -1,0 +1,40 @@
+# D.N.A.: walk to the Mail Room Filing Terminal, open File in Order
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone necrocrat
+wait 14
+key E
+wait 0.5
+hold W+Shift 3.5
+wait 0.5
+key M
+wait 1.5
+shot n17cardgames_10_map
+key Escape
+wait 0.5
+shot n17cardgames_10_view
+dump
+key E
+wait 1.5
+shot n17cardgames_10_t1
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+shot n17cardgames_10_t2

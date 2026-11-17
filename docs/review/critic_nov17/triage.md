@@ -73,3 +73,18 @@ reach = how many players meet it (all / most / some / few); effort S (an hour or
 | F8 | The Peek pop-up could not be closed without choosing | minor | most | S | no | **Fixed**: Done always works (unchosen cards stay on top); E, Space, Enter confirm |
 | F9 | The pause menu says F8 with a controller | minor | some | S | no | **Fixed** (no key shown while a pad is connected) |
 | F10 | The forest is very dark; the hero's cloak is teal in the wake picture and brown in the portrait | minor | all | M/L | taste / art | **Owner** (with A7); the cloak is a Batch 17 row |
+
+## Critic 6 - the new card games (3/10; reached only Reps)
+
+| # | Issue | Sev | Reach | Effort | Owner? | Plan / status |
+|---|---|---|---|---|---|---|
+| G1 | The quiz teachers are not in "Point me to..." | blocker | all | S | no | **Fixed**: quiz, minigame and puzzle places are in the list |
+| G2 | The card-game hosts and the D.N.A.'s filing terminal are not in "Point me to..." | blocker | all | S | no | **Fixed** (with G1) |
+| G3 | The D.N.A.'s filing terminal could not be walked to (4 routes stopped at the lobby's north wall) | blocker? | some | M | no | Logged: the D.N.A. walk smoke reaches the Mail Room; the critic walked blind. With G2 the arrow now routes there |
+| G4 | Dex's ledge in the Dump looked unreachable (a fence and a gate) | major | some | S | no | Logged (the Dump's gates open with the beans; walk smoke passes) |
+| G5 | With How to play open, the pad's A guessed on the table beneath | major | pad | S | no | **Fixed**: nothing outside an open card-game overlay takes focus |
+| G6 | On the result screen the D-pad reached the header's "?" | major | pad | S | no | **Fixed** (with G5) |
+| G7 | Reps: a miss also resets the streak, and the rules did not say so | major | all | S | no | **Fixed** (the rule says it); keeping the streak is an **Owner** call |
+| G8 | Reps' "Power" vs the mana number on the card | minor | all | S | - | Logged |
+| G9 | The barbell prop is grey blocks | minor | all | L | art | Batch 17 row candidate |
+| G10 | Nine boxes before the first Reps | minor | all | S | - | Logged |

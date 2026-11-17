@@ -1,0 +1,94 @@
+# Gainlands: Reps with controller only (after opening)
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone beefcake
+wait 14
+key E
+wait 1
+hold W+Shift 2.5
+wait 0.3
+hold D+Shift 3
+wait 0.5
+key E
+wait 1.5
+skip_dialogue 12
+wait 1
+key E
+wait 1.5
+skip_dialogue 10
+wait 1.5
+log PAD ONLY FROM HERE
+pad a
+wait 1.5
+shot n17cardgames_07_start
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+shot n17cardgames_07_mid
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+pad up
+wait 0.4
+pad a
+wait 2.2
+dump
+shot n17cardgames_07_result
+wait 2
+shot n17cardgames_07_result2
+dump
+pad a
+wait 2
+shot n17cardgames_07_after
+dump

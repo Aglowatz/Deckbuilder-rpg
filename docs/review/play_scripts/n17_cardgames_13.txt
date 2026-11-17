@@ -1,0 +1,40 @@
+# D.N.A.: around Agnes's desk on the east side, north to the Filing Terminal
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 6
+dev travel zone necrocrat
+wait 14
+key E
+wait 0.5
+hold W+Shift 3.0
+hold D+Shift 1.0
+hold W+Shift 1.5
+key M
+wait 1.2
+shot n17cardgames_13_mapA
+key Escape
+wait 0.4
+hold A+Shift 1.0
+hold W+Shift 1.6
+wait 0.3
+key M
+wait 1.2
+shot n17cardgames_13_mapB
+key Escape
+wait 0.5
+dump
+key E
+wait 2
+shot n17cardgames_13_e1
+dump
+key E
+wait 2
+dump
+key E
+wait 2
+shot n17cardgames_13_e2
+dump
+button Play
+wait 2
+shot n17cardgames_13_e3
+dump

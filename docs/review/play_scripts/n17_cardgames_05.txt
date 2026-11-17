@@ -1,0 +1,55 @@
+# Gainlands: Chet second talk -> Reps
+wait 4
+dev load n17cardgames_chet
+wait 14
+scene
+shot n17cardgames_05_load
+key E
+wait 1.5
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+shot n17cardgames_05_a
+key E
+wait 1.2
+dump
+shot n17cardgames_05_b01
+key E
+wait 1.2
+dump
+shot n17cardgames_05_b02
+key E
+wait 1.2
+dump
+shot n17cardgames_05_b03
+key E
+wait 1.2
+dump
+shot n17cardgames_05_b04
