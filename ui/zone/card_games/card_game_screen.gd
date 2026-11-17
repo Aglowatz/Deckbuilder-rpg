@@ -218,7 +218,11 @@ func story_line(key: String, index: int = 0) -> String:
 	if _story == null:
 		return ""
 	var lines: Array[String] = _story.get_lines(key)
-	return lines[index % lines.size()] if not lines.is_empty() else ""
+	# Overnight Nov 17 (seen in the card games smoke's shots): a missing key comes back as "[missing text: ...]", which is not empty, so
+	# the callers' own fallback lines never showed and the host said "[missing text: quiz.start]" in every zone
+	if lines.is_empty() or lines[0].begins_with("[missing text"):
+		return ""
+	return lines[index % lines.size()]
 
 
 func set_status(text: String, color: Color = UIStyle.PARCHMENT) -> void:

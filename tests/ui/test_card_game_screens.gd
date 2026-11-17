@@ -437,3 +437,13 @@ func test_the_card_quiz_header_shows_the_zone_s_exam_name() -> void:
 		assert_ne(screen.title_label.text, "Card Quiz", "%s: not the generic name" % zone_id)
 		screen.queue_free()
 		await wait_process_frames(2)
+
+
+func test_a_missing_story_key_is_empty_so_the_host_falls_back() -> void:
+	for zone_id: String in ["beefcake", "gourmand", "refusemancer", "necrocrat"]:
+		var screen: CardQuizScreen = await _quiz(zone_id)
+		assert_eq(screen.story_line("no.such.key.nov17"), "", "%s: no [missing text] placeholder" % zone_id)
+		for node: Node in screen.find_children("*", "Label", true, false):
+			assert_false((node as Label).text.begins_with("[missing text"), "%s: %s" % [zone_id, (node as Label).text])
+		screen.queue_free()
+		await wait_process_frames(2)
