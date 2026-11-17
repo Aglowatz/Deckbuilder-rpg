@@ -1,0 +1,41 @@
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 14
+dev travel capital
+wait 14
+scene
+shot n17rlate_05_cap
+dump
+skip_dialogue 8
+wait 1
+shot n17rlate_05_cap2
+key M
+wait 2
+shot n17rlate_05_capmap
+button Point me to
+wait 1.5
+shot n17rlate_05_pointme
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+hold W+Shift 1.5
+scene
+shot n17rlate_05_c1
+hold W+Shift 1.5
+scene
+shot n17rlate_05_c2
+hold W+Shift 1.5
+scene
+shot n17rlate_05_c3
+dump
+key E
+wait 1.2
+shot n17rlate_05_talk
+dump
+skip_dialogue 12
+wait 1.5
+scene
+shot n17rlate_05_c4
+dump

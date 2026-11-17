@@ -1,0 +1,22 @@
+# Run 1: early Refusemancer, find a roamer, start fight
+wait 4
+dev load bot_refusemancer_enter_refusemancer
+wait 12
+skip_dialogue 10
+shot n17rcombat_01_a_entrance
+scene
+hold W 3
+wait 1
+shot n17rcombat_01_b_walk
+hold W 3
+wait 2
+shot n17rcombat_01_c_walk
+hold W+D 3
+wait 3
+shot n17rcombat_01_d
+scene
+hold W+A 3
+wait 3
+shot n17rcombat_01_e
+scene
+dump

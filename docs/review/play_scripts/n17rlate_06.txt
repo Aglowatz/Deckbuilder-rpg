@@ -1,0 +1,36 @@
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 14
+dev travel dungeon D-PC -2
+wait 12
+shot n17rlate_06_dmap0
+skip_dialogue 6
+wait 1
+shot n17rlate_06_dmap
+dump
+scene
+button Throne
+wait 2
+button Primm
+wait 2
+shot n17rlate_06_click
+dump
+button Enter
+wait 2
+button Fight
+wait 2
+shot n17rlate_06_pre
+dump
+button Continue
+wait 3
+shot n17rlate_06_intro
+skip_dialogue 10
+wait 3
+shot n17rlate_06_b1
+dump
+scene
+dev save n17rlate_boss
+pilot 60
+shot n17rlate_06_b2
+dump
+scene

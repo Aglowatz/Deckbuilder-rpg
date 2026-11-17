@@ -1,0 +1,52 @@
+wait 4
+dev load n17rlate_e
+wait 14
+scene
+hold D+Shift 0.6
+scene
+hold W+Shift 1.5
+scene
+hold W+Shift 1.5
+scene
+shot n17rlate_04_w1
+hold W+Shift 1.5
+scene
+hold W+Shift 1.5
+scene
+shot n17rlate_04_w2
+hold W+Shift 1.5
+scene
+hold W+Shift 1.5
+scene
+shot n17rlate_04_w3
+hold W+Shift 2
+scene
+hold W+Shift 2
+scene
+wait 12
+scene
+shot n17rlate_04_arrive
+dump
+dev save n17rlate_f
+key E
+wait 1.2
+shot n17rlate_04_talk1
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+skip_dialogue 15
+wait 2
+shot n17rlate_04_after
+scene
+dump
+dev save n17rlate_g
+key M
+wait 2
+shot n17rlate_04_capmap
+dump
+key Escape
+wait 1

@@ -4,6 +4,38 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 17 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov17_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov17`. Triage of every
+finding: `docs/review/critic_nov17/triage.md`. Most important first.
+
+1. **Combat pacing (the reason fun stays at 4-6).** Every critic and the bot agree fights are long (about 8 turns for a first room) and
+   a new card barely shows up in a 45-card deck with ~19 basic infrastructure. **Recommendation:** try a 40-card minimum with 15
+   infrastructure in the sims first (`tools/balance_sim_tool.gd`), and only then lower room-enemy HP if fights are still over 6 turns.
+   Not changed tonight (a core rule).
+2. **Primm's free Militia.** The planning AI lost Primm 10 times (L17-24), and both late-game critics lost phase 1 on turn 6 to Standing
+   Army's 3 Militia (once without Primm losing a point). Primm is unchanged by your rule. **Recommendation:** Standing Army 2 Militia, or
+   Setting Up through turn 3. Also look at the castle's 4th room: it is the most-lost fight of the whole game for the AI (5 of 10 tries).
+3. **Elowen's name.** The story critic's #1: she promises to tell you her name, then Plume says it and she is taken; her rescue waits
+   until the postgame. **Recommendation:** one line at the gate before the guards reach her: "Elowen. It's Elowen. I promised."
+4. **The hero's own voice.** In the finale he answers Primm with Flex's, the Grand Chef's and Agnes's lines. **Recommendation:** replace
+   two of the quoted lessons with his own (a small scene edit, not a rewrite).
+5. **One colour grade.** The art director: each zone has its own filter (Gainlands oversharpened, the Dump's paint noise, the Buffet's
+   orange haze, the Capital's bloom). **Recommendation:** Crosspath's grade as the base everywhere with a small tint per zone.
+6. **The Opening Forest is the first screen and it is murky** (art 4.5, first-30 critic). **Recommendation:** about +0.5 EV and a rim
+   light on the hero, keeping the teal dusk you chose.
+7. **An intent strip for bosses** (L-plan L5): show what the boss will do next turn during its setup turns. Recommendation: yes.
+8. **Reps:** a miss also resets the streak to 0 (now said in the rules). Keep the streak after a miss (8 right in total, 3 misses)?
+   Recommendation: yes - one bad guess wipes out a good run today.
+9. **"Free the Four Zones" now starts by itself once a zone is free** (it was Brannoch's only; a hero who skipped him had no main quest
+   with four lands free). His lines still play when you meet him. Say if you would rather keep it his alone.
+10. **After Primm the tracker shows "The City Gathers"** (see the ending; join the gathering in Grave Row), then **"After the Fall"** (the
+    Lab and the Gallery, both marked). Names and texts are mine.
+11. **The hero's cloak:** teal in the wake-up picture, brown in the dialogue portrait. Which is right? (Batch 17 row.)
+12. **Still yours from Nov 16:** Maren's "the same way I have been holding yours" (two critics now), "Four banners fly from the same pole",
+    "find me on the square", "I still can't see her face", "a coat too fine". Tonight's 11 single-line fixes are listed in the triage;
+    revert with `node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov17_single_lines.csv --revert=docs/dialogue/nov17_single_lines_ids.txt`.
+
 ## Fable Nov 16c - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_evening.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16c`.

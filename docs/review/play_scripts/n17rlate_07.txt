@@ -1,0 +1,35 @@
+wait 4
+dev load bot_refusemancer_capital_ready
+wait 13
+dev travel dungeon D-PC -2
+wait 10
+click 1322 340
+wait 2.5
+shot n17rlate_07_click
+dump
+button Continue
+wait 3
+shot n17rlate_07_intro1
+key E
+wait 1.5
+shot n17rlate_07_intro2
+dump
+skip_dialogue 10
+wait 3
+shot n17rlate_07_b1
+dump
+pilot 45
+shot n17rlate_07_b2
+dump
+pilot 50
+shot n17rlate_07_b3
+dump
+scene
+key E
+wait 1.5
+shot n17rlate_07_after1
+dump
+key E
+wait 1.5
+shot n17rlate_07_after2
+dump
