@@ -326,6 +326,19 @@ static func lancet_window(mesh: KitMesh, bottom: Vector3, width: float, height: 
 ## Batch 15: the painted banners the people hung (one per Path land), in the row's order.
 const FREED_BANNERS: Array[String] = ["CAP-BANNER-FREED-01", "CAP-BANNER-FREED-02", "CAP-BANNER-FREED-03", "CAP-BANNER-FREED-04"]
 const FREED_CLOTHS: Array[String] = ["canvas_red", "canvas_copper", "canvas_green", "canvas_teal", "canvas_red"]
+## Overnight Nov 17 (inbox Nov 16, item 12): after Primm's fall the whole city flies the people's banners, not only the avenue and the
+## castle - the great wall (both faces), its towers, the corner towers, the gate, the houses and the hung decrees. `CapitalBuilder.build`
+## sets this from the story state before anything is built; `regime_banner` turns a regime banner id into a freed one while it is on.
+static var freed_city: bool = false
+static var _freed_turn: int = 0
+
+
+## A regime banner (Primm's CAP-SHEET-BANNERS-*) as the freed city shows it: one of the four Paths' banners in turn after his fall.
+static func regime_banner(id: String) -> String:
+	if not freed_city or not EnvKit.has_art(FREED_BANNERS[0]):
+		return id
+	_freed_turn += 1
+	return FREED_BANNERS[_freed_turn % FREED_BANNERS.size()]
 
 
 static func emblem(mesh: KitMesh, center: Vector3, radius: float, normal: Vector3, broken: bool = false, covered: bool = false) -> void:

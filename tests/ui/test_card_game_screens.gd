@@ -425,3 +425,15 @@ func test_an_answer_moves_the_card_quiz_to_the_next_question() -> void:
 	assert_eq(screen.game.index(), 1, "answered")
 	assert_eq(screen.find_children("Answer?", "Button", true, false).size(), 4)
 
+
+
+# ---- Overnight Nov 17 (inbox Nov 16c, 25): the quiz's header names the zone's exam ------------------------------------------------------
+
+
+func test_the_card_quiz_header_shows_the_zone_s_exam_name() -> void:
+	for zone_id: String in ["beefcake", "gourmand", "refusemancer", "necrocrat"]:
+		var screen: CardQuizScreen = await _quiz(zone_id)
+		assert_eq(screen.title_label.text, CardQuizScreen.title_for(zone_id), "%s: the header" % zone_id)
+		assert_ne(screen.title_label.text, "Card Quiz", "%s: not the generic name" % zone_id)
+		screen.queue_free()
+		await wait_process_frames(2)

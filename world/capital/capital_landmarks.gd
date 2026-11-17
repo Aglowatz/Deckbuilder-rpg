@@ -172,7 +172,7 @@ static func _wall_piece_geometry(mesh: KitMesh, w: float, h: float, d: float, se
 				pinnacle(mesh, basis * Vector3(x, h + 0.6, 0.0), 0.8, 2.0)
 			if index < bays and (index + seed_value) % 2 == 0:
 				var mid: float = x + length / float(bays) * 0.5
-				var banner: String = ["CAP-SHEET-BANNERS-01", "CAP-SHEET-BANNERS-04", "CAP-SHEET-BANNERS-03"][(index + seed_value) % 3]
+				var banner: String = K.regime_banner(["CAP-SHEET-BANNERS-01", "CAP-SHEET-BANNERS-04", "CAP-SHEET-BANNERS-03"][(index + seed_value) % 3])
 				var near_tower: bool = false
 				for offset: float in towers:
 					near_tower = near_tower or (face > 0.0 and absf(offset - mid) < 3.2)
@@ -212,6 +212,15 @@ static func _wall_piece_geometry(mesh: KitMesh, w: float, h: float, d: float, se
 static func sun_banner(mesh: KitMesh, top: Vector3, width: float, length: float, normal: Vector3) -> void:
 	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
 	var out: Vector3 = normal * 0.05
+	if K.freed_city and EnvKit.has_art(K.FREED_BANNERS[0]):
+		# Overnight Nov 17: after Primm's fall the people's banner hangs from the same gold rod (one of the four Paths', in turn)
+		K.card(mesh, K.regime_banner("CAP-SHEET-BANNERS-01"), top + out - Vector3(0, length * 0.5, 0), length, normal)
+		var rod_l: Vector3 = top - right * (width * 0.5 + 0.25) + out * 2.0 + Vector3(0, 0.08, 0)
+		var rod_r: Vector3 = top + right * (width * 0.5 + 0.25) + out * 2.0 + Vector3(0, 0.08, 0)
+		mesh.tube("gold", rod_l, rod_r, 0.07, 6)
+		for end: Vector3 in [rod_l, rod_r]:
+			mesh.blob("gold", end, Vector3(0.12, 0.12, 0.12), 3, 6)
+		return
 	var half: float = width * 0.5
 	var hem: float = length - width * 0.35
 	var a: Vector3 = top - right * half + out
@@ -392,14 +401,14 @@ static func gate_tower(w: float, h: float, d: float) -> Node3D:
 	mesh.lathe("gold", Vector3(0, h, 0), [Vector2(w * 0.32, 0.0), Vector2(w * 0.2, 2.5), Vector2(0.0, 6.0)], 4, 1.0, false, false)
 	K.finial(mesh, Vector3(0, h + 5.6, 0), 1.4)
 	sun_banner(mesh, Vector3(0, h - 0.8, d * 0.5 + 0.02), 3.0, 8.4, Vector3(0, 0, 1))
-	K.card(mesh, "CAP-SHEET-BANNERS-03", Vector3(0, h - 1.4, -d * 0.5 - 0.06), 5.0, Vector3(0, 0, -1))
+	K.card(mesh, K.regime_banner("CAP-SHEET-BANNERS-03"), Vector3(0, h - 1.4, -d * 0.5 - 0.06), 5.0, Vector3(0, 0, -1))
 	# the rebuild (Nov 1): the piers' faces toward the opening and the city carry the sun medallion, a tall mirrored lancet and a banner, so the first
 	# view of the city is not two blank walls
 	for side: Vector3 in [Vector3(1, 0, 0), Vector3(-1, 0, 0)]:
 		var face: Vector3 = side * (w * 0.5 + 0.01)
 		K.sun_emblem(mesh, face + Vector3(0, h * 0.72, 0), 0.9, side)
 		K.lancet_window(mesh, face + Vector3(0, h * 0.22, 0), 1.3, 4.6, side, "mirror")
-		K.card(mesh, "CAP-SHEET-BANNERS-01", face + side * 0.08 + Vector3(0, h * 0.52, 0), 3.2, side)
+		K.card(mesh, K.regime_banner("CAP-SHEET-BANNERS-01"), face + side * 0.08 + Vector3(0, h * 0.52, 0), 3.2, side)
 	K.sun_emblem(mesh, Vector3(0, h * 0.72, -d * 0.5 - 0.02), 0.9, Vector3(0, 0, -1))
 	return finish(root, mesh, [], h + 6.0)
 
@@ -438,7 +447,10 @@ static func gate_arch(final_state: bool) -> Node3D:
 		mesh.tri("plaster", [crest[0] + Vector3(0, 0, z), crest[1] + Vector3(0, 0, z), crest[2] + Vector3(0, 0, z)], Vector3(0, 0, face))
 	mesh.box("plaster", Vector3(0, 12.3, 0), Vector3(4.2, 1.4, depth - 1.2))
 	K.finial(mesh, Vector3(0, 13.4, 0), 1.6)
-	K.sun_emblem(mesh, Vector3(0, 11.0, depth * 0.5 + 0.1), 1.05, Vector3(0, 0, 1))
+	if final_state:
+		K.emblem(mesh, Vector3(0, 11.0, depth * 0.5 + 0.1), 1.05, Vector3(0, 0, 1), true, true)  # Overnight Nov 17: covered outside too
+	else:
+		K.sun_emblem(mesh, Vector3(0, 11.0, depth * 0.5 + 0.1), 1.05, Vector3(0, 0, 1))
 	K.emblem(mesh, Vector3(0, 11.0, -depth * 0.5 - 0.1), 0.95, Vector3(0, 0, -1), final_state, final_state)
 	return finish(root, mesh, [], 15.0)
 

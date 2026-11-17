@@ -55,6 +55,9 @@ static func teacher_for(def: ZoneDef) -> Dictionary:
 func _build() -> void:
 	_teacher = teacher_for(ZoneDefs.get_def(zone()))
 	screen_title = title_for(zone())
+	# Overnight Nov 17 (inbox Nov 16c, 25): the header label is made before `_build` runs, so it is given the zone's exam name here
+	if title_label != null:
+		title_label.text = screen_title
 	super._build()
 
 
@@ -63,7 +66,7 @@ func music_cue() -> String:
 
 
 func game_name() -> String:
-	return "Card Quiz"
+	return title_for(zone())
 
 
 func room_art() -> String:

@@ -9,7 +9,7 @@ extends Node
 ##   Godot --path . --resolution 1600x900 res://tools/heap_walk_smoke_launcher.tscn     (bash tools/run_heap_walk_smoke.sh [camera])
 ## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the
 ## walkability probe covers the long routes); the vine bridges, the beanstalks, the chutes, the battles, the quiz questions and the puzzle moves have
-## their own smoke (tools/run_eighth_brief_final_smoke.sh). Exit code 0 = every check passed; 1 = a check failed.
+## their own smoke (tools/run_card_games_smoke.sh). Exit code 0 = every check passed; 1 = a check failed.
 
 const SHOT_DIR: String = "res://_screenshots/heap_walk/"
 const TAG: String = "heap_walk_smoke"

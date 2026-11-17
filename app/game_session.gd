@@ -3746,8 +3746,30 @@ func unlock_postgame() -> bool:
 func settle_postgame_quests() -> void:
 	close_zone_lines()
 	start_quest(QuestDefinitions.UNDER_THE_FOREST, false)
-	quest_log.track(QuestDefinitions.UNDER_THE_FOREST)
+	# Overnight Nov 17: the tracker follows the ending first ("The City Gathers": the ending, then the gathering in Grave Row); once the
+	# funeral has played, "After the Fall" (the Lab and the Gallery) - `track_postgame_goal`
+	track_postgame_goal()
 	EventBus.quest_changed.emit()
+
+
+## Overnight Nov 17: after Primm the tracked quest is the next postgame goal: The City Gathers until the funeral, then After the Fall
+## (started here if the auto-offer has not run yet). A quest the player chose to track by hand after the funeral is left alone.
+func track_postgame_goal() -> void:
+	if profile == null:
+		return
+	if not flag(&"primm_defeated"):
+		quest_log.track(QuestDefinitions.UNDER_THE_FOREST)  # a postgame unlocked some other way (the Dev Menu): as before
+		return
+	if not flag(StringName(QuestDefinitions.FLAG_FUNERAL_SEEN)):
+		start_quest(QuestDefinitions.CITY_GATHERS, false)
+		quest_log.track(QuestDefinitions.CITY_GATHERS)
+		return
+	if not quest_log.is_completed(QuestDefinitions.AFTER_THE_FALL):
+		var fresh: bool = start_quest(QuestDefinitions.AFTER_THE_FALL, false)
+		quest_log.preferred = QuestDefinitions.AFTER_THE_FALL  # the tracker comes back here when a quest it followed (Under the Forest) ends
+		var tracked: String = quest_log.tracked_id()
+		if fresh or tracked == "" or tracked == QuestDefinitions.CITY_GATHERS or quest_log.is_completed(tracked):
+			quest_log.track(QuestDefinitions.AFTER_THE_FALL)
 
 
 func close_zone_lines() -> void:
@@ -3759,6 +3781,8 @@ func close_zone_lines() -> void:
 
 ## After the ending sequence (and its postgame announcement): back to the Capital, which has changed (a fresh visit at full HP).
 func return_from_ending() -> void:
+	set_flag(StringName(QuestDefinitions.FLAG_ENDING_SEEN))  # Overnight Nov 17: "The City Gathers" step 1
+	refresh_quests()
 	begin_zone_visit(CapitalZone.ID)
 	pending_zone_result = {"kind": "ending_return", "postgame_unlocked": bool(profile.postgame_unlocked) if profile != null else false}
 	save_game()

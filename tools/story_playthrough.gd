@@ -78,6 +78,8 @@ func run() -> void:
 	# Fixes Nov 8: the four zone lines wait for Maren's send-off (PathDirection), which the bot takes AFTER beating its own gatekeeper - the
 	# "gatekeeper beaten early" order every player can now take.
 	_step(not Session.quest_log.is_active(QuestDefinitions.zone_main_id(_path_zone)), "the zone main lines wait for Maren's send-off")
+	if not is_instance_valid(town):
+		town = null  # Overnight Nov 17: a fight in the chain freed the town scene this run held (the strict bot fetches the live one)
 	town = await _brannoch(town)
 	var snapshot_after: int = int(_arg("snapshot_after", "0"))
 	var zones_done: int = 0
@@ -88,6 +90,8 @@ func run() -> void:
 	if _full:
 		_tend_deck("after the tutorial")
 	for zone_id: String in order:
+		if not is_instance_valid(town):
+			town = null
 		town = await _zone(town, zone_id)
 		if _full and town != null:
 			_tend_deck("after %s" % zone_id)
@@ -100,6 +104,8 @@ func run() -> void:
 			await _save_progress_snapshot(_arg("snapshot", "midgame_real"))
 			_finish()
 			return
+	if not is_instance_valid(town):
+		town = null
 	await _undercroft(town)
 	if _full:
 		_tend_deck("before the Capital")

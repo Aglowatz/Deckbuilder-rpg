@@ -55,6 +55,8 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("capital: layout.build")
 	story = ZoneStoryText.for_zone(CapitalZone.ID)
 	ctx = story_context()
+	CapitalKit.freed_city = bool(ctx.get("final", false))  # Overnight Nov 17: every regime banner in the city is a freed one after Primm
+	CapitalKit._freed_turn = 0
 	gate_open = bool(Session.flags.get(str(CapitalZone.FLAG_GATE_OPEN), false)) or bool(ctx.get("final", false))
 	root = Node3D.new()
 	root.name = "Capital"
@@ -1123,7 +1125,7 @@ func _build_signs() -> void:
 					CapitalKit.finial(pole_mesh, Vector3(side * (width * 0.5 + 0.1), 2.6 + height + 0.3, 0), 0.5)
 				pole_mesh.tube("gold", Vector3(-width * 0.5 - 0.1, 2.6 + height + 0.1, 0), Vector3(width * 0.5 + 0.1, 2.6 + height + 0.1, 0), 0.05, 6)
 				CapitalLandmarks.finish(node, pole_mesh, [], 2.6 + height)
-				node.add_child(_kit_picture("CAP-SHEET-BANNERS-%02d" % (1 + absi(sign_data.key.hash()) % 4), Vector2(width, height * 1.3), Vector3(0, mid, 0.05)))
+				node.add_child(_kit_picture(CapitalKit.regime_banner("CAP-SHEET-BANNERS-%02d" % (1 + absi(sign_data.key.hash()) % 4)), Vector2(width, height * 1.3), Vector3(0, mid, 0.05)))
 				node.scale = Vector3.ONE * 0.5
 				continue
 			"wall":

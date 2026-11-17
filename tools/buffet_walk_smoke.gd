@@ -9,7 +9,7 @@ extends Node
 ##   Godot --path . --resolution 1600x900 res://tools/buffet_walk_smoke_launcher.tscn     (bash tools/run_buffet_walk_smoke.sh)
 ## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the walkability probe
 ## covers the long routes); the rafts, the susan, the jelly pads, the battles, the quiz questions and the puzzle moves have their own smoke
-## (tools/run_seventh_brief_final_smoke.sh buffet). Exit code 0 = every check passed; 1 = a check failed.
+## (the zone card games: tools/run_card_games_smoke.sh). Exit code 0 = every check passed; 1 = a check failed.
 
 const SHOT_DIR: String = "res://_screenshots/buffet_walk/"
 const TAG: String = "buffet_walk_smoke"

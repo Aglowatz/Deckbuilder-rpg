@@ -130,6 +130,8 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 	var pediment: bool = bool(spec.get("pediment", true))
 	var door: String = str(spec.get("door", "CAP-SHEET-DOORS-01"))
 	var banner: String = str(spec.get("banner", BANNER_HOUSE))
+	if final_state and banner != "":
+		banner = K.regime_banner(banner)  # Overnight Nov 17: the freed city's houses fly the people's banners
 	var banner_roll: float = float(spec.get("banner_roll", 0.0)) + (7.0 if final_state else 0.0)
 	var glass: String = "window_warm" if final_state else "mirror"
 	var window_card: String = WINDOW_LIT if final_state else WINDOW_DAY
@@ -357,7 +359,7 @@ static func _tower_geometry(mesh: KitMesh, detail: KitMesh, height: float, radiu
 	detail.lathe("gold", Vector3(0, height + cone * 0.22, 0), [Vector2(lantern_r * 1.05, 0.0), Vector2(lantern_r * 0.98, 0.2)], 14, 1.0, false, false)
 	K.finial(detail, Vector3(0, height + cone - 0.1, 0), maxf(radius * 0.8, 0.8))
 	if banner:
-		card_rolled(detail, BANNER_TOWER, Vector3(0, shaft_top - 0.7, radius + 0.08), 3.2, Vector3(0, 0, 1), 6.0 if final_state else 0.0)
+		card_rolled(detail, K.regime_banner(BANNER_TOWER) if final_state else BANNER_TOWER, Vector3(0, shaft_top - 0.7, radius + 0.08), 3.2, Vector3(0, 0, 1), 6.0 if final_state else 0.0)
 
 
 # ---- the gilded statue on its plinth -----------------------------------------------------------------------------------------------------
@@ -715,6 +717,7 @@ static func lamp_mesh(height: float, lit: bool) -> ArrayMesh:
 static func lamp_banner_mesh(height: float, roll_deg: float = 0.0) -> ArrayMesh:
 	var mesh: KitMesh = mesh_for(false)
 	mesh.tube("gold", Vector3(0, height - 0.9, -0.55), Vector3(0, height - 0.9, 0.55), 0.03, 6)
-	card_rolled(mesh, BANNER_LAMP, Vector3(0, height - 0.95, 0.03), 1.15, Vector3(0, 0, 1), roll_deg)
-	card_rolled(mesh, BANNER_LAMP, Vector3(0, height - 0.95, -0.03), 1.15, Vector3(0, 0, -1), -roll_deg)
+	var lamp_banner: String = K.regime_banner(BANNER_LAMP) if K.freed_city else BANNER_LAMP  # Overnight Nov 17: freed city
+	card_rolled(mesh, lamp_banner, Vector3(0, height - 0.95, 0.03), 1.15, Vector3(0, 0, 1), roll_deg)
+	card_rolled(mesh, lamp_banner, Vector3(0, height - 0.95, -0.03), 1.15, Vector3(0, 0, -1), -roll_deg)
 	return mesh.build()

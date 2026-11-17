@@ -50,6 +50,8 @@ static func build_all() -> Array[QuestData]:
 	result.append(_loose_ends())
 	result.append(_alembic())
 	result.append(_under_the_forest())
+	result.append(_city_gathers())
+	result.append(_after_the_fall())
 	result.append(CardMatchCircuit.quest())  # Overnight Nov 7-8, Part 6.3
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
@@ -87,6 +89,57 @@ static func _under_the_forest() -> QuestData:
 			.at(QuestObjective.TargetKind.DUNGEON, Areas.START, "lab", "Below the hatch: the Cell Block branch"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 200
+	quest.reward_xp = 200
+	return quest
+
+
+## Overnight Nov 17 (inbox Nov 16, item 13; the late critics: "nothing tracks the ending after Primm"): from Primm's fall the tracker keeps
+## one clear goal. "The City Gathers" starts with his fall and is tracked: see the ending (it plays at once, through the credits), then
+## join the gathering at the end of Grave Row (Old Hob, the royal funeral). After the funeral "After the Fall" is tracked: one step with
+## two parts, the prisoner under the forest (Rip's station in town, then the hatch in the forest) and the cracked mirror by the castle door
+## (the Shattered Gallery), each marked on the maps until it is done.
+const CITY_GATHERS: String = "city_gathers"
+const AFTER_THE_FALL: String = "after_the_fall"
+const FLAG_ENDING_SEEN: String = "ending_seen"
+const FLAG_FUNERAL_SEEN: String = "royal_funeral_seen"
+
+
+static func _city_gathers() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = CITY_GATHERS
+	quest.category = QuestData.Category.MAIN
+	quest.order = 7
+	quest.title = "The City Gathers"
+	quest.summary = "{villain} has fallen. The kingdom is waking up, and the Capital is gathering at the end of Grave Row to say goodbye properly."
+	quest.auto_give = true
+	quest.prerequisite = Condition.flag("primm_defeated")
+	quest.objectives = [
+		QuestObjective.make("See the ending", Condition.any_of([Condition.flag(FLAG_ENDING_SEEN), Condition.flag(FLAG_FUNERAL_SEEN)] as Array[Condition])),
+		QuestObjective.make("Join the gathering at the end of Grave Row", Condition.flag(FLAG_FUNERAL_SEEN))
+			.at(QuestObjective.TargetKind.NPC, CapitalZone.ID, "old_hob", "Grave Row, in the Capital's north-west: Old Hob waits at its end"),
+	] as Array[QuestObjective]
+	quest.reward_xp = 100
+	return quest
+
+
+static func _after_the_fall() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = AFTER_THE_FALL
+	quest.category = QuestData.Category.MAIN
+	quest.order = 8
+	quest.title = "After the Fall"
+	quest.summary = "Two things are still unfinished. Something is locked away under the forest where you woke, and the cracked mirror by the castle door shows rooms that should not be there."
+	quest.auto_give = true
+	quest.prerequisite = Condition.flag(FLAG_FUNERAL_SEEN)
+	var freed: Condition = Condition.flag(str(PathologyLab.FLAG_RESCUER_FREED))
+	var gallery: Condition = Condition.flag(str(ShatteredGallery.FLAG_CLEARED))
+	var step: QuestObjective = QuestObjective.make("Free the prisoner under the forest, and clear the Shattered Gallery", Condition.all_of([freed, gallery] as Array[Condition]))
+	step.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Under the forest: ask Rip at Crosspath's Rift Station, then take the Rift Express to the forest. The Gallery: the cracked mirror beside the castle door")
+	step.part(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Rip's Rift Station (the way to the forest)", Condition.any_of([Condition.flag(FLAG_FOREST_ARRIVED), freed] as Array[Condition]))
+	step.part(QuestObjective.TargetKind.SPOT, Areas.START, "lab", "The hatch under the forest", freed)
+	step.part(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "The cracked mirror by the castle door", gallery)
+	quest.objectives = [step] as Array[QuestObjective]
+	quest.reward_gold = 300
 	quest.reward_xp = 200
 	return quest
 

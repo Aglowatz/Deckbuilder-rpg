@@ -605,7 +605,13 @@ func _talk_hob() -> void:
 	_face_npc(OLD_HOB_KEY)  # Overnight Nov 8-9: his own key since Import Nov 8 ("hob" is Granny Gristle)
 	if OldHob.funeral_waiting(Session.flags):
 		_locked = true
-		StoryScenePlayer.play(dialogue, "royal_funeral", func() -> void: _locked = false)
+		StoryScenePlayer.play(dialogue, "royal_funeral", func() -> void:
+			_locked = false
+			# Overnight Nov 17: the funeral ends The City Gathers; the tracker moves on to After the Fall (the Lab and the Gallery)
+			Session.set_flag(StringName(QuestDefinitions.FLAG_FUNERAL_SEEN))
+			Session.refresh_quests()
+			Session.track_postgame_goal()
+			EventBus.quest_changed.emit())
 		return
 	super()
 

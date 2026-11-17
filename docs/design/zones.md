@@ -46,7 +46,7 @@ The Necrocrat zone (`ZonePortals` id `necrocrat`, town gate at the southwest cor
 Each is offered by and handed in to the same NPC.
 
 ## The shared zone framework (brief 6, Part B)
-A zone is mostly **data + layout**; everything reusable lives in the framework. D.N.A. behaviour is unchanged (verified by `tools/run_fifth_brief_final_smoke.sh`).
+A zone is mostly **data + layout**; everything reusable lives in the framework. D.N.A. behaviour is unchanged (verified then by the fifth brief smoke; since Nov 17 the zone checks are `tools/run_card_games_smoke.sh` and the walk smokes, the four old zone smokes are deleted).
 
 | Piece | Where | Zone-specific part |
 |-------|-------|--------------------|

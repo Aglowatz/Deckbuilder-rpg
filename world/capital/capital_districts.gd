@@ -105,7 +105,7 @@ static func tram_shed(size: Vector3, restored: bool) -> Node3D:
 		for rail: float in [-0.55, 0.55]:
 			mesh.box("gold", Vector3(cx + rail, 0.2, 0.4), Vector3(0.1, 0.08, d + 1.2))  # gilded rails (the sides pass: nothing black inside)
 		_card(mesh, "CAP-PROP-TRAM", Vector3(cx, 0.18, -0.3), 2.1, Vector3(0, 0, 1), restored)
-		K.card(mesh, "CAP-SHEET-BANNERS-04", Vector3(cx, spring + half * 0.75, d * 0.5 - 0.6), 1.7, Vector3(0, 0, 1))
+		K.card(mesh, K.regime_banner("CAP-SHEET-BANNERS-04"), Vector3(cx, spring + half * 0.75, d * 0.5 - 0.6), 1.7, Vector3(0, 0, 1))
 		mesh.blob("lamp" if restored else "lamp_off", Vector3(cx, spring - 0.6, d * 0.5 - 1.2), Vector3(0.22, 0.28, 0.22), 4, 8)
 		if restored:
 			# red-and-gold bunting across the arch

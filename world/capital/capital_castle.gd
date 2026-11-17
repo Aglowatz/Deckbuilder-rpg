@@ -156,7 +156,7 @@ static func _stair(mesh: KitMesh, final_state: bool) -> void:
 		# the big gold-capped plinths at the foot, a lamp on each, a banner hung between it and the door
 		K.card(mesh, "CAP-PROP-LAMP", Vector3(AXIS + side * 4.6, TOP, STAIR_TOP - 0.4), 3.0, Vector3(0, 0, 1))
 		if not final_state:
-			K.card(mesh, "CAP-SHEET-BANNERS-02", Vector3(AXIS + side * 7.4, CapitalLayout.HILL_HEIGHT * 0.5 - 0.1, STAIR_FOOT + 0.05), 2.6, Vector3(0, 0, 1))
+			K.card(mesh, K.regime_banner("CAP-SHEET-BANNERS-02"), Vector3(AXIS + side * 7.4, CapitalLayout.HILL_HEIGHT * 0.5 - 0.1, STAIR_FOOT + 0.05), 2.6, Vector3(0, 0, 1))
 	# the Primm statue on the landing in front of the doors (the concept's and the paint-over's centrepiece), on a gold-banded plinth
 	K.post(mesh, Vector3(AXIS, TOP, 1.4), Vector3(2.0, 1.2, 2.0), false)
 	K.primm_statue(mesh, Vector3(AXIS, TOP + 1.3, 1.4), 3.8, Vector3(0, 0, 1), final_state)

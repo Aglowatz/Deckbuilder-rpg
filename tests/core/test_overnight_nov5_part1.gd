@@ -64,7 +64,8 @@ func test_primms_fall_closes_the_zone_lines_and_tracks_under_the_forest() -> voi
 	Session.unlock_postgame()
 	assert_false(Session.quest_log.is_active(gourmand_main), "no zone line left at 0/4 after Primm")
 	assert_true(Session.quest_log.is_active(QuestDefinitions.UNDER_THE_FOREST))
-	assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.UNDER_THE_FOREST, "the tracker switches by itself")
+	# Overnight Nov 17: the tracker follows the ending first (The City Gathers); Under the Forest runs beside it
+	assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.CITY_GATHERS, "the tracker switches by itself")
 
 
 func test_a_freed_zone_finishes_its_line_without_the_favour() -> void:
@@ -130,4 +131,4 @@ func test_beating_primm_in_the_castle_settles_the_quest_log() -> void:
 	assert_eq(str(result.get("kind", "")), "primm_defeated")
 	for zone_id: String in Gatekeepers.IDS:
 		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's line is closed" % zone_id)
-	assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.UNDER_THE_FOREST)
+	assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.CITY_GATHERS)

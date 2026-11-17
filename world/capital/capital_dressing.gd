@@ -553,8 +553,9 @@ func _parterres(builder: CapitalBuilder) -> void:
 			continue
 		var roll: float = 1.0 if lamp_index == 3 and on_main else 0.0
 		mesh.tube("gold", prop.pos + Vector3(-0.5, 2.75, 0), prop.pos + Vector3(0.5, 2.75, 0), 0.03, 6)
-		CapitalGrand.card_rolled(mesh, CapitalGrand.BANNER_LAMP, prop.pos + Vector3(0, 2.7, 0.04), 1.1, Vector3(0, 0, 1), roll)
-		CapitalGrand.card_rolled(mesh, CapitalGrand.BANNER_LAMP, prop.pos + Vector3(0, 2.7, -0.04), 1.1, Vector3(0, 0, -1), -roll)
+		var lamp_banner: String = CapitalKit.regime_banner(CapitalGrand.BANNER_LAMP) if CapitalKit.freed_city else CapitalGrand.BANNER_LAMP  # Overnight Nov 17
+		CapitalGrand.card_rolled(mesh, lamp_banner, prop.pos + Vector3(0, 2.7, 0.04), 1.1, Vector3(0, 0, 1), roll)
+		CapitalGrand.card_rolled(mesh, lamp_banner, prop.pos + Vector3(0, 2.7, -0.04), 1.1, Vector3(0, 0, -1), -roll)
 		lamp_index += 1
 	var node: MeshInstance3D = mesh.instance("Parterres")
 	node.set_meta(PaintedClasses.META_NO_PAINT, true)
