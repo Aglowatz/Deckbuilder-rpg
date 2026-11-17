@@ -20,6 +20,10 @@ const K = preload("res://world/capital/capital_kit.gd")
 const HALL: Rect2 = Rect2(4.0, 134.0, 37.0, 21.0)
 const CEILING_Y: float = 7.6
 const WALL_TOP: float = 9.4
+## Overnight Nov 17 (the art critic's #1: "the Crease has no ceiling"): the default and raised cameras ride above the ceiling and look
+## through it (one-sided, drawn from below), so the Capital's skyline showed over the 9.4 m north wall. The north wall now rises far above
+## the ceiling and fills the top of the frame with rock from every camera.
+const NORTH_WALL_TOP: float = 34.0
 ## How far south of the hall the cavern runs on (the camera stands up to 16 m south of the hero).
 const SOUTH_REACH: float = 28.0
 ## The shell's faces: the north wall's foot, the side walls' feet.
@@ -79,7 +83,8 @@ static func build(parent: Node3D, low_end: bool = false) -> CapitalCrease:
 	var lean: Callable = func(_u: float, v: float) -> float: return 0.15 + 2.2 * v * v
 	# the side walls stand straight to over head height and only curl in under the ceiling: the camera rides 2 m from them in the corners
 	var side_lean: Callable = func(_u: float, v: float) -> float: return 5.0 * maxf(0.0, v - 0.68) * maxf(0.0, v - 0.68) * 4.0
-	crease._sheet("WallNorth", rock, Vector3(WEST_X - 8.0, -0.6, NORTH_Z), Vector3(EAST_X - WEST_X + 16.0, 0, 0), Vector3(0, WALL_TOP + 0.6, 0), Vector3(0, 0, 1), 44, 12, 0.55, 11, lean)
+	var north_lean: Callable = func(_u: float, v: float) -> float: return 0.15 + 2.2 * minf(1.0, v * (NORTH_WALL_TOP / WALL_TOP)) * minf(1.0, v * (NORTH_WALL_TOP / WALL_TOP))
+	crease._sheet("WallNorth", rock, Vector3(WEST_X - 8.0, -0.6, NORTH_Z), Vector3(EAST_X - WEST_X + 16.0, 0, 0), Vector3(0, NORTH_WALL_TOP + 0.6, 0), Vector3(0, 0, 1), 44, 30, 0.55, 11, north_lean)
 	crease._sheet("WallWest", rock, Vector3(WEST_X, -0.6, south), Vector3(0, 0, north - south), Vector3(0, WALL_TOP + 0.6, 0), Vector3(1, 0, 0), 40, 12, 0.32, 23, side_lean)
 	crease._sheet("WallEast", rock, Vector3(EAST_X, -0.6, north), Vector3(0, 0, south - north), Vector3(0, WALL_TOP + 0.6, 0), Vector3(-1, 0, 0), 40, 12, 0.32, 37, side_lean)
 	crease._sheet("Ceiling", rock, Vector3(WEST_X - 8.0, CEILING_Y, north), Vector3(EAST_X - WEST_X + 16.0, 0, 0), Vector3(0, 0, south - north), Vector3(0, -1, 0), 34, 34, 0.7, 53, Callable())
