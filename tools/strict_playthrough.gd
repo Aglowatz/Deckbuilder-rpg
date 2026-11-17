@@ -391,6 +391,22 @@ func _settle(scene: Variant, seconds: float = 6.0) -> void:
 			started = Time.get_ticks_msec()
 			continue
 		var pressed: bool = false
+		# any open confirm box (a door, a gate's challenge, a ladder): its yes-button, never "Not yet" / "Cancel"
+		for dialog: Node in get_tree().root.find_children("*", "ConfirmDialog", true, false):
+			if pressed or not (dialog as CanvasItem).is_visible_in_tree():
+				continue
+			for node: Node in dialog.find_children("*", "Button", true, false):
+				var yes: Button = node as Button
+				var label: String = yes.text.strip_edges()
+				if yes.is_visible_in_tree() and not yes.disabled and label != "" and not label in ["Not yet", "Cancel", "Stay", "Not now", "Keep watching", "Tell me more", "No"]:
+					print("%s: confirm '%s'" % [TAG, label])
+					await driver.click(driver.button_center(yes))
+					await driver.seconds(0.6)
+					pressed = true
+					break
+		if pressed:
+			started = Time.get_ticks_msec()
+			continue
 		for text: String in ["Use this deck", "Enter", "Descend", "Take a number", "Step through", "Go down", "Climb down", "Fight", "Challenge"]:
 			var button: Button = driver.find_button(text)
 			if button != null and not button.disabled:
