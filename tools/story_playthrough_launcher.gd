@@ -3,7 +3,8 @@ extends Node
 
 
 func _ready() -> void:
-	var smoke: StoryPlaythrough = StoryPlaythrough.new()
+	# Overnight Nov 17: `--strict=1` plays the same story with no debug shortcuts (StrictPlaythrough)
+	var smoke: StoryPlaythrough = StrictPlaythrough.new() if OS.get_cmdline_user_args().has("--strict=1") else StoryPlaythrough.new()
 	smoke.name = "StoryPlaythrough"
 	get_tree().root.add_child.call_deferred(smoke)
 	smoke.run.call_deferred()

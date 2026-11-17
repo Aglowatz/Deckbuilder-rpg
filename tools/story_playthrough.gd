@@ -35,6 +35,8 @@ var _fights: Dictionary = {"won": 0, "lost": 0, "stalled": 0, "decreed": 0}
 ## a loss respawns per the rules and the bot tries again (a deck rebuilt from the collection between tries); MAX_TRIES losses on one fight
 ## is logged as a WALL and only then decreed. No level or deck catch-up. Gold earned is summed from every gain.
 const MAX_TRIES: int = 4
+## Overnight Nov 17: set by `StrictPlaythrough` (no shortcuts); `_max_tries()` is how many losses one fight may take before it is a wall.
+var _strict: bool = false
 var _full: bool = false
 var _gold_earned: int = 0
 var _last_gold: int = 0
@@ -953,7 +955,7 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 	var chose: int = 0
 	var walked: bool = false
 	var tries: int = 1
-	var limit: float = 5400.0 if _full else 900.0
+	var limit: float = (14400.0 if _strict else 5400.0) if _full else 900.0
 	while float(Time.get_ticks_msec() - started) / 1000.0 < limit:
 		await driver.seconds(0.3)
 		if SceneManager.busy:
@@ -1027,7 +1029,7 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 				var box_out: Node = scene.get("dialogue") if "dialogue" in scene else null
 				if box_out is DialogueBox and (box_out as DialogueBox).active:
 					await _dismiss_dialogue(box_out as DialogueBox)
-				if tries >= MAX_TRIES:
+				if tries >= _max_tries():
 					_wall("%s: carried out %d times" % [label, tries])
 				else:
 					tries += 1
@@ -1259,7 +1261,11 @@ func _on_gold(total: int) -> void:
 
 func _wall(text: String) -> void:
 	_walls.append(text)
-	_note("WALL: %s - decreed after %d tries" % [text, MAX_TRIES])
+	_note("WALL: %s - decreed after %d tries" % [text, _max_tries()])
+
+
+func _max_tries() -> int:
+	return MAX_TRIES
 
 
 ## The next node a player would take: a shrine when hurt, otherwise the first open node (dead-end treasure and fights included, as a
