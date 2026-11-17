@@ -54,6 +54,10 @@ static func has_ruler_props(parent: Node) -> bool:
 ## while the zone is oppressed and lying beside it once the zone is freed. Zone id -> cut-out id.
 const RULER_CUTOUTS: Dictionary = {"beefcake": "CUT-CLENCH", "gourmand": "CUT-DOPPEL", "necrocrat": "CUT-MORTIMER", "refusemancer": "CUT-ROTHEART", "final": "CUT-PRIMM"}
 const STATUE_SHADER: String = "res://assets/shaders/stone_statue.gdshader"
+## Fable Nov 16c (Part 4.4): the stone a zone's statue is carved from, where the default pale blue-grey reads wrong. In the Endless
+## Buffet's warm light it read as a grey, washed-out portrait of a lady (the owner's words), not as a statue: there it is a warm, darker
+## sandstone.
+const RULER_STONE: Dictionary = {"gourmand": Color(0.6, 0.5, 0.4)}
 const FIGURE_NAME: String = "RulerFigure"
 ## The carved figure's height on its plinth (metres) and the plinth's top.
 const FIGURE_HEIGHT: float = 3.1
@@ -76,6 +80,9 @@ static func ruler_figure(zone_id: String, tint: Color, height: float = FIGURE_HE
 	material.shader = load(STATUE_SHADER) as Shader
 	material.set_shader_parameter("picture", picture)
 	material.set_shader_parameter("accent", tint)
+	if RULER_STONE.has(zone_id):
+		material.set_shader_parameter("stone", RULER_STONE[zone_id] as Color)
+		material.set_shader_parameter("brightness", 0.94)
 	material.set_meta(StyleToon.META_NO_TOON, true)
 	var figure: MeshInstance3D = MeshInstance3D.new()
 	figure.name = FIGURE_NAME

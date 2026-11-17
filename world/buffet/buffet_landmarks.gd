@@ -1,7 +1,7 @@
 class_name BuffetLandmarks
 extends RefCounted
 ## The Endless Buffet's hero landmarks modelled after the approved concepts (docs/art/zone_kits/buffet/concepts/*.jpg) with the zone kit's painted surfaces
-## (data/art/zone_kits/buffet.json): the Test Kitchen (the main dungeon, a castle-sized kitchen-laboratory beyond the north rim), the Cake Cathedral (the bakery
+## (data/art/zone_kits/buffet.json): the Test Kitchen (the main dungeon, a castle-sized gingerbread house beyond the north rim), the Cake Cathedral (the bakery
 ## square), Potato Peak (a view beyond the west rim where the Gravy River leaves the table), the Broccoli Giant (the forest's west edge) and the Omakase Pavilion
 ## (the Walk-In Freezer door into the side dungeon). `HeroLandmarks.build` dispatches "BUFF-HERO-" ids here. Same contract as the stand-ins (`LandmarkKit`):
 ## origin on the ground at the centre of the footprint, the front +z, `size` = w, h, d in metres, meta "circles" (local x, z, radius), "footprint", "height",
@@ -141,6 +141,8 @@ static func _materials(mesh: KitMesh) -> void:
 	mesh.alias("tomato", "flat", TOMATO.srgb_to_linear())
 	mesh.alias("crust_flat", "flat", CRUST.srgb_to_linear())
 	mesh.alias("pink", "flat", PINK.srgb_to_linear())
+	mesh.alias("mint", "flat", Color("a8e6cf").srgb_to_linear())  # Fable Nov 16c: the gingerbread house's candy colours
+	mesh.alias("lilac", "flat", Color("c9b3f0").srgb_to_linear())
 	mesh.alias("herb", "flat", HERB.srgb_to_linear())
 	mesh.alias("chocolate", "flat", CHOCOLATE.srgb_to_linear())
 	mesh.alias("butter", "flat", BUTTER.srgb_to_linear())
@@ -264,9 +266,14 @@ static func _gothic_window(mesh: KitMesh, slot: String, center: Vector3, width: 
 # ---- The Test Kitchen ---------------------------------------------------------------------------------------------------------------------------
 
 
-## The main dungeon: a castle-sized kitchen-laboratory on a biscuit plinth beyond the north rim. A terrace wall of biscuit with glowing oven arches and a tablecloth
-## trim, cake towers at the corners, a gate of two biscuit towers under a pie-crust arch with icon sign cards and a lit doorway, a great hall with a copper roof, a
-## copper dome under a chef's-hat cupola, copper tanks, glass greenhouses with herbs inside, a whisk crane and a ladle crane, and copper chimney stacks (meta "steam").
+## The main dungeon: the Test Kitchen, a castle-sized **gingerbread house** on a biscuit plinth beyond the north rim (Fable Nov 16c, Part 4.1:
+## rebuilt from the kit's own pieces as one solid house; it was a kitchen-laboratory with copper tanks, greenhouses, two cranes, seven
+## chimney stacks, four cake towers and a chef's-hat dome). One silhouette: a tall biscuit house under one steep pie-crust gable roof, its
+## gable to the front; thick white frosting along the eaves (with drips), the gable's edges (scalloped) and the ridge, gumdrops on it;
+## frosted and candy-cane windows from the kit's window sheet; a low biscuit forecourt wall with a frosting cap and candy-cane posts at
+## its corners; and the gate - two biscuit towers with frosting cone roofs (the only two towers), a frosted arch, candy-cane posts and
+## the kit's big frosted gingerbread door. One frosted chimney stands in the roof (meta "steam"). The plinth, the threshold, the gate's
+## place and size, the two tower circles and the footprint circle are unchanged: the door, the spot and the walk grid stay where they were.
 static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary], steam: Array[Vector3]) -> void:
 	var hw: float = size.x * 0.5
 	var hd: float = size.z * 0.5
@@ -277,51 +284,44 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 	# the threshold slab reaching south over the table rim to the forecourt (walkable ground is the table's own)
 	mesh.box("noodle", Vector3(0, -0.08, hd + 2.6), Vector3(9.0, 0.26, 6.0), Basis.IDENTITY, 0.04)
 	mesh.box("cloth", Vector3(0, 0.05, hd + 2.6), Vector3(4.0, 0.06, 6.0), Basis.IDENTITY, 0.0)
-	# the terrace wall: biscuit, 6 m, a tablecloth trim along the top, oven arches glowing on the front halves
+	# the forecourt wall: biscuit, a thick frosting cap with drips, a gumdrop every few metres, a frosted window in each half
 	var wall_h: float = height * 0.2
 	var gate_w: float = 7.0
 	var front_z: float = hd - 1.2
+	var candies: Array[String] = ["pink", "mint", "butter", "tomato", "lilac"]
 	for side: float in [-1.0, 1.0]:
 		var span: float = hw - gate_w * 0.5 - 2.6
 		var cx: float = side * (gate_w * 0.5 + 2.6 + span * 0.5)
 		mesh.box("biscuit", Vector3(cx, wall_h * 0.5 - 0.3, front_z), Vector3(span, wall_h + 0.6, 2.4), Basis.IDENTITY, 0.08, 0.86)
-		mesh.box("cloth", Vector3(cx, wall_h + 0.3, front_z), Vector3(span + 0.2, 0.6, 2.7), Basis.IDENTITY, 0.0)
-		var ovens: int = maxi(2, int(span / 6.5))
-		for index: int in range(ovens):
-			var ox: float = cx - span * 0.5 + span * (float(index) + 0.5) / float(ovens)
-			mesh.box("oven", Vector3(ox, 2.0, front_z + 1.25), Vector3(3.6, 4.0, 0.5), Basis.IDENTITY, 0.03)
-			mesh.box("glow", Vector3(ox, 1.6, front_z + 1.55), Vector3(2.2, 2.2, 0.12), Basis.IDENTITY, 0.0)
-			_pane_bars(mesh, Vector3(ox, 1.6, front_z + 1.63), Vector2(2.2, 2.2))  # the oven's grate
-			mesh.box("oven", Vector3(ox, 3.3, front_z + 1.5), Vector3(2.6, 0.5, 0.25), Basis.IDENTITY, 0.0)
-			lights.append({"pos": Vector3(ox, 1.8, front_z + 2.4), "color": GLOW, "range": 7.0, "energy": 0.9, "kind": "oven"})
+		_frosting_run(mesh, Vector3(cx - span * 0.5, wall_h + 0.35, front_z), Vector3(cx + span * 0.5, wall_h + 0.35, front_z), 0.9, 2.9, Vector3(0, 0, 1), candies, 1.5)
+		var windows: int = maxi(2, int(span / 7.5))
+		for index: int in range(windows):
+			var wx: float = cx - span * 0.5 + span * (float(index) + 0.5) / float(windows)
+			_house_window(mesh, "BUFF-SHEET-WINDOWS-01" if index % 2 == 0 else "BUFF-SHEET-WINDOWS-02", Vector3(wx, wall_h * 0.5, front_z + 1.22), 3.4, lights, index == 0)
 	for side: float in [-1.0, 1.0]:
 		mesh.box("biscuit", Vector3(side * (hw - 1.2), wall_h * 0.5 - 0.3, -1.0), Vector3(2.4, wall_h + 0.6, size.z - 2.0), Basis.IDENTITY, 0.08, 0.86)
-		mesh.box("cloth", Vector3(side * (hw - 1.2), wall_h + 0.3, -1.0), Vector3(2.7, 0.6, size.z - 1.8), Basis.IDENTITY, 0.0)
+		_frosting_run(mesh, Vector3(side * (hw - 1.2), wall_h + 0.35, -hd + 1.0), Vector3(side * (hw - 1.2), wall_h + 0.35, hd - 3.0), 0.9, 2.9, Vector3(side, 0, 0), candies, 1.5)
 	mesh.box("biscuit", Vector3(0, wall_h * 0.5 - 0.3, -hd + 1.2), Vector3(size.x, wall_h + 0.6, 2.4), Basis.IDENTITY, 0.08, 0.86)
-	# cake towers at the four corners: frosting drums with a cream drip and a strawberry
-	for sx: float in [-1.0, 1.0]:
-		for sz: float in [-1.0, 1.0]:
-			var centre: Vector3 = Vector3(sx * (hw - 2.6), 0.0, sz * (hd - 2.6) - 0.6)
-			var tower_h: float = height * 0.36
-			mesh.lathe("frosting_pink", centre - Vector3(0, 0.5, 0), [Vector2(3.6, 0.0), Vector2(3.4, tower_h * 0.5), Vector2(3.4, tower_h + 0.5)], 12, 0.88, true, false)
-			_piping(mesh, centre + Vector3(0, tower_h + 0.1, 0), 3.4, 1.1, 14)
-			mesh.lathe("white", centre + Vector3(0, tower_h + 0.9, 0), [Vector2(3.1, 0.0), Vector2(2.2, 1.2), Vector2(0.0, 1.6)], 12, 1.0, false, true)
-			_strawberry(mesh, centre + Vector3(0, tower_h + 2.2, 0), 2.2)
-			for index: int in range(3):
-				var angle: float = sz * 0.6 + float(index) * 0.7 + (PI if sz < 0.0 else 0.0)
-				mesh.box("glow", centre + Vector3(cos(angle) * 3.42, tower_h * 0.45, sin(angle) * 3.42), Vector3(0.9, 1.6, 0.9), Basis(Vector3.UP, -angle), 0.0)
-	# the gate: two biscuit towers, a pie-crust arch, a lit doorway, icon signs, oven lamps
+	# a candy-cane post at each front corner of the wall (the corner cake towers are gone: the gate's two towers are the only towers)
+	for side: float in [-1.0, 1.0]:
+		_candy_cane(mesh, Vector3(side * (hw - 1.2), wall_h + 0.6, front_z), height * 0.2, 0.55, -side)
+	# the gate: two biscuit towers under frosting cone roofs, a frosted arch, candy-cane posts, the big frosted door, icon signs
 	var tower_w: float = 4.0
 	var gate_h: float = height * 0.34
 	for side: float in [-1.0, 1.0]:
 		var tx: float = side * (gate_w * 0.5 + tower_w * 0.5 + 0.2)
-		mesh.box("biscuit", Vector3(tx, gate_h * 0.5 - 0.3, front_z + 0.6), Vector3(tower_w, gate_h + 0.6, tower_w + 1.2), Basis.IDENTITY, 0.1, 0.86)
-		mesh.box("cloth", Vector3(tx, gate_h + 0.35, front_z + 0.6), Vector3(tower_w + 0.3, 0.7, tower_w + 1.5), Basis.IDENTITY, 0.0)
-		mesh.lathe("copper", Vector3(tx, gate_h + 0.7, front_z + 0.6), [Vector2(tower_w * 0.62, 0.0), Vector2(tower_w * 0.5, 1.6), Vector2(tower_w * 0.22, 2.9), Vector2(0.0, 3.3)], 12, 0.95, false, true)
-		mesh.blob("butter", Vector3(tx, gate_h + 4.3, front_z + 0.6), Vector3(0.55, 0.55, 0.55), 4, 8, 1.0)
+		var tower: Vector3 = Vector3(tx, 0.0, front_z + 0.6)
+		mesh.box("biscuit", tower + Vector3(0, gate_h * 0.5 - 0.3, 0), Vector3(tower_w, gate_h + 0.6, tower_w + 1.2), Basis.IDENTITY, 0.1, 0.86)
+		# a thick frosting collar with drips, then a pie-crust cone iced white at the top with a cherry
+		mesh.box("white", tower + Vector3(0, gate_h + 0.45, 0), Vector3(tower_w + 0.9, 0.9, tower_w + 2.1), Basis.IDENTITY, 0.3)
+		for corner_x: float in [-1.0, 1.0]:
+			for corner_z: float in [-1.0, 1.0]:
+				mesh.blob("white", tower + Vector3(corner_x * (tower_w * 0.5 + 0.3), gate_h - 0.25, corner_z * (tower_w * 0.5 + 0.9)), Vector3(0.42, 0.85, 0.42), 4, 7, 1.0)
+		mesh.lathe("crust", tower + Vector3(0, gate_h + 0.85, 0), [Vector2(tower_w * 0.74, 0.0), Vector2(tower_w * 0.56, 1.9), Vector2(tower_w * 0.3, 3.9), Vector2(0.0, 5.6)], 12, 0.95, false, true)
+		mesh.lathe("white", tower + Vector3(0, gate_h + 4.5, 0), [Vector2(tower_w * 0.32, 0.0), Vector2(tower_w * 0.2, 1.0), Vector2(0.0, 2.2)], 12, 1.0, false, true)
+		mesh.blob("tomato", tower + Vector3(0, gate_h + 6.9, 0), Vector3(0.6, 0.6, 0.6), 4, 8, 1.0)
 		_card(mesh, "BUFF-SHEET-SIGNS-01" if side < 0.0 else "BUFF-SHEET-SIGNS-03", Vector3(tx - side * 0.9, gate_h * 0.62, front_z + 0.6 + tower_w * 0.5 + 0.7), 2.4, Vector3(0, 0, 1))
-		mesh.box("glow", Vector3(tx, gate_h * 0.82, front_z + 0.6 + tower_w * 0.5 + 0.66), Vector3(1.2, 1.8, 0.1), Basis.IDENTITY, 0.0)
-		_pane_bars(mesh, Vector3(tx, gate_h * 0.82, front_z + 0.6 + tower_w * 0.5 + 0.72), Vector2(1.2, 1.8))
+		_house_window(mesh, "BUFF-SHEET-WINDOWS-03", Vector3(tx, gate_h * 0.82, front_z + 0.6 + tower_w * 0.5 + 0.64), 2.0, lights, false)
 		circles.append(Vector3(tx, front_z + 0.6, tower_w * 0.75))
 	var arch_r: float = gate_w * 0.5 + 0.3
 	for step: int in range(10):
@@ -331,113 +331,181 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 		var p1: Vector3 = Vector3(cos(a1) * arch_r, gate_h * 0.5 + sin(a1) * arch_r, front_z + 0.6)
 		var along: Vector3 = p1 - p0
 		mesh.box("crust", (p0 + p1) * 0.5, Vector3(along.length() + 0.3, 1.4, tower_w + 1.0), Basis(Vector3(0, 0, 1), atan2(along.y, along.x)), 0.03)
+		# piped frosting along the arch's front edge, a gumdrop on every other bead
+		var bead: Vector3 = Vector3(cos((a0 + a1) * 0.5) * (arch_r + 0.5), gate_h * 0.5 + sin((a0 + a1) * 0.5) * (arch_r + 0.5), front_z + 0.6 + tower_w * 0.5 + 0.55)
+		mesh.blob("white", bead, Vector3(0.62, 0.62, 0.5), 4, 8, 1.0)
+		if step % 2 == 1:
+			mesh.blob(candies[(step / 2) % candies.size()], bead + Vector3(0, 0, 0.42), Vector3(0.3, 0.3, 0.26), 3, 6, 1.0)
 	mesh.box("biscuit", Vector3(0, gate_h * 0.5 + arch_r + 1.0, front_z + 0.6), Vector3(gate_w + 2.0, 2.0, tower_w + 1.0), Basis.IDENTITY, 0.05)
-	mesh.box("cloth", Vector3(0, gate_h * 0.5 + arch_r + 2.2, front_z + 0.6), Vector3(gate_w + 2.4, 0.5, tower_w + 1.3), Basis.IDENTITY, 0.0)
-	# the doorway: a lit opening with cream steps up to it from the threshold slab
+	_frosting_run(mesh, Vector3(-gate_w * 0.5 - 1.0, gate_h * 0.5 + arch_r + 2.2, front_z + 0.6), Vector3(gate_w * 0.5 + 1.0, gate_h * 0.5 + arch_r + 2.2, front_z + 0.6), 0.8, tower_w + 1.5, Vector3(0, 0, 1), candies, 1.3)
+	# the doorway: a lit opening with cream steps up to it from the threshold slab, the kit's frosted gingerbread double door in it
 	mesh.box("glow", Vector3(0, gate_h * 0.25, front_z - 0.4), Vector3(gate_w - 0.6, gate_h * 0.5 + 0.2, 0.3), Basis.IDENTITY, 0.0)
-	# Fable Nov 12 (art critic #5: "the dungeon door is a blank glowing cream rectangle"): two dark wooden leaves standing ajar in the lit
-	# opening - plank lines, a brass ring each, a lintel - so the kitchen's light spills through a door, not a hole.
 	var door_w: float = gate_w - 0.6
 	var door_h: float = gate_h * 0.5 + 0.2
 	var door_y: float = gate_h * 0.25
-	# the kit's oven-brick double door (its grates glowing) fills the opening when the art is in the game; the wooden leaves are the fallback
-	var painted_door: bool = EnvKit.has("BUFF-SHEET-DOORS-04")
+	var door_id: String = "BUFF-SHEET-DOORS-05" if EnvKit.has("BUFF-SHEET-DOORS-05") else "BUFF-SHEET-DOORS-04"
+	var painted_door: bool = EnvKit.has(door_id)
 	if painted_door:
-		var card_h: float = minf(door_h * 1.18, door_w / maxf(EnvKit.aspect("BUFF-SHEET-DOORS-04"), 0.1))
-		_card(mesh, "BUFF-SHEET-DOORS-04", Vector3(0, 0.6, front_z - 0.2), card_h, Vector3(0, 0, 1))
+		var card_h: float = minf(door_h * 1.22, door_w / maxf(EnvKit.aspect(door_id), 0.1))
+		_card(mesh, door_id, Vector3(0, 0.6, front_z - 0.2), card_h, Vector3(0, 0, 1))
 	for side: float in ([] as Array[float] if painted_door else [-1.0, 1.0] as Array[float]):
 		var leaf_w: float = door_w * 0.36
 		var leaf_x: float = side * (door_w * 0.5 - leaf_w * 0.5)
 		mesh.box("wood_dark", Vector3(leaf_x, door_y, front_z - 0.18), Vector3(leaf_w, door_h, 0.14), Basis(Vector3.UP, side * 0.22), 0.02)
-		for plank: int in range(1, 3):
-			mesh.box("wood", Vector3(leaf_x - leaf_w * 0.5 + leaf_w * float(plank) / 3.0, door_y, front_z - 0.09), Vector3(0.05, door_h - 0.3, 0.04), Basis(Vector3.UP, side * 0.22), 0.0)
-		mesh.box("copper_flat", Vector3(leaf_x, door_y + door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
-		mesh.box("copper_flat", Vector3(leaf_x, door_y - door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
+		mesh.box("white", Vector3(leaf_x, door_y + door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
+		mesh.box("white", Vector3(leaf_x, door_y - door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
 		mesh.blob("butter", Vector3(side * door_w * 0.17, door_y - 0.1, front_z - 0.02), Vector3(0.12, 0.12, 0.08), 3, 6, 1.0)
-	if not painted_door:
-		mesh.box("wood_dark", Vector3(0, door_y + door_h * 0.5 + 0.12, front_z - 0.2), Vector3(door_w + 0.3, 0.28, 0.3), Basis.IDENTITY, 0.02)
+	for side: float in [-1.0, 1.0]:
+		_candy_cane(mesh, Vector3(side * (gate_w * 0.5 - 0.15), 0.3, front_z + 0.6 + tower_w * 0.5 + 0.75), gate_h * 0.5, 0.3, -side)
 	for step: int in range(3):
 		mesh.box("white", Vector3(0, 0.1 + float(step) * 0.22, front_z + 3.4 - float(step) * 0.5), Vector3(gate_w + 1.0 - float(step) * 0.4, 0.22, 0.5), Basis.IDENTITY, 0.02)
 	lights.append({"pos": Vector3(0, 2.4, front_z + 1.6), "color": GLOW, "range": 10.0, "energy": 1.4, "kind": "gate"})
-	# the great hall: biscuit, a cloth band, a copper hip roof, a big arched window, the dome and the chef's hat
-	var hall_w: float = size.x * 0.56
-	var hall_d: float = size.z * 0.52
-	var hall_h: float = height * 0.42
-	var hall_z: float = -3.0
-	mesh.box("biscuit", Vector3(0, hall_h * 0.5 - 0.3, hall_z), Vector3(hall_w, hall_h + 0.6, hall_d), Basis.IDENTITY, 0.12, 0.86)
-	mesh.box("cloth", Vector3(0, hall_h * 0.48, hall_z), Vector3(hall_w + 0.4, 0.8, hall_d + 0.4), Basis.IDENTITY, 0.0)
-	mesh.box("cloth", Vector3(0, hall_h + 0.3, hall_z), Vector3(hall_w + 0.6, 0.6, hall_d + 0.6), Basis.IDENTITY, 0.0)
-	var pitch: float = deg_to_rad(28.0)
-	var slab: float = hall_w * 0.58
+	# the house: one biscuit body under one steep pie-crust gable roof, the gable to the front
+	var house_w: float = size.x * 0.66
+	var house_d: float = size.z * 0.6
+	var house_h: float = height * 0.4
+	var house_z: float = -2.6
+	var face_z: float = house_z + house_d * 0.5
+	mesh.box("biscuit", Vector3(0, house_h * 0.5 - 0.3, house_z), Vector3(house_w, house_h + 0.6, house_d), Basis.IDENTITY, 0.12, 0.86)
+	var pitch: float = deg_to_rad(40.0)
+	var overhang: float = 2.4
+	var verge: float = 1.6
+	var run: float = house_w * 0.5 + overhang
+	var peak_y: float = house_h + house_w * 0.5 * tan(pitch)
+	# the two gables (the body's walls carried up to the ridge)
+	for face: float in [1.0, -1.0]:
+		var z: float = house_z + face * house_d * 0.5
+		var corners: Array[Vector3] = [Vector3(-house_w * 0.5, house_h, z), Vector3(house_w * 0.5, house_h, z), Vector3(0.0, peak_y, z)]
+		if face < 0.0:
+			corners = [corners[1], corners[0], corners[2]]
+		mesh.tri("biscuit", corners, Vector3(0, 0, face))
+	# the roof: two thick crust slabs, frosting on the eaves (with drips), on both verges (scalloped) and along the ridge, gumdrops on it
+	var slab_len: float = run / cos(pitch)
+	var eave_y: float = house_h - overhang * tan(pitch)
 	for side: float in [-1.0, 1.0]:
-		var centre: Vector3 = Vector3(side * slab * 0.5 * cos(pitch) * 0.95, hall_h + 0.6 + sin(pitch) * slab * 0.5, hall_z)
-		mesh.box("copper", centre, Vector3(slab, 0.6, hall_d + 1.6), Basis(Vector3(0, 0, 1), -side * pitch), 0.02, 0.95)
-	var ridge_y: float = hall_h + 0.6 + sin(pitch) * slab
-	mesh.box("copper", Vector3(0, ridge_y, hall_z), Vector3(1.4, 1.0, hall_d + 1.8), Basis.IDENTITY, 0.03)
-	var dome_r: float = hall_w * 0.26
-	mesh.lathe("copper", Vector3(0, ridge_y - 0.6, hall_z), [Vector2(dome_r * 1.1, 0.0), Vector2(dome_r * 1.1, 1.4), Vector2(dome_r, 2.0), Vector2(dome_r * 0.86, dome_r * 0.9), Vector2(dome_r * 0.5, dome_r * 1.35), Vector2(0.0, dome_r * 1.5)], 16, 0.92, false, true)
-	mesh.lathe("frosting_pink", Vector3(0, ridge_y + dome_r * 0.9 - 0.2, hall_z), [Vector2(dome_r * 0.9, 0.0), Vector2(dome_r * 0.95, 0.5), Vector2(dome_r * 0.82, 0.9), Vector2(0.0, 1.0)], 16, 1.0, false, true)
-	# the chef's hat cupola on the dome
-	var hat_base: Vector3 = Vector3(0, ridge_y - 0.6 + dome_r * 1.5 - 0.4, hall_z)
-	mesh.lathe("cloth", hat_base, [Vector2(dome_r * 0.42, 0.0), Vector2(dome_r * 0.42, 1.6)], 14, 0.9, false, false)
-	mesh.lathe("white", hat_base + Vector3(0, 1.6, 0), [Vector2(dome_r * 0.42, 0.0), Vector2(dome_r * 0.6, 1.2), Vector2(dome_r * 0.66, 2.8), Vector2(dome_r * 0.5, 4.2), Vector2(dome_r * 0.2, 5.0), Vector2(0.0, 5.2)], 14, 1.0, false, true)
+		var slope: Basis = Basis(Vector3(0, 0, 1), -side * pitch)
+		var middle: Vector3 = Vector3(side * run * 0.5, (peak_y + eave_y) * 0.5 + 0.55, house_z)
+		mesh.box("crust", middle, Vector3(slab_len + 0.3, 1.1, house_d + verge * 2.0), slope, 0.06, 0.95)
+		# the eave: a fat roll of frosting along the lower edge, a drip every two metres (long, short, long...)
+		var eave: Vector3 = Vector3(side * run, eave_y + 0.5, house_z)
+		_frosting_run(mesh, eave + Vector3(0, 0, -house_d * 0.5 - verge), eave + Vector3(0, 0, house_d * 0.5 + verge), 1.5, 2.2, Vector3(side, 0, 0), candies, 2.1, slope)
+		# the verges: frosting scallops down the gable's edge at the front (and a plain band at the back)
+		var scallops: int = int(slab_len / 2.3)
+		for index: int in range(scallops + 1):
+			var t: float = float(index) / float(scallops)
+			var on_edge: Vector3 = Vector3(side * run * t, lerpf(peak_y, eave_y, t) + 0.75, face_z + verge + 0.1)
+			mesh.blob("white", on_edge, Vector3(1.25, 1.05, 0.95), 4, 8, 1.0)
+			if index % 2 == 1:
+				mesh.blob(candies[index % candies.size()], on_edge + Vector3(0, 0.1, 0.85), Vector3(0.5, 0.5, 0.42), 4, 7, 1.0)
+		mesh.box("white", middle + Vector3(0, 0.1, -house_d * 0.5 - verge), Vector3(slab_len + 0.5, 1.5, 1.0), slope, 0.3)
+		# a row of round crust shingles' worth of frosting dots half-way up the slope (piped rosettes), front half of the roof only
+		for index: int in range(6):
+			var along: float = house_z - house_d * 0.5 + (float(index) + 0.5) * house_d / 6.0
+			var half_way: Vector3 = Vector3(side * run * 0.5, (peak_y + eave_y) * 0.5 + 1.2, along)
+			mesh.blob("white" if index % 2 == 0 else "pink", half_way, Vector3(0.75, 0.42, 0.75), 3, 7, 1.0)
+	mesh.box("white", Vector3(0, peak_y + 0.75, house_z), Vector3(2.6, 1.5, house_d + verge * 2.0 + 0.6), Basis.IDENTITY, 0.5)
+	var drops: int = int((house_d + verge * 2.0) / 2.6)
+	for index: int in range(drops + 1):
+		var ridge: Vector3 = Vector3(0, peak_y + 1.75, house_z - house_d * 0.5 - verge + (house_d + verge * 2.0) * float(index) / float(drops))
+		mesh.blob(candies[index % candies.size()], ridge, Vector3(0.72, 0.7, 0.72), 4, 8, 1.0)
+	# the gable's finial: one big frosting swirl with a cherry over the front peak
+	mesh.lathe("white", Vector3(0, peak_y + 1.2, face_z + verge), [Vector2(1.7, 0.0), Vector2(1.5, 0.8), Vector2(0.9, 1.7), Vector2(0.0, 2.6)], 12, 1.0, true, true)
+	mesh.blob("tomato", Vector3(0, peak_y + 4.2, face_z + verge), Vector3(0.75, 0.75, 0.75), 4, 8, 1.0)
+	# the front: a round candy-cane window high in the gable, a row of frosted windows over the gate, a frosting band at the eaves' height
+	_house_window(mesh, "BUFF-SHEET-WINDOWS-03", Vector3(0, house_h + (peak_y - house_h) * 0.36, face_z + 0.12), 6.4, lights, true)
+	_frosting_run(mesh, Vector3(-house_w * 0.5, house_h + 0.1, face_z + 0.3), Vector3(house_w * 0.5, house_h + 0.1, face_z + 0.3), 0.8, 0.9, Vector3(0, 0, 1), candies, 2.0)
 	for index: int in range(5):
-		var angle: float = TAU * float(index) / 5.0
-		mesh.blob("white", hat_base + Vector3(cos(angle) * dome_r * 0.5, 4.2, sin(angle) * dome_r * 0.5), Vector3(dome_r * 0.24, dome_r * 0.2, dome_r * 0.24), 4, 8, 1.0)
-	# the great window on the hall's front, with copper pipes running up the walls
-	_gothic_window(mesh, "crust", Vector3(0, hall_h * 0.5, hall_z + hall_d * 0.5), hall_w * 0.16, hall_h * 0.5, Vector3(0, 0, 1))
+		var wx: float = (float(index) - 2.0) * house_w * 0.19
+		_house_window(mesh, "BUFF-SHEET-WINDOWS-01" if index % 2 == 0 else "BUFF-SHEET-WINDOWS-02", Vector3(wx, house_h * 0.7, face_z + 0.12), 3.8, lights, index % 2 == 0)
+	# piped icing on the gable: a scalloped line under the round window and three gumdrops either side of it
+	var icing_y: float = house_h + (peak_y - house_h) * 0.12
+	var icing_half: float = house_w * 0.5 * (1.0 - 0.12) - 2.6
+	for index: int in range(15):
+		var t: float = float(index) / 14.0
+		mesh.blob("white", Vector3(lerpf(-icing_half, icing_half, t), icing_y + 0.5 * absf(sin(t * PI * 7.0)), face_z + 0.2), Vector3(0.95, 0.5, 0.4), 3, 7, 1.0)
 	for side: float in [-1.0, 1.0]:
 		for index: int in range(3):
-			var wx: float = side * (hall_w * 0.2 + float(index) * hall_w * 0.09)
-			mesh.box("glow", Vector3(wx, hall_h * 0.62, hall_z + hall_d * 0.5 + 0.12), Vector3(1.4, 2.6, 0.2), Basis.IDENTITY, 0.0)
-			_pane_bars(mesh, Vector3(wx, hall_h * 0.62, hall_z + hall_d * 0.5 + 0.24), Vector2(1.4, 2.6))
-			mesh.box("crust", Vector3(wx, hall_h * 0.62 + 1.6, hall_z + hall_d * 0.5 + 0.1), Vector3(2.0, 0.5, 0.3), Basis.IDENTITY, 0.0)
-		var pipe_x: float = side * (hall_w * 0.5 + 0.5)
-		mesh.tube("copper_flat", Vector3(pipe_x, 0.0, hall_z + 2.0), Vector3(pipe_x, hall_h + 2.0, hall_z + 2.0), 0.45, 8, true)
-		mesh.tube("copper_flat", Vector3(pipe_x, hall_h + 2.0, hall_z + 2.0), Vector3(pipe_x - side * 4.0, hall_h + 2.0, hall_z + 2.0), 0.45, 8, true)
-	# copper tanks and the greenhouses on the terrace wings
+			mesh.blob(candies[(index + (1 if side < 0.0 else 3)) % candies.size()], Vector3(side * (5.6 + float(index) * 2.3), house_h + (peak_y - house_h) * (0.36 - 0.06 * float(index)), face_z + 0.3), Vector3(0.7, 0.7, 0.45), 4, 8, 1.0)
+	# frosting down the four corners of the house, a gumdrop stud line beside each
 	for side: float in [-1.0, 1.0]:
-		var tank: Vector3 = Vector3(side * (hw * 0.62), 0.0, -hd * 0.45)
-		mesh.lathe("copper", tank, [Vector2(3.4, 0.0), Vector2(3.4, height * 0.3), Vector2(2.6, height * 0.34), Vector2(0.0, height * 0.36)], 14, 0.9, false, true)
-		mesh.lathe("white", tank + Vector3(0, height * 0.32, 0), [Vector2(3.5, 0.0), Vector2(3.6, 0.6), Vector2(2.4, 1.3), Vector2(0.0, 1.5)], 14, 1.0, false, true)
-		mesh.box("cloth", tank + Vector3(0, height * 0.15, 0), Vector3(7.2, 0.6, 7.2), Basis.IDENTITY, 0.0)
-		var house: Vector3 = Vector3(side * (hw * 0.6), 0.0, hd * 0.25)
-		mesh.box("crust", house, Vector3(10.0, 1.0, 8.0), Basis.IDENTITY, 0.05)
-		mesh.blob("herb", house + Vector3(0, 2.6, 0), Vector3(4.2, 2.4, 3.2), 5, 10, 0.9)
-		mesh.blob("tomato", house + Vector3(2.0, 2.2, 1.2), Vector3(0.8, 0.8, 0.8), 3, 6, 1.0)
-		mesh.lathe("glass", house + Vector3(0, 1.0, 0), [Vector2(5.0, 0.0), Vector2(4.6, 2.4), Vector2(3.2, 4.2), Vector2(0.0, 5.0)], 14, 1.0, false, true)
-		mesh.tube("copper_flat", house + Vector3(0, 1.0, 0), house + Vector3(0, 6.4, 0), 0.25, 6, true)
-	# the whisk crane (left) and the ladle crane (right) swinging out over the terrace walls
-	var crane_base: Vector3 = Vector3(-hw * 0.3, hall_h + 1.0, hall_z + hall_d * 0.5 - 2.0)
-	mesh.box("copper_flat", crane_base, Vector3(2.2, 2.4, 2.2), Basis.IDENTITY, 0.05)
-	var whisk_end: Vector3 = crane_base + Vector3(-hw * 0.5, height * 0.2, 2.0)
-	mesh.tube("copper_flat", crane_base + Vector3(0, 1.2, 0), whisk_end, 0.4, 7, true)
-	mesh.tube("copper_flat", crane_base + Vector3(0, 1.2, 0), crane_base + Vector3(-hw * 0.25, height * 0.3, 1.0), 0.3, 6, true)
-	mesh.tube("steel", whisk_end, whisk_end - Vector3(0, 3.0, 0), 0.3, 6, true)
-	mesh.tube("steel", whisk_end - Vector3(0, 3.0, 0), whisk_end - Vector3(0, 7.5, 0), 0.08, 5, true)
-	mesh.lathe("steel", whisk_end - Vector3(0, 11.5, 0), [Vector2(0.2, 0.0), Vector2(2.0, 1.2), Vector2(2.3, 2.6), Vector2(1.2, 3.8), Vector2(0.3, 4.1)], 8, 1.0, true, true)
-	mesh.lathe("cheese", whisk_end - Vector3(0, 14.0, 0), [Vector2(2.6, 0.0), Vector2(3.0, 1.4), Vector2(2.6, 2.4), Vector2(0.0, 2.5)], 12, 0.95, true, true)
-	var ladle_base: Vector3 = Vector3(hw * 0.3, hall_h + 1.0, hall_z - 2.0)
-	mesh.box("copper_flat", ladle_base, Vector3(2.2, 2.4, 2.2), Basis.IDENTITY, 0.05)
-	var ladle_end: Vector3 = ladle_base + Vector3(hw * 0.5, height * 0.18, -1.0)
-	mesh.tube("copper_flat", ladle_base + Vector3(0, 1.2, 0), ladle_end, 0.4, 7, true)
-	mesh.tube("copper_flat", ladle_end, ladle_end - Vector3(0, 6.0, 0), 0.12, 5, true)
-	mesh.lathe("copper", ladle_end - Vector3(0, 9.0, 0), [Vector2(0.4, 0.0), Vector2(2.6, 1.0), Vector2(3.0, 3.0)], 12, 0.9, true, false)
-	mesh.lathe("cheese", ladle_end - Vector3(0, 6.4, 0), [Vector2(2.8, 0.0), Vector2(2.9, 0.3), Vector2(0.0, 0.5)], 12, 1.0, false, true)
-	# copper chimney stacks behind the hall, steam from each
-	for entry: Array in [[-hw * 0.42, -hd * 0.72, 0.62], [-hw * 0.2, -hd * 0.78, 0.78], [0.0, -hd * 0.74, 0.9], [hw * 0.2, -hd * 0.8, 0.72], [hw * 0.44, -hd * 0.7, 0.58], [-hw * 0.08, -hd * 0.36, 0.66], [hw * 0.1, -hd * 0.4, 0.84]]:
-		var top: Vector3 = _chimney(mesh, Vector3(float(entry[0]), 0.0, float(entry[1])), height * float(entry[2]), 1.1)
-		steam.append(top)
-	# bunting between the gate towers and the corner cakes
+		for face: float in [1.0, -1.0]:
+			var corner: Vector3 = Vector3(side * house_w * 0.5, 0.0, house_z + face * house_d * 0.5)
+			mesh.tube("white", corner + Vector3(0, 0.2, 0), corner + Vector3(0, house_h + 0.2, 0), 0.6, 8, true)
+		for index: int in range(4):
+			var stud: Vector3 = Vector3(side * (house_w * 0.5 - 1.5), house_h * (0.2 + 0.2 * float(index)), face_z + 0.25)
+			mesh.blob(candies[(index + (0 if side < 0.0 else 2)) % candies.size()], stud, Vector3(0.45, 0.45, 0.3), 4, 7, 1.0)
+	# one frosted gingerbread chimney in the right slope, well inside the roof (the only thing that stands in it), steam from its top
+	var chimney_x: float = house_w * 0.24
+	var chimney_foot: float = peak_y - chimney_x * tan(pitch)
+	var chimney_top: float = peak_y + 2.6
+	mesh.box("biscuit", Vector3(chimney_x, (chimney_foot + chimney_top) * 0.5, house_z - house_d * 0.18), Vector3(3.4, chimney_top - chimney_foot + 1.0, 3.4), Basis.IDENTITY, 0.1, 0.9)
+	mesh.box("white", Vector3(chimney_x, chimney_top + 0.75, house_z - house_d * 0.18), Vector3(4.3, 1.1, 4.3), Basis.IDENTITY, 0.4)
+	for corner_x: float in [-1.0, 1.0]:
+		mesh.blob("white", Vector3(chimney_x + corner_x * 1.9, chimney_top, house_z - house_d * 0.18 + 1.9), Vector3(0.4, 0.8, 0.4), 4, 7, 1.0)
+	steam.append(Vector3(chimney_x, chimney_top + 1.4, house_z - house_d * 0.18))
+	# bunting between the gate towers and the corner candy canes
 	for side: float in [-1.0, 1.0]:
 		var from: Vector3 = Vector3(side * (gate_w * 0.5 + tower_w + 0.2), gate_h + 0.3, front_z + 1.4)
-		var to: Vector3 = Vector3(side * (hw - 2.6), height * 0.36 + 0.5, hd - 3.2)
+		var to: Vector3 = Vector3(side * (hw - 1.2), wall_h + 0.6 + height * 0.17, front_z)
 		mesh.tube("wood_dark", from, to, 0.05, 4, false)
 		for index: int in range(1, 7):
 			var p: Vector3 = from.lerp(to, float(index) / 7.0) - Vector3(0, 0.3 * sin(PI * float(index) / 7.0) * 3.0, 0)
-			mesh.tri("tomato" if index % 2 == 0 else "herb", [p + Vector3(-0.45, 0.0, 0), p + Vector3(0.45, 0.0, 0), p + Vector3(0, -0.8, 0)], Vector3(0, 0, 1))
+			mesh.tri("pink" if index % 2 == 0 else "mint", [p + Vector3(-0.45, 0.0, 0), p + Vector3(0.45, 0.0, 0), p + Vector3(0, -0.8, 0)], Vector3(0, 0, 1))
 	# the footprint circles (the model stands beyond the rim: only the gate towers ever meet the hero)
 	circles.append(Vector3(0.0, -2.0, hw))
+
+
+## A thick roll of white frosting from `from` to `to` (a straight run), `thick` metres high and `deep` across, with a drip hanging
+## from its `outward` side every `gap` metres (alternately long and short) and a gumdrop on top between the drips. `turn` tilts the
+## roll (a roof slope's basis).
+static func _frosting_run(mesh: KitMesh, from: Vector3, to: Vector3, thick: float, deep: float, outward: Vector3, candies: Array[String], gap: float, turn: Basis = Basis.IDENTITY) -> void:
+	var along: Vector3 = to - from
+	var length: float = along.length()
+	if length < 0.1:
+		return
+	var across_x: bool = absf(along.x) >= absf(along.z)
+	var box_size: Vector3 = Vector3(length + 0.3, thick, deep) if across_x else Vector3(deep, thick, length + 0.3)
+	mesh.box("white", (from + to) * 0.5, box_size, turn, minf(thick, deep) * 0.4)
+	var count: int = maxi(1, int(length / gap))
+	var half: float = deep * 0.5
+	for index: int in range(count + 1):
+		var at: Vector3 = from.lerp(to, float(index) / float(count))
+		var drop: float = thick * (1.3 if index % 2 == 0 else 0.75)
+		mesh.blob("white", at + outward * (half - 0.05) - Vector3(0, thick * 0.35 + drop * 0.45, 0), Vector3(thick * 0.42, drop, thick * 0.42), 4, 7, 1.0)
+		if index < count and not candies.is_empty():
+			var between: Vector3 = from.lerp(to, (float(index) + 0.5) / float(count))
+			mesh.blob(candies[index % candies.size()], between + Vector3(0, thick * 0.55, 0) + outward * (half * 0.35), Vector3(thick * 0.4, thick * 0.38, thick * 0.4), 4, 7, 1.0)
+
+
+## A candy cane standing at `base`: a white post `height` tall with red stripes and a hook at the top bending toward `hook` (-1 or 1 on x).
+static func _candy_cane(mesh: KitMesh, base: Vector3, height: float, radius: float, hook: float) -> void:
+	var bands: int = maxi(4, int(height / (radius * 2.6)))
+	var band: float = height / float(bands)
+	for index: int in range(bands):
+		var low: Vector3 = base + Vector3(0, band * float(index), 0)
+		mesh.tube("tomato" if index % 2 == 1 else "white", low, low + Vector3(0, band, 0), radius, 8, index == 0)
+	var bend: float = radius * 3.2
+	var centre: Vector3 = base + Vector3(hook * bend, height, 0)
+	var last: Vector3 = base + Vector3(0, height, 0)
+	for step: int in range(1, 7):
+		var angle: float = PI * 0.92 * float(step) / 6.0
+		var next: Vector3 = centre + Vector3(-hook * cos(angle) * bend, sin(angle) * bend, 0)
+		mesh.tube("tomato" if step % 2 == 1 else "white", last, next, radius, 8, step == 6)
+		last = next
+
+
+## A window of the kit's window sheet standing on a wall that faces +z, `height` metres tall, centred at `center`; `lit` adds a warm
+## light in front of it. Without the art: a glowing pane with glazing bars in a frosting frame.
+static func _house_window(mesh: KitMesh, id: String, center: Vector3, height: float, lights: Array[Dictionary], lit: bool) -> void:
+	if EnvKit.has(id):
+		_card(mesh, id, center - Vector3(0, height * 0.5, 0), height, Vector3(0, 0, 1))
+	else:
+		var pane: Vector2 = Vector2(height * 0.6, height * 0.8)
+		mesh.box("white", center, Vector3(pane.x + 0.6, pane.y + 0.6, 0.2), Basis.IDENTITY, 0.1)
+		mesh.box("glow", center + Vector3(0, 0, 0.12), Vector3(pane.x, pane.y, 0.1), Basis.IDENTITY, 0.0)
+		_pane_bars(mesh, center + Vector3(0, 0, 0.2), pane)
+	if lit:
+		lights.append({"pos": center + Vector3(0, 0, 1.6), "color": GLOW, "range": 7.0, "energy": 0.8, "kind": "oven"})
 
 
 # ---- The Cake Cathedral ----------------------------------------------------------------------------------------------------------------------------

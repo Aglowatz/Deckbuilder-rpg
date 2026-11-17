@@ -17,7 +17,10 @@ const WATER_Y: float = BuffetLayout.SOUP_LEVEL - 0.03
 ## How far the gravy reaches from the table (metres): past the far backdrop.
 const SEA_REACH: float = 260.0
 ## The shore under the water line: [metres out from the table's edge, height]. The first ring is the table's own edge.
-const SHORE_RINGS: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(0.6, WATER_Y + 0.07), Vector2(1.5, WATER_Y - 0.12), Vector2(3.2, WATER_Y - 0.7), Vector2(6.0, WATER_Y - 1.9)]
+## Fable Nov 16c (Part 4.3): the shore ended 6 m out and 1.9 m down, shallower than the gravy is clear (`depth_range` 2.2): its far edge
+## showed through as a faint dark line all round the table, the outline of "where the ground would be". Two more rings carry it down to
+## 6 m under the gravy, 15 m out, where nothing shows.
+const SHORE_RINGS: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(0.6, WATER_Y + 0.07), Vector2(1.5, WATER_Y - 0.12), Vector2(3.2, WATER_Y - 0.7), Vector2(6.0, WATER_Y - 1.9), Vector2(9.5, WATER_Y - 3.6), Vector2(15.0, WATER_Y - 6.0)]
 const SHORE_STEP: float = 1.6
 ## The forest's land east of the table: from here east, between these z, to this x.
 const LAND_WEST: float = 98.0
@@ -159,8 +162,10 @@ func _edge_points() -> Array[Array]:
 	return result
 
 
-func _instance(surface: SurfaceTool, node_name: String, material: Material) -> MeshInstance3D:
-	surface.generate_normals()
+## `own_normals`: the surface carries its own normals (the shore and the bed: every normal straight up).
+func _instance(surface: SurfaceTool, node_name: String, material: Material, own_normals: bool = false) -> MeshInstance3D:
+	if not own_normals:
+		surface.generate_normals()
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = surface.commit()
 	instance.material_override = material
@@ -234,9 +239,26 @@ func _build_shore() -> void:
 			var dry: Color = mash.lerp(wet, 0.25 + 0.6 * float(ring) / float(SHORE_RINGS.size() - 1))
 			var deep: Color = mash.lerp(wet, 0.25 + 0.6 * float(ring + 1) / float(SHORE_RINGS.size() - 1))
 			for corner: Array in [[a[ring], dry], [b[ring], dry], [a[ring + 1], deep], [b[ring], dry], [b[ring + 1], deep], [a[ring + 1], deep]]:
+				# every normal straight up: the rings' creases (each ring has its own colour, so generated normals broke along every
+				# ring) were lines for the outline pass, drawn through the gravy
+				surface.set_normal(Vector3.UP)
 				surface.set_color(corner[1] as Color)
 				surface.add_vertex(corner[0] as Vector3)
-	_instance(surface, "Shore", BuffetMaterials.terrain())
+	_instance(surface, "Shore", BuffetMaterials.terrain(), true)
+	# Fable Nov 16c (Part 4.3): the bed. The shore's far edge ended on nothing, and the world's outline pass drew that edge through the
+	# gravy as a faint dark line all round the table. One flat bed at the last ring's depth, in the last ring's colour, takes the edge
+	# away: the shore runs into it.
+	var bed_y: float = SHORE_RINGS[SHORE_RINGS.size() - 1].y
+	var bed_color: Color = mash.lerp(wet, 0.85)
+	var centre: Vector2 = (BuffetLayout.MIN_CORNER + BuffetLayout.MAX_CORNER) * 0.5
+	var reach: float = SEA_REACH + 60.0
+	var bed: SurfaceTool = SurfaceTool.new()
+	bed.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
+		bed.set_normal(Vector3.UP)
+		bed.set_color(bed_color)
+		bed.add_vertex(Vector3(centre.x + corner.x * reach, bed_y, centre.y + corner.y * reach))
+	_instance(bed, "SeaBed", BuffetMaterials.terrain(), true)
 
 
 ## Gravy pebbles and crumbs along the water line, all round the table (not on the forest's side).

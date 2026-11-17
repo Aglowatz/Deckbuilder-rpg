@@ -540,30 +540,69 @@ func _never_culled(instance: MeshInstance3D) -> void:
 # ---- Soup -------------------------------------------------------------------------------------------
 
 
+## Fable Nov 16c (Part 4.3): how far past the table's edge the river thins away into the outer gravy, and how much wider its delta is
+## at the end of that than the river (west only: the forest's land holds the east end in its channel).
+const RIVER_DELTA: float = 18.0
+const RIVER_DELTA_SPREAD: float = 9.0
+
+
+## Half the width of the river's sheet at `x`: the river's own on the table, widening west of it into the delta.
+static func river_half_width(x: float) -> float:
+	var half: float = BuffetLayout.RIVER_HALF_WIDTH + 1.0
+	var west: float = clampf((BuffetLayout.MIN_CORNER.x - x) / RIVER_DELTA, 0.0, 1.0)
+	return half + RIVER_DELTA_SPREAD * west * west * (3.0 - 2.0 * west) + 0.6 * west * sin(x * 0.9)
+
+
+## How strongly the river's own colour shows at `x` (1 on the table, thinning to 0 past either edge).
+static func river_strength(x: float) -> float:
+	var out: float = maxf(BuffetLayout.MIN_CORNER.x - x, x - BuffetLayout.MAX_CORNER.x)
+	return 1.0 - smoothstep(-1.0, RIVER_DELTA - 2.0, out)
+
+
+static func _river_inside(x: float) -> bool:
+	return x >= BuffetLayout.MIN_CORNER.x - 0.5 and x <= BuffetLayout.MAX_CORNER.x + 0.5
+
+
 func _build_soup() -> void:
 	var soup: StandardMaterial3D = M.soup()
 	_soup_materials.append(soup)
 	# The river as a long strip following the meander.
+	# Fable Nov 16c (Part 4.3): it ended in a straight cut a metre past the table's edge, a flat brown slab lying on the outer gravy. On the
+	# west side, where it runs out into the open gravy, it now widens into a soft delta and thins away over RIVER_DELTA metres (the outer
+	# gravy shows through more and more: one sheet, no edge); on the east side, where the forest's land holds it in a channel, it keeps
+	# its width and thins away the same way.
+	var river_material: StandardMaterial3D = soup.duplicate() as StandardMaterial3D
+	river_material.vertex_color_use_as_albedo = true
+	_soup_materials.append(river_material)
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
-	var half: float = BuffetLayout.RIVER_HALF_WIDTH + 1.0
-	var x: float = BuffetLayout.MIN_CORNER.x - 1.0
 	var step: float = 1.5
-	while x < BuffetLayout.MAX_CORNER.x + 1.0:
+	var x: float = BuffetLayout.MIN_CORNER.x - RIVER_DELTA
+	while x < BuffetLayout.MAX_CORNER.x + RIVER_DELTA:
+		var a_half: float = river_half_width(x)
+		var b_half: float = river_half_width(x + step)
 		var z_a: float = BuffetLayout.river_z(x)
 		var z_b: float = BuffetLayout.river_z(x + step)
-		var a0: Vector3 = Vector3(x, BuffetLayout.SOUP_LEVEL, z_a - half)
-		var a1: Vector3 = Vector3(x, BuffetLayout.SOUP_LEVEL, z_a + half)
-		var b0: Vector3 = Vector3(x + step, BuffetLayout.SOUP_LEVEL, z_b - half)
-		var b1: Vector3 = Vector3(x + step, BuffetLayout.SOUP_LEVEL, z_b + half)
-		_tri(surface, a0, b0, a1, Color(1, 1, 1))
-		_tri(surface, b0, b1, a1, Color(1, 1, 1))
+		var a_color: Color = Color(1, 1, 1, river_strength(x))
+		var b_color: Color = Color(1, 1, 1, river_strength(x + step))
+		var a0: Vector3 = Vector3(x, BuffetLayout.SOUP_LEVEL, z_a - a_half)
+		var a1: Vector3 = Vector3(x, BuffetLayout.SOUP_LEVEL, z_a + a_half)
+		var b0: Vector3 = Vector3(x + step, BuffetLayout.SOUP_LEVEL, z_b - b_half)
+		var b1: Vector3 = Vector3(x + step, BuffetLayout.SOUP_LEVEL, z_b + b_half)
+		# the banks of the delta thin away too (the middle of each cross-section carries the colour), so its sides have no line either
+		var a_mid: Vector3 = (a0 + a1) * 0.5
+		var b_mid: Vector3 = (b0 + b1) * 0.5
+		var a_side: Color = a_color if _river_inside(x) else Color(1, 1, 1, 0.0)
+		var b_side: Color = b_color if _river_inside(x + step) else Color(1, 1, 1, 0.0)
+		for corner: Array in [[a0, a_side], [b0, b_side], [a_mid, a_color], [b0, b_side], [b_mid, b_color], [a_mid, a_color], [a_mid, a_color], [b_mid, b_color], [a1, a_side], [b_mid, b_color], [b1, b_side], [a1, a_side]]:
+			surface.set_color(corner[1] as Color)
+			surface.add_vertex(corner[0] as Vector3)
 		x += step
 	surface.generate_normals()
 	var river: MeshInstance3D = MeshInstance3D.new()
 	river.mesh = surface.commit()
-	river.material_override = soup
+	river.material_override = river_material
 	river.name = "GravyRiver"
 	_never_culled(river)
 	root.add_child(river)

@@ -12,6 +12,9 @@ uniform float depth_threshold = 0.9;
 uniform float normal_threshold = 1.15;
 uniform float fade_start = 28.0;
 uniform float fade_end = 70.0;
+// Fable Nov 16c: no line on anything below this world height (the Endless Buffet sets it just under its gravy: the submerged shore's
+// creases and far edge were drawn through the gravy as faint dark lines all round the table). Far below everything by default.
+uniform float floor_y = -100000.0;
 
 float linear_depth(vec2 uv, mat4 inv_proj) {
 	float d = texture(depth_tex, uv).x;
@@ -49,5 +52,7 @@ void fragment() {
 	float fade = 1.0 - smoothstep(fade_start, fade_end, c);
 	float sky = step(0.0001, texture(depth_tex, SCREEN_UV).x);
 	ALBEDO = line_color.rgb;
-	ALPHA = edge * strength * fade * sky;
+	vec4 at_view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, texture(depth_tex, SCREEN_UV).x, 1.0);
+	float above = step(floor_y, (INV_VIEW_MATRIX * vec4(at_view.xyz / at_view.w, 1.0)).y);
+	ALPHA = edge * strength * fade * sky * above;
 }

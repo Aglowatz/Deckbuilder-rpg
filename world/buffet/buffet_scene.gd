@@ -43,6 +43,12 @@ func _build_environment() -> void:
 	add_child(BuffetLook.sun())
 
 
+## Fable Nov 16c (Part 4.3): no outline on the shore that lies under the gravy all round the table (its creases and its far edge showed
+## through as faint dark lines: "where the ground would otherwise be").
+func _outline_floor() -> float:
+	return BuffetShore.WATER_Y - 0.06
+
+
 func _build_zone_extras() -> void:
 	camera_offset = WorldLookRig.base_offset()
 	last_safe = player.position

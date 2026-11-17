@@ -114,6 +114,12 @@ static func build_def() -> ZoneDef:
 	def.quest_npc_names = [NPC_ODALYS, NPC_TARRAGON, NPC_DOLCETTA]
 	def.ruler_name = "The Grand Chef"
 	def.ruler_tint = Color("5f7a1c")
+	# Fable Nov 16c (Part 4.4): the ruler's two banners stood on the plaza's paving (one on the way north: "a banner pole in the middle of
+	# the path") and the statue on the paving beside the Rift Station. The banners now flank the road north at the plaza's far end, on the
+	# unpaved strips either side of it (behind the hub from the camera, so they frame the castle and cover nothing); the statue stands in
+	# the unpaved pocket west of the Hearty Meal.
+	def.banner_offsets = [Vector3(-4.5, 0.0, -7.7), Vector3(4.3, 0.0, -7.7)] as Array[Vector3]
+	def.statue_offset = Vector3(-14.0, 0.0, -1.5)
 	def.gloom_tint = Color(0.62, 0.68, 0.38)
 	def.freed_npcs = [
 		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "The Grand Chef", "speaker": "The Grand Chef"},

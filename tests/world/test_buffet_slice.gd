@@ -104,7 +104,7 @@ func test_the_test_kitchen_and_potato_peak_are_views_beyond_the_rim() -> void:
 	for child: Node in builder.root.get_children():
 		if child.name.begins_with("Steam_TestKitchen"):
 			steaming += 1
-	assert_gte(steaming, 5, "steam rises from the chimneys")
+	assert_eq(steaming, 1, "steam rises from its one chimney (Fable Nov 16c: a gingerbread house, the seven stacks are gone)")
 	# the forecourt is level with the threshold and the main_dungeon spot stands on it
 	var gate: Vector3 = layout.anchors["main_dungeon"] as Vector3
 	assert_true(BuffetLayout.FORECOURT.has_point(Vector2(gate.x, gate.z)), "the gate spot is on the forecourt")

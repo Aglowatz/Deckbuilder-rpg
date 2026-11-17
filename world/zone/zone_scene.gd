@@ -364,6 +364,10 @@ func _ready() -> void:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	if _screenshot_args.has("lever") and vault_lever_node != null:
 		VaultLeverEvent.screenshot_run(self, def.id, vault_lever_node)
+	# Fable Nov 16c: `--hide=Name,Name` hides nodes by name for a shot (to find which mesh draws a line or a slab)
+	for hidden_name: String in str(_screenshot_args.get("hide", "")).split(",", false):
+		for node: Node in find_children(hidden_name, "Node3D", true, false):
+			(node as Node3D).visible = false
 	# Capital pass: the top-down audit view (`--top=x,z,size [--plan=true]`, PlanView) and the sway log (`--windlog=true`), as in town
 	if _screenshot_args.has("top"):
 		if _screenshot_args.has("nofog"):
@@ -914,6 +918,8 @@ func _build_camera() -> void:
 	_camera.position = player.position + CameraRig.shape(camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player, CULL_DISTANCE)
+	if style_rig != null:
+		style_rig.set_outline_floor(_outline_floor())
 	LoadTiming.detail("zone: StyleRig")
 	if style_rig != null:
 		look_rig = WorldLookRig.install(self, _camera, player, style_rig, builder)
@@ -1232,6 +1238,11 @@ func _update_camera(delta: float) -> void:
 	if _cam_shake_time > 0.0:
 		_cam_shake_time = maxf(0.0, _cam_shake_time - delta)
 		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _cam_shake_power * 0.14 * minf(1.0, _cam_shake_time * 3.0)
+
+
+## Fable Nov 16c: the world height below which the outline pass draws nothing (the Buffet: just under its gravy). Far below by default.
+func _outline_floor() -> float:
+	return -100000.0
 
 
 ## Batch 15 pass (Part 3.3): a zone may hold the camera's target back from a wall the hero hugs (the Capital's Crease), so the wall does

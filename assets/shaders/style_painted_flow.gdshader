@@ -34,7 +34,9 @@ void fragment() {
 	col = mix(col, vec3(luma), style_desaturate);
 	ALBEDO = col;
 	EMISSION = col * glow;
-	ALPHA = alpha;
+	// Fable Nov 16c: a mesh may thin the liquid away with its vertex alpha (the gravy river's delta past the table's edge); a mesh without
+	// vertex colours reads 1 here
+	ALPHA = alpha * COLOR.a;
 	ROUGHNESS = 0.2;
 }
 

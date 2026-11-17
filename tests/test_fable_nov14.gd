@@ -265,7 +265,9 @@ func test_the_buffets_entrance_has_a_bank_and_a_forest_nobody_walks_through() ->
 	for prop: BuffetLayout.Prop in builder.layout.props:
 		if prop.kind in ["broccoli", "cauliflower"] and forest.has_point(Vector2(prop.pos.x, prop.pos.z)):
 			trees += 1
-	assert_gte(trees, 18, "a dense stand of broccoli and cauliflower")
+	# Fable Nov 16c (Part 4.2): most of the stand is a knee-high hedge now (it hid the hub from the entrance); a few trees stay at its
+	# east end. It is as solid as it was (below). tests/world/test_buffet_evening_nov16c.gd
+	assert_between(trees, 2, 6, "a few trees at the east end (the rest is a low hedge)")
 	# nobody crosses it: no walkable cell on its middle line, and none behind it
 	var x: float = forest.position.x + 1.6
 	while x < forest.end.x - 1.0:

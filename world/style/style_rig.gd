@@ -194,6 +194,7 @@ func apply() -> void:
 			material.shader = wanted
 		material.set_shader_parameter("line_color", preset.outline_color)
 		material.set_shader_parameter("strength", preset.outline_strength)
+		material.set_shader_parameter("floor_y", outline_floor)
 	_apply_dof(level)
 	if ambience != null:
 		ambience.configure(preset, level)
@@ -337,6 +338,17 @@ func area_shadow_reach() -> float:
 	if str(preset_id).begins_with("capital"):
 		return float(SHADOW_REACH[&"capital"])
 	return 0.0
+
+
+## Fable Nov 16c: the outline pass draws no line on anything below this world height (see the outline shaders' `floor_y`). A zone with
+## open water whose bed shows through sets it just under the water's surface.
+var outline_floor: float = -100000.0
+
+
+func set_outline_floor(height: float) -> void:
+	outline_floor = height
+	if outline != null and outline.material_override is ShaderMaterial:
+		(outline.material_override as ShaderMaterial).set_shader_parameter("floor_y", height)
 
 
 func _build_outline() -> void:

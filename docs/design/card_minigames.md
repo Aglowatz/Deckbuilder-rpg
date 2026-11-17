@@ -11,7 +11,7 @@ rules. Dex's card matching (all zones) and Kyle's matching game (the D.N.A.'s Re
 | D.N.A. | **File in Order** (filing) | Pneumatic Soul Routing (tube puzzle) | the Mail Room's terminal, no host | `FileCardGame` | `FileCardScreen` |
 
 Rules live in `core/zone/card_games/`, screens in `ui/zone/card_games/` (shared base: `CardGameScreen`). The zone scenes pick the
-screen in `_make_minigame_screen()` (the D.N.A.: `_make_puzzle_screen()`); the old screens are still in the repo, unused, so one
+screen in `_make_minigame_screen()` (the D.N.A.: `_make_puzzle_screen()`); the old screens were deleted on Nov 16c (see the end of this file); before that one
 line per zone puts an old game back.
 
 ## The cards
@@ -68,3 +68,29 @@ through the zone scene's `solved` handler; it can be replayed for nothing.
 - `bash tools/minigame_shots.sh [reps order sort file]`: how / mid / win / lose shots, one at 1280x720, one with Large text.
 - A zone shot with `--open=minigame --mg=mid` (the D.N.A.: `--open=puzzle`) puts the game in that state.
 - `tests/core/zone/test_card_games.gd` (rules, 17 tests), `tests/ui/test_card_game_screens.gd` (screens, 12 tests).
+
+## The card quiz (Fable Nov 16c)
+
+The classroom trivia in all four zones is a card game too: `CardQuizGame` (rules), `CardQuizScreen` (the classroom, MG-BG-CLASSROOM,
+the zone's quiz-giver as the host). Same spot, teacher, rewards, pass mark and flags as the trivia (`QuizRules.apply`), so the
+D.N.A.'s "Pass Director Ectomund's Compliance quiz" works as before.
+
+- **Four questions**, from the zone's Path plus colourless (`CardGamePool.cards`), four different cards, in a shuffled order:
+  - two **picture** questions: a cropped piece of a card's painting (46 % of its width, 34 % of its height, from the middle of the
+    painting), "Which card is this?", four card names (cards of the same type first);
+  - one **cost** question: the card's painting and name, "What does it cost?", four numbers;
+  - one **power** question (a unit): the painting and name, "What is the POWER of ...?", four numbers.
+- The card's face is never shown before the answer (it prints the cost and the power). After the answer the whole card turns up.
+- **Three right answers pass.** A first pass pays the large reward for that score; after it every finished attempt pays the small
+  repeat reward, pass or not; a fail before the first pass pays nothing. Stars on the panel: 4 right 3, 3 right 2, 2 right 1.
+- 1 to 4 pick an answer, or the buttons (mouse, keyboard, controller). How to play, "?" and the result panel are `CardGameScreen`'s.
+- Shots: `bash tools/minigame_shots.sh quiz_gain quiz_buffet quiz_dump quiz_dna`; a zone shot with `--open=quiz --mg=how|mid|win|lose`.
+
+## The three puzzles are gone (Fable Nov 16c)
+
+The Gainlands' hamster-wheel Power Grid, the Buffet's Mystery Stew Pot and the Dump's Seed Shrine are removed. Each one's one-time
+reward (`ZoneDef.puzzle_equipment_id`, flag `flag_puzzle_solved`) lies in a chest at the same spot (spot kind `reward_chest`,
+`ZoneScene._build_reward_chest`): the Grid Crew's Strongbox (Gainsmith's Lifting Belt), the Stew Cook's Chest (Head Chef's Ladle), the Gardeners'
+Chest (Refusemancer Seed Satchel). The four old minigame screens, the three puzzle screens, the trivia screen and their rule code are deleted;
+`RepGame`, `OrderGame` and `SortGame` keep only the reward tables the card games pay through.
+

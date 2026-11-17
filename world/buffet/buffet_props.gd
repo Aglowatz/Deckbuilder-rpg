@@ -86,29 +86,88 @@ static func label(parent: Node3D, text: String, pos: Vector3, pixel_size: float,
 
 
 static func steam(parent: Node3D, pos: Vector3, amount: int = 10, spread_width: float = 0.5, rise: float = 1.4) -> CPUParticles3D:
+	# Fable Nov 16c (Part 4.4): the puffs were small low-poly balls, lit and a third opaque: a column of them read as a stack of white
+	# discs floating over the fountain and the stalls. Each puff is a soft round card now (a radial fade, facing the camera), thin,
+	# swelling as it rises and fading in and out, so a column is one soft plume.
 	var particles: CPUParticles3D = CPUParticles3D.new()
 	particles.amount = amount
-	particles.lifetime = 2.2
-	particles.preprocess = 2.2
+	particles.lifetime = 2.6
+	particles.preprocess = 2.6
 	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
 	particles.emission_sphere_radius = spread_width
 	particles.direction = Vector3.UP
-	particles.spread = 12.0
-	particles.initial_velocity_min = rise * 0.7
-	particles.initial_velocity_max = rise
+	particles.spread = 14.0
+	particles.initial_velocity_min = rise * 0.6
+	particles.initial_velocity_max = rise * 0.9
 	particles.gravity = Vector3.ZERO
-	particles.scale_amount_min = 0.5
-	particles.scale_amount_max = 1.1
-	var puff: SphereMesh = SphereMesh.new()
-	puff.radius = 0.28
-	puff.height = 0.56
-	puff.radial_segments = 6
-	puff.rings = 3
+	particles.angle_min = -180.0
+	particles.angle_max = 180.0
+	particles.scale_amount_min = 0.8
+	particles.scale_amount_max = 1.5
+	particles.scale_amount_curve = _steam_swell()
+	particles.color_ramp = _steam_fade()
+	var puff: QuadMesh = QuadMesh.new()
+	puff.size = Vector2(1.25, 1.25)
 	particles.mesh = puff
-	particles.material_override = ParticleLook.near_fade(M.translucent(Color(1.0, 0.97, 0.92), 0.38, 0.35))  # Fable pass Nov 10 (Part 1.5): never a sheet at the lens
+	particles.material_override = ParticleLook.near_fade(steam_material())  # Fable pass Nov 10 (Part 1.5): never a sheet at the lens
+	particles.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	particles.position = pos
 	parent.add_child(particles)
 	return particles
+
+
+static var _steam_material: StandardMaterial3D
+static var _steam_swell_curve: Curve
+static var _steam_fade_ramp: Gradient
+## How opaque a puff is at its thickest (the middle of its card, the middle of its life).
+const STEAM_ALPHA: float = 0.3
+
+
+## A steam puff: a soft round card (white in the middle, clear at the rim), unshaded, always facing the camera.
+static func steam_material() -> StandardMaterial3D:
+	if _steam_material == null:
+		var fade: Gradient = Gradient.new()
+		fade.set_color(0, Color(1.0, 1.0, 1.0, 1.0))
+		fade.set_color(1, Color(1.0, 1.0, 1.0, 0.0))
+		fade.add_point(0.45, Color(1.0, 1.0, 1.0, 0.55))
+		var soft: GradientTexture2D = GradientTexture2D.new()
+		soft.gradient = fade
+		soft.fill = GradientTexture2D.FILL_RADIAL
+		soft.fill_from = Vector2(0.5, 0.5)
+		soft.fill_to = Vector2(1.0, 0.5)
+		soft.width = 64
+		soft.height = 64
+		_steam_material = StandardMaterial3D.new()
+		_steam_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_steam_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_steam_material.albedo_texture = soft
+		_steam_material.albedo_color = Color(1.0, 0.97, 0.92, STEAM_ALPHA)
+		_steam_material.vertex_color_use_as_albedo = true
+		_steam_material.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		_steam_material.billboard_keep_scale = true
+		_steam_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		_steam_material.disable_receive_shadows = true
+		_steam_material.set_meta(StyleToon.META_NO_TOON, true)
+		_steam_material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	return _steam_material
+
+
+static func _steam_swell() -> Curve:
+	if _steam_swell_curve == null:
+		_steam_swell_curve = Curve.new()
+		_steam_swell_curve.add_point(Vector2(0.0, 0.45))
+		_steam_swell_curve.add_point(Vector2(1.0, 1.0))
+	return _steam_swell_curve
+
+
+static func _steam_fade() -> Gradient:
+	if _steam_fade_ramp == null:
+		_steam_fade_ramp = Gradient.new()
+		_steam_fade_ramp.set_color(0, Color(1.0, 1.0, 1.0, 0.0))
+		_steam_fade_ramp.set_color(1, Color(1.0, 1.0, 1.0, 0.0))
+		_steam_fade_ramp.add_point(0.25, Color(1.0, 1.0, 1.0, 1.0))
+		_steam_fade_ramp.add_point(0.6, Color(1.0, 1.0, 1.0, 0.7))
+	return _steam_fade_ramp
 
 
 # ---- Traversal -----------------------------------------------------------------------------------

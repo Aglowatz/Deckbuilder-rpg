@@ -745,25 +745,47 @@ func _scatter() -> void:
 	_entrance_forest()
 
 
-## Fable Nov 14 (Part 3.5): east of the entrance bridge the south rim is a food forest nobody walks through: two staggered rows of broccoli and
-## cauliflower trees, trunk to trunk, from beside the entrance road to the candy jar's corner (the builder adds herbs and leeks at their feet).
-## Placed by hand after the scatter, so no other tree moves.
+## East of the entrance bridge the south rim is closed to walking (Fable Nov 14, Part 3.5: it was two rows of broccoli and cauliflower
+## trees, trunk to trunk, from beside the entrance road to the candy jar's corner).
+## Fable Nov 16c (Part 4.2, the owner's call): the trees stood between the camera and everything north of them and hid the path and
+## the hub from the entrance. Most are gone. The same two lines are now a **knee-high hedge** (the district walls' low biscuit wall
+## with herbs on top, `divider` posts) with the same solid width, so nobody walks through and the walk grid is as it was; only the
+## last trees at the east end stay, where the stand runs into the big food forest of the east border. The framing grove on the
+## plaza's south-east corner is gone too. (The builder still plants herbs and leeks between the two hedge lines.)
 const ENTRANCE_FOREST: Rect2 = Rect2(53.6, 72.0, 17.7, 3.8)
 const ENTRANCE_FOREST_RADIUS: float = 0.95
+## From this x on the stand is still trees (it joins the east border's forest); west of it, the hedge.
+const ENTRANCE_TREES_FROM_X: float = 67.0
+## The view from the entrance to the hub: no broccoli or cauliflower stands here (the grove on the plaza's south-east corner did).
+const ENTRANCE_VIEW: Rect2 = Rect2(52.5, 64.0, 14.0, 12.0)
 
 
 func _entrance_forest() -> void:
 	var index: int = 0
 	var x: float = 55.2
 	while x <= 70.3:
-		_prop("broccoli" if index % 3 != 1 else "cauliflower", x, 73.0 + 0.25 * sin(float(index) * 1.7), float(index * 67 % 360), 1.05 + 0.2 * float(index % 3), ENTRANCE_FOREST_RADIUS)
+		if x >= ENTRANCE_TREES_FROM_X:
+			_prop("broccoli" if index % 3 != 1 else "cauliflower", x, 73.0 + 0.25 * sin(float(index) * 1.7), float(index * 67 % 360), 1.05 + 0.2 * float(index % 3), ENTRANCE_FOREST_RADIUS)
 		x += 1.8
 		index += 1
 	x = 54.6
 	while x <= 69.7:
-		_prop("cauliflower" if index % 3 == 0 else "broccoli", x, 74.7 + 0.2 * cos(float(index) * 1.3), float(index * 41 % 360), 1.15 + 0.2 * float(index % 2), ENTRANCE_FOREST_RADIUS)
+		if x >= ENTRANCE_TREES_FROM_X:
+			_prop("cauliflower" if index % 3 == 0 else "broccoli", x, 74.7 + 0.2 * cos(float(index) * 1.3), float(index * 41 % 360), 1.15 + 0.2 * float(index % 2), ENTRANCE_FOREST_RADIUS)
 		x += 1.8
 		index += 1
+	# the hedge: two lines where the two rows of trunks stood, a post every 0.9 m, as solid as the trunks were
+	for row_z: float in [73.0, 74.7]:
+		x = 54.6
+		while x < ENTRANCE_TREES_FROM_X - 0.6:
+			_prop("divider", x, row_z, 0.0, 1.0, ENTRANCE_FOREST_RADIUS, int(x) % 3)
+			x += 0.9
+	# no tree in the view from the entrance to the hub (the scatter's grove on the plaza's south-east corner; taken out after the
+	# scatter, so no other tree moves)
+	for at: int in range(props.size() - 1, -1, -1):
+		var prop: Prop = props[at]
+		if prop.kind in ["broccoli", "cauliflower"] and ENTRANCE_VIEW.has_point(Vector2(prop.pos.x, prop.pos.z)):
+			props.remove_at(at)
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

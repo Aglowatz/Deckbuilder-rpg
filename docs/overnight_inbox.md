@@ -44,6 +44,40 @@ Brief: `docs/prompts/fable_nov16_evening.md`. Report: top of `docs/overnight_rep
 14. **A new tool measures a camera:** `bash tools/run_heap_corner_camera.sh <tag> [0|3]` walks both corners with real keys and fails
     if the hero leaves the middle of the frame or jumps.
 
+15. **"The main castle at the back of the hub" is the Test Kitchen** (the main dungeon's building beyond the north rim): that is what
+    I rebuilt. It is one gingerbread house now: a tall biscuit body under one steep pie-crust gable roof, the gable to the front, with
+    the gate's two towers as the only towers. Gone: the copper great hall and dome with the chef's hat, the two copper tanks, the two
+    glass greenhouses, the whisk crane and the ladle crane with their hanging loads, the seven chimney stacks, the four corner cake
+    towers, the oven arches in the wall. The two Dining Hall wings in front of it (crust domes, one chimney each) are other buildings
+    and are unchanged; say if they should follow.
+16. **One chimney is left in the castle's roof**, short, biscuit, with a frosting cap, well inside the roof. A gingerbread house has
+    one, and the zone's steam needs a place. Say if it should go too (one line).
+17. **The castle's door is the kit's frosted gingerbread door** (BUFF-SHEET-DOORS-05: pink frosting, hearts, candy studs); it was the
+    oven-brick door (-04). Windows are the kit's frosted and candy-cane windows (BUFF-SHEET-WINDOWS-01, -02, -03). Nothing new is painted.
+    The frosting is plain white modelled shapes: in the Buffet's dusk light it reads a pale lilac at a distance.
+18. **The big round pot-and-flag disc that floats left of the castle's door is the dungeon's icon sign**, not part of the castle. I left
+    it. It is about 3 m across and hangs in the air; say if it should be smaller or sit on the wall.
+19. **The trees right of the entrance: 14 of 18 are gone, replaced by a low hedge with the same solid width** (two lines, the kit's
+    low biscuit wall with herbs on top, herbs and leeks between). Four trees stay at the east end where the stand runs into the east
+    forest, and the grove of three on the plaza's south-east corner is gone. **The hedge is about waist-high**, like the other
+    district hedges; nobody can walk through it, as before. Your Nov 14 call was "a forest nobody walks through" here: this reverses
+    the trees but keeps the closed rim. The matching grove west of the bridge is untouched.
+20. **The gravy river now runs out 18 m past the table on both sides and thins away.** West it widens into a delta (9 m wider at its
+    end); east the forest's land holds it in its channel, so it only thins. Two constants: `BuffetBuilder.RIVER_DELTA`,
+    `RIVER_DELTA_SPREAD`.
+21. **The faint black line was the game's outline pass drawing the submerged shore** (its ring creases and its far edge) through the
+    gravy. Three changes: the shore runs deeper and further (6 m down, 15 m out) onto a flat bed; and the outline pass draws nothing
+    below the gravy's surface in the Buffet (a new `floor_y` in the two outline shaders; other zones are untouched). I checked the
+    west, south-west, north-west, east and south edges: no line or slab is left.
+22. **The grey lady is the ruler's stone statue** (the Doppel chef's entrance cut-out through the stone shader, your Nov 15 request), not
+    a broken portrait. But it stood on the paving beside the Rift Station and its pale blue-grey stone read as a faded picture in the
+    Buffet's warm light. It now stands in the unpaved pocket west of the Hearty Meal and is carved of a warm, darker sandstone (the
+    Buffet only). Say if you would rather it went, or if every zone's statue should get its zone's stone.
+23. **The banner pole: the ruler's two banners stood on the plaza's paving**, one on the way north. They now flank the road north at the
+    plaza's far end, on the unpaved strips beside it.
+24. **Steam everywhere in the Buffet is soft now** (the fountain, the stalls, the river, the chimneys, Potato Peak): one change in
+    `BuffetProps.steam`. Each puff is a soft round card that swells and fades; it was a small lit ball.
+
 ## Fable Nov 16b - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov16_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov16b`.
