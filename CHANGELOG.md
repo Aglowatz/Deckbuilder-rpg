@@ -2,6 +2,14 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 17: after Primm falls the quest tracker follows the ending ("The City Gathers": the ending, then the gathering in Grave Row) and
+  then "After the Fall" (the Lab and the Shattered Gallery, marked on the maps); "Free the Four Zones" starts by itself once a zone is
+  free; the Rescuer wears a "!" while she waits at the cave mouth; "Point me to..." lists the roads out (the Capital), the quiz teachers,
+  the card-game hosts and the filing terminal; the card quiz shows each zone's exam name; the freed Capital flies the four Paths'
+  banners on its wall, gate, towers, houses and lamps; the Crease's back wall hides the sky; the Path choice selects on any click with a
+  gold frame; Peek can always be closed (E, Space, Enter); DEFEAT no longer covers the result panel; hand cards say "On play" / "On
+  death" instead of "Effect"; card-game pop-ups keep the controller's focus; Reps' rules say a miss resets the reps; 11 single lines of
+  dialogue fixed.
 - Nov 16, Batch 16 art (46 pictures): Fig Sly with two hands; Sergeant Scuff's own portrait, cut-out and Bestiary picture; portraits
   for Baron Quadzilla and the Restless Cairn; the Rescuer's masked walk; the four Path icons on the logo, the app icon, two card
   backs, five packs, four story pictures, Crosspath's plinth statues and freed banners and the freed Capital's banners; painted shore
