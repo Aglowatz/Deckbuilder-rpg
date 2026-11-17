@@ -29,7 +29,58 @@ var _ui_calls: PackedStringArray = []
 func run() -> void:
 	_strict = true
 	_chapter_started = Time.get_ticks_msec()
-	await super.run()
+	var resume: String = _arg("resume", "")
+	if resume.is_empty():
+		await super.run()
+		return
+	await _resume_from(resume)
+
+
+## `--resume=<snapshot>`: continue the SAME game from a save this bot made through the real save path (what Continue does after a crash or a
+## stop), then play on: the zones not yet freed, the Capital, the ending, the first postgame step.
+func _resume_from(snapshot_name: String) -> void:
+	Session.save_enabled = false
+	SceneManager.show_loading_screens = false
+	driver = UiDriver.new(get_tree())
+	_path_zone = _arg("path", "refusemancer")
+	_full = true
+	_real = true
+	_saveload = _arg("saveload", "1") == "1"
+	Settings.battle_speed = Settings.BATTLE_SPEEDS.size() - 1
+	Settings.low_end = true
+	Settings.graphics_quality = GraphicsQuality.Level.LOW
+	Settings.apply_quality_preset()
+	Settings.apply_performance()
+	Settings.graphics_changed.emit()
+	Engine.max_fps = 0
+	EventBus.gold_changed.connect(_on_gold)
+	_wall_started = Time.get_ticks_msec()
+	await driver.frames(5)
+	print("%s: RESUME %s" % [TAG, DevActions.load_snapshot(snapshot_name)])
+	_last_gold = Session.gold
+	var town: TownScene = await _to_town()
+	var order: Array[String] = [_path_zone]
+	for other: String in Gatekeepers.IDS:
+		if other != _path_zone:
+			order.append(other)
+	for zone_id: String in order:
+		if Session.is_zone_completed(zone_id):
+			continue
+		town = await _zone(town, zone_id)
+		_tend_deck("after %s" % zone_id)
+		if town == null:
+			_step(false, "%s: lost the town" % zone_id)
+			_finish()
+			return
+	await _save_progress("capital_ready")
+	_tend_deck("before the Capital")
+	await _capital_and_castle()
+	_finish()
+
+
+## A snapshot of the real progress (for the critics), nothing changed.
+func _save_progress(label: String) -> void:
+	print("%s: SNAPSHOT %s" % [TAG, DevActions.save_snapshot("bot_%s_%s" % [_path_zone, label])])
 
 
 func _max_tries() -> int:
@@ -100,10 +151,16 @@ func _marked(scene: Node) -> Array[Vector3]:
 			result.append((place as Dictionary)["pos"] as Vector3)
 	for goal: Dictionary in layer.goals():
 		result.append(goal["pos"] as Vector3)
+	for spot_id: Variant in layer._marks.keys():  # a giver's "!" or a turn-in's "?" over a head
+		var where: Dictionary = layer.resolve.call(str(spot_id)) as Dictionary
+		if not where.is_empty() and where.has("pos"):
+			result.append(where["pos"] as Vector3)
 	return result
 
 
-func _check_marker(scene: Node, pos: Vector3, why: String, needs_marker: bool) -> void:
+func _check_marker(scene: Variant, pos: Vector3, why: String, needs_marker: bool) -> void:
+	if not is_instance_valid(scene) or not (scene is Node) or get_tree().current_scene != scene:
+		return
 	if not needs_marker:
 		return
 	for place: Vector3 in _marked(scene):
@@ -144,7 +201,9 @@ func _resolve(scene: Node, spot_id: String) -> Vector3:
 
 ## Walks the hero of `scene` to `target` with real keys along the walkable route (the quest arrow's planner). True when it got there on
 ## foot; on a failed route it moves the hero there and logs TRAPPED (the run goes on).
-func _route_walk(scene: Node, target: Vector3, why: String, reach: float = REACH) -> bool:
+func _route_walk(scene: Variant, target: Vector3, why: String, reach: float = REACH) -> bool:
+	if not is_instance_valid(scene) or not (scene is Node) or get_tree().current_scene != scene:
+		return false
 	var player: Node3D = scene.get("player") as Node3D if "player" in scene else null
 	var layer: QuestMarkerLayer = scene.get("quest_markers") as QuestMarkerLayer if "quest_markers" in scene else null
 	if layer == null or not layer._guides[0].ready():
@@ -221,6 +280,28 @@ func _route_walk(scene: Node, target: Vector3, why: String, reach: float = REACH
 		elif float(Time.get_ticks_msec() - last_move) / 1000.0 > STUCK_SECONDS:
 			stuck_kicks += 1
 			last_move = Time.get_ticks_msec()
+			if player.position.distance_to(start_pos) < 0.3:
+				# not one step since the walk began: something holds the hero (a box, a tip) - say what is on screen and press past it
+				await _keys_up()
+				var shown: PackedStringArray = []
+				for node: Node in get_tree().root.find_children("*", "Button", true, false):
+					if (node as Button).is_visible_in_tree() and not (node as Button).text.strip_edges().is_empty():
+						shown.append((node as Button).text.strip_edges())
+				print("%s: HELD hero cannot move at (%.1f, %.1f); buttons on screen: %s; dialogue %s" % [TAG, player.position.x, player.position.z, ", ".join(shown), scene.get("dialogue").active if scene.get("dialogue") is DialogueBox else "-"])
+				for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Done"]:
+					var b: Button = driver.find_button(text)
+					if b != null and not b.disabled:
+						await driver.click(driver.button_center(b))
+						await driver.seconds(0.4)
+				if scene is TownScene:
+					await _clear_overlays(scene as TownScene)
+				await driver.tap_key(KEY_ESCAPE)
+				await driver.seconds(0.4)
+				var resume: Button = driver.find_button("Resume")
+				if resume != null:
+					await driver.click(driver.button_center(resume))
+				await _hold(KEY_SHIFT, true)
+				continue
 			if stuck_kicks >= 3:
 				break
 			# a sidestep, as a player would
@@ -256,7 +337,9 @@ func _keys_up() -> void:
 
 
 ## Walks to a spot of the current scene (checking a marker shows it first) and presses E.
-func _go_and_use(scene: Node, spot_id: String, why: String, needs_marker: bool = true) -> bool:
+func _go_and_use(scene: Variant, spot_id: String, why: String, needs_marker: bool = true) -> bool:
+	if not is_instance_valid(scene) or not (scene is Node) or get_tree().current_scene != scene:
+		return false
 	var pos: Vector3 = _resolve(scene, spot_id)
 	if pos == Vector3.INF:
 		_issue("GUESS", "no spot %s for %s in %s" % [spot_id, why, scene.name])
@@ -291,7 +374,9 @@ func _town_spot_needs_marker(spot_id: String) -> bool:
 
 
 ## Presses through every box an interaction opens (talk, a quest offer, a confirm, the deck check) until the scene is quiet or changes.
-func _settle(scene: Node, seconds: float = 6.0) -> void:
+func _settle(scene: Variant, seconds: float = 6.0) -> void:
+	if not is_instance_valid(scene) or not (scene is Node) or get_tree().current_scene != scene:
+		return
 	var started: int = Time.get_ticks_msec()
 	while float(Time.get_ticks_msec() - started) / 1000.0 < seconds:
 		if get_tree().current_scene != scene or SceneManager.busy:
@@ -306,7 +391,7 @@ func _settle(scene: Node, seconds: float = 6.0) -> void:
 			started = Time.get_ticks_msec()
 			continue
 		var pressed: bool = false
-		for text: String in ["Use this deck", "Enter", "Step through", "Go down", "Climb down", "Fight", "Challenge"]:
+		for text: String in ["Use this deck", "Enter", "Descend", "Take a number", "Step through", "Go down", "Climb down", "Fight", "Challenge"]:
 			var button: Button = driver.find_button(text)
 			if button != null and not button.disabled:
 				await driver.click(driver.button_center(button))
@@ -439,6 +524,7 @@ func _reenter(expected_key: String) -> void:
 		if Session.zone_run != null and Session.zone_run.hp < Session.zone_run.max_hp():
 			await _go_and_use(zone, "heal", "the zone's healing spot before another try", false)
 			await _settle(zone, 2.0)
+		scene = await _wait_for_walkable()
 	elif scene is StartingAreaScene and expected_key == "TUTORIAL":
 		var gate: Vector3 = (scene as StartingAreaScene).area.anchors.get("gate", Vector3.INF) as Vector3
 		if gate != Vector3.INF:
@@ -874,7 +960,9 @@ func _follow_quest(zone: ZoneScene, quest_id: String, limit: float, until: Calla
 	return get_tree().current_scene as ZoneScene
 
 
-func _close_screens_if_any(zone: ZoneScene) -> void:
+func _close_screens_if_any(zone: Variant) -> void:
+	if not is_instance_valid(zone) or not (zone is ZoneScene):
+		return
 	if zone._overlay != null and is_instance_valid(zone._overlay):
 		await _close_screens()
 
@@ -907,6 +995,8 @@ func _leave_to_town() -> TownScene:
 
 
 func _capital_and_castle() -> void:
+	if _arg("resume", "").is_empty():
+		await _save_progress("capital_ready")
 	var town: TownScene = get_tree().current_scene as TownScene
 	if town == null:
 		town = await _leave_to_town()
