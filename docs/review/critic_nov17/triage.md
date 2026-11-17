@@ -27,7 +27,7 @@ reach = how many players meet it (all / most / some / few); effort S (an hour or
 | A7 | The Opening Forest (the first screen) is murky | major | all | S | taste (teal dusk) | **Owner** |
 | A8 | The Gainlands' stepped cliffs and tiled brick | major | all | L | no | **L plan** |
 | A9 | Voids at map edges (the Reek, the Transit Yards, the Dump's arrival water, the Crease's tunnel) | major | most | M | no | Logged |
-| A10 | The freed Capital barely celebrates in Grave Row | minor | most | S | no | Logged |
+| A10 | The freed Capital barely celebrates in Grave Row | minor | most | S | no | By design: Grave Row holds the royal funeral after Primm; bunting there would be wrong. Lanterns / mourners are an owner idea |
 
 ## Critic 1 - combat and deckbuilding (4/10, provisional: one fight finished)
 
