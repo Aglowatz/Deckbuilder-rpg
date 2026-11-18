@@ -2,6 +2,13 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 18 (day): a stolen unit (Unconscionable Contract, Squatter's Rights, Hostile Takeover) moves to your side of the board; keywords
+  from Tools, spells and auras show on the unit with where they came from; special Infrastructure is collected and capped like other
+  cards (saves keep what their decks use); no banner when the computer acts; stacked cards fan so each name shows; every field card shows
+  its full art; pack and reward cards grow when hovered or focused; Meet the Merchants and Maren's errands are MAIN quests and lead the
+  tracker; no "Your Path" line; Kyle asks you to beat three roamers in his wing ("Hall Monitor", a Gilded pack) instead of the Rec Room
+  game; the empty gear slot message reads across; the Deck Station is a card stall on the square; the D.N.A. is an open-air plaza at
+  night with building fronts on two sides, wide aisles, a steeper camera, a clock tower, and a big door on the Hall of Final Approvals.
 - Nov 18: the D.N.A. is one huge haunted government hall at night (painted two-storey walls, waist-high partitions, marble and red
   runners, chandeliers, columns, moonlight shafts, the lobby clock, sign plaques); Batch 17 (81 images): painted ruler statues standing
   and toppled, the painted Four Seals cellar door and seals, painted card-game pieces in all four games, new card backs, packs, the

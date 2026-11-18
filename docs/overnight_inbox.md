@@ -8,7 +8,7 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 Brief: `docs/prompts/opus_nov18_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-day`. Most important first.
 
-1. **The Filing Department maze keeps its 2 m corridors.** Every other route in the D.N.A. is now 2.5 m or wider (pinch points 257 -> 10),
+1. **The Filing Department maze keeps its 2 m corridors.** Every other route in the D.N.A. is now 2.5 m or wider (pinch points 257 -> 11),
    but the maze is a maze on purpose (dead ends with hidden chests, Kyle's corner). Widening it to 3 m corridors means a coarser maze
    (8 x 4 cells instead of 10 x 6) and moving three of its chests. **Recommendation:** keep it; say "widen the maze" if it still feels tight.
 2. **D.N.A. camera: +6 degrees steeper** (the brief allowed 6-10). +8 read the plaza best but put the new clock tower out of the frame;

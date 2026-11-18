@@ -1,3 +1,149 @@
+# Nov 18 day (Opus) - report: the owner's playtest fixes - battle, quests, cards, UI, and the D.N.A. back outdoors
+
+Brief: `docs/prompts/opus_nov18_day.md`. Start tag `pre-nov18-day`. Questions: `docs/overnight_inbox.md`, "Nov 18 day". Shots:
+`docs/overnight_shots/nov18b/` (`ref_*` are the owner's own "before" shots for the battle, pack, quest and gear items). No export, no upload.
+
+All seven parts are done. Commits: Parts 1-5 together (`503a7022`; the parts share files - the battle board holds Parts 1 and 2), Part 6 (`ee290832`), Part 7.
+
+## 1. Card rules (Part 1)
+
+**Unconscionable Contract - fixed.** The rules always moved the unit (`GameState.steal_card`); the **battle board never did**: a card's view
+keeps the "owner" it was made with, so a stolen unit stayed drawn in the enemy's row, and clicks treated it as the enemy's (it could not be
+picked to attack). `BattleBoard.set_controller` now moves the view to its new controller's row (card back, hover, input), from both the
+`CONTROL_CHANGED` event during playback and every `sync_state`; the battle log writes "You took control of X". It dies to its owner's
+Refuse Pile (`real_owner`, unchanged). Tests `tests/core/game/test_control_nov18.gd`:
+`test_contract_moves_the_unit_to_the_players_side_for_the_rest_of_the_battle`, `test_a_stolen_unit_that_dies_goes_to_its_owners_refuse_pile`,
+`test_the_ai_casts_the_contract_on_the_players_best_unit`, `test_the_board_moves_a_stolen_unit_into_the_players_row`,
+`test_the_control_event_moves_the_view_during_playback`, plus the log.
+
+**Other control effects found** (every one goes through `steal_card`, so the same fix covers them): **Squatter's Rights** (NB-05, gain an
+Infrastructure; `test_squatters_rights_moves_the_infrastructure_view`), **Hostile Takeover** (NB-12, all resources;
+`test_hostile_takeover_moves_the_resource_views`), and the temporary steals' hand-back (`borrowed`). Reclamation Order and Mirrored Hall
+create or reinstate a card on your side (a new view), so they were never affected. No "swap" effect exists in the card list.
+
+**Granted keywords show on the unit.** Every keyword a unit has that is not printed - from a Tool, spell, aura, equipment or rule - is a
+chip / badge like a printed one, ringed green-gold; its hover and the battle preview say where it came from ("Toxic (from
+Corporate-Approved Pen)", "Flying (from X, this turn)"); it goes when the effect ends (`GameState.granted_keywords_of`,
+`StaticEffects.keyword_sources`, `CardInstance.keyword_sources`). Tests `tests/ui/test_granted_keyword_badges.gd` (pen equip/remove,
+spell this turn, Necro Rat aura, no double badge).
+
+**Special Infrastructure is collected.** Only the four basics (Powerhouse, Ghost Town, Feastforge, Wasteworks) are unlimited
+(`CardData.is_unlimited`). The 11 others (INF-01..04 Uncommon, INF-05..11 Epic) follow the copy caps of their rarity (Uncommon 2, Epic 1 at
+the start, rising to 3 with levels), appear in packs (they always could), **rewards and shops** (they were filtered out), convert past
+the cap like any card. General packs have no Path filter (one Uncommon Infrastructure per Path in the Tier I pool). The Deck Station shows
+"Deck 0/2  Own 1"; the glossary, the copy-cap rule line and the design docs say "Basic Infrastructure is unlimited".
+**Save migration** (`Session.migrate_infrastructure_caps`, on load, before the cap check): for each special Infrastructure the save keeps
+the copies it owns or the most any saved deck holds, whichever is more, **up to the cap**; then the usual cap pass trims decks to the cap
+and turns owned copies past it into essence (or gold for the colourless INF-11). Starting decks hold basics only, so they need nothing.
+The town says "Special Infrastructure is now collected like other cards: you keep the N copies your decks use." Starting decks and the
+deck suggester build legal decks. Tests `tests/core/data/test_infrastructure_caps_nov18.gd` (8) and the updated deck-rule/reward tests.
+
+## 2. The battle screen (Part 2)
+
+| Item | Before | After |
+|---|---|---|
+| AI action pop-up | `ref_battle_ai_popup_and_stacks.png` | gone (`BattleScreen._ai_step`); the card's fly-in and the log stay; attacks/blocks keep a 0.3 s beat |
+| Stacks | same | `p2_after_stacks.jpg`, `p2_after_stacks_720.jpg`: identical tokens fan upward inside their lane (a 20 % strip of each card underneath: name bar + art), drawn a little smaller so the lane height is unchanged; "xN" badge kept. Token cards (Contracts...) fan downward the same way; infrastructure spacing 86 -> 96 px and an exhausted one tilts 8 degrees (was 14, which covered its neighbour) |
+| Full art on the field | `ref_battle_pigeon_text_vs_fullart.png` | a hand card clicked while hovered kept the hover's detail look on the field (`hover_uid` survived); now only a hovered HAND card is shown whole, and every sync puts field cards back in the field look |
+
+The "is thinking..." line for a long AI search (only when a search took over 150 ms) is kept (inbox 4). Tests `tests/ui/test_battle_board_nov18.gd`.
+
+## 3. Packs and rewards (Part 3)
+
+`CardHoverZoom` (`ui/card/card_hover_zoom.gd`): the hovered or pad-focused card grows smoothly to the battle preview's height (450 px),
+stays on screen, and shrinks back - pack results (each card once face up, and the summary row, focusable by pad), the post-fight reward
+pick and the dungeon reward screen. It works from the card's on-screen size, so 1280x720, 1920x1080, Large text and 115 / 130 % UI scale
+all land on the same size; inside a row container it grows about a pivot (the row can re-lay itself out mid-hover). Shot
+`p3_after_reward_hover.jpg` (before: `ref_pack_open_small_cards.png`). Tests `tests/ui/test_card_hover_zoom.gd` (7).
+
+## 4. Quests (Part 4)
+
+- After the cave and Maren, **Meet the Merchants is tracked** (Fragments starts at the same moment and used to take the tracker).
+- **Meet the Merchants, Make It Yours, the store room ghosts and Some Assembly Required are MAIN** (MAIN tag, main section, orders 1-4,
+  before the zone lines and Fragments). While an errand is tracked nothing else takes the tracker; the next errand always does.
+- **"Your Path" is gone from the quest box.** What it said lives in quests: the errands (tracked from the start) and each Path's
+  gatekeeper line (its zone's main quest).
+- **Kyle's Rec Room matching game is scrapped**: its screen (`MatchGameScreen`), its rewards and story keys and its tests are deleted (Dex's
+  card-matching tables keep the `MatchGame` rules). Kyle gives **"Hall Monitor"**: beat three roaming staff in his wing (Cubicle Farm A and
+  the Filing Department - five roamers, ids ending `_west`); the tracker counts 0/3, the map marks only those roamers. Reward: a **Gilded
+  Necrocrat Pack, 220 gold, 80 XP** (the game's first win paid 210 gold, 70 XP and a Path Pack).
+- Dialogue: three single lines of Kyle's that described the game are rewritten, and the new quest's offer / active / ready lines added.
+  **Revert:** `node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18b_single_lines.csv --revert=docs/dialogue/nov18b_single_lines_ids.txt`
+  (the three rewrites; the quest's own three lines are new keys in `data/story/dna_story.tres` that the quest needs).
+- Tests `tests/core/quests/test_quests_nov18.gd` (8): order after Maren, MAIN tags, the tracker keeps the errand, no Your Path row,
+  Hall Monitor 0/3 -> 3/3 and its pack.
+
+## 5. UI (Part 5)
+
+- **Empty gear slot** (`ref_gear_empty_vertical_text.png`): the message was a second child of the list's ScrollContainer, which gave it no
+  width (one letter per line). Now one line under OWNED across the list, wrapped: "You don't own any armor yet. Find gear in chests and
+  shops (Bertram's smithy has some)." - every slot, Large text wraps.
+- **The Deck Station** is a card-trader's stall on the square at the mouth of the Gate Road (where every new player walks down from the
+  cave and Maren's), built from existing pieces: the kit market stall (ENV-PROP-STALL look, ENV-AWNING-01, lantern) without its produce,
+  the hanging ENV-SIGN-CARDS sign, painted card backs (UI-CARDBACK-*) on the counter, sacks; a "Deck Station" screen label like a shop's,
+  a shop pin with the deck icon on the map and minimap. The old inn on Champions' Road stays as a plain building. Make It Yours points at
+  the new spot (same spot id). Before `p5_before_deckstation_*`, after `p5_after_deckstation_*` (square and close, default and Low).
+- Tests `tests/ui/test_ui_nov18.gd`.
+
+## 6. The D.N.A. (Part 6)
+
+| Spot | Before (default / Low) | After (default / Low) | Flat pitch, for the comparison |
+|---|---|---|---|
+| Arrival, hub, door, mid1, mid2, Farm A aisle, Farm B aisle, the maze | `p6_before_<spot>_default/_low.jpg` | `p6_after_<spot>_default/_low.jpg` | `p6_after_pitch0_<spot>_*.jpg` (+8 degrees was taken as `p6_after_*` first, then +6) |
+
+- **Outdoors.** No ceiling, no end bay and its painted back wall (`DnaBuilder.OPEN_AIR`); chandeliers float (no chains); the sky is
+  DNA-SKY-GLOOM graded to a deep evening (`zone_looks.json` dna sky). Marble, runners, partitions, booths, banners, sconces, ghost-flame
+  posts, moonlight and the chandeliers' sway are kept. The two-storey painted walls stay only as **building fronts on the north side and
+  the west long side** (`DnaHall.is_front`), capped at 11 m with a cornice (the dark vault band is gone); every other outline cell is a
+  waist-high partition on the same cells (same collision), so from the arrival and the plaza you see out over the grey wasteland to the
+  DNA-BD-TOWERS skyline. Two chandeliers that hung between the camera and the hero on the way to the Hall's door are gone.
+- **Room to move.** Each cubicle farm is three tidy rows of desk islands (two desks back to back over a knee-high partition, 4 per row,
+  3 m between islands, 3.4 m between rows) instead of 27 cubicles boxed in on three sides (every one a dead-end slot). Records basement:
+  3 m gap between the stacks (was 2), its coffins, cabinets and lamps out of the aisles; breakroom counter against its wall (no slot behind
+  it), bench and lily moved; mail-room cabinets flush with the wall; the quiz office's desk back from its partition.
+  **Pinch points** (`tools/dna_pinch_probe.gd`, walk grid, ways narrower than 2.5 m): **257 before -> 11 after** on the routes (the
+  remaining 11 are 1-2-sample spots: Clerk Ledgerbone's vendor desk corner, room corners by a lamp). With `--strict` (also the strips
+  along walls and pockets) 93 remain - most are the Filing Department maze, whose 2 m corridors are deliberate (inbox 1).
+- **Camera.** The D.N.A. alone looks down **+6 degrees** at every preset (`DnaScene.PITCH_BONUS`, `CameraRig.zone_pitch_bonus`). +8 read
+  the plaza best but cut the clock tower off at the top of the frame; flat showed the skyline but hid the aisles behind partitions; +6
+  keeps both (compare `p6_after_*` with `p6_after_pitch0_*`).
+- **The clock tower** (`_build_clock_tower`): a kit-built tower north-west of the Hall's stair - DNA-WALL-EXTERIOR body on a plinth, brass
+  bands, a pale clock stage carrying DNA-PROP-LOBBY-CLOCK scaled up with a warm glow behind it, a slate spire with a green ghost lantern;
+  low enough that the clock stays in frame from the arrival and the plaza, above the building fronts (clearest at Low: `p6_after_mid1_low.jpg`).
+  A painted tower would read better: Batch 18 row `DNA-HERO-CLOCK-TOWER`.
+- **Elevator walls**: the elevator bank's north wall either side of the corridor is a 2.5 m tall, 2.1 m deep block (the doors are 1.8 m)
+  instead of a 1.15 m partition the doors stuck out of. Beside the Hall's stair, tall thick pylons replace the thin walls whose dark hooded
+  figures stood up like two shafts.
+- **The Hall's door**: tall double doors (DNA-SHEET-DOORS-02 scaled to 10.9 m) in a stone frame with side piers and a pediment with the
+  stamp relief, red stamp banners either side, warm light from the gap and a pool of it on the forecourt, the ghost queue on the steps.
+- **FPS (lobby, 8 s):** Medium **72.3 -> 75.9**; Low-end (uncapped) **96.8 -> 101.3**.
+
+Tests `tests/world/test_dna_open_air_nov18.gd`.
+
+## 7. Checks (Part 7)
+
+- **GUT:** full suite 42 shards **3254/3260, 4 failing** - all four were D.N.A. tests of the old design (fewer wall sconces now the walls
+  are gone, three records lamps first put on top of the stacks, the coffin memo's spot, a node named like the elevators); fixed and re-run
+  green (18/18). Parts 1-5 had their own run earlier (the world shards re-run after a class-cache refresh: green after two layout tests
+  were updated for the stall).
+- **D.N.A. walk smoke:** OK (causeway -> gate -> lobby -> NPCs, vendor, interactables -> quiz, Kyle, puzzle -> Sub-Basement 3, the Hall ->
+  giant chest, lever -> town; 20 screenshots). **Crosspath walk smoke:** OK (19 screenshots). **Card-games smoke:** 137/137.
+  **NPC visibility probe:** 150/150, both cameras.
+- **Strict bot (Necrocrat, new game):** forest -> cave -> town -> Maren's welcome -> **"Maren's early-game chain is done (merchants, deck
+  edit, ghosts, armory)"** -> the zone lines wait for Maren's send-off -> Free the Four Zones -> the hero's own Path line tracked -> the D.N.A.
+  entered, boss beaten, zone freed, memory fragment -> into the Gainlands; stopped there (the brief asked for the chain). Bot findings to
+  look at: twice it could not walk from the lobby to the Hall's door and was moved on at the mail room's north doorway (43, 28.2) - the
+  doorway's cells and the props near it are unchanged this pass; it looks like the route cutting the doorway's corner; one "way back to
+  town" trap at the lobby counter (also in an older Refusemancer run); "side_s_necro was not offered by barnaby" and a missing marker on
+  npc_necrocrat while Free the Four Zones was tracked (both older).
+- **Pinch probe:** 257 -> 11 (route probe), 93 with `--strict` (mostly the maze). **FPS:** see section 6.
+- No export, no upload.
+
+## 8. For the owner
+
+See `docs/overnight_inbox.md`, "Nov 18 day" (5 items, each with a recommendation).
+
+
 # Overnight Nov 17-18 (Opus) - report: 81 new images, the D.N.A. as an indoor grand hall, the owner's decisions
 
 Brief: `docs/prompts/opus_nov17_night.md`. Start tag `pre-overnight-nov18`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 18".
