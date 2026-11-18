@@ -1,65 +1,65 @@
 id,asset,approved file (G:/My Drive/Card Game Art/...),size asked,in-game use,replaces,status
-GAIN-STATUE-CLENCH-STANDING,"Chancellor Clench statue, standing",Approved_ZoneKits/Gainlands/GAIN-STATUE-CLENCH-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,"Approved, not yet in game"
-GAIN-STATUE-CLENCH-TOPPLED,"Chancellor Clench statue, toppled",Approved_ZoneKits/Gainlands/GAIN-STATUE-CLENCH-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,"Approved, not yet in game"
-BUFF-STATUE-GRANDCHEF-STANDING,"the Grand Chef statue, standing",Approved_ZoneKits/Buffet/BUFF-STATUE-GRANDCHEF-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,"Approved, not yet in game"
-BUFF-STATUE-GRANDCHEF-TOPPLED,"the Grand Chef statue, toppled",Approved_ZoneKits/Buffet/BUFF-STATUE-GRANDCHEF-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,"Approved, not yet in game"
-DNA-STATUE-MORTIMER-STANDING,"Mortimer Grimsby statue, standing",Approved_ZoneKits/DNA/DNA-STATUE-MORTIMER-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,"Approved, not yet in game"
-DNA-STATUE-MORTIMER-TOPPLED,"Mortimer Grimsby statue, toppled",Approved_ZoneKits/DNA/DNA-STATUE-MORTIMER-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,"Approved, not yet in game"
-DUMP-STATUE-COMPOSTELLA-STANDING,"Compostella the Rotheart statue, standing",Approved_ZoneKits/VerdantDump/DUMP-STATUE-COMPOSTELLA-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,"Approved, not yet in game"
-DUMP-STATUE-COMPOSTELLA-TOPPLED,"Compostella the Rotheart statue, toppled",Approved_ZoneKits/VerdantDump/DUMP-STATUE-COMPOSTELLA-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,"Approved, not yet in game"
-CAP-STATUE-PRIMM-STANDING,"Primm statue, standing",Approved_ZoneKits/Capital/CAP-STATUE-PRIMM-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,"Approved, not yet in game"
-CAP-STATUE-PRIMM-TOPPLED,"Primm statue, toppled",Approved_ZoneKits/Capital/CAP-STATUE-PRIMM-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,"Approved, not yet in game"
-ICON-NODE-WELL,Hollow Well map node,Approved_Icons/ICON-NODE-WELL.png,"512x512 PNG, transparent",The Hollow Well node on the tutorial dungeon map,The challenge-cards icon,"Approved, not yet in game"
-UI-CARDBACK-R,Refusemancer card back,Approved_UI/UI-CARDBACK-R.png,1024x1536 PNG,Card backs,Old card back,"Approved, not yet in game"
-UI-CARDBACK-G,Gourmand card back,Approved_UI/UI-CARDBACK-G.png,1024x1536 PNG,Card backs,Old card back,"Approved, not yet in game"
-UI-CARDBACK-C,Colourless card back,Approved_UI/UI-CARDBACK-C.png,1024x1536 PNG,Card backs,Old card back,"Approved, not yet in game"
-MAP-S-CAP,Capital tunnels map,Approved_Maps/MAP-S-CAP.png,Same size as the reference,Under the Capital dungeon map,Wrong symbols,"Approved, not yet in game"
-BB-S-CAP,Capital tunnels battle board,Approved_Battleboards/BB-S-CAP.png,Same size as the reference,Under the Capital battle board,Wrong symbols,"Approved, not yet in game"
-NPC-ELDER,Elder Maren (neutral),Approved_Characters/NPC-ELDER.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,"Approved, not yet in game"
-NPC-ELDER_HAPPY,Elder Maren (happy),Approved_Characters/NPC-ELDER_HAPPY.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,"Approved, not yet in game"
-NPC-ELDER_WORRIED,Elder Maren (worried),Approved_Characters/NPC-ELDER_WORRIED.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,"Approved, not yet in game"
-DUMP-SHEET-ENTRANCE-FLAGS-07,Dump entrance pennant 07,Approved_ZoneKits/VerdantDump/DUMP-SHEET-ENTRANCE-FLAGS-07.png,"640x640 PNG, transparent",Pennants at the Dump entrance,Single-leaf pennants,"Approved, not yet in game"
-DUMP-SHEET-ENTRANCE-FLAGS-08,Dump entrance pennant 08,Approved_ZoneKits/VerdantDump/DUMP-SHEET-ENTRANCE-FLAGS-08.png,"640x640 PNG, transparent",Pennants at the Dump entrance,Single-leaf pennants,"Approved, not yet in game"
-MAP-WORLD-TOWN,Crosspath world map,Approved_Maps/MAP-WORLD-TOWN.png,2048x2048 PNG,Crosspath's world map screen,Blurry blocky map,"Approved, not yet in game"
-CUT-QUADZILLA,Baron Quadzilla entrance cut-out,Approved_Characters/CUT-QUADZILLA.png,"1440x2160 PNG, transparent",Boss entrance,No cut-out,"Approved, not yet in game"
-UI-PACK-G,Gourmand pack,Approved_UI/UI-PACK-G.png,"1024x1536 PNG, transparent",Card pack shop,Wrong medallion,"Approved, not yet in game"
-UI-PACK-GILDED-B,Gilded Beefcake pack,Approved_UI/UI-PACK-GILDED-B.png,"1024x1536 PNG, transparent",Card pack shop,Old pack with dumbbells,"Approved, not yet in game"
-BST-ECHO-OF-CHANCELLOR-CLENCH,Echo of Chancellor Clench,Approved_Bestiary/BST-ECHO-OF-CHANCELLOR-CLENCH.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-HORTENSIA-CLIPWELL,Echo of Hortensia Clipwell,Approved_Bestiary/BST-ECHO-OF-HORTENSIA-CLIPWELL.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-MORTIMER-GRIMSBY,Echo of Mortimer Grimsby,Approved_Bestiary/BST-ECHO-OF-MORTIMER-GRIMSBY.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-PERCIVAL-PLUME,Echo of Percival Plume,Approved_Bestiary/BST-ECHO-OF-PERCIVAL-PLUME.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-THE-DOPPELGANGER,Echo of the Doppelganger,Approved_Bestiary/BST-ECHO-OF-THE-DOPPELGANGER.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-THE-ROTHEART,Echo of the Rotheart,Approved_Bestiary/BST-ECHO-OF-THE-ROTHEART.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-ECHO-OF-VIVIENNE-QUOTA,Echo of Vivienne Quota,Approved_Bestiary/BST-ECHO-OF-VIVIENNE-QUOTA.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-BST-THE-PERFECT-COPY,The Perfect Copy,Approved_Bestiary/BST-THE-PERFECT-COPY.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,"Approved, not yet in game"
-TOWN-PROP-CELLAR-FOURSEALS-CLOSED,"Cellar of the Four Seals, closed",Approved_EnvKit/TOWN-PROP-CELLAR-FOURSEALS-CLOSED.png,"1536x1024 PNG, transparent",Crosspath's vault,Box-built stand-in,"Approved, not yet in game"
-TOWN-PROP-CELLAR-FOURSEALS-OPEN,"Cellar of the Four Seals, open",Approved_EnvKit/TOWN-PROP-CELLAR-FOURSEALS-OPEN.png,"1536x1024 PNG, transparent","Crosspath's vault, opened",Box-built stand-in,"Approved, not yet in game"
-TOWN-PROP-SEAL-LOCKED,"Iron seal, locked",Approved_Icons/TOWN-PROP-SEAL-LOCKED.png,"512x512 PNG, transparent",The four seals on the vault door,Plain dark discs,"Approved, not yet in game"
-TOWN-PROP-SEAL-BLANK,"Iron seal, blank",Approved_Icons/TOWN-PROP-SEAL-BLANK.png,"512x512 PNG, transparent",The four seals on the vault door,Plain dark discs,"Approved, not yet in game"
-MG-BG-PASS,Order Up background,Approved_UI/MG-BG-PASS.png,1536x1024 PNG,Order Up (Buffet card game),Blurred zone backdrop (p2_order_mid),"Approved, not yet in game"
-MG-BG-CONVEYOR,Sort It Out background,Approved_UI/MG-BG-CONVEYOR.png,1536x1024 PNG,Sort It Out (Dump card game),Blurred zone backdrop (p2_sort_mid),"Approved, not yet in game"
-MG-BG-FILING,File in Order background,Approved_UI/MG-BG-FILING.png,1536x1024 PNG,File in Order (D.N.A. card game),Blurred zone backdrop (p2_file_mid),"Approved, not yet in game"
-MG-PROP-BENCH,Squat rack and bench,Approved_UI/MG-PROP-BENCH.png,"1024x1024 PNG, transparent",Reps card game (and the Gainlands barbell spot),Lines and rectangles (p2_reps_mid),"Approved, not yet in game"
-MG-PROP-BARBELL,Barbell (bar only),Approved_UI/MG-PROP-BARBELL.png,"1536x256 PNG, transparent",Reps: plates slide onto its ends,Drawn line,"Approved, not yet in game"
-MG-PROP-PLATE-01,Weight plate 01,Approved_UI/MG-PROP-PLATE-01.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,"Approved, not yet in game"
-MG-PROP-PLATE-02,Weight plate 02,Approved_UI/MG-PROP-PLATE-02.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,"Approved, not yet in game"
-MG-PROP-PLATE-03,Weight plate 03,Approved_UI/MG-PROP-PLATE-03.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,"Approved, not yet in game"
-MG-PROP-PLATE-04,Weight plate 04,Approved_UI/MG-PROP-PLATE-04.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,"Approved, not yet in game"
-MG-PROP-TICKET,Order ticket,Approved_UI/MG-PROP-TICKET.png,"512x384 PNG, transparent",Order Up,Flat panel,"Approved, not yet in game"
-MG-PROP-BELL,Call bell,Approved_UI/MG-PROP-BELL.png,"512x512 PNG, transparent",Order Up,Flat panel,"Approved, not yet in game"
-MG-PROP-BIN-01,Sorting crate 01,Approved_UI/MG-PROP-BIN-01.png,"768x512 PNG, transparent",Sort It Out,Flat panels,"Approved, not yet in game"
-MG-PROP-BIN-02,Sorting crate 02,Approved_UI/MG-PROP-BIN-02.png,"768x512 PNG, transparent",Sort It Out,Flat panels,"Approved, not yet in game"
-MG-PROP-BIN-03,Sorting crate 03,Approved_UI/MG-PROP-BIN-03.png,"768x512 PNG, transparent",Sort It Out,Flat panels,"Approved, not yet in game"
-MG-PROP-BIN-04,Sorting crate 04,Approved_UI/MG-PROP-BIN-04.png,"768x512 PNG, transparent",Sort It Out,Flat panels,"Approved, not yet in game"
-MG-PROP-CABINET,Filing cabinet row,Approved_UI/MG-PROP-CABINET.png,"2048x512 PNG, transparent",File in Order,Flat panels,"Approved, not yet in game"
-MG-PROP-STAMP-APPROVED,APPROVED stamp,Approved_UI/MG-PROP-STAMP-APPROVED.png,"1536x512 PNG, transparent",File in Order win,Plain text,"Approved, not yet in game"
-MG-PROP-STAMP-REJECTED,REJECTED stamp,Approved_UI/MG-PROP-STAMP-REJECTED.png,"1536x512 PNG, transparent",File in Order loss,Plain text,"Approved, not yet in game"
-BUFF-PROP-FRUIT-TART,Boulder fruit tart,Approved_ZoneKits/Buffet/BUFF-PROP-FRUIT-TART.png,"1024x1024 PNG, transparent",The Buffet's east food forest,No boulder,"Approved, not yet in game"
-BUFF-PROP-CAKESTAND-TALL,Tree-tall cake stand,Approved_ZoneKits/Buffet/BUFF-PROP-CAKESTAND-TALL.png,"1024x1536 PNG, transparent",The Buffet's east food forest,Small stand scaled up,"Approved, not yet in game"
-BUFF-SHEET-FLIERS,Butterflies and songbird sheet,Approved_ZoneKits/Buffet/BUFF-SHEET-FLIERS.png,"2048x1024 PNG, transparent",Life in the Buffet forest,Plain coloured flecks,"Approved, not yet in game"
-NPC-PLAYER_CONFUSED,Hero portrait (confused),Approved_Characters/NPC-PLAYER_CONFUSED.png,"1024x1536 PNG, transparent",The hero's dialogue portrait,Brown cloak (mismatch with the teal wake-up still),"Approved, not yet in game"
-NPC-PLAYER_DETERMINED,Hero portrait (determined),Approved_Characters/NPC-PLAYER_DETERMINED.png,"1024x1536 PNG, transparent",The hero's dialogue portrait,Brown cloak (mismatch with the teal wake-up still),"Approved, not yet in game"
-BUFF-PROP-VEG-01,Cabbage 01,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-01.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,"Approved, not yet in game"
-BUFF-PROP-VEG-02,Cabbage 02,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-02.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,"Approved, not yet in game"
-BUFF-PROP-VEG-03,Cabbage 03,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-03.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,"Approved, not yet in game"
-DUMP-PROP-PIG,Farm pig,Approved_ZoneKits/VerdantDump/DUMP-PROP-PIG.png,"512x512 PNG, transparent",The Dump's farm animals,A pink cube,"Approved, not yet in game"
+GAIN-STATUE-CLENCH-STANDING,"Chancellor Clench statue, standing",Approved_ZoneKits/Gainlands/GAIN-STATUE-CLENCH-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,In game (Nov 18)
+GAIN-STATUE-CLENCH-TOPPLED,"Chancellor Clench statue, toppled",Approved_ZoneKits/Gainlands/GAIN-STATUE-CLENCH-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,In game (Nov 18)
+BUFF-STATUE-GRANDCHEF-STANDING,"the Grand Chef statue, standing",Approved_ZoneKits/Buffet/BUFF-STATUE-GRANDCHEF-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,In game (Nov 18)
+BUFF-STATUE-GRANDCHEF-TOPPLED,"the Grand Chef statue, toppled",Approved_ZoneKits/Buffet/BUFF-STATUE-GRANDCHEF-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,In game (Nov 18)
+DNA-STATUE-MORTIMER-STANDING,"Mortimer Grimsby statue, standing",Approved_ZoneKits/DNA/DNA-STATUE-MORTIMER-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,In game (Nov 18)
+DNA-STATUE-MORTIMER-TOPPLED,"Mortimer Grimsby statue, toppled",Approved_ZoneKits/DNA/DNA-STATUE-MORTIMER-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,In game (Nov 18)
+DUMP-STATUE-COMPOSTELLA-STANDING,"Compostella the Rotheart statue, standing",Approved_ZoneKits/VerdantDump/DUMP-STATUE-COMPOSTELLA-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,In game (Nov 18)
+DUMP-STATUE-COMPOSTELLA-TOPPLED,"Compostella the Rotheart statue, toppled",Approved_ZoneKits/VerdantDump/DUMP-STATUE-COMPOSTELLA-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,In game (Nov 18)
+CAP-STATUE-PRIMM-STANDING,"Primm statue, standing",Approved_ZoneKits/Capital/CAP-STATUE-PRIMM-STANDING.png,"1024x1536 PNG, transparent",Zone hub statue (standing),Flat grey-tinted cut-out,In game (Nov 18)
+CAP-STATUE-PRIMM-TOPPLED,"Primm statue, toppled",Approved_ZoneKits/Capital/CAP-STATUE-PRIMM-TOPPLED.png,"1536x1024 PNG, transparent",Zone hub statue after the zone is freed,Flat grey-tinted cut-out,In game (Nov 18)
+ICON-NODE-WELL,Hollow Well map node,Approved_Icons/ICON-NODE-WELL.png,"512x512 PNG, transparent",The Hollow Well node on the tutorial dungeon map,The challenge-cards icon,In game (Nov 18)
+UI-CARDBACK-R,Refusemancer card back,Approved_UI/UI-CARDBACK-R.png,1024x1536 PNG,Card backs,Old card back,In game (Nov 18)
+UI-CARDBACK-G,Gourmand card back,Approved_UI/UI-CARDBACK-G.png,1024x1536 PNG,Card backs,Old card back,In game (Nov 18)
+UI-CARDBACK-C,Colourless card back,Approved_UI/UI-CARDBACK-C.png,1024x1536 PNG,Card backs,Old card back,In game (Nov 18)
+MAP-S-CAP,Capital tunnels map,Approved_Maps/MAP-S-CAP.png,Same size as the reference,Under the Capital dungeon map,Wrong symbols,In game (Nov 18)
+BB-S-CAP,Capital tunnels battle board,Approved_Battleboards/BB-S-CAP.png,Same size as the reference,Under the Capital battle board,Wrong symbols,In game (Nov 18)
+NPC-ELDER,Elder Maren (neutral),Approved_Characters/NPC-ELDER.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,In game (Nov 18)
+NPC-ELDER_HAPPY,Elder Maren (happy),Approved_Characters/NPC-ELDER_HAPPY.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,In game (Nov 18)
+NPC-ELDER_WORRIED,Elder Maren (worried),Approved_Characters/NPC-ELDER_WORRIED.png,"1024x1536 PNG, transparent",Maren's dialogue portrait,Wrong stick carvings,In game (Nov 18)
+DUMP-SHEET-ENTRANCE-FLAGS-07,Dump entrance pennant 07,Approved_ZoneKits/VerdantDump/DUMP-SHEET-ENTRANCE-FLAGS-07.png,"640x640 PNG, transparent",Pennants at the Dump entrance,Single-leaf pennants,In game (Nov 18)
+DUMP-SHEET-ENTRANCE-FLAGS-08,Dump entrance pennant 08,Approved_ZoneKits/VerdantDump/DUMP-SHEET-ENTRANCE-FLAGS-08.png,"640x640 PNG, transparent",Pennants at the Dump entrance,Single-leaf pennants,In game (Nov 18)
+MAP-WORLD-TOWN,Crosspath world map,Approved_Maps/MAP-WORLD-TOWN.png,2048x2048 PNG,Crosspath's world map screen,Blurry blocky map,In game (Nov 18)
+CUT-QUADZILLA,Baron Quadzilla entrance cut-out,Approved_Characters/CUT-QUADZILLA.png,"1440x2160 PNG, transparent",Boss entrance,No cut-out,In game (Nov 18)
+UI-PACK-G,Gourmand pack,Approved_UI/UI-PACK-G.png,"1024x1536 PNG, transparent",Card pack shop,Wrong medallion,In game (Nov 18)
+UI-PACK-GILDED-B,Gilded Beefcake pack,Approved_UI/UI-PACK-GILDED-B.png,"1024x1536 PNG, transparent",Card pack shop,Old pack with dumbbells,In game (Nov 18)
+BST-ECHO-OF-CHANCELLOR-CLENCH,Echo of Chancellor Clench,Approved_Bestiary/BST-ECHO-OF-CHANCELLOR-CLENCH.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-HORTENSIA-CLIPWELL,Echo of Hortensia Clipwell,Approved_Bestiary/BST-ECHO-OF-HORTENSIA-CLIPWELL.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-MORTIMER-GRIMSBY,Echo of Mortimer Grimsby,Approved_Bestiary/BST-ECHO-OF-MORTIMER-GRIMSBY.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-PERCIVAL-PLUME,Echo of Percival Plume,Approved_Bestiary/BST-ECHO-OF-PERCIVAL-PLUME.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-THE-DOPPELGANGER,Echo of the Doppelganger,Approved_Bestiary/BST-ECHO-OF-THE-DOPPELGANGER.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-THE-ROTHEART,Echo of the Rotheart,Approved_Bestiary/BST-ECHO-OF-THE-ROTHEART.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-ECHO-OF-VIVIENNE-QUOTA,Echo of Vivienne Quota,Approved_Bestiary/BST-ECHO-OF-VIVIENNE-QUOTA.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+BST-THE-PERFECT-COPY,The Perfect Copy,Approved_Bestiary/BST-THE-PERFECT-COPY.png,"1024x1024 PNG, painted background",Bestiary (Shattered Gallery),Missing picture,In game (Nov 18)
+TOWN-PROP-CELLAR-FOURSEALS-CLOSED,"Cellar of the Four Seals, closed",Approved_EnvKit/TOWN-PROP-CELLAR-FOURSEALS-CLOSED.png,"1536x1024 PNG, transparent",Crosspath's vault,Box-built stand-in,In game (Nov 18)
+TOWN-PROP-CELLAR-FOURSEALS-OPEN,"Cellar of the Four Seals, open",Approved_EnvKit/TOWN-PROP-CELLAR-FOURSEALS-OPEN.png,"1536x1024 PNG, transparent","Crosspath's vault, opened",Box-built stand-in,In game (Nov 18)
+TOWN-PROP-SEAL-LOCKED,"Iron seal, locked",Approved_Icons/TOWN-PROP-SEAL-LOCKED.png,"512x512 PNG, transparent",The four seals on the vault door,Plain dark discs,In game (Nov 18)
+TOWN-PROP-SEAL-BLANK,"Iron seal, blank",Approved_Icons/TOWN-PROP-SEAL-BLANK.png,"512x512 PNG, transparent",The four seals on the vault door,Plain dark discs,In game (Nov 18)
+MG-BG-PASS,Order Up background,Approved_UI/MG-BG-PASS.png,1536x1024 PNG,Order Up (Buffet card game),Blurred zone backdrop (p2_order_mid),In game (Nov 18)
+MG-BG-CONVEYOR,Sort It Out background,Approved_UI/MG-BG-CONVEYOR.png,1536x1024 PNG,Sort It Out (Dump card game),Blurred zone backdrop (p2_sort_mid),In game (Nov 18)
+MG-BG-FILING,File in Order background,Approved_UI/MG-BG-FILING.png,1536x1024 PNG,File in Order (D.N.A. card game),Blurred zone backdrop (p2_file_mid),In game (Nov 18)
+MG-PROP-BENCH,Squat rack and bench,Approved_UI/MG-PROP-BENCH.png,"1024x1024 PNG, transparent",Reps card game (and the Gainlands barbell spot),Lines and rectangles (p2_reps_mid),In game (Nov 18)
+MG-PROP-BARBELL,Barbell (bar only),Approved_UI/MG-PROP-BARBELL.png,"1536x256 PNG, transparent",Reps: plates slide onto its ends,Drawn line,In game (Nov 18)
+MG-PROP-PLATE-01,Weight plate 01,Approved_UI/MG-PROP-PLATE-01.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,In game (Nov 18)
+MG-PROP-PLATE-02,Weight plate 02,Approved_UI/MG-PROP-PLATE-02.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,In game (Nov 18)
+MG-PROP-PLATE-03,Weight plate 03,Approved_UI/MG-PROP-PLATE-03.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,In game (Nov 18)
+MG-PROP-PLATE-04,Weight plate 04,Approved_UI/MG-PROP-PLATE-04.png,"256x512 PNG, transparent",Reps: added per correct guess,Flat rectangles,In game (Nov 18)
+MG-PROP-TICKET,Order ticket,Approved_UI/MG-PROP-TICKET.png,"512x384 PNG, transparent",Order Up,Flat panel,In game (Nov 18)
+MG-PROP-BELL,Call bell,Approved_UI/MG-PROP-BELL.png,"512x512 PNG, transparent",Order Up,Flat panel,In game (Nov 18)
+MG-PROP-BIN-01,Sorting crate 01,Approved_UI/MG-PROP-BIN-01.png,"768x512 PNG, transparent",Sort It Out,Flat panels,In game (Nov 18)
+MG-PROP-BIN-02,Sorting crate 02,Approved_UI/MG-PROP-BIN-02.png,"768x512 PNG, transparent",Sort It Out,Flat panels,In game (Nov 18)
+MG-PROP-BIN-03,Sorting crate 03,Approved_UI/MG-PROP-BIN-03.png,"768x512 PNG, transparent",Sort It Out,Flat panels,In game (Nov 18)
+MG-PROP-BIN-04,Sorting crate 04,Approved_UI/MG-PROP-BIN-04.png,"768x512 PNG, transparent",Sort It Out,Flat panels,In game (Nov 18)
+MG-PROP-CABINET,Filing cabinet row,Approved_UI/MG-PROP-CABINET.png,"2048x512 PNG, transparent",File in Order,Flat panels,In game (Nov 18)
+MG-PROP-STAMP-APPROVED,APPROVED stamp,Approved_UI/MG-PROP-STAMP-APPROVED.png,"1536x512 PNG, transparent",File in Order win,Plain text,In game (Nov 18)
+MG-PROP-STAMP-REJECTED,REJECTED stamp,Approved_UI/MG-PROP-STAMP-REJECTED.png,"1536x512 PNG, transparent",File in Order loss,Plain text,In game (Nov 18)
+BUFF-PROP-FRUIT-TART,Boulder fruit tart,Approved_ZoneKits/Buffet/BUFF-PROP-FRUIT-TART.png,"1024x1024 PNG, transparent",The Buffet's east food forest,No boulder,In game (Nov 18)
+BUFF-PROP-CAKESTAND-TALL,Tree-tall cake stand,Approved_ZoneKits/Buffet/BUFF-PROP-CAKESTAND-TALL.png,"1024x1536 PNG, transparent",The Buffet's east food forest,Small stand scaled up,In game (Nov 18)
+BUFF-SHEET-FLIERS,Butterflies and songbird sheet,Approved_ZoneKits/Buffet/BUFF-SHEET-FLIERS.png,"2048x1024 PNG, transparent",Life in the Buffet forest,Plain coloured flecks,In game (Nov 18)
+NPC-PLAYER_CONFUSED,Hero portrait (confused),Approved_Characters/NPC-PLAYER_CONFUSED.png,"1024x1536 PNG, transparent",The hero's dialogue portrait,Brown cloak (mismatch with the teal wake-up still),In game (Nov 18)
+NPC-PLAYER_DETERMINED,Hero portrait (determined),Approved_Characters/NPC-PLAYER_DETERMINED.png,"1024x1536 PNG, transparent",The hero's dialogue portrait,Brown cloak (mismatch with the teal wake-up still),In game (Nov 18)
+BUFF-PROP-VEG-01,Cabbage 01,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-01.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,In game (Nov 18)
+BUFF-PROP-VEG-02,Cabbage 02,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-02.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,In game (Nov 18)
+BUFF-PROP-VEG-03,Cabbage 03,Approved_ZoneKits/Buffet/BUFF-PROP-VEG-03.png,"512x512 PNG, transparent",The Buffet hub's vegetable patch,Untextured green spheres,In game (Nov 18)
+DUMP-PROP-PIG,Farm pig,Approved_ZoneKits/VerdantDump/DUMP-PROP-PIG.png,"512x512 PNG, transparent",The Dump's farm animals,A pink cube,In game (Nov 18)
