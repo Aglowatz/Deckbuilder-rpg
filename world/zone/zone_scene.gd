@@ -382,7 +382,13 @@ func _ready() -> void:
 					env.fog_enabled = false
 					env.volumetric_fog_enabled = false
 					env.glow_enabled = false
-		PlanView.install(self, builder, _plan_obstacles(), _plan_anchors(), str(_screenshot_args["top"]), str(_screenshot_args.get("plan", "false")) == "true")
+		var top_spec: String = str(_screenshot_args["top"])
+		if top_spec == "auto":
+			# Overnight Nov 18 (Part 6): the whole walkable map, square, for the painter's plan (`--top=auto --size=2048x2048`)
+			var bounds: Rect2 = builder.map_bounds()
+			top_spec = "%f,%f,%f" % [bounds.get_center().x, bounds.get_center().y, maxf(bounds.size.x, bounds.size.y) + 6.0]
+			player.position = Vector3(bounds.get_center().x, player.position.y, bounds.get_center().y)
+		PlanView.install(self, builder, _plan_obstacles(), _plan_anchors(), top_spec, str(_screenshot_args.get("plan", "false")) == "true")
 	if _screenshot_args.has("windlog"):
 		# after the style rig has turned the materials into its toon and card shaders
 		get_tree().create_timer(1.5).timeout.connect(func() -> void:
@@ -922,7 +928,7 @@ func _build_camera() -> void:
 	_camera.current = true
 	_camera.position = player.position + CameraRig.shape(camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
-	style_rig = StyleRig.install(self, _style_preset(), _camera, player, CULL_DISTANCE)
+	style_rig = StyleRig.install(self, _style_preset(), _camera, player, 0.0 if _screenshot_args.has("nocull") else CULL_DISTANCE)  # Overnight Nov 18: --nocull for the whole-map plan shots
 	if style_rig != null:
 		style_rig.set_outline_floor(_outline_floor())
 	LoadTiming.detail("zone: StyleRig")
