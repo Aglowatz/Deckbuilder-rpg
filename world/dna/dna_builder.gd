@@ -611,7 +611,7 @@ static func _plaque(id: String, width: float) -> MeshInstance3D:
 	var quad: QuadMesh = QuadMesh.new()
 	quad.size = Vector2(width, width / maxf(EnvKit.aspect(id), 0.1))
 	var instance: MeshInstance3D = MeshInstance3D.new()
-	instance.name = "Plaque"
+	instance.name = IconSign.NODE_NAME  # a sign picture (the hub sign test counts them)
 	instance.mesh = quad
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.albedo_texture = EnvKit.texture(id)

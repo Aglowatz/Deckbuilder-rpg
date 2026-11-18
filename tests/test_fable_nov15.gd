@@ -176,7 +176,8 @@ func test_the_ruler_statue_is_the_painted_ruler_in_stone() -> void:
 			var figure: MeshInstance3D = statue.get_node_or_null(RulerPresence.FIGURE_NAME) as MeshInstance3D
 			assert_not_null(figure, "%s: the ruler's painted figure stands for the statue" % zone_id)
 			if figure != null:
-				assert_true(figure.material_override is ShaderMaterial, "carved in stone (the statue shader)")
+				# Batch 17 (Nov 18): the painted stone statue (its own art) where it is in the game, else the cut-out through the statue shader
+				assert_true(figure.material_override is ShaderMaterial or figure.has_meta("statue_art"), "carved in stone (painted statue or the statue shader)")
 				assert_eq(figure.position.y < 0.5, toppled, "standing on the plinth while oppressed, lying beside it once freed")
 
 

@@ -631,7 +631,7 @@ func _build_soup() -> void:
 		if layout.susan_under(pea_x, pea_z, 1.0) != null or layout.raft_under(pea_x, pea_z, 0.0, 3.0) != null or layout.raft_under(pea_x, pea_z, 5.5, 3.0) != null:
 			continue
 		# Batch 17 (Nov 18): painted cabbages (BUFF-PROP-VEG-01..03) bob in the gravy where untextured green balls floated
-		var veg: Node3D = TreeCards.make("buff_veg_%d" % (index % 3 + 1), 1.0 + 0.25 * float(index % 2), false)
+		var veg: Node3D = TreeCards.make("buff_veg_%d" % (index % 3 + 1), 0.6 + 0.15 * float(index % 2), false)
 		if veg != null and EnvKit.has_art("BUFF-PROP-VEG-01"):
 			veg.name = "Pea"
 			root.add_child(veg)

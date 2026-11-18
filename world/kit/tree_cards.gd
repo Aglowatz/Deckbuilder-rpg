@@ -45,9 +45,9 @@ const KINDS: Dictionary = {
 	# Batch 17 (Nov 18): the east food forest's fruit tart and tall cake stand, the cabbages floating in the gravy, the Dump's pig.
 	"buff_tart": {"id": "BUFF-PROP-FRUIT-TART", "size": Vector2(1.6, 1.15), "radius": 0.5, "prop": true},
 	"buff_cakestand_tall": {"id": "BUFF-PROP-CAKESTAND-TALL", "size": Vector2(1.0, 2.2), "radius": 0.4, "prop": true},
-	"buff_veg_1": {"id": "BUFF-PROP-VEG-01", "size": Vector2(0.62, 0.55), "radius": 0.0, "prop": true},
-	"buff_veg_2": {"id": "BUFF-PROP-VEG-02", "size": Vector2(0.62, 0.55), "radius": 0.0, "prop": true},
-	"buff_veg_3": {"id": "BUFF-PROP-VEG-03", "size": Vector2(0.62, 0.55), "radius": 0.0, "prop": true},
+	"buff_veg_1": {"id": "BUFF-PROP-VEG-01", "size": Vector2(1.05, 0.93), "radius": 0.0, "prop": true},
+	"buff_veg_2": {"id": "BUFF-PROP-VEG-02", "size": Vector2(1.05, 0.93), "radius": 0.0, "prop": true},
+	"buff_veg_3": {"id": "BUFF-PROP-VEG-03", "size": Vector2(1.05, 0.93), "radius": 0.0, "prop": true},
 	"dump_pig": {"id": "DUMP-PROP-PIG", "size": Vector2(1.15, 1.0), "radius": 0.0, "prop": true},
 	# The Verdant Dump kit cards (docs/art/heap_slice.md, the art pass): vine oaks and tyre birches, the twisted trees toward the Rotheart, wildflower beds, reeds, the violet fungus.
 	"dump_oak": {"id": "DUMP-TREE-OAK", "size": Vector2(4.48, 6.2), "radius": 0.4},

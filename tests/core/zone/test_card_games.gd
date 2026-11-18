@@ -88,13 +88,15 @@ func test_reps_a_miss_keeps_the_reps_and_the_fourth_miss_loses() -> void:
 		right_first += 1
 	assert_eq(game.streak, 3)
 	var missed: int = 0
+	var reps: int = 3
 	while missed < RepsCardGame.MISSES_ALLOWED:
 		if game.upcoming().attack == game.current().attack:
-			game.guess(true)  # a tie cannot be missed
+			game.guess(true)  # a tie cannot be missed (it is a rep)
+			reps += 1
 			continue
 		assert_false(game.guess(game.upcoming().attack < game.current().attack))
 		missed += 1
-		assert_eq(game.streak, 3, "a miss keeps the reps already done")
+		assert_eq(game.streak, reps, "a miss keeps the reps already done")
 		assert_false(game.is_lost(), "%d misses are allowed" % RepsCardGame.MISSES_ALLOWED)
 	while game.upcoming().attack == game.current().attack:
 		game.guess(true)
@@ -126,7 +128,8 @@ func test_reps_a_newcomer_wins_most_first_sets() -> void:
 			coin_wins += 1
 	gut.p("Reps: 'guess away from the edge' wins %d of 300 first sets; a coin flip wins %d" % [wins, coin_wins])
 	assert_gt(wins, 210, "a newcomer guessing away from the nearer edge wins at least 70 % of first sets")
-	assert_lt(coin_wins, wins / 3, "and it is still a game: a coin flip does far worse")
+	# Overnight Nov 18: with the reps kept after a miss (owner), a coin flip wins about 4 sets in 10 (it was under 1 in 3); still far worse
+	assert_lt(coin_wins, wins / 2, "and it is still a game: a coin flip does far worse")
 
 
 # ---- Order Up ---------------------------------------------------------------------------------

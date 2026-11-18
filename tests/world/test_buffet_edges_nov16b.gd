@@ -120,9 +120,13 @@ func test_it_lives_on_medium_and_not_on_low() -> void:
 	assert_not_null(life, "Medium builds the forest's life")
 	assert_eq(life.steam_count, BuffetShore.STEAM_SPOTS, "steam drifts up from the forest")
 	assert_eq(life.patch_count, BuffetShore.LIGHT_PATCHES, "warm light patches on the floor")
-	var fliers: MultiMeshInstance3D = life.find_child("Fliers", false, false) as MultiMeshInstance3D
+	var fliers: Node3D = life.find_child("Fliers", false, false) as Node3D
 	assert_not_null(fliers, "butterflies and birds")
-	assert_eq(fliers.multimesh.instance_count, (BuffetForestLife.BUTTERFLIES + BuffetForestLife.BIRDS) * 2, "two wings each, one draw call for all")
+	# Batch 17 (Nov 18): the painted fliers are one sprite each (BUFF-SHEET-FLIERS frames); the dot wings are the fallback
+	if fliers is MultiMeshInstance3D:
+		assert_eq((fliers as MultiMeshInstance3D).multimesh.instance_count, (BuffetForestLife.BUTTERFLIES + BuffetForestLife.BIRDS) * 2, "two wings each, one draw call for all")
+	else:
+		assert_eq(fliers.get_child_count(), BuffetForestLife.BUTTERFLIES + BuffetForestLife.BIRDS, "one painted sprite per flier")
 	assert_eq(life.flier_count(), BuffetForestLife.BUTTERFLIES + BuffetForestLife.BIRDS)
 	var before: Vector3 = life.flier_at(0)
 	life._process(0.4)

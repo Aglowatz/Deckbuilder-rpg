@@ -17,7 +17,9 @@ func test_each_lesson_line_quotes_only_freed_leaders() -> void:
 	for key: String in ["cutscene.primm_p2.2.gourmand", "cutscene.primm_p2.2.necrocrat"]:
 		assert_true(story.lines.has(key), "%s is written" % key)
 	var only_chef: String = "\n".join(story.get_lines("cutscene.primm_p2.2.gourmand"))
-	assert_true(only_chef.contains("blank page"), "the Buffet line keeps the Grand Chef's lesson")
+	# Overnight Nov 18 (owner, inbox Nov 17 #4): the hero answers in his own voice here, not with the Grand Chef's lesson
+	assert_true(only_chef.contains("choice"), "the Buffet line is in the hero's own words")
+	assert_false(only_chef.contains("blank page"), "no quoted lesson")
 	assert_false(only_chef.contains("respect"), "and leaves out Agnes's")
 	var only_agnes: String = "\n".join(story.get_lines("cutscene.primm_p2.2.necrocrat"))
 	assert_true(only_agnes.contains("respect"), "the D.N.A. line keeps Agnes's lesson")

@@ -1030,7 +1030,7 @@ static func district_walls(posts: Array[Vector3]) -> Node3D:
 			var s: float = 0.42 + 0.1 * float(hedge % 3)
 			if veg_art:
 				# Batch 17 (Nov 18): painted cabbages (BUFF-PROP-VEG-01..03) grow along the bed, where untextured green balls sat
-				(cabbages["buff_veg_%d" % (hedge % 3 + 1)] as Array[Dictionary]).append({"pos": at + Vector3(0, 0.5, 0), "scale": 1.3 + 0.25 * float(hedge % 2)})
+				(cabbages["buff_veg_%d" % (hedge % 3 + 1)] as Array[Dictionary]).append({"pos": at + Vector3(0, 0.5, 0), "scale": 0.78 + 0.15 * float(hedge % 2)})
 				continue
 			mesh.blob("herb" if hedge % 4 != 0 else "broccoli_light", at + Vector3(0, 0.57 + s * 0.6, 0), Vector3(s * 1.1, s * 0.9, s * 1.1), 4, 7, 0.88)
 		index += 1

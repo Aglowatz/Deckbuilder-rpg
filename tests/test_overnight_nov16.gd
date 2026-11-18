@@ -164,7 +164,8 @@ func test_cards_won_in_a_lost_first_cave_stay_in_the_deck() -> void:
 
 func test_the_dump_s_entrance_pennants_carry_no_single_leaf() -> void:
 	for id: String in HeapLandmarks.ENTRANCE_PENNANTS:
-		assert_true(id in ["DUMP-SHEET-ENTRANCE-FLAGS-02", "DUMP-SHEET-ENTRANCE-FLAGS-05"], "%s is a paw-print pennant" % id)
+		# Batch 17 (Nov 18): the two new pennants carry the whole Refusemancer icon (the leaf in three arrows), never a single leaf
+		assert_true(id in ["DUMP-SHEET-ENTRANCE-FLAGS-07", "DUMP-SHEET-ENTRANCE-FLAGS-08"], "%s is a Batch 17 pennant" % id)
 		assert_true(EnvKit.has_art(id))
 
 
