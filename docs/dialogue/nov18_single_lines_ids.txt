@@ -1,0 +1,11 @@
+# Overnight Nov 18: single lines changed by the owner's answers (inbox Nov 17 #3, #4, #12). Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18_single_lines.csv --revert=docs/dialogue/nov18_single_lines_ids.txt
+data/dungeons/dungeon_content.json::cave_mouth.maren_path::2
+data/story/intro_story.tres::memory.3.after::4
+data/story/intro_story.tres::memory.4.fragment::0
+data/story/intro_story.tres::memory.4.reply::0
+data/story/story_scenes.json::scenes/pc_capture/steps/2::1
+data/story/story_scenes.json::scenes/pc_capture/steps/9::1
+data/story/capital_story.tres::cutscene.primm_p1.2::1
+data/story/capital_story.tres::cutscene.primm_p2.2::0
+data/story/capital_story.tres::cutscene.primm_p2.2.gourmand::0
+data/story/intro_story.tres::still.reunion::1

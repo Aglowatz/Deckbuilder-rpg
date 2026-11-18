@@ -1008,6 +1008,8 @@ static func district_walls(posts: Array[Vector3]) -> Node3D:
 	sorted.sort_custom(func(a: Vector3, b: Vector3) -> bool: return a.x < b.x if absf(a.z - b.z) < 0.5 else a.z < b.z)
 	var index: int = 0
 	var hedge: int = 0
+	var veg_art: bool = EnvKit.has_art("BUFF-PROP-VEG-01")
+	var cabbages: Dictionary = {"buff_veg_1": [] as Array[Dictionary], "buff_veg_2": [] as Array[Dictionary], "buff_veg_3": [] as Array[Dictionary]}
 	while index < sorted.size():
 		var run_start: int = index
 		while index + 1 < sorted.size() and sorted[index].distance_to(sorted[index + 1]) <= 1.6:
@@ -1026,6 +1028,10 @@ static func district_walls(posts: Array[Vector3]) -> Node3D:
 			var at: Vector3 = a.lerp(b, t) if along.length() > 0.01 else a
 			hedge += 1
 			var s: float = 0.42 + 0.1 * float(hedge % 3)
+			if veg_art:
+				# Batch 17 (Nov 18): painted cabbages (BUFF-PROP-VEG-01..03) grow along the bed, where untextured green balls sat
+				(cabbages["buff_veg_%d" % (hedge % 3 + 1)] as Array[Dictionary]).append({"pos": at + Vector3(0, 0.5, 0), "scale": 1.3 + 0.25 * float(hedge % 2)})
+				continue
 			mesh.blob("herb" if hedge % 4 != 0 else "broccoli_light", at + Vector3(0, 0.57 + s * 0.6, 0), Vector3(s * 1.1, s * 0.9, s * 1.1), 4, 7, 0.88)
 		index += 1
 	var body: MeshInstance3D = mesh.instance("Body")
@@ -1033,6 +1039,11 @@ static func district_walls(posts: Array[Vector3]) -> Node3D:
 	body.set_meta(&"no_occlusion_fade", true)  # knee-high: nothing to hide
 	root.add_child(body)
 	root.set_meta(&"no_wind", true)
+	for kind: String in cabbages.keys():
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, cabbages[kind] as Array[Dictionary], false)
+		if field != null:
+			field.name = "Cabbages_%s" % kind
+			field.set_meta(&"no_range_cull", true)
 	root.set_meta("triangles", mesh.triangle_count())
 	return root
 

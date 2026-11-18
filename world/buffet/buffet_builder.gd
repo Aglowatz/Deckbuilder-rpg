@@ -630,6 +630,13 @@ func _build_soup() -> void:
 		var pea_z: float = BuffetLayout.river_z(pea_x) + sin(float(index) * 1.7) * 2.2
 		if layout.susan_under(pea_x, pea_z, 1.0) != null or layout.raft_under(pea_x, pea_z, 0.0, 3.0) != null or layout.raft_under(pea_x, pea_z, 5.5, 3.0) != null:
 			continue
+		# Batch 17 (Nov 18): painted cabbages (BUFF-PROP-VEG-01..03) bob in the gravy where untextured green balls floated
+		var veg: Node3D = TreeCards.make("buff_veg_%d" % (index % 3 + 1), 1.0 + 0.25 * float(index % 2), false)
+		if veg != null and EnvKit.has_art("BUFF-PROP-VEG-01"):
+			veg.name = "Pea"
+			root.add_child(veg)
+			veg.position = Vector3(pea_x, BuffetLayout.SOUP_LEVEL - 0.12, pea_z)
+			continue
 		var pea: MeshInstance3D = P.ball(root, 0.2, M.flat(Color(0.45, 0.78, 0.25)), Vector3(pea_x, BuffetLayout.SOUP_LEVEL + 0.05, pea_z), Vector3(1, 0.7, 1))
 		pea.name = "Pea"
 

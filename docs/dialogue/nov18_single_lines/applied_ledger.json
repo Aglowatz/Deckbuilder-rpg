@@ -1,0 +1,72 @@
+[
+	{
+		"id": "data/dungeons/dungeon_content.json::cave_mouth.maren_path::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself.",
+		"after": "Come and find me at my house once you've dried off. When you're ready for the roads, I'll send you out myself."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit.",
+		"after": "That's my secret, and now you're holding it. Do with it as you see fit."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A boy of eleven stands in a coat too fine for the cold, and someone is calling to him across a courtyard: '{prince}!'",
+		"after": "A boy of eleven stands in a worn cloak too thin for the cold, and someone is calling to him across a courtyard: '{prince}!'"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.reply::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "My mother called to me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what the two of them were like.",
+		"after": "My mother called to me across that courtyard. I can hear her voice now, and I can see her face. I'd like to know what the two of them were like."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Don't look so surprised. I told you somebody had to watch the door while you knocked it down.",
+		"after": "Don't look so surprised. Somebody had to watch the door while you knocked it down. {rescuer}. It's {rescuer}. I promised."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/9::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that.",
+		"after": "{rescuer}. She told me her name with the guards already running at her, because she had promised me it would come first."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I met a man who was locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with whatever is left to you, and strength is not control.",
+		"after": "Ten years of 'again', every single morning. I learned to hear a different word in it each day: not yet. You never once heard it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. Every choice I made in that dark, I made myself, and you cannot copy a choice."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.gourmand::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. Every choice I made in that dark, I made myself, and you cannot copy a choice."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.reunion::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Four banners fly from the same pole. It is a little crowded, and nobody minds.",
+		"after": "Four banners fly side by side over the square. It is a little crowded, and nobody minds."
+	}
+]

@@ -32,6 +32,28 @@ func backdrop_art() -> String:
 	return "LOAD-BUFFET"
 
 
+## Batch 17 (Nov 18): Fontaine's kitchen pass (MG-BG-PASS), paper tickets (MG-PROP-TICKET, the game writes the target on them) and the
+## brass service bell (MG-PROP-BELL) beside the button that rings it.
+func room_art() -> String:
+	return "MG-BG-PASS"
+
+
+const TICKET_ART: String = "MG-PROP-TICKET"
+const BELL_ART: String = "MG-PROP-BELL"
+
+
+static func _ticket_style(active: bool, done: bool) -> StyleBox:
+	if not UiArt.has(TICKET_ART):
+		return null
+	var paper: StyleBoxTexture = StyleBoxTexture.new()
+	paper.texture = UiArt.texture(TICKET_ART)
+	for side: String in ["left", "right", "top", "bottom"]:
+		paper.set("content_margin_" + side, 14.0)
+	paper.content_margin_top = 26.0  # under the punched hole
+	paper.modulate_color = Color("d9f0cf") if done else (Color(1.06, 1.02, 0.92) if active else Color.WHITE)
+	return paper
+
+
 func host_portrait() -> String:
 	return "NPC-FLAMBE"
 
@@ -69,7 +91,7 @@ func _build_table(box: VBoxContainer) -> void:
 	for index: int in range(OrderCardGame.TICKETS):
 		var ticket: PanelContainer = PanelContainer.new()
 		ticket.name = "Ticket%d" % (index + 1)
-		ticket.custom_minimum_size = Vector2(170, 124)
+		ticket.custom_minimum_size = Vector2(200, 128)
 		tickets.add_child(ticket)
 		var text: Label = UIKit.label("", &"", 26, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
 		text.name = "Text"
@@ -108,6 +130,15 @@ func _build_table(box: VBoxContainer) -> void:
 	var buttons: HBoxContainer = UIKit.hbox(18)
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.add_child(buttons)
+	if UiArt.has(BELL_ART):
+		var bell_picture: TextureRect = TextureRect.new()
+		bell_picture.name = "BellArt"
+		bell_picture.texture = UiArt.texture(BELL_ART)
+		bell_picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bell_picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		bell_picture.custom_minimum_size = Vector2(84, 84)
+		bell_picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		buttons.add_child(bell_picture)
 	_bell = game_button("", &"PrimaryButton", Vector2(340, 70), serve)
 	_bell.name = "Bell"
 	PromptText.bind(_bell, "Ring the bell  (Space)", &"text", "Ring the bell")
@@ -155,8 +186,12 @@ func _refresh() -> void:
 	for index: int in range(_tickets.size()):
 		var done: bool = index < game.ticket
 		var active: bool = index == game.ticket and not game.is_over()
-		var paper: StyleBoxFlat = UIStyle.box(PAPER if not done else Color("cfe8c4"), UIStyle.GOLD if active else Color(0.35, 0.3, 0.2), 4 if active else 2, 6, 6 if active else 0)
+		var paper: StyleBox = _ticket_style(active, done)
+		if paper == null:
+			paper = UIStyle.box(PAPER if not done else Color("cfe8c4"), UIStyle.GOLD if active else Color(0.35, 0.3, 0.2), 4 if active else 2, 6, 6 if active else 0)
 		_tickets[index].add_theme_stylebox_override("panel", paper)
+		_tickets[index].scale = Vector2.ONE * (1.08 if active else 1.0)
+		_tickets[index].pivot_offset = _tickets[index].size * 0.5
 		_tickets[index].modulate = Color(1, 1, 1, 1.0 if done or active else 0.55)
 		if done:
 			_ticket_labels[index].text = "Order %d\n%d  ✔" % [index + 1, game.served[index]]

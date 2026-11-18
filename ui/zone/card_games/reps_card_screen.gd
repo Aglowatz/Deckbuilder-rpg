@@ -1,8 +1,10 @@
 class_name RepsCardScreen
 extends CardGameScreen
 ## Fable Nov 16b (Part 2): the Gainlands' card minigame, "Reps" (see `RepsCardGame`): higher or lower on a card's power, at Chet
-## Thunderabs' 3 a.m. studio (MG-BG-GYM). Every right guess slides a plate onto the barbell; at eight the hero lifts it. A miss tips the
-## plates off again. Up / W = higher, Down / S = lower (the D-pad on a controller), or the two buttons.
+## Thunderabs' 3 a.m. studio (MG-BG-GYM). Every right guess slides a plate onto the barbell; at eight the hero lifts it. Overnight Nov 18:
+## a miss keeps the plates on (the owner's answer, inbox Nov 17 #8), and the bench, the bar and the plates are painted (Batch 17:
+## MG-PROP-BENCH, MG-PROP-BARBELL, MG-PROP-PLATE-01..04: one plate per right guess, on alternating ends, heaviest first).
+## Up / W = higher, Down / S = lower (the D-pad on a controller), or the two buttons.
 
 const CARD_SCALE: float = 0.96
 const PLATE_COLORS: Array[Color] = [Color("c9463d"), Color("3f78c9"), Color("e0b23c"), Color("4fa86a")]
@@ -54,8 +56,8 @@ func host_name() -> String:
 func how_lines() -> Array[String]:
 	return [
 		"One card is face up. Will the next card's POWER (its first number) be higher or lower?",
-		"Eight right in a row finishes the set. A tie counts as right.",
-		"A miss tips the plates off the bar and your reps start again from 0. Three misses are allowed; the fourth ends the set.",
+		"Eight right finishes the set. A tie counts as right.",
+		"A miss keeps the reps you have done. Three misses are allowed; the fourth ends the set.",
 	]
 
 
@@ -133,7 +135,7 @@ func _new_game() -> void:
 	_lift = 0.0
 	_show(_shown, face(game.current(), CARD_SCALE))
 	_show(_hidden, back(CARD_SCALE))
-	set_status("Higher or lower? Eight right in a row finishes the set.")
+	set_status("Higher or lower? Eight right finishes the set.")
 	host_say(story_line("reps.shouts", 0))
 	_refresh()
 
@@ -201,7 +203,7 @@ func guess(higher: bool) -> void:
 		MinigameFx.sparkle(self, _hidden.get_global_rect().get_center())
 	else:
 		Audio.sfx(&"ui_error", -6.0)
-		set_status("Power %d: a miss. The plates come off the bar." % next.attack, Color("ff9d98"))
+		set_status("Power %d: a miss. The plates stay on; %d misses left." % [next.attack, maxi(RepsCardGame.MISSES_ALLOWED - game.misses, 0)], Color("ff9d98"))
 		shake_table()
 	_slide_plates(float(game.streak))
 	await pause(0.75 if right else 1.1)
@@ -251,8 +253,60 @@ func _win() -> void:
 	finish(true, game.stars(), "Set complete!", lines)
 
 
-## The bench: two uprights, the bar with one plate per rep (alternating sides), the hero under it; on a win the bar goes up overhead.
+## The bench (Batch 17: the painted rack and bench, the painted bar and plates): the hero stands at the rack, the bar rests on the hooks
+## with one plate per rep (alternating ends, heaviest first); on a win the bar goes up overhead. The drawn bench is the fallback.
+const BENCH_ART: String = "MG-PROP-BENCH"
+const BAR_ART: String = "MG-PROP-BARBELL"
+const PLATE_ART: Array[String] = ["MG-PROP-PLATE-01", "MG-PROP-PLATE-02", "MG-PROP-PLATE-03", "MG-PROP-PLATE-04"]
+## Where the rack's hooks hold the bar, as a share of the painted bench's height from its top.
+const HOOK_Y: float = 0.37
+
+
 func _draw_bench() -> void:
+	if UiArt.has(BENCH_ART) and UiArt.has(BAR_ART) and UiArt.has(PLATE_ART[0]):
+		_draw_painted_bench()
+		return
+	_draw_drawn_bench()
+
+
+func _draw_painted_bench() -> void:
+	var area: Vector2 = _bench.size
+	var bench: Texture2D = UiArt.texture(BENCH_ART)
+	var bench_h: float = area.y * 0.98
+	var bench_w: float = bench_h * float(bench.get_width()) / float(bench.get_height())
+	var bench_rect: Rect2 = Rect2(Vector2(area.x * 0.5 - bench_w * 0.5, area.y - bench_h), Vector2(bench_w, bench_h))
+	_bench.draw_texture_rect(bench, bench_rect, false)
+	var centre_x: float = area.x * 0.5
+	var k: float = bench_h / 546.0
+	var hook_y: float = bench_rect.position.y + bench_h * HOOK_Y
+	var bar_y: float = hook_y - _lift * 120.0 * k
+	if _hero != null:
+		var hero_height: float = bench_h * 0.5
+		var hero_size: Vector2 = Vector2(_hero.get_width(), _hero.get_height()) * (hero_height / float(_hero.get_height()))
+		_bench.draw_texture_rect(_hero, Rect2(Vector2(centre_x - hero_size.x * 0.5, area.y - hero_height - 6.0 * k - _lift * 8.0 * k), hero_size), false)
+	var bar: Texture2D = UiArt.texture(BAR_ART)
+	var bar_w: float = area.x * 0.98
+	var bar_h: float = bar_w * float(bar.get_height()) / float(bar.get_width())
+	var sleeve: float = bar_w * 0.5 * 0.86  # where the first plate sits on each end (the bar's collars)
+	for plate: int in range(RepsCardGame.STREAK_TO_WIN):
+		var shown: float = clampf(_plates - float(plate), 0.0, 1.0)
+		if shown <= 0.0:
+			continue
+		var side: float = -1.0 if plate % 2 == 0 else 1.0
+		var slot: int = plate / 2
+		var art: Texture2D = UiArt.texture(PLATE_ART[mini(slot, PLATE_ART.size() - 1)])
+		var height: float = (130.0 - float(slot) * 10.0) * k * float(art.get_height()) / 446.0 * (446.0 / (130.0 * 3.4))
+		height = 130.0 * k * float(art.get_height()) / 446.0
+		var width: float = height * float(art.get_width()) / float(art.get_height())
+		var x: float = centre_x + side * (sleeve - float(slot) * 22.0 * k - 46.0 * k + (1.0 - shown) * 70.0 * k)
+		_bench.draw_texture_rect(art, Rect2(Vector2(x - width * 0.5, bar_y - height * 0.5), Vector2(width, height)), false, Color(1, 1, 1, shown))
+	_bench.draw_texture_rect(bar, Rect2(Vector2(centre_x - bar_w * 0.5, bar_y - bar_h * 0.5), Vector2(bar_w, bar_h)), false)
+	if _lift > 0.6:
+		_bench.draw_string(UIStyle.font_title(), Vector2(centre_x - 150.0, 56.0), "LIFT!", HORIZONTAL_ALIGNMENT_CENTER, 300, 64, UIStyle.GOLD)
+
+
+## The drawn bench (before the painted pieces): two uprights, the bar with one plate per rep (alternating sides), the hero under it.
+func _draw_drawn_bench() -> void:
 	var area: Vector2 = _bench.size
 	var k: float = area.y / 420.0
 	var centre_x: float = area.x * 0.5

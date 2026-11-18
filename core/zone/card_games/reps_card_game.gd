@@ -1,8 +1,9 @@
 class_name RepsCardGame
 extends RefCounted
 ## Fable Nov 16b (Part 2): the Gainlands' card minigame, "Reps" - higher or lower. One unit card lies face up; guess whether the next
-## card's POWER is higher or lower (a tie counts as right either way). Eight right in a row wins the set; a miss drops the streak back
-## to nothing, and the fourth miss ends the set (three are allowed). Replaces the Rep Counter at Chet Thunderabs' studio; the rewards
+## card's POWER is higher or lower (a tie counts as right either way). Eight right wins the set; Overnight Nov 18 (the owner's answer to
+## inbox Nov 17 #8): a miss keeps the reps already done (it used to drop the streak to nothing), and the fourth miss ends the set (three
+## are allowed). Replaces the Rep Counter at Chet Thunderabs' studio; the rewards
 ## are the Rep Counter's (`RepGame.apply_result`). Pure rules: `RepsCardScreen` is the bench.
 ##
 ## The deal is friendly, not blind: after a low card the next one is more often higher, after a high card more often lower, and middling
@@ -118,8 +119,7 @@ func guess(higher: bool) -> bool:
 		streak += 1
 		best_streak = maxi(best_streak, streak)
 	else:
-		streak = 0
-		misses += 1
+		misses += 1  # the reps stay (owner, Nov 18)
 	return right
 
 

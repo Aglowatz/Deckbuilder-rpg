@@ -105,6 +105,12 @@ static func gull_flock() -> Node3D:
 
 ## An animated Cube Pets animal as a mount or an escaped animal: ("boar" | "goat" | "pig" | "raccoon").
 static func animal(kind: String) -> Node3D:
+	# Batch 17 (Nov 18): the escaped pig is the painted DUMP-PROP-PIG (it was a pink Cube Pets cube)
+	if kind == "pig" and EnvKit.has_art("DUMP-PROP-PIG"):
+		var pig: Node3D = TreeCards.make("dump_pig", 1.0, true)
+		if pig != null:
+			pig.name = "Pig"
+			return pig
 	var model: String = "animal-pig"
 	match kind:
 		"boar":

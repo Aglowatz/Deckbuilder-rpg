@@ -38,7 +38,8 @@ const LAYERS: Array[Array] = [[0.7, 4.0, 1.75, 0.8, 1.15], [4.0, 22.0, 2.5, 1.0,
 ## Trees nearer the table than this cast shadows.
 const SHADOW_RANGE: float = 9.0
 const TREE_KINDS: Array[String] = ["buff_broccoli", "buff_cauli", "buff_broccoli", "buff_broccoli", "buff_cauli"]
-const BOULDER_KINDS: Array[String] = ["buff_cakestand", "buff_cloche", "buff_pot", "buff_cakestand"]
+## Batch 17 (Nov 18): the giant fruit tart and the tall cake stand join the cloches and stock pots.
+const BOULDER_KINDS: Array[String] = ["buff_cakestand_tall", "buff_cloche", "buff_tart", "buff_pot", "buff_cakestand"]
 const STEAM_SPOTS: int = 8
 const LIGHT_PATCHES: int = 14
 

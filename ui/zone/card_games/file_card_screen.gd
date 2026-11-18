@@ -36,6 +36,28 @@ func game_name() -> String:
 	return "File in Order"
 
 
+## Batch 17 (Nov 18): the records office (MG-BG-FILING), the painted cabinet's seven drawers (MG-PROP-CABINET, one drawer under each
+## card) and the painted APPROVED / REJECTED stamps (MG-PROP-STAMP-*) for the win and the loss.
+func room_art() -> String:
+	return "MG-BG-FILING"
+
+
+const CABINET_ART: String = "MG-PROP-CABINET"
+const STAMP_ART: Dictionary = {"APPROVED": "MG-PROP-STAMP-APPROVED", "REJECTED": "MG-PROP-STAMP-REJECTED"}
+
+
+## Drawer `index` (of seven) cut from the painted cabinet strip, or null before the art is in.
+static func drawer_picture(index: int) -> Texture2D:
+	if not UiArt.has(CABINET_ART):
+		return null
+	var strip: Texture2D = UiArt.texture(CABINET_ART)
+	var cell: float = float(strip.get_width()) / float(FileCardGame.CARDS)
+	var atlas: AtlasTexture = AtlasTexture.new()
+	atlas.atlas = strip
+	atlas.region = Rect2(cell * float(index), 0.0, cell, float(strip.get_height()))
+	return atlas
+
+
 func backdrop_art() -> String:
 	return "LOAD-DNA"
 
@@ -77,6 +99,10 @@ func _build_table(box: VBoxContainer) -> void:
 	var steel: StyleBoxFlat = UIStyle.box(STEEL, STEEL_DARK, 6, 10, 8)
 	for side: String in ["left", "right", "top", "bottom"]:
 		steel.set("content_margin_" + side, 16.0)
+	if UiArt.has(CABINET_ART):
+		steel = UIStyle.box(Color(0.1, 0.11, 0.12, 0.55), Color(0.42, 0.36, 0.22), 3, 10, 8)
+		for side: String in ["left", "right", "top", "bottom"]:
+			steel.set("content_margin_" + side, 14.0)
 	cabinet.add_theme_stylebox_override("panel", steel)
 	box.add_child(cabinet)
 	var row: HBoxContainer = UIKit.hbox(12)
@@ -101,6 +127,15 @@ func _build_table(box: VBoxContainer) -> void:
 		drawer.custom_minimum_size = Vector2(0, 40)
 		drawer.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		drawer.add_theme_font_override("font", UIStyle.font_bold())
+		var painted_drawer: Texture2D = drawer_picture(index)
+		if painted_drawer != null:
+			var front: StyleBoxTexture = StyleBoxTexture.new()
+			front.texture = painted_drawer
+			drawer.add_theme_stylebox_override("normal", front)
+			drawer.custom_minimum_size = Vector2(0, CardView.SIZE.x * CARD_SCALE * 0.62)
+			drawer.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+			drawer.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.03, 0.95))
+			drawer.add_theme_constant_override("outline_size", 6)
 		column.add_child(drawer)
 		_drawers.append(drawer)
 	var legend: Label = UIKit.label("lowest cost  ◄                                                      ►  highest cost", &"", 20, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
@@ -158,7 +193,15 @@ func _refresh() -> void:
 			view.modulate = Color(1.0, 0.55, 0.5) if _marked.has(index) else (Color(1.0, 0.95, 0.72) if index == _selected else Color.WHITE)
 		var filed: bool = _filed.has(index)
 		_drawers[index].text = "%d  %s" % [index + 1, "FILED" if filed else "▬"]
-		_drawers[index].add_theme_stylebox_override("normal", UIStyle.box(Color("9fd0a0") if filed else Color("b9bec8"), STEEL_DARK, 2, 4))
+		var painted_drawer: Texture2D = drawer_picture(index)
+		if painted_drawer != null:
+			# the painted drawer; a filed one is shut and lit green, the label says FILED
+			var front: StyleBoxTexture = StyleBoxTexture.new()
+			front.texture = painted_drawer
+			front.modulate_color = Color(0.78, 1.15, 0.8) if filed else Color.WHITE
+			_drawers[index].add_theme_stylebox_override("normal", front)
+		else:
+			_drawers[index].add_theme_stylebox_override("normal", UIStyle.box(Color("9fd0a0") if filed else Color("b9bec8"), STEEL_DARK, 2, 4))
 	_stamp_button.disabled = _busy or game.is_over() or state != "playing"
 
 
@@ -283,6 +326,19 @@ func _thump(text: String, ink: Color) -> void:
 	_stamp_mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stamp_mark.z_index = 40
 	_stamp_mark.rotation_degrees = -9.0
+	if UiArt.has(str(STAMP_ART.get(text, ""))):
+		# the painted stamp; the label keeps its word (read by tests and the screen reader) but draws nothing
+		_stamp_mark.add_theme_color_override("font_color", Color(0, 0, 0, 0))
+		_stamp_mark.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0))
+		_stamp_mark.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		var art: TextureRect = TextureRect.new()
+		art.name = "StampArt"
+		art.texture = UiArt.texture(str(STAMP_ART[text]))
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_stamp_mark.add_child(art)
 	add_child(_stamp_mark)
 	_place_stamp()
 	_place_stamp.call_deferred()  # once more after the layout (a shot stamps in the frame the screen opens)

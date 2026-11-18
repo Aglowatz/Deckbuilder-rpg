@@ -30,6 +30,17 @@ func game_name() -> String:
 	return "Sort It Out"
 
 
+## Batch 17 (Nov 18): the fair's scrap-wood conveyor (MG-BG-CONVEYOR) and four painted crates (MG-PROP-BIN-01..04, red, blue, yellow,
+## purple) whose brass plaques carry the type icons the game draws on them.
+func room_art() -> String:
+	return "MG-BG-CONVEYOR"
+
+
+const BIN_ART: Array[String] = ["MG-PROP-BIN-01", "MG-PROP-BIN-02", "MG-PROP-BIN-03", "MG-PROP-BIN-04"]
+## The plaque's centre on the painted crate (share of its width and height).
+const PLAQUE_CENTRE: Vector2 = Vector2(0.5, 0.6)
+
+
 func backdrop_art() -> String:
 	return "LOAD-DUMP"
 
@@ -90,7 +101,16 @@ func _make_bin(bin: int) -> Button:
 	button.custom_minimum_size = BIN_SIZE
 	button.focus_mode = Control.FOCUS_ALL
 	var wood: Color = BIN_COLORS[bin]
+	var painted: bool = UiArt.has(BIN_ART[bin])
+	if painted:
+		button.custom_minimum_size = Vector2(BIN_SIZE.x, BIN_SIZE.x * 0.58)
 	for state_name: String in ["normal", "hover", "pressed", "disabled"]:
+		if painted:
+			var art: StyleBoxTexture = StyleBoxTexture.new()
+			art.texture = UiArt.texture(BIN_ART[bin])
+			art.modulate_color = Color(1.12, 1.1, 1.06) if state_name == "hover" else (Color(0.85, 0.85, 0.85) if state_name == "pressed" else (Color(0.6, 0.6, 0.6) if state_name == "disabled" else Color.WHITE))
+			button.add_theme_stylebox_override(state_name, art)
+			continue
 		var crate: StyleBoxFlat = UIStyle.box(wood.lightened(0.12) if state_name == "hover" else (wood.darkened(0.15) if state_name == "pressed" else wood), Color("3a2a1c"), 5, 10, 4)
 		crate.border_width_top = 12
 		button.add_theme_stylebox_override(state_name, crate)
@@ -112,6 +132,35 @@ func _make_bin(bin: int) -> Button:
 		types = [CardEnums.CardType.INFRASTRUCTURE]
 	elif bin == CardGamePool.Kind.OTHER:
 		types = [CardEnums.CardType.TOOL, CardEnums.CardType.TRAP, CardEnums.CardType.WONDER]
+	if painted:
+		# the icons sit on the crate's brass plaque; the name and key go on a tag under the crate
+		var plaque: Control = Control.new()
+		plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		plaque.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		button.add_child(plaque)
+		column.queue_free()
+		var on_plaque: HBoxContainer = UIKit.hbox(2)
+		on_plaque.alignment = BoxContainer.ALIGNMENT_CENTER
+		on_plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var size_now: Vector2 = button.custom_minimum_size
+		var span: float = size_now.y * 0.34
+		on_plaque.position = Vector2(size_now.x * PLAQUE_CENTRE.x - span * 0.75, size_now.y * PLAQUE_CENTRE.y - span * 0.5)
+		on_plaque.size = Vector2(span * 1.5, span)
+		plaque.add_child(on_plaque)
+		for type: CardEnums.CardType in types:
+			var icon: TextureRect = IconArt.rect(IconArt.type_id(type), span * (0.86 if types.size() == 1 else 0.44))
+			if icon != null:
+				icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				on_plaque.add_child(icon)
+		var tag: Label = UIKit.label("%s   %s" % [CardGamePool.KIND_NAMES[bin], BIN_KEYS[bin]], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		tag.add_theme_font_override("font", UIStyle.font_bold())
+		tag.add_theme_color_override("font_outline_color", Color(0.06, 0.03, 0.02, 0.95))
+		tag.add_theme_constant_override("outline_size", 6)
+		tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tag.position = Vector2(0, size_now.y * 0.06)
+		tag.size = Vector2(size_now.x, 30)
+		plaque.add_child(tag)
+		return button
 	for type: CardEnums.CardType in types:
 		var icon: TextureRect = IconArt.rect(IconArt.type_id(type), 46.0 if types.size() == 1 else 36.0)
 		if icon != null:

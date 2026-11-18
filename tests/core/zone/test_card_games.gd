@@ -76,7 +76,8 @@ func test_reps_a_tie_counts_as_right_either_way() -> void:
 	assert_eq(game.streak, 2)
 
 
-func test_reps_a_miss_resets_the_streak_and_the_fourth_miss_loses() -> void:
+## Overnight Nov 18 (owner, inbox Nov 17 #8): a miss keeps the reps already done.
+func test_reps_a_miss_keeps_the_reps_and_the_fourth_miss_loses() -> void:
 	var game: RepsCardGame = RepsCardGame.deal(CardGamePool.units(_content(), "beefcake"), _rng(11))
 	var right_first: int = 0
 	while right_first < 3:
@@ -93,7 +94,7 @@ func test_reps_a_miss_resets_the_streak_and_the_fourth_miss_loses() -> void:
 			continue
 		assert_false(game.guess(game.upcoming().attack < game.current().attack))
 		missed += 1
-		assert_eq(game.streak, 0, "a miss puts the streak back to nothing")
+		assert_eq(game.streak, 3, "a miss keeps the reps already done")
 		assert_false(game.is_lost(), "%d misses are allowed" % RepsCardGame.MISSES_ALLOWED)
 	while game.upcoming().attack == game.current().attack:
 		game.guess(true)

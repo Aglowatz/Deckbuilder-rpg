@@ -11,6 +11,10 @@ const WING_COLORS: Array[Color] = [Color("ffd27a"), Color("ff9db0"), Color("fff1
 var steam_count: int = 0
 var patch_count: int = 0
 var _wings: MultiMesh
+## Batch 17 (Nov 18): the painted fliers (BUFF-SHEET-FLIERS: four butterfly frames over four bird frames), one camera-facing sprite per
+## flier stepping through its frames; the dot wings are the fallback. Off on Low-end (nothing flies there).
+const FLIER_SHEET: String = "res://assets/art/zone_kits/buffet/BUFF-SHEET-FLIERS.webp"
+var _sprites: Array[Sprite3D] = []
 var _time: float = 0.0
 ## Per flier: [home (Vector3), radius, speed, phase, height swing, is a bird].
 var _fliers: Array[Array] = []
@@ -94,6 +98,9 @@ func _build_patches(shore: BuffetShore, rng: RandomNumberGenerator) -> void:
 
 ## Butterflies and birds: every wing is one instance of one MultiMesh (one draw call), moved each frame.
 func _build_fliers(shore: BuffetShore, rng: RandomNumberGenerator) -> void:
+	if ResourceLoader.exists(FLIER_SHEET):
+		_build_painted_fliers(shore, rng)
+		return
 	var wing: QuadMesh = QuadMesh.new()
 	wing.size = Vector2.ONE
 	wing.center_offset = Vector3(0.5, 0.0, 0.0)  # hinged at its inner edge
@@ -131,6 +138,38 @@ func _build_fliers(shore: BuffetShore, rng: RandomNumberGenerator) -> void:
 	_place_fliers()
 
 
+func _build_painted_fliers(shore: BuffetShore, rng: RandomNumberGenerator) -> void:
+	var sheet: Texture2D = load(FLIER_SHEET) as Texture2D
+	var holder: Node3D = Node3D.new()
+	holder.name = "Fliers"
+	holder.visible = not GraphicsQuality.low_end
+	add_child(holder)
+	for index: int in range(BUTTERFLIES + BIRDS):
+		var bird: bool = index >= BUTTERFLIES
+		var home: Vector3 = _spot(shore, rng, 4.0 if bird else 0.8, 40.0 if bird else 7.0)
+		home.y += rng.randf_range(9.0, 15.0) if bird else rng.randf_range(0.7, 2.2)
+		_fliers.append([home, rng.randf_range(7.0, 15.0) if bird else rng.randf_range(0.8, 2.4), (rng.randf_range(0.25, 0.4) if bird else rng.randf_range(0.5, 1.1)) * (1.0 if rng.randf() < 0.5 else -1.0), rng.randf() * TAU, rng.randf_range(0.2, 0.7), bird])
+		var sprite: Sprite3D = Sprite3D.new()
+		sprite.name = "Bird" if bird else "Butterfly"
+		sprite.texture = sheet
+		sprite.hframes = 4
+		sprite.vframes = 2
+		sprite.frame = 4 if bird else 0
+		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite.shaded = false
+		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
+		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		sprite.pixel_size = (1.3 if bird else 0.42) / (float(sheet.get_width()) / 4.0)
+		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		sprite.set_meta(StyleToon.META_NO_TOON, true)
+		sprite.set_meta(PaintedClasses.META_NO_PAINT, true)
+		sprite.set_meta(&"no_occlusion_fade", true)
+		sprite.set_meta(&"no_range_cull", true)
+		holder.add_child(sprite)
+		_sprites.append(sprite)
+	_place_fliers()
+
+
 func _process(delta: float) -> void:
 	_time += delta
 	_place_fliers()
@@ -154,6 +193,15 @@ func flier_count() -> int:
 
 
 func _place_fliers() -> void:
+	if not _sprites.is_empty():
+		if not (_sprites[0].get_parent() as Node3D).visible:
+			return
+		for index: int in range(_sprites.size()):
+			var bird_sprite: bool = bool(_fliers[index][5])
+			_sprites[index].position = flier_at(index)
+			var step: int = int(_time * (7.0 if bird_sprite else 12.0) + float(_fliers[index][3]) * 3.0) % 4
+			_sprites[index].frame = (4 if bird_sprite else 0) + step
+		return
 	if _wings == null:
 		return
 	for index: int in range(_fliers.size()):

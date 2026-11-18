@@ -314,8 +314,12 @@
 					"The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here."
 				],
 				[
+					"@set",
+					"rescuer_named"
+				],
+				[
 					"NPC-ELOWEN",
-					"Don't look so surprised. I told you somebody had to watch the door while you knocked it down."
+					"Don't look so surprised. Somebody had to watch the door while you knocked it down. {rescuer}. It's {rescuer}. I promised."
 				],
 				[
 					"NPC-PLUME",
@@ -328,10 +332,6 @@
 				[
 					"NPC-PLUME",
 					"Miss {rescuer_full}, I presume! Former junior Path-ologist, absent without leave, who removed one item of laboratory property that has been walking about ever since."
-				],
-				[
-					"@set",
-					"rescuer_named"
 				],
 				[
 					"NPC-PLUME",
@@ -347,7 +347,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that."
+					"{rescuer}. She told me her name with the guards already running at her, because she had promised me it would come first."
 				]
 			]
 		},
