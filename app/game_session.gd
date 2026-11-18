@@ -585,8 +585,14 @@ func craft_tri_card(paths: Array[Affinity.Type]) -> Alchemy.Result:
 		save_game()
 	return result
 
-## The copy cap of a card at the player's level (`CopyCaps`: at most 3, fewer for rarer cards until level-ups raise it).
+## How many copies of a card the player may OWN (Nov 18 evening, the owner's rule: 3 of every card at all times; basic infrastructure
+## unlimited). Packs, rewards and shops give real copies up to it; a 4th copy converts. The DECK limit is `deck_cap`.
 func copy_cap(card: CardData) -> int:
+	return CopyCaps.own_cap(card)
+
+
+## How many copies of a card may go in a deck at the player's level (`CopyCaps.for_card`: fewer for rarer cards until level-ups raise it).
+func deck_cap(card: CardData) -> int:
 	return CopyCaps.for_card(card, profile.level if profile != null else 1)
 
 
@@ -1393,7 +1399,7 @@ func migrate_infrastructure_caps() -> String:
 		var card: CardData = card_by_id(str(id))
 		if card == null or not card.is_infrastructure() or card.is_unlimited():
 			continue
-		var keep: int = mini(int(most_in_a_deck[id]), CopyCaps.for_card(card, profile.level))
+		var keep: int = mini(int(most_in_a_deck[id]), CopyCaps.own_cap(card))
 		while profile.owned_copies(card.id) < keep:
 			profile.owned_cards.append(card)
 			granted += 1
@@ -3236,6 +3242,16 @@ func make_town_battle(enemy_type: String, instance_id: String) -> BattleContext:
 
 ## The state changes of a finished outskirts duel (no scene change, so tests can run it): a win pays gold and XP, counts for the
 ## armory quest and puts the roamer down for a while; a loss costs nothing but the walk back (the town is a full heal).
+## Nov 18 evening (Part 3.2): a win over one of the area's ordinary roamers moves its "defeat three" quest, only while that quest is active
+## (so it starts at 0/3 when taken, whatever was beaten before).
+func note_defeat_three(zone_id: String, enemy_type: String, instance_id: String) -> void:
+	var spec: Dictionary = ZoneQuestDefinitions.defeat_three_for(zone_id)
+	if spec.is_empty() or not quest_log.is_active(str(spec["id"])):
+		return
+	if ZoneQuestDefinitions.is_ordinary(zone_id, enemy_type, instance_id):
+		bump_counter(ZoneQuestDefinitions.defeat_three_counter(zone_id))
+
+
 func resolve_town_battle(context: BattleContext) -> Dictionary:
 	var result: Dictionary = {"kind": "roamer", "won": context.won, "enemy": context.enemy_name}
 	if context.won:
@@ -3247,6 +3263,7 @@ func resolve_town_battle(context: BattleContext) -> Dictionary:
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("town_roamers_defeated")
+		note_defeat_three("town", context.town_roamer_type, context.town_roamer_id)
 		note_duel_won()
 	pending_town_result = result
 	save_game()
@@ -3343,6 +3360,7 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 		bump_counter("zone_enemies_defeated")
 		if zone_run.zone_id == DnaZone.ID and DnaZone.is_west_wing(str(context.zone_enemy_id)):
 			bump_counter(DnaZone.COUNTER_WEST_WING)  # Nov 18 day (Part 4.4): Kyle's "Hall Monitor"
+		note_defeat_three(zone_run.zone_id, str(context.zone_enemy_type), str(context.zone_enemy_id))
 		note_duel_won()
 		if zone_def().counter_enemies != "zone_enemies_defeated":
 			bump_counter(zone_def().counter_enemies)

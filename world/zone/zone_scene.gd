@@ -1031,6 +1031,10 @@ func _resolve_marker_spot(spot_id: String) -> Dictionary:
 		for enemy: ZoneEnemy in enemies:
 			if not is_instance_valid(enemy) or not enemy.is_inside_tree() or not enemy.visible or enemy.peaceful:
 				continue
+			# Nov 18 evening (Part 3.1): only the roamers a quest counts - duel foes of the area's everyday types; never the hazards that only
+			# hurt on contact (the D.N.A.'s couriers were marked for Kyle's Hall Monitor), the elites, bosses or blockers
+			if enemy.info == null or enemy.info.kind != ZoneEnemyInfo.Kind.BATTLE or not ZoneQuestDefinitions.is_ordinary(def.id, enemy.info.id, enemy.instance_id):
+				continue
 			if spot_id == QuestMarkers.SPOT_ROAMERS_WEST and not DnaZone.is_west_wing(enemy.instance_id):
 				continue
 			roamers.append({"pos": enemy.position, "top": 1.6, "title": enemy.info.display_name if enemy.info != null else "A roaming enemy", "key": enemy.instance_id})

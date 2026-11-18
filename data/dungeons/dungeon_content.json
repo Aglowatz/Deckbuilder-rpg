@@ -1861,6 +1861,66 @@
 		"quest.side_s_necro.done": [
 			"Now serving: you! Oh, I've always wanted to say that. Go back in whenever you like, only please leave my number where it is, because we've been through such a lot together."
 		],
+		"quest.gain_spot_check.offer": [
+			"Three of the regime's brutes and golems keep spotting my crew off the wheels. Beat three for me? I can't pay a hundred and ten percent, but a Gilded pack and some gold is a hundred, and a hundred is all of it."
+		],
+		"quest.gain_spot_check.active": [
+			"Three brutes or golems, out on the open ground. The sprites only bump into you and run off, so they don't count. They don't count for anything, really. Don't tell them."
+		],
+		"quest.gain_spot_check.ready": [
+			"Three! The crew's back on the wheels and nobody's being spotted without asking. Here's your Gilded pack and the gold. That's a fair rep."
+		],
+		"quest.gain_spot_check.done": [
+			"Quiet shift on the wheels since you came by. I counted my crew twice. Same number both times, which is new."
+		],
+		"quest.buf_leftovers.offer": [
+			"The roaming dishes have gone right off the menu, and they're chasing the staff! Could you send three back to the kitchen? I'd do it, only I'm a fetcher, not a fighter, and I'm late."
+		],
+		"quest.buf_leftovers.active": [
+			"Three of the meatloaf golems or the gelatin sentinels, please. The meatballs just roll into you and roll off again, so they don't count. They're past their sell-by date, the lot of them."
+		],
+		"quest.buf_leftovers.ready": [
+			"Three sent back! Chef will be thrilled, or at least less on fire. Here's a Gilded pack, and gold, and I'm only slightly late giving it to you."
+		],
+		"quest.buf_leftovers.done": [
+			"The dishes are behaving now, mostly. One jelly wobbled at me this morning, but I think that was friendly."
+		],
+		"quest.heap_pest_control.offer": [
+			"The golems and scarecrows out on the heaps keep scaring my animals half to death, and they're already half compost. See off three of them? Waste not, want not, beat three."
+		],
+		"quest.heap_pest_control.active": [
+			"Three golems or scarecrows, out in the fields and on the heaps. The gull flocks just dive and squawk, so don't bother with those. Nobody's ever beaten a gull. You only outlast them."
+		],
+		"quest.heap_pest_control.ready": [
+			"Three seen off! The goat's eating again, and the pig's stopped hiding in the trough. Here's a Gilded pack and some coin, from me and the animals."
+		],
+		"quest.heap_pest_control.done": [
+			"Pens are calm. The raccoon's drawn up a contract thanking you. I wouldn't sign it."
+		],
+		"quest.cap_patrol_thinning.offer": [
+			"Too many patrols on my streets, and they've started reading my chalk marks. Beat three and the resistance owes you a Gilded pack. We don't have much, but we have that."
+		],
+		"quest.cap_patrol_thinning.active": [
+			"Three patrols: officers, inspectors, rift wretches. The Tidy-Bots and the shard swarms just clip you and buzz off, so don't count on them. I don't count on anything. That's why I'm alive."
+		],
+		"quest.cap_patrol_thinning.ready": [
+			"Three down and my chalk's still on the walls. Here's the pack, and gold we definitely didn't lift from a tax office."
+		],
+		"quest.cap_patrol_thinning.done": [
+			"Patrols are thinner, and I'm walking the long way round for fun now. Don't tell anyone a scout has fun."
+		],
+		"quest.town_outskirts_watch.offer": [
+			"Something's prowling the outskirts lanes and frightening my travellers: a hound, a lost clerk, a raccoon with ideas. Beat three of them for me? They come back, so you'll get your chances."
+		],
+		"quest.town_outskirts_watch.active": [
+			"Three of the outskirts roamers: the hound on the north lane, the clerk on the west road, the raccoon down by the harbour. Bring nobody home who doesn't want to come."
+		],
+		"quest.town_outskirts_watch.ready": [
+			"Three. The lanes are quiet and my notebook's got no new frights in it. Here's a Gilded pack and some coin. Don't spend it all at once. Spend it in twos."
+		],
+		"quest.town_outskirts_watch.done": [
+			"Lanes are calm. I wrote your name in the notebook twice: once for coming home, and once for keeping it that way."
+		],
 		"quest.side_s_ref.offer": [
 			"I don't like to trouble you, but SOMEBODY has been eating ALL the compost. There are little paw prints all round the bin, and lying next to it I found... well, I found a tiny crown.",
 			"If you chase off two of the scavengers in the Dump, their trail should lead you to the big dumpster. Do be gentle with them, please, because they're only hungry. They are also GUILTY."

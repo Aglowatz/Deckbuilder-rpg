@@ -187,7 +187,7 @@ static func reward_lines(current: LevelData, previous: LevelData, primary: Affin
 	if current.reward_deck_expansion and previous != null:
 		lines.append("Deck Station: %d to %d deck slots." % [previous.deck_slots, current.deck_slots])
 	for raise: Dictionary in current.copy_cap_raises:
-		lines.append("%s cards: up to %d copies." % [CopyCaps.rarity_name(int(raise["rarity"]) as CardEnums.Rarity), int(raise["cap"])])
+		lines.append("%s cards: up to %d copies in a deck." % [CopyCaps.rarity_name(int(raise["rarity"]) as CardEnums.Rarity), int(raise["cap"])])
 	# Fix pass Nov 4 (Part 3.1): no equipment lines at a level-up - equipment opens with its quest (Some Assembly Required), and any piece
 	# may be worn in its slot whatever its rarity (the level-based rarity caps were dropped).
 	if previous != null:

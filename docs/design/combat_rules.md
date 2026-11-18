@@ -172,9 +172,14 @@ encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterReward
 - **Copy caps** (Overnight Oct 17, `CopyCaps`, data in `data/progression/level_track.json`): never more than **3 copies**
   of any non-infrastructure card. Rarer cards start lower and level-ups raise their caps toward 3:
   Common 3; Uncommon 2 (3 at level 9); Epic 1 (2 at level 12, 3 at level 22); Legendary 1 (2 at level 18, 3 at
-  level 30). The same cap rules the collection, the shop, packs and rewards (a copy over the cap converts into Path
-  essence, or gold for a neutral card), the deck builder and saved decks. **Basic Infrastructure is unlimited; since Nov 18 every other Infrastructure card is collected and capped like any card of its rarity.**
-  Old saves: copies over the cap convert on load and saved decks drop the extra copies.
+  level 30). These are **deck limits**: the deck builder and saved decks follow them.
+  **Owning (Nov 18 evening, the owner's rule): 3 copies of every card at all times** (`CopyCaps.own_cap`). The shop sells, and packs
+  and rewards give, real copies up to 3 at any level; only a 4th copy and beyond converts into Path essence (or gold for a neutral
+  card). Buying a copy past the current deck limit asks first ("You can only use 1 copy of X in a deck right now. You'll be able to
+  use 2 at level 12 and 3 at level 22. Buy anyway?" - `CopyCaps.buy_notice`, Buy / Cancel); the Deck Station shows "Deck 1/1 · Own 3"
+  with a hover note ("2 more usable at level 22"). **Basic Infrastructure is unlimited; since Nov 18 every other Infrastructure card
+  is collected like any card of its rarity.**
+  Old saves: copies owned over 3 convert on load and saved decks drop the copies over the deck limit.
 
 ## Starting deck (Rebalance Part D, Oct 18 2026)
 

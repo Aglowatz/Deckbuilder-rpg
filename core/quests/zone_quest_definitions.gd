@@ -105,12 +105,14 @@ static func _add_parts(quest: QuestData) -> void:
 				quest.objectives[0].part(kind_item, BuffetZone.ID, "pickup_" + ingredient_id, str(BuffetZone.INGREDIENTS[ingredient_id]), Condition.counter(BuffetZone.stock_key(ingredient_id), 1))
 		HALL_MONITOR:
 			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS_WEST, "Roaming staff in the west wing")
+		"gain_spot_check", "buf_leftovers", "heap_pest_control", "cap_patrol_thinning", "town_outskirts_watch":
+			quest.objectives[0].part(kind_battle, quest.giver_area, QuestMarkers.SPOT_ROAMERS, "A roamer that counts (any)")
 		BACKLOG:
 			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming staff (any)")
 		AUDIT:
 			quest.objectives[1].part(kind_spot, DnaZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
 		GainlandsZone.QUEST_LANES:
-			quest.objectives[0].part(kind_battle, GainlandsZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming brutes, golems and sprites (any)")
+			quest.objectives[0].part(kind_battle, GainlandsZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming brutes and golems (any)")
 		HeapZone.QUEST_HERD:
 			for number: int in range(1, HeapGrowth.ESCAPED_ANIMALS + 1):
 				quest.objectives[0].part(kind_spot, HeapZone.ID, "animal_%d" % number, "An escaped animal")
@@ -143,7 +145,85 @@ static func favours_of(zone_id: String) -> Array[String]:
 
 
 static func _build_unpacked() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _hall_monitor(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests() + side_quests()
+	return [_backlog(), _onboarding(), _audit(), _hall_monitor(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests() + side_quests() + defeat_three_quests()
+
+
+# ---- Nov 18 evening (Part 3): "defeat three" in every zone -------------------------------------------------------------------------
+
+## A quest like Kyle's "Hall Monitor" in every zone with roaming enemies (the D.N.A.'s is Kyle's own; Crosspath's outskirts have three
+## roamers, so it has one too; the Opening Forest has none): beat three of the area's ORDINARY roamers - not the hazards that only hurt on
+## contact (sprites, meatballs, gulls, Tidy-Bots, shard swarms, couriers), not the elites or bosses (Colonel Casserole, Captain Spotless, the
+## foes that block a way). The count starts at 0/3 when the quest is taken (`defeat_three_counter` only moves while it is active), the map,
+## the minimap and the world mark only those roamers (`is_ordinary`). Reward: a Gilded pack (the zone's Path; a General gilded pack in the
+## Capital and Crosspath) plus gold and experience on Hall Monitor's scale for the zone's level. One time only; a side quest.
+const DEFEAT_THREE: Dictionary = {
+	"beefcake": {"id": "gain_spot_check", "title": "Spot Check", "spot": "gus", "pack": "gilded_beefcake", "gold": 150, "xp": 50, "order": 236,
+		"step": "Beat roaming brutes and golems in the Gainlands", "where": "Brutes and golems roam the open ground (the sprites only bump into you)",
+		"summary": "The regime's brutes and golems keep 'spotting' Foreman Gus's crew off the wheels. Beat three of them."},
+	"gourmand": {"id": "buf_leftovers", "title": "Leftovers", "spot": "tarragon", "pack": "gilded_gourmand", "gold": 260, "xp": 100, "order": 336,
+		"step": "Beat roaming meatloaf golems and gelatin sentinels in the Buffet", "where": "Meatloaf golems and gelatin sentinels roam the Buffet (the meatballs only roll into you)",
+		"summary": "The roaming dishes have gone off the menu and are chasing the staff. Send three of them back to the kitchen for Sous-Chef Tarragon."},
+	"refusemancer": {"id": "heap_pest_control", "title": "Pest Control", "spot": "wren", "pack": "gilded_refusemancer", "gold": 300, "xp": 115, "order": 436,
+		"step": "Beat roaming trash golems and scarecrows in the Dump", "where": "Trash golems and scarecrows roam the fields and heaps (the gull flocks only dive at you)",
+		"summary": "The Dump's golems and scarecrows keep frightening Billie Muckfoot's animals. See off three of them."},
+	"final": {"id": "cap_patrol_thinning", "title": "Thin the Patrols", "spot": "kestrel", "pack": "gilded_general", "gold": 350, "xp": 135, "order": 536,
+		"step": "Beat roaming officers, inspectors and rift wretches in the Capital", "where": "Correction Officers, Perfection Inspectors and Rift Wretches patrol the Capital (Tidy-Bots and shard swarms only clip you)",
+		"summary": "Too many patrols on Kestrel's streets, and they have started reading her chalk marks. Beat three of them."},
+	"town": {"id": "town_outskirts_watch", "title": "Outskirts Watch", "spot": "guard", "pack": "gilded_general", "gold": 90, "xp": 35, "order": 96,
+		"step": "Beat roamers on Crosspath's outskirts", "where": "A hound on the north lane, a lost clerk on the west road, a raccoon by the harbour (they come back after a while)",
+		"summary": "Something keeps frightening travellers on Crosspath's outskirts lanes. Gatekeeper Brannoch wants three of the roamers seen off."},
+}
+## The ordinary roaming enemies of each area (the ones "defeat three" quests count and mark).
+const ORDINARY_ROAMERS: Dictionary = {
+	"beefcake": ["brute", "golem"], "necrocrat": ["manager", "intern"], "gourmand": ["loaf", "jelly"], "refusemancer": ["golem", "scarecrow"],
+	"final": ["officer", "inspector", "wretch"], "town": ["hound", "clerk", "raccoon"],
+}
+const DEFEAT_THREE_GIVERS: Dictionary = {
+	"beefcake": GainlandsZone.NPC_GUS, "gourmand": BuffetZone.NPC_TARRAGON, "refusemancer": HeapZone.NPC_WREN, "final": CapitalZone.NPC_KESTREL, "town": QuestDefinitions.BRANNOCH,
+}
+
+
+## The "defeat three" quest of a zone ({} for none; the D.N.A.'s is Kyle's Hall Monitor).
+static func defeat_three_for(zone_id: String) -> Dictionary:
+	return DEFEAT_THREE.get(zone_id, {}) as Dictionary
+
+
+static func defeat_three_counter(zone_id: String) -> String:
+	return "defeat3:%s" % zone_id
+
+
+## True for an ordinary roamer of the area: a duel foe of its everyday types, not a hazard, an elite, a boss or a foe that blocks a way.
+static func is_ordinary(zone_id: String, enemy_type: String, instance_id: String = "") -> bool:
+	if not (ORDINARY_ROAMERS.get(zone_id, []) as Array).has(enemy_type):
+		return false
+	return instance_id == "" or BossBlockers.flag_for(zone_id, instance_id) == &""
+
+
+static func defeat_three_quests() -> Array[QuestData]:
+	var quests: Array[QuestData] = []
+	for zone_id: String in DEFEAT_THREE.keys():
+		var spec: Dictionary = DEFEAT_THREE[zone_id]
+		var quest: QuestData = QuestData.new()
+		quest.id = str(spec["id"])
+		quest.order = int(spec["order"])
+		quest.title = str(spec["title"])
+		quest.summary = str(spec["summary"])
+		quest.giver_npc = str(DEFEAT_THREE_GIVERS[zone_id])
+		quest.turn_in_npc = quest.giver_npc
+		quest.giver_area = zone_id
+		quest.giver_spot = str(spec["spot"])
+		quest.turn_in_area = zone_id
+		quest.turn_in_spot = quest.giver_spot
+		var step: QuestObjective = QuestObjective.make(str(spec["step"]), Condition.counter(defeat_three_counter(zone_id), 3))
+		step.at(QuestObjective.TargetKind.BATTLE, zone_id, "", str(spec["where"]))
+		quest.objectives = [step] as Array[QuestObjective]
+		quest.reward_gold = int(spec["gold"])
+		quest.reward_xp = int(spec["xp"])
+		quest.reward_pack_ids = [str(spec["pack"])] as Array[String]
+		if zone_id == "town":
+			quest.prerequisite = QuestDefinitions.story_gate()  # after Maren's welcome: the first hour keeps its errands
+		quests.append(quest)
+	return quests
 
 
 static func _backlog() -> QuestData:

@@ -186,7 +186,7 @@
 			"landmarks": false,
 			"tint": "9aa6a0",
 			"cool": "66776f",
-			"haze_scale": 1.1,
+			"haze_scale": 2.4,
 			"cool_scale": 1,
 			"brightness": 0.9,
 			"apron": {
@@ -206,32 +206,32 @@
 					"id": "DNA-BD-TOWERS",
 					"angle": 0,
 					"width": 96,
-					"ring": 1,
-					"distance": 0.86,
+					"ring": 0,
+					"distance": 0.97,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 90,
 					"width": 96,
-					"ring": 1,
-					"distance": 0.86,
+					"ring": 0,
+					"distance": 0.97,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 180,
 					"width": 96,
-					"ring": 1,
-					"distance": 0.86,
+					"ring": 0,
+					"distance": 0.97,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 270,
 					"width": 96,
-					"ring": 1,
-					"distance": 0.86,
+					"ring": 0,
+					"distance": 0.97,
 					"lift": 0
 				},
 				{

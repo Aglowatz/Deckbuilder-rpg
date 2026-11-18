@@ -937,8 +937,12 @@ func _refresh() -> void:
 			label.text = "In deck: %d" % in_deck
 		else:
 			# Cards Oct 27, Part 3: "NEW" until the station is next closed (Session.new_cards: the cards that joined the collection since).
-			label.text = ("NEW  %s  Own %d" if Session.new_cards.has(str(id)) else "Deck %s  Own %d") % [editor.cap_text(card), editor.owned(card)]  # Nov 16b: the NEW line fits the narrower tile
+			label.text = ("NEW  %s · Own %d" if Session.new_cards.has(str(id)) else "Deck %s · Own %d") % [editor.cap_text(card), editor.owned(card)]  # Nov 16b: the NEW line fits the narrower tile
 			label.add_theme_color_override("font_color", UIStyle.GOLD if Session.new_cards.has(str(id)) else UIStyle.PARCHMENT)
+			# Nov 18 evening (Part 2.4): copies owned past the deck limit say when they become usable
+			var later: String = CopyCaps.more_usable_note(card, editor.profile.level, editor.owned(card))
+			label.tooltip_text = (later[0].to_upper() + later.substr(1)) if not later.is_empty() else ""
+			label.mouse_filter = Control.MOUSE_FILTER_PASS if not later.is_empty() else Control.MOUSE_FILTER_IGNORE
 		var view: CardView = _dim_by_id[id] as CardView
 		view.modulate = Color(1, 1, 1, 1) if in_deck > 0 or card.is_basic else Color(0.82, 0.82, 0.86, 1)
 	_rebuild_list()

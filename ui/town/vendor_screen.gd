@@ -243,7 +243,7 @@ func _refresh() -> void:
 			IconArt.set_price_text(price_label, "Max")
 		var affordable: bool = Session.gold >= price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if affordable and for_sale else (Color("e06a5a") if for_sale else UIStyle.MUTED))
-		(_owned_labels[id] as Label).text = "Own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level)
+		(_owned_labels[id] as Label).text = "Own %s" % CopyCaps.own_ratio_text(owned, card)  # Nov 18 evening: owning is 3 of every card
 
 
 func _ask_to_buy(card: CardData) -> void:
@@ -254,7 +254,7 @@ func _ask_to_buy(card: CardData) -> void:
 	var owned: int = Session.owned_count(card.id)
 	if not CardPricing.is_for_sale(card, owned, Session.copy_cap(card)):
 		Audio.sfx(&"ui_error", -4.0)
-		_say("You own %s. %s" % [CopyCaps.ratio_text(owned, card, Session.profile.level), CopyCaps.reason(card, Session.profile.level)], Color("ffcf70"))
+		_say("You own %s. %d copies is the most you can own of one card." % [CopyCaps.own_ratio_text(owned, card), CopyCaps.absolute_max()], Color("ffcf70"))
 		return
 	var price: int = Session.effective_price(CardPricing.price(card))
 	if Session.gold < price:
@@ -262,12 +262,37 @@ func _ask_to_buy(card: CardData) -> void:
 		_say("Not enough gold: %s costs %d." % [card.display_name, price], Color("ff8a85"))
 		vendor_react("poor")
 		return
-	var dialog: ConfirmDialog = ConfirmDialog.ask(
-		self, "Buy %s?" % card.display_name,
-		"%d gold for one copy. You own %d and will have %d gold left. \nIt goes to your collection: add it to a deck at the Deck Station (B)." % [price, owned, Session.gold - price],
-		"Buy", "Not now",
-	)
+	# Nov 18 evening (Part 2.3): a copy past what the player may put in a deck right now asks first, with the real levels of the deck limit
+	var notice: String = CopyCaps.buy_notice(card, Session.profile.level, owned + 1)
+	var dialog: ConfirmDialog
+	if not notice.is_empty():
+		dialog = ConfirmDialog.ask(self, "Buy %s anyway?" % card.display_name, "%s\n\n%d gold for one copy. You own %d and will have %d gold left." % [notice, price, owned, Session.gold - price], "Buy", "Cancel")
+	else:
+		dialog = ConfirmDialog.ask(
+			self, "Buy %s?" % card.display_name,
+			"%d gold for one copy. You own %d and will have %d gold left. \nIt goes to your collection: add it to a deck at the Deck Station (B)." % [price, owned, Session.gold - price],
+			"Buy", "Not now",
+		)
+	last_notice = notice
 	dialog.confirmed.connect(func() -> void: _buy(card))
+
+
+## Nov 18 evening (shot `--open=vendor_notice`): asks to buy a card of the stock whose deck limit is below 3 after giving the hero that
+## many copies, so the "can't use it yet" notice shows.
+func ask_notice_for_shot() -> void:
+	for id: Variant in _cards.keys():
+		var card: CardData = _cards[id] as CardData
+		if bool(_locked.get(id, false)) or card.is_unlimited() or CopyCaps.for_card(card, Session.profile.level) >= CopyCaps.absolute_max():
+			continue
+		while Session.owned_count(card.id) < CopyCaps.for_card(card, Session.profile.level):
+			Session.add_cards([card] as Array[CardData])
+		_refresh()
+		_ask_to_buy(card)
+		return
+
+
+## Nov 18 evening: the "can't use it yet" notice the last purchase asked with ("" for a plain confirm) - the tests read it.
+var last_notice: String = ""
 
 
 func _buy(card: CardData) -> void:

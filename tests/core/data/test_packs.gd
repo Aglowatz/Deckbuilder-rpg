@@ -52,7 +52,7 @@ func test_every_pack_type_exists_as_data() -> void:
 		assert_not_null(PackCatalog.gilded_pack(path), "gilded pack %s" % Affinity.display_name(path))
 	for pack_id: String in [PackRules.PRISMATIC_ID, PackRules.GENERAL_1_ID, PackRules.GENERAL_2_ID]:
 		_pack(pack_id)
-	assert_eq(PackCatalog.all().size(), 11)
+	assert_eq(PackCatalog.all().size(), 12)  # Nov 18 evening: + the Gilded General Pack (a quest reward, never sold)
 	assert_eq(_pack(PackRules.GENERAL_1_ID).card_count, 3, "default pack size is 3")
 
 

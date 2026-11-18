@@ -62,9 +62,10 @@ func test_reason_names_the_rarity_and_the_next_raise() -> void:
 
 func test_collection_keeps_up_to_the_cap_and_converts_the_rest() -> void:
 	var epic: CardData = _card("epic_y", E)
-	Session.add_cards([epic, epic] as Array[CardData])
-	assert_eq(Session.owned_count(epic.id), 1, "an Epic is capped at 1 at level 1")
-	assert_eq(Session.profile.essence_of(A), Essence.value_for(E), "the second copy became essence")
+	# Nov 18 evening: owning is 3 of every card at any level; a 4th converts (the deck limit is separate)
+	Session.add_cards([epic, epic, epic, epic] as Array[CardData])
+	assert_eq(Session.owned_count(epic.id), 3, "3 Epics owned at level 1")
+	assert_eq(Session.profile.essence_of(A), Essence.value_for(E), "the 4th copy became essence")
 	var common: CardData = _card("common_y", C)
 	Session.add_cards([common, common, common, common] as Array[CardData])
 	assert_eq(Session.owned_count(common.id), 3, "never more than 3")
@@ -72,19 +73,18 @@ func test_collection_keeps_up_to_the_cap_and_converts_the_rest() -> void:
 
 func test_cap_rises_with_level_for_new_copies() -> void:
 	var epic: CardData = _card("epic_z", E)
-	Session.add_cards([epic] as Array[CardData])
-	assert_true(Session.at_copy_cap(epic))
+	assert_eq(Session.deck_cap(epic), 1, "the deck limit at level 1")
 	var raise: Dictionary = CopyCaps.next_raise(E, 1)
 	Session.profile.level = int(raise["level"])
-	assert_false(Session.at_copy_cap(epic))
-	Session.add_cards([epic] as Array[CardData])
-	assert_eq(Session.owned_count(epic.id), 2)
+	assert_eq(Session.deck_cap(epic), int(raise["cap"]), "rises with the level")
+	assert_eq(Session.copy_cap(epic), 3, "owning stays 3 (Nov 18 evening)")
 
 
 func test_shop_stops_selling_at_the_cap() -> void:
 	var uncommon: CardData = _card("unc_s", U)
 	assert_true(CardPricing.is_for_sale(uncommon, 1, Session.copy_cap(uncommon)))
-	assert_false(CardPricing.is_for_sale(uncommon, 2, Session.copy_cap(uncommon)), "an Uncommon stops at 2 at level 1")
+	assert_true(CardPricing.is_for_sale(uncommon, 2, Session.copy_cap(uncommon)), "a 3rd Uncommon is sold at level 1 (Nov 18 evening)")
+	assert_false(CardPricing.is_for_sale(uncommon, 3, Session.copy_cap(uncommon)), "never a 4th")
 	assert_false(CardPricing.is_for_sale(_card("com_s", C), 3, 3))
 
 
@@ -145,8 +145,8 @@ func test_save_migration_converts_owned_extras_and_trims_saved_decks() -> void:
 		Session.deck.cards.append(Session.card_by_id(id))
 	var data: Dictionary = Session.to_dict()
 	assert_true(Session.from_dict(data))
-	assert_eq(Session.owned_count(real.id), 1, "4 old copies of an Epic become 1 owned")
-	assert_eq(Session.profile.essence_of(real.paths()[0]), mini(3 * Essence.value_for(E), Alchemy.ESSENCE_CAP_PER_PATH), "converted, up to the 18 cap (Fix pass Nov 4 (B))")
+	assert_eq(Session.owned_count(real.id), 3, "4 old copies of an Epic become 3 owned (Nov 18 evening: own 3 of any card)")
+	assert_eq(Session.profile.essence_of(real.paths()[0]), mini(1 * Essence.value_for(E), Alchemy.ESSENCE_CAP_PER_PATH), "the 4th converted")
 	assert_eq(Session.deck.count_of(real.id), 1, "the active deck was trimmed")
 	assert_gte(Session.deck.size(), DeckValidator.MIN_DECK_SIZE, "and topped back up with infrastructure")
 	assert_true(Session.town_notice.contains("Copy caps"), Session.town_notice)

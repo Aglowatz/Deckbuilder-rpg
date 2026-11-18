@@ -110,6 +110,8 @@ func _collect_generated() -> void:
 		_generated[str(ArenaDefs.flag_name(encounter.id))] = "ArenaDefs.flag_name (bout won)"
 	for barricade: HeapGrowth.Barricade in HeapGrowth.barricades():
 		_generated[str(barricade.flag)] = "HeapGrowth barricade smashed"
+	for zone_id: String in ZoneQuestDefinitions.DEFEAT_THREE.keys():
+		_generated[ZoneQuestDefinitions.defeat_three_counter(zone_id)] = "ZoneQuestDefinitions.defeat_three_counter (GameSession.note_defeat_three)"
 	for chest_id: String in NinjaBoss.CHEST_IDS:
 		_generated[NinjaBoss.secret_id(chest_id)] = "NinjaBoss.secret_id (Session.open_giant_chest)"
 	for zone_id: String in ZoneDefs.all_ids():

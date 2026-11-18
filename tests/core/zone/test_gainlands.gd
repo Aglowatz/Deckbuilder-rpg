@@ -300,8 +300,8 @@ func test_hub_has_a_heal_spot_vendor_npcs_and_quests() -> void:
 			assert_true(def.quest_npc_names.has(quest.giver_npc), "%s is given by a hub NPC" % quest.id)
 			assert_eq(quest.giver_npc, quest.turn_in_npc)
 			for suffix: String in ["offer", "active", "ready", "done"]:
-				assert_true(story.lines.has("quest.%s.%s" % [quest.id, suffix]), "%s.%s dialogue exists" % [quest.id, suffix])
-	assert_between(zone_quests, 2, 3)
+				assert_true(story.lines.has("quest.%s.%s" % [quest.id, suffix]) or DungeonCatalog.has_text("quest.%s.%s" % [quest.id, suffix]), "%s.%s dialogue exists" % [quest.id, suffix])
+	assert_between(zone_quests, 2, 4)  # Nov 18 evening: + Foreman Gus's Spot Check
 
 
 func test_main_dungeon_signs_name_the_house_of_gains() -> void:

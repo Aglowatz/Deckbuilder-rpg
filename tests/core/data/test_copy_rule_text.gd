@@ -30,8 +30,8 @@ func test_no_text_says_four_copies() -> void:
 
 func test_the_rule_names_three_and_the_real_caps() -> void:
 	assert_eq(CopyCaps.absolute_max(), 3)
-	assert_eq(CopyCaps.RULE, "You can have up to 3 copies of any one card, depending on your level.")
-	assert_eq(CopyCaps.rule_text(1), "%s At level 1: Common 3, Uncommon 2, Epic 1, Legendary 1. Basic infrastructure has no limit." % CopyCaps.RULE)
+	assert_eq(CopyCaps.RULE, "You can own up to 3 copies of any card. How many you can put in a deck depends on its rarity and your level.")  # Nov 18 evening
+	assert_eq(CopyCaps.rule_text(1), "%s Deck limits at level 1: Common 3, Uncommon 2, Epic 1, Legendary 1. Basic infrastructure has no limit." % CopyCaps.RULE)
 	assert_string_contains(CopyCaps.rule_text(30), "Common 3, Uncommon 3, Epic 3, Legendary 3")
 	for level: int in range(1, 31):
 		for rarity: int in range(CardEnums.Rarity.size()):

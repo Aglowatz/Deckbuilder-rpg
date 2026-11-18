@@ -3378,6 +3378,14 @@ func _screenshot_open(what: String) -> void:
 		Session.profile.add_pack(pack_id, 1)
 		PackOpeningScreen.open_from_inventory(_overlay_layer, pack_id)
 		return
+	if what == "vendor_notice":
+		# Nov 18 evening (Part 2.3 shot): the card vendor asking before selling a copy the hero can't put in a deck yet
+		Session.add_gold(3000)
+		var shop: VendorScreen = _new_card_vendor_screen()
+		_open_overlay(shop)
+		shop.closed.connect(_close_overlay)
+		get_tree().create_timer(0.9).timeout.connect(shop.ask_notice_for_shot)
+		return
 	if what == "packs_all":
 		# Fable Nov 15 (Part 4b shots): the Card Packs page with one of every pack on the shelf (every medallion and wrapper)
 		for pack: PackData in PackCatalog.all():
@@ -3436,7 +3444,7 @@ func _screenshot_open(what: String) -> void:
 				for number: int in range(1, 12):
 					var full_card: CardData = Session.content.card("%s-%02d" % [prefix, number])
 					if full_card != null and not full_card.is_token and Session.card_available(full_card):
-						for _copy: int in range(mini(2, Session.copy_cap(full_card))):
+						for _copy: int in range(mini(2, Session.deck_cap(full_card))):
 							full_ids.append(full_card.id)
 							full_cards.append(full_card)
 			Session.add_cards(full_cards)

@@ -6,9 +6,9 @@
 
 hint | You activate an Infrastructure to gain one energy of its Path. Playing a card exhausts the Infrastructure that paid for it.
 hint | You may play one Infrastructure per turn, so it pays to decide early which Paths your deck leans on.
-hint | A deck needs at least 45 cards. You can have up to 3 copies of any one card, depending on your level. Infrastructure has no limit.
+hint | A deck needs at least 45 cards. You can own up to 3 copies of any card. How many you can put in a deck depends on its rarity and your level. Basic Infrastructure has no limit.
 hint | Start with one Path; free your first zone to use two. Multi-Path cards count as both Paths. All Paths may mix after Primm falls.
-hint | Every copy of a card beyond the number you may hold turns into essence of its Path, and Auntie Alembic can brew essence into new cards.
+hint | A fourth copy of a card turns into essence of its Path, and Auntie Alembic can brew essence into new cards.
 hint | You can save anywhere except in a battle or a dungeon, and the autosave looks after the rest.
 hint | Hover a card to zoom in and read its effects. A lot of fights are decided by the small print.
 hint | Traps are played face-down and spring on their own. You can only have three set at a time.

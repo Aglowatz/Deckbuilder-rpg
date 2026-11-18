@@ -93,16 +93,16 @@ func test_an_old_save_keeps_the_copies_its_decks_use() -> void:
 	Session.deck_box.set_cards(Session.deck_box.active, ids)
 	var notice: String = Session.migrate_infrastructure_caps()
 	assert_ne(notice, "", "the town says what happened")
-	assert_eq(Session.profile.owned_copies("INF-01"), 2, "kept up to the Uncommon cap")
-	assert_eq(Session.profile.owned_copies("INF-05"), 1, "kept up to the Epic cap")
+	assert_eq(Session.profile.owned_copies("INF-01"), 3, "kept up to the ownership cap of 3 (Nov 18 evening)")
+	assert_eq(Session.profile.owned_copies("INF-05"), 2, "the two its deck uses")
 	Session.enforce_copy_caps()
 	var counts: Dictionary = {}
 	for id: String in Session.deck_box.decks[Session.deck_box.active].card_ids:
 		counts[id] = int(counts.get(id, 0)) + 1
-	assert_eq(int(counts.get("INF-01", 0)), 2, "the deck trimmed to the cap")
+	assert_eq(int(counts.get("INF-01", 0)), 2, "the deck trimmed to the Uncommon deck limit")
 	assert_eq(int(counts.get("INF-05", 0)), 1)
 	assert_eq(Session.migrate_infrastructure_caps(), "", "runs once: a second load changes nothing")
-	assert_eq(Session.profile.owned_copies("INF-01"), 2)
+	assert_eq(Session.profile.owned_copies("INF-01"), 3)
 	assert_true(inf != null and dual != null)
 
 
@@ -110,7 +110,7 @@ func test_owned_copies_beyond_the_cap_convert_on_load() -> void:
 	for i: int in range(4):
 		Session.profile.owned_cards.append(Session.card_by_id("INF-02"))
 	Session.enforce_copy_caps()
-	assert_eq(Session.profile.owned_copies("INF-02"), 2)
+	assert_eq(Session.profile.owned_copies("INF-02"), 3, "a 4th converts; 3 are kept (Nov 18 evening)")
 
 
 func test_starting_decks_and_the_suggester_build_legal_decks() -> void:

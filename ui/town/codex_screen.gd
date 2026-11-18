@@ -397,7 +397,7 @@ func _card_tile(card: CardData) -> Button:
 	var kind: CardAvailability.Kind = CardAvailability.kind_of(card)
 	if seen:
 		var owned: int = Session.owned_count(card.id)
-		line.text = "Infrastructure" if card.is_unlimited() else "Own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level)
+		line.text = "Infrastructure" if card.is_unlimited() else "Own %s" % CopyCaps.own_ratio_text(owned, card)
 		line.add_theme_color_override("font_color", UIStyle.GOOD if owned > 0 or card.is_unlimited() else UIStyle.MUTED)
 		tile.tooltip_text = card.display_name
 		if kind == CardAvailability.Kind.ENEMY_ONLY:
@@ -476,10 +476,11 @@ func inspect(card: CardData) -> void:
 		info.add_child(source_line)
 	if not card.is_unlimited():
 		var owned: int = Session.owned_count(card.id)
-		info.add_child(UIKit.label("You own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level), &"", 22, UIStyle.PARCHMENT))
+		info.add_child(UIKit.label("You own %s" % CopyCaps.own_ratio_text(owned, card), &"", 22, UIStyle.PARCHMENT))
 		var cap: int = CopyCaps.for_card(card, Session.profile.level)
 		if cap < CopyCaps.ABSOLUTE_MAX:
-			var hint: Label = UIKit.label(CopyCaps.reason(card, Session.profile.level), &"MutedLabel", 18, UIStyle.MUTED)
+			var deck_line: String = "In a deck: %d for now. %s" % [cap, CopyCaps.future_text(card, Session.profile.level)]
+			var hint: Label = UIKit.label(deck_line.strip_edges(), &"MutedLabel", 18, UIStyle.MUTED)
 			hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			hint.custom_minimum_size = Vector2(540, 0)
 			info.add_child(hint)

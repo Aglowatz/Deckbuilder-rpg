@@ -33,6 +33,7 @@ func test_a_giver_with_a_quest_on_offer_shows_an_exclamation_mark() -> void:
 
 func test_a_quest_ready_to_hand_in_shows_a_question_mark_instead() -> void:
 	Session.start_quest(GainlandsZone.QUEST_POWER)
+	Session.start_quest("gain_spot_check")  # Nov 18 evening: Gus's second quest, so he has nothing left to offer
 	var marks: Dictionary = QuestMarkers.giver_marks("beefcake", Session.quest_log, QuestCatalog.all(), Session.unlock_state())
 	assert_false(marks.has("gus"), "nothing to offer or hand in while it is under way")
 	Session.set_flag(GainlandsZone.FLAG_WHEEL_POWERED)
