@@ -4,6 +4,35 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 18 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov17_night.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov18`. Most important first.
+
+1. **Reps got much easier with the reps kept after a miss** (your answer 8). A newcomer guessing away from the edge now wins 295 of
+   300 first sets (it was about 4 in 5); a coin flip wins 127 of 300 (it was under 1 in 3). **Recommendation:** ten reps to finish, or
+   two misses allowed, to put it back near 4 in 5. Not changed (the reward tables and the eight-plate bar are built round eight).
+2. **The vault's painted door has its four seal sockets in a row**; your rule puts the seals in a diamond (arm top, chef's hat right,
+   leaf bottom, skull left). The seals sit in the diamond over the two inner sockets; the two outer sockets stay empty rings.
+   **Recommendation:** a small repaint with the sockets in a diamond (Batch 18 row TOWN-PROP-CELLAR-FOURSEALS-CLOSED), or say the
+   row is fine and I put the seals in the row (that drops the clockwise order).
+3. **The hero's neutral portrait NPC-PLAYER still wears the grey-brown cloak** (and the Drive file is opaque, so every portrait import
+   puts the old one back and I revert it). Fragment 4 (STORY-MEMORY-4) shows the boy in the old cloak too. Both are Batch 18 rows.
+   Every other picture of the hero (world sprites, Wardrobe default, the other stills) is teal.
+4. **"The hub's vegetable patch" in the Buffet:** the rows of untextured green balls I found were the low beds on biscuit edging beside
+   the entrance bridge (the "district walls"). They are cabbage beds now (BUFF-PROP-VEG-01..03), and the green balls floating in the
+   gravy river are cabbages too. Say if you meant another place.
+5. **The D.N.A. hall's far end:** the Hall of Final Approvals (the 3D building) stands at the north end of the hall in a dark end bay,
+   with DNA-BD-HALL-INTERIOR on the far wall behind it and the lobby clock on its drum where the dome was. From inside no sky shows.
+   **Recommendation:** look at `p2_after_dna_door_default`; if the grey 3D facade fights the painted hall, the next art batch could
+   paint the Hall's facade as an interior piece (one card), like the booths.
+6. **Elowen's name line needed the name flag earlier:** `{rescuer}` read "The Rescuer" until Plume named her, so the scene's
+   `@set rescuer_named` step now comes just before her own line (her portrait unmasks as she says it). The Wanderer's closing line
+   was changed to match ("She told me her name with the guards already running at her..."). Both are in the IDs file.
+7. **Combat pacing (answer 1):** nothing was changed tonight; the night went to the art and the D.N.A. No numbers changed, no sims run.
+8. **Batch 18 plans:** five plan images are in `G:/My Drive/Card Game Art/Batch 18 Refs/` (`plan-gainlands.jpg` ... `plan-capital.jpg`,
+   2048x2048, under 400 KB). They are top-down renders of the zones (the walkable ground and the buildings as the game has them),
+   not drawn diagrams; the painter follows the shapes. Rows in `docs/art/batch18_nov18.csv`.
+
 ## Overnight Nov 17 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov17_overnight.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov17`. Triage of every
