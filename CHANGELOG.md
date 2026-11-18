@@ -2,6 +2,12 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 18: the D.N.A. is one huge haunted government hall at night (painted two-storey walls, waist-high partitions, marble and red
+  runners, chandeliers, columns, moonlight shafts, the lobby clock, sign plaques); Batch 17 (81 images): painted ruler statues standing
+  and toppled, the painted Four Seals cellar door and seals, painted card-game pieces in all four games, new card backs, packs, the
+  tunnel map and board, Maren's portraits, the hero's teal-cloak portraits, the Shattered Gallery's Bestiary pictures, the Well's node,
+  Quadzilla's cut-out, the Dump's pennants and pig, the Buffet's tart, cake stand, fliers and cabbages, a painted Crosspath map; Reps
+  keeps your reps after a miss; Elowen tells you her name; the hero answers Primm in his own words; 10 single lines of dialogue.
 - Nov 17: after Primm falls the quest tracker follows the ending ("The City Gathers": the ending, then the gathering in Grave Row) and
   then "After the Fall" (the Lab and the Shattered Gallery, marked on the maps); "Free the Four Zones" starts by itself once a zone is
   free; the Rescuer wears a "!" while she waits at the cave mouth; "Point me to..." lists the roads out (the Capital), the quiz teachers,

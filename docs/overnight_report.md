@@ -1,3 +1,161 @@
+# Overnight Nov 17-18 (Opus) - report: 81 new images, the D.N.A. as an indoor grand hall, the owner's decisions
+
+Brief: `docs/prompts/opus_nov17_night.md`. Start tag `pre-overnight-nov18`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 18".
+Shots: `docs/overnight_shots/nov18/`. Import note: `docs/art/import_nov18_batch17.md`. No export, no upload. Ran on Opus 5.5.
+
+All seven parts are done. Every one of the 81 images is in the game; the D.N.A. is one huge haunted government hall at night; tonight's
+owner answers are applied; the tests, the five walk smokes, the card-games smoke and the NPC probe pass. The strict bot result is
+at the end of this summary (STRICT_RESULT).
+
+## 1. The D.N.A. before and after (Part 2)
+
+The owner's choice: one enormous grand hall, indoors (target `Haunted Office of Necrotic Affairs.png`, layout `PAINTOVER-DNA-HUB.png`).
+Only the look changed: the walk grid, rooms, routes, NPC spots, doors, quests, the dungeon entrance and every interaction are as before
+(the D.N.A. walk smoke walks all of them; the NPC probe sees all 7 NPCs from both cameras).
+
+| Spot | Before (default / Low) | After (default / Low) |
+|---|---|---|
+| Arrival | `p2_before_dna_arrival_default.jpg` / `_low` | `p2_after_dna_arrival_default.jpg` / `_low` |
+| Hub (the lobby) | `p2_before_dna_hub_default.jpg` / `_low` | `p2_after_dna_hub_default.jpg` / `_low` |
+| Door (the Hall's stair) | `p2_before_dna_door_default.jpg` / `_low` | `p2_after_dna_door_default.jpg` / `_low` |
+| Mid 1 (the mail room) | `p2_before_dna_mid1_default.jpg` / `_low` | `p2_after_dna_mid1_default.jpg` / `_low` |
+| Mid 2 (breakroom to farm A) | `p2_before_dna_mid2_default.jpg` / `_low` | `p2_after_dna_mid2_default.jpg` / `_low` |
+| Walk, entrance to the Hall | - | `walk/w_*.jpg` (20 shots from the walk smoke) |
+
+What it is now (`world/dna/dna_hall.gd`, `DnaBuilder._build_grand_hall`):
+- **Walls.** Every wall cell that touches the outside is a two-storey painted hall wall on its inside: DNA-WALL-HALL-A and -B in
+  alternating bays (never the same twice in a row), DNA-WALL-HALL-NARROW for the leftovers and short runs. Each bay is drawn in three
+  height bands that map the paintings' own wainscot and gallery lines to the same wall heights, so the lines run level round the hall.
+  Its outside faces are DNA-WALL-EXTERIOR (the arrival). Every other wall cell is a waist-high partition (DNA-RAIL-PARTITION, same
+  cells, same collision) with DNA-RAIL-POST at the ends and corners; a two-cell-thick wall reads as two partitions, posts at the ends.
+- **Floor.** DNA-FLOOR-MARBLE everywhere inside (polished: the lamps glint on it), red DNA-FLOOR-RUNNER from the gate up the middle
+  to the Hall's stair, and to the lobby's neighbours.
+- **The far end and the ceiling.** A dark ceiling over the building's footprint; north of it a dark end bay with
+  DNA-BD-HALL-INTERIOR on its far wall behind the Hall of Final Approvals. No sky shows from inside at either camera.
+- **Columns, chandeliers, banners, sconces, booths.** Columns (DNA-PROP-COLUMN) along the long walls rising into the dark; 13
+  chandeliers over the open floor, chains up out of frame, swaying very slightly (off on Low-end); stamp banners from the gallery on
+  the side walls; sconce pairs; the office booths on the rooms' back partitions. Walls near the lens cut away (a two-storey wall never
+  fills the view); every hanging or standing card fades when the camera comes close.
+- **The landmark.** DNA-PROP-LOBBY-CLOCK stands on the Hall's drum where the faceted grey dome stood.
+- **Signs.** Every board is a brass plaque from DNA-SHEET-SIGNS whose icon matches what it points to (stamp, clock, arrow, folder,
+  raised hand, ghost).
+- **Light.** Warm gold from the chandeliers and sconces (pooled lights), the ghost-flame posts as the green accent, cool moonlight
+  shafts slanting from the tall windows of the side walls with slow dust motes (off on Low-end and Low), deep shadow overhead. The
+  D.N.A.'s own grade, warmed and less desaturated (0.45 -> 0.18), fog a warm near-black.
+- **Fixed on the way:** far chunks no longer hide their floor and walls (the outdoor ground showed through); the wasteland no longer
+  puts rubble in the walled-in gaps between rooms; the notch between Cubicle Farm A and the Breakroom is hall floor.
+
+**FPS (lobby, 8 s):** Medium **63.8 -> 71.5**; Low-end (uncapped) **86.3 -> 89.7**. Draw calls 1143 -> 998.
+
+## 2. The 81 images (Part 1 and Part 3)
+
+Every row of `batch17a_dna.csv` (17) and `batch17_nov17.csv` (64) is "In game (Nov 18)". Drive filing done (the 11 newest copies moved
+into their usual folders, the old ones copied to `Superseded/Batch 17 replaced/`; the duplicate hall wall moved there too). The import
+fixes (marble 2x2 crop through the square centres, partition crop, seam blends, the open cellar's doorway backed) are in the import
+note with their tiling previews (`p1_tile_*.jpg`). Full table with the Path-icon check per row: `docs/art/import_nov18_batch17.md`.
+
+| Images | In game | Shot |
+|---|---|---|
+| 17 D.N.A. hall pieces | The grand hall | `p2_after_dna_*`, `walk/` |
+| 5 statues x 2 | Each zone hub's plinth, standing / toppled | `p3_statue_<zone>_<oppressed/freed>.jpg` |
+| UI-CARDBACK-R / -G / -C | Card backs | `b17_battle_backs.jpg` |
+| UI-PACK-G, UI-PACK-GILDED-B | Packs, no code medallion over them | `b17_packs.jpg` |
+| MAP-S-CAP, BB-S-CAP | The tunnel map and board | `b17_map_s_cap.jpg`, `b17_board_s_cap.jpg` |
+| NPC-ELDER x3 | Maren's portraits | `b17_portrait_NPC-ELDER*.jpg` |
+| DUMP-SHEET-ENTRANCE-FLAGS-07 / -08 | The Dump entrance pennants | (Dump entrance) |
+| MAP-WORLD-TOWN | Crosspath's map, pins lined up | `p3_town_map_all.png`, `p3_town_map_fog.png` |
+| CUT-QUADZILLA | Quadzilla's intro cut-out | `b17_portrait_CUT-QUADZILLA.jpg` |
+| 8 BST-* | The Shattered Gallery's Bestiary | `b17_bestiary_*.jpg` |
+| ICON-NODE-WELL | The Well's node card and map node | `b17_map_tutorial_well.jpg` (fogged until reached) |
+| 4 vault pieces | The painted cellar door and seals | `p3_vault_<locked/two/ajar/open>_zoom.jpg` |
+| 18 card-game pieces | The four card games | `p3_cardgame_<game>_<how/mid/win>.jpg` |
+| BUFF tart, cake stand, fliers | The east food forest | `p3_buffet_east.jpg` |
+| BUFF-PROP-VEG-01..03 | The hub's cabbage beds, the river | `p3_buffet_hub.jpg` |
+| NPC-PLAYER_CONFUSED / _DETERMINED | The hero's portraits (teal) | `b17_portrait_NPC-PLAYER_*.jpg` |
+| DUMP-PROP-PIG | The escaped pig | `p3_dump_pig.jpg` |
+
+**Hero cloak check:** the world sprites, the Wardrobe default and every story still but one are teal. Two pictures still show the
+old cloak: the neutral portrait NPC-PLAYER and Fragment 4 (STORY-MEMORY-4) - Batch 18 rows.
+
+## 3. The statues, the vault, the card games, the Buffet forest (before -> after)
+
+- **Statues:** the flat grey-tinted cut-outs on the plinths are the painted stone statues, same scale in all five zones (3.3 m standing
+  on the plinth, 1.5 m toppled beside it). `p3_statue_*`.
+- **The vault:** the box-built cellar door is the painted door; locked seals are the painted padlock seals with the faint Path outline,
+  a turned seal is the blank seal with its full icon; the doors open on the painted open cellar (warm light on the stair while ajar).
+  Fixed diamond order kept (see inbox 2). `p3_vault_*`.
+- **Card games:** Reps has the painted rack, bench, bar and plates (one per right guess, alternating ends, heaviest first); Order Up the
+  painted pass, paper tickets with the target written on them, and the brass bell; Sort It Out the fair's conveyor and four painted
+  crates with the type icons on their plaques; File in Order the records office, the painted cabinet's drawers under the cards and the
+  APPROVED / REJECTED stamps. How to play, mid-game and win for each: `p3_cardgame_*`.
+- **The Buffet forest:** the giant fruit tart and the tall cake stand stand among the cloches; butterflies and birds flap through their
+  painted frames (hidden on Low-end). `p3_buffet_east.jpg`. The hub's green-ball beds are cabbages. `p3_buffet_hub.jpg`.
+
+## 4. The owner's answers (Part 4)
+
+| # | Answer | Done |
+|---|---|---|
+| 1 | Deck minimum stays 45 | Unchanged. No pacing numbers changed tonight, no sims run (inbox 7). |
+| 2 | Primm's Standing Army and the castle's 4th room unchanged | Unchanged. |
+| 3 | Elowen's name line | "...knocked it down. Elowen. It's Elowen. I promised." at the gate, before the guards; the name flag now comes just before her line (inbox 6); the Wanderer's closing line follows it. |
+| 4 | The hero's own voice in the finale | Flex's and the Grand Chef's quoted lessons replaced with his own lines (phase 1: "Ten years of 'again'... not yet."; phase 2: "...you cannot copy a choice."). Agnes's stays (one per phase). |
+| 5 | No shared colour grade | Each zone keeps its own; the D.N.A.'s was tuned for the hall. |
+| 6 | Forest brightness / rim light: no | Unchanged. |
+| 7 | No boss intent strip | Not added. |
+| 8 | Reps keeps the streak after a miss | Done (rules text too). It made Reps much easier (inbox 1). |
+| 9 | "Free the Four Zones" auto-starts: keep | Kept. |
+| 10 | Tracker names kept | Kept. |
+| 11 | The hero's cloak is teal | Portraits in; remaining pictures logged (Batch 18). |
+| 12 | The Nov 16 leftover lines | Applied: Maren's "holding it. Do with it as you see fit.", "Four banners fly side by side over the square", "find me at my house", "I can see her face", "a worn cloak too thin for the cold". |
+
+Ten single lines changed. **Revert:** `node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18_single_lines.csv --revert=docs/dialogue/nov18_single_lines_ids.txt`
+(the moved name flag is a data change in `data/story/story_scenes.json`, pc_capture; it is not part of the dialogue revert).
+
+## 5. Small leftovers (Part 5)
+
+- **The Verdant Dump's south corners:** grass slopes, no pale wedge, and the camera followed smoothly both ways at both cameras
+  (`run_heap_corner_camera.sh`: the hero stays at 0.60-0.63 of the frame, at most 1.9 px jump, the lens at most 0.7 m to the side).
+  `p5_dump_*`. Fine, nothing changed.
+- **The Buffet castle's last chimney:** stands on the roof slope, no floating or clipping piece. `p3_buffet_east.jpg`. Fine.
+- **The waist-high hedge by the Buffet entrance:** low, never blocks the path or reads as a wall (it is the cabbage bed now).
+  `p5_buffet_entrance(_low).jpg`. Fine.
+
+## 6. Batch 18 (Part 6)
+
+`docs/art/batch18_nov18.csv`, 8 rows, each description self-contained and under 600 characters: MAP-WORLD-GAIN, -BUFF, -DUMP, -DNA,
+-CAP (parchment maps that follow the plans), NPC-PLAYER (teal, transparent), STORY-MEMORY-4 (the boy's cloak teal), and the cellar door
+with its sockets in a diamond. The five plans are in `G:/My Drive/Card Game Art/Batch 18 Refs/` (`plan-gainlands.jpg`, `plan-buffet.jpg`,
+`plan-dump.jpg`, `plan-dna.jpg`, `plan-capital.jpg`; 2048x2048, 360-396 KB); copies in `p6_plan-*.jpg`.
+
+## 7. Build size
+
+101 asset files written; source art **+14.7 MB** net (17.3 MB new and replaced against 2.6 MB replaced). No export tonight; at the
+import rules' compression that is roughly +15-25 MB on the 1.0.0 pack (784 MB, over the 750 MB warning on purpose,
+`docs/build_size_policy.md`).
+
+## 8. Tests and checks (Part 7)
+
+- **GUT:** all 34 shards (size 12) run; the only failures were tests that encoded tonight's replaced designs (the quoted lessons, the
+  Reps reset, the old statue/pennant/flier art, the D.N.A.'s old desaturation, sign pictures). They follow the owner's answers now;
+  the touched files re-run 81/81 green. Real saves untouched.
+- **Walk smokes:** Crosspath, Gainlands, Buffet, Dump and D.N.A. all OK.
+- **Card-games smoke:** 137 checks passed.
+- **NPC visibility probe:** **150 checks, 0 failed** (every zone, both cameras; the D.N.A. alone 14/14 earlier).
+- **Strict bot (one Path, to Primm):** STRICT_RESULT.
+
+## 9. For the owner (most important first)
+
+1. **Reps is easy now** (98 % first-set wins for a sensible guesser): ten reps or two misses would restore it. Recommend ten reps.
+2. **Vault door sockets in a row vs the diamond rule:** recommend the small repaint (Batch 18 row); until then the seals keep the diamond.
+3. **NPC-PLAYER (neutral) and STORY-MEMORY-4 still show the old cloak:** recommend sending the two Batch 18 rows with the maps.
+4. **The Hall of Final Approvals is still the grey 3D building inside the painted hall:** recommend a painted interior facade card in
+   the next batch (look at `p2_after_dna_door_default` first).
+5. **Combat pacing (your answer 1):** not touched tonight; recommend a feel-only pass next (readable enemy turns, reward moments).
+6. **The cabbage beds:** check that this is the patch you meant (inbox 4).
+7. **The Batch 18 plans are renders, not drawn diagrams:** recommend sending them as they are; the painter only needs the shapes.
+8. **No export was made tonight** (the brief): the last zip is 1.0.0 of Nov 17; tonight's build needs an export before upload.
+
+
 # Overnight Nov 16-17 (Opus) - report: a full playthrough, six harsh critics, fixes, 1.0.0
 
 Brief: `docs/prompts/opus_nov17_overnight.md`. Start tag `pre-overnight-nov17`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 17".
