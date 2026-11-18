@@ -27,6 +27,11 @@ const KINDS: Dictionary = {
 	"dna_cabinet_4": {"id": "DNA-SHEET-CABINETS-04", "size": Vector2(1.52, 1.3), "radius": 0.5, "prop": true},
 	"dna_cabinet_5": {"id": "DNA-SHEET-CABINETS-05", "size": Vector2(0.83, 1.4), "radius": 0.3, "prop": true},
 	"dna_cabinet_6": {"id": "DNA-SHEET-CABINETS-06", "size": Vector2(1.02, 1.2), "radius": 0.35, "prop": true},
+	# Overnight Nov 18 (the grand hall, Batch 17A): partition posts, the office booths, the wall sconces, the hub statue.
+	"dna_post": {"id": "DNA-RAIL-POST", "size": Vector2(0.47, 1.9), "radius": 0.0, "prop": true},
+	"dna_booth_1": {"id": "DNA-PROP-OFFICE-BOOTH-01", "size": Vector2(2.86, 3.4), "radius": 0.0, "prop": true},
+	"dna_booth_2": {"id": "DNA-PROP-OFFICE-BOOTH-02", "size": Vector2(3.27, 3.2), "radius": 0.0, "prop": true},
+	"dna_sconce": {"id": "DNA-PROP-SCONCE", "size": Vector2(0.62, 1.3), "radius": 0.0, "prop": true},
 	# The Endless Buffet kit cards (docs/art/buffet_slice.md): broccoli and cauliflower trees, herb and leek plants, the painted props.
 	"buff_broccoli": {"id": "BUFF-TREE-BROCCOLI", "size": Vector2(4.55, 5.5), "radius": 0.4},
 	"buff_cauli": {"id": "BUFF-TREE-CAULI", "size": Vector2(3.9, 4.8), "radius": 0.4},

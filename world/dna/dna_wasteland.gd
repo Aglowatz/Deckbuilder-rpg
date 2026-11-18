@@ -66,6 +66,8 @@ var root: Node3D
 var placed: Dictionary = {"house": [], "fragment": [], "statue": [], "crystal": [], "tree": [], "mound": [], "lamp": [], "debris": [], "drift": [], "row": []}
 var tufts: int = 0
 var _layout: DnaLayout
+## Overnight Nov 18: the grand hall - nothing of the wasteland stands in the walled-in gaps between rooms (they are hall floor now).
+var _hall: DnaHall
 var _dist: PackedFloat32Array = PackedFloat32Array()
 
 
@@ -76,6 +78,7 @@ static func build(parent: Node3D, layout: DnaLayout, quality: int) -> DnaWastela
 	wasteland.root.set_meta(&"no_wind", true)
 	parent.add_child(wasteland.root)
 	wasteland._layout = layout
+	wasteland._hall = DnaHall.new(layout)
 	wasteland._distance_field()
 	wasteland._place(GraphicsQuality.foliage_density(quality), quality)
 	return wasteland
@@ -189,6 +192,8 @@ func _place(share: float, quality: int) -> void:
 			x += STEP
 			candidate["distance"] = distance_at(float(candidate["x"]), float(candidate["z"]))
 			if float(candidate["distance"]) == INF or float(candidate["distance"]) < 2.6 or kept_out(float(candidate["x"]), float(candidate["z"]), 1.0):
+				continue
+			if _hall != null and not _hall.is_outside(Vector2i(int(floorf(float(candidate["x"]))), int(floorf(float(candidate["z"]))))):
 				continue
 			candidate["order"] = float(candidate["distance"]) + float(candidates.size() % 7) * 0.9
 			candidates.append(candidate)
@@ -317,7 +322,7 @@ func _rubble_rows(cards: KitMesh) -> void:
 			var width: float = minf(height * aspect, float(row[1]) - x)
 			height = width / aspect
 			var at: Vector3 = Vector3(x + width * 0.5, -0.05, float(row[2]) + (0.14 if index % 2 == 0 else 0.0))
-			if distance_at(at.x, at.z) >= 0.9 and not kept_out(at.x, at.z):
+			if distance_at(at.x, at.z) >= 0.9 and not kept_out(at.x, at.z) and (_hall == null or _hall.is_outside(Vector2i(int(floorf(at.x)), int(floorf(at.z))))):
 				K.card(cards, "CAP-PROP-RUBBLE-ROW", at, height, Vector3(0, 0, 1), index % 2 == 1, TINT)
 				(placed["row"] as Array).append(at)
 			x += width * 0.94

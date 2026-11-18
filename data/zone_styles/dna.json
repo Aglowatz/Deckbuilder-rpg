@@ -2,7 +2,7 @@
 	"_about": "The Department of Necrotic Affairs (Necrocrat). Perpetual 4:59 PM overcast gloom, gray stone and paneling, cold green ghost light. Material swaps point the shared kit at the zone kit (data/art/zone_kits/dna.json, imported by tools/import_zone_kit.sh dna); the zone art is painted in the palette and is not tinted.",
 	"area": "dna",
 	"name": "The Department of Necrotic Affairs (Necrocrat)",
-	"time_of_day": "Perpetual 4:59 PM overcast gloom; cold flat light with green ghost glows",
+	"time_of_day": "Night inside the grand hall: warm gold chandeliers and sconces, green ghost-flame accents, cool moonlight from the tall windows, deep shadow overhead",
 	"palette": [
 		"#6E7470",
 		"#9BB59A",
@@ -12,32 +12,32 @@
 		"#8A2E2E"
 	],
 	"light": {
-		"key_color": "#e2e8e4",
-		"key_energy": 0.66,
-		"key_pitch": -56,
+		"key_color": "#aebfe0",
+		"key_energy": 0.5,
+		"key_pitch": -52,
 		"key_yaw": 118,
-		"ambient_color": "#6f8a80",
-		"ambient_energy": 0.95,
-		"shadow_opacity": 0.35
+		"ambient_color": "#6e604f",
+		"ambient_energy": 1.15,
+		"shadow_opacity": 0.45
 	},
 	"fog": {
-		"color": "#5e6b66",
-		"density": 0.005
+		"color": "#1e1915",
+		"density": 0.004
 	},
 	"grade": {
-		"warmth": -0.1,
-		"saturation": 0.95,
-		"contrast": 1.14,
-		"post_saturation": 0.9,
+		"warmth": 0.06,
+		"saturation": 1.0,
+		"contrast": 1.1,
+		"post_saturation": 0.98,
 		"tonemap": "agx",
-		"exposure": 1.06,
+		"exposure": 1.22,
 		"post_contrast": 1.06,
-		"shadow_tint": "#c4d2cc",
-		"highlight_tint": "#e6efe8"
+		"shadow_tint": "#cbbfb2",
+		"highlight_tint": "#f2e6d2"
 	},
 	"bloom": {
-		"intensity": 0.35,
-		"threshold": 1.1
+		"intensity": 0.45,
+		"threshold": 1.0
 	},
 	"vignette": 0.4,
 	"material_swaps": {

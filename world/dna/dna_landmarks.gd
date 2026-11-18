@@ -241,6 +241,10 @@ static func _stamp(mesh: KitMesh, slot: String, base: Vector3, height: float) ->
 # ---- The Hall of Final Approvals: the main dungeon, an enormous gray civic hall (clock at 4:59, stamp relief, columns, wings of green windows, a dome) --------
 
 
+## Overnight Nov 18: false in the grand hall (the lobby clock replaces the dome and its lantern).
+static var hall_dome: bool = true
+
+
 static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary]) -> void:
 	var w: float = size.x
 	var h: float = size.y
@@ -362,16 +366,19 @@ static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 	# the dome on its drum, the lantern on top, corner turrets
 	var dome_r: float = centre_w * 0.26
 	var drum_y: float = terrace_h + centre_h + 1.4
-	mesh.lathe("grey", Vector3(0, drum_y, cz), [Vector2(dome_r * 1.1, 0.0), Vector2(dome_r * 1.1, dome_r * 0.5), Vector2(dome_r, dome_r * 0.5), Vector2(dome_r, dome_r * 0.95)], 14, 0.95, false, true)
-	for index: int in range(8):
-		var a: float = TAU * float(index) / 8.0
-		mesh.box("window_glow", Vector3(sin(a) * dome_r * 1.0, drum_y + dome_r * 0.72, cz + cos(a) * dome_r * 1.0), Vector3(dome_r * 0.22, dome_r * 0.36, dome_r * 0.22), Basis(Vector3.UP, a), 0.0)
-	mesh.lathe("slate", Vector3(0, drum_y + dome_r * 0.95, cz), [Vector2(dome_r * 1.12, 0.0), Vector2(dome_r * 1.02, dome_r * 0.35), Vector2(dome_r * 0.78, dome_r * 0.72), Vector2(dome_r * 0.4, dome_r * 0.98), Vector2(0.0, dome_r * 1.08)], 14, 0.95, false, true)
-	var lantern_y: float = drum_y + dome_r * 2.0
-	mesh.lathe("grey_light", Vector3(0, lantern_y, cz), [Vector2(dome_r * 0.26, 0.0), Vector2(dome_r * 0.26, dome_r * 0.5)], 8, 1.0, false, true)
-	mesh.box("window_glow", Vector3(0, lantern_y + dome_r * 0.25, cz), Vector3(dome_r * 0.5, dome_r * 0.3, dome_r * 0.5), Basis.IDENTITY, 0.0)
-	mesh.lathe("slate", Vector3(0, lantern_y + dome_r * 0.5, cz), [Vector2(dome_r * 0.34, 0.0), Vector2(0.0, dome_r * 0.5)], 8, 1.0, false, true)
-	mesh.blob("gold", Vector3(0, lantern_y + dome_r * 1.1, cz), Vector3.ONE * dome_r * 0.12, 3, 6, 1.0)
+	# Overnight Nov 18 (the grand hall): the faceted dome is gone; the lobby clock (DNA-PROP-LOBBY-CLOCK) stands on the drum (DnaBuilder)
+	root.set_meta("dome_base", Vector3(0, drum_y, cz))
+	if hall_dome:
+		mesh.lathe("grey", Vector3(0, drum_y, cz), [Vector2(dome_r * 1.1, 0.0), Vector2(dome_r * 1.1, dome_r * 0.5), Vector2(dome_r, dome_r * 0.5), Vector2(dome_r, dome_r * 0.95)], 14, 0.95, false, true)
+		for index: int in range(8):
+			var a: float = TAU * float(index) / 8.0
+			mesh.box("window_glow", Vector3(sin(a) * dome_r * 1.0, drum_y + dome_r * 0.72, cz + cos(a) * dome_r * 1.0), Vector3(dome_r * 0.22, dome_r * 0.36, dome_r * 0.22), Basis(Vector3.UP, a), 0.0)
+		mesh.lathe("slate", Vector3(0, drum_y + dome_r * 0.95, cz), [Vector2(dome_r * 1.12, 0.0), Vector2(dome_r * 1.02, dome_r * 0.35), Vector2(dome_r * 0.78, dome_r * 0.72), Vector2(dome_r * 0.4, dome_r * 0.98), Vector2(0.0, dome_r * 1.08)], 14, 0.95, false, true)
+		var lantern_y: float = drum_y + dome_r * 2.0
+		mesh.lathe("grey_light", Vector3(0, lantern_y, cz), [Vector2(dome_r * 0.26, 0.0), Vector2(dome_r * 0.26, dome_r * 0.5)], 8, 1.0, false, true)
+		mesh.box("window_glow", Vector3(0, lantern_y + dome_r * 0.25, cz), Vector3(dome_r * 0.5, dome_r * 0.3, dome_r * 0.5), Basis.IDENTITY, 0.0)
+		mesh.lathe("slate", Vector3(0, lantern_y + dome_r * 0.5, cz), [Vector2(dome_r * 0.34, 0.0), Vector2(0.0, dome_r * 0.5)], 8, 1.0, false, true)
+		mesh.blob("gold", Vector3(0, lantern_y + dome_r * 1.1, cz), Vector3.ONE * dome_r * 0.12, 3, 6, 1.0)
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
 			var tx: float = sx * (centre_w * 0.5 - dome_r * 0.3)

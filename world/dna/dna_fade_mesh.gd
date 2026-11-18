@@ -124,6 +124,31 @@ func disc(slot: String, piece: Vector4, center: Vector3, normal: Vector3, radius
 	_triangles += 2
 
 
+## Overnight Nov 18 (the grand hall): one textured quad with explicit UVs (texture space, 0..1 per painted bay; the slot's tile must be 1.0) - the
+## hall's painted wall bays, partitions and banners. `pts` and `uvs` go round the quad; the winding is fixed to face `normal`.
+func quad(slot: String, piece: Vector4, pts: Array[Vector3], uvs: Array[Vector2], normal: Vector3, tint: Color = Color.WHITE, bottom: float = 0.0) -> void:
+	var tool: SurfaceTool = _tool(slot)
+	var order: Array[int] = [0, 1, 2, 0, 2, 3]
+	if (pts[1] - pts[0]).cross(pts[2] - pts[0]).dot(normal) < 0.0:
+		order = [0, 3, 2, 0, 2, 1]
+	for k: int in range(order.size() - 1, -1, -1):
+		var i: int = order[k]
+		tool.set_normal(normal)
+		tool.set_uv(uvs[i])
+		tool.set_color(tint)
+		tool.set_custom(0, Color(piece.x, piece.y, piece.z, piece.w))
+		tool.set_custom(1, Color(bottom, 0.0, 0.0, 0.0))
+		tool.add_vertex(pts[i])
+	_triangles += 2
+
+
+## The slot's painted texture also cuts its alpha (banners, the partition's open top edge).
+func use_texture_alpha(slot: String) -> void:
+	var material: ShaderMaterial = _materials.get(slot) as ShaderMaterial
+	if material != null:
+		material.set_shader_parameter("use_tex_alpha", true)
+
+
 func build() -> ArrayMesh:
 	var mesh: ArrayMesh = ArrayMesh.new()
 	for slot: String in _tools.keys():

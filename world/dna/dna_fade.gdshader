@@ -9,6 +9,8 @@ render_mode depth_prepass_alpha, cull_back, diffuse_lambert, specular_disabled;
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec4 albedo : source_color = vec4(1.0);
 uniform bool use_texture = true;
+// Overnight Nov 18: the painted texture's alpha cuts the piece (banners, the partition's open top edge).
+uniform bool use_tex_alpha = false;
 uniform float tile = 2.56;
 uniform vec3 hero_pos = vec3(0.0, -1000.0, 0.0);
 uniform float fade_strength : hint_range(0.0, 1.0) = 0.86;
@@ -128,7 +130,8 @@ void vertex() {
 		if (room_w.z > 0.0) {
 			cut += room_w.z * room_fade(q, cam.xz, room_c);
 		}
-		v_fade = cut * enabled * fade_strength;
+		// Overnight Nov 18 (the grand hall): a wall at the lens also cuts away (an 11 m hall wall a few metres in front of the camera filled the view)
+		v_fade = max(cut, at_lens) * enabled * fade_strength;
 	}
 	v_tint = COLOR.rgb;
 	v_disc = CUSTOM1.yzw;
@@ -136,8 +139,14 @@ void vertex() {
 
 void fragment() {
 	vec3 c = albedo.rgb * v_tint;
+	float tex_a = 1.0;
 	if (use_texture) {
-		c *= texture(albedo_tex, UV / tile).rgb;
+		vec4 t = texture(albedo_tex, UV / tile);
+		c *= t.rgb;
+		tex_a = use_tex_alpha ? t.a : 1.0;
+	}
+	if (tex_a < 0.35) {
+		discard;
 	}
 	ALBEDO = mix(c, vec3(dot(c, vec3(0.299, 0.587, 0.114))), style_desaturate);
 	ROUGHNESS = 0.95;
@@ -147,5 +156,5 @@ void fragment() {
 		soft *= soft;
 	}
 	EMISSION = c * emission_strength * soft;
-	ALPHA = base_alpha * (1.0 - v_fade) * soft;
+	ALPHA = base_alpha * (1.0 - v_fade) * soft * (use_tex_alpha ? smoothstep(0.35, 0.7, tex_a) : 1.0);
 }

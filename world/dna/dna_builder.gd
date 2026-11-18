@@ -86,6 +86,8 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("dna: _build_set_pieces")
 	_build_hall()
 	LoadTiming.detail("dna: _build_hall")
+	_build_grand_hall()
+	LoadTiming.detail("dna: _build_grand_hall")
 	_build_entrance()
 	LoadTiming.detail("dna: _build_entrance")
 	_build_region_landmarks()
@@ -169,18 +171,42 @@ func update_visibility(focus: Vector3) -> void:
 		var center: Vector3 = Vector3((float(key.x) + 0.5) * float(CHUNK), 0.0, (float(key.y) + 0.5) * float(CHUNK))
 		var near: bool = Vector2(center.x - focus.x, center.z - focus.z).length() < VIEW_RADIUS + float(CHUNK) * 0.7
 		var node: Node3D = chunks[key] as Node3D
-		if node.visible != near:
-			node.visible = near
+		# Overnight Nov 18 (the grand hall, indoors): the floor and the walls of a far chunk stay drawn (the hall must read as one room to its
+		# far end - culled, the wasteland ground showed through); only its props, cards and set pieces cull
+		if bool(node.get_meta("near", true)) != near:
+			node.set_meta("near", near)
+			for child: Node in node.get_children():
+				if child is Node3D and child.name != &"Floor" and child.name != &"Interior" and child.name != &"Fading":
+					(child as Node3D).visible = near
 
 
 # ---- Cells: floors, balustrades, cabinets ----------------------------------------------------
 
 
+## Overnight Nov 18: wall and enclosed-void cells that show hall marble under them (the partitions are thin; the gaps between rooms are floor).
+var hall_floor_cells: Dictionary = {}
+
+
+func _add_floor_quad(c: Vector2i, floor_kind: DnaLayout.Floor) -> void:
+	var key: Vector2i = _chunk_key(cell_center(c.x, c.y))
+	var quads: Dictionary = _floor_quads.get(key, {}) as Dictionary
+	var cell_list: Array = quads.get(floor_kind, []) as Array
+	cell_list.append(c)
+	quads[floor_kind] = cell_list
+	_floor_quads[key] = quads
+
+
 func _collect_cells() -> void:
+	var classify: DnaHall = DnaHall.new(layout)
+	for c: Vector2i in classify.kinds.keys():
+		if classify.kinds[c] == DnaHall.Kind.INSIDE_VOID or classify.kinds[c] == DnaHall.Kind.PARTITION:
+			hall_floor_cells[c] = true
 	for cz: int in range(DnaLayout.H):
 		for cx: int in range(DnaLayout.W):
 			var cell: DnaLayout.Cell = layout.cell_at(cx, cz)
 			if cell == DnaLayout.Cell.VOID:
+				if hall_floor_cells.has(Vector2i(cx, cz)):
+					_add_floor_quad(Vector2i(cx, cz), DnaLayout.Floor.TILE)
 				continue
 			var center: Vector3 = cell_center(cx, cz)
 			var key: Vector2i = _chunk_key(center)
@@ -188,6 +214,8 @@ func _collect_cells() -> void:
 				var list: Array = _wall_cells.get(key, []) as Array
 				list.append(Vector2i(cx, cz))
 				_wall_cells[key] = list
+				if hall_floor_cells.has(Vector2i(cx, cz)):
+					_add_floor_quad(Vector2i(cx, cz), DnaLayout.Floor.TILE)
 				continue
 			var floor_kind: DnaLayout.Floor = layout.floor_at(cx, cz)
 			if floor_kind == DnaLayout.Floor.NONE:
@@ -310,7 +338,7 @@ func _flush() -> void:
 					tool.add_vertex(Vector3(x0 + corner.x, 0.0, z0 + corner.y))
 			var surface_mesh: ArrayMesh = tool.commit()
 			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_mesh.surface_get_arrays(0))
-			mesh.surface_set_material(mesh.get_surface_count() - 1, DnaMaterials.floor_material(kind as DnaLayout.Floor))
+			mesh.surface_set_material(mesh.get_surface_count() - 1, DnaHall.marble_material())  # Overnight Nov 18: one polished marble floor
 		var instance: MeshInstance3D = MeshInstance3D.new()
 		instance.mesh = mesh
 		instance.name = "Floor"
@@ -350,7 +378,9 @@ var sconce_count: int = 0
 
 func _build_interior() -> void:
 	var meshes: Dictionary = {}
-	var shell: Dictionary = DnaInterior.shell_cells(layout)
+	grand = DnaHall.new(layout)
+	var runs: Array[Dictionary] = grand.outline_runs()
+	var chunk_of: Callable = func(c: Vector2i) -> Vector2i: return _chunk_key(cell_center(c.x, c.y))
 	for key: Vector2i in _wall_cells.keys():
 		var interior: Array = []
 		var outdoors: Array = []
@@ -364,14 +394,12 @@ func _build_interior() -> void:
 			_build_balustrades(key, outdoors)
 		if interior.is_empty():
 			continue
-		var fade: DnaFadeMesh = DnaInterior.mesh()
-		DnaInterior.build_walls(layout, fade, interior, shell)
-		for sconce: Vector3 in DnaInterior.build_sconces(layout, fade, interior, shell):
-			var spot: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
-			spot.pos = sconce
-			spot.color = DnaInterior.SCONCE_LIGHT
-			layout.lights.append(spot)
-			sconce_count += 1
+		# Overnight Nov 18: the grand hall - painted two-storey walls on the outline, waist-high partitions on every other wall cell (DnaHall)
+		var fade: DnaFadeMesh = DnaHall.mesh()
+		for join: Dictionary in grand.build_outline(fade, key, chunk_of, runs):
+			hall_joins.append(join)
+		for post: Vector3 in grand.build_partitions(fade, interior):
+			hall_posts.append(post)
 		meshes[key] = fade
 	doorway_count = DnaInterior.doorways(layout).size()
 	var hidden: PackedStringArray = OS.get_environment("DNA_HIDE").split(",", false)  # fps / debug A-B: DNA_HIDE=Walls hides the interior
@@ -380,6 +408,70 @@ func _build_interior() -> void:
 		var instance: MeshInstance3D = (meshes[key] as DnaFadeMesh).instance("Interior")
 		instance.visible = not hidden.has("Walls")
 		chunk_node(key).add_child(instance)
+	_queue_hall_cards()
+
+
+## Overnight Nov 18: the grand hall's cards - a post at every partition end and join, and along the hall walls, bay join by bay join, a
+## column, a pair of sconces or a hanging stamp banner in turn; the office booths stand on the partitions at the rooms' back walls.
+const BOOTH_SPOTS: Array[Array] = [
+	[Vector2(39.0, 45.5), 1], [Vector2(52.0, 45.5), 2], [Vector2(39.5, 27.5), 2], [Vector2(50.5, 27.5), 1],
+	[Vector2(23.5, 47.5), 1], [Vector2(8.5, 25.5), 2], [Vector2(28.5, 25.5), 1], [Vector2(61.5, 25.5), 1], [Vector2(81.5, 25.5), 2],
+	[Vector2(35.5, 7.5), 2], [Vector2(54.5, 7.5), 1],
+]
+var hall_columns: Array[Vector3] = []
+var hall_banners: Array[Dictionary] = []
+var booth_count: int = 0
+
+
+func _queue_hall_cards() -> void:
+	var posts: Array = _card_entries.get("dna_post", []) as Array
+	for post: Vector3 in hall_posts:
+		posts.append({"pos": post, "scale": 1.0})
+	_card_entries["dna_post"] = posts
+	var sconces: Array = _card_entries.get("dna_sconce", []) as Array
+	for index: int in range(hall_joins.size()):
+		var join: Dictionary = hall_joins[index]
+		var at: Vector3 = join["pos"] as Vector3
+		var normal: Vector3 = join["normal"] as Vector3
+		if normal.z < -0.5:
+			continue  # a room's south wall: only ever seen cut away, from behind the camera
+		var long_wall: bool = float(join.get("length", 0.0)) >= 14.0
+		match index % 3 if long_wall else 1:
+			0:
+				hall_columns.append(at + normal * 0.9)
+			1:
+				var side: Vector3 = Vector3(-normal.z, 0.0, normal.x)
+				for sgn: float in [-1.0, 1.0]:
+					var p: Vector3 = at + normal * 0.15 + side * 1.1 * sgn + Vector3(0, 3.0, 0)
+					sconces.append({"pos": p, "scale": 1.0})
+					var spot: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+					spot.pos = p + normal * 0.8 + Vector3(0, 0.7, 0)
+					spot.color = WARM_LIGHT
+					layout.lights.append(spot)
+					sconce_count += 1
+			2:
+				if absf(normal.x) > 0.5:
+					hall_banners.append(join)  # side walls only: a banner on a wall facing the camera hung right in front of the lens
+	_card_entries["dna_sconce"] = sconces
+	for spec: Array in BOOTH_SPOTS:
+		var at2: Vector2 = spec[0] as Vector2
+		var c: Vector2i = DnaLayout.world_to_cell(Vector3(at2.x, 0, at2.y))
+		if layout.cell_at(c.x, c.y) != DnaLayout.Cell.WALL:
+			continue
+		var kind: String = "dna_booth_%d" % int(spec[1])
+		var list: Array = _card_entries.get(kind, []) as Array
+		list.append({"pos": Vector3(at2.x, 0.0, at2.y), "scale": 1.0})
+		_card_entries[kind] = list
+		booth_count += 1
+
+
+const WARM_LIGHT: Color = Color(1.0, 0.76, 0.44)
+
+
+## Overnight Nov 18: the grand hall's classification (outline / partitions / enclosed floor), its bay joins and partition posts.
+var grand: DnaHall
+var hall_joins: Array[Dictionary] = []
+var hall_posts: Array[Vector3] = []
 
 
 ## The knee-high balustrade of the slice (kept for the kit bench and as the fallback look; the zone uses `_build_interior` since Oct 19).
@@ -490,8 +582,51 @@ func _build_signs() -> void:
 		var panel_size: Vector2 = Vector2(0.75, 0.75) * sign_spec.size
 		if sign_spec.style == "memo":
 			panel_size *= 0.7
+		# Overnight Nov 18 (the grand hall): every board is a brass plaque from DNA-SHEET-SIGNS whose icon matches what it points to
+		var plaque_id: String = "DNA-SHEET-SIGNS-%02d" % plaque_index(sign_spec.key)
+		if EnvKit.has(plaque_id):
+			holder.add_child(_plaque(plaque_id, panel_size.x * 1.15))
+			continue
 		holder.add_child(DnaProps.board(panel_size, sign_spec.style))
 		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.04)))
+
+
+## Overnight Nov 18: the plaque of a sign key (DNA-SHEET-SIGNS: 1 stamp, 2 clock, 3 arrow, 4 folder, 5 raised hand, 6 ghost).
+const PLAQUE_BY_KEY: Dictionary = {
+	"sign.lobby_main": 1, "sign.motto": 1, "sign.requisitions": 1, "sign.filed_complaint": 1, "sign.executive": 1, "sign.main_dungeon": 1,
+	"poster.safety": 5, "poster.performance": 1, "sign.take_number": 2, "sign.now_serving": 2, "sign.time_clock": 2, "memo.lunch": 2,
+	"sign.elevator_rule": 5, "sign.exit": 3, "sign.cubicle_farm_a": 3, "sign.cubicle_farm_b": 3, "sign.mailroom": 3, "sign.filing_maze": 3,
+	"sign.elevator_bank": 3, "sign.records": 3, "sign.mini_dungeon": 3, "sign.suggestion_box": 5, "sign.heal_couch": 5, "sign.coffee": 5,
+	"sign.fun_day": 6, "poster.synergy": 6, "poster.hang_in_there": 6, "poster.wellness": 6, "memo.cubicle_coffin": 6,
+}
+
+
+static func plaque_index(key: String) -> int:
+	if PLAQUE_BY_KEY.has(key):
+		return int(PLAQUE_BY_KEY[key])
+	return 4  # memos, the printer, the quiz, the puzzle, the matching game: a folder
+
+
+static func _plaque(id: String, width: float) -> MeshInstance3D:
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(width, width / maxf(EnvKit.aspect(id), 0.1))
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "Plaque"
+	instance.mesh = quad
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_texture = EnvKit.texture(id)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	material.alpha_scissor_threshold = 0.4
+	material.roughness = 0.5
+	material.metallic_specular = 0.6
+	material.emission_enabled = true
+	material.emission = Color(0.18, 0.15, 0.1)
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	instance.material_override = material
+	instance.position = Vector3(0, 0, 0.03)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	return instance
 
 
 ## The icon id a sign shows (the keys are the D.N.A.'s `sign.*` / `poster.*` / `memo.*` story keys).
@@ -664,6 +799,299 @@ func _build_hall() -> void:
 	threshold.set_meta(&"no_occlusion_fade", true)
 	threshold.set_meta(&"no_range_cull", true)
 	root.add_child(threshold)
+
+
+## Overnight Nov 18 (the grand hall): the ceiling over the building's footprint, the dark end bay north of it with DNA-BD-HALL-INTERIOR on its far
+## wall (behind the Hall of Final Approvals), the red runners, the columns along the hall walls, the chandeliers over the open floor, the
+## stamp banners from the gallery and the lobby clock on the Hall's drum (where the faceted dome stood).
+const END_BAY_DEPTH: float = 46.0
+const END_BAY_H: float = 46.0
+const COLUMN_H: float = 13.0
+const CHANDELIERS: Array[Vector2] = [
+	Vector2(45.5, 52.5), Vector2(45.5, 35.0), Vector2(45.5, 20.0), Vector2(45.5, 7.5), Vector2(17.5, 35.0), Vector2(71.5, 35.0),
+	Vector2(8.5, 35.0), Vector2(26.5, 35.0), Vector2(62.5, 35.0), Vector2(80.5, 35.0), Vector2(18.0, 13.0), Vector2(72.0, 14.0), Vector2(26.5, 54.0),
+]
+const CHANDELIER_H: float = 4.4
+const CHANDELIER_BOTTOM: float = 6.9
+var chandelier_count: int = 0
+
+
+func _build_grand_hall() -> void:
+	if grand == null:
+		return
+	var dark: StandardMaterial3D = StandardMaterial3D.new()
+	dark.albedo_color = DnaHall.VAULT
+	dark.roughness = 1.0
+	dark.cull_mode = BaseMaterial3D.CULL_DISABLED
+	dark.disable_fog = true  # the vault stays dark; fogged it read as a grey sky
+	dark.set_meta(PaintedClasses.META_NO_PAINT, true)
+	dark.set_meta(StyleToon.META_NO_TOON, true)
+	# the ceiling: one strip per row over every cell that is not outside
+	var tool: SurfaceTool = SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	tool.set_normal(Vector3.DOWN)
+	for cz: int in range(DnaLayout.H):
+		var start: int = -1
+		for cx: int in range(DnaLayout.W + 1):
+			var inside: bool = cx < DnaLayout.W and not grand.is_outside(Vector2i(cx, cz)) and not DnaLayout.on_approach(float(cx) + 0.5, float(cz) + 0.5)
+			if inside and start < 0:
+				start = cx
+			elif not inside and start >= 0:
+				_quad_down(tool, float(start), float(cz), float(cx), float(cz + 1), DnaHall.VAULT_H)
+				start = -1
+	# the end bay north of the floor: walls, its own high ceiling and the step down to the hall's ceiling
+	var y1: float = END_BAY_H
+	var z0: float = -END_BAY_DEPTH
+	_quad_down(tool, 0.0, z0, float(DnaLayout.W), 0.0, y1)
+	_wall_quad(tool, Vector3(0, 0, z0), Vector3(0, 0, 0), y1, Vector3.RIGHT)
+	_wall_quad(tool, Vector3(float(DnaLayout.W), 0, 0), Vector3(float(DnaLayout.W), 0, z0), y1, Vector3.LEFT)
+	_wall_quad(tool, Vector3(0, DnaHall.VAULT_H, 0.0), Vector3(float(DnaLayout.W), DnaHall.VAULT_H, 0.0), y1 - DnaHall.VAULT_H, Vector3.FORWARD)
+	var shell: MeshInstance3D = MeshInstance3D.new()
+	shell.name = "HallCeiling"
+	shell.mesh = tool.commit()
+	shell.material_override = dark
+	shell.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	shell.set_meta(&"no_range_cull", true)
+	shell.set_meta(&"no_occlusion_fade", true)
+	shell.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(shell)
+	# the far wall: the painted hall interior, 2:1 like the picture, filling the end bay's back wall
+	if EnvKit.has("DNA-BD-HALL-INTERIOR"):
+		var back: MeshInstance3D = MeshInstance3D.new()
+		back.name = "HallBackdrop"
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = Vector2(float(DnaLayout.W), y1)
+		back.mesh = quad
+		var picture: StandardMaterial3D = StandardMaterial3D.new()
+		picture.albedo_texture = EnvKit.texture("DNA-BD-HALL-INTERIOR")
+		picture.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		picture.albedo_color = Color(0.62, 0.58, 0.55)
+		picture.set_meta(PaintedClasses.META_NO_PAINT, true)
+		picture.set_meta(StyleToon.META_NO_TOON, true)
+		back.material_override = picture
+		back.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		back.position = Vector3(float(DnaLayout.W) * 0.5, y1 * 0.5, z0 + 0.05)
+		back.set_meta(&"no_range_cull", true)
+		back.set_meta(&"no_occlusion_fade", true)
+		back.set_meta(PaintedClasses.META_NO_PAINT, true)
+		root.add_child(back)
+	# the runners
+	var runners: MeshInstance3D = MeshInstance3D.new()
+	runners.name = "Runners"
+	runners.mesh = DnaHall.runner_mesh()
+	runners.material_override = DnaHall.runner_material()
+	runners.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	runners.set_meta(&"no_range_cull", true)
+	runners.set_meta(&"no_occlusion_fade", true)
+	runners.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(runners)
+	# columns along the hall walls (rising past the cornice into the dark), chandeliers over the open floor
+	var column_aspect: float = _kit_aspect("DNA-PROP-COLUMN", 0.28)
+	for at: Vector3 in hall_columns:
+		var column: MeshInstance3D = hanging_card("DNA-PROP-COLUMN", Vector2(COLUMN_H * column_aspect, COLUMN_H), false)
+		column.name = "HallColumn"
+		chunk_for(at).add_child(column)
+		column.global_position = at
+		(column.material_override as ShaderMaterial).set_shader_parameter("fade_near", 3.0)
+		(column.material_override as ShaderMaterial).set_shader_parameter("fade_far", 6.5)
+	var sway: bool = not GraphicsQuality.low_end
+	var chandelier_aspect: float = _kit_aspect("DNA-PROP-CHANDELIER", 0.66)
+	for index: int in range(CHANDELIERS.size()):
+		var spot: Vector2 = CHANDELIERS[index]
+		var c: Vector2i = DnaLayout.world_to_cell(Vector3(spot.x, 0, spot.y))
+		if not layout.is_floor(c.x, c.y):
+			continue
+		var top: Vector3 = Vector3(spot.x, CHANDELIER_BOTTOM + CHANDELIER_H, spot.y)
+		var chandelier: MeshInstance3D = hanging_card("DNA-PROP-CHANDELIER", Vector2(CHANDELIER_H * chandelier_aspect, CHANDELIER_H), true)
+		chandelier.name = "Chandelier"
+		var material: ShaderMaterial = chandelier.material_override as ShaderMaterial
+		material.set_shader_parameter("sway_amp", 0.018 if sway else 0.0)
+		material.set_shader_parameter("sway_phase", float(index) * 1.7)
+		material.set_shader_parameter("emission", 1.6)
+		material.set_shader_parameter("fade_near", 3.5)
+		material.set_shader_parameter("fade_far", 7.0)
+		chunk_for(top).add_child(chandelier)
+		chandelier.global_position = top
+		# the chain up into the dark
+		var chain: MeshInstance3D = MeshInstance3D.new()
+		var chain_mesh: BoxMesh = BoxMesh.new()
+		chain_mesh.size = Vector3(0.06, DnaHall.VAULT_H - top.y, 0.06)
+		chain.mesh = chain_mesh
+		chain.material_override = dark
+		chain.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		chunk_for(top).add_child(chain)
+		chain.global_position = top + Vector3(0, (DnaHall.VAULT_H - top.y) * 0.5, 0)
+		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		light.pos = Vector3(spot.x, CHANDELIER_BOTTOM + 1.2, spot.y)
+		light.color = WARM_LIGHT
+		layout.lights.append(light)
+		chandelier_count += 1
+	_build_hall_banners()
+	_build_moon_shafts()
+	# the lobby clock on the Hall of Final Approvals' drum, where the faceted dome stood
+	if hall != null and EnvKit.has("DNA-PROP-LOBBY-CLOCK"):
+		var base: Vector3 = Vector3(0, 21.0, -6.0)
+		var nodes: Array = [hall]
+		nodes.append_array(hall.find_children("*", "Node3D", true, false))
+		for node: Variant in nodes:
+			if (node as Node).has_meta("dome_base"):
+				base = (node as Node).get_meta("dome_base") as Vector3
+				break
+		var clock_h: float = 10.0
+		var clock: MeshInstance3D = hanging_card("DNA-PROP-LOBBY-CLOCK", Vector2(clock_h * _kit_aspect("DNA-PROP-LOBBY-CLOCK", 0.38), clock_h), false)
+		clock.name = "LobbyClock"
+		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_near", 0.0)
+		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_far", 0.01)
+		(clock.material_override as ShaderMaterial).set_shader_parameter("emission", 0.8)
+		root.add_child(clock)
+		clock.global_position = hall.global_position + base - Vector3(0, 1.4, 0)
+		clock.set_meta(&"no_range_cull", true)
+
+
+## Overnight Nov 18: cool moonlight slanting in from the tall windows of the long side walls onto the marble (every other bay join of a wall
+## that runs north-south), each with a few slow dust motes (the motes are off on Low quality and Low-end).
+var shaft_count: int = 0
+
+
+func _build_moon_shafts() -> void:
+	var shader: Shader = load("res://world/dna/dna_moon_shaft.gdshader") as Shader
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = shader
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	var motes: bool = not GraphicsQuality.low_end and Settings.graphics_quality != GraphicsQuality.Level.LOW
+	var picked: int = 0
+	for join: Dictionary in hall_joins:
+		var normal: Vector3 = join["normal"] as Vector3
+		if absf(normal.x) < 0.5 or float(join.get("length", 0.0)) < 14.0:
+			continue
+		picked += 1
+		if picked % 2 == 1:
+			continue
+		var at: Vector3 = join["pos"] as Vector3
+		var side: Vector3 = Vector3(0, 0, 1)
+		var centre: Vector3 = at + side * 2.75
+		var top_hi: float = DnaHall.HALL_H * 0.9
+		var top_lo: float = DnaHall.HALL_H * 0.66
+		var pts: Array[Vector3] = [centre + Vector3(0, top_hi, 0), centre + normal * 9.5, centre + normal * 6.0, centre + Vector3(0, top_lo, 0)]
+		var uvs: Array[Vector2] = [Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)]
+		var tool: SurfaceTool = SurfaceTool.new()
+		tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for k: int in [0, 1, 2, 0, 2, 3]:
+			tool.set_uv(uvs[k])
+			tool.add_vertex(pts[k])
+		var shaft: MeshInstance3D = MeshInstance3D.new()
+		shaft.name = "MoonShaft"
+		shaft.mesh = tool.commit()
+		shaft.material_override = material
+		shaft.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		shaft.set_meta(&"no_occlusion_fade", true)
+		shaft.set_meta(PaintedClasses.META_NO_PAINT, true)
+		chunk_for(centre).add_child(shaft)
+		shaft_count += 1
+		if motes:
+			var dust: GPUParticles3D = GPUParticles3D.new()
+			dust.name = "ShaftMotes"
+			dust.amount = 14
+			dust.lifetime = 9.0
+			dust.preprocess = 9.0
+			var process: ParticleProcessMaterial = ParticleProcessMaterial.new()
+			process.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+			process.emission_box_extents = Vector3(2.4, 2.6, 1.0)
+			process.gravity = Vector3(0, -0.03, 0)
+			process.initial_velocity_min = 0.02
+			process.initial_velocity_max = 0.08
+			process.direction = Vector3(0, 1, 0)
+			process.spread = 180.0
+			process.scale_min = 0.6
+			process.scale_max = 1.0
+			dust.process_material = process
+			var dot: QuadMesh = QuadMesh.new()
+			dot.size = Vector2(0.05, 0.05)
+			var dot_material: StandardMaterial3D = StandardMaterial3D.new()
+			dot_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			dot_material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+			dot_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			dot_material.albedo_color = Color(0.85, 0.9, 1.0, 0.55)
+			dot_material.set_meta(PaintedClasses.META_NO_PAINT, true)
+			dot.material = dot_material
+			dust.draw_pass_1 = dot
+			dust.visibility_aabb = AABB(Vector3(-4, -4, -3), Vector3(8, 8, 6))
+			chunk_for(centre).add_child(dust)
+			dust.global_position = centre + normal * 5.0 + Vector3(0, 3.2, 0)
+
+
+func _kit_aspect(id: String, fallback: float) -> float:
+	if not EnvKit.has(id):
+		return fallback
+	var value: float = EnvKit.aspect(id)
+	return value if value > 0.0 else fallback
+
+
+static var _hanging_shader: Shader
+
+
+## A camera-facing painted card (the chandeliers, columns, the clock): `hanging` puts the pivot at the top, else at the foot.
+static func hanging_card(id: String, size: Vector2, hanging: bool) -> MeshInstance3D:
+	if _hanging_shader == null:
+		_hanging_shader = load("res://world/dna/dna_hanging.gdshader") as Shader
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = size
+	quad.center_offset = Vector3(0, -size.y * 0.5 if hanging else size.y * 0.5, 0)
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.mesh = quad
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = _hanging_shader
+	material.set_shader_parameter("albedo_tex", EnvKit.texture(id))
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	instance.material_override = material
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.extra_cull_margin = size.y
+	instance.set_meta(&"no_occlusion_fade", true)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	return instance
+
+
+## The stamp banners hanging from the gallery rail at every third bay join (01 and 02 in turn), flat on the wall, fading with it.
+func _build_hall_banners() -> void:
+	if hall_banners.is_empty():
+		return
+	var fade: DnaFadeMesh = DnaHall.mesh()
+	for index: int in range(hall_banners.size()):
+		var join: Dictionary = hall_banners[index]
+		var at: Vector3 = join["pos"] as Vector3
+		var normal: Vector3 = join["normal"] as Vector3
+		var side: Vector3 = Vector3(-normal.z, 0.0, normal.x)
+		var slot: String = "banner_1" if index % 2 == 0 else "banner_2"
+		var width: float = 1.7
+		var height: float = width / _kit_aspect("DNA-BANNER-STAMP-01" if slot == "banner_1" else "DNA-BANNER-STAMP-02", 0.34)
+		var top: float = DnaHall.BAND_HEIGHTS[1] * DnaHall.HALL_H + 2.4
+		var base: Vector3 = at + normal * 0.12
+		var piece: Vector4 = Vector4(at.x - normal.x * 0.5, at.z - normal.z * 0.5, 0.5, DnaHall.VAULT_H)
+		var a: Vector3 = base - side * width * 0.5 + Vector3(0, top - height, 0)
+		var b: Vector3 = base + side * width * 0.5 + Vector3(0, top - height, 0)
+		var mirror: bool = normal.x > 0.5 or normal.z < -0.5
+		var u0: float = 1.0 if mirror else 0.0
+		var u1: float = 0.0 if mirror else 1.0
+		fade.quad(slot, piece, [a, b, b + Vector3(0, height, 0), a + Vector3(0, height, 0)], [Vector2(u0, 1.0), Vector2(u1, 1.0), Vector2(u1, 0.0), Vector2(u0, 0.0)], normal)
+	var instance: MeshInstance3D = fade.instance("HallBanners")
+	instance.set_meta(&"no_range_cull", true)
+	root.add_child(instance)
+
+
+static func _quad_down(tool: SurfaceTool, x0: float, z0: float, x1: float, z1: float, y: float) -> void:
+	for p: Vector3 in [Vector3(x0, y, z0), Vector3(x1, y, z1), Vector3(x1, y, z0), Vector3(x0, y, z0), Vector3(x0, y, z1), Vector3(x1, y, z1)]:
+		tool.add_vertex(p)
+
+
+## A dark wall quad from `a` to `b` (on the floor line), `height` tall (the material draws both sides).
+static func _wall_quad(tool: SurfaceTool, a: Vector3, b: Vector3, height: float, normal: Vector3) -> void:
+	var up: Vector3 = Vector3(0, height, 0)
+	tool.set_normal(normal)
+	for p: Vector3 in [a, b, b + up, a, b + up, a + up]:
+		tool.add_vertex(p)
 
 
 ## The hero landmarks kept from the removed sub-areas (SR-8) as views beyond the balustrades, where they crowd nothing: the Filing Tower west of the Filing
