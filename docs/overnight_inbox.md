@@ -4,6 +4,29 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 18 evening - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov18_evening.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-evening`. Most important first.
+
+1. **"Take a Number" stays Gerald's quest** (the barista ghost, Number 4,000,212), not Agnes's: the Waiting Room already had a quest
+   that nobody was sent to finish (his "Number 4,000,212": two roaming fights to unseal the door), so per the brief I made that one
+   official instead of adding a second - same id and giver, new steps (find the lit elevator, then clear it), taking it unseals the door,
+   reward 390 gold, 120 XP and a Necrocrat Path Pack. **Recommendation:** keep; say "Agnes" and I move the giver (her desk is beside the
+   TAKE A NUMBER machine, so she would suit too).
+2. **The Gainlands now has two "beat three" quests**: Coach Benchley's older "Clear the Lanes" (a favour: card + barbell) and the new
+   "Spot Check" from Foreman Gus (Gilded pack). The same fights count for both while both are active. **Recommendation:** keep both
+   (different rewards, both one time); say "merge" and I fold the Gilded pack into Clear the Lanes instead.
+3. **A Gilded General Pack exists now** (the Capital's and Crosspath's reward; there was no general gilded pack): General Tier II pool,
+   Gilded odds (a guaranteed Epic or Legendary), the existing gilded frame and General icon - no new art; never sold. **Recommendation:**
+   keep it reward-only.
+4. **No hourglass in any sign sheet**: the Waiting Room's hanging sign uses the D.N.A. clock plaque (DNA-SHEET-SIGNS-02). Batch 18 row
+   `DNA-SIGN-HOURGLASS` (and an optional painted couch, `DNA-PROP-HEAL-COUCH`). **Recommendation:** commission the hourglass plaque.
+5. **Five of the eleven office booths are gone**: the six that fit on walled-in floor beside their old spots moved there; the other five
+   only fitted on top of a partition. **Recommendation:** keep (the plaza is calmer); a painted booth front for a wall would let them return.
+6. **Cubicle Farm A's north wall is low now**: the brief's street of buildings needs room behind a front, and that wall had a 2 m strip
+   of wasteland behind it (it was the lone painted wall in the middle of your `ref_dna_flat_fronts_punchcard.png`). The fronts that stay
+   have a full street behind them. **Recommendation:** keep.
+
 ## Nov 18 day - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov18_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-day`. Most important first.

@@ -1,0 +1,15 @@
+== dna
+dna_walk_smoke: OK - causeway -> gate -> lobby -> NPCs, vendor, interactables -> quiz, matching, puzzle -> Sub-Basement 3, the Hall -> giant chest, lever -> causeway -> town (20 screenshots)
+== gainlands
+gainlands_walk_smoke: OK - bridge -> plaza -> Iron Cave -> left road, west span, mesa stairs -> House of Gains gate -> sealed Swolympus gate -> bridge -> town (14 screenshots)
+== buffet
+buffet_walk_smoke: OK - bridge -> plaza -> NPCs, vendor, interactables -> quiz, Dinner in a Dash, taste test, stew pot -> the Walk-In Freezer (Omakase), the Test Kitchen -> giant chest, lever -> bridge -> town (22 screenshots)
+== heap
+heap_walk_smoke: OK - bridge -> plaza -> NPCs, vendor, interactables, the boar -> quiz, the fair, the Seed Shrine -> the Landfill Depths door at the throne, the Rotheart's root gate -> giant chest, lever -> bridge -> town (21 screenshots)
+== capital
+capital_walk_smoke: OK - Gate Road -> gate, camp, tunnels, outpost, rift fields (a rift sealed) -> the west strip and the hidden hole -> plaza, approach, the five districts, the Ward -> the castle door -> save/load -> through the gate -> town -> back with the four Paths freed: every district restored and welcomed (36 screenshots)
+== card games
+card_games_smoke: OK - 4 zones: card game, card quiz, one-time reward (22 screenshots)
+card_games_smoke: 137 checks passed, 0 failed
+== npc
+npc_visibility_probe: OK - 150 checks, 0 failed

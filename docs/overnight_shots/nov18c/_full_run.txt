@@ -1,0 +1,58 @@
+GUT sharded: 416 scripts in 42 shards of 10 (fresh Godot per shard)
+shard 1/42: 92/92 passed  (res://tests/audio/test_audio_registry.gd ...)
+shard 2/42: 115/116 passed  (res://tests/characters/test_character_sprite.gd ...)
+shard 3/42: 60/60 passed  (res://tests/core/data/test_art_cache.gd ...)
+shard 4/42: 91/97 passed, 6 failing  (res://tests/core/data/test_card_availability.gd ...)
+shard 5/42: 90/92 passed, 2 failing  (res://tests/core/data/test_enemy_art_oct28.gd ...)
+shard 6/42: 87/87 passed  (res://tests/core/data/test_level_track.gd ...)
+shard 7/42: 88/88 passed  (res://tests/core/data/test_portraits.gd ...)
+shard 8/42: 89/89 passed  (res://tests/core/dungeon/test_boon_effects.gd ...)
+shard 9/42: 72/72 passed  (res://tests/core/dungeon/test_dungeon_clear_bonus.gd ...)
+shard 10/42: 128/128 passed  (res://tests/core/dungeon/test_graveyard_boss.gd ...)
+shard 11/42: 83/83 passed  (res://tests/core/dungeon/test_pathology_lab.gd ...)
+shard 12/42: 150/150 passed  (res://tests/core/dungeon/test_vault_guardian.gd ...)
+shard 13/42: 129/129 passed  (res://tests/core/game/test_cards_oct28.gd ...)
+shard 14/42: 126/126 passed  (res://tests/core/game/test_game_loop.gd ...)
+shard 15/42: 74/74 passed  (res://tests/core/game/test_traps.gd ...)
+shard 16/42: 68/70 passed, 2 failing  (res://tests/core/quests/test_midgame_rerun_fixes.gd ...)
+shard 17/42: 51/51 passed  (res://tests/core/quests/test_wayfinding_nov11.gd ...)
+shard 18/42: 129/129 passed  (res://tests/core/test_hp_breakdown.gd ...)
+shard 19/42: 84/85 passed, 1 failing  (res://tests/core/zone/test_capital_debuff_tutorial.gd ...)
+shard 20/42: 112/112 passed  (res://tests/core/zone/test_health_travel_rules.gd ...)
+shard 21/42: 60/60 passed  (res://tests/test_art_import_oct29.gd ...)
+shard 22/42: 104/104 passed  (res://tests/test_controller_input.gd ...)
+shard 23/42: 67/67 passed  (res://tests/test_fable_nov15b.gd ...)
+shard 24/42: 91/91 passed  (res://tests/test_level_up_rewards.gd ...)
+shard 25/42: 76/76 passed  (res://tests/test_release_readiness.gd ...)
+shard 26/42: 65/65 passed  (res://tests/test_story_stills.gd ...)
+shard 27/42: 61/61 passed  (res://tests/ui/test_boon_in_battle.gd ...)
+shard 28/42: 52/52 passed  (res://tests/ui/test_character_slots_nov4.gd ...)
+shard 29/42: 38/38 passed  (res://tests/ui/test_fixes_nov4b_deck_rack.gd ...)
+shard 30/42: 48/48 passed  (res://tests/ui/test_level_up_summary.gd ...)
+shard 31/42: 75/75 passed  (res://tests/ui/test_pad_focus_screens.gd ...)
+shard 32/42: 34/34 passed  (res://tests/ui/test_rules_brief_merge_oct31.gd ...)
+shard 33/42: 78/78 passed  (res://tests/world/test_ambient_fx.gd ...)
+shard 34/42: 59/60 passed  (res://tests/world/test_capital_bounds.gd ...)
+shard 35/42: 52/52 passed  (res://tests/world/test_chest_scan.gd ...)
+shard 36/42: 55/55 passed  (res://tests/world/test_crosspath_square.gd ...)
+shard 37/42: 45/45 passed  (res://tests/world/test_dump_herd_nov11.gd ...)
+shard 38/42: 78/78 passed  (res://tests/world/test_gainlands_v2.gd ...)
+shard 39/42: 62/62 passed  (res://tests/world/test_nov12d.gd ...)
+shard 40/42: 58/58 passed  (res://tests/world/test_polish_chests.gd ...)
+shard 41/42: 56/56 passed  (res://tests/world/test_sprite_npcs.gd ...)
+shard 42/42: 42/42 passed  (res://tests/world/test_world_look_rig.gd ...)
+==============================================
+GUT sharded summary (Nov 18 16:13, 27 min): 3274/3287 passed, 11 failing, 2 risky/pending
+Failing tests:
+  res://tests/core/data/test_copy_caps.gd :: test_collection_keeps_up_to_the_cap_and_converts_the_rest
+  res://tests/core/data/test_copy_caps.gd :: test_cap_rises_with_level_for_new_copies
+  res://tests/core/data/test_copy_caps.gd :: test_shop_stops_selling_at_the_cap
+  res://tests/core/data/test_copy_caps.gd :: test_save_migration_converts_owned_extras_and_trims_saved_decks
+  res://tests/core/data/test_copy_rule_text.gd :: test_the_rule_names_three_and_the_real_caps
+  res://tests/core/data/test_copy_rule_text.gd :: test_the_loading_tip_states_the_rule
+  res://tests/core/data/test_infrastructure_caps_nov18.gd :: test_an_old_save_keeps_the_copies_its_decks_use
+  res://tests/core/data/test_infrastructure_caps_nov18.gd :: test_owned_copies_beyond_the_cap_convert_on_load
+  res://tests/core/quests/test_quest_audit.gd :: test_every_quest_is_completable_on_paper
+  res://tests/core/quests/test_quest_markers.gd :: test_a_quest_ready_to_hand_in_shows_a_question_mark_instead
+  res://tests/core/zone/test_gainlands.gd :: test_hub_has_a_heal_spot_vendor_npcs_and_quests
+Real saves: untouched (17 files checked)

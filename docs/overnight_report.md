@@ -1,3 +1,113 @@
+# Nov 18 evening (Opus) - report: the D.N.A. finished properly, card ownership, a defeat-three quest per zone
+
+Brief: `docs/prompts/opus_nov18_evening.md`. Start tag `pre-nov18-evening`. Questions: `docs/overnight_inbox.md`, "Nov 18 evening" (6 items).
+Shots: `docs/overnight_shots/nov18c/` (`ref_*` are your three). No export, no upload.
+
+## 1. The D.N.A. (Part 1)
+
+Shots: `p1_before_<spot>_<cam>.jpg` / `p1_after_<spot>_<cam>.jpg`, cam = `default` (Cinematic) or `low`. Spots: `arrival`, `hub`,
+`stair_front_close` / `_far`, `stair_west_close` / `_far`, `stair_east_close` / `_far`, `lifts_front`, `lifts_behind`,
+`lifts_west_close`, `lifts_east_close`, `farm_a`, `farm_b`, `breakroom`, `time_clock` (`bash tools/dna_nov18c_shots.sh <tag> [spot]`;
+the zone's shot hook takes `--yaw=deg --dist=ratio` now for side and close/far views).
+
+- **A street behind the fronts** (`world/dna/dna_street.gd`). Behind every painted front run (the north side over the Filing Department
+  and the Records Basement, the west long side) the open ground is cut into civic buildings 5-9 m wide and 6.5-8.5 m deep: bodies in
+  DNA-WALL-EXTERIOR or DNA-WALL-GREY rising 1-4.6 m over the front's cornice (an upper storey set back), a brass cornice and parapet
+  (DNA-TRIM-BRASS), slate roofs (DNA-ROOF-SLATE: hipped, mansard or gabled) with chimneys and dormers, a small tower on each long row,
+  lit DNA-SHEET-WINDOWS on the sides, backs and upper floors. Every building is a closed box, so a row's ends are corners. They sit
+  outside the walk grid, clear of the Hall, its stair and the clock tower (the row by the tower ends at it). One mesh per row (draw
+  calls: see FPS). The Filing Tower moved further west and the Records Stair round to the open east side to make room; the wasteland
+  keeps off the street. The DNA-BD-TOWERS skyline stands just inside the far scenery ring with thicker haze (`zone_looks.json`).
+  **Cubicle Farm A's north wall is low now** - it had a 2 m strip behind it (the lone wall in `ref_dna_flat_fronts_punchcard.png`;
+  inbox 6). Compare `p1_before/after_arrival_*`, `_hub_*`, `_stair_*_far_*`.
+- **Nothing floats, nothing sits in a wall.** The time clock is a brass punch clock (dial, hood, a time card in its slot, a card rack) on
+  a stone pillar standing against the breakroom's west wall; "[E] Punch in" is a step in front of it (`p1_*_time_clock_*`). The
+  pneumatic tubes are gone. Signs on the waist-high rails stand on the rail (they hung 1.5 m up, a third of a metre off it). Booths moved
+  onto walled-in floor beside their old spots, or left out (6 kept, 5 out; inbox 5). Lamps at corners stand clear of both walls.
+  The clock tower's flat glow panel (a pale slab from the sides) is gone.
+  **Probe** `DnaPropProbe` (`world/dna/dna_prop_probe.gd`; test `tests/world/test_dna_props_nov18c.gd`): every layout prop, booth,
+  column, set piece, chest, sign, stair ghost, dressing piece and wasteland piece against the ground (or the counter it stands on, or
+  the wall it hangs on) and against every front, rail, desk partition, elevator wall, maze cabinet and street building. Its first run,
+  after the clock, tubes, booths and signs above, found **9** (five corner lamps, the elevator-bank lamp, a records cabinet half in the
+  north front, two booths); **now 0 of 441**. Known before any of that: 11 booths on rails, the floating clock, 4 tube runs, 4 sunk ghosts.
+- **Elevator walls one piece.** Each half of the bank (`LiftBank_W` / `_E`) is one node: its wall (now 4.2 m, a storey and a half) and its
+  two elevators with stone shaft surrounds up to the cornice and brass floor dials. The camera's cut-away dissolves a node's meshes
+  together, so wall and shafts go together or not at all (`p1_after_lifts_west_close_low.jpg`: the near bank gone whole, the far one whole).
+- **Stair ghosts.** The four cards that sank into the steps are gone; nine ghosts wait single file up the stair's left side and four
+  more across the landing to the left door leaf, each with its feet on its tread, bobbing upward only (`p1_after_stair_front_close_*`).
+- **The couch** (`DnaProps.heal_couch`): a big oxblood velvet couch facing the camera on a rug, a side table with a cup, a standard
+  lamp with a warm shade and a warm light over it, a heart sign (ICON-MAP-HEAL on a brass-framed board) on its own post behind it, the
+  screen label "Breakroom: rest here", the map/minimap heart (as before) and a soft gold glow on the floor while the hero is within
+  5.5 m. The heal works as before (spot in front of it). `p1_after_breakroom_*`, `p1_after_couch_close.jpg`.
+- **The Waiting Room of Eternity**: the live elevator's door has a warm glowing frame, light spilling out, a brass bracket with a
+  hanging sign over it (the clock plaque - no hourglass in any sign sheet, Batch 18 row `DNA-SIGN-HOURGLASS`), a red runner off the main
+  axis to it, the screen label "The Waiting Room of Eternity" (its door was still called "Sub-Basement 3") and the map/minimap icon
+  once explored (fog). `p1_after_lifts_front_*`, `p1_after_lifts_behind_*`.
+  **Quest "Take a Number"** (inbox 1): Gerald's old "Number 4,000,212" made official - same quest, new tracked steps: find the
+  Waiting Room (the lit elevator; set when the hero comes within 6 m), then clear it; both steps pin the door on the map; taking it
+  unseals the door; reward **390 gold, 120 XP, a Necrocrat Path Pack**. Tests `tests/core/quests/test_take_a_number_nov18c.gd`.
+- **Checks:** D.N.A. walk smoke OK (20 shots); NPC visibility probe 150/150; prop probe 0; every NPC, chest, the couch and the
+  Waiting Room reachable from the causeway (test); aisles round the new pieces 2.5 m+ (test).
+- **FPS (arrival, 8 s, uncapped):** Medium **82.3 -> 82.2**; Low-end **97.2 -> 96.3** (draw calls 821 -> 874; with one mesh per building
+  it was 76.6 / 1068, so the street is merged per row).
+
+## 2. Card ownership (Part 2)
+
+- **Own 3 of every card at all times** (`CopyCaps.own_cap`; basic Infrastructure unlimited). Packs, rewards and shops give real copies
+  up to 3 at any level; a 4th converts as before. **Deck limits unchanged** (`CopyCaps.for_card`, rarity and level). `Session.copy_cap`
+  is the ownership cap now, `Session.deck_cap` the deck limit; the load-time cap pass trims owned copies past 3 and deck copies past the
+  deck limit.
+- **The notice** (`CopyCaps.buy_notice`, the card vendor): buying a copy past what fits in a deck right now asks first, e.g. "You can only
+  use 1 copy of <card> in a deck right now. You'll be able to use 2 at level 12 and 3 at level 22. Buy anyway?" - Buy / Cancel (the
+  shared confirm box, mouse and pad); the levels come from the level track. Shot `p2_notice.jpg` (`--open=vendor_notice` on the town).
+- **Deck Station**: "Deck 1/1 · Own 3", hover note "2 more usable at level 22" (or "1 more usable at level 12, all 3 at level 22").
+  The shop and the Collection Book say "Own 2/3"; the book adds "In a deck: 1 for now. You'll be able to use ...".
+- Words: the rule ("You can own up to 3 copies of any card. How many you can put in a deck depends on its rarity and your level."), the
+  glossary, the loading tips, the level-up lines and level-track headlines ("Epics: 2 copies in a deck"), `docs/design/combat_rules.md`,
+  `docs/design/progression.md`.
+- Tests `tests/core/data/test_card_ownership_nov18c.gd` (2nd and 3rd copy at level 1, a 4th converts, the notice text and its levels,
+  the deck limit still enforced, the Deck Station note, rewards/packs up to 3, the wording).
+
+## 3. Quests (Part 3)
+
+- **Only counted enemies are marked.** Roamer markers (world, minimap, map - one resolver) skip the contact-damage hazards (the D.N.A.'s
+  Speedy Ghost Couriers were marked for Kyle's Hall Monitor; also sprites, meatballs, gulls, Tidy-Bots, shard swarms), elites and bosses
+  (Colonel Casserole, Captain Spotless) and the foes that block a way (`ZoneQuestDefinitions.is_ordinary`). Checked for Hall Monitor,
+  Clear the Backlog, Clear the Lanes (its pin no longer says "sprites"), Who Ate the Compost? and the new ones.
+- **Defeat three, one per zone** (the D.N.A.'s is Kyle's Hall Monitor; Crosspath added because its outskirts have roamers; the Opening
+  Forest has none). Count 0/3 from when taken; only ordinary roamers; one time; side quests; any zone order.
+
+| Zone | Quest | Giver (where) | Counts | Reward (after the side-quest gold scale) |
+|---|---|---|---|---|
+| Gainlands | Spot Check | Foreman Gus (by the wheels) | brutes, golems | Gilded Beefcake Pack, 225 gold, 50 XP |
+| Endless Buffet | Leftovers | Sous-Chef Tarragon | meatloaf golems, gelatin sentinels | Gilded Gourmand Pack, 390 gold, 100 XP |
+| Verdant Dump | Pest Control | Billie Muckfoot (the pens) | trash golems, scarecrows | Gilded Refusemancer Pack, 450 gold, 115 XP |
+| Capital | Thin the Patrols | Kestrel | officers, inspectors, rift wretches | Gilded General Pack (new, inbox 3), 525 gold, 135 XP |
+| Crosspath | Outskirts Watch | Gatekeeper Brannoch (the gate) | hound, clerk, raccoon (they return) | Gilded General Pack, 135 gold, 35 XP |
+
+  (Hall Monitor at the D.N.A.: 330 gold, 80 XP, a Gilded pack.) Each has one offer, active, ready and done line in its giver's voice
+  (`data/dungeons/dungeon_content.json`, new keys). Tests `tests/core/quests/test_defeat_three_nov18c.gd`.
+
+## 4. Dialogue revert
+
+`node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18c_lines.csv --revert=docs/dialogue/nov18c_lines_ids.txt` (Gerald's four
+rewritten Take a Number lines and the elevator sign; the five new quests' lines are new keys the quests need).
+
+## 5. Checks (Part 4)
+
+- **GUT:** full suite 42 shards **3274/3287, 11 failing** on the first run - all tests of the old copy-cap rule (an Epic capped at 1
+  owned, the old rule wording and loading tip, special Infrastructure trimmed to 2), the quest audit (the new counters' producer is a
+  generated name; taught to it), Gus now having a second quest (Gainlands quest count, the marker test). Updated and re-run: green
+  (73/73 in those files and the new ones). Real saves untouched (SaveGuard). Log `docs/overnight_shots/nov18c/_full_run.txt`.
+- **Walk smokes:** the D.N.A. OK (20 shots), the Gainlands OK (14), the Buffet OK (22), the Dump OK (21), the Capital OK (36).
+  **Card-games smoke:** 137/137. **NPC visibility probe:** 150/150. **Prop probe:** 0 of 441. Log `_smokes.txt`.
+- No export, no upload.
+
+## 6. For you
+
+Six items in `docs/overnight_inbox.md` ("Nov 18 evening"), each with a recommendation: Take a Number stays Gerald's; the Gainlands' two
+beat-three quests; the new Gilded General Pack; the hourglass plaque (Batch 18); five booths out; Farm A's north wall low.
+
 # Nov 18 day (Opus) - report: the owner's playtest fixes - battle, quests, cards, UI, and the D.N.A. back outdoors
 
 Brief: `docs/prompts/opus_nov18_day.md`. Start tag `pre-nov18-day`. Questions: `docs/overnight_inbox.md`, "Nov 18 day". Shots:
