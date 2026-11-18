@@ -5,7 +5,7 @@ Shots: `docs/overnight_shots/nov18/`. Import note: `docs/art/import_nov18_batch1
 
 All seven parts are done. Every one of the 81 images is in the game; the D.N.A. is one huge haunted government hall at night; tonight's
 owner answers are applied; the tests, the five walk smokes, the card-games smoke and the NPC probe pass. The strict bot result is
-at the end of this summary (STRICT_RESULT).
+in section 8: a full new game on the Refusemancer Path reached the credits and the first postgame step, Primm beaten with no wall.
 
 ## 1. The D.N.A. before and after (Part 2)
 
@@ -141,7 +141,12 @@ import rules' compression that is roughly +15-25 MB on the 1.0.0 pack (784 MB, o
 - **Walk smokes:** Crosspath, Gainlands, Buffet, Dump and D.N.A. all OK.
 - **Card-games smoke:** 137 checks passed.
 - **NPC visibility probe:** **150 checks, 0 failed** (every zone, both cameras; the D.N.A. alone 14/14 earlier).
-- **Strict bot (one Path, to Primm):** STRICT_RESULT.
+- **Strict bot (Refusemancer, new game, no shortcuts):** **went all the way: new game -> four zones -> the Capital -> Primm beaten
+  (L22, 21 min, no 10-loss wall; on Nov 17 it hit the wall at L24) -> the ending and credits -> the first postgame step**, 74 min.
+  23 issues, all of the kinds the Nov 17 run logged (the bot's own walking getting stuck at the same spots in the Dump, D.N.A., Buffet
+  and Capital - it is moved on and carries on; the D.N.A. ones are at the same coordinates as on Nov 17, so the grand hall added
+  none), plus 4 script errors of one new kind (a Buffet quest marker asked after the hero had left the zone: guarded tonight,
+  `BuffetInteractables.picked_this_visit`). Log `_logs/strict/refusemancer.log`.
 
 ## 9. For the owner (most important first)
 

@@ -71,6 +71,8 @@ static func pick_up(run: ZoneRun, ingredient_id: String) -> bool:
 
 
 static func picked_this_visit(run: ZoneRun, ingredient_id: String) -> bool:
+	if run == null:
+		return false  # Overnight Nov 18 (strict bot): a quest marker asked while the hero was leaving the zone (no visit any more)
 	return run.visit_count(PICKUP_PREFIX + ingredient_id) > 0
 
 
