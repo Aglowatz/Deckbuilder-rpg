@@ -1,0 +1,30 @@
+Batch 17A, part 2 of 3, for my cozy-fantasy deckbuilder RPG "The Wayward Path": a new look for one zone, the D.N.A. (the Department of Necrotic Affairs). Make items 5 to 9 below (7 images in all), one at a time, without stopping to ask me questions. Save each one as a PNG named exactly as given in **bold**.
+
+I've attached reference images. Each reference's filename starts with the item number it belongs to. The files starting with 00_ are for every item. **00_DONE_DNA-WALL-HALL-A is the first finished piece of this set: match its materials, colours, light and brushwork in everything you make.**
+
+**What the D.N.A. is.** A huge, haunted government office where skeleton clerks and ghost citizens queue forever for forms and stamps. Funny, a little spooky, never scary. Family friendly.
+
+**The new look: one enormous grand hall, indoors, at night.**
+- It is all **inside** one vast old civic building: think a cathedral-sized government lobby. Marble floors, dark mahogany panelling, brass rails, stone arches, a gallery running round the upper floor, tall arched windows, chandeliers, record shelves, red velvet rope lines.
+- **The light:** warm gold from brass lamps, chandeliers and lit windows; **soft green ghost-flame** as the accent colour (in lamps, sconces and the ghosts); cool pale moonlight coming in through the high windows. Deep shadow above, as if the ceiling were lost in the dark far overhead. **No sky, no clouds, no trees, no weather and no rain anywhere inside.**
+- **The game's camera looks down at the floor at about 25 degrees, so the ceiling is never seen.** What tells the player "you are indoors" is what rises out of the top of the frame: columns, the gallery, the tops of tall windows, chandelier chains. Paint the walls and tall props so they read as indoor architecture even when only their lower two thirds are on screen.
+- **The palette:** dark green and cream marble, mahogany brown, aged brass and gold, deep red velvet, grey stone, with green ghost-glow. Never murky: everything readable, with warm highlights.
+- **Match ref 00_DONE_DNA-WALL-HALL-A and refs 00_STYLE_haunted_office_hall** (the mood, the materials and the light: this is the target) and **00_STYLE_dungeon_map_mood** (the warm-lamps-against-green-glow colour). **00_STYLE_paintover_hub_layout** shows how the hall is laid out: low partitions you can see over, open floor, the grand Hall of Final Approvals at the far end. In the new look that whole scene is indoors.
+- **00_NOW_dna_hub_ingame** shows what the game looks like today: flat tall walls with one repeating green wallpaper. **Do not copy them.** Everything below replaces them.
+
+House style for everything: painted cozy-fantasy game art, soft visible brushwork, painterly light, clean readable silhouettes, matching the attached references and the existing D.N.A. pieces (the brass trim, windows, doors, ghost lamp and signs in the references). No text, letters or numbers anywhere. "Transparent" means a real transparent background with no checkerboard, no shadow box and no border.
+
+**"Tileable left-right"** means: the left and right edges must line up exactly, so that copies placed side by side join with no seam. Do this by starting and ending the picture in the middle of a plain pilaster or panel. **"Tileable top-bottom"** is the same for the top and bottom edges. **"Tileable"** alone means all four edges. Paint these straight on from the front, flat, with no perspective and no vanishing point.
+
+
+**Sizes:** make each image at the size given, or if you can't, at the largest size you can make with the same shape (square, tall or wide). I will scale it.
+
+5. **The floor: two textures** (opaque, painted straight down from above, flat). Refs 00 haunted_office_hall (its floor is the target).
+   - **DNA-FLOOR-MARBLE** (1024x1024, tileable): polished marble floor tiles in a large checker of dark green and cream, with fine veins, worn edges, a few hairline cracks and a soft sheen. Painterly, not a photo. Calm enough that sprites read on top of it.
+   - **DNA-FLOOR-RUNNER** (1024x2048, tileable top-bottom): a long deep-red velvet carpet runner seen from above, with a gold woven border down both long sides and a faint repeating pattern of tiny rubber-stamp shapes. It fills the whole picture edge to edge, no floor showing.
+6. **DNA-PROP-CHANDELIER** (1024x1536, transparent). A big old brass chandelier hanging from **a chain that comes down from the top edge** of the picture. Two tiers of curled arms holding candles: most with warm gold flames, a few with green ghost-flames. Hanging drops of pale green glass. A cobweb or two. Seen from a little below the side, as the player would glimpse it.
+7. **DNA-PROP-SCONCE** (512x512, transparent). A brass wall sconce seen from the front: a backplate shaped like a filing-cabinet drawer front, one curled arm, and a frosted green glass shade with a soft green ghost-flame inside casting a warm glow. In the style of ref 07 DNA-PROP-GHOSTLAMP.
+8. **DNA-PROP-LOBBY-CLOCK** (1024x2048, transparent). **The hall's landmark**, standing in its middle: a tall freestanding lobby clock column. A stepped marble base with a brass rope rail and two queue posts, a slim column, and at the top a big round brass clock with four faces (the front one seen face on), a little skull finial on top, and a faint green glow behind the clock glass. **The clock face has hands and plain tick marks, no numbers.** It replaces the faceted grey orb on a stand at the top of ref 08 now_faceted_orb. Ref 08 DNA-SHEET-SIGNS shows the zone's clock icon style.
+9. **DNA-BANNER-STAMP-01** and **DNA-BANNER-STAMP-02** (512x1536 each, transparent). Two long hanging banners of the D.N.A., as in ref 09 PAINTOVER-DNA-EXECUTIVE-APPROACH: deep red cloth with a gold border and a gold emblem of **a rubber stamp** (the shape of ref 09 DNA-PROP-STAMP) in the upper middle, hanging from a brass rod with finials.
+   - 01: long and straight, with a pointed swallowtail bottom and gold tassels.
+   - 02: the same banner a little faded and frayed, slightly turned in a draught, with one tassel missing.
