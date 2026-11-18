@@ -40,6 +40,9 @@ static var swivel: float = 0.0
 static var swivel_target: float = 0.0
 ## Overworld scenes with a world look rig alive (the camera keys do nothing in menus, battles and the title).
 static var active_rigs: int = 0
+## Nov 18 day (Part 6.3): degrees added to every angle preset's pitch by the current zone (the D.N.A. looks down a little more into its
+## plaza so the partitions hide less). 0 everywhere else; the scene sets it and puts it back when it leaves.
+static var zone_pitch_bonus: float = 0.0
 
 
 ## The camera-to-hero distance at Normal zoom, Cinematic angle: the hero fills `HERO_SCREEN_FRACTION` of the screen height.
@@ -76,7 +79,7 @@ static func shape(offset: Vector3) -> Vector3:
 	var base_pitch: float = atan2(base.y, maxf(Vector2(base.x, base.z).length(), 0.0001))
 	var yaw: float = atan2(offset.x, offset.z) + deg_to_rad(swivel)
 	var index: int = angle_index()
-	var new_pitch: float = deg_to_rad(ANGLE_PITCH[index]) + (pitch - base_pitch)
+	var new_pitch: float = deg_to_rad(ANGLE_PITCH[index] + zone_pitch_bonus) + (pitch - base_pitch)
 	var ratio: float = offset.length() / maxf(base.length(), 0.0001)
 	var length: float = normal_distance() * ANGLE_DISTANCE[index] * ratio * (Settings.camera_zoom / Settings.ZOOM_DEFAULT)
 	return Vector3(sin(yaw) * cos(new_pitch), sin(new_pitch), cos(yaw) * cos(new_pitch)) * length

@@ -6,9 +6,19 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 ## Nov 18 day - yours to decide (the safest choice was taken)
 
-Brief: `docs/prompts/opus_nov18_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-day`.
+Brief: `docs/prompts/opus_nov18_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-day`. Most important first.
 
-(none yet)
+1. **The Filing Department maze keeps its 2 m corridors.** Every other route in the D.N.A. is now 2.5 m or wider (pinch points 257 -> 10),
+   but the maze is a maze on purpose (dead ends with hidden chests, Kyle's corner). Widening it to 3 m corridors means a coarser maze
+   (8 x 4 cells instead of 10 x 6) and moving three of its chests. **Recommendation:** keep it; say "widen the maze" if it still feels tight.
+2. **D.N.A. camera: +6 degrees steeper** (the brief allowed 6-10). +8 read the plaza best but put the new clock tower out of the frame;
+   the comparison shots are `p6_after_*` (+6) and `p6_after_pitch0_*` (flat). **Recommendation:** keep +6.
+3. **Special Infrastructure past its cap turns into essence** on the first load (the usual extra-copy rule), it does not simply vanish;
+   decks keep up to the cap. Uncommons start at 2 copies and Epics at 1 (3 later with levels), like other cards. **Recommendation:** keep.
+4. **The AI's "X is thinking..." line** still shows when a search takes longer than 150 ms (bosses planning a full board), so a long think
+   never looks like a freeze; every action banner is gone. **Recommendation:** keep; say so if you want it gone too.
+5. **The clock tower is built from kit pieces** (exterior wall, brass bands, the lobby clock card scaled up). A painted tower would read
+   much better from the plaza: Batch 18 row `DNA-HERO-CLOCK-TOWER` in `docs/art/batch18_nov18.csv`. **Recommendation:** commission it.
 
 ## Overnight Nov 18 - yours to decide (the safest choice was taken)
 

@@ -245,6 +245,13 @@ static func _stamp(mesh: KitMesh, slot: String, base: Vector3, height: float) ->
 static var hall_dome: bool = true
 
 
+## Nov 18 day (Parts 6.5, 6.6): the stair's pylons and the Hall's door.
+const PYLON_THICKNESS: float = 2.6
+const PYLON_RISE: float = 6.5
+const DOOR_SHARE: float = 0.34
+const DOOR_MAX_H: float = 12.0
+
+
 static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary]) -> void:
 	var w: float = size.x
 	var h: float = size.y
@@ -274,13 +281,19 @@ static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 		_balustrade(mesh, Vector3(side * (half_w - 0.3), top, body_front + 0.3), Vector3(side * (half_w - 0.3), top, front_z), 2.4 * k)
 	# the grand stair with its side walls, statues on the walls' heads and ghost lamps down the flight
 	_stair(mesh, "marble", Vector3(0, 0, half_d + run), stair_w, terrace_h, run)
+	# Nov 18 day (Part 6.5): the walls beside the stair are tall, thick pylons (deep enough to hold a lift shaft) - the dark hooded figures on
+	# the old thin walls' heads stuck out above them like two shafts; nothing pokes out above a pylon now.
+	var pylon_t: float = PYLON_THICKNESS
+	var pylon_h: float = terrace_h + PYLON_RISE
 	for side: float in [-1.0, 1.0]:
-		var wall_x: float = side * (stair_w * 0.5 + 0.45)
-		mesh.box("grey_dark", Vector3(wall_x, terrace_h * 0.5 - 0.3, half_d + run * 0.5), Vector3(0.9, terrace_h + 0.6, run), Basis.IDENTITY, 0.03, 0.9)
-		mesh.box("grey", Vector3(wall_x, terrace_h + 0.9 * k, half_d - 0.2), Vector3(1.4 * k, 1.8 * k, 1.4 * k), Basis.IDENTITY, 0.04)
-		_hooded_figure(mesh, Vector3(wall_x, terrace_h + 1.8 * k, half_d - 0.2), 3.6 * k)
-		_ghost_lamp(mesh, Vector3(wall_x, terrace_h * 0.35, half_d + run * 0.72), lights, 1.3 * k, 0.9 * k)
-		_ghost_lamp(mesh, Vector3(wall_x, 0.0, half_d + run + 0.5), lights, 1.6 * k, 0.9 * k)
+		var wall_x: float = side * (stair_w * 0.5 + pylon_t * 0.5)
+		var pylon_len: float = run + 3.0
+		var pylon_z: float = half_d + run - pylon_len * 0.5
+		mesh.box("grey_dark", Vector3(wall_x, pylon_h * 0.5 - 0.3, pylon_z), Vector3(pylon_t, pylon_h + 0.6, pylon_len), Basis.IDENTITY, 0.06, 0.9)
+		mesh.box("brass", Vector3(wall_x, pylon_h + 0.15, pylon_z), Vector3(pylon_t + 0.3, 0.3, pylon_len + 0.3), Basis.IDENTITY, 0.0)
+		mesh.box("grey_light", Vector3(wall_x, pylon_h + 0.55, pylon_z), Vector3(pylon_t + 0.1, 0.5, pylon_len + 0.1), Basis.IDENTITY, 0.03)
+		_ghost_lamp(mesh, Vector3(wall_x, pylon_h + 0.8, half_d + run - 0.6), lights, 1.4 * k, 0.9 * k)
+		_ghost_lamp(mesh, Vector3(wall_x - side * (pylon_t * 0.5 + 0.6), 0.0, half_d + run + 0.5), lights, 1.6 * k, 0.9 * k)
 	# the wings: gray stone, pilasters, tall windows (kit cards: green-lit and dark), banners, a brass cornice, a low slate roof and corner cupolas
 	for side: float in [-1.0, 1.0]:
 		var wx: float = side * (half_w - wing_w * 0.5)
@@ -346,18 +359,42 @@ static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 	mesh.box("gold", Vector3(0, clock_y, clock_z + 0.32) + Basis(Vector3(0, 0, 1), hour) * Vector3(0, clock_r * 0.28, 0), Vector3(0.2 * k, clock_r * 0.56, 0.06), Basis(Vector3(0, 0, 1), hour), 0.0)
 	mesh.box("gold", Vector3(0, clock_y, clock_z + 0.36) + Basis(Vector3(0, 0, 1), minute) * Vector3(0, clock_r * 0.4, 0), Vector3(0.14 * k, clock_r * 0.8, 0.06), Basis(Vector3(0, 0, 1), minute), 0.0)
 	mesh.blob("gold", Vector3(0, clock_y, clock_z + 0.38), Vector3(0.2, 0.2, 0.1) * k, 3, 6, 1.0)
-	# the stamp relief over the doors, in its laurel
-	var stamp_h: float = centre_h * 0.16
-	var stamp_y: float = terrace_h + centre_h * 0.3
-	_stamp(mesh, "gold", Vector3(0, stamp_y, body_front + 0.6), stamp_h)
-	_arch_ring(mesh, "gold", Vector3(0, stamp_y + stamp_h * 0.5, body_front + 0.3), stamp_h * 0.75, 0.2 * k, 0.2, 10, true)
-	# the doors: a dark portal with a brass frame and the kit double doors, warm lamps either side
-	var door_h: float = centre_h * 0.24
-	var door_w: float = door_h * 0.7
-	mesh.box("brass", Vector3(0, terrace_h + door_h * 0.5 + 0.2, body_front + 0.2), Vector3(door_w + 0.6, door_h + 0.5, 0.3), Basis.IDENTITY, 0.02)
-	mesh.box("dark", Vector3(0, terrace_h + door_h * 0.5, body_front + 0.3), Vector3(door_w, door_h, 0.2), Basis.IDENTITY, 0.0)
+	# Nov 18 day (Part 6.6): a big imposing door - tall double doors (DNA-SHEET-DOORS-02 scaled up) in a stone frame under a pediment, the red
+	# stamp banners either side, warm light spilling from the gap between the leaves and the ghost queue waiting on the steps.
+	var door_h: float = minf(centre_h * DOOR_SHARE, DOOR_MAX_H)
+	var door_w: float = door_h * 0.62
+	var door_z: float = body_front + 0.2
+	mesh.box("grey_light", Vector3(0, terrace_h + (door_h + 1.4) * 0.5, door_z - 0.1), Vector3(door_w + 3.0, door_h + 1.4, 1.1), Basis.IDENTITY, 0.06)
+	for side: float in [-1.0, 1.0]:
+		mesh.box("grey", Vector3(side * (door_w * 0.5 + 1.0), terrace_h + door_h * 0.5, door_z + 0.6), Vector3(1.1, door_h + 0.2, 0.7), Basis.IDENTITY, 0.05)
+	mesh.box("brass", Vector3(0, terrace_h + door_h * 0.5 + 0.15, door_z + 0.5), Vector3(door_w + 0.5, door_h + 0.4, 0.2), Basis.IDENTITY, 0.02)
+	mesh.box("dark", Vector3(0, terrace_h + door_h * 0.5, door_z + 0.6), Vector3(door_w, door_h, 0.2), Basis.IDENTITY, 0.0)
 	if EnvKit.has("DNA-SHEET-DOORS-02"):
-		_card(mesh, "DNA-SHEET-DOORS-02", Vector3(0, terrace_h, body_front + 0.42), door_h, Vector3(0, 0, 1))
+		_card(mesh, "DNA-SHEET-DOORS-02", Vector3(0, terrace_h, door_z + 0.74), door_h, Vector3(0, 0, 1))
+	# the warm light from the gap between the leaves, and its pool on the forecourt
+	mesh.box("warm_glow", Vector3(0, terrace_h + door_h * 0.46, door_z + 0.8), Vector3(0.22, door_h * 0.9, 0.04), Basis.IDENTITY, 0.0)
+	mesh.box("warm_glow", Vector3(0, terrace_h + 0.05, door_z + 2.2), Vector3(1.6, 0.02, 3.0), Basis.IDENTITY, 0.0)
+	lights.append({"pos": Vector3(0, terrace_h + 2.5, door_z + 2.5), "color": WARM, "range": 12.0, "energy": 2.2, "kind": "lantern"})
+	# the pediment over the frame
+	var ped_door_y: float = terrace_h + door_h + 1.4
+	var ped_door_w: float = door_w + 3.6
+	mesh.box("brass", Vector3(0, ped_door_y + 0.12, door_z + 0.2), Vector3(ped_door_w, 0.24, 1.3), Basis.IDENTITY, 0.0)
+	mesh.tri("grey_light", [Vector3(-ped_door_w * 0.5, ped_door_y + 0.24, door_z + 0.85), Vector3(ped_door_w * 0.5, ped_door_y + 0.24, door_z + 0.85), Vector3(0, ped_door_y + 0.24 + ped_door_w * 0.22, door_z + 0.85)], Vector3(0, 0, 1))
+	# the stamp relief in the pediment, in its laurel
+	var stamp_h: float = ped_door_w * 0.12
+	var stamp_y: float = ped_door_y + 0.5
+	_stamp(mesh, "gold", Vector3(0, stamp_y, door_z + 0.95), stamp_h)
+	_arch_ring(mesh, "gold", Vector3(0, stamp_y + stamp_h * 0.5, door_z + 0.9), stamp_h * 0.75, 0.2 * k, 0.2, 10, true)
+	# the red stamp banners either side of the frame
+	for side: float in [-1.0, 1.0]:
+		_banner(mesh, Vector3(side * (door_w * 0.5 + 2.6), terrace_h + door_h + 0.4, door_z + 0.9), door_h * 0.78, Vector3(0, 0, 1), 1.8 * k)
+	# the ghost queue on the steps, shuffling up towards the doors
+	for index: int in range(4):
+		var queue_id: String = "DNA-SHEET-GHOST-QUEUE-0%d" % (index % 3 + 1)
+		var t: float = (float(index) + 0.5) / 4.0
+		var step_y: float = terrace_h * (1.0 - t)
+		var step_z: float = half_d + run * t
+		_card(mesh, queue_id, Vector3((-0.9 if index % 2 == 0 else 0.9), step_y, step_z), 2.1 * k, Vector3(0, 0, 1))
 	for side: float in [-1.0, 1.0]:
 		var lamp: Vector3 = Vector3(side * (door_w * 0.5 + 1.0 * k), terrace_h + door_h * 0.55, body_front + 0.5)
 		mesh.box("iron", lamp, Vector3(0.3, 0.45, 0.3) * k, Basis.IDENTITY, 0.02)
@@ -409,7 +446,7 @@ static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 	for index: int in range(stair_cols + 1):
 		circles.append(Vector3(-stair_w * 0.5 + stair_w * float(index) / float(stair_cols), half_d + run * 0.5, maxf(run * 0.5, 0.8)))
 	for side: float in [-1.0, 1.0]:
-		circles.append(Vector3(side * (stair_w * 0.5 + 0.45), half_d + run * 0.5, maxf(run * 0.5, 0.8)))
+		circles.append(Vector3(side * (stair_w * 0.5 + PYLON_THICKNESS * 0.5), half_d + run * 0.5, maxf(run * 0.5, PYLON_THICKNESS * 0.6)))
 
 
 # ---- The Filing-cabinet Tower: a teetering stack of gray cabinets, drawers half open, papers, a brass ladder, banners, ghost lamps at the foot ----------------

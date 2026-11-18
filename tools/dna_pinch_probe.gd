@@ -5,7 +5,8 @@ extends SceneTree
 ##
 ## A sample point (every 0.5 m on walkable floor) is a pinch when the blockers on two roughly opposite sides of it are closer together than
 ## MIN_WIDTH and it stands about midway between them (the middle of a narrow way). Neighbouring pinch samples form one pinch point.
-## Usage: Godot --headless -s res://tools/dna_pinch_probe.gd [-- --list]   (prints the count per room, and each point with --list)
+## Usage: Godot --headless -s res://tools/dna_pinch_probe.gd [-- --list] [--strict]   (count per room; each point with --list; --strict also
+## counts the strips along walls and every pocket with one open side)
 
 const MIN_WIDTH: float = 2.5
 const STEP: float = 0.5
@@ -17,8 +18,22 @@ var circles: Array[Vector3] = []
 var _buckets: Dictionary = {}
 
 
+var strict: bool = false
+
+
+## True when the sample is within 0.9 m of a wall or the floor's edge: the strip along a wall is not a route.
+func _hugs_wall(x: float, z: float) -> bool:
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0
+		var c: Vector2i = DnaLayout.world_to_cell(Vector3(x + cos(angle) * 0.9, 0, z + sin(angle) * 0.9))
+		if not layout.is_floor(c.x, c.y):
+			return true
+	return false
+
+
 func _initialize() -> void:
 	var list: bool = OS.get_cmdline_user_args().has("--list")
+	strict = OS.get_cmdline_user_args().has("--strict")
 	layout = DnaLayout.new()
 	layout.build()
 	for prop: DnaLayout.Prop in layout.props:
@@ -102,9 +117,16 @@ func _pinch(x: float, z: float) -> bool:
 		if b == INF:
 			continue
 		if a + b < MIN_WIDTH and absf(a - b) <= STEP:
-			# narrow across this direction: a way runs along it only if the way along is open (not a closed pocket)
+			# narrow across this direction. A route runs through it only if the way along is open both ways (a passage the hero must
+			# take, not a pocket); with `--strict` off, a sample hugging a wall (a lamp or plant beside the wall, a room corner) is not a
+			# route the player uses.
 			var along: Vector2 = Vector2(-dir.y, dir.x)
-			if _ray(x, z, along) > 0.6 or _ray(x, z, -along) > 0.6:
+			var open_a: float = _ray(x, z, along)
+			var open_b: float = _ray(x, z, -along)
+			if strict:
+				if open_a > 0.6 or open_b > 0.6:
+					return true
+			elif open_a > 0.8 and open_b > 0.8 and not _hugs_wall(x, z):
 				return true
 	return false
 

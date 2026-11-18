@@ -468,18 +468,18 @@ func _furnish_breakroom() -> void:
 	var r: Rect2i = Rect2i(18, 48, 17, 12)
 	_lamp_ring(r, 8, Color(0.8, 1.0, 0.85), 1.0)
 	# Kitchen counter along the north wall with the coffee machine on it; the barista behind it.
-	_piece("counter", Vector3(23.5, 0.0, 49.4), 0.0, 7.0)
-	_blockers(Vector3(20.1, 0, 49.4), Vector3(26.9, 0, 49.4), 0.4, 0.45)
-	_piece("coffee_machine", Vector3(22.5, 0.0, 49.3), 0.0)
+	_piece("counter", Vector3(23.5, 0.0, 48.75), 0.0, 7.0)
+	_blockers(Vector3(20.1, 0, 48.75), Vector3(26.9, 0, 48.75), 0.4, 0.45)
+	_piece("coffee_machine", Vector3(22.5, 0.0, 48.65), 0.0)
 	anchors["coffee"] = cell_center(22, 50)
 	anchors["barnaby"] = cell_center(25, 50)  # 2.5 m east of the coffee machine so the two prompts never fight (open space round every interactable)
 	_sign("sign.coffee", Vector3(22.5, 1.5, 48.2), 0.0, "poster", 0.8)
 	# One round table in the middle, a bench (the healing couch) in the south-east corner under a lily.
 	_piece("round_table", cell_center(26, 54), 0.0)
 	_blockers(cell_center(26, 54), cell_center(26, 54), 0.7, 0.5)
-	_piece("bench", cell_center(31, 57), 180.0, 2.4)
-	_blockers(cell_center(30, 57) + Vector3(-0.2, 0, 0), cell_center(32, 57) + Vector3(0.2, 0, 0), 0.4, 0.45)
-	_card("DNA-PLANT-LILY", cell_center(33, 58) + Vector3(0.2, 0, 0.2), 1.2, 0.2)
+	_piece("bench", cell_center(29, 57), 180.0, 2.4)  # Nov 18 day: 2 m west, so the way past it to the east wall is 3 m
+	_blockers(cell_center(28, 57) + Vector3(-0.2, 0, 0), cell_center(30, 57) + Vector3(0.2, 0, 0), 0.4, 0.45)
+	_card("DNA-PLANT-LILY", Vector3(34.55, 0.0, 59.55), 1.2, 0.2)
 	_card("DNA-PLANT-OFFICE", cell_center(19, 58), 1.6, 0.3)
 	anchors["heal"] = cell_center(31, 55)
 	_sign("sign.heal_couch", Vector3(31.5, 1.5, 58.4), 180.0, "poster", 0.8)
@@ -495,38 +495,50 @@ func _furnish_breakroom() -> void:
 # ---- Cubicle farms -------------------------------------------------------------------------
 
 
-## A grid of 3x3 cubicles opening south onto 2-cell aisles. `farm_id` picks decor, `seed_x` the
-## cell where its special cubicle goes. Aisle rows: the farm's first/last rows are left clear. Each cubicle holds one kit desk (its clerk's station) and nothing else;
-## the partitions are knee-high paneling (DnaBuilder) that fades when it stands in the way.
+## Nov 18 day (Part 6.2, "too hard to move around"): the farm is three tidy rows of desk islands - two desks back to back over a knee-high
+## partition - with wide aisles between the rows and between the islands. It was a grid of 27 cubicles boxed in on three sides with 2 m aisles,
+## and every cubicle was a dead-end slot. Every way the player walks is at least 2.5 m clear (tools/dna_pinch_probe.gd counts the rest).
+const ISLAND_LENGTH: float = 2.6
+const ISLAND_PITCH: float = 6.6
+const ISLAND_ROWS: Array[float] = [3.5, 8.5, 13.5]
+const ISLANDS_PER_ROW: int = 4
+
+
+## The desk islands of a farm: [{"a": Vector3, "b": Vector3}] (the ends of each island's spine). Farm B's south-east island makes room for
+## the quiz master's corner office.
+static func desk_islands(farm_id: String, r: Rect2i) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var span: float = ISLAND_PITCH * float(ISLANDS_PER_ROW - 1) + ISLAND_LENGTH
+	var x_start: float = float(r.position.x) + (float(r.size.x) - span) * 0.5
+	for row: int in range(ISLAND_ROWS.size()):
+		var z: float = float(r.position.y) + ISLAND_ROWS[row]
+		for index: int in range(ISLANDS_PER_ROW):
+			if farm_id == "farm_b" and row == ISLAND_ROWS.size() - 1 and index == ISLANDS_PER_ROW - 1:
+				continue
+			var x0: float = x_start + ISLAND_PITCH * float(index)
+			result.append({"a": Vector3(x0, 0.0, z), "b": Vector3(x0 + ISLAND_LENGTH, 0.0, z), "row": row, "index": index})
+	return result
+
+
 func _furnish_farm(farm_id: String, r: Rect2i, _unused: int, _unused2: int) -> void:
 	_lamp_ring(r, 10)
-	var block_x0: int = r.position.x + 2
-	var cols: int = (r.size.x - 4) / 3
-	# Row tops (z of the cubicle's north partition) with a 2-cell aisle beneath each row.
-	var tops: Array[int] = [r.position.y + 2, r.position.y + 7, r.position.y + 12]
-	var coffin_cell: int = 3 if farm_id == "farm_a" else 6
-	var cubicle_index: int = 0
-	for row: int in range(tops.size()):
-		var top: int = tops[row]
-		for col: int in range(cols):
-			var x0: int = block_x0 + col * 3
-			var home: Vector3 = Vector3(float(x0) + 1.5, 0.0, float(top) + 1.5)
-			# North partition and the shared west partition (east for the last cubicle).
-			_partition(Vector3(float(x0), 0, float(top)), Vector3(float(x0 + 3), 0, float(top)))
-			_partition(Vector3(float(x0), 0, float(top)), Vector3(float(x0), 0, float(top + 3) - 0.2))
-			if col == cols - 1:
-				_partition(Vector3(float(x0 + 3), 0, float(top)), Vector3(float(x0 + 3), 0, float(top + 3) - 0.2))
-			var special: bool = row == 1 and col == coffin_cell
-			if special and farm_id == "farm_a":
-				# The cubicle with a coffin.
-				_prop("coffin_decorated", home + Vector3(0, 0, 0.1), 90.0, 0.62, 0.0)
-				_blockers(home + Vector3(-0.3, 0, 0.1), home + Vector3(0.3, 0, 0.1), 0.35, 0.4)
-				_sign("memo.cubicle_coffin", Vector3(home.x - 1.4, 0.9, home.z - 1.45) + Vector3(0, 0, 0), 0.0, "memo", 0.8)
-			else:
-				_card("DNA-PROP-DESK", home + Vector3(0, 0, -0.85), 1.25)
-				_blockers(home + Vector3(-0.5, 0, -0.85), home + Vector3(0.5, 0, -0.85), 0.34, 0.4)
-			cubicle_index += 1
-	# Room dressing: one board naming the farm at its south wall (the aisles are 2 m: nothing else stands in them).
+	for island: Dictionary in desk_islands(farm_id, r):
+		var a: Vector3 = island["a"] as Vector3
+		var b: Vector3 = island["b"] as Vector3
+		var mid: Vector3 = (a + b) * 0.5
+		_partition(a, b)
+		var special: bool = farm_id == "farm_a" and int(island["row"]) == 1 and int(island["index"]) == 1
+		if special:
+			# The desk with a coffin under it (the farm's old coffin cubicle): the memo pinned to the partition.
+			_prop("coffin_decorated", mid + Vector3(0, 0, 0.75), 90.0, 0.62, 0.0)
+			_card("DNA-PROP-DESK", mid + Vector3(0, 0, -0.6), 1.25)
+			_sign("memo.cubicle_coffin", Vector3(mid.x - 0.9, 0.9, mid.z), 0.0, "memo", 0.8)
+		else:
+			_card("DNA-PROP-DESK", mid + Vector3(0, 0, -0.6), 1.25)
+			_card("DNA-PROP-DESK", mid + Vector3(0, 0, 0.6), 1.25)
+		# one blocker spine covers both desks (0.8 m either side of the partition)
+		_blockers(a + Vector3(0.3, 0, 0), b - Vector3(0.3, 0, 0), 0.8, 0.5)
+	# Room dressing: one board naming the farm at its south wall (nothing else stands in the aisles).
 	var south_z: float = float(r.end.y) - 0.2
 	if farm_id == "farm_a":
 		_sign("sign.cubicle_farm_a", Vector3(float(r.position.x) + 8.0, 1.7, south_z + 0.0), 180.0, "sign", 1.1)
@@ -540,8 +552,8 @@ func _furnish_farm(farm_id: String, r: Rect2i, _unused: int, _unused2: int) -> v
 		var qz: float = float(r.end.y) - 5.0
 		_partition(Vector3(qx, 0, qz), Vector3(qx + 5.0, 0, qz))
 		_partition(Vector3(qx, 0, qz), Vector3(qx, 0, qz + 2.2))
-		_card("DNA-PROP-DESK", Vector3(qx + 3.6, 0, qz + 1.4), 1.25)
-		_blockers(Vector3(qx + 3.1, 0, qz + 1.4), Vector3(qx + 4.1, 0, qz + 1.4), 0.34, 0.4)
+		_card("DNA-PROP-DESK", Vector3(qx + 3.6, 0, qz + 3.2), 1.25)
+		_blockers(Vector3(qx + 3.1, 0, qz + 3.2), Vector3(qx + 4.1, 0, qz + 3.2), 0.34, 0.4)
 		_card("DNA-SHEET-CABINETS-03", Vector3(qx + 4.8, 0, qz + 0.8), 1.5, 0.3)
 		anchors["quiz"] = Vector3(qx + 2.1, 0.0, qz + 1.7)  # Fixes Oct 26: 0.3 m off the desk (his circle touched its blocker)
 		_sign("sign.quiz", Vector3(qx + 2.5, 1.5, qz + 0.1), 0.0, "sign", 0.95)
@@ -573,7 +585,7 @@ func _furnish_mail_room() -> void:
 	_light(terminal + Vector3(0, 1.0, 0.6), 0, Color(0.55, 1.0, 0.8))
 	# Sorting cabinets in one row along the north wall; the wall tube pipes are drawn by the builder.
 	for x: float in [37.6, 39.6, 41.4, 49.0, 50.8, 52.6]:
-		_card("DNA-SHEET-CABINETS-%02d" % [2 if int(x) % 2 == 0 else 4], Vector3(x, 0.0, 28.9), 1.3, 0.45)
+		_card("DNA-SHEET-CABINETS-%02d" % [2 if int(x) % 2 == 0 else 4], Vector3(x, 0.0, 28.55), 1.3, 0.4)
 	anchors["mail_center"] = cell_center(45, 38)
 
 
@@ -710,20 +722,22 @@ func _furnish_records() -> void:
 	_sign("sign.records", Vector3(72.0, 1.8, 23.8), 180.0, "sign", 1.15)
 	_sign("sign.filed_complaint", Vector3(80.0, 1.8, 23.8), 180.0, "sign", 1.0)  # the Filed Complaint of the old Records Basement, on the same wall (SR-7)
 	# Long shelving rows (solid cabinet blocks) with gaps, like stacks in an archive.
+	# Nov 18 day (Part 6.2): the gap between the middle and east stacks is 3 m (it was 2), and nothing stands in the aisles.
 	for row_z: int in [8, 12, 16]:
 		for x0: int in [59, 71, 79]:
-			var length: int = 8 if x0 == 59 else (6 if x0 == 71 else 6)
+			var length: int = 8 if x0 == 59 else (5 if x0 == 71 else 6)
 			for dx: int in range(length):
 				_put(x0 + dx, row_z, Cell.SOLID)
 	# Two coffins in the aisles, a card catalogue and paper towers at the far east end, ghost lamps between the stacks.
-	for pos: Vector2i in [Vector2i(65, 14), Vector2i(76, 10)]:
-		_prop("coffin", cell_center(pos.x, pos.y), 90.0 * float(_rng.randi() % 2), 0.9, 0.0)
-		_blockers(cell_center(pos.x, pos.y) + Vector3(0, 0, -0.35), cell_center(pos.x, pos.y) + Vector3(0, 0, 0.35), 0.3, 0.4)
-	_card("DNA-SHEET-CABINETS-02", cell_center(85, 6), 1.3, 0.5)
-	_card("DNA-SHEET-CABINETS-04", cell_center(83, 6) + Vector3(-0.2, 0, 0), 1.3, 0.5)
-	_card("DNA-PROP-PAPER", cell_center(86, 12), 1.4, 0.35)
-	_card("DNA-PROP-PAPER", cell_center(58, 7), 1.2, 0.3)
-	for point: Vector2 in [Vector2(70.5, 10.5), Vector2(70.5, 18.5), Vector2(78.5, 14.5)]:
+	for pos: Vector3 in [Vector3(87.3, 0.0, 10.5), Vector3(87.3, 0.0, 18.0)]:
+		_prop("coffin", pos, 0.0, 0.9, 0.0)
+		_blockers(pos + Vector3(0, 0, -0.35), pos + Vector3(0, 0, 0.35), 0.3, 0.4)
+	_card("DNA-SHEET-CABINETS-02", Vector3(85.5, 0.0, 4.45), 1.3, 0.4)
+	_card("DNA-SHEET-CABINETS-04", Vector3(83.3, 0.0, 4.45), 1.3, 0.4)
+	_card("DNA-PROP-PAPER", Vector3(87.4, 0.0, 13.5), 1.4, 0.3)
+	_card("DNA-PROP-PAPER", Vector3(56.5, 0.0, 7.0), 1.2, 0.3)
+	# the ghost lamps stand against the side walls (they stood in the aisles)
+	for point: Vector2 in [Vector2(56.45, 10.5), Vector2(56.45, 18.5), Vector2(87.55, 15.0)]:
 		_lamp(Vector3(point.x, 0.0, point.y), 3, Color(0.6, 0.95, 0.7))
 	chests["chest_records_0"] = cell_center(86, 22) + Vector3(0.0, 0.0, 0.2)
 	chests["chest_records_1"] = cell_center(57, 5) + Vector3(0.0, 0.0, 0.1)

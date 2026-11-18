@@ -69,7 +69,8 @@ func test_walls_are_full_height_and_every_interior_piece_fades_on_its_own() -> v
 	# overnight Oct 19: nothing runs across the top of a room or a doorway (it hid the view); wall sconces light the rooms instead
 	assert_eq(builder.ceiling_piece_count, 0, "no ceiling beams or light strips")
 	# Overnight Nov 18 (the grand hall): chandeliers over the open floor and sconce pairs on the hall walls light it (was 60 box sconces)
-	assert_gte(builder.sconce_count + builder.chandelier_count, 20, "chandeliers and sconces light the hall")
+	# Nov 18 day: open air - painted walls only on the north and west sides, so fewer sconce joins; two chandeliers off the Hall's approach
+	assert_gte(builder.sconce_count + builder.chandelier_count, 14, "chandeliers and sconces light the plaza")
 	assert_gte(builder.chandelier_count, 10, "a chandelier over every open floor")
 	assert_gte(DnaInterior.WALL_HEIGHT, 4.0, "walls at full interior height")
 	var walls: int = 0

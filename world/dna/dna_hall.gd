@@ -12,8 +12,10 @@ extends RefCounted
 ##   footprint - the same cells, so the same collision - with DNA-RAIL-POST at every end and join. The camera sees over them.
 ## - Enclosed gaps between rooms (void cells walled in on every side) are hall floor too: marble you cannot walk on, where the booths,
 ##   columns and desks stand.
-## - A dark ceiling closes the hall at VAULT_H; north of it the Hall of Final Approvals stands against DNA-BD-HALL-INTERIOR in a dark end bay:
-##   from inside, no sky shows at any camera.
+## - Nov 18 day (the owner's playtest: "it never rains there, so it can be outdoors"): no ceiling and no end bay. The D.N.A. is an open-air
+##   civic plaza at night under DNA-SKY-GLOOM. Only the north side and the west long side keep the two-storey painted walls, as building
+##   fronts capped at HALL_H (`is_front`); every other outline cell is a waist-high partition like the inner walls, so the player sees out
+##   over the grey wasteland to the skyline (DNA-BD-TOWERS).
 ## Everything wall-like is built into the chunk's `DnaFadeMesh` ("Interior"), one piece per wall cell, so the room cut (DnaRoomCut) still
 ## clears the walls between the camera and the hero's room.
 
@@ -106,6 +108,27 @@ func _classify() -> void:
 						kinds[c] = Kind.INSIDE_VOID
 				DnaLayout.Cell.WALL:
 					kinds[c] = Kind.OUTLINE if _touches_outside(c) else Kind.PARTITION
+	# Nov 18 day (Part 6.1): open sides - outline cells that are not building fronts become partitions (same cells, same collision)
+	for c: Vector2i in kinds.keys():
+		if kinds[c] == Kind.OUTLINE and not is_front(c):
+			kinds[c] = Kind.PARTITION
+
+
+## Nov 18 day (Part 6.1): the outline cells that stay two-storey building fronts - the north side (an outside neighbour to the north, in the
+## northern rooms), the west long side (an outside neighbour to the west, at the map's west edge) and the short returns of the executive
+## floor's bay. Everything else on the outline is drawn as a partition.
+const FRONT_NORTH_MAX_Z: int = 30
+const FRONT_WEST_MAX_X: int = 6
+
+
+func is_front(c: Vector2i) -> bool:
+	if is_outside(c + Vector2i(0, -1)) and c.y <= FRONT_NORTH_MAX_Z:
+		return true
+	if is_outside(c + Vector2i(-1, 0)) and c.x <= FRONT_WEST_MAX_X:
+		return true
+	if c.y < 16 and c.x > 30 and c.x < 60 and (is_outside(c + Vector2i(1, 0)) or is_outside(c + Vector2i(-1, 0))):
+		return true
+	return false
 
 
 func is_outside(c: Vector2i) -> bool:
@@ -269,7 +292,7 @@ func build_outline(fade: DnaFadeMesh, chunk_key: Vector2i, chunk_of: Callable, r
 			if chunk_of.call(c) != chunk_key:
 				continue
 			var center: Vector3 = DnaLayout.cell_center(c.x, c.y)
-			var piece: Vector4 = Vector4(center.x, center.z, 0.5, VAULT_H)
+			var piece: Vector4 = Vector4(center.x, center.z, 0.5, HALL_H + 0.3)
 			var lift: Vector3 = normal * 0.002
 			var x0: float = float(i)
 			var x1: float = float(i + 1)
@@ -296,10 +319,7 @@ func build_outline(fade: DnaFadeMesh, chunk_key: Vector2i, chunk_of: Callable, r
 						var p2: Vector3 = origin + dir_along * b + Vector3(0, y1, 0) + lift
 						var p3: Vector3 = origin + dir_along * a + Vector3(0, y1, 0) + lift
 						fade.quad(slot, piece, [p0, p1, p2, p3], [Vector2(ua, band_v(slot, y0)), Vector2(ub, band_v(slot, y0)), Vector2(ub, band_v(slot, y1)), Vector2(ua, band_v(slot, y1))], normal)
-				# the dark vault above the cornice
-				var q0: Vector3 = origin + dir_along * x0 + Vector3(0, HALL_H, 0) + lift
-				var q1: Vector3 = origin + dir_along * x1 + Vector3(0, HALL_H, 0) + lift
-				fade.quad("vault", piece, [q0, q1, q1 + Vector3(0, VAULT_H - HALL_H, 0), q0 + Vector3(0, VAULT_H - HALL_H, 0)], [Vector2.ZERO, Vector2.RIGHT, Vector2.ONE, Vector2.DOWN], normal)
+				# Nov 18 day: open air - no dark vault above the cornice (the wall ends in its cap at HALL_H)
 			else:
 				var u0: float = float(i) / EXTERIOR_BAY
 				var u1: float = float(i + 1) / EXTERIOR_BAY
@@ -310,13 +330,8 @@ func build_outline(fade: DnaFadeMesh, chunk_key: Vector2i, chunk_of: Callable, r
 				var e1: Vector3 = origin + dir_along * x1 + lift
 				var top: Vector3 = Vector3(0, HALL_H, 0)
 				fade.quad("exterior", piece, [e0, e1, e1 + top, e0 + top], [Vector2(u0, 1.0), Vector2(u1, 1.0), Vector2(u1, 0.0), Vector2(u0, 0.0)], normal)
-				var r0: Vector3 = e0 + top
-				var r1: Vector3 = e1 + top
-				var rise: Vector3 = Vector3(0, VAULT_H - HALL_H, 0)
-				fade.quad("roof", piece, [r0, r1, r1 + rise, r0 + rise], [Vector2(float(i), 0.0), Vector2(float(i + 1), 0.0), Vector2(float(i + 1), -2.0), Vector2(float(i), -2.0)], normal)
-			# the top of the wall cell (seen from the high cameras outside)
-			var cap_c: Vector3 = center + Vector3(0, VAULT_H + 0.02, 0)
-			fade.box("vault", piece, cap_c, Vector3(1.0, 0.04, 1.0))
+			# the top of the wall cell: a brass-capped cornice at HALL_H (open air: seen from the plaza against the sky)
+			fade.box("cap", piece, center + Vector3(0, HALL_H + 0.12, 0), Vector3(1.12, 0.24, 1.12))
 		if inside and chunk_of.call(first) == chunk_key:
 			for bay: Dictionary in bays:
 				var at: float = float(bay["x0"])

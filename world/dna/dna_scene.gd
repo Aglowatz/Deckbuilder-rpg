@@ -27,6 +27,19 @@ func _make_map() -> ZoneMap:
 	return dna
 
 
+## Nov 18 day (Part 6.3): the D.N.A.'s camera looks down this many degrees more than the other zones at every preset (`--pitch_bonus=N` for
+## shots). Picked from the shots of both: see docs/overnight_report.md, Nov 18 day.
+const PITCH_BONUS: float = 6.0
+
+
+func _enter_tree() -> void:
+	CameraRig.zone_pitch_bonus = float(_screenshot_args.get("pitch_bonus", PITCH_BONUS))
+
+
+func _exit_tree() -> void:
+	CameraRig.zone_pitch_bonus = 0.0
+
+
 func _build_environment() -> void:
 	add_child(DnaLook.environment())
 	add_child(DnaLook.moonlight())

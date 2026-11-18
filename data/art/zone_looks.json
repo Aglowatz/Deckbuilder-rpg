@@ -166,16 +166,16 @@
 		},
 		"sky": {
 			"enabled": true,
-			"horizon": "66726e",
-			"gold": "5c6864",
-			"mid": "4f5b57",
-			"zenith": "444f4b",
-			"sun": "6e7873",
+			"horizon": "5a4a52",
+			"gold": "6e5446",
+			"mid": "33303f",
+			"zenith": "1a1a28",
+			"sun": "8a7262",
 			"sun_glow": 0,
 			"cloud_opacity": 0,
 			"cloud_shadow": 0,
 			"panorama": "DNA-SKY-GLOOM",
-			"panorama_mix": 0.72,
+			"panorama_mix": 0.62,
 			"panorama_stretch": 1.25
 		},
 		"scenery": {

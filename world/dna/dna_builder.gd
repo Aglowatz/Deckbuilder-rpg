@@ -804,13 +804,17 @@ func _build_hall() -> void:
 ## Overnight Nov 18 (the grand hall): the ceiling over the building's footprint, the dark end bay north of it with DNA-BD-HALL-INTERIOR on its far
 ## wall (behind the Hall of Final Approvals), the red runners, the columns along the hall walls, the chandeliers over the open floor, the
 ## stamp banners from the gallery and the lobby clock on the Hall's drum (where the faceted dome stood).
+## Nov 18 day (Part 6.1): the D.N.A. is open-air (no ceiling, no end bay).
+const OPEN_AIR: bool = true
 const END_BAY_DEPTH: float = 46.0
 const END_BAY_H: float = 46.0
 const COLUMN_H: float = 13.0
 const CHANDELIERS: Array[Vector2] = [
-	Vector2(45.5, 52.5), Vector2(45.5, 35.0), Vector2(45.5, 20.0), Vector2(45.5, 7.5), Vector2(17.5, 35.0), Vector2(71.5, 35.0),
+	Vector2(45.5, 52.5), Vector2(45.5, 35.0), Vector2(17.5, 35.0), Vector2(71.5, 35.0),
 	Vector2(8.5, 35.0), Vector2(26.5, 35.0), Vector2(62.5, 35.0), Vector2(80.5, 35.0), Vector2(18.0, 13.0), Vector2(72.0, 14.0), Vector2(26.5, 54.0),
 ]
+## Nov 18 day: the chandeliers over the executive floor (45.5, 7.5) and the elevator bank (45.5, 20) are gone - they hung between the camera
+## and the hero on the way to the Hall's door.
 const CHANDELIER_H: float = 4.4
 const CHANDELIER_BOTTOM: float = 6.9
 var chandelier_count: int = 0
@@ -826,6 +830,147 @@ func _build_grand_hall() -> void:
 	dark.disable_fog = true  # the vault stays dark; fogged it read as a grey sky
 	dark.set_meta(PaintedClasses.META_NO_PAINT, true)
 	dark.set_meta(StyleToon.META_NO_TOON, true)
+	# Nov 18 day (Part 6.1): open air - no ceiling, no dark end bay and no painted back wall (`OPEN_AIR`): the sky and the skyline
+	# (WorldLookRig's DNA-SKY-GLOOM panorama and the DNA-BD-TOWERS cards) show over the building fronts.
+	if not OPEN_AIR:
+		_build_ceiling(dark)
+	# the runners
+	var runners: MeshInstance3D = MeshInstance3D.new()
+	runners.name = "Runners"
+	runners.mesh = DnaHall.runner_mesh()
+	runners.material_override = DnaHall.runner_material()
+	runners.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	runners.set_meta(&"no_range_cull", true)
+	runners.set_meta(&"no_occlusion_fade", true)
+	runners.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(runners)
+	# columns along the hall walls (rising past the cornice into the dark), chandeliers over the open floor
+	var column_aspect: float = _kit_aspect("DNA-PROP-COLUMN", 0.28)
+	for at: Vector3 in hall_columns:
+		var column: MeshInstance3D = hanging_card("DNA-PROP-COLUMN", Vector2(COLUMN_H * column_aspect, COLUMN_H), false)
+		column.name = "HallColumn"
+		chunk_for(at).add_child(column)
+		column.global_position = at
+		(column.material_override as ShaderMaterial).set_shader_parameter("fade_near", 3.0)
+		(column.material_override as ShaderMaterial).set_shader_parameter("fade_far", 6.5)
+	var sway: bool = not GraphicsQuality.low_end
+	var chandelier_aspect: float = _kit_aspect("DNA-PROP-CHANDELIER", 0.66)
+	for index: int in range(CHANDELIERS.size()):
+		var spot: Vector2 = CHANDELIERS[index]
+		var c: Vector2i = DnaLayout.world_to_cell(Vector3(spot.x, 0, spot.y))
+		if not layout.is_floor(c.x, c.y):
+			continue
+		var top: Vector3 = Vector3(spot.x, CHANDELIER_BOTTOM + CHANDELIER_H, spot.y)
+		var chandelier: MeshInstance3D = hanging_card("DNA-PROP-CHANDELIER", Vector2(CHANDELIER_H * chandelier_aspect, CHANDELIER_H), true)
+		chandelier.name = "Chandelier"
+		var material: ShaderMaterial = chandelier.material_override as ShaderMaterial
+		material.set_shader_parameter("sway_amp", 0.018 if sway else 0.0)
+		material.set_shader_parameter("sway_phase", float(index) * 1.7)
+		material.set_shader_parameter("emission", 1.6)
+		material.set_shader_parameter("fade_near", 3.5)
+		material.set_shader_parameter("fade_far", 7.0)
+		chunk_for(top).add_child(chandelier)
+		chandelier.global_position = top
+		# Nov 18 day: open air - the chandeliers float (no chain up into a ceiling)
+		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		light.pos = Vector3(spot.x, CHANDELIER_BOTTOM + 1.2, spot.y)
+		light.color = WARM_LIGHT
+		layout.lights.append(light)
+		chandelier_count += 1
+	_build_hall_banners()
+	_build_moon_shafts()
+	_build_clock_tower()
+	_build_elevator_walls()
+
+
+## Nov 18 day (Part 6.4): the D.N.A.'s landmark - a clock tower that rises over the building fronts, north-west of the Hall's stair, seen from
+## the arrival and from most of the plaza (the lobby clock on the Hall's drum stood far above the camera's view). Built from the zone kit: a
+## DNA-WALL-EXTERIOR body on a grey plinth, brass bands (DNA-TRIM-BRASS), a lighter clock stage carrying DNA-PROP-LOBBY-CLOCK scaled up, a
+## warm glow behind the clock and a green ghost lantern under a slate spire. Its heights keep the clock inside the frame at every camera
+## preset from the plaza (the face at about 14 m).
+const CLOCK_TOWER: Vector3 = Vector3(36.0, 0.0, -2.5)
+const CLOCK_TOWER_W: float = 6.0
+const CLOCK_BODY_H: float = 9.0
+const CLOCK_STAGE_H: float = 6.0
+var clock_tower: Node3D
+
+
+func _build_clock_tower() -> void:
+	var mesh: KitMesh = KitMesh.new()
+	DnaLandmarks._materials(mesh)
+	mesh.set_material("exterior", DnaLandmarks._surface("DNA-WALL-EXTERIOR", DnaLandmarks.GREY))
+	var w: float = CLOCK_TOWER_W
+	var body_h: float = CLOCK_BODY_H
+	mesh.box("grey_dark", Vector3(0, 0.7, 0), Vector3(w + 1.4, 1.4, w + 1.4), Basis.IDENTITY, 0.06, 0.9)
+	mesh.box("exterior", Vector3(0, body_h * 0.5, 0), Vector3(w, body_h, w), Basis.IDENTITY, 0.08, 0.9)
+	for y: float in [1.45, body_h * 0.55, body_h]:
+		mesh.box("brass", Vector3(0, y, 0), Vector3(w + 0.3, 0.26, w + 0.3), Basis.IDENTITY, 0.0)
+	var stage_w: float = w - 0.6
+	var stage_y0: float = body_h + 0.13
+	var stage_h: float = CLOCK_STAGE_H
+	mesh.box("grey_light", Vector3(0, stage_y0 + stage_h * 0.5, 0), Vector3(stage_w, stage_h, stage_w), Basis.IDENTITY, 0.06, 0.9)
+	mesh.box("brass", Vector3(0, stage_y0 + stage_h, 0), Vector3(stage_w + 0.5, 0.35, stage_w + 0.5), Basis.IDENTITY, 0.0)
+	# the slate spire with a gold finial and the green ghost lantern under it
+	var spire_y: float = stage_y0 + stage_h + 0.18
+	mesh.box("grey", Vector3(0, spire_y + 0.9, 0), Vector3(stage_w * 0.5, 1.8, stage_w * 0.5), Basis.IDENTITY, 0.04)
+	mesh.box("glow", Vector3(0, spire_y + 0.9, 0), Vector3(stage_w * 0.34, 1.0, stage_w * 0.52), Basis.IDENTITY, 0.0)
+	mesh.lathe("slate", Vector3(0, spire_y + 1.8, 0), [Vector2(stage_w * 0.62, 0.0), Vector2(0.0, stage_w * 0.9)], 4, 1.0, false, true)
+	mesh.blob("gold", Vector3(0, spire_y + 1.8 + stage_w * 0.95, 0), Vector3.ONE * 0.35, 3, 6, 1.0)
+	# lit windows down the body's front, and the warm glow behind the clock face
+	for x: float in [-1.4, 1.4]:
+		if EnvKit.has("DNA-SHEET-WINDOWS-02"):
+			DnaLandmarks._card(mesh, "DNA-SHEET-WINDOWS-02", Vector3(x, 3.2, w * 0.5 + 0.05), 4.4, Vector3(0, 0, 1))
+	var face_y: float = stage_y0 + stage_h * 0.62
+	mesh.box("warm_glow", Vector3(0, face_y, stage_w * 0.5 + 0.03), Vector3(3.6, 3.6, 0.04), Basis.IDENTITY, 0.0)
+	clock_tower = mesh.instance("ClockTower")
+	clock_tower.position = CLOCK_TOWER
+	for piece: Node in [clock_tower] + clock_tower.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		piece.set_meta(&"no_occlusion_fade", true)
+	root.add_child(clock_tower)
+	if EnvKit.has("DNA-PROP-LOBBY-CLOCK"):
+		var clock_h: float = stage_h + 2.2
+		var clock: MeshInstance3D = hanging_card("DNA-PROP-LOBBY-CLOCK", Vector2(clock_h * _kit_aspect("DNA-PROP-LOBBY-CLOCK", 0.38), clock_h), false)
+		clock.name = "LobbyClock"
+		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_near", 0.0)
+		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_far", 0.01)
+		(clock.material_override as ShaderMaterial).set_shader_parameter("emission", 1.1)
+		root.add_child(clock)
+		clock.global_position = CLOCK_TOWER + Vector3(0, stage_y0 - 1.6, stage_w * 0.5 + 0.12)
+		clock.set_meta(&"no_range_cull", true)
+	for entry: Array in [[Vector3(0, face_y, stage_w * 0.5 + 1.2), WARM_LIGHT], [Vector3(0, spire_y + 0.9, stage_w * 0.5), Color(0.55, 1.0, 0.65)]]:
+		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		light.pos = CLOCK_TOWER + (entry[0] as Vector3)
+		light.color = entry[1] as Color
+		layout.lights.append(light)
+
+
+## Nov 18 day (Part 6.5): the walls behind the elevators (the elevator bank's north side, either side of the corridor to the executive floor)
+## are tall and thick - deep enough for a lift shaft - so the four elevator doors sit inside a wall instead of sticking up over a waist-high
+## partition. They stand on the same wall cells (z 14-16), so nothing about the walk grid changes; they fade like any wall in the camera's way.
+const ELEVATOR_WALL_H: float = 2.5
+const ELEVATOR_WALL_SPANS: Array[Vector2] = [Vector2(36.0, 43.0), Vector2(47.0, 54.0)]
+var elevator_walls: int = 0
+
+
+func _build_elevator_walls() -> void:
+	var mesh: KitMesh = KitMesh.new()
+	DnaLandmarks._materials(mesh)
+	var z0: float = 14.0
+	var z1: float = DnaLayout.ELEVATOR_WALL_Z - 0.01
+	for span: Vector2 in ELEVATOR_WALL_SPANS:
+		var cx: float = (span.x + span.y) * 0.5
+		var width: float = span.y - span.x
+		mesh.box("grey", Vector3(cx, ELEVATOR_WALL_H * 0.5, (z0 + z1) * 0.5), Vector3(width, ELEVATOR_WALL_H, z1 - z0), Basis.IDENTITY, 0.06, 0.9)
+		mesh.box("paneling", Vector3(cx, 0.55, z1 + 0.01), Vector3(width - 0.1, 1.1, 0.04), Basis.IDENTITY, 0.0)
+		mesh.box("brass", Vector3(cx, ELEVATOR_WALL_H + 0.1, (z0 + z1) * 0.5), Vector3(width + 0.2, 0.2, z1 - z0 + 0.2), Basis.IDENTITY, 0.0)
+		elevator_walls += 1
+	var walls: MeshInstance3D = mesh.instance("LiftShaftWalls")
+	chunk_for(Vector3(45.0, 0.0, 15.0)).add_child(walls)
+
+
+## The closed hall's ceiling, dark end bay and painted back wall (Overnight Nov 18); unused while `OPEN_AIR`.
+func _build_ceiling(dark: StandardMaterial3D) -> void:
 	# the ceiling: one strip per row over every cell that is not outside
 	var tool: SurfaceTool = SurfaceTool.new()
 	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -875,77 +1020,6 @@ func _build_grand_hall() -> void:
 		back.set_meta(&"no_occlusion_fade", true)
 		back.set_meta(PaintedClasses.META_NO_PAINT, true)
 		root.add_child(back)
-	# the runners
-	var runners: MeshInstance3D = MeshInstance3D.new()
-	runners.name = "Runners"
-	runners.mesh = DnaHall.runner_mesh()
-	runners.material_override = DnaHall.runner_material()
-	runners.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	runners.set_meta(&"no_range_cull", true)
-	runners.set_meta(&"no_occlusion_fade", true)
-	runners.set_meta(PaintedClasses.META_NO_PAINT, true)
-	root.add_child(runners)
-	# columns along the hall walls (rising past the cornice into the dark), chandeliers over the open floor
-	var column_aspect: float = _kit_aspect("DNA-PROP-COLUMN", 0.28)
-	for at: Vector3 in hall_columns:
-		var column: MeshInstance3D = hanging_card("DNA-PROP-COLUMN", Vector2(COLUMN_H * column_aspect, COLUMN_H), false)
-		column.name = "HallColumn"
-		chunk_for(at).add_child(column)
-		column.global_position = at
-		(column.material_override as ShaderMaterial).set_shader_parameter("fade_near", 3.0)
-		(column.material_override as ShaderMaterial).set_shader_parameter("fade_far", 6.5)
-	var sway: bool = not GraphicsQuality.low_end
-	var chandelier_aspect: float = _kit_aspect("DNA-PROP-CHANDELIER", 0.66)
-	for index: int in range(CHANDELIERS.size()):
-		var spot: Vector2 = CHANDELIERS[index]
-		var c: Vector2i = DnaLayout.world_to_cell(Vector3(spot.x, 0, spot.y))
-		if not layout.is_floor(c.x, c.y):
-			continue
-		var top: Vector3 = Vector3(spot.x, CHANDELIER_BOTTOM + CHANDELIER_H, spot.y)
-		var chandelier: MeshInstance3D = hanging_card("DNA-PROP-CHANDELIER", Vector2(CHANDELIER_H * chandelier_aspect, CHANDELIER_H), true)
-		chandelier.name = "Chandelier"
-		var material: ShaderMaterial = chandelier.material_override as ShaderMaterial
-		material.set_shader_parameter("sway_amp", 0.018 if sway else 0.0)
-		material.set_shader_parameter("sway_phase", float(index) * 1.7)
-		material.set_shader_parameter("emission", 1.6)
-		material.set_shader_parameter("fade_near", 3.5)
-		material.set_shader_parameter("fade_far", 7.0)
-		chunk_for(top).add_child(chandelier)
-		chandelier.global_position = top
-		# the chain up into the dark
-		var chain: MeshInstance3D = MeshInstance3D.new()
-		var chain_mesh: BoxMesh = BoxMesh.new()
-		chain_mesh.size = Vector3(0.06, DnaHall.VAULT_H - top.y, 0.06)
-		chain.mesh = chain_mesh
-		chain.material_override = dark
-		chain.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		chunk_for(top).add_child(chain)
-		chain.global_position = top + Vector3(0, (DnaHall.VAULT_H - top.y) * 0.5, 0)
-		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
-		light.pos = Vector3(spot.x, CHANDELIER_BOTTOM + 1.2, spot.y)
-		light.color = WARM_LIGHT
-		layout.lights.append(light)
-		chandelier_count += 1
-	_build_hall_banners()
-	_build_moon_shafts()
-	# the lobby clock on the Hall of Final Approvals' drum, where the faceted dome stood
-	if hall != null and EnvKit.has("DNA-PROP-LOBBY-CLOCK"):
-		var base: Vector3 = Vector3(0, 21.0, -6.0)
-		var nodes: Array = [hall]
-		nodes.append_array(hall.find_children("*", "Node3D", true, false))
-		for node: Variant in nodes:
-			if (node as Node).has_meta("dome_base"):
-				base = (node as Node).get_meta("dome_base") as Vector3
-				break
-		var clock_h: float = 10.0
-		var clock: MeshInstance3D = hanging_card("DNA-PROP-LOBBY-CLOCK", Vector2(clock_h * _kit_aspect("DNA-PROP-LOBBY-CLOCK", 0.38), clock_h), false)
-		clock.name = "LobbyClock"
-		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_near", 0.0)
-		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_far", 0.01)
-		(clock.material_override as ShaderMaterial).set_shader_parameter("emission", 0.8)
-		root.add_child(clock)
-		clock.global_position = hall.global_position + base - Vector3(0, 1.4, 0)
-		clock.set_meta(&"no_range_cull", true)
 
 
 ## Overnight Nov 18: cool moonlight slanting in from the tall windows of the long side walls onto the marble (every other bay join of a wall
