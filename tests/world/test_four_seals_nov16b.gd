@@ -42,7 +42,14 @@ func test_it_is_a_small_cellar_door_of_the_town_s_materials() -> void:
 			var part: AABB = mesh.transform * mesh.get_aabb() if mesh.name == "Cellar" else AABB(mesh.get_parent().position, Vector3(0.1, FourSealVault.DOOR_HEIGHT, 0.1))
 			box = part if first else box.merge(part)
 			first = false
-	for id: String in ["ENV-WALL-FOUNDATION", "ENV-WALL-PLANK", "ENV-BEAM", "ENV-HEDGE", "ENV-GROUND-GRASS-CALM"]:
+	# Batch 17 (Nov 18): the painted cellar door replaces the plank leaves and the beam frame
+	var ids: Array[String] = ["ENV-WALL-FOUNDATION", "ENV-HEDGE", "ENV-GROUND-GRASS-CALM"]
+	if FourSealVault.painted():
+		assert_not_null(vault.get_node_or_null("DoorShut"), "the painted shut door")
+		assert_not_null(vault.get_node_or_null("DoorOpen"), "the painted open door")
+	else:
+		ids.append_array(["ENV-WALL-PLANK", "ENV-BEAM"])
+	for id: String in ids:
 		assert_true(names.has(id), "built with %s" % id)
 	assert_lt(FourSealVault.DOOR_HEIGHT, 2.0, "a low cellar door (the old door was 3.2 m in a 4.7 m frame)")
 	assert_lt(box.end.y, 3.0, "nothing of it stands taller than three metres above the ground (the old frame: 4.75 m)")

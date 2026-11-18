@@ -106,7 +106,7 @@ const ART_CACHE_GROUP: StringName = &"bestiary"
 ## Entrance cut-outs not painted yet.
 ## Batch 16 (Nov 16): CUT-SCUFF is in. Baron Quadzilla has a dialogue portrait now (NPC-QUADZILLA), which makes him a speaking boss with
 ## no cut-out of his own: his intro slides the portrait in (the seated figure, transparent) until a CUT-QUADZILLA is painted.
-const CUTOUTS_AWAITING_ART: Array[String] = ["CUT-QUADZILLA"]
+const CUTOUTS_AWAITING_ART: Array[String] = []  # Batch 17 (Nov 18): CUT-QUADZILLA is in
 
 
 ## Fable Nov 14 (1.1): entries that borrow another entry's picture until their own is painted (Batch 16: BST-ENFORCER-SERGEANT-SCUFF).

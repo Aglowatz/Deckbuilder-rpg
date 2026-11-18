@@ -343,6 +343,11 @@ func _ready() -> void:
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
 		_camera.position = player.position + CameraRig.shape(camera_offset)
+	if _screenshot_args.has("at_statue"):
+		# Overnight Nov 18 (Batch 17 statues): the hero stands in front of the ruler's statue
+		var hub_at: Vector3 = builder.anchor(def.hub_anchor)
+		player.position = RulerPresence.statue_position(def, hub_at) + Vector3(0.6, 0.0, 3.2)
+		_camera.position = player.position + CameraRig.shape(camera_offset)
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():
 			if child is CanvasLayer:

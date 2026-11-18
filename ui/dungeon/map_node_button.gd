@@ -73,6 +73,9 @@ func _ready() -> void:
 	_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_ring)
 	var medallion_id: String = str(NODE_ICONS.get(map_node.kind, ""))
+	# Batch 17 (Nov 18): the Hollow Well (the tutorial dungeon's offer) has its own medallion
+	if map_node.kind == DungeonMap.Kind.CHALLENGE and map_node.challenge_id == TrialOfTheHollow.CHALLENGE_ID and IconArt.has(NodeCard.WELL_ICON):
+		medallion_id = NodeCard.WELL_ICON
 	if fogged:
 		var mark: Label = UIKit.label("?", &"", 64, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		mark.name = "FogMark"

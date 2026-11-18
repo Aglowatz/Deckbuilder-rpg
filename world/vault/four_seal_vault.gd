@@ -34,6 +34,21 @@ const GHOST_WIDTH: float = 1.72
 const PADLOCK_WIDTH: float = 0.95
 const ICON_WIDTH: float = 1.5
 const GHOST_SHADER: String = "res://world/vault/seal_ghost.gdshader"
+## Batch 17 (Nov 18): the painted cellar door (shut, and open with the stair inside) and the painted seals. The door card is CARD_WIDTH
+## across with its foot on the ground at the old leaves' plane; the seals ride the leaves on the painted doors' middle sockets.
+const CARD_SHUT: String = "TOWN-PROP-CELLAR-FOURSEALS-CLOSED"
+const CARD_OPEN: String = "TOWN-PROP-CELLAR-FOURSEALS-OPEN"
+const SEAL_LOCKED: String = "TOWN-PROP-SEAL-LOCKED"
+const SEAL_BLANK: String = "TOWN-PROP-SEAL-BLANK"
+const CARD_WIDTH: float = 4.2
+const PLATE_WIDTH: float = 0.36
+## The seals on the painted door: a diamond round the doors' middle (the arm at the top), its left and right seals on the two inner sockets.
+const PAINTED_SEAL_SPOTS: Array[Vector2] = [Vector2(0.0, 1.63), Vector2(0.31, 1.27), Vector2(0.0, 0.91), Vector2(-0.31, 1.27)]
+
+
+## True when the painted cellar door is in the game (the box-built one is the fallback).
+static func painted() -> bool:
+	return EnvKit.has(CARD_SHUT) and EnvKit.has_art(CARD_SHUT) and EnvKit.has(CARD_OPEN) and EnvKit.has_art(CARD_OPEN)
 ## The hero comes this close (metres) and the seals whose levers were pulled since the last visit turn over.
 const REVEAL_RANGE: float = 9.0
 const TURN_SECONDS: float = 0.9
@@ -115,17 +130,22 @@ static func build(parent: Node3D, position: Vector3) -> Node3D:
 	mesh.blob("grass", Vector3(0.0, 0.3, -3.3), Vector3(3.1, 2.0, 3.1), 6, 12, 0.9)
 	mesh.blob("grass", Vector3(-2.9, 0.2, -1.6), Vector3(1.5, 1.05, 1.5), 5, 10, 0.9)
 	mesh.blob("grass", Vector3(3.0, 0.2, -1.8), Vector3(1.4, 1.0, 1.4), 5, 10, 0.9)
-	mesh.box("stone", Vector3(0.0, 1.05, -0.12), Vector3(3.3, 2.1, 0.7), Basis.IDENTITY, 0.08, 0.85)
-	for side: float in [-1.0, 1.0]:
-		mesh.box("stone", Vector3(side * 1.42, 0.95, 0.22), Vector3(0.62, 1.9, 0.62), Basis.IDENTITY, 0.07, 0.8)
-		mesh.box("cap", Vector3(side * 1.42, 1.96, 0.22), Vector3(0.74, 0.16, 0.74), Basis.IDENTITY, 0.04)
-	mesh.box("cap", Vector3(0.0, 2.2, -0.02), Vector3(3.5, 0.22, 0.86), Basis.IDENTITY, 0.05)
-	# The dark of the stair behind the doors.
-	mesh.box("dark", Vector3(0.0, 0.93, 0.02), Vector3(DOOR_WIDTH + 0.06, DOOR_HEIGHT + 0.1, 0.5))  # (its front stands just proud of the stone face)
-	# The timber frame.
-	for side: float in [-1.0, 1.0]:
-		mesh.box("beam", Vector3(side * (DOOR_WIDTH * 0.5 + 0.09), 0.93, 0.3), Vector3(0.18, 1.86, 0.24), Basis.IDENTITY, 0.02)
-	mesh.box("beam", Vector3(0.0, DOOR_HEIGHT + 0.14, 0.3), Vector3(DOOR_WIDTH + 0.5, 0.22, 0.28), Basis.IDENTITY, 0.02)
+	var art: bool = painted()
+	if art:
+		# Batch 17: the painted door's own stone face and frame stand on a plain backing (the bank's earth behind the card)
+		mesh.box("stone", Vector3(0.0, 1.05, -0.2), Vector3(3.3, 2.1, 0.5), Basis.IDENTITY, 0.08, 0.85)
+	else:
+		mesh.box("stone", Vector3(0.0, 1.05, -0.12), Vector3(3.3, 2.1, 0.7), Basis.IDENTITY, 0.08, 0.85)
+		for side: float in [-1.0, 1.0]:
+			mesh.box("stone", Vector3(side * 1.42, 0.95, 0.22), Vector3(0.62, 1.9, 0.62), Basis.IDENTITY, 0.07, 0.8)
+			mesh.box("cap", Vector3(side * 1.42, 1.96, 0.22), Vector3(0.74, 0.16, 0.74), Basis.IDENTITY, 0.04)
+		mesh.box("cap", Vector3(0.0, 2.2, -0.02), Vector3(3.5, 0.22, 0.86), Basis.IDENTITY, 0.05)
+		# The dark of the stair behind the doors.
+		mesh.box("dark", Vector3(0.0, 0.93, 0.02), Vector3(DOOR_WIDTH + 0.06, DOOR_HEIGHT + 0.1, 0.5))  # (its front stands just proud of the stone face)
+		# The timber frame.
+		for side: float in [-1.0, 1.0]:
+			mesh.box("beam", Vector3(side * (DOOR_WIDTH * 0.5 + 0.09), 0.93, 0.3), Vector3(0.18, 1.86, 0.24), Basis.IDENTITY, 0.02)
+		mesh.box("beam", Vector3(0.0, DOOR_HEIGHT + 0.14, 0.3), Vector3(DOOR_WIDTH + 0.5, 0.22, 0.28), Basis.IDENTITY, 0.02)
 	# Moss on the stone, a hedge half across the front, and the stepping stones of the side path.
 	mesh.blob("moss", Vector3(-1.1, 2.3, -0.1), Vector3(0.7, 0.2, 0.45), 4, 8, 0.8)
 	mesh.blob("moss", Vector3(1.3, 2.28, -0.2), Vector3(0.5, 0.18, 0.4), 4, 8, 0.8)
@@ -150,20 +170,29 @@ static func build(parent: Node3D, position: Vector3) -> Node3D:
 		leaf.position = Vector3(side * DOOR_WIDTH * 0.5, 0.04, 0.3)
 		leaf.set_meta(&"side", side)
 		root.add_child(leaf)
+		if art:
+			continue  # the leaves carry only the seals: the painted card draws the doors
 		var planks: MeshInstance3D = _leaf_mesh(side).instance("Planks")
 		planks.set_meta(&"no_wind", true)
 		planks.set_meta(&"no_occlusion_fade", true)
 		leaf.add_child(planks)
+	if art:
+		for card_id: String in [CARD_SHUT, CARD_OPEN]:
+			var height: float = CARD_WIDTH / maxf(EnvKit.aspect(card_id), 0.01)
+			var card: MeshInstance3D = KitPieces.wall(root, card_id, Vector3(0.0, height * 0.5 - 0.02, 0.28), 0.0, CARD_WIDTH)
+			if card != null:
+				card.name = "DoorShut" if card_id == CARD_SHUT else "DoorOpen"
+				card.set_meta(&"no_wind", true)
 	for index: int in range(VaultGuardian.ZONE_IDS.size()):
 		var zone_id: String = VaultGuardian.ZONE_IDS[index]
 		# Fable Nov 16c: a diamond in the fixed Path order, clockwise from the top (arm, chef's hat, leaf, skull). The top and the left
 		# seal ride the left leaf, the right and the bottom one the right leaf; each swings with its leaf.
-		var spot: Vector2 = SEAL_SPOTS[index]
+		var spot: Vector2 = PAINTED_SEAL_SPOTS[index] if art else SEAL_SPOTS[index]
 		var on_left: bool = index == 0 or index == 3
 		var leaf_node: Node3D = root.get_node(LEAF_LEFT if on_left else LEAF_RIGHT) as Node3D
 		var hinge_x: float = (-1.0 if on_left else 1.0) * DOOR_WIDTH * 0.5
 		var seal: Node3D = _seal(zone_id)
-		seal.position = Vector3(spot.x - hinge_x, spot.y - 0.04, 0.1)
+		seal.position = Vector3(spot.x - hinge_x, spot.y - 0.04, 0.1 if not art else 0.06)
 		leaf_node.add_child(seal)
 	# Warm light out of the gap while the doors stand ajar (no colour: lamplight on the stair).
 	var glow: OmniLight3D = OmniLight3D.new()
@@ -202,6 +231,26 @@ static func iron_material() -> StandardMaterial3D:
 static func _seal(zone_id: String) -> Node3D:
 	var seal: Node3D = Node3D.new()
 	seal.name = SEAL_PREFIX + zone_id
+	if EnvKit.has(SEAL_LOCKED) and EnvKit.has_art(SEAL_LOCKED) and EnvKit.has_art(SEAL_BLANK):
+		# Batch 17: the painted iron seal (locked: its padlock; turned: a blank seal with the Path icon drawn on top)
+		var plate: MeshInstance3D = MeshInstance3D.new()
+		plate.name = "Plate"
+		var plate_quad: QuadMesh = QuadMesh.new()
+		plate_quad.size = Vector2.ONE * PLATE_WIDTH
+		plate.mesh = plate_quad
+		plate.material_override = KitPieces.flat_material(SEAL_LOCKED)
+		plate.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		plate.set_meta(StyleToon.META_NO_TOON, true)
+		plate.set_meta(PaintedClasses.META_NO_PAINT, true)
+		plate.position.z = 0.02
+		seal.add_child(plate)
+	else:
+		_iron_disc(seal)
+	_seal_faces(seal, zone_id)
+	return seal
+
+
+static func _iron_disc(seal: Node3D) -> void:
 	var disc: MeshInstance3D = MeshInstance3D.new()
 	disc.name = "Disc"
 	var shape: CylinderMesh = CylinderMesh.new()
@@ -227,6 +276,9 @@ static func _seal(zone_id: String) -> Node3D:
 	rim.material_override = iron_material()
 	rim.set_meta(StyleToon.META_NO_TOON, true)
 	seal.add_child(rim)
+
+
+static func _seal_faces(seal: Node3D, zone_id: String) -> void:
 	# The faint outline of the Path's icon behind the padlock (hidden once the seal has turned).
 	var ghost: MeshInstance3D = MeshInstance3D.new()
 	ghost.name = "Ghost"
@@ -251,7 +303,6 @@ static func _seal(zone_id: String) -> Node3D:
 	face.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	face.set_meta(StyleToon.META_NO_TOON, true)
 	seal.add_child(face)
-	return seal
 
 
 ## Puts the padlock or the Path's icon on a seal's face.
@@ -269,6 +320,10 @@ static func set_seal(root: Node3D, zone_id: String, open: bool) -> void:
 		face.pixel_size = (SEAL_RADIUS * (ICON_WIDTH if open else PADLOCK_WIDTH)) / float(maxi(texture.get_width(), 1))
 	# A padlock sits dimmed on the iron, small, over the faint outline of its Path's icon; a turned seal's icon is in full colour.
 	face.modulate = Color.WHITE if open else Color(0.72, 0.7, 0.66)
+	var plate: MeshInstance3D = seal.get_node_or_null("Plate") as MeshInstance3D
+	if plate != null:
+		plate.material_override = KitPieces.flat_material(SEAL_BLANK if open else SEAL_LOCKED)
+		face.visible = open  # the locked plate has its padlock painted on
 	var ghost: Node3D = seal.get_node_or_null("Ghost") as Node3D
 	if ghost != null:
 		ghost.visible = not open
@@ -291,6 +346,16 @@ static func _set_doors(root: Node3D, degrees: float) -> void:
 	var glow: OmniLight3D = root.get_node_or_null(GLOW_NODE) as OmniLight3D
 	if glow != null:
 		glow.light_energy = 1.1 if is_equal_approx(degrees, AJAR_DEGREES) else 0.0
+	var shut_card: Node3D = root.get_node_or_null("DoorShut") as Node3D
+	var open_card: Node3D = root.get_node_or_null("DoorOpen") as Node3D
+	if shut_card != null and open_card != null:
+		var shut: bool = degrees < 1.0
+		shut_card.visible = shut
+		open_card.visible = not shut
+		for leaf_name: String in [LEAF_LEFT, LEAF_RIGHT]:
+			var leaf_node: Node3D = root.get_node_or_null(leaf_name) as Node3D
+			if leaf_node != null:
+				leaf_node.visible = shut
 
 
 ## True when the hero at `hero` is near enough to see a seal turn and one is waiting to.

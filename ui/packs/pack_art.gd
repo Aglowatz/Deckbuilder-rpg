@@ -24,6 +24,7 @@ const MEDALLION_RADIUS: float = 0.28
 const MEDALLION_ICON_SPAN: float = 0.47
 ## A Gilded pack's own painted wrapper per Path, when imported (Batch 16: the foil pattern in that Path's symbol, never dumbbells).
 const GILDED_PACK_IDS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "UI-PACK-GILDED-B",  # Batch 17 (Nov 18)
 	Affinity.Type.NECROCRAT: "UI-PACK-GILDED-N",
 	Affinity.Type.GOURMAND: "UI-PACK-GILDED-G",
 	Affinity.Type.REFUSEMANCER: "UI-PACK-GILDED-R",
@@ -31,7 +32,8 @@ const GILDED_PACK_IDS: Dictionary = {
 
 ## Batch 16 (Nov 16): pack paintings whose own medallion already is the Path's canonical icon, whole and centred in the gold ring. No
 ## icon is laid over these (`_build_medallion`); the older paintings (UI-PACK-B, UI-PACK-G and the one shared UI-PACK-GILDED) keep it.
-const PAINTED_MEDALLIONS: Array[String] = ["UI-PACK-N", "UI-PACK-R", "UI-PACK-GILDED-N", "UI-PACK-GILDED-G", "UI-PACK-GILDED-R"]
+## Batch 17 (Nov 18): the repainted UI-PACK-G and the Beefcake gilded pack UI-PACK-GILDED-B carry their medallion too.
+const PAINTED_MEDALLIONS: Array[String] = ["UI-PACK-N", "UI-PACK-R", "UI-PACK-G", "UI-PACK-GILDED-B", "UI-PACK-GILDED-N", "UI-PACK-GILDED-G", "UI-PACK-GILDED-R"]
 
 var pack: PackData
 var _top_clip: Control

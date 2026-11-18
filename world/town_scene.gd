@@ -490,6 +490,10 @@ func _ready() -> void:
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
+	if _screenshot_args.has("vault_view"):
+		# Overnight Nov 18 (Batch 17 shots): the hero stands aside so the painted cellar door and its seals are in view
+		player.position = (town.anchors["vault4_mouth"] as Vector3) + Vector3(2.6, 0.0, 3.4)
+		player.face(town.anchors["vault4_mouth"] as Vector3)
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
 	if _screenshot_args.has("top"):

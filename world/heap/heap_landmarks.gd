@@ -1168,7 +1168,8 @@ static func root_gate(size: Vector3) -> Node3D:
 ## Art import Oct 29: the pennants hung on the far landing's two flag posts (moss green and rust, the zone palette).
 ## Overnight Nov 16 (critic S1, finding 4): both pennants are the paw print (-02 on rust, -05 on cream). -01 was a single leaf on green,
 ## which reads as a Path sign and is not the Refusemancer icon (the leaf in three arrows); a paw print belongs to no Path.
-const ENTRANCE_PENNANTS: Array[String] = ["DUMP-SHEET-ENTRANCE-FLAGS-05", "DUMP-SHEET-ENTRANCE-FLAGS-02"]
+## Batch 17 (Nov 18): the two new pennants (green and cream) carry the Refusemancer icon whole - the leaf in three arrows.
+const ENTRANCE_PENNANTS: Array[String] = ["DUMP-SHEET-ENTRANCE-FLAGS-07", "DUMP-SHEET-ENTRANCE-FLAGS-08"]
 
 
 static func entrance_bridge(length: float, width: float) -> Node3D:

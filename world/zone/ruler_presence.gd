@@ -95,6 +95,52 @@ static func ruler_figure(zone_id: String, tint: Color, height: float = FIGURE_HE
 	return figure
 
 
+## Overnight Nov 18 (Batch 17): the five rulers' painted stone statues, standing (oppressed) and toppled (freed), from each zone kit.
+## Same scale for all five: a standing statue is STATUE_HEIGHT tall on the plinth; a toppled one TOPPLED_HEIGHT tall, lying beside it.
+const RULER_STATUES: Dictionary = {
+	"beefcake": ["GAIN-STATUE-CLENCH-STANDING", "GAIN-STATUE-CLENCH-TOPPLED"],
+	"gourmand": ["BUFF-STATUE-GRANDCHEF-STANDING", "BUFF-STATUE-GRANDCHEF-TOPPLED"],
+	"necrocrat": ["DNA-STATUE-MORTIMER-STANDING", "DNA-STATUE-MORTIMER-TOPPLED"],
+	"refusemancer": ["DUMP-STATUE-COMPOSTELLA-STANDING", "DUMP-STATUE-COMPOSTELLA-TOPPLED"],
+	"final": ["CAP-STATUE-PRIMM-STANDING", "CAP-STATUE-PRIMM-TOPPLED"],
+}
+const STATUE_HEIGHT: float = 3.3
+const TOPPLED_HEIGHT: float = 1.5
+
+
+## The painted statue card of a zone (standing or toppled), its foot at the origin, facing +z; null when the art is not in the game.
+static func statue_card(zone_id: String, toppled: bool) -> MeshInstance3D:
+	var ids: Array = RULER_STATUES.get(zone_id, []) as Array
+	if ids.size() != 2:
+		return null
+	var id: String = str(ids[1 if toppled else 0])
+	if not EnvKit.has(id) or not EnvKit.has_art(id):
+		return null
+	var height: float = TOPPLED_HEIGHT if toppled else STATUE_HEIGHT
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(height * EnvKit.aspect(id), height)
+	quad.center_offset = Vector3(0.0, height * 0.5, 0.0)
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_texture = EnvKit.texture(id)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	material.alpha_scissor_threshold = 0.45
+	# the painting carries its own stone light; lit flat it went navy in the Gainlands' backlight
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color(0.86, 0.85, 0.83)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	var card: MeshInstance3D = MeshInstance3D.new()
+	card.name = FIGURE_NAME
+	card.mesh = quad
+	card.material_override = material
+	card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	card.set_meta(StyleToon.META_NO_TOON, true)
+	card.set_meta(PaintedClasses.META_NO_PAINT, true)
+	card.set_meta(&"no_wind", true)
+	card.set_meta("statue_art", id)
+	return card
+
+
 static func _statue(tint: Color, toppled: bool, zone_id: String = "") -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.set_meta("toppled", toppled)
@@ -102,6 +148,19 @@ static func _statue(tint: Color, toppled: bool, zone_id: String = "") -> Node3D:
 	var pedestal: MeshInstance3D = _box(Vector3(1.8, PLINTH_TOP, 1.8), stone)
 	pedestal.position.y = PLINTH_TOP * 0.5
 	root.add_child(pedestal)
+	var painted: MeshInstance3D = statue_card(zone_id, toppled)
+	if painted != null:
+		root.add_child(painted)
+		if toppled:
+			# the painted statue lying on the ground beside its empty plinth (the art shows it fallen), a broken stump left on top
+			painted.position = Vector3(1.9, 0.0, 0.7)
+			var stump_p: MeshInstance3D = _box(Vector3(0.9, 0.22, 0.5), stone)
+			stump_p.position = Vector3(0.0, PLINTH_TOP + 0.11, 0.0)
+			root.add_child(stump_p)
+		else:
+			painted.position = Vector3(0.0, PLINTH_TOP - 0.06, 0.05)
+		root.add_child(_emblem(Vector2(0.5, 0.5), Vector3(0, 0.38, 0.91)))
+		return root
 	var figure: MeshInstance3D = ruler_figure(zone_id, tint)
 	if figure != null:
 		root.add_child(figure)
