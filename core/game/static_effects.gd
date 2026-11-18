@@ -72,6 +72,33 @@ static func extra_keywords(state: GameState, card: CardInstance) -> Array[CardEn
 	return result
 
 
+## Nov 18 day (Part 1.2): for each keyword from an aura, attached Tool or own static ability, the name of the card giving it (the first one).
+static func keyword_sources(state: GameState, card: CardInstance) -> Dictionary:
+	var result: Dictionary = {}
+	if _busy:
+		return result
+	_busy = true
+	for source: CardInstance in _sources(state):
+		for ability: CardAbility in source.data.abilities():
+			if not _applies(state, source, ability, card):
+				continue
+			var words: Array = []
+			for fx: CardAbility.Fx in ability.effects:
+				if fx.name == "kw":
+					words.append_array(fx.args)
+			if words.is_empty():
+				continue
+			var ctx: AbilityContext = _context(state, source, ability, card)
+			if not AbilityRunner.condition_holds_for(ability, ctx):
+				continue
+			for arg: Variant in words:
+				var keyword: int = ScriptParser.keyword_from_word(str(arg))
+				if keyword >= 0 and not result.has(keyword):
+					result[keyword] = source.data.display_name
+	_busy = false
+	return result
+
+
 static func has_extra_keyword(state: GameState, card: CardInstance, keyword: CardEnums.Keyword) -> bool:
 	return extra_keywords(state, card).has(keyword)
 

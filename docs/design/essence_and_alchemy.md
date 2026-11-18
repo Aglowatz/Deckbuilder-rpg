@@ -5,7 +5,7 @@ Source: `docs/design/story_source.md` ("Alchemist and crafting cards"). Code: `c
 
 ## Essence
 
-A player may own **up to 3 copies of any one card, depending on their level** (`CopyCaps`; infrastructure is unlimited). Whenever a
+A player may own **up to 3 copies of any one card, depending on their level** (`CopyCaps`; basic infrastructure is unlimited, other Infrastructure is capped by rarity since Nov 18). Whenever a
 card is gained from ANY source (`Session.add_cards`: rewards, vendors, chests, quests, dungeon treasure, crafting) and
 the player already owns 4, the extra copy is **not kept**. It converts automatically:
 
@@ -14,7 +14,7 @@ the player already owns 4, the extra copy is **not kept**. It converts automatic
 | a Path card | **Path essence** of that Path: Common 1, Uncommon 2, Epic 4, Legendary 8 (`Essence.VALUE_BY_RARITY`) |
 | a multi-Path card | the same value split between its two Paths (half each, first Path rounded up) |
 | a **neutral** card | **gold** instead (no Path to belong to): Common 15, Uncommon 30, Epic 60, Legendary 120 (logged as M11) |
-| infrastructure | nothing: it is unlimited |
+| basic infrastructure | nothing: it is unlimited (special Infrastructure converts like any card of its rarity) |
 
 Every conversion fires `EventBus.essence_converted(message, essence, gold)`; the global `ToastLayer` (a CanvasLayer
 above every scene) shows it ("Extra copy of Firebolt converted into 2 Beefcake essence."), so it appears in town, zones,

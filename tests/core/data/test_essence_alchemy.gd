@@ -90,12 +90,23 @@ func test_neutral_extras_become_gold() -> void:
 	assert_eq(Session.profile.total_essence(), 0, "neutral cards never make essence")
 
 
-func test_infrastructure_is_unlimited_and_never_converts() -> void:
+func test_basic_infrastructure_is_unlimited_and_never_converts() -> void:
 	var infra: CardData = CardBuilder.infra(A)
 	for i: int in range(10):
 		Session.add_cards([infra] as Array[CardData])
 	assert_eq(Session.owned_count(infra.id), 10)
 	assert_eq(Session.profile.total_essence(), 0)
+
+
+func test_special_infrastructure_converts_past_its_cap() -> void:
+	# Nov 18 day (Part 1.3): a special Infrastructure past its cap converts like any card of its rarity.
+	var special: CardData = CardBuilder.infra(A, false)
+	special.id = "special_infra_test"
+	special.rarity = CardEnums.Rarity.UNCOMMON
+	for i: int in range(5):
+		Session.add_cards([special] as Array[CardData])
+	assert_eq(Session.owned_count(special.id), Session.copy_cap(special))
+	assert_gt(Session.profile.total_essence(), 0)
 
 
 func test_a_dual_path_extra_splits_its_essence_between_both_paths() -> void:

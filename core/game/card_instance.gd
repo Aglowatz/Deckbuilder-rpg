@@ -28,6 +28,8 @@ var temp_defense: int = 0
 var lingering: Array[Dictionary] = []
 var granted_keywords: Array[CardEnums.Keyword] = []
 var temp_keywords: Array[CardEnums.Keyword] = []
+## Nov 18 day (Part 1.2): who gave each granted / until-end-of-turn keyword (keyword -> the source's name, "" when unknown), for the badge's hover.
+var keyword_sources: Dictionary = {}
 ## New brief, Part B: set once on entering the field if the controller's equipment grants
 ## it (e.g. Hover Boots) - this unit can never be declared as a blocker.
 var cannot_block: bool = false
@@ -170,6 +172,7 @@ func clone() -> CardInstance:
 	copy.lingering = lingering.duplicate(true)
 	copy.granted_keywords = granted_keywords.duplicate()
 	copy.temp_keywords = temp_keywords.duplicate()
+	copy.keyword_sources = keyword_sources.duplicate()
 	copy.cannot_block = cannot_block
 	copy.buffs = buffs
 	copy.overgrowth_stacks = overgrowth_stacks

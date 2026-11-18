@@ -244,6 +244,7 @@ func _reroll() -> void:
 				select_pick(which)
 				tile.accept_event())
 		PadClick.enable(tile)
+		CardHoverZoom.attach(tile)  # Nov 18 day (Part 3)
 		row.add_child(tile)
 		_pick_tiles.append(tile)
 	body.add_child(row)
@@ -288,6 +289,7 @@ func _add_pick(body: VBoxContainer) -> void:
 				select_pick(which)
 				tile.accept_event())
 		PadClick.enable(tile)  # the pad's A on a focused card is the same click
+		CardHoverZoom.attach(tile)  # Nov 18 day (Part 3): the hovered / focused card grows to the battle preview's size
 		row.add_child(tile)
 		_pick_tiles.append(tile)
 	body.add_child(row)

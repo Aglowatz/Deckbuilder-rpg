@@ -165,7 +165,7 @@ static func execute(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 				return false
 			var temporary_keyword: bool = not (fx.args.size() > 2 and str(fx.args[2]) == PERMANENT)
 			for card: CardInstance in _cards(fx.args[0], ctx):
-				state.grant_keyword(card, keyword as CardEnums.Keyword, temporary_keyword)
+				state.grant_keyword(card, keyword as CardEnums.Keyword, temporary_keyword, ctx.source.data.display_name if ctx.source != null and ctx.source.data != null else "")
 				granted = true
 			return granted
 		"set_def", "set_atk":

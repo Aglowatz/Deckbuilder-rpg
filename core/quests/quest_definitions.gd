@@ -11,7 +11,8 @@ const MERCHANTS: String = "meet_the_merchants"
 ## main quests start (the four zone lines, Fragments, Brannoch's Free the Four Zones, Maren's door under the well): `STORY_GATE`.
 const MAREN: String = "Elder Maren"
 ## Fix pass Nov 7 (owner decision D3): Maren's four errands (Meet the Merchants, Make It Yours, the store room, the armory) are the
-## "Settling In" line - side quests that run beside the Path's main line; they no longer gate the story (`story_gate`).
+## "Settling In" line; they no longer gate the story (`story_gate`). Nov 18 day (Part 4): they are MAIN quests (orders 1-4, before the zone
+## lines and Fragments) and, while one is active, it keeps the tracker (`QuestLog.start` / `follow`).
 const SETTLING_IN: String = "Settling In"
 const GHOSTS: String = "storeroom_ghosts"
 ## Set by `QuestMigration` on saves from before the chain that already had the story quests, so they never lose them.
@@ -209,7 +210,7 @@ static func zone_main_id(zone_id: String) -> String:
 static func _meet_the_merchants() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = MERCHANTS
-	quest.category = QuestData.Category.SIDE
+	quest.category = QuestData.Category.MAIN  # Nov 18 day (Part 4.2): the Settling In chain is MAIN, ahead of Fragments
 	quest.line = SETTLING_IN
 	quest.order = 1
 	quest.title = "Meet the Merchants"
@@ -496,7 +497,7 @@ const OUTSKIRTS_SPOT: String = "outskirts"
 static func _armory() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = ARMORY
-	quest.category = QuestData.Category.SIDE
+	quest.category = QuestData.Category.MAIN  # Nov 18 day (Part 4.2): the Settling In chain is MAIN, ahead of Fragments
 	quest.line = SETTLING_IN
 	quest.order = 4
 	quest.title = "Some Assembly Required"
@@ -531,7 +532,7 @@ const FIRST_PACK_ID: String = "general_1"
 static func _first_deck_edit() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = FIRST_DECK_EDIT
-	quest.category = QuestData.Category.SIDE
+	quest.category = QuestData.Category.MAIN  # Nov 18 day (Part 4.2): the Settling In chain is MAIN, ahead of Fragments
 	quest.line = SETTLING_IN
 	quest.order = 2
 	quest.title = "Make It Yours"
@@ -557,7 +558,7 @@ static func _first_deck_edit() -> QuestData:
 static func _storeroom_ghosts() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = GHOSTS
-	quest.category = QuestData.Category.SIDE
+	quest.category = QuestData.Category.MAIN  # Nov 18 day (Part 4.2): the Settling In chain is MAIN, ahead of Fragments
 	quest.line = SETTLING_IN
 	quest.order = 3
 	quest.title = "Something in the Store Room"

@@ -1014,10 +1014,12 @@ func _build_ui() -> void:
 ## animal herded, a wheel crew freed - answers {} so its marker drops), plus two groups: every live hostile roamer (`QuestMarkers.SPOT_ROAMERS`,
 ## "roamers": they move, so the layer follows them) and every hidden stash still shut (`QuestMarkers.SPOT_CHESTS`, "chests").
 func _resolve_marker_spot(spot_id: String) -> Dictionary:
-	if spot_id == QuestMarkers.SPOT_ROAMERS:
+	if spot_id == QuestMarkers.SPOT_ROAMERS or spot_id == QuestMarkers.SPOT_ROAMERS_WEST:
 		var roamers: Array[Dictionary] = []
 		for enemy: ZoneEnemy in enemies:
 			if not is_instance_valid(enemy) or not enemy.is_inside_tree() or not enemy.visible or enemy.peaceful:
+				continue
+			if spot_id == QuestMarkers.SPOT_ROAMERS_WEST and not DnaZone.is_west_wing(enemy.instance_id):
 				continue
 			roamers.append({"pos": enemy.position, "top": 1.6, "title": enemy.info.display_name if enemy.info != null else "A roaming enemy", "key": enemy.instance_id})
 		return QuestMarkerLayer.group(roamers, true)

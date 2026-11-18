@@ -143,13 +143,12 @@ func _fill_cards() -> void:
 		PadClick.enable(view)  # controller support (Oct 26): A picks the card
 		view.hovered.connect(func(_v: CardView) -> void:
 			Audio.sfx(&"card_hover", -12.0)
-			_show_keywords(_offer.cards[index])
-			if _selected != index:
-				create_tween().tween_property(view, "position:y", view.position.y - 14.0, 0.1))
+			_show_keywords(_offer.cards[index]))
 		view.unhovered.connect(func(_v: CardView) -> void:
-			_show_keywords(_offer.cards[_selected] if _selected >= 0 and _selected < _offer.cards.size() else null)
-			if _selected != index:
-				create_tween().tween_property(view, "position:y", -CardView.SIZE.y * 0.1, 0.1))
+			_show_keywords(_offer.cards[_selected] if _selected >= 0 and _selected < _offer.cards.size() else null))
+		# Nov 18 day (Part 3): the hovered / focused card grows to the battle preview's size (it replaced a 14 px lift).
+		holder.pivot_offset = CardView.SIZE * 0.8 * 0.5
+		CardHoverZoom.attach(holder, view)
 		if Session.at_copy_cap(_offer.cards[index]):
 			# Overnight Nov 7-8, Part 0 (critic CF #4): marked before the choice.
 			var tag: Label = UIKit.label("AT CAP: becomes essence", &"", 16, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)

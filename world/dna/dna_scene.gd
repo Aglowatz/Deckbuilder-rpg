@@ -52,10 +52,6 @@ func _make_puzzle_screen() -> OverlayScreen:
 	return FileCardScreen.new()
 
 
-func _make_minigame_screen() -> OverlayScreen:
-	return MatchGameScreen.new()
-
-
 func _interact_zone(spot: ZoneSpot) -> void:
 	match spot.id:
 		"coffee":

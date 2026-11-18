@@ -23,7 +23,7 @@ static func card_choices(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if card.is_infrastructure() or not CardAvailability.allowed(card, earned):
+		if card.is_unlimited() or not CardAvailability.allowed(card, earned):
 			continue
 		var weight: float = table[int(card.rarity)]
 		if card.is_on_path(profile.primary_affinity):
@@ -56,7 +56,7 @@ static func with_rarity_floor(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if card.is_infrastructure() or int(card.rarity) < int(floor) or cards.has(card) or not CardAvailability.allowed(card, earned):
+		if card.is_unlimited() or int(card.rarity) < int(floor) or cards.has(card) or not CardAvailability.allowed(card, earned):
 			continue
 		var weight: float = table[int(card.rarity)]
 		if card.is_on_path(profile.primary_affinity):
@@ -96,7 +96,7 @@ static func card_choices_for_color(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if not card.is_on_path(color) or card.is_infrastructure() or not CardAvailability.allowed(card, earned):
+		if not card.is_on_path(color) or card.is_unlimited() or not CardAvailability.allowed(card, earned):
 			continue
 		pool.append(card)
 		weights.append(table[int(card.rarity)])

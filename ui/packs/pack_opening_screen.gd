@@ -27,6 +27,8 @@ var _title: Label
 var _pack_art: PackArt
 var _glow: ColorRect
 var _holders: Array[Control] = []
+## Nov 18 day (Part 3): true while the summary row is still sliding into place (no hover zoom until it has settled).
+var _settling: bool = false
 var _views: Array[CardView] = []
 var _flipped: Array[bool] = []
 var _next: int = 0
@@ -246,11 +248,20 @@ func _flip(index: int, quick: bool = false) -> void:
 	open.tween_property(holder, "scale", Vector2.ONE * lift, 0.12 if quick else 0.26)
 	await open.finished
 	_flipped[index] = true
+	# Nov 18 day (Part 3): a face-up card grows under the mouse (or the pad's focus) to the battle preview's size.
+	holder.mouse_filter = Control.MOUSE_FILTER_PASS
+	CardHoverZoom.attach(holder, null, func() -> bool: return _zoom_allowed(index))
 	_flair(index, holder, colour, quick)
 	_add_card_labels(index, holder, entry, colour)
 	await get_tree().create_timer(0.1 if quick else (1.5 if rarity >= 3 else 0.45)).timeout
 	if rarity < 3:
 		holder.z_index = 1
+
+
+func _zoom_allowed(index: int) -> bool:
+	if _settling or index >= _flipped.size() or not _flipped[index]:
+		return false
+	return _phase == Phase.SUMMARY or (_phase == Phase.REVEAL and not _busy)
 
 
 func _centre_of(holder: Control) -> Vector2:
@@ -443,6 +454,11 @@ func _show_summary() -> void:
 	_title.text = "%s - opened" % opening.pack.display_name
 	var count: int = _holders.size()
 	var small: float = 0.66
+	_settling = true
+	for holder: Control in _holders:
+		CardHoverZoom.zoom_out(holder)
+		holder.focus_mode = Control.FOCUS_ALL  # the pad can step along the cards (each grows while focused)
+	get_tree().create_timer(0.5).timeout.connect(func() -> void: _settling = false)
 	var width: float = CardView.SIZE.x * CARD_SCALE * small
 	var gap: float = 26.0
 	var total: float = width * float(count) + gap * float(count - 1)

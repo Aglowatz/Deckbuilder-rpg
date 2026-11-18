@@ -36,11 +36,13 @@ static func entries(game: GameState, card: CardInstance) -> Array[Array]:
 	var rules: Vector2i = game.players[card.owner].modifiers.stat_bonus_for(card.data)
 	if card.data.is_unit() and (rules.x != 0 or rules.y != 0):
 		result.append(["The fight's rules", "%s from the rules of this fight (the icons under the portraits)." % _stats(rules.x, rules.y)])
-	for keyword: CardEnums.Keyword in card.granted_keywords + card.temp_keywords:
-		if card.data.keywords.has(keyword) or not KeywordInfo.KEYWORD_TEXT.has(keyword):
-			continue
-		var lasting: String = " (for the rest of this turn)" if card.temp_keywords.has(keyword) else ""
-		result.append(["%s%s" % [KeywordInfo.keyword_name(keyword), lasting], KeywordInfo.keyword_description(keyword)])
+	# Nov 18 day (Part 1.2): every keyword the unit has that is not printed - granted, this turn only, or from a Tool / aura - with its source.
+	if card.data.is_unit():
+		for entry: Dictionary in game.granted_keywords_of(card):
+			var keyword: CardEnums.Keyword = entry["keyword"] as CardEnums.Keyword
+			if not KeywordInfo.KEYWORD_TEXT.has(keyword):
+				continue
+			result.append([CardView.granted_title(entry), KeywordInfo.keyword_description(keyword)])
 	var tools: Array[CardInstance] = game.attached_tools(card)
 	if not tools.is_empty():
 		var names: PackedStringArray = []

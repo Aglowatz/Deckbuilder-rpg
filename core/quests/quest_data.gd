@@ -46,10 +46,13 @@ func is_main() -> bool:
 	return category == Category.MAIN
 
 
+## Nov 18 day (Part 4.2): a MAIN quest always shows MAIN (Maren's Settling In errands are main quests); a side quest of a line shows the line.
 func category_tag() -> String:
+	if category == Category.MAIN:
+		return "MAIN"
 	if not line.is_empty():
 		return line.to_upper()
-	return "MAIN" if category == Category.MAIN else "SIDE"
+	return "SIDE"
 
 
 ## The quest's completion payout as one bundle (the same fields, for code that pays or previews any reward).

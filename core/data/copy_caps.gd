@@ -2,11 +2,12 @@ class_name CopyCaps
 extends RefCounted
 ## Overnight Oct 17, Part 1: how many copies of a card the player may own and put in a deck. Never more than
 ## `ABSOLUTE_MAX` (3); rarer cards start lower (Common 3, Uncommon 2, Epic 1, Legendary 1) and level-ups raise their caps
-## toward 3 (`data/progression/level_track.json`, section "copy_caps"). Infrastructure is unlimited and tokens never go in a
+## toward 3 (`data/progression/level_track.json`, section "copy_caps"). Basic infrastructure is unlimited (Nov 18 day: other
+## Infrastructure is capped like any card of its rarity) and tokens never go in a
 ## deck. The same cap rules the shop, packs and rewards (an extra copy converts, `Essence`), the deck builder and saved decks.
 
 const ABSOLUTE_MAX: int = 3
-## What `for_card` returns for infrastructure (no cap).
+## What `for_card` returns for basic infrastructure (no cap).
 const UNLIMITED: int = 9999
 const _FALLBACK_START: Array[int] = [3, 2, 1, 1]
 
@@ -15,12 +16,12 @@ const _FALLBACK_START: Array[int] = [3, 2, 1, 1]
 const RULE: String = "You can have up to 3 copies of any one card, depending on your level."
 
 
-## The rule with the caps at `level`: "... At level 5: Common 3, Uncommon 2, Epic 1, Legendary 1. Infrastructure has no limit."
+## The rule with the caps at `level`: "... At level 5: Common 3, Uncommon 2, Epic 1, Legendary 1. Basic infrastructure has no limit."
 static func rule_text(level: int) -> String:
 	var parts: PackedStringArray = []
 	for rarity: int in range(CardEnums.Rarity.size()):
 		parts.append("%s %d" % [rarity_name(rarity as CardEnums.Rarity), cap_for(rarity as CardEnums.Rarity, level)])
-	return "%s At level %d: %s. Infrastructure has no limit." % [RULE, level, ", ".join(parts)]
+	return "%s At level %d: %s. Basic infrastructure has no limit." % [RULE, level, ", ".join(parts)]
 
 
 static func absolute_max() -> int:
@@ -55,7 +56,7 @@ static func cap_for(rarity: CardEnums.Rarity, level: int) -> int:
 	return cap
 
 
-## The copy cap of a card at a player level (infrastructure: UNLIMITED, tokens: 0).
+## The copy cap of a card at a player level (basic infrastructure: UNLIMITED, tokens: 0).
 static func for_card(card: CardData, level: int) -> int:
 	if card == null or card.is_token:
 		return 0

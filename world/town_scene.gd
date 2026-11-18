@@ -741,12 +741,14 @@ func _label_spot(id: String, title: String, marker: Node3D) -> void:
 	var kind: String = NpcLabels.kind_for(npc_id) if not npc_id.is_empty() else "npc"
 	if id in QUEST_SPOT_IDS:
 		kind = "quest"
-	elif id in ["vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "alchemist"]:
+	elif id in ["vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "alchemist", "deck"]:
 		kind = "vendor"
 	if kind.is_empty():
 		return
 	var text: String = NpcLabels.text_for(npc_id, title) if not npc_id.is_empty() else title
-	if kind == "vendor" and not text.contains(" - "):
+	if id == "deck":
+		text = DECK_STATION_LABEL
+	elif kind == "vendor" and not text.contains(" - "):
 		text = "%s - %s" % [title, {"vendor": "Cards", "item_vendor": "Items", "equipment_vendor": "Gear", "pack_vendor": "Packs", "tailor": "Clothes", "alchemist": "Alchemy"}.get(id, "Shop")]
 	# Fresh eyes round 2 (Oct 31): the wandering baker's label follows her sprite (`_build_barks`); the spot's own label would print "Brindle the
 	# Baker" a second time over it (the mid-game critic's `c3_06_walk__05_northwest`).
@@ -3114,9 +3116,12 @@ func _use_gate() -> void:
 
 ## Minimap points of interest (brief 6, Part C): an explicit whitelist by spot id. The hidden chest,
 ## lever, vault, secret dealer and dev shrine are deliberately NOT listed - secrets never show.
+## Nov 18 day (Part 5.2): the Deck Station's screen label and its map / minimap icon.
+const DECK_STATION_LABEL: String = "Deck Station"
+const DECK_STATION_ICON: String = "ICON-UI-DECK"
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
-	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
+	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.VENDOR, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE, "arena": MapPoi.Kind.ARENA,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE, StoreroomGhosts.SPOT_ID: MapPoi.Kind.CHALLENGE,
 }
@@ -3137,7 +3142,10 @@ func _collect_pois() -> Array[MapPoi]:
 		if not spot.named:
 			continue
 		if POI_KINDS.has(spot.id):
-			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, poi_label(spot.id, spot.title)))
+			var poi: MapPoi = MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, poi_label(spot.id, spot.title))
+			if spot.id == "deck":
+				poi.icon_override = DECK_STATION_ICON
+			result.append(poi)
 		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
 			result.append(_tint_own_path(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title), spot.id.trim_prefix("npc_")))
 		elif spot.id.begins_with("portal_"):
@@ -3643,6 +3651,8 @@ func _spot_is_named(id: String) -> bool:
 func _spot_has_plate(id: String) -> bool:
 	if id == "hidden_vendor":
 		return false  # the black-market alley stays a discovery
+	if id == "deck":
+		return true  # Nov 18 day (Part 5.2): the card stall wears a "Deck Station" label like a shop
 	return _spot_is_named(id) and id in NPC_SPOT_IDS
 
 

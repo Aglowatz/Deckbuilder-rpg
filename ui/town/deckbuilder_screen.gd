@@ -967,7 +967,7 @@ func _rebuild_rules() -> void:
 	var minimum: int = DeckValidator.min_deck_size(_active_modifiers())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "%d cards / at least %d" % [editor.deck.size(), minimum], "At least %d cards (you have %d)" % [minimum, editor.deck.size()])
 	var caps_ok: bool = not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES)
-	_rule_row(caps_ok, "Copy caps" if caps_ok else "Over a copy cap", "Copy caps: %s; infrastructure unlimited" % _caps_summary())
+	_rule_row(caps_ok, "Copy caps" if caps_ok else "Over a copy cap", "Copy caps: %s; basic infrastructure unlimited" % _caps_summary())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "%d of %d Path%s" % [colors.size(), limit, "" if limit == 1 else "s"], "At most %d Path%s (%s)" % [limit, "" if limit == 1 else "s", ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
 		_rule_row(false, "Cards you do not own", "You use cards you do not own")

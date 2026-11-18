@@ -169,7 +169,7 @@ static func _candidates(content: ContentSet, owned: Dictionary = {}) -> Array[Ca
 		ids.sort()
 		for id: Variant in ids:
 			var card: CardData = source[id] as CardData
-			if card.is_infrastructure() or card.is_token or card.rarity == CardEnums.Rarity.LEGENDARY:
+			if card.is_unlimited() or card.is_token or card.rarity == CardEnums.Rarity.LEGENDARY:
 				continue
 			if not CardAvailability.allowed(card, earned):
 				continue

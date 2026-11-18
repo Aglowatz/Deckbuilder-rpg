@@ -37,12 +37,12 @@ func test_arrival_in_town_opens_the_story_but_not_the_gatekeepers() -> void:
 	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "the first errand starts")
 
 
-func test_errands_are_the_settling_in_side_line() -> void:
+func test_errands_are_the_settling_in_main_line() -> void:
 	for quest_id: String in [QuestDefinitions.MERCHANTS, QuestDefinitions.FIRST_DECK_EDIT, QuestDefinitions.GHOSTS, QuestDefinitions.ARMORY]:
 		var quest: QuestData = QuestCatalog.find(quest_id)
 		assert_eq(quest.line, QuestDefinitions.SETTLING_IN, quest_id)
-		assert_eq(quest.category, QuestData.Category.SIDE, quest_id)
-		assert_eq(quest.category_tag(), "SETTLING IN")
+		assert_eq(quest.category, QuestData.Category.MAIN, "Nov 18 day: %s is MAIN" % quest_id)
+		assert_eq(quest.category_tag(), "MAIN")
 
 
 func test_an_old_save_learns_its_own_path_on_load() -> void:

@@ -121,7 +121,8 @@ func test_seven_identical_tokens_make_one_slot_with_a_count() -> void:
 	var uids: Array = stacks[0]["uids"] as Array
 	var first: CardView = board.view_for(int(uids[0]))
 	var last: CardView = board.view_for(int(uids[6]))
-	assert_lt(first.position.distance_to(last.position), 40.0, "the seven lie on one spot (slightly offset)")
+	assert_lt(absf(first.position.x - last.position.x), 40.0, "the seven share one slot (Nov 18 day: fanned upward inside the lane)")
+	assert_lt(absf(first.position.y - last.position.y), CardView.SIZE.y * BattleBoard.SCALE_BF, "and stay inside the lane")
 	assert_eq(int(last.get_meta("stack_depth")), 6)
 
 

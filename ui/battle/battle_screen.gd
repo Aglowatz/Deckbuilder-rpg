@@ -650,18 +650,11 @@ func _ai_step() -> void:
 		hud.announce("%s is thinking..." % context.enemy_name, 0.6 / board.speed)
 		await get_tree().process_frame
 	var action: GameAction = ai.choose_action(game)
-	var line: String = _describe_ai_action(action)
-	if not line.is_empty():
-		# Import Nov 8 (C4b F11): the action line waits for the turn ribbon to clear (they shared the middle of the screen).
-		var waited: int = 0
-		while board.fx != null and board.fx.ribbon_showing() and waited < 120:
-			await get_tree().process_frame
-			waited += 1
-		# Battle feel, Part B: the opponent's move is named for a moment before it resolves, at every speed. Part 4: combat
-		# declarations hold a little longer, so the attackers and blocks can be read before damage lands.
-		var hold: float = 0.8 if action.type == GameAction.Type.DECLARE_ATTACKERS or action.type == GameAction.Type.DECLARE_BLOCKERS else 0.5
-		hud.announce(line, (hold + 0.2) / board.speed)
-		await get_tree().create_timer(hold / board.speed, false).timeout
+	# Nov 18 day (Part 2.1): no banner in the middle of the board when the computer acts (the owner: "Cave Scavenger plays Feastforge").
+	# The card's own fly-in shows what was played and the battle log keeps the record; combat declarations keep a short beat so the
+	# attackers and blocks can be seen before damage lands.
+	if action.type == GameAction.Type.DECLARE_ATTACKERS or action.type == GameAction.Type.DECLARE_BLOCKERS:
+		await get_tree().create_timer(0.3 / board.speed, false).timeout
 	# Fable Nov 12d: the duel can end while the line is held (auto-win, a concede); a finished game takes no action.
 	if game.is_over():
 		return
@@ -1215,7 +1208,7 @@ func _on_speed_pressed() -> void:
 	Audio.sfx(&"ui_tick")
 
 
-## The line the opponent's move is announced with ("" for passes and other bookkeeping).
+## The opponent's move in words ("" for passes and other bookkeeping). Nov 18 day: no longer shown as a banner; kept for tools and tests.
 func _describe_ai_action(action: GameAction) -> String:
 	var who: String = context.enemy_name
 	match action.type:

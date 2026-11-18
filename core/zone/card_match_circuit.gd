@@ -2,7 +2,7 @@ class_name CardMatchCircuit
 extends RefCounted
 ## Overnight Nov 7-8, Part 6.3: the Cardsharp's Circuit. Dex Shufflewick, a travelling cardsharp (the generic townsfolk sprite and portrait,
 ## NPC-TOWNSFOLK: no story character), keeps a card-matching table in each of the four Path zones, each dealt from that Path's own card art
-## (the D.N.A.'s Rec Room game uses nostalgia icons; this one uses real cards). Beat Dex's score at all four tables, then the final table
+## (real cards). Beat Dex's score at all four tables, then the final table
 ## (two cards of every Path) to win his Matching Pair. One quest, "The Cardsharp's Circuit" (QuestDefinitions). Pure rules.
 
 const ZONES: Array[String] = ["beefcake", "necrocrat", "gourmand", "refusemancer"]

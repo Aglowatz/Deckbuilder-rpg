@@ -6,13 +6,15 @@ extends RefCounted
 
 const BACKLOG: String = "dna_backlog"
 const ONBOARDING: String = "dna_onboarding"
+## Nov 18 day (Part 4.4): Kyle's quest (it replaced his Rec Room matching game).
+const HALL_MONITOR: String = "dna_hall_monitor"
 const AUDIT: String = "dna_audit"
 
 
 ## Brief 11: which quests also pay a Path Pack (quest id -> pack id): one per zone since Oct 16 (the zone's MAIN line pays two more), plus a minigame prize each (`ZoneDef.minigame_pack`).
 ## All numbers/ids are placeholders: edit here (then regenerate the quest files) or in `data/quests/*.tres`.
 const PACK_REWARDS: Dictionary = {
-	"dna_audit": "path_necrocrat", "gain_spot_me": "path_beefcake", "buf_mend": "path_gourmand", "heap_dam": "path_refusemancer",
+	"dna_audit": "path_necrocrat", "dna_hall_monitor": "gilded_necrocrat", "gain_spot_me": "path_beefcake", "buf_mend": "path_gourmand", "heap_dam": "path_refusemancer",
 }
 
 
@@ -23,7 +25,7 @@ const FAVOURS: Dictionary = {
 	"gourmand": ["buf_pantry", "buf_pie", "buf_mend"], "refusemancer": ["heap_herd", "heap_fert", "heap_dam"],
 }
 const GIVERS: Dictionary = {
-	"dna_backlog": ["necrocrat", "dolores"], "dna_onboarding": ["necrocrat", "barnaby"], "dna_audit": ["necrocrat", "pip"],
+	"dna_backlog": ["necrocrat", "dolores"], "dna_hall_monitor": ["necrocrat", "matching"], "dna_onboarding": ["necrocrat", "barnaby"], "dna_audit": ["necrocrat", "pip"],
 	"gain_power": ["beefcake", "gus"], "gain_spot_me": ["beefcake", "brenda"], "gain_lanes": ["beefcake", "tony"],
 	"buf_pantry": ["gourmand", "tarragon"], "buf_pie": ["gourmand", "dolcetta"], "buf_mend": ["gourmand", "odalys"],
 	"heap_herd": ["refusemancer", "wren"], "heap_fert": ["refusemancer", "hob"], "heap_dam": ["refusemancer", "marigold"],
@@ -34,6 +36,7 @@ const GIVERS: Dictionary = {
 }
 const TARGETS: Dictionary = {
 	"dna_backlog": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
+	"dna_hall_monitor": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Cubicle Farm A and the Filing Department: the D.N.A.'s west wing, around Kyle's Rec Room"]],
 	"dna_onboarding": [[QuestObjective.TargetKind.SPOT, "necrocrat", "time_clock", "The time clock by the front desk"], [QuestObjective.TargetKind.SPOT, "necrocrat", "coffee", "The breakroom coffee machine"]],
 	"dna_audit": [[QuestObjective.TargetKind.NPC, "necrocrat", "quiz", "Director Ectomund, Compliance Examiner"], [QuestObjective.TargetKind.SPOT, "necrocrat", "", "Hidden stashes lurk in the filing mazes"]],
 	"gain_power": [[QuestObjective.TargetKind.SPOT, "beefcake", "run_wheel", "The Colossal Hamster Wheel, up the hill"], [QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand in the Swole Station"]],
@@ -99,6 +102,8 @@ static func _add_parts(quest: QuestData) -> void:
 		BuffetZone.QUEST_PANTRY:
 			for ingredient_id: String in BuffetZone.INGREDIENTS.keys():
 				quest.objectives[0].part(kind_item, BuffetZone.ID, "pickup_" + ingredient_id, str(BuffetZone.INGREDIENTS[ingredient_id]), Condition.counter(BuffetZone.stock_key(ingredient_id), 1))
+		HALL_MONITOR:
+			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS_WEST, "Roaming staff in the west wing")
 		BACKLOG, SIDE_NECRO:
 			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming staff (any)")
 		AUDIT:
@@ -137,7 +142,7 @@ static func favours_of(zone_id: String) -> Array[String]:
 
 
 static func _build_unpacked() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests() + side_quests()
+	return [_backlog(), _onboarding(), _audit(), _hall_monitor(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests() + side_quests()
 
 
 static func _backlog() -> QuestData:
@@ -152,6 +157,23 @@ static func _backlog() -> QuestData:
 	quest.reward_gold = 60
 	quest.reward_xp = 60
 	quest.reward_item_ids = ["energy_draught"] as Array[String]
+	return quest
+
+
+## Nov 18 day (Part 4.4): Kyle's quest, at his Rec Room corner. The roamers of his wing (Cubicle Farm A and the Filing Department) keep him
+## from his old television; beat three. It replaced his matching game and pays a little more than its first win did (210 gold, 70 XP,
+## a Path Pack): a Gilded Necrocrat Pack, 220 gold and 80 XP.
+static func _hall_monitor() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = HALL_MONITOR
+	quest.order = 125
+	quest.title = "Hall Monitor"
+	quest.summary = "Kyle's corner of the floor has gone rowdy: the roaming staff of Cubicle Farm A and the Filing Department keep him from his old television. Beat three of them."
+	quest.giver_npc = DnaZone.NPC_KYLE
+	quest.turn_in_npc = DnaZone.NPC_KYLE
+	quest.objectives = [QuestObjective.make("Beat roaming staff in the west wing (Cubicle Farm A, the Filing Department)", Condition.counter(DnaZone.COUNTER_WEST_WING, 3))] as Array[QuestObjective]
+	quest.reward_gold = 220
+	quest.reward_xp = 80
 	return quest
 
 

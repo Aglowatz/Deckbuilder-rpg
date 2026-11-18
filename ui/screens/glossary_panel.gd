@@ -22,7 +22,7 @@ const STATUSES: Array[Array] = [
 ]
 
 const CARD_TYPES: Array[Array] = [
-	["Infrastructure", "One per turn. Gives energy every turn; a basic Infrastructure also makes its Path's Resource when it enters."],
+	["Infrastructure", "One per turn. Gives energy every turn; a basic Infrastructure also makes its Path's Resource when it enters. Basic Infrastructure is unlimited; special Infrastructure is collected from packs, rewards and shops, up to 3 copies like any card."],
 	["Unit", "Stays on the field. Attacks, blocks, and is destroyed when its damage reaches its defense."],
 	["Spell", "Resolves once, then goes to the Refuse Pile."],
 	["Trap", "Set face-down on your turn. It springs by itself on your opponent's turn when its condition is met. You see the enemy's traps only as card backs."],

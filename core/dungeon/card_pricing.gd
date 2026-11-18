@@ -15,4 +15,4 @@ static func price(card: CardData) -> int:
 ## Cards are sold until the player owns as many copies as their copy cap allows (`cap` < 0: the absolute limit).
 static func is_for_sale(card: CardData, owned_copies: int, cap: int = -1) -> bool:
 	var limit: int = MAX_OWNED_FOR_SALE if cap < 0 else mini(cap, MAX_OWNED_FOR_SALE)
-	return not card.is_token and not card.is_infrastructure() and owned_copies < limit
+	return not card.is_token and not card.is_unlimited() and owned_copies < limit

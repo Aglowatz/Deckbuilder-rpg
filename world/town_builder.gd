@@ -444,6 +444,9 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 		"kit":
 			kit_buildings[shop.key if shop.key != "" else "row_%d" % kit_buildings.size()] = TownKit.place_building(root, self, shop)
 		"bare":
+			if shop.key == "deck":
+				TownCardStall.build(root, shop.center, shop.yaw, obstacles)
+				add_glow(shop.door_spot(), 1.4, Color("ffb45a"), 0.08)
 			if shop.key == "well":
 				var well_cluster: Node3D = PropClusters.make("well_corner")
 				root.add_child(well_cluster)

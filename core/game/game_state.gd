@@ -417,6 +417,31 @@ func keyword_cap() -> int:
 	return result
 
 
+## Nov 18 day (Part 1.2): the keywords a unit has that are NOT printed on it, each with where it came from - granted for good, until the end
+## of the turn, or from an aura / attached Tool / its own conditional ability. [{"keyword", "source" (a name, "" unknown), "temp"}], in
+## `keywords_of` order; the Perfect Order cap applies (a keyword past the cap is not shown, as it does nothing).
+func granted_keywords_of(card: CardInstance) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	if card == null or card.data == null:
+		return result
+	var all: Array[CardEnums.Keyword] = keywords_of(card)
+	var cap: int = keyword_cap()
+	var static_sources: Dictionary = StaticEffects.keyword_sources(self, card)
+	for index: int in range(all.size()):
+		var keyword: CardEnums.Keyword = all[index]
+		if card.data.keywords.has(keyword) or (cap >= 0 and index >= cap):
+			continue
+		var source: String = ""
+		var temp: bool = false
+		if card.granted_keywords.has(keyword) or card.temp_keywords.has(keyword):
+			source = str(card.keyword_sources.get(int(keyword), ""))
+			temp = card.temp_keywords.has(keyword) and not card.granted_keywords.has(keyword)
+		else:
+			source = str(static_sources.get(int(keyword), ""))
+		result.append({"keyword": keyword, "source": source, "temp": temp})
+	return result
+
+
 ## A unit's keywords in the order printed, granted, until-end-of-turn, then from auras and Tools, without repeats.
 func keywords_of(card: CardInstance) -> Array[CardEnums.Keyword]:
 	var result: Array[CardEnums.Keyword] = []
@@ -855,7 +880,7 @@ func _experimental_keyword(card: CardInstance) -> void:
 		if keyword != CardEnums.Keyword.WALLFLOWER and not card.has_keyword(keyword):
 			options.append(keyword)
 	if not options.is_empty():
-		grant_keyword(card, options[rng.randi_range(0, options.size() - 1)], false)
+		grant_keyword(card, options[rng.randi_range(0, options.size() - 1)], false, "the experiment")
 
 
 ## The Starter Blade (FIRST_UNIT_STAT_CHANGE): the first unit a side plays from hand each duel gets the bonus, permanently.
@@ -914,6 +939,7 @@ func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> 
 	for keyword: CardEnums.Keyword in player.modifiers.keyword_grants_for(Modifier.Kind.GRANT_KEYWORD_TO_UNITS, card.data):
 		if not card.granted_keywords.has(keyword):
 			card.granted_keywords.append(keyword)
+			card.keyword_sources[int(keyword)] = "your equipment"
 	if player.modifiers.has(Modifier.Kind.CANNOT_BLOCK):
 		card.cannot_block = true
 	if player.modifiers.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, card.data) > 0:
@@ -2240,9 +2266,10 @@ func buff_unit(card: CardInstance, amount: int) -> bool:
 	return true
 
 
-func grant_keyword(card: CardInstance, keyword: CardEnums.Keyword, until_end_of_turn: bool) -> void:
+func grant_keyword(card: CardInstance, keyword: CardEnums.Keyword, until_end_of_turn: bool, source_name: String = "") -> void:
 	if card.has_keyword(keyword):
 		return
+	card.keyword_sources[int(keyword)] = source_name
 	var cap: int = keyword_cap()
 	if cap >= 0 and keywords_of(card).size() >= cap:
 		return

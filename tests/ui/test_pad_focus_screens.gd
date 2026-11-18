@@ -208,7 +208,7 @@ func test_minigames() -> void:
 	# Fable Nov 16c: the old non-card screens are deleted; the card quiz joins the four card minigames.
 	var quiz: CardQuizScreen = CardQuizScreen.new()
 	quiz.zone_id = "beefcake"
-	var screens: Array[OverlayScreen] = [quiz, CardMatchScreen.new(), MatchGameScreen.new(), RepsCardScreen.new(), OrderCardScreen.new(), SortCardScreen.new(), FileCardScreen.new()]
+	var screens: Array[OverlayScreen] = [quiz, CardMatchScreen.new(), RepsCardScreen.new(), OrderCardScreen.new(), SortCardScreen.new(), FileCardScreen.new()]
 	for screen: OverlayScreen in screens:
 		var what: String = screen.get_script().get_global_name()
 		add_child(screen)

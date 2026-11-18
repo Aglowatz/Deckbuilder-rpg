@@ -10,6 +10,8 @@ const FULL_NAME: String = "Department of Necrotic Affairs"
 const NPC_DOLORES: String = "Agnes Overdue"
 const NPC_BARNABY: String = "Gerald"
 const NPC_PIP: String = "Clerk Ledgerbone"
+## Nov 18 day (Part 4.4): Kyle gives "Hall Monitor" (his Rec Room matching game is gone).
+const NPC_KYLE: String = "Kyle"
 
 ## Counters / flags the zone sets (quest objectives read these as Conditions).
 const COUNTER_PUNCHED_IN: String = "dna_punched_in"
@@ -19,6 +21,10 @@ const FLAG_QUIZ_DONE: StringName = &"dna_quiz_done"
 const FLAG_PUZZLE_SOLVED: StringName = &"dna_puzzle_solved"
 const FLAG_MINI_DUNGEON_CLEARED: StringName = &"dna_mini_dungeon_cleared"
 const FLAG_MATCH_FIRST: StringName = &"dna_match_first_clear"
+## Nov 18 day (Part 4.4): roamers beaten in Kyle's part of the floor (Cubicle Farm A and the Filing Department, the west wing). Their spawns
+## carry an id ending in `WEST_SUFFIX` (`DnaLayout._enemies`).
+const COUNTER_WEST_WING: String = "dna_west_wing_defeated"
+const WEST_SUFFIX: String = "_west"
 const FLAG_QUIZ_PASSED: StringName = &"dna_quiz_passed"
 
 ## Rewards of the hidden stashes: id -> {gold, item, card, equipment}. Documented in
@@ -69,8 +75,8 @@ static func build_def() -> ZoneDef:
 	def.vendor_screen_id = "VS-LEDGERBONE"
 	def.puzzle_kind = "tube"
 	def.puzzle_equipment_id = "courier_lanyard"
-	def.minigame_kind = "match"
-	def.quest_npc_names = [NPC_DOLORES, NPC_BARNABY, NPC_PIP]
+	def.minigame_kind = ""  # Nov 18 day: the Rec Room matching game is scrapped (Dex keeps his card-matching tables)
+	def.quest_npc_names = [NPC_DOLORES, NPC_BARNABY, NPC_PIP, NPC_KYLE]
 	def.ruler_name = "Mortimer Grimsby"
 	def.ruler_tint = Color("2f4f4f")
 	def.gloom_tint = Color(0.45, 0.56, 0.54)
@@ -104,14 +110,14 @@ static func build_def() -> ZoneDef:
 		_spot("main_dungeon", "The Hall of Final Approvals", "main_dungeon", Vector3.ZERO, 1.7, "Take a number and enter the Hall of Final Approvals", "main_dungeon", {"no_plate": true}),
 		_spot("puzzle", "Mail Room Filing Terminal", "puzzle", Vector3.ZERO, 1.7, "File the cards (card game)", "puzzle"),  # Fable Nov 16b: "File in Order" (was the Soul Routing Terminal)
 		_spot("quiz", "Director Ectomund, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-ECTOMUND", "speaker": "Director Ectomund"}),
-		_spot("matching", "Kyle, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "npc_id": "NPC-KYLE", "speaker": "Kyle"}),
+		_spot("matching", "Kyle, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "quest_npc", {"npc": "matching", "npc_id": "NPC-KYLE", "npc_name": NPC_KYLE, "speaker": "Kyle"}),
 		_spot("shrine", "Stamp of Approval", "shrine", Vector3.ZERO, 1.5, "Press the Stamp of Approval", "shrine"),  # kept from the Executive Approach (SR-7): one card from the zone table, once
 	]
 	def.poi_kinds = {
 		"dolores": MapPoi.Kind.QUEST_GIVER, "barnaby": MapPoi.Kind.QUEST_GIVER, "pip": MapPoi.Kind.VENDOR,
 		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,
 		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
-		"matching": MapPoi.Kind.MINIGAME, "shrine": MapPoi.Kind.INTERACTABLE,
+		"matching": MapPoi.Kind.QUEST_GIVER, "shrine": MapPoi.Kind.INTERACTABLE,
 	}
 	return def
 
@@ -120,6 +126,11 @@ static func _spot(id: String, title: String, anchor: String, offset: Vector3, ra
 	var entry: Dictionary = {"id": id, "title": title, "anchor": anchor, "offset": offset, "radius": radius, "prompt": prompt, "kind": kind}
 	entry.merge(extra)
 	return entry
+
+
+## Nov 18 day (Part 4.4): true for a roamer of Kyle's west wing (its instance id ends in `WEST_SUFFIX`).
+static func is_west_wing(instance_id: String) -> bool:
+	return instance_id.ends_with(WEST_SUFFIX)
 
 
 ## The zone's side dungeon (S-BEEF, S-NECRO...): everything comes from the dungeon list through `MiniDungeon.def_for`.

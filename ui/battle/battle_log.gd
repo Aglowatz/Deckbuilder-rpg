@@ -141,6 +141,8 @@ func describe(event: GameEvent) -> String:
 			return "%s was shredded" % _card(event.card)
 		GameEvent.Type.UNIT_REINSTATED:
 			return "%s came back from the Refuse Pile" % _card(event.card)
+		GameEvent.Type.CONTROL_CHANGED:
+			return "[color=#c9a0ff]%s took control of %s[/color]" % [_who(event.player), _card(event.card)]
 		GameEvent.Type.GAME_OVER:
 			return "[color=#ffd76a]The battle is over[/color]"
 	return ""

@@ -94,7 +94,7 @@ func test_a_pick_of_three_commons_gets_an_uncommon_or_better() -> void:
 		assert_true(RewardGenerator.has_rarity(cards, CardEnums.Rarity.UNCOMMON), "seed %d: one of them is Uncommon or better" % seed_value)
 		assert_eq([cards[0], cards[1]], first_two, "only the last card is replaced")
 		assert_false(cards[2] == cards[0] or cards[2] == cards[1], "never a card already in the pick")
-		assert_false(cards[2].is_infrastructure())
+		assert_false(cards[2].is_unlimited(), "never basic infrastructure (Nov 18 day: special Infrastructure is a reward like any card)")
 
 
 func test_a_pick_that_already_has_one_is_left_alone() -> void:

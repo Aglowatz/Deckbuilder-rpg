@@ -36,7 +36,10 @@ const TWO_ROW_HAND: int = 10
 const TWO_ROW_LIFT: float = 92.0
 const CENTER_POINT: Vector2 = Vector2(985.0, 500.0)
 const BF_SPACING: float = 182.0
-const INFRASTRUCTURE_SPACING: float = 86.0
+## Nov 18 day (Part 2.2): 86 -> 96 so a tilted (exhausted) infrastructure card no longer covers its neighbour's name bar.
+const INFRASTRUCTURE_SPACING: float = 96.0
+## Nov 18 day (Part 2.2): an exhausted infrastructure card tilts 8 degrees (it was 14, which pushed it over the next card).
+const INFRA_EXHAUST_TILT: float = 8.0
 const SCALE_HAND: float = 0.68
 const SCALE_ENEMY_HAND: float = 0.3
 const SCALE_BF: float = 0.56
@@ -236,7 +239,11 @@ func set_zone(uid: int, zone: Zone) -> void:
 	var hidden: bool = _is_hidden(int(view.get_meta("owner", 0)), zone)
 	view.set_meta("hidden", hidden)
 	_mark_trap(view, zone, hidden)
-	view.set_mode(CardView.Mode.BACK if hidden else (CardView.Mode.FULL if uid == hover_uid else _mode_for(zone, int(view.get_meta("owner", 0)))))
+	# Nov 18 day (Part 2.3): only a hovered HAND card is shown whole. A hand card clicked while hovered kept hover_uid, so it landed on the
+	# field in the detail look (rules text) next to its full-art twin; every unit and token on the field now uses the field look.
+	if hover_uid == uid and zone != Zone.HAND:
+		hover_uid = 0
+	view.set_mode(CardView.Mode.BACK if hidden else (CardView.Mode.FULL if uid == hover_uid and zone == Zone.HAND else _mode_for(zone, int(view.get_meta("owner", 0)))))
 	_refresh_view(uid)
 
 
@@ -338,9 +345,10 @@ func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spac
 	for index: int in range(count):
 		var members: Array = slots[index] as Array
 		var offset: float = float(index) - float(count - 1) * 0.5
+		var spread: Dictionary = stack_spread(members.size(), card_scale)
 		for depth: int in range(members.size()):
 			var uid: int = int(members[depth])
-			var pos: Vector2 = Vector2(center_x + offset * step, y) + FIELD_STACK_STEP * float(mini(depth, 3))
+			var pos: Vector2 = Vector2(center_x + offset * step, y) + stack_offset(members.size(), depth, card_scale)
 			var rot: float = 0.0
 			var card: CardInstance = game.find_card(uid)
 			if zone == Zone.FIELD:
@@ -348,30 +356,59 @@ func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spac
 				if attacking.has(uid):
 					pos.y += dir * 70.0
 			if card != null and card.exhausted and zone != Zone.FIELD:
-				rot = 14.0
+				rot = INFRA_EXHAUST_TILT
 			elif card != null and card.exhausted:
 				rot = 7.0
 			var z: int = 5 + index + depth
 			if uid == hover_uid:
 				z = 90
-			_targets[uid] = {"pos": pos, "rot": rot, "scale": card_scale, "z": z}
+			_targets[uid] = {"pos": pos, "rot": rot, "scale": float(spread["scale"]), "z": z}
 			var view: CardView = view_for(uid)
 			if view != null:
 				view.set_meta("stack_depth", depth)
 		if members.size() > 1 and zone == Zone.FIELD:
-			var top: Vector2 = (_targets[int(members[members.size() - 1])] as Dictionary)["pos"] as Vector2
+			var top: Vector2 = (_targets[int(members[0])] as Dictionary)["pos"] as Vector2
+			var shown_scale: float = float(spread["scale"])
 			var badge: Label = _stack_badge(owner_index, stack_badges)
 			badge.visible = true
 			badge.text = "x%d" % members.size()
-			badge.position = top + Vector2(CardView.SIZE.x * card_scale * 0.5 - 30.0, -CardView.SIZE.y * card_scale * 0.5 - 10.0)
+			badge.position = top + Vector2(CardView.SIZE.x * shown_scale * 0.5 - 30.0, -CardView.SIZE.y * shown_scale * 0.5 - 10.0)
 			stack_badges += 1
 	if zone == Zone.FIELD:
 		_hide_stack_badges(owner_index, stack_badges)
 
 
+## Nov 18 day (Part 2.2): a stack of identical tokens fans upward inside its lane so a clear strip of every card underneath shows - its
+## name bar and a little art (`STACK_PEEK` of the card's height) - instead of 6 px. At most `STACK_SHOWN` cards are fanned (the rest lie
+## under the front card; the "x5" badge counts them). To keep the lane's height (the board layout does not move) a fanned stack draws
+## its cards a little smaller: a lone card is unchanged.
+const STACK_PEEK: float = 0.2
+const STACK_SHOWN: int = 3
+const STACK_NUDGE_X: float = 8.0
+
+
+## {"scale", "peek" (px between two fanned cards), "shown"} for a stack of `size` cards in a lane drawn at `card_scale`.
+static func stack_spread(size: int, card_scale: float) -> Dictionary:
+	var shown: int = clampi(size, 1, STACK_SHOWN)
+	var scale: float = card_scale / (1.0 + STACK_PEEK * float(shown - 1))
+	return {"scale": scale, "peek": CardView.SIZE.y * scale * STACK_PEEK, "shown": shown}
+
+
+## Where card `depth` of a `size`-card stack sits from the slot's centre: depth 0 (drawn first, underneath) highest, the front card
+## lowest, all inside the lane a lone card would fill.
+static func stack_offset(size: int, depth: int, card_scale: float) -> Vector2:
+	if size <= 1:
+		return Vector2.ZERO
+	var spread: Dictionary = stack_spread(size, card_scale)
+	var shown: int = int(spread["shown"])
+	var row: int = mini(depth, shown - 1)
+	var lane_top: float = -CardView.SIZE.y * card_scale * 0.5
+	var y: float = lane_top + float(row) * float(spread["peek"]) + CardView.SIZE.y * float(spread["scale"]) * 0.5
+	return Vector2(STACK_NUDGE_X * (float(row) - float(shown - 1) * 0.5), y)
+
+
 ## The row's slots: each an Array of uids that share one place - a lone card, or identical tokens (same card, same live numbers, same
 ## state) that are neither attacking, blocking, blocked nor being dragged. Only the battlefield stacks; authoring order is kept.
-const FIELD_STACK_STEP: Vector2 = Vector2(6.0, -6.0)
 
 
 func _field_stacks(cards: Array[int], zone: Zone) -> Array:
@@ -573,6 +610,9 @@ const TOKEN_CARD_ORIGIN: Array[Vector2] = [Vector2(1650, 756), Vector2(1650, 80)
 const TOKEN_STACK_PITCH: float = 86.0
 const SCALE_TOKEN_CARD: float = 0.24
 const TOKEN_STACK_STEP: Vector2 = Vector2(3.0, -2.5)
+## Nov 18 day (Part 2.2): a token stack fans downward so the name bar of every card underneath shows (it was offset 2.5 px): the card
+## underneath sits highest, each next one `TOKEN_PEEK` of a card lower, at most `STACK_SHOWN` fanned (the "x5" badge counts the rest).
+const TOKEN_PEEK: float = 0.22
 
 
 func _layout_tokens(owner_index: int) -> void:
@@ -590,17 +630,22 @@ func _layout_tokens(owner_index: int) -> void:
 		var uids: Array[int] = members[stacks[stack_index]] as Array[int]
 		var base: Vector2 = TOKEN_CARD_ORIGIN[owner_index] + Vector2(float(stack_index) * TOKEN_STACK_PITCH, 0.0)
 		for depth: int in range(uids.size()):
-			_targets[uids[depth]] = {"pos": base + TOKEN_STACK_STEP * float(mini(depth, 4)), "rot": 0.0, "scale": SCALE_TOKEN_CARD, "z": 30 + depth}
+			_targets[uids[depth]] = {"pos": base + token_offset(depth), "rot": 0.0, "scale": SCALE_TOKEN_CARD, "z": 30 + depth}
 		var badge: Label = _token_count_badge(owner_index, stack_index)
 		badge.visible = uids.size() > 1
 		badge.text = "x%d" % uids.size()
-		var top: Vector2 = base + TOKEN_STACK_STEP * float(mini(uids.size() - 1, 4))
-		badge.position = top + Vector2(CardView.SIZE.x * SCALE_TOKEN_CARD * 0.5 - 20.0, -CardView.SIZE.y * SCALE_TOKEN_CARD * 0.5 - 8.0)
+		badge.position = base + Vector2(CardView.SIZE.x * SCALE_TOKEN_CARD * 0.5 - 20.0, -CardView.SIZE.y * SCALE_TOKEN_CARD * 0.5 - 8.0)
 	# Badges of stacks that are gone.
 	var index: int = stacks.size()
 	while get_node_or_null("TokenCount%d_%d" % [owner_index, index]) != null:
 		(get_node("TokenCount%d_%d" % [owner_index, index]) as Label).visible = false
 		index += 1
+
+
+## Where card `depth` of a token stack sits from the stack's place: each one `TOKEN_PEEK` of a card lower than the one under it.
+static func token_offset(depth: int) -> Vector2:
+	var row: int = mini(depth, STACK_SHOWN - 1)
+	return Vector2(3.0 * float(row), CardView.SIZE.y * SCALE_TOKEN_CARD * TOKEN_PEEK * float(row))
 
 
 ## The "x3" on top of a token stack.
@@ -675,6 +720,7 @@ func sync_state(animated: bool = true) -> void:
 	# that arrived after the card was drawn - so each sync re-applies the instance to every live view (a view was asked once, when it was made).
 	for uid: int in alive.keys():
 		_refresh_view(uid)
+	_enforce_field_look()
 	for uid: int in views.keys():
 		if not alive.has(uid):
 			var view: CardView = views[uid] as CardView
@@ -695,6 +741,20 @@ func sync_state(animated: bool = true) -> void:
 		blockers.clear()
 	refresh_all()
 	layout(animated)
+
+
+## Nov 18 day (Part 2.3): every unit and token on the field (and every infrastructure) shows its field look, whatever left it in another.
+func _enforce_field_look() -> void:
+	for uid: int in views.keys():
+		var zone: Variant = zones.get(uid)
+		if zone != Zone.FIELD and zone != Zone.INFRASTRUCTURE:
+			continue
+		var view: CardView = views[uid] as CardView
+		if view == null or bool(view.get_meta("hidden", false)):
+			continue
+		var wanted: CardView.Mode = _mode_for(zone as Zone, int(view.get_meta("owner", 0)))
+		if view.mode != wanted:
+			view.set_mode(wanted)
 
 
 ## The Refuse Pile a card now lies in (-1 = none).
@@ -738,8 +798,30 @@ func _sync_zone(cards: Array[CardInstance], owner_index: int, zone: Zone, alive:
 			var view: CardView = ensure_view(card.uid, zone, owner_index)
 			if view != null:
 				view.modulate.a = 1.0
-		elif zones.get(card.uid) != zone:
-			set_zone(card.uid, zone)
+		else:
+			if _owner_of_view(card.uid) != owner_index:
+				set_controller(card.uid, owner_index)
+			if zones.get(card.uid) != zone:
+				set_zone(card.uid, zone)
+
+
+## Nov 18 day (Part 1.1): a stolen card changes sides. The view kept the owner it was made with, so a unit taken by Unconscionable
+## Contract stayed in the enemy's row and could not be picked to attack: the view now follows the card's controller (row, card back,
+## hover and input all read the "owner" meta).
+func set_controller(uid: int, owner_index: int) -> void:
+	var view: CardView = view_for(uid)
+	if view == null or _owner_of_view(uid) == owner_index:
+		return
+	view.set_meta("owner", owner_index)
+	view.set_meta("opponent_back", owner_index != human)
+	var zone: Zone = zones.get(uid, Zone.FIELD) as Zone
+	var hidden: bool = _is_hidden(owner_index, zone)
+	view.set_meta("hidden", hidden)
+	_mark_trap(view, zone, hidden)
+	view.set_mode(CardView.Mode.BACK if hidden else _mode_for(zone, owner_index))
+	order.erase(uid)
+	order.append(uid)
+	_refresh_view(uid)
 
 
 ## Dissolves every card still on the table (hand, field, infrastructure, traps) away. Used when a
@@ -827,6 +909,12 @@ func present(event: GameEvent) -> void:
 			layout()
 		GameEvent.Type.ENERGY_ADDED:
 			_sfx(&"energy_gain")
+		GameEvent.Type.CONTROL_CHANGED:
+			if views.has(event.card):
+				set_controller(event.card, event.player)
+				_shimmer(event.card, Color("b58cff"))
+				layout()
+				await _wait(0.35)
 		GameEvent.Type.UNIT_ATTACHED:
 			_sfx(&"tool_attach")
 			_pulse(event.other)

@@ -247,6 +247,8 @@ static func _apply(state: GameState, effect: EffectData, ctx: EffectContext, tar
 			if not is_player:
 				var keyword: CardEnums.Keyword = effect.keyword
 				if not card.has_keyword(keyword):
+					var giver: CardInstance = state.find_card(ctx.source_uid)
+					card.keyword_sources[int(keyword)] = giver.data.display_name if giver != null and giver.data != null else ""
 					if effect.duration == CardEnums.Duration.PERMANENT:
 						card.granted_keywords.append(keyword)
 					else:

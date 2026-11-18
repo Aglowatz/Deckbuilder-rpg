@@ -37,10 +37,14 @@ func test_three_copies_of_a_card_are_fine_and_a_fourth_is_not() -> void:
 	assert_true(DeckValidator.has_problem(DeckValidator.validate(illegal, _profile()), DeckValidator.Problem.TOO_MANY_COPIES))
 
 
-func test_infrastructure_is_unlimited_including_special_and_dual_ones() -> void:
-	var deck: Deck = _fill(_deck(["BAS-B", "INF-01", "INF-08", "B-01"] as Array[String], [10, 6, 6, 3] as Array[int]), 45)
-	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, _profile())
-	assert_false(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "6 copies of one Infrastructure are fine")
+func test_only_basic_infrastructure_is_unlimited() -> void:
+	# Nov 18 day (Part 1.3): special and dual Infrastructure follow the copy caps of their rarity.
+	var basics: Deck = _fill(_deck(["BAS-B", "B-01"] as Array[String], [30, 3] as Array[int]), 45)
+	assert_false(DeckValidator.has_problem(DeckValidator.validate(basics, _profile()), DeckValidator.Problem.TOO_MANY_COPIES), "30 basics are fine")
+	var special: Deck = _fill(_deck(["BAS-B", "INF-01", "B-01"] as Array[String], [10, 6, 3] as Array[int]), 45)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(special, _profile()), DeckValidator.Problem.TOO_MANY_COPIES), "6 of an Uncommon Infrastructure break the cap")
+	var dual: Deck = _fill(_deck(["BAS-B", "INF-08", "B-01"] as Array[String], [10, 4, 3] as Array[int]), 45)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(dual, _profile()), DeckValidator.Problem.TOO_MANY_COPIES), "4 of an Epic Infrastructure break the cap of 3")
 
 
 func test_a_deck_may_use_two_paths_until_the_postgame() -> void:

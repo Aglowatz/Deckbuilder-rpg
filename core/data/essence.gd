@@ -3,7 +3,7 @@ extends RefCounted
 ## Brief 9, Part F: extra copies of a card (beyond its copy cap - `CopyCaps`, at most 3) are not
 ## kept: they convert into **Path essence** of the card's Path, more for higher rarity. Extra copies of a
 ## NEUTRAL card have no Path, so they convert into gold instead. A multi-Path card's essence is split
-## between its two Paths (half each, rounded up). Infrastructure is unlimited and never converts.
+## between its two Paths (half each, rounded up). Basic Infrastructure is unlimited and never converts.
 ## Essence is spent at the Alchemist (`Alchemy`).
 
 ## Essence per extra copy by rarity (Common, Uncommon, Epic, Legendary).

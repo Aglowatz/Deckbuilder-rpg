@@ -1,0 +1,4 @@
+# Nov 18 day (Part 4.4): Kyle's lines that described the scrapped Rec Room matching game. Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18b_single_lines.csv --revert=docs/dialogue/nov18b_single_lines_ids.txt
+data/story/dna_story.tres::npc.matching.intro::4
+data/story/dna_story.tres::npc.matching.return::1
+data/story/dna_story.tres::npc.matching.return.freed::1

@@ -46,12 +46,11 @@ func test_each_zone_opens_its_card_game_at_the_old_game_s_spot() -> void:
 		assert_true(is_instance_of(made, scenes[scene_script][0]), "%s opens %s" % [scene_script.get_global_name(), (scenes[scene_script][0] as GDScript).get_global_name()])
 		made.free()
 		scene.free()
-	# The card-matching games are untouched: the D.N.A.'s Rec Room game and Dex's table.
+	# Nov 18 day (Part 4.4): the D.N.A.'s Rec Room matching game is gone (Kyle gives a quest); Dex's card-matching tables stay.
 	var dna: Node = DnaScene.new()
-	var rec_room: OverlayScreen = dna.call("_make_minigame_screen") as OverlayScreen
-	assert_true(rec_room is MatchGameScreen, "Kyle's matching game stays")
-	rec_room.free()
+	assert_null(dna.call("_make_minigame_screen"), "no minigame screen in the D.N.A. any more")
 	dna.free()
+	assert_eq(str(ZoneDefs.get_def("necrocrat").spot_def("matching").get("kind", "")), "quest_npc", "Kyle is a quest giver")
 	assert_true(FileCardScreen.new().has_signal("solved"), "the terminal's game reports `solved` like the puzzle it replaced")
 	assert_eq(str(ZoneDefs.get_def("necrocrat").spot_def("puzzle").get("title", "")), "Mail Room Filing Terminal")
 

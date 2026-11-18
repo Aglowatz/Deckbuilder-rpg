@@ -80,19 +80,3 @@ func test_match_game_loses_when_moves_run_out() -> void:
 	assert_true(game.is_lost())
 	assert_eq(game.stars(), 0)
 	assert_eq(game.flip(a), "ignored")
-
-
-func test_match_first_win_is_large_then_every_win_is_small() -> void:
-	var start: int = Session.gold
-	var first: Dictionary = MatchGame.apply_result(1)
-	assert_true(bool(first["first_win"]))
-	var expected_first: int = int(MatchGame.STAR_REWARDS[1]["gold"]) * 2 + int(MatchGame.FIRST_WIN_BONUS["gold"])
-	assert_eq(Session.gold - start, expected_first)
-	var after_first: int = Session.gold
-	var again: Dictionary = MatchGame.apply_result(1)
-	assert_false(bool(again["first_win"]))
-	assert_eq(int(again["gold"]), int(MatchGame.REPEAT_REWARD["gold"]), "any later win pays the small reward")
-	assert_lt(int(again["gold"]), expected_first)
-	MatchGame.apply_result(3)
-	assert_eq(Session.gold - after_first, int(MatchGame.REPEAT_REWARD["gold"]) * 2)
-	assert_eq(int(MatchGame.apply_result(0)["gold"]), 0, "a loss pays nothing")

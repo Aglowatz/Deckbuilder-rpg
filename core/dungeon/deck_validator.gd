@@ -2,7 +2,7 @@ class_name DeckValidator
 extends RefCounted
 ## Deck construction rules: at least 45 cards (MIN_DECK_SIZE modifiers can lower this, e.g. the
 ## tutorial dungeon's starter-deck waiver), at most 3 copies of any non-infrastructure card, fewer for rarer cards until
-## level-ups raise their caps (`CopyCaps`; infrastructure is unlimited), at most 2
+## level-ups raise their caps (`CopyCaps`; basic infrastructure is unlimited), at most 2
 ## infrastructure/color types: ONE until the first zone is freed, TWO after that, FOUR once postgame_unlocked (Primm beaten and the throne taken);
 ## MAX_DECK_COLORS modifiers add more. Story v2: the Wanderer is too weak to carry more at first (see `path_limit_hint`).
 

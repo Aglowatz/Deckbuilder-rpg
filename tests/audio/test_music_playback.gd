@@ -271,7 +271,7 @@ func test_screens_name_their_own_music() -> void:
 	var screens: Dictionary = {
 		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new()],
 		"MUS-QUIZ": [_card_game(CardQuizScreen.new(), "necrocrat")],
-		"MUS-MINIGAME-NECRO": [MatchGameScreen.new(), _card_game(FileCardScreen.new(), "necrocrat")],
+		"MUS-MINIGAME-NECRO": [_card_game(FileCardScreen.new(), "necrocrat")],
 		"MUS-MINIGAME-GOUR": [_card_game(OrderCardScreen.new(), "gourmand")],
 		"MUS-MINIGAME-BEEF": [_card_game(RepsCardScreen.new(), "beefcake")],
 		"MUS-MINIGAME-REF": [_card_game(SortCardScreen.new(), "refusemancer")],

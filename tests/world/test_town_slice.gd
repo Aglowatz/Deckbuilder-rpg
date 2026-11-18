@@ -26,7 +26,7 @@ func _kit_shops() -> Array[TownLayout.Shop]:
 func test_the_square_is_built_from_kit_buildings() -> void:
 	assert_gte(_kit_shops().size(), 17, "shops, houses, civic buildings")
 	assert_eq(_town.kit_buildings.size(), _kit_shops().size())
-	for key: String in ["item_vendor", "market", "tailor", "equipment_vendor", "pack_vendor", "alchemist", "deck", "gate", "elder_home", "codex", "church"]:
+	for key: String in ["item_vendor", "market", "tailor", "equipment_vendor", "pack_vendor", "alchemist", "gate", "elder_home", "codex", "church"]:  # Nov 18 day: "deck" is the card stall (bare)
 		assert_true(_town.kit_buildings.has(key), "%s is a kit building" % key)
 		assert_true(_town.anchors.has(key), "%s keeps its anchor" % key)
 

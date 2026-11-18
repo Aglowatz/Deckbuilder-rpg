@@ -4,6 +4,12 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 18 day - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov18_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-day`.
+
+(none yet)
+
 ## Overnight Nov 18 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov17_night.md`. Report: top of `docs/overnight_report.md`. Tag `pre-overnight-nov18`. Most important first.

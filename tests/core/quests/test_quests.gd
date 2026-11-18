@@ -187,7 +187,7 @@ func test_tracker_cycles_through_active_quests_main_first() -> void:
 	var order: Array[String] = Session.quest_log.cycle_order(QuestCatalog.all())
 	assert_gt(order.size(), 2)
 	assert_true(QuestCatalog.find(order[0]).is_main())
-	assert_false(order[0] == QuestDefinitions.MERCHANTS, "Fix pass Nov 7 (D3): Maren's errands are a side line, after the MAIN quests")
+	assert_eq(order[0], QuestDefinitions.MERCHANTS, "Nov 18 day (Part 4.2): Maren's errands are MAIN quests and lead the order")
 	Session.quest_log.track(order[0])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), 1), order[1])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), -1), order[0])

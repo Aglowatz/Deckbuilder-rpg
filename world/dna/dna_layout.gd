@@ -759,16 +759,20 @@ func _furnish_executive() -> void:
 # ---- Enemies -------------------------------------------------------------------------------
 
 
-func _enemy(type: String, cell: Vector2i, patrol: float = 3.0) -> void:
-	enemy_spawns.append({"type": type, "home": cell_center(cell.x, cell.y), "patrol": patrol})
+func _enemy(type: String, cell: Vector2i, patrol: float = 3.0, west_wing: bool = false) -> void:
+	var spawn: Dictionary = {"type": type, "home": cell_center(cell.x, cell.y), "patrol": patrol}
+	if west_wing:
+		# Nov 18 day (Part 4.4): Kyle's "Hall Monitor" counts the roamers of his wing; the id keeps the old "<type>_<index>" form plus a suffix.
+		spawn["id"] = "%s_%d%s" % [type, enemy_spawns.size(), DnaZone.WEST_SUFFIX]
+	enemy_spawns.append(spawn)
 
 
 func _enemies() -> void:
 	# Cubicle Farm A: 2 managers + 1 intern + 1 courier. Farm B: manager, 2 interns, courier.
-	_enemy("manager", Vector2i(10, 32), 4.0)
-	_enemy("manager", Vector2i(26, 41), 4.0)
-	_enemy("intern", Vector2i(18, 37), 4.0)
-	_enemy("courier", Vector2i(8, 31), 5.0)
+	_enemy("manager", Vector2i(10, 32), 4.0, true)
+	_enemy("manager", Vector2i(26, 41), 4.0, true)
+	_enemy("intern", Vector2i(18, 37), 4.0, true)
+	_enemy("courier", Vector2i(8, 31), 5.0, true)
 	_enemy("manager", Vector2i(70, 32), 4.0)
 	_enemy("intern", Vector2i(62, 37), 4.0)
 	_enemy("intern", Vector2i(80, 41), 4.0)
@@ -777,7 +781,7 @@ func _enemies() -> void:
 	_enemy("manager", Vector2i(68, 18), 3.0)
 	_enemy("intern", Vector2i(82, 18), 3.0)
 	_enemy("courier", Vector2i(66, 10), 4.0)
-	_enemy("intern", Vector2i(15, 19), 2.0)
+	_enemy("intern", Vector2i(15, 19), 2.0, true)  # the Filing Department: Kyle's wing too
 
 
 # ---- Walls ---------------------------------------------------------------------------------

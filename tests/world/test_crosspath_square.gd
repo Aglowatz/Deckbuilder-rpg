@@ -81,7 +81,7 @@ func test_the_square_holds_only_the_fountain_and_a_few_low_things() -> void:
 		if Vector2(circle.x - TownLayout.PLAZA.x, circle.y - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS - 0.3:
 			inside.append(circle)
 	# the fountain, four crest plinths, four lamps, four benches
-	assert_lte(inside.size(), 13, "the square is easy to cross: %s" % str(inside))
+	assert_lte(inside.size(), 16, "the square is easy to cross (Nov 18 day: plus the Deck Station stall's three circles): %s" % str(inside))
 	for circle: Vector3 in inside:
 		if circle.z > 1.0:
 			assert_lt(Vector2(circle.x - TownLayout.PLAZA.x, circle.y - TownLayout.PLAZA.z).length(), 0.1, "only the fountain is big")

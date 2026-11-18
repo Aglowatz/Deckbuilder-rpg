@@ -92,11 +92,11 @@ static func zone_shelf(content: ContentSet, path: Affinity.Type, zone_id: String
 	return data
 
 
-## Cards a vendor may sell at all: not a token, not Infrastructure, not a Black Market card, and allowed by its availability (Cards
+## Cards a vendor may sell at all: not a token, not basic Infrastructure, not a Black Market card, and allowed by its availability (Cards
 ## Oct 27: a REWARD-LOCKED card only once `earned` holds it, an ENEMY-ONLY card never - `CardAvailability`; the dungeon prizes and the
 ## signature Legendaries are REWARD-LOCKED in `data/source/card_overrides.csv`).
 static func sellable(card: CardData, earned: Dictionary = {}) -> bool:
-	if card == null or card.is_token or card.is_infrastructure() or card.not_in_packs:
+	if card == null or card.is_token or card.is_unlimited() or card.not_in_packs:
 		return false
 	if CapitalContent.BLACK_MARKET_CARD_IDS.has(card.id):
 		return false

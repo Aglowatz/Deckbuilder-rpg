@@ -1,0 +1,23 @@
+[
+	{
+		"id": "data/story/dna_story.tres::npc.matching.intro::4",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "so, um, do you wanna play something? you flip two cards at a time and try to match up the pairs. i made all the cards myself, so please be nice about the drawings.",
+		"after": "so, um, could you help me with something? the staff roaming my wing won't let me near my old television, and we're not allowed to duel colleagues. you're not one."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.matching.return::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "wanna play another round while it hatches? i shuffled the cards and everything, and i only dropped them twice.",
+		"after": "it's been so quiet in my wing since you came by. i watched a whole infomercial on my old television, and nobody walked through me once."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.matching.return.freed::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "wanna play one more round before i pass on? i'm kidding, probably. i burned you a mix cd just in case, though, and track four is mostly me saying sorry about a tuesday.",
+		"after": "wanna watch one more infomercial before i pass on? i'm kidding, probably. i burned you a mix cd just in case, though, and track four is mostly me saying sorry about a tuesday."
+	}
+]

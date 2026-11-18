@@ -861,12 +861,29 @@ func _refresh_equipment_page() -> void:
 	for piece: EquipmentData in pieces:
 		grid.add_child(_equipment_cell(piece, piece == worn))
 	if pieces.is_empty():
-		var none: Label = _text("You own nothing for this slot yet. Bertram's smithy and dungeon chests have gear.", 24, UIStyle.MUTED, Vector2(0, 160), width - 56, HORIZONTAL_ALIGNMENT_CENTER)
+		# Nov 18 day (Part 5.1): one normal line under OWNED, written across and wrapped. It was a second child of the ScrollContainer,
+		# which gave it no width, so it wrapped one letter per line down the page and was cut off.
+		var none: Label = UIKit.label(empty_slot_text(slot), &"", 22, UIStyle.MUTED)
 		none.name = "EquipmentEmpty"
 		none.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		scroll.add_child(none)
+		none.position = Vector2(28, 166)
+		none.custom_minimum_size = Vector2(width - 56, 0)
+		none.size = Vector2(width - 56, 0)
+		none.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		page.add_child(none)
+		scroll.visible = false
 	_divider(page, 690.0, width)
 	_equipment_detail(page, worn)
+
+
+## Nov 18 day (Part 5.1): the line an empty gear slot shows ("You don't own any armor yet. Find gear in chests and shops.").
+static func empty_slot_text(slot: EquipmentData.Slot) -> String:
+	var names: Dictionary = {
+		EquipmentData.Slot.HELM: "helm", EquipmentData.Slot.ARMOR: "armor", EquipmentData.Slot.WEAPON: "weapon",
+		EquipmentData.Slot.RELIC: "relic", EquipmentData.Slot.BOOTS: "boots",
+	}
+	var what: String = str(names.get(slot, "gear for this slot"))
+	return "You don't own any %s yet. Find gear in chests and shops (Bertram's smithy has some)." % what
 
 
 func _equipment_cell(piece: EquipmentData, worn: bool) -> Button:

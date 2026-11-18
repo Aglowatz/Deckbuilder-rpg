@@ -1286,7 +1286,10 @@ func from_dict(data: Dictionary) -> bool:
 	if deck_box.size() == 0:
 		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
 	gold = int(data.get("gold", 0))
+	var infra_notice: String = migrate_infrastructure_caps()
 	var cap_notice: String = enforce_copy_caps()
+	if not infra_notice.is_empty():
+		cap_notice = infra_notice if cap_notice.is_empty() else infra_notice + " " + cap_notice
 	_deck_sync_paused = false
 	deck = deck_box.build(deck_box.active, deck_lookup())
 	if not cap_notice.is_empty():
@@ -1368,6 +1371,35 @@ func from_dict(data: Dictionary) -> bool:
 		FeatAccount.record(str(id), save_enabled)
 	check_feats(false)  # retroactive: an old save earns the state feats it already satisfies (one quiet toast)
 	return true
+
+
+## Nov 18 day (Part 1.3, save migration): non-basic Infrastructure used to be unlimited ("Own 9999"): a deck could hold any number without
+## owning one. Now it is capped and collected like any card. A save keeps, for each non-basic Infrastructure card, the copies it owns or the
+## most any of its saved decks holds, whichever is more, up to the card's cap at the player's level (`enforce_copy_caps` then trims decks
+## and converts owned copies past the cap as usual). The starting decks hold basic Infrastructure only, so they need nothing. Idempotent:
+## after it ran, every deck holds no more than is owned. Returns a short town notice ("" when nothing changed).
+func migrate_infrastructure_caps() -> String:
+	if profile == null or deck_box == null:
+		return ""
+	var most_in_a_deck: Dictionary = {}
+	for index: int in range(deck_box.size()):
+		var counts: Dictionary = {}
+		for id: String in deck_box.decks[index].card_ids:
+			counts[id] = int(counts.get(id, 0)) + 1
+		for id: Variant in counts.keys():
+			most_in_a_deck[id] = maxi(int(most_in_a_deck.get(id, 0)), int(counts[id]))
+	var granted: int = 0
+	for id: Variant in most_in_a_deck.keys():
+		var card: CardData = card_by_id(str(id))
+		if card == null or not card.is_infrastructure() or card.is_unlimited():
+			continue
+		var keep: int = mini(int(most_in_a_deck[id]), CopyCaps.for_card(card, profile.level))
+		while profile.owned_copies(card.id) < keep:
+			profile.owned_cards.append(card)
+			granted += 1
+	if granted == 0:
+		return ""
+	return "Special Infrastructure is now collected like other cards: you keep the %d cop%s your decks use." % [granted, "y" if granted == 1 else "ies"]
 
 
 ## Overnight Oct 17, Part 1 (save migration): copies owned beyond a card's copy cap (`CopyCaps`, an old save could hold 4)
@@ -3309,6 +3341,8 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("zone_enemies_defeated")
+		if zone_run.zone_id == DnaZone.ID and DnaZone.is_west_wing(str(context.zone_enemy_id)):
+			bump_counter(DnaZone.COUNTER_WEST_WING)  # Nov 18 day (Part 4.4): Kyle's "Hall Monitor"
 		note_duel_won()
 		if zone_def().counter_enemies != "zone_enemies_defeated":
 			bump_counter(zone_def().counter_enemies)

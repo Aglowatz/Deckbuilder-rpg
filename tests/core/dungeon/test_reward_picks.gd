@@ -23,7 +23,7 @@ func test_three_distinct_cards_never_a_legendary_and_no_early_epic_from_an_elite
 			ids[card.id] = true
 			assert_ne(card.rarity, CardEnums.Rarity.LEGENDARY, "Legendaries stay the bosses' prizes")
 			assert_ne(card.rarity, CardEnums.Rarity.EPIC, "no Epics from an elite before level %d" % RewardPicks.EPIC_LEVEL)
-			assert_false(card.is_infrastructure())
+			assert_false(card.is_unlimited())
 		assert_eq(ids.size(), 3, "no repeats")
 
 

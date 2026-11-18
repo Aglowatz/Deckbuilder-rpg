@@ -164,5 +164,7 @@ func has_trigger(trigger: CardEnums.Trigger) -> bool:
 
 
 ## Infrastructure (and basic cards) are exempt from the copy caps (`CopyCaps`, 3 at most) and never need to be owned.
+## Nov 18 day (Part 1.3): only BASIC infrastructure (Powerhouse, Ghost Town, Feastforge, Wasteworks) is unlimited. Every other
+## Infrastructure card is collected and capped like a unit or spell of its rarity (`CopyCaps`).
 func is_unlimited() -> bool:
-	return is_basic or is_infrastructure()
+	return is_basic and is_infrastructure()

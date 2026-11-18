@@ -11,7 +11,8 @@ extends RefCounted
 ##   W: Market Street ---------------- SQUARE (the fountain) ---------------- Market Street :E (the Hall of Records)
 ##      Bertram's Smithy                                                    Auntie Alembic
 ##              notice board          (open, low south side)          Rift Express
-##                         S: Champions' Road (the Chapel | the Deck Station; the Grave Road branches west)
+##                         S: Champions' Road (the Chapel | the inn; the Grave Road branches west)
+##   (Nov 18 day: the Deck Station is a card stall on the square, west of the Gate Road's mouth.)
 ##                                     the Undercroft cottage; the meadow road bends round it to the Gainlands
 
 const PLAZA: Vector3 = Vector3(25.2, 0.0, 12.47)
@@ -175,7 +176,9 @@ static func shops() -> Array[Shop]:
 	list.append(_kit("elder_home", "home_a", 31.6, -10.6, -90.0, "Elder Maren's home", {"width": 6.4}))
 	# --- Champions' Road (south): the chapel and the Deck Station; the Old Well in its yard off the west street ---
 	list.append(_kit("church", "chapel", 17.3, 33.3, 90.0, "Chapel of the Four Paths"))
-	list.append(_kit("deck", "inn", 32.1, 31.5, -90.0, "The Deck Station"))
+	# Nov 18 day (Part 5.2): the old Deck Station inn stays as a plain building; the Deck Station is the card stall on the square (below).
+	list.append(_kit("", "inn", 32.1, 31.5, -90.0, "The inn"))
+	list.append(_shop("deck", "", TownCardStall.CENTER, TownCardStall.YAW, 1.0, 1.6, TownCardStall.DOOR, "The Deck Station", "bare"))
 	list.append(_shop("well", "", Vector3(2.4, 0.0, 21.0), 0.0, 1.5, 1.2, 0.9, "The Old Well", "bare"))
 	# --- the Secret Dealer's alley and the sealed vault ---
 	list.append(_shop("hidden_vendor", "", Vector3(ALLEY.get_center().x, 0.0, -3.6), 180.0, 1.0, 0.6, 0.0, "The Secret Dealer's nook", "bare"))

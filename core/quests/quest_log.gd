@@ -66,6 +66,12 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 	var takes: bool = tracked_quest == null
 	if not takes:
 		takes = quest.line.is_empty() if tracked_quest.is_main() else quest.is_main()
+	# Nov 18 day (Part 4.1): Maren's Settling In errands lead. The next errand always takes the tracker; while one is tracked, no other quest
+	# starting at the same moment (Fragments auto-starts with Meet the Merchants) takes it away.
+	if is_chain(quest):
+		takes = true
+	elif tracked_quest != null and is_chain(tracked_quest):
+		takes = false
 	if takes:
 		tracked = quest.id
 	for objective: QuestObjective in quest.objectives:
@@ -105,6 +111,11 @@ func all_objectives_met(quest: QuestData, state: UnlockState) -> bool:
 ## Active, every objective met, and waiting for the player to talk to the turn-in NPC.
 func is_ready_to_turn_in(quest: QuestData, state: UnlockState) -> bool:
 	return is_active(quest.id) and not quest.turn_in_npc.is_empty() and all_objectives_met(quest, state)
+
+
+## Nov 18 day (Part 4): one of Elder Maren's Settling In errands (Meet the Merchants through the armory).
+static func is_chain(quest: QuestData) -> bool:
+	return quest != null and quest.line == QuestDefinitions.SETTLING_IN
 
 
 ## Moves an active quest to completed. Returns false if it was not active.
@@ -160,6 +171,11 @@ func tracked_id() -> String:
 		return tracked
 	if preferred != "" and active.has(preferred):
 		return preferred
+	# Nov 18 day (Part 4.1): an active Settling In errand leads first.
+	for id: String in active:
+		var errand: QuestData = QuestCatalog.find(id)
+		if errand != null and is_chain(errand):
+			return id
 	# Fix pass Nov 7 (item 14): with the tracked quest gone, the newest active MAIN quest leads before any side quest.
 	for index: int in range(active.size() - 1, -1, -1):
 		var quest: QuestData = QuestCatalog.find(active[index])
@@ -175,6 +191,8 @@ func follow(quest_id: String) -> bool:
 	if candidate == null or not active.has(quest_id):
 		return false
 	var current: QuestData = QuestCatalog.find(tracked_id())
+	if current != null and is_chain(current) and not is_chain(candidate):
+		return false  # Nov 18 day (Part 4.1): a tracked Settling In errand keeps the tracker
 	if candidate.is_main() or current == null or not current.is_main():
 		tracked = quest_id
 		return true

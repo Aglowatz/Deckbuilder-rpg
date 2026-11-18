@@ -54,7 +54,8 @@ func test_copies_stack_with_a_count_badge() -> void:
 	board.layout(false)
 	var views: Array[CardView] = _token_views(board, 0)
 	assert_eq(views.size(), 3)
-	assert_lt(views[0].position.distance_to(views[2].position), 20.0, "one stack, slightly offset")
+	assert_lt(absf(views[0].position.x - views[2].position.x), 20.0, "one stack (one column)")
+	assert_gte(views[1].position.y - views[0].position.y, CardView.SIZE.y * BattleBoard.SCALE_TOKEN_CARD * 0.2, "Nov 18 day: fanned so each name bar shows")
 	var badge: Label = board.get_node_or_null("TokenCount0_0") as Label
 	assert_not_null(badge)
 	assert_true(badge.visible)

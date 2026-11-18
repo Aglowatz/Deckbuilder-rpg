@@ -17,7 +17,9 @@ const MARK_TURN_IN: String = "?"
 const SPOT_ROAMERS: String = "roamers"
 const SPOT_CHESTS: String = "chests"
 const SPOT_HARBOR_CHEST: String = "harbor_chest"
-const VIRTUAL_SPOTS: Array[String] = [SPOT_ROAMERS, SPOT_CHESTS, SPOT_HARBOR_CHEST]
+## Nov 18 day (Part 4.4): the live roamers of the D.N.A.'s west wing (Kyle's "Hall Monitor").
+const SPOT_ROAMERS_WEST: String = "roamers_west"
+const VIRTUAL_SPOTS: Array[String] = [SPOT_ROAMERS, SPOT_CHESTS, SPOT_HARBOR_CHEST, SPOT_ROAMERS_WEST]
 
 
 ## spot id -> "!" or "?" for this area ("?" wins when an NPC has both).

@@ -28,7 +28,7 @@ func count(card: CardData) -> int:
 
 func owned(card: CardData) -> int:
 	if card.is_unlimited():
-		return 9999
+		return CopyCaps.UNLIMITED
 	var total: int = 0
 	for candidate: CardData in profile.owned_cards:
 		if candidate.id == card.id:
@@ -36,7 +36,7 @@ func owned(card: CardData) -> int:
 	return total
 
 
-## How many copies of `card` the deck may hold at the player's level (`CopyCaps`; infrastructure: unlimited).
+## How many copies of `card` the deck may hold at the player's level (`CopyCaps`; basic infrastructure: unlimited).
 func cap(card: CardData) -> int:
 	return CopyCaps.for_card(card, profile.level)
 

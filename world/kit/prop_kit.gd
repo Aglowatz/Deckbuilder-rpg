@@ -427,7 +427,8 @@ static func _awning_cloth(mesh: KitMesh, slot: String, left: float, right: float
 
 ## The market stall after the concept (ENV-PROP-STALL): plank counter with crates of produce in front, four timber posts, a striped scalloped awning, a hanging lantern and a
 ## sack beside it. Awning art when it exists (otherwise the placeholder stripes), planks / beams / crate / sack kit surfaces.
-static func stall(seed_value: int = 0) -> Node3D:
+## Nov 18 day: `goods` false leaves the produce off the crates (the Deck Station's card stall puts cards on its counter instead).
+static func stall(seed_value: int = 0, goods_on: bool = true) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	var awning: String = "ENV-AWNING-01" if seed_value % 2 == 0 else "ENV-AWNING-02"
 	mesh.set_material("wood", EnvKit.material("ENV-WALL-PLANK"))
@@ -473,6 +474,8 @@ static func stall(seed_value: int = 0) -> Node3D:
 		if cloth and (index == 1 or index == 2):
 			continue
 		var x: float = -1.05 + 0.7 * float(index)
+		if not goods_on:
+			continue
 		mesh.box("crate", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03, 1.0, true)
 		for fruit: int in range(5):
 			mesh.blob("goods", Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 4, 9, 1.0, goods[(index + seed_value) % goods.size()])

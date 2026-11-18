@@ -56,8 +56,8 @@ func _win_storeroom() -> void:
 func test_out_of_the_cave_the_errands_lead_and_the_gatekeepers_wait() -> void:
 	# Overnight Nov 7-8, Part 1.2: no gatekeeper quest before Maren sends the hero out after the intro line.
 	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "Meet the Merchants is the first errand")
-	assert_eq(QuestCatalog.find(QuestDefinitions.MERCHANTS).category_tag(), "SETTLING IN")
-	assert_false(QuestCatalog.find(QuestDefinitions.MERCHANTS).is_main(), "the errands are a side line")
+	assert_eq(QuestCatalog.find(QuestDefinitions.MERCHANTS).category_tag(), "MAIN", "Nov 18 day: the errands are MAIN quests")
+	assert_true(QuestCatalog.find(QuestDefinitions.MERCHANTS).is_main())
 	for zone_id: String in Gatekeepers.IDS:
 		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "no gatekeeper line yet (%s)" % zone_id)
 		assert_true(Session.gatekeeper_can_fight(zone_id), "Fixes Nov 8: but every gatekeeper can be fought at once (%s)" % zone_id)

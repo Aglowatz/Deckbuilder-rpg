@@ -112,6 +112,11 @@ var _last_instance: CardInstance
 var _last_game: GameState
 ## Draw the small art copy (grids of small cards open faster).
 var thumb_art: bool = false
+## Nov 18 day (Part 1.2): the keywords this unit has right now that are not printed on it (from a Tool, spell, aura or rule), as
+## `GameState.granted_keywords_of` gives them. They show as chips / badges like printed keywords, in a green-gold ring, and their
+## hover says where they came from ("Toxic (from Corporate-Approved Pen)"). Set by `apply_instance`; the card rebuilds when they change.
+var _granted: Array[Dictionary] = []
+const GRANTED_RING: Color = Color("8fe3a6")
 ## One shared shading ramp under the rules panel (it used to be a new gradient texture per card).
 static var _scrim_texture: GradientTexture2D
 static var _rules_size_cache: Dictionary = {}
@@ -692,15 +697,55 @@ func _chip_names() -> Array[String]:
 	var names: Array[String] = []
 	for keyword: CardEnums.Keyword in data.keywords:
 		names.append(KeywordInfo.keyword_name(keyword))
+	for entry: Dictionary in _granted:
+		var granted_name: String = KeywordInfo.keyword_name(entry["keyword"] as CardEnums.Keyword)
+		if not names.has(granted_name):
+			names.append(granted_name)
 	if data.type == CardEnums.CardType.TRAP:
 		names.append("Trap")
 	if data.has_trigger(CardEnums.Trigger.ACTIVATED):
 		names.append("Ability")
 	if data.type != CardEnums.CardType.UNIT and data.type != CardEnums.CardType.TRAP:
 		names.append(_type_text().split("-")[-1].strip_edges())
-	if names.is_empty() and data.rules_text != "":
+	if names.size() == _granted.size() and data.rules_text != "":
 		names.append(trigger_chip(data))
 	return names
+
+
+## The granted entry whose keyword is called `chip_text` ({} when the chip is not a granted keyword).
+func _granted_entry(chip_text: String) -> Dictionary:
+	for keyword: CardEnums.Keyword in data.keywords:
+		if KeywordInfo.keyword_name(keyword) == chip_text:
+			return {}
+	for entry: Dictionary in _granted:
+		if KeywordInfo.keyword_name(entry["keyword"] as CardEnums.Keyword) == chip_text:
+			return entry
+	return {}
+
+
+## "Toxic (from Corporate-Approved Pen)", "Flying (until end of turn)", or the bare name when nothing is known.
+static func granted_title(entry: Dictionary) -> String:
+	var title: String = KeywordInfo.keyword_name(entry["keyword"] as CardEnums.Keyword)
+	var source: String = str(entry.get("source", ""))
+	var temp: bool = bool(entry.get("temp", false))
+	if source != "" and temp:
+		return "%s (from %s, this turn)" % [title, source]
+	if source != "":
+		return "%s (from %s)" % [title, source]
+	if temp:
+		return "%s (this turn)" % title
+	return "%s (granted)" % title
+
+
+func granted_keywords() -> Array[Dictionary]:
+	return _granted
+
+
+static func _granted_signature(entries: Array[Dictionary]) -> String:
+	var parts: PackedStringArray = []
+	for entry: Dictionary in entries:
+		parts.append("%d:%s:%s" % [int(entry["keyword"]), str(entry.get("source", "")), str(entry.get("temp", false))])
+	return "|".join(parts)
 
 
 ## Overnight Nov 17 (combat critic #9: "a generic Effect tag, so you must right-click every card"): a card with no keyword says WHEN its
@@ -723,6 +768,10 @@ func _keyword_tip(target: Control, chip_text: String) -> void:
 	for keyword: CardEnums.Keyword in data.keywords:
 		if KeywordInfo.keyword_name(keyword) == chip_text:
 			body = KeywordInfo.keyword_description(keyword)
+	var granted: Dictionary = _granted_entry(chip_text)
+	if not granted.is_empty():
+		HoverTip.attach(target, granted_title(granted), KeywordInfo.keyword_description(granted["keyword"] as CardEnums.Keyword), GRANTED_RING, IconArt.keyword_id(granted["keyword"] as CardEnums.Keyword))
+		return
 	if chip_text == "Trap":
 		body = str(KeywordInfo.GLOSSARY["Trap"])
 	if body.is_empty():
@@ -735,6 +784,9 @@ func _chip_icon(chip_text: String) -> String:
 	for keyword: CardEnums.Keyword in data.keywords:
 		if KeywordInfo.keyword_name(keyword) == chip_text:
 			return IconArt.keyword_id(keyword)
+	var granted: Dictionary = _granted_entry(chip_text)
+	if not granted.is_empty():
+		return IconArt.keyword_id(granted["keyword"] as CardEnums.Keyword)
 	if chip_text == "Trap":
 		return IconArt.type_id(CardEnums.CardType.TRAP)
 	if data.type != CardEnums.CardType.UNIT and data.type != CardEnums.CardType.TRAP and chip_text == _type_text().split("-")[-1].strip_edges():
@@ -762,12 +814,19 @@ func _build_path_symbols() -> void:
 ## Small round keyword badges down the left edge of the art (FULL look only; the compact chips carry the icon inline).
 func _build_keyword_badges(x: float, y: float) -> void:
 	var index: int = 0
-	for keyword: CardEnums.Keyword in data.keywords:
+	var shown: Array[CardEnums.Keyword] = data.keywords.duplicate()
+	for entry: Dictionary in _granted:
+		if not shown.has(entry["keyword"] as CardEnums.Keyword):
+			shown.append(entry["keyword"] as CardEnums.Keyword)
+	for keyword: CardEnums.Keyword in shown:
 		var id: String = IconArt.keyword_id(keyword)
 		if not IconArt.has(id):
 			continue
+		var granted: bool = not data.keywords.has(keyword)
 		var center: Vector2 = Vector2(x + 18.0, y + 18.0 + 38.0 * float(index))
-		var badge_back: Panel = _panel(Rect2(center - Vector2(18, 18), Vector2(36, 36)), UIStyle.box(Color(0.06, 0.04, 0.1, 0.78), accent.lightened(0.2), 2, 18))
+		var badge_back: Panel = _panel(Rect2(center - Vector2(18, 18), Vector2(36, 36)), UIStyle.box(Color(0.06, 0.04, 0.1, 0.78), GRANTED_RING if granted else accent.lightened(0.2), 3 if granted else 2, 18))
+		if granted:
+			badge_back.name = "GrantedBadge_%s" % KeywordInfo.keyword_name(keyword)
 		add_child(badge_back)
 		_keyword_tip(badge_back, KeywordInfo.keyword_name(keyword))
 		var badge: TextureRect = IconArt.rect(id, 30.0)
@@ -789,7 +848,10 @@ func _build_chips() -> void:
 		if x + width > 288.0:
 			x = 16.0
 			y += 34.0
-		var chip: Panel = _panel(Rect2(x, y, width, 30), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), accent.lightened(0.15), 2, 15))
+		var chip_granted: bool = not _granted_entry(chip_text).is_empty()
+		var chip: Panel = _panel(Rect2(x, y, width, 30), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), GRANTED_RING if chip_granted else accent.lightened(0.15), 3 if chip_granted else 2, 15))
+		if chip_granted:
+			chip.name = "GrantedChip_%s" % chip_text
 		add_child(chip)
 		_keyword_tip(chip, chip_text)
 		var label: Label = Label.new()
@@ -1243,7 +1305,10 @@ func _build_framed_chips() -> void:
 		if x + width > 262.0:
 			x = 40.0
 			y += 31.0
-		var chip: Panel = _panel(Rect2(x, y, width, 28), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), accent.lightened(0.15), 2, 14))
+		var chip_granted: bool = not _granted_entry(chip_text).is_empty()
+		var chip: Panel = _panel(Rect2(x, y, width, 28), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), GRANTED_RING if chip_granted else accent.lightened(0.15), 3 if chip_granted else 2, 14))
+		if chip_granted:
+			chip.name = "GrantedChip_%s" % chip_text
 		add_child(chip)
 		_keyword_tip(chip, chip_text)
 		var label: Label = Label.new()
@@ -1385,6 +1450,14 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 	_last_game = game
 	instance_uid = instance.uid
 	if data == null or mode == Mode.BACK:
+		return
+	var now_granted: Array[Dictionary] = []
+	if data.is_unit() and instance.owner >= 0 and instance.owner < game.players.size() and game.players[instance.owner].field.has(instance) and mode != Mode.COIN:
+		now_granted = game.granted_keywords_of(instance)
+	if _granted_signature(now_granted) != _granted_signature(_granted):
+		_granted = now_granted
+		_build()
+		apply_instance(instance, game)
 		return
 	if data.is_unit():
 		_set_stats(game.get_attack(instance), game.get_defense(instance), instance.damage)

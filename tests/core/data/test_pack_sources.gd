@@ -118,7 +118,6 @@ func test_completing_a_quest_pays_its_pack_and_the_summary_shows_it() -> void:
 
 func test_each_zones_minigame_pays_a_path_pack_on_the_first_win_only() -> void:
 	var games: Dictionary = {
-		"necrocrat": func(stars: int) -> Dictionary: return MatchGame.apply_result(stars),
 		"beefcake": func(stars: int) -> Dictionary: return RepGame.apply_result(stars),
 		"gourmand": func(stars: int) -> Dictionary: return OrderGame.apply_result(stars),
 		"refusemancer": func(stars: int) -> Dictionary: return SortGame.apply_result(stars),

@@ -173,7 +173,7 @@ encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterReward
   of any non-infrastructure card. Rarer cards start lower and level-ups raise their caps toward 3:
   Common 3; Uncommon 2 (3 at level 9); Epic 1 (2 at level 12, 3 at level 22); Legendary 1 (2 at level 18, 3 at
   level 30). The same cap rules the collection, the shop, packs and rewards (a copy over the cap converts into Path
-  essence, or gold for a neutral card), the deck builder and saved decks. **Infrastructure is unlimited.**
+  essence, or gold for a neutral card), the deck builder and saved decks. **Basic Infrastructure is unlimited; since Nov 18 every other Infrastructure card is collected and capped like any card of its rarity.**
   Old saves: copies over the cap convert on load and saved decks drop the extra copies.
 
 ## Starting deck (Rebalance Part D, Oct 18 2026)

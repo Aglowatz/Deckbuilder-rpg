@@ -21,9 +21,8 @@ var _header: Button
 var _switcher: HBoxContainer
 var _count: Label
 var _body: VBoxContainer
-## Fix pass Nov 7 (item 1): the standing "Your Path" line (`PathDirection.tracker_line`), in the Path's colour, above the tracked quest.
-var _path_row: HBoxContainer
-var _path_label: Label
+## Nov 18 day (Part 4.3): the "Your Path" line that stood above the tracked quest is gone. What it said lives in quests now: Maren's
+## Settling In errands are MAIN quests (tracked from the start), and the Path's gatekeeper is its zone's main quest.
 
 
 func _ready() -> void:
@@ -34,25 +33,6 @@ func _ready() -> void:
 	var column: VBoxContainer = UIKit.vbox(4)
 	column.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(column)
-	_path_row = UIKit.hbox(6)
-	_path_row.name = "YourPathLine"
-	_path_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(_path_row)
-	var path_tag: Label = UIKit.label("YOUR PATH", &"", 13, Color("1d1408"))
-	path_tag.name = "YourPathTag"
-	path_tag.add_theme_font_override("font", UIStyle.font_bold())
-	var path_tag_panel: PanelContainer = PanelContainer.new()
-	path_tag_panel.name = "YourPathTagPanel"
-	path_tag_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	path_tag_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	path_tag_panel.add_child(path_tag)
-	_path_row.add_child(path_tag_panel)
-	_path_label = UIKit.label("", &"", 16, UIStyle.PARCHMENT)
-	_path_label.name = "YourPathText"
-	_path_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_path_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_path_label.custom_minimum_size = Vector2(WIDTH - 120.0, 0)
-	_path_row.add_child(_path_label)
 	var top: HBoxContainer = UIKit.hbox(8)
 	top.mouse_filter = Control.MOUSE_FILTER_PASS
 	column.add_child(top)
@@ -165,9 +145,7 @@ func refresh() -> void:
 		child.queue_free()
 	var qlog: QuestLog = Session.quest_log
 	var quest: QuestData = QuestCatalog.find(qlog.tracked_id())
-	var path_line: String = your_path_line(quest)
-	_refresh_path_row(path_line)
-	visible = quest != null or not path_line.is_empty()
+	visible = quest != null
 	for child: Node in [_header.get_parent(), _switcher]:
 		(child as Control).visible = quest != null
 	if quest == null:
@@ -226,38 +204,6 @@ func refresh() -> void:
 		var elsewhere: String = elsewhere_hint(quest.objectives[current].target_area, SceneManager.current_area)
 		if not elsewhere.is_empty():
 			_body.add_child(_row("➜", elsewhere, Color(UIStyle.GOLD, 0.8), false))
-
-
-## Fix pass Nov 7 (item 1): the "Your Path" line to show above `tracked` - "" once the gatekeeper is beaten, without a profile, or while the
-## tracked quest is that Path's own main line (its first step already says it).
-static func your_path_line(tracked: QuestData) -> String:
-	if Session.profile == null:
-		return ""
-	var path: Affinity.Type = Session.profile.primary_affinity
-	if tracked != null and tracked.id == PathDirection.own_main_quest(path):
-		return ""
-	# Overnight Nov 7-8, Part 1.2: before Maren sends the hero out, the line is the intro line's next step (nothing while an errand of that
-	# line is the tracked quest - its step is already on show).
-	var step: String = PathDirection.intro_step(Session.quest_log, Session.unlock_state(), Session.flags)
-	if not PathDirection.sent_out(Session.flags) and tracked != null and tracked.line == QuestDefinitions.SETTLING_IN:
-		return ""
-	return PathDirection.tracker_line(path, Session.flags, step)
-
-
-func _refresh_path_row(text: String) -> void:
-	_path_row.visible = not text.is_empty()
-	if text.is_empty():
-		return
-	_path_label.text = text
-	var tint: Color = UIStyle.affinity_color(Session.profile.primary_affinity)
-	var box: StyleBoxFlat = StyleBoxFlat.new()
-	box.bg_color = tint
-	box.set_corner_radius_all(5)
-	box.content_margin_left = 6
-	box.content_margin_right = 6
-	box.content_margin_top = 1
-	box.content_margin_bottom = 1
-	(_path_row.get_node("YourPathTagPanel") as PanelContainer).add_theme_stylebox_override("panel", box)
 
 
 ## Overnight Oct 18, Part 6: "Go to the Gainlands" when the current step happens in another area (`target_area` is a zone id or "town";
