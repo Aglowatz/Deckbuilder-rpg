@@ -100,13 +100,13 @@ static func build_def() -> ZoneDef:
 		_spot("dolores", "Agnes Overdue, Front Desk", "dolores", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "dolores", "npc_id": "NPC-AGNES", "npc_name": NPC_DOLORES, "speaker": "Agnes Overdue"}),
 		_spot("barnaby", "Gerald, Barista", "barnaby", Vector3(0, 0, 0.6), 1.5, "Talk", "quest_npc", {"npc": "barnaby", "npc_id": "NPC-GERALD", "npc_name": NPC_BARNABY, "speaker": "Gerald"}),
 		_spot("pip", "Clerk Ledgerbone, Requisitions", "pip", Vector3(0, 0, -0.6), 1.5, "Talk", "vendor_npc", {"npc": "pip", "npc_id": "V-LEDGERBONE", "npc_name": NPC_PIP, "speaker": "Clerk Ledgerbone"}),
-		_spot("heal", "Breakroom Couch", "heal", Vector3.ZERO, 1.5, "Rest on the couch (full heal)", "heal"),
+		_spot("heal", "Breakroom Couch", "heal", Vector3.ZERO, 1.6, "Rest on the couch (full heal)", "heal", {"place_label": PLACE_LABEL_COUCH}),
 		_spot("coffee", "Coffee Machine", "coffee", Vector3.ZERO, 1.3, "Pour a cup", "zone"),
 		_spot("time_clock", "Time Clock", "time_clock", Vector3.ZERO, 1.3, "Punch in", "zone"),
 		_spot("exit", "The Way to Town", "exit", Vector3.ZERO, 1.6, "Walk back to town", "exit"),
 		_spot("printer", "Haunted Printer", "printer", Vector3(0.9, 0, 0), 1.4, "Print a card (40 gold)", "zone"),
 		_spot("suggestion", "Suggestion Box", "suggestion", Vector3.ZERO, 1.3, "Drop in a suggestion", "zone"),
-		_spot("mini_dungeon", "Sub-Basement 3", "mini_dungeon", Vector3.ZERO, 1.5, "Take the elevator to Quarterly Reviews", "mini_dungeon"),
+		_spot("mini_dungeon", "The Waiting Room of Eternity", "mini_dungeon", Vector3.ZERO, 1.6, "Take the elevator down to the Waiting Room of Eternity", "mini_dungeon", {"place_label": PLACE_LABEL_WAITING_ROOM}),
 		_spot("main_dungeon", "The Hall of Final Approvals", "main_dungeon", Vector3.ZERO, 1.7, "Take a number and enter the Hall of Final Approvals", "main_dungeon", {"no_plate": true}),
 		_spot("puzzle", "Mail Room Filing Terminal", "puzzle", Vector3.ZERO, 1.7, "File the cards (card game)", "puzzle"),  # Fable Nov 16b: "File in Order" (was the Soul Routing Terminal)
 		_spot("quiz", "Director Ectomund, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-ECTOMUND", "speaker": "Director Ectomund"}),
@@ -120,6 +120,14 @@ static func build_def() -> ZoneDef:
 		"matching": MapPoi.Kind.QUEST_GIVER, "shrine": MapPoi.Kind.INTERACTABLE,
 	}
 	return def
+
+
+## Nov 18 evening (Parts 1.5, 1.6): places with a screen label like a shop's (ZoneScene `place_label`): the healing couch and the Waiting
+## Room of Eternity's elevator (it was called "Sub-Basement 3" at its door, the dungeon's old name).
+const PLACE_LABEL_COUCH: String = "Breakroom: rest here"
+const PLACE_LABEL_WAITING_ROOM: String = "The Waiting Room of Eternity"
+## Set the first time the hero comes near the Waiting Room's elevator ("Take a Number", step 1).
+const FLAG_WAITING_ROOM_FOUND: StringName = &"dna_waiting_room_found"
 
 
 static func _spot(id: String, title: String, anchor: String, offset: Vector3, radius: float, prompt: String, kind: String, extra: Dictionary = {}) -> Dictionary:

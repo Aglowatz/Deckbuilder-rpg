@@ -26,14 +26,11 @@ func test_walls_in_front_of_the_hero_cut_away_completely() -> void:
 	assert_eq(float(material.get_shader_parameter("fade_strength")), 1.0, "and vanish (no ghost veil over the room)")
 
 
-func test_tubes_run_well_above_the_hero_with_a_hat() -> void:
-	var hat: float = 0.5
-	assert_gte(DnaBuilder.TUBE_LOW - 0.07 - (StorybookScale.HERO_HEIGHT + hat), 1.0, "over a metre of room under the lowest tube")
-	assert_gt(DnaBuilder.TUBE_HIGH, DnaBuilder.TUBE_LOW)
-	# the runs hug the mail room's walls (the room is cells x 36..53, z 28..41): nothing hangs over the middle of the floor
-	assert_almost_eq(DnaBuilder.MAIL_TUBE_WEST, DnaBuilder.MAIL_WALL_WEST, 0.3)
-	assert_almost_eq(DnaBuilder.MAIL_TUBE_EAST, DnaBuilder.MAIL_WALL_EAST, 0.3)
-	assert_almost_eq(DnaBuilder.MAIL_TUBE_NORTH, DnaBuilder.MAIL_WALL_NORTH, 0.3)
+## Nov 18 evening (Part 1.2): the pneumatic tubes are gone - open air, they hung in the air attached to nothing.
+func test_no_pneumatic_tubes() -> void:
+	var source: String = FileAccess.get_file_as_string("res://world/dna/dna_builder.gd")
+	assert_false(source.contains("func _build_tube_network"), "no tube network")
+	assert_false(source.contains("TubeBrackets"), "no tube brackets")
 
 
 func test_lights_are_steady() -> void:

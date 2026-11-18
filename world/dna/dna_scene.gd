@@ -87,6 +87,7 @@ func _zone_process(delta: float) -> void:
 		room_cut.update(player.position, delta)
 		room_cut.apply()
 	_update_causeway_exit()
+	_update_couch_and_waiting_room()
 	_light_timer -= delta
 	if _light_timer <= 0.0:
 		_light_timer = 0.25
@@ -132,6 +133,27 @@ func _assign_lights() -> void:
 			light.set_meta("on", 1)
 		else:
 			light.set_meta("on", 0)
+
+
+## Nov 18 evening (Part 1.5): a soft warm glow on the floor round the healing couch while the hero is within COUCH_GLOW_NEAR metres; (Part 1.6)
+## the first time the hero comes within WAITING_ROOM_SEEN metres of the Waiting Room's elevator, "Take a Number" counts it as found.
+const COUCH_GLOW_NEAR: float = 5.5
+const WAITING_ROOM_SEEN: float = 6.0
+var couch_glow: NpcGlow
+
+
+func _update_couch_and_waiting_room() -> void:
+	if dna == null:
+		return
+	if couch_glow == null and dna.heal_couch != null:
+		couch_glow = NpcGlow.attach(dna.heal_couch, NpcGlow.VENDOR)
+		couch_glow.scale = Vector3(2.4, 1.0, 1.6)
+		couch_glow.position = Vector3(0, 0, 0.9)
+	if couch_glow != null:
+		couch_glow.visible = player.position.distance_to(DnaLayout.COUCH_POS) < COUCH_GLOW_NEAR
+	if not Session.flag(DnaZone.FLAG_WAITING_ROOM_FOUND) and dna.has_anchor("mini_dungeon") and player.position.distance_to(dna.anchor("mini_dungeon")) < WAITING_ROOM_SEEN:
+		Session.set_flag(DnaZone.FLAG_WAITING_ROOM_FOUND)
+		Session.refresh_quests()
 
 
 ## The way out is walked (DN-6): the causeway's last metre leaves for town by itself (the E spot on it still asks). It arms only once the hero has been

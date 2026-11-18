@@ -26,7 +26,7 @@ const TUFT_TIP: Color = Color(0.24, 0.3, 0.26)
 ## Nothing stands here: the causeway and its bridge stub, the far landmarks (the Filing Tower, the Endless Queue, the Records Stair) and
 ## the Hall of Final Approvals with its stair.
 const KEEP_OUT: Array[Rect2] = [
-	Rect2(40.5, 58.0, 12.0, 30.0), Rect2(-15.5, 5.0, 15.0, 16.0), Rect2(90.5, 8.0, 9.5, 36.0), Rect2(65.5, -11.0, 13.0, 12.0),
+	Rect2(40.5, 58.0, 12.0, 30.0), Rect2(-24.5, 5.0, 15.0, 16.0), Rect2(90.5, 8.0, 9.5, 36.0), Rect2(90.0, -3.0, 11.0, 12.0),
 	Rect2(11.0, -32.0, 69.0, 34.0),
 ]
 ## How far north of a spot floor still counts as "in front of the camera" (metres) and the rise allowed per metre of that distance.
@@ -146,9 +146,14 @@ func north_cap(x: float, z: float, half: float = 1.0) -> float:
 	return 99.0
 
 
+## Nov 18 evening: the street behind the building fronts (DnaStreet) is kept clear like the landmarks (the Filing Tower and the Records Stair
+## moved, see DnaBuilder).
 static func kept_out(x: float, z: float, margin: float = 0.0) -> bool:
 	for rect: Rect2 in KEEP_OUT:
 		if rect.grow(margin).has_point(Vector2(x, z)):
+			return true
+	for rect: Rect2 in DnaStreet.footprints():
+		if rect.grow(margin + 0.6).has_point(Vector2(x, z)):
 			return true
 	return false
 

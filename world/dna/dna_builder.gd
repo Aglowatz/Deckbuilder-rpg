@@ -46,6 +46,10 @@ var layout: DnaLayout = DnaLayout.new()
 var root: Node3D
 ## chunk (Vector2i) -> Node3D
 var chunks: Dictionary = {}
+## Nov 18 evening (Part 1.1): the street of fake civic buildings behind the building fronts.
+var street: DnaStreet
+## Nov 18 evening (Part 1.5): the healing couch's node (its glow is attached by DnaScene).
+var heal_couch: Node3D
 ## The Hall of Final Approvals node (the main dungeon's building), null until built.
 var hall: Node3D
 ## Circular obstacles bucketed by 2x2 cell: Vector2i -> Array[Vector3(x, z, radius)].
@@ -92,6 +96,9 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("dna: _build_entrance")
 	_build_region_landmarks()
 	LoadTiming.detail("dna: _build_region_landmarks")
+	if grand != null:
+		street = DnaStreet.build(root, grand)  # Nov 18 evening (Part 1.1): the buildings behind the painted fronts
+	LoadTiming.detail("dna: street")
 	_index_obstacles()
 	LoadTiming.detail("dna: _index_obstacles")
 
@@ -296,6 +303,8 @@ func _collect_props() -> void:
 				chunk_for(prop.pos).add_child(node)
 				node.position = prop.pos
 				node.rotation_degrees.y = prop.yaw
+				if prop.model == "heal_couch":
+					heal_couch = node
 			"model":
 				if prop.model.is_empty():
 					continue
@@ -453,16 +462,54 @@ func _queue_hall_cards() -> void:
 				if absf(normal.x) > 0.5:
 					hall_banners.append(join)  # side walls only: a banner on a wall facing the camera hung right in front of the lens
 	_card_entries["dna_sconce"] = sconces
+	# Nov 18 evening (Part 1.2, "booths stuck in the middle of walls"): a booth stands on the walled-in hall floor next to its old spot (cells
+	# nobody walks on, clear of every wall and partition), or it is left out - never on a partition.
 	for spec: Array in BOOTH_SPOTS:
 		var at2: Vector2 = spec[0] as Vector2
-		var c: Vector2i = DnaLayout.world_to_cell(Vector3(at2.x, 0, at2.y))
-		if layout.cell_at(c.x, c.y) != DnaLayout.Cell.WALL:
-			continue
 		var kind: String = "dna_booth_%d" % int(spec[1])
+		var width: float = ((TreeCards.KINDS[kind] as Dictionary)["size"] as Vector2).x
+		var spot: Vector2 = _booth_floor_spot(at2, width)
+		if spot == Vector2.INF:
+			booths_left_out += 1
+			continue
 		var list: Array = _card_entries.get(kind, []) as Array
-		list.append({"pos": Vector3(at2.x, 0.0, at2.y), "scale": 1.0})
+		list.append({"pos": Vector3(spot.x, 0.0, spot.y), "scale": 1.0})
 		_card_entries[kind] = list
 		booth_count += 1
+
+
+var booths_left_out: int = 0
+
+
+## The card entries of a kind (the probe and the tests read the booths).
+func booth_entries(kind: String) -> Array:
+	return _card_entries.get(kind, []) as Array
+
+
+## Nov 18 evening: the nearest point within 6 m of `near` where a booth `width` wide (1.2 m deep) stands wholly on hall floor that nobody walks
+## on (walled-in void cells), 0.3 m clear of every wall cell; Vector2.INF when there is none.
+func _booth_floor_spot(near: Vector2, width: float) -> Vector2:
+	var best: Vector2 = Vector2.INF
+	var best_d: float = INF
+	var half: Vector2 = Vector2(width * 0.5 + 0.3, 0.9)
+	for dz: int in range(-12, 13):
+		for dx: int in range(-12, 13):
+			var p: Vector2 = near + Vector2(float(dx), float(dz)) * 0.5
+			var d: float = p.distance_to(near)
+			if d >= best_d or d > 6.0:
+				continue
+			var ok: bool = true
+			for cz: int in range(int(floorf(p.y - half.y)), int(floorf(p.y + half.y)) + 1):
+				for cx: int in range(int(floorf(p.x - half.x)), int(floorf(p.x + half.x)) + 1):
+					if grand == null or grand.kind_at(Vector2i(cx, cz)) != DnaHall.Kind.INSIDE_VOID:
+						ok = false
+						break
+				if not ok:
+					break
+			if ok:
+				best = p
+				best_d = d
+	return best
 
 
 const WARM_LIGHT: Color = Color(1.0, 0.76, 0.44)
@@ -576,19 +623,84 @@ func _build_signs() -> void:
 	# using it (ZoneScene adds a "sign" spot).
 	for sign_spec: DnaLayout.Sign in layout.signs:
 		var holder: Node3D = Node3D.new()
-		holder.position = sign_spec.pos
-		holder.rotation_degrees.y = sign_spec.yaw
-		chunk_for(sign_spec.pos).add_child(holder)
 		var panel_size: Vector2 = Vector2(0.75, 0.75) * sign_spec.size
 		if sign_spec.style == "memo":
 			panel_size *= 0.7
-		# Overnight Nov 18 (the grand hall): every board is a brass plaque from DNA-SHEET-SIGNS whose icon matches what it points to
 		var plaque_id: String = "DNA-SHEET-SIGNS-%02d" % plaque_index(sign_spec.key)
-		if EnvKit.has(plaque_id):
+		var use_plaque: bool = EnvKit.has(plaque_id) and not ICON_BOARDS.has(sign_spec.key)
+		var panel_h: float = panel_size.x * 1.15 / maxf(EnvKit.aspect(plaque_id), 0.1) if use_plaque else panel_size.y
+		holder.position = sign_mount(sign_spec, panel_h)
+		holder.rotation_degrees.y = sign_spec.yaw if sign_spec.key != "sign.heal_couch" else 0.0
+		if sign_spec.key == "sign.heal_couch":
+			_sign_post(holder.position - Vector3(0, panel_h * 0.5, 0.05))
+		chunk_for(sign_spec.pos).add_child(holder)
+		sign_spots.append({"key": sign_spec.key, "pos": holder.position, "bottom": holder.position.y - panel_h * 0.5, "mount_top": _mount_top(sign_spec)})
+		# Overnight Nov 18 (the grand hall): every board is a brass plaque from DNA-SHEET-SIGNS whose icon matches what it points to;
+		# Nov 18 evening: the couch's sign is a brass-framed board with the heart (ICON_BOARDS)
+		if use_plaque:
 			holder.add_child(_plaque(plaque_id, panel_size.x * 1.15))
 			continue
 		holder.add_child(DnaProps.board(panel_size, sign_spec.style))
 		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.04)))
+
+
+## Nov 18 evening (Part 1.2, "nothing floats"): the signs built where they really hang - [{key, pos, bottom, mount_top}] (the prop probe).
+var sign_spots: Array[Dictionary] = []
+## The couch's heart sign stands on a brass post this high (its board's bottom edge), over the couch's back.
+const HEAL_SIGN_BOTTOM: float = 1.45
+
+
+## A slim brass sign post from the floor to `top` (the heart sign behind the couch).
+func _sign_post(top: Vector3) -> void:
+	var mesh: KitMesh = KitMesh.new()
+	DnaLandmarks._materials(mesh)
+	mesh.box("grey_dark", Vector3(top.x, 0.06, top.z), Vector3(0.36, 0.12, 0.36), Basis.IDENTITY, 0.02)
+	mesh.box("brass", Vector3(top.x, top.y * 0.5, top.z), Vector3(0.07, top.y, 0.07), Basis.IDENTITY, 0.0)
+	mesh.box("brass", Vector3(top.x, top.y - 0.02, top.z + 0.02), Vector3(0.5, 0.05, 0.08), Basis.IDENTITY, 0.0)
+	chunk_for(top).add_child(mesh.instance("HealSignPost"))
+
+
+## Signs drawn as a brass-framed board with their icon instead of a DNA-SHEET-SIGNS plaque (the couch's heart).
+const ICON_BOARDS: Array[String] = ["sign.heal_couch"]
+
+
+## Where a sign's centre really goes (Nov 18 evening). A sign on a two-storey front or a tall wall hangs flat on its face at the layout's
+## height; a sign on a waist-high partition (open air: most of the old walls) stands on the partition's capping rail, against its face (it
+## used to hang in the air over a 1.15 m rail, a third of a metre off it); a memo pinned to a desk partition stays where it is.
+func sign_mount(sign_spec: DnaLayout.Sign, panel_h: float) -> Vector3:
+	if sign_spec.key == "sign.heal_couch":
+		return DnaLayout.COUCH_POS + Vector3(0.0, HEAL_SIGN_BOTTOM + panel_h * 0.5, -0.7)  # on its own brass post behind the couch, facing south
+	if sign_spec.key == "sign.mini_dungeon":
+		var door: Vector3 = anchor("mini_dungeon")
+		return Vector3(door.x, WAITING_SIGN_Y, DnaLayout.ELEVATOR_WALL_Z - 0.01 + WAITING_SIGN_OUT)  # hanging from its bracket over the lit door
+	if sign_spec.face_step == Vector2i.ZERO:
+		return sign_spec.pos
+	var top: float = _mount_top(sign_spec)
+	if top >= sign_spec.pos.y + panel_h * 0.5:
+		return sign_spec.pos
+	var wall: Vector2i = sign_spec.face_cell + sign_spec.face_step
+	var center: Vector3 = DnaLayout.cell_center(wall.x, wall.y)
+	var normal: Vector3 = -Vector3(float(sign_spec.face_step.x), 0.0, float(sign_spec.face_step.y))
+	var face: Vector3 = center + normal * (DnaHall.PARTITION_T * 0.5 + 0.04)
+	var along: Vector3 = Vector3(sign_spec.pos.x, 0.0, sign_spec.pos.z) - Vector3(face.x, 0.0, face.z)
+	along -= normal * along.dot(normal)
+	return Vector3(face.x + along.x, top + 0.07 + panel_h * 0.5, face.z + along.z)
+
+
+## The top of the wall a sign hangs on: a building front's cornice, the elevator walls, or a partition's rail.
+func _mount_top(sign_spec: DnaLayout.Sign) -> float:
+	if sign_spec.key == "sign.mini_dungeon":
+		return WAITING_SIGN_ARM_Y
+	if sign_spec.key == "sign.heal_couch":
+		return HEAL_SIGN_BOTTOM
+	if sign_spec.face_step == Vector2i.ZERO:
+		return PARTITION_HEIGHT
+	var wall: Vector2i = sign_spec.face_cell + sign_spec.face_step
+	if grand != null and grand.kind_at(wall) == DnaHall.Kind.OUTLINE:
+		return DnaHall.HALL_H
+	if is_elevator_wall(wall):
+		return ELEVATOR_WALL_H
+	return DnaHall.PARTITION_H
 
 
 ## Overnight Nov 18: the plaque of a sign key (DNA-SHEET-SIGNS: 1 stamp, 2 clock, 3 arrow, 4 folder, 5 raised hand, 6 ghost).
@@ -596,7 +708,7 @@ const PLAQUE_BY_KEY: Dictionary = {
 	"sign.lobby_main": 1, "sign.motto": 1, "sign.requisitions": 1, "sign.filed_complaint": 1, "sign.executive": 1, "sign.main_dungeon": 1,
 	"poster.safety": 5, "poster.performance": 1, "sign.take_number": 2, "sign.now_serving": 2, "sign.time_clock": 2, "memo.lunch": 2,
 	"sign.elevator_rule": 5, "sign.exit": 3, "sign.cubicle_farm_a": 3, "sign.cubicle_farm_b": 3, "sign.mailroom": 3, "sign.filing_maze": 3,
-	"sign.elevator_bank": 3, "sign.records": 3, "sign.mini_dungeon": 3, "sign.suggestion_box": 5, "sign.heal_couch": 5, "sign.coffee": 5,
+	"sign.elevator_bank": 3, "sign.records": 3, "sign.mini_dungeon": 2, "sign.suggestion_box": 5, "sign.heal_couch": 5, "sign.coffee": 5,
 	"sign.fun_day": 6, "poster.synergy": 6, "poster.hang_in_there": 6, "poster.wellness": 6, "memo.cubicle_coffin": 6,
 }
 
@@ -649,7 +761,7 @@ static func sign_icon(key: String) -> String:
 	return IconSign.icon_for(key, SIGN_ICONS)
 
 
-# ---- Set pieces (elevators, time clock, the tubes...) ------------------------------------------
+# ---- Set pieces (elevators, time clock, suggestion box, printer, chests) ------------------------------------------
 
 
 func _place_piece(node: Node3D, pos: Vector3, yaw: float = 0.0) -> void:
@@ -660,97 +772,15 @@ func _place_piece(node: Node3D, pos: Vector3, yaw: float = 0.0) -> void:
 
 func _build_set_pieces() -> void:
 	# Elevators along the elevator bank's north wall; the live one is Sub-Basement 3.
-	for key: String in ["elevator_1", "elevator_2", "mini_dungeon", "elevator_4"]:
-		var pos: Vector3 = anchor(key)
-		_place_piece(DnaProps.elevator(key == "mini_dungeon"), Vector3(pos.x, 0.0, DnaLayout.ELEVATOR_WALL_Z))  # flush with the wall (Fix pass Nov 4 (B))
+	# Nov 18 evening (Part 1.3): the doors are built with their walls (`_build_elevator_walls`) so a wall and its shafts fade as one piece.
 	# Time clock on the breakroom's west wall, the suggestion box by the lobby doorway, the haunted printer in farm B.
-	var clock_pos: Vector3 = anchor("time_clock")
-	_place_piece(DnaProps.time_clock(), Vector3(clock_pos.x - 0.35, 0.0, clock_pos.z))
+	_place_piece(DnaProps.time_clock(), DnaLayout.TIME_CLOCK_POST)  # Nov 18 evening: on its own pillar against the wall (it floated)
+	_add_obstacle(Vector3(DnaLayout.TIME_CLOCK_POST.x, DnaLayout.TIME_CLOCK_POST.z, 0.38))
 	_place_piece(DnaProps.suggestion_box(), anchor("suggestion"))
 	_place_piece(DnaProps.printer(), anchor("printer"), 90.0)
-	# Pneumatic tubes in the mail room: pipes along the north wall with capsules racing through.
-	_build_tube_network()
+	# Nov 18 evening (Part 1.2): the mail room's pneumatic tubes are gone (open air: they hung in the air, attached to nothing).
 	# Hidden chests (the same 1/4-scale gold chest as the town's secrets).
 	_build_chests()
-
-
-## The mail room's pneumatic tubes (Fixes Oct 26): heights and the wall faces they hug (the room is cells x 36..53, z 28..41).
-const TUBE_LOW: float = 3.6
-const TUBE_HIGH: float = 3.85
-const MAIL_WALL_NORTH: float = 28.0
-const MAIL_WALL_WEST: float = 36.0
-const MAIL_WALL_EAST: float = 54.0
-const MAIL_TUBE_NORTH: float = 28.22
-const MAIL_TUBE_WEST: float = 36.22
-const MAIL_TUBE_EAST: float = 53.78
-
-
-func _build_tube_network() -> void:
-	var parent: Node3D = chunk_for(anchor("mail_center"))
-	var pipe_material: StandardMaterial3D = StandardMaterial3D.new()
-	pipe_material.albedo_color = Color("9a8450")
-	pipe_material.metallic = 0.3
-	pipe_material.roughness = 0.55
-	var capsule_material: StandardMaterial3D = StandardMaterial3D.new()
-	capsule_material.albedo_color = Color(0.7, 1.0, 0.9)
-	capsule_material.emission_enabled = true
-	capsule_material.emission = Color(0.4, 1.0, 0.8)
-	capsule_material.emission_energy_multiplier = 2.5
-	# Fixes Oct 26: the runs hug the walls well above the hero's head (the hero is 1.7 m, a hat ~0.5 m more: TUBE_LOW leaves over a metre of room), held by
-	# brass brackets on the wall faces - nothing stands on the floor. They were at 1.3 / 1.55 m, a metre into the room, across the walkway.
-	var runs: Array[Array] = [
-		[Vector3(MAIL_TUBE_WEST, TUBE_LOW, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_LOW, MAIL_TUBE_NORTH)],
-		[Vector3(MAIL_TUBE_WEST, TUBE_HIGH, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_HIGH, MAIL_TUBE_NORTH)],
-		[Vector3(MAIL_TUBE_WEST, TUBE_LOW, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_WEST, TUBE_LOW, 40.5)],
-		[Vector3(MAIL_TUBE_EAST, TUBE_HIGH, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_HIGH, 40.5)],
-	]
-	_tube_brackets(parent, pipe_material, runs)
-	for run_points: Array in runs:
-		var a: Vector3 = run_points[0] as Vector3
-		var b: Vector3 = run_points[1] as Vector3
-		var pipe: MeshInstance3D = MeshInstance3D.new()
-		var cylinder: CylinderMesh = CylinderMesh.new()
-		cylinder.top_radius = 0.07
-		cylinder.bottom_radius = 0.07
-		cylinder.height = a.distance_to(b)
-		cylinder.radial_segments = 8
-		pipe.mesh = cylinder
-		pipe.material_override = pipe_material
-		pipe.position = (a + b) * 0.5
-		var direction: Vector3 = (b - a).normalized()
-		pipe.transform.basis = Basis(Quaternion(Vector3.UP, direction))
-		pipe.set_meta(&"no_occlusion_fade", true)
-		parent.add_child(pipe)
-		var capsule: MeshInstance3D = MeshInstance3D.new()
-		var capsule_mesh: CapsuleMesh = CapsuleMesh.new()
-		capsule_mesh.radius = 0.06
-		capsule_mesh.height = 0.2
-		capsule.mesh = capsule_mesh
-		capsule.material_override = capsule_material
-		capsule.position = a
-		capsule.transform.basis = Basis(Quaternion(Vector3.UP, direction))
-		parent.add_child(capsule)
-		var travel: Tween = capsule.create_tween().set_loops()
-		travel.tween_property(capsule, "position", b, 2.0 + _rng.randf() * 2.0).from(a)
-		travel.tween_interval(0.5 + _rng.randf())
-
-
-## A brass bracket every ~2.5 m along each run: an arm from the wall face to the pipe (wall-mounted, clear of the floor).
-func _tube_brackets(parent: Node3D, material: Material, runs: Array[Array]) -> void:
-	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("brass", material)
-	for run_points: Array in runs:
-		var a: Vector3 = run_points[0] as Vector3
-		var b: Vector3 = run_points[1] as Vector3
-		var steps: int = maxi(1, int(a.distance_to(b) / 2.5))
-		for i: int in range(steps + 1):
-			var p: Vector3 = a.lerp(b, float(i) / float(steps))
-			# the arm runs back to the nearest wall face (the north wall for the east-west runs, the side wall for the north-south ones)
-			var wall: Vector3 = Vector3(p.x, p.y, MAIL_WALL_NORTH) if absf(a.z - b.z) < 0.01 else Vector3(MAIL_WALL_WEST if p.x < 45.0 else MAIL_WALL_EAST, p.y, p.z)
-			mesh.box("brass", (p + wall) * 0.5, Vector3(maxf(absf(wall.x - p.x), 0.05), 0.05, maxf(absf(wall.z - p.z), 0.05)), Basis.IDENTITY, 0.0)
-	var brackets: MeshInstance3D = mesh.instance("TubeBrackets")
-	brackets.set_meta(&"no_occlusion_fade", true)
-	parent.add_child(brackets)
 
 
 func _build_chests() -> void:
@@ -795,10 +825,69 @@ func _build_hall() -> void:
 	var stair_w: float = clampf(size.x * 0.2, 3.0, 12.0)
 	mesh.box("grey_dark", Vector3(DnaLayout.HALL_CENTER.x, -0.12, 1.6), Vector3(stair_w + 1.8, 0.24, 1.6), Basis.IDENTITY, 0.02)
 	mesh.box("brass", Vector3(DnaLayout.HALL_CENTER.x, 0.005, 2.3), Vector3(stair_w + 1.8, 0.02, 0.2), Basis.IDENTITY, 0.0)
+	_build_stair_ghosts()
 	var threshold: MeshInstance3D = mesh.instance("Threshold")
 	threshold.set_meta(&"no_occlusion_fade", true)
 	threshold.set_meta(&"no_range_cull", true)
 	root.add_child(threshold)
+
+
+## Nov 18 evening (Part 1.4): the line of ghosts waiting single file up the LEFT side of the Hall's stair and across its landing to the door:
+## each stands on a tread (its feet on the step's top, `stair_ghosts` keeps where), bobbing gently upward from there - never below the tread.
+## The middle of the stair stays clear. Camera-facing kit cards (DNA-SHEET-GHOST-QUEUE-01..06), no collision (the stair is not walked).
+const STAIR_GHOST_H: float = 1.65
+const STAIR_GHOST_BOB: float = 0.07
+## [{"pos": Vector3 (feet), "tread": float (the step's top)}] - the tests and the prop probe.
+var stair_ghosts: Array[Dictionary] = []
+
+
+class StairGhosts:
+	extends Node3D
+	var bases: Array[float] = []
+	var _time: float = 0.0
+
+	func _process(delta: float) -> void:
+		_time += delta
+		for i: int in range(mini(get_child_count(), bases.size())):
+			var ghost: Node3D = get_child(i) as Node3D
+			ghost.position.y = bases[i] + DnaBuilder.STAIR_GHOST_BOB * (0.5 + 0.5 * sin(_time * 1.6 + float(i) * 1.3))
+
+
+func _build_stair_ghosts() -> void:
+	if hall == null or not hall.has_meta("stair"):
+		return
+	var stair: Dictionary = hall.get_meta("stair") as Dictionary
+	var foot_z: float = float(stair["foot_z"])
+	var height: float = float(stair["height"])
+	var run: float = float(stair["run"])
+	var width: float = float(stair["width"])
+	var steps: int = maxi(2, int(ceilf(height / 0.3)))
+	var rise: float = height / float(steps)
+	var tread: float = run / float(steps)
+	var spots: Array[Vector3] = []
+	var left_x: float = -width * 0.5 + 1.1
+	for index: int in range(1, steps - 1, 2):
+		spots.append(Vector3(left_x, (float(index) + 1.0) * rise, foot_z - (float(index) + 0.5) * tread))
+	# across the landing to the left leaf of the door
+	var landing_z: float = float(stair["landing_z"])
+	var door_z: float = float(stair["door_z"])
+	var door_x: float = -float(stair["door_w"]) * 0.25
+	for t: float in [0.2, 0.45, 0.7, 0.92]:
+		spots.append(Vector3(lerpf(left_x, door_x, t), height, lerpf(landing_z - 0.8, door_z + 0.9, t)))
+	var holder: StairGhosts = StairGhosts.new()
+	holder.name = "StairGhosts"
+	root.add_child(holder)
+	for index: int in range(spots.size()):
+		var at: Vector3 = hall.position + spots[index] + Vector3(0, 0.02, 0)
+		var id: String = "DNA-SHEET-GHOST-QUEUE-%02d" % (index % 6 + 1)
+		var ghost: Node3D = KitPieces.stand(holder, id, at, STAIR_GHOST_H, false)
+		if ghost == null:
+			continue
+		holder.bases.append(at.y)
+		for piece: Node in ghost.find_children("*", "MeshInstance3D", true, false):
+			piece.set_meta(&"no_range_cull", true)
+			piece.set_meta(&"no_occlusion_fade", true)
+		stair_ghosts.append({"pos": at, "tread": hall.position.y + spots[index].y})
 
 
 ## Overnight Nov 18 (the grand hall): the ceiling over the building's footprint, the dark end bay north of it with DNA-BD-HALL-INTERIOR on its far
@@ -921,7 +1010,8 @@ func _build_clock_tower() -> void:
 		if EnvKit.has("DNA-SHEET-WINDOWS-02"):
 			DnaLandmarks._card(mesh, "DNA-SHEET-WINDOWS-02", Vector3(x, 3.2, w * 0.5 + 0.05), 4.4, Vector3(0, 0, 1))
 	var face_y: float = stage_y0 + stage_h * 0.62
-	mesh.box("warm_glow", Vector3(0, face_y, stage_w * 0.5 + 0.03), Vector3(3.6, 3.6, 0.04), Basis.IDENTITY, 0.0)
+	# Nov 18 evening: no flat glow panel behind the clock any more - from the sides it stood out as a pale slab beside the turning clock card
+	# (the warm light below still lights the face)
 	clock_tower = mesh.instance("ClockTower")
 	clock_tower.position = CLOCK_TOWER
 	for piece: Node in [clock_tower] + clock_tower.find_children("*", "MeshInstance3D", true, false):
@@ -946,27 +1036,88 @@ func _build_clock_tower() -> void:
 
 
 ## Nov 18 day (Part 6.5): the walls behind the elevators (the elevator bank's north side, either side of the corridor to the executive floor)
-## are tall and thick - deep enough for a lift shaft - so the four elevator doors sit inside a wall instead of sticking up over a waist-high
-## partition. They stand on the same wall cells (z 14-16), so nothing about the walk grid changes; they fade like any wall in the camera's way.
-const ELEVATOR_WALL_H: float = 2.5
+## are tall and thick - deep enough for a lift shaft - so the four elevator doors sit inside a wall. They stand on the same wall cells (z 14-16),
+## so nothing about the walk grid changes.
+## Nov 18 evening (Part 1.3, "close up or from the side the tall wall fades out and the elevator is left standing alone"): each half of the bank
+## is ONE piece - one node ("LiftBank_W" / "LiftBank_E") holding its wall and its two elevators' doors and shaft housings - so the camera's
+## cut-away (OcclusionFader, which dissolves a node's meshes together) takes the wall and its shafts away together, or neither. The walls
+## rise as high as the shaft housings (ELEVATOR_WALL_H, a storey and a half) with a brass cornice; each shaft has a stone surround up to the
+## cornice with a brass floor dial over its doors.
+const ELEVATOR_WALL_H: float = 4.2
 const ELEVATOR_WALL_SPANS: Array[Vector2] = [Vector2(36.0, 43.0), Vector2(47.0, 54.0)]
+const ELEVATOR_DOORS: Array[Array] = [["elevator_1", 38.0], ["elevator_2", 41.0], ["mini_dungeon", 49.0], ["elevator_4", 52.0]]
 var elevator_walls: int = 0
+var lift_banks: Array[Node3D] = []
+## Nov 18 evening (Part 1.6): the Waiting Room's hanging sign - its bracket arm's height, how far it reaches out from the wall, the sign's centre.
+const WAITING_SIGN_ARM_Y: float = 3.75
+const WAITING_SIGN_OUT: float = 0.6
+const WAITING_SIGN_Y: float = 3.0
+
+
+static func is_elevator_wall(c: Vector2i) -> bool:
+	if c.y < 14 or c.y > 15:
+		return false
+	for span: Vector2 in ELEVATOR_WALL_SPANS:
+		if float(c.x) >= span.x and float(c.x) < span.y:
+			return true
+	return false
 
 
 func _build_elevator_walls() -> void:
-	var mesh: KitMesh = KitMesh.new()
-	DnaLandmarks._materials(mesh)
 	var z0: float = 14.0
 	var z1: float = DnaLayout.ELEVATOR_WALL_Z - 0.01
-	for span: Vector2 in ELEVATOR_WALL_SPANS:
+	for index: int in range(ELEVATOR_WALL_SPANS.size()):
+		var span: Vector2 = ELEVATOR_WALL_SPANS[index]
+		var bank: Node3D = Node3D.new()
+		bank.name = "LiftBank_%s" % ("W" if index == 0 else "E")
+		var mesh: KitMesh = KitMesh.new()
+		DnaLandmarks._materials(mesh)
 		var cx: float = (span.x + span.y) * 0.5
 		var width: float = span.y - span.x
-		mesh.box("grey", Vector3(cx, ELEVATOR_WALL_H * 0.5, (z0 + z1) * 0.5), Vector3(width, ELEVATOR_WALL_H, z1 - z0), Basis.IDENTITY, 0.06, 0.9)
+		var h: float = ELEVATOR_WALL_H
+		mesh.box("grey", Vector3(cx, h * 0.5, (z0 + z1) * 0.5), Vector3(width, h, z1 - z0), Basis.IDENTITY, 0.06, 0.9)
 		mesh.box("paneling", Vector3(cx, 0.55, z1 + 0.01), Vector3(width - 0.1, 1.1, 0.04), Basis.IDENTITY, 0.0)
-		mesh.box("brass", Vector3(cx, ELEVATOR_WALL_H + 0.1, (z0 + z1) * 0.5), Vector3(width + 0.2, 0.2, z1 - z0 + 0.2), Basis.IDENTITY, 0.0)
+		mesh.box("brass", Vector3(cx, h + 0.1, (z0 + z1) * 0.5), Vector3(width + 0.2, 0.2, z1 - z0 + 0.2), Basis.IDENTITY, 0.0)
+		mesh.box("grey_dark", Vector3(cx, h + 0.35, (z0 + z1) * 0.5), Vector3(width, 0.3, z1 - z0 - 0.2), Basis.IDENTITY, 0.02)
+		mesh.box("brass", Vector3(cx, 2.4, z1 + 0.03), Vector3(width, 0.1, 0.08), Basis.IDENTITY, 0.0)
+		for entry: Array in ELEVATOR_DOORS:
+			var x: float = float(entry[1])
+			if x < span.x or x > span.y:
+				continue
+			var live: bool = str(entry[0]) == "mini_dungeon"
+			# the shaft's stone surround, up to the cornice, and the brass floor dial over the doors
+			for side: float in [-1.0, 1.0]:
+				mesh.box("grey_light", Vector3(x + side * 1.2, h * 0.5, z1 + 0.08), Vector3(0.3, h, 0.16), Basis.IDENTITY, 0.02)
+			mesh.box("grey_light", Vector3(x, 2.15, z1 + 0.08), Vector3(2.7, 0.5, 0.16), Basis.IDENTITY, 0.02)
+			mesh.box("glow" if live else "iron", Vector3(x, 2.15, z1 + 0.18), Vector3(0.36, 0.2, 0.02), Basis.IDENTITY, 0.0)
+			if live:
+				# Nov 18 evening (Part 1.6): the Waiting Room of Eternity's door is lit - a warm glowing frame round the doors, light spilling
+				# out, and a brass bracket over them carrying the hanging sign (`sign.mini_dungeon`, see `sign_mount`)
+				for side: float in [-1.0, 1.0]:
+					mesh.box("warm_glow", Vector3(x + side * 1.08, 0.93, z1 + 0.06), Vector3(0.06, 1.86, 0.06), Basis.IDENTITY, 0.0)
+				mesh.box("warm_glow", Vector3(x, 1.88, z1 + 0.06), Vector3(2.22, 0.06, 0.06), Basis.IDENTITY, 0.0)
+				mesh.box("iron", Vector3(x, WAITING_SIGN_ARM_Y, z1 + WAITING_SIGN_OUT * 0.5), Vector3(0.08, 0.08, WAITING_SIGN_OUT + 0.1), Basis.IDENTITY, 0.0)
+				mesh.box("iron", Vector3(x, WAITING_SIGN_ARM_Y - 0.25, z1 + 0.08), Vector3(0.1, 0.6, 0.1), Basis.IDENTITY, 0.0)
+				for side2: float in [-1.0, 1.0]:
+					mesh.box("brass", Vector3(x + side2 * 0.3, (WAITING_SIGN_ARM_Y + WAITING_SIGN_Y + 0.45) * 0.5, z1 + WAITING_SIGN_OUT), Vector3(0.03, WAITING_SIGN_ARM_Y - WAITING_SIGN_Y - 0.45, 0.03), Basis.IDENTITY, 0.0)
+				for entry2: Array in [[Vector3(x, 2.3, z1 + 1.2), WARM_LIGHT], [Vector3(x, WAITING_SIGN_Y, z1 + 1.0), WARM_LIGHT]]:
+					var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+					light.pos = entry2[0] as Vector3
+					light.color = entry2[1] as Color
+					layout.lights.append(light)
+			var doors: Node3D = DnaProps.elevator(live)
+			var body: MeshInstance3D = doors.get_child(0) as MeshInstance3D
+			doors.remove_child(body)
+			doors.free()
+			body.name = "Elevator_%s" % str(entry[0])
+			bank.add_child(body)
+			body.position = Vector3(x, 0.0, DnaLayout.ELEVATOR_WALL_Z)  # flush with the wall (Fix pass Nov 4 (B))
+		var walls: MeshInstance3D = mesh.instance("LiftShaftWall")
+		bank.add_child(walls)
+		bank.set_meta(&"one_piece", true)
+		chunk_for(Vector3(cx, 0.0, 15.0)).add_child(bank)
+		lift_banks.append(bank)
 		elevator_walls += 1
-	var walls: MeshInstance3D = mesh.instance("LiftShaftWalls")
-	chunk_for(Vector3(45.0, 0.0, 15.0)).add_child(walls)
 
 
 ## The closed hall's ceiling, dark end bay and painted back wall (Overnight Nov 18); unused while `OPEN_AIR`.
@@ -1171,16 +1322,18 @@ static func _wall_quad(tool: SurfaceTool, a: Vector3, b: Vector3, height: float,
 ## The hero landmarks kept from the removed sub-areas (SR-8) as views beyond the balustrades, where they crowd nothing: the Filing Tower west of the Filing
 ## Department, the Endless Queue along the east rim beside Cubicle Farm B and the Records Basement, the Records Stair beyond the archive's north parapet. Never
 ## culled or faded, nothing walkable near them. The Stamp of Approval shrine (SR-7) stands on the executive forecourt and blocks through its circles.
-const FILING_TOWER: Vector3 = Vector3(-8.0, 0.0, 13.0)
+## Nov 18 evening: the Filing Tower and the Records Stair moved out of the way of the street behind the west and north fronts (DnaStreet):
+## the tower further west (it rises over the roofs), the stair round to the open east side beyond the Records Basement.
+const FILING_TOWER: Vector3 = Vector3(-17.0, 0.0, 13.0)
 const ENDLESS_QUEUE: Vector3 = Vector3(95.0, 0.0, 26.0)
-const RECORDS_STAIR: Vector3 = Vector3(72.0, 0.0, -4.5)
+const RECORDS_STAIR: Vector3 = Vector3(95.5, 0.0, 3.0)
 const SHRINE_OFFSET: Vector3 = Vector3(1.6, 0.0, 0.0)
 
 
 func _build_region_landmarks() -> void:
 	_far_landmark({"id": "DNA-HERO-FILING-TOWER", "kind": "tower", "size": [10.0, 22.0, 6.0]}, "FilingTower", FILING_TOWER, 90.0)
 	_far_landmark({"id": "DNA-HERO-ENDLESS-QUEUE", "kind": "colonnade", "size": [30.0, 3.0, 2.0]}, "EndlessQueue", ENDLESS_QUEUE, 90.0)
-	_far_landmark({"id": "DNA-HERO-RECORDS-STAIR", "kind": "stair", "size": [9.0, 5.0, 8.0]}, "RecordsStair", RECORDS_STAIR, 0.0)
+	_far_landmark({"id": "DNA-HERO-RECORDS-STAIR", "kind": "stair", "size": [9.0, 5.0, 8.0]}, "RecordsStair", RECORDS_STAIR, -90.0)
 	var shrine_pos: Vector3 = anchor("shrine") + SHRINE_OFFSET
 	var shrine: Node3D = LandmarkKit.build({"id": "stamp_shrine", "kind": "shrine", "size": [2.2, 3.0, 2.2], "color": "#6e7470", "accent": "#b8945a", "glow": "#4fbf7a", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"})
 	if shrine == null:

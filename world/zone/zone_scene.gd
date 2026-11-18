@@ -339,6 +339,9 @@ func _ready() -> void:
 	if _screenshot_args.has("cam"):
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
+	if _screenshot_args.has("yaw") or _screenshot_args.has("dist"):
+		# Nov 18 evening: `--yaw=deg` swings the camera round the hero (+ = from the east), `--dist=ratio` pulls it in / out (side and close/far shots)
+		camera_offset = camera_offset.rotated(Vector3.UP, deg_to_rad(float(_screenshot_args.get("yaw", 0.0)))) * float(_screenshot_args.get("dist", 1.0))
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
@@ -453,6 +456,13 @@ func _labels() -> NpcLabels:
 		npc_labels = NpcLabels.install(self, player, _camera, func() -> bool: return _locked or (dialogue != null and dialogue.active))
 		npc_labels.boost = func(key: String) -> bool: return quest_markers != null and quest_markers.is_marked(key)
 	return npc_labels
+
+
+## Nov 18 evening (Parts 1.5, 1.6): a place (not a person) wearing a screen label like a shop's - the D.N.A.'s healing couch ("Breakroom:
+## rest here") and the Waiting Room of Eternity's elevator. Same fade-in radius as every label.
+func _place_label(marker: Node3D, text: String, key: String) -> void:
+	if is_instance_valid(marker):
+		_labels().register(marker, text, "vendor", true, 0.3, key)
 
 
 func _label_spot(spot: ZoneSpot, marker: Node3D) -> void:
@@ -630,6 +640,8 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	plate.visible = false
 	if npc and not bool(data.get("hidden", false)) and not bool(data.get("no_plate", false)):
 		_label_spot.call_deferred(spot, marker)
+	elif data.has("place_label"):
+		_place_label.call_deferred(marker, str(data["place_label"]), id)
 	plate.font = UIStyle.font_title()
 	plate.font_size = 46
 	plate.pixel_size = 0.0045

@@ -3506,6 +3506,10 @@ func side_unlocked(dungeon_id: String) -> bool:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_id)
 	if plan != null and plan.always_open:
 		return true  # open from the start (the Iron Cave, Gainlands v2)
+	# Nov 18 evening (Part 1.6): "Take a Number" asks the player to clear the Waiting Room, so taking the quest unseals its door
+	var opener: String = str(ZoneQuestDefinitions.OPEN_ON_ACCEPT.get(dungeon_id, ""))
+	if opener != "" and quest_log != null and (quest_log.is_active(opener) or quest_log.is_completed(opener)):
+		return true
 	return flag(side_unlock_flag(dungeon_id))
 
 

@@ -364,7 +364,8 @@ func _wall_lamp(pos: Vector3, group: int = 0, color: Color = Color(0.72, 1.0, 0.
 			break
 	if toward == Vector3.ZERO:
 		return
-	var foot: Vector3 = cell_center(cell.x, cell.y) + toward * 0.82
+	# Nov 18 evening: a lamp at a corner (diagonal) stands a little further out, clear of both walls (it stood in the corner's wall)
+	var foot: Vector3 = cell_center(cell.x, cell.y) + toward * (0.82 if absf(toward.x) < 0.1 or absf(toward.z) < 0.1 else 1.08)
 	_card("DNA-PROP-GHOSTLAMP", Vector3(foot.x, 0.0, foot.z), 2.6, 0.16)
 	_light(foot + Vector3(0, 2.1, 0), group, color)
 
@@ -464,6 +465,13 @@ func _furnish_approach() -> void:
 # ---- Breakroom (hub, safe) -----------------------------------------------------------------
 
 
+## Nov 18 evening (Part 1.5): the healing couch (DnaProps.heal_couch), a lounge in the breakroom's south-east part with its seat facing south,
+## towards the camera (against the south wall the player only ever saw its back); the heal spot is in front of it.
+const COUCH_POS: Vector3 = Vector3(29.6, 0.0, 56.4)
+## Nov 18 evening (Part 1.2): the time clock's pillar, standing on the floor against the breakroom's west wall (the partition at x 17.5).
+const TIME_CLOCK_POST: Vector3 = Vector3(18.3, 0.0, 53.5)
+
+
 func _furnish_breakroom() -> void:
 	var r: Rect2i = Rect2i(18, 48, 17, 12)
 	_lamp_ring(r, 8, Color(0.8, 1.0, 0.85), 1.0)
@@ -477,15 +485,24 @@ func _furnish_breakroom() -> void:
 	# One round table in the middle, a bench (the healing couch) in the south-east corner under a lily.
 	_piece("round_table", cell_center(26, 54), 0.0)
 	_blockers(cell_center(26, 54), cell_center(26, 54), 0.7, 0.5)
-	_piece("bench", cell_center(29, 57), 180.0, 2.4)  # Nov 18 day: 2 m west, so the way past it to the east wall is 3 m
-	_blockers(cell_center(28, 57) + Vector3(-0.2, 0, 0), cell_center(30, 57) + Vector3(0.2, 0, 0), 0.4, 0.45)
-	_card("DNA-PLANT-LILY", Vector3(34.55, 0.0, 59.55), 1.2, 0.2)
+	# Nov 18 evening (Part 1.5, "the healing couch must be easy to find"): a big velvet couch on a rug, a side table with a cup, a standard lamp
+	# with a warm shade behind its far arm and a warm light over it; a heart sign on a brass post behind it (facing the camera), a screen label
+	# ("Breakroom: rest here"), the map and minimap heal icon and a soft glow when the hero is near (DnaScene). The heal spot is just in front.
+	_piece("heal_couch", COUCH_POS, 0.0)
+	_blockers(COUCH_POS + Vector3(-1.35, 0, 0), COUCH_POS + Vector3(1.35, 0, 0), 0.5, 0.45)
+	_blockers(COUCH_POS + Vector3(DnaProps.COUCH_LENGTH * 0.5 + 0.55, 0, 0.1), COUCH_POS + Vector3(DnaProps.COUCH_LENGTH * 0.5 + 0.55, 0, 0.1), 0.34)
+	_blockers(COUCH_POS + Vector3(-(DnaProps.COUCH_LENGTH * 0.5 + 0.5), 0, -0.3), COUCH_POS + Vector3(-(DnaProps.COUCH_LENGTH * 0.5 + 0.5), 0, -0.3), 0.26)
+	_blockers(COUCH_POS + Vector3(0, 0, -0.75), COUCH_POS + Vector3(0, 0, -0.75), 0.12)  # the heart sign's post
+	_light(COUCH_POS + Vector3(0, 2.6, 0.6), 0, Color(1.0, 0.78, 0.5))
+	_light(COUCH_POS + Vector3(-(DnaProps.COUCH_LENGTH * 0.5 + 0.5), 1.9, -0.3), 0, Color(1.0, 0.8, 0.52))
+	_card("DNA-PLANT-LILY", Vector3(34.4, 0.0, 59.3), 1.2, 0.2)
 	_card("DNA-PLANT-OFFICE", cell_center(19, 58), 1.6, 0.3)
-	anchors["heal"] = cell_center(31, 55)
-	_sign("sign.heal_couch", Vector3(31.5, 1.5, 58.4), 180.0, "poster", 0.8)
-	# Time clock on the west wall.
+	anchors["heal"] = COUCH_POS + Vector3(0, 0, 1.45)
+	_sign("sign.heal_couch", COUCH_POS + Vector3(0, 1.75, -0.75), 0.0, "poster", 1.0)
+	# The time clock: a punch clock on a stone pillar standing against the west wall (Nov 18 evening: it hung in the air a metre and a half
+	# into the room). The spot is a step in front of it.
 	anchors["time_clock"] = cell_center(19, 53)
-	_sign("sign.time_clock", Vector3(18.2, 1.55, 53.5), 270.0, "poster", 0.8)
+	_sign("sign.time_clock", Vector3(TIME_CLOCK_POST.x + 0.3, 2.0, TIME_CLOCK_POST.z - 0.75), 90.0, "poster", 0.55)
 	# Suggestion box by the doorway to the lobby.
 	anchors["suggestion"] = cell_center(33, 51)
 	_sign("sign.suggestion_box", Vector3(33.5, 1.5, 50.2), 0.0, "poster", 0.8)
@@ -699,7 +716,7 @@ func _furnish_elevator_bank() -> void:
 	_wall_lamp(Vector3(35.5, 0.0, 23.5), 1, Color(0.8, 1.0, 0.9))
 	_wall_lamp(Vector3(54.5, 0.0, 23.5), 2, Color(0.8, 1.0, 0.9))
 	_wall_lamp(Vector3(35.5, 0.0, 15.5), 3, Color(0.8, 1.0, 0.9))
-	_wall_lamp(Vector3(54.5, 0.0, 15.5), 1, Color(0.8, 1.0, 0.9))
+	_wall_lamp(Vector3(54.5, 0.0, 16.5), 1, Color(0.8, 1.0, 0.9))  # Nov 18 evening: beside the tall elevator wall, not in it
 	_sign("sign.elevator_bank", Vector3(45.0, 1.8, 24.0), 180.0, "sign", 1.0)
 	# Four elevators along the north wall (doors drawn by the builder at these anchors). Fix pass Nov 4 (B), Part 3.2: each stands flush against the wall
 	# (ELEVATOR_WALL_Z) on a whole pair of wall cells (centred on a cell line), two either side of the corridor to the executive floor (x 43-47) - the
@@ -732,8 +749,8 @@ func _furnish_records() -> void:
 	for pos: Vector3 in [Vector3(87.3, 0.0, 10.5), Vector3(87.3, 0.0, 18.0)]:
 		_prop("coffin", pos, 0.0, 0.9, 0.0)
 		_blockers(pos + Vector3(0, 0, -0.35), pos + Vector3(0, 0, 0.35), 0.3, 0.4)
-	_card("DNA-SHEET-CABINETS-02", Vector3(85.5, 0.0, 4.45), 1.3, 0.4)
-	_card("DNA-SHEET-CABINETS-04", Vector3(83.3, 0.0, 4.45), 1.3, 0.4)
+	_card("DNA-SHEET-CABINETS-02", Vector3(85.5, 0.0, 4.6), 1.3, 0.4)  # Nov 18 evening: off the north front (it stood half in it)
+	_card("DNA-SHEET-CABINETS-04", Vector3(83.3, 0.0, 4.6), 1.3, 0.4)
 	_card("DNA-PROP-PAPER", Vector3(87.4, 0.0, 13.5), 1.4, 0.3)
 	_card("DNA-PROP-PAPER", Vector3(56.5, 0.0, 7.0), 1.2, 0.3)
 	# the ghost lamps stand against the side walls (they stood in the aisles)

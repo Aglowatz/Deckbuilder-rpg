@@ -1,0 +1,8 @@
+# Nov 18 evening: the rewritten single lines (Take a Number, the Waiting Room's sign; the new defeat-three quests' lines are new keys).
+# Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov18c_lines.csv --revert=docs/dialogue/nov18c_lines_ids.txt
+data/dungeons/dungeon_content.json::quest.side_s_necro.offer::1
+data/dungeons/dungeon_content.json::quest.side_s_necro.active::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.ready::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.done::0
+data/story/dna_story.tres::sign.mini_dungeon::0
+data/story/dna_story.tres::sign.mini_dungeon::1

@@ -47,6 +47,7 @@ const RUNNERS: Array[Array] = [
 	[Vector2(44.3, 52.5), Vector2(28.5, 52.5)],
 	[Vector2(44.3, 34.5), Vector2(36.6, 34.5)],
 	[Vector2(46.7, 34.5), Vector2(53.4, 34.5)],
+	[Vector2(46.7, 17.4), Vector2(50.3, 17.4)],  # Nov 18 evening (Part 1.6): off the main axis to the Waiting Room's elevator
 ]
 
 enum Kind { NONE, INSIDE_VOID, OUTLINE, PARTITION }
@@ -121,10 +122,12 @@ const FRONT_NORTH_MAX_Z: int = 30
 const FRONT_WEST_MAX_X: int = 6
 
 
+## Nov 18 evening (Part 1.1): a front needs open ground behind it for its building (`DnaStreet`): the short north wall of Cubicle Farm A, with
+## only a two-metre strip of wasteland behind it, stood as a lone painted wall in the middle of the plaza - it is a partition now.
 func is_front(c: Vector2i) -> bool:
-	if is_outside(c + Vector2i(0, -1)) and c.y <= FRONT_NORTH_MAX_Z:
+	if is_outside(c + Vector2i(0, -1)) and c.y <= FRONT_NORTH_MAX_Z and DnaStreet.ground_behind(self, c, Vector2i(0, -1)) >= DnaStreet.MIN_GROUND_BEHIND:
 		return true
-	if is_outside(c + Vector2i(-1, 0)) and c.x <= FRONT_WEST_MAX_X:
+	if is_outside(c + Vector2i(-1, 0)) and c.x <= FRONT_WEST_MAX_X and DnaStreet.ground_behind(self, c, Vector2i(-1, 0)) >= DnaStreet.MIN_GROUND_BEHIND:
 		return true
 	if c.y < 16 and c.x > 30 and c.x < 60 and (is_outside(c + Vector2i(1, 0)) or is_outside(c + Vector2i(-1, 0))):
 		return true
@@ -389,6 +392,41 @@ func build_partitions(fade: DnaFadeMesh, cells: Array) -> Array[Vector3]:
 		if not straight:
 			posts.append(center)
 	return posts
+
+
+## Nov 18 evening (the prop probe): the footprint (xz rectangles, PARTITION_T thick) of the partition drawn on cell `c` - the same spans
+## `build_partitions` draws; empty for a cell that is not a partition.
+func partition_rects(c: Vector2i) -> Array[Rect2]:
+	var rects: Array[Rect2] = []
+	if kind_at(c) != Kind.PARTITION:
+		return rects
+	var center: Vector3 = DnaLayout.cell_center(c.x, c.y)
+	var east: bool = _is_partition(c + Vector2i(1, 0))
+	var west: bool = _is_partition(c + Vector2i(-1, 0))
+	var south: bool = _is_partition(c + Vector2i(0, 1))
+	var north: bool = _is_partition(c + Vector2i(0, -1))
+	if (east or west) and north and _runs_x(c + Vector2i(0, -1)):
+		north = false
+	if (east or west) and south and _runs_x(c + Vector2i(0, 1)):
+		south = false
+	if (north or south) and east and _runs_z(c + Vector2i(1, 0)):
+		east = false
+	if (north or south) and west and _runs_z(c + Vector2i(-1, 0)):
+		west = false
+	var horizontal: bool = east or west
+	var vertical: bool = north or south
+	if not horizontal and not vertical:
+		horizontal = true
+	var half_t: float = PARTITION_T * 0.5
+	if horizontal:
+		var x0: float = float(c.x) if west else center.x - half_t
+		var x1: float = float(c.x + 1) if east else center.x + half_t
+		rects.append(Rect2(x0, center.z - half_t, x1 - x0, PARTITION_T))
+	if vertical:
+		var z0: float = float(c.y) if north else center.z - half_t
+		var z1: float = float(c.y + 1) if south else center.z + half_t
+		rects.append(Rect2(center.x - half_t, z0, PARTITION_T, z1 - z0))
+	return rects
 
 
 func _runs_x(c: Vector2i) -> bool:

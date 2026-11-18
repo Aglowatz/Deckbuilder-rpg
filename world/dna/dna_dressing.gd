@@ -51,6 +51,8 @@ const PIECE_RINGS: Array[float] = [7.0, 9.0, 5.5, 11.0]
 ## The queue of ghosts (DNA-SHEET-GHOST-QUEUE-01..06) waiting in a line with a brass queue post (DNA-SHEET-FILING-TOWERS-04) at its head: the
 ## anchor whose ring is tried, the gap between ghosts and the ghosts' height.
 ## The queue stands with its back to a wall (nothing walkable QUEUE_BACK metres behind it, -z), so it can never wall off a way across a room.
+## Nov 18 evening: nothing of the dressing within this many metres of the healing couch's centre.
+const COUCH_CLEAR: float = 5.2
 const QUEUE_CLEARANCE: float = 2.5
 const QUEUE_BACK: float = 1.2
 const QUEUE_LOBBY_HEAD: Vector3 = Vector3(47.0, 0.0, 47.2)
@@ -214,6 +216,8 @@ func _free(pos: Vector3, clearance: float, spacing: float) -> bool:
 		return false  # Fix pass Nov 4 (B), Part 3.3: the lobby's west passage stays clear
 	if DnaLayout.on_approach(pos.x, pos.z):
 		return false
+	if Vector2(pos.x - DnaLayout.COUCH_POS.x, pos.z - DnaLayout.COUCH_POS.z).length() < COUCH_CLEAR:
+		return false  # Nov 18 evening: the couch, its lamp and side table keep a 2.5 m way round them (a topiary stood in it)
 	for anchor: Vector3 in _anchors:
 		if Vector2(pos.x - anchor.x, pos.z - anchor.z).length() < clearance:
 			return false

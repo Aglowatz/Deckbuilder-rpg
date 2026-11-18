@@ -52,6 +52,8 @@ static func piece(piece_name: String, length: float = 1.0) -> Node3D:
 			return counter(length)
 		"coffee_machine":
 			return coffee_machine()
+		"heal_couch":
+			return heal_couch()
 		"round_table":
 			return round_table()
 		"bench":
@@ -173,14 +175,79 @@ static func elevator(live: bool) -> Node3D:
 	return _finish(mesh, "Elevator")
 
 
-## The time clock: an iron box with a glowing parchment face and a brass slot, on a wall (origin at its foot).
+## The time clock (Nov 18 evening, Part 1.2: it hung in the air): a grey stone pillar standing on the floor against the breakroom's west wall
+## with a brass punch clock mounted on its face - the clock dial under a little brass hood, the card slot with a time card standing in it,
+## a rack of cards below. Origin at the pillar's foot, the clock faces +x (into the room). `TIME_CLOCK_TOP` is its height (the probe and tests).
+const TIME_CLOCK_TOP: float = 2.35
+
+
 static func time_clock() -> Node3D:
 	var mesh: KitMesh = _mesh()
-	mesh.box("iron", Vector3(0, 0.95, 0), Vector3(0.22, 0.55, 0.4), Basis.IDENTITY, 0.02)
-	mesh.box("warm", Vector3(0.12, 1.02, 0), Vector3(0.05, 0.3, 0.28), Basis.IDENTITY, 0.0)
-	mesh.box("dark", Vector3(0.13, 1.02, 0), Vector3(0.05, 0.02, 0.18), Basis(Vector3(1, 0, 0), 0.9), 0.0)
-	mesh.box("brass", Vector3(0.06, 0.78, 0), Vector3(0.1, 0.06, 0.34), Basis.IDENTITY, 0.0)
+	# the pillar: plinth, shaft, brass capital
+	mesh.box("grey_dark", Vector3(0, 0.12, 0), Vector3(0.62, 0.24, 0.62), Basis.IDENTITY, 0.03, 0.85)
+	mesh.box("grey", Vector3(0, 1.2, 0), Vector3(0.46, 2.0, 0.46), Basis.IDENTITY, 0.03, 0.85)
+	mesh.box("brass", Vector3(0, 2.25, 0), Vector3(0.6, 0.12, 0.6), Basis.IDENTITY, 0.0)
+	mesh.box("brass", Vector3(0, 0.27, 0), Vector3(0.52, 0.05, 0.52), Basis.IDENTITY, 0.0)
+	# the punch clock: a brass case on the pillar's face, its dial, the hood and the card slot with a time card in it
+	mesh.box("brass", Vector3(0.33, 1.28, 0), Vector3(0.2, 0.62, 0.42), Basis.IDENTITY, 0.02)
+	mesh.box("parchment", Vector3(0.435, 1.46, 0), Vector3(0.012, 0.26, 0.26), Basis.IDENTITY, 0.0)
+	mesh.box("dark", Vector3(0.455, 1.46, 0.02), Vector3(0.01, 0.1, 0.012), Basis(Vector3(1, 0, 0), 0.6), 0.0)
+	mesh.box("dark", Vector3(0.455, 1.46, -0.02), Vector3(0.01, 0.07, 0.012), Basis(Vector3(1, 0, 0), -1.2), 0.0)
+	mesh.box("brass", Vector3(0.4, 1.64, 0), Vector3(0.18, 0.04, 0.48), Basis.IDENTITY, 0.0)
+	mesh.box("dark", Vector3(0.435, 1.14, 0), Vector3(0.02, 0.04, 0.24), Basis.IDENTITY, 0.0)
+	mesh.box("parchment", Vector3(0.43, 1.2, 0.02), Vector3(0.012, 0.2, 0.15), Basis.IDENTITY, 0.0)
+	mesh.box("red", Vector3(0.437, 1.24, 0.02), Vector3(0.004, 0.012, 0.12), Basis.IDENTITY, 0.0)
+	mesh.box("warm", Vector3(0.44, 1.02, 0), Vector3(0.012, 0.04, 0.12), Basis.IDENTITY, 0.0)
+	# the card rack under it: three cards in brass pockets
+	mesh.box("brass", Vector3(0.3, 0.78, 0), Vector3(0.12, 0.22, 0.4), Basis.IDENTITY, 0.0)
+	for z: float in [-0.12, 0.0, 0.12]:
+		mesh.box("parchment", Vector3(0.36, 0.86, z), Vector3(0.012, 0.16, 0.09), Basis.IDENTITY, 0.0)
 	return _finish(mesh, "TimeClock")
+
+
+## Nov 18 evening (Part 1.5): the breakroom couch, the D.N.A.'s healing spot - a big three-seat sofa with a high back and arms, on a rug,
+## a side table with a steaming cup beside it, a standard lamp behind the far arm with a warm shade. Origin at the sofa's centre on the floor,
+## the seat faces +z. `COUCH_LENGTH` metres long.
+const COUCH_LENGTH: float = 3.2
+
+
+static func heal_couch() -> Node3D:
+	var mesh: KitMesh = _mesh()
+	mesh.alias("velvet", "flat", Color("7a3a34").srgb_to_linear())
+	mesh.alias("velvet_dark", "flat", Color("5a2a26").srgb_to_linear())
+	mesh.alias("rug", "flat", Color("8a5a3a").srgb_to_linear())
+	mesh.alias("rug_border", "flat", Color("c9a46a").srgb_to_linear())
+	var length: float = COUCH_LENGTH
+	# the rug under it, a little in front
+	mesh.box("rug_border", Vector3(0, 0.012, 0.55), Vector3(length + 1.6, 0.02, 2.4), Basis.IDENTITY, 0.0)
+	mesh.box("rug", Vector3(0, 0.018, 0.55), Vector3(length + 1.3, 0.02, 2.1), Basis.IDENTITY, 0.0)
+	# the sofa: base, three seat cushions, the high back, the rolled arms, brass feet
+	mesh.box("velvet_dark", Vector3(0, 0.24, 0), Vector3(length, 0.3, 0.95), Basis.IDENTITY, 0.04, 0.85)
+	for i: int in range(3):
+		var x: float = (float(i) - 1.0) * (length - 0.5) / 3.0
+		mesh.box("velvet", Vector3(x, 0.47, 0.05), Vector3((length - 0.5) / 3.0 - 0.04, 0.18, 0.8), Basis.IDENTITY, 0.06)
+		mesh.box("velvet", Vector3(x, 0.82, -0.36), Vector3((length - 0.5) / 3.0 - 0.04, 0.6, 0.24), Basis(Vector3(1, 0, 0), -0.12), 0.06)
+	mesh.box("velvet_dark", Vector3(0, 0.75, -0.44), Vector3(length, 0.9, 0.12), Basis.IDENTITY, 0.03)
+	mesh.box("brass", Vector3(0, 1.21, -0.44), Vector3(length + 0.04, 0.04, 0.14), Basis.IDENTITY, 0.0)
+	for side: float in [-1.0, 1.0]:
+		mesh.box("velvet_dark", Vector3(side * (length * 0.5 - 0.12), 0.55, 0.0), Vector3(0.26, 0.42, 0.95), Basis.IDENTITY, 0.08)
+		mesh.lathe("brass", Vector3(side * (length * 0.5 - 0.12), 0.0, 0.36), [Vector2(0.05, 0.0), Vector2(0.035, 0.09)], 6, 1.0, false, true)
+		mesh.lathe("brass", Vector3(side * (length * 0.5 - 0.12), 0.0, -0.36), [Vector2(0.05, 0.0), Vector2(0.035, 0.09)], 6, 1.0, false, true)
+	# a cushion and a folded blanket
+	mesh.box("parchment", Vector3(-length * 0.32, 0.66, -0.12), Vector3(0.42, 0.34, 0.14), Basis(Vector3(0, 0, 1), 0.25), 0.06)
+	mesh.box("rug_border", Vector3(length * 0.28, 0.58, 0.12), Vector3(0.6, 0.06, 0.4), Basis.IDENTITY, 0.02)
+	# the side table at the near arm, with a cup and a saucer
+	var table: Vector3 = Vector3(length * 0.5 + 0.55, 0.0, 0.1)
+	mesh.lathe("brass", table, [Vector2(0.18, 0.0), Vector2(0.04, 0.06), Vector2(0.04, 0.56)], 8, 0.9, true, true)
+	mesh.lathe("marble", table + Vector3(0, 0.56, 0), [Vector2(0.3, 0.0), Vector2(0.3, 0.05)], 12, 1.0, true, true)
+	mesh.lathe("parchment", table + Vector3(0.05, 0.61, 0.0), [Vector2(0.09, 0.0), Vector2(0.09, 0.012)], 10, 1.0, false, true)
+	mesh.lathe("parchment", table + Vector3(0.05, 0.62, 0.0), [Vector2(0.04, 0.0), Vector2(0.05, 0.08)], 8, 1.0, true, false)
+	mesh.lathe("dark", table + Vector3(0.05, 0.69, 0.0), [Vector2(0.045, 0.0), Vector2(0.045, 0.004)], 8, 1.0, false, true)
+	# the standard lamp behind the far arm: brass pole, a warm glowing shade
+	var lamp: Vector3 = Vector3(-length * 0.5 - 0.5, 0.0, -0.3)
+	mesh.lathe("brass", lamp, [Vector2(0.2, 0.0), Vector2(0.04, 0.05), Vector2(0.03, 1.75)], 8, 0.9, true, true)
+	mesh.lathe("warm", lamp + Vector3(0, 1.62, 0), [Vector2(0.3, 0.0), Vector2(0.18, 0.36)], 10, 1.0, true, true)
+	return _finish(mesh, "HealCouch")
 
 
 ## The suggestion box: a paneled box with a brass slot and a red ribbon seal.

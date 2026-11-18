@@ -14,7 +14,7 @@ const AUDIT: String = "dna_audit"
 ## Brief 11: which quests also pay a Path Pack (quest id -> pack id): one per zone since Oct 16 (the zone's MAIN line pays two more), plus a minigame prize each (`ZoneDef.minigame_pack`).
 ## All numbers/ids are placeholders: edit here (then regenerate the quest files) or in `data/quests/*.tres`.
 const PACK_REWARDS: Dictionary = {
-	"dna_audit": "path_necrocrat", "dna_hall_monitor": "gilded_necrocrat", "gain_spot_me": "path_beefcake", "buf_mend": "path_gourmand", "heap_dam": "path_refusemancer",
+	"dna_audit": "path_necrocrat", "dna_hall_monitor": "gilded_necrocrat", "side_s_necro": "path_necrocrat", "gain_spot_me": "path_beefcake", "buf_mend": "path_gourmand", "heap_dam": "path_refusemancer",
 }
 
 
@@ -55,7 +55,8 @@ const TARGETS: Dictionary = {
 	"cap_paste_works": [[QuestObjective.TargetKind.SPOT, "final", "paste_works", "The shuttered stall at the Hungry Quarter's south-west corner"], [QuestObjective.TargetKind.SPOT, "final", "paste_works", "Down through the ration hatch"]],
 	"side_s_beef": [[QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand in the Swole Station"]],
 	"side_s_gour": [[QuestObjective.TargetKind.SPOT, "gourmand", "", "Hidden stashes have no marker: check the odd corners"]],
-	"side_s_necro": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
+	"side_s_necro": [[QuestObjective.TargetKind.SPOT, "necrocrat", "mini_dungeon", "The lit elevator in the Elevator Bank, north of the Mail Room (follow the red runner)"],
+		[QuestObjective.TargetKind.SPOT, "necrocrat", "mini_dungeon", "Down the lit elevator in the Elevator Bank"]],
 	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the junk heaps"]],
 	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
 	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest in one of Crosspath's odd corners"]],
@@ -104,7 +105,7 @@ static func _add_parts(quest: QuestData) -> void:
 				quest.objectives[0].part(kind_item, BuffetZone.ID, "pickup_" + ingredient_id, str(BuffetZone.INGREDIENTS[ingredient_id]), Condition.counter(BuffetZone.stock_key(ingredient_id), 1))
 		HALL_MONITOR:
 			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS_WEST, "Roaming staff in the west wing")
-		BACKLOG, SIDE_NECRO:
+		BACKLOG:
 			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming staff (any)")
 		AUDIT:
 			quest.objectives[1].part(kind_spot, DnaZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
@@ -501,8 +502,7 @@ static func side_quests() -> Array[QuestData]:
 			[QuestObjective.make("Buy a protein shake at the Station's stand", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11); handing it in opens the gate and the ridge (Fix pass Nov 4 (B), Part 1.2)
 		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "Basil knows of a golden reservation card: 'Seating: 1. Courses: 3. Survival: optional.' It is in one of the Buffet's hidden stashes.",
 			[QuestObjective.make("Find a hidden stash in the Buffet", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
-		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Gerald is Number 4,000,212 and they are on 3. Thin out the queue to the Waiting Room of Eternity: process two roaming staff.",
-			[QuestObjective.make("Duel roaming staff on the D.N.A. floors", Condition.counter("zone_enemies_defeated", 2))]),
+		_take_a_number(),
 		_side(SIDE_REF, "S-REF", 240, "Who Ate the Compost?", HeapZone.NPC_MARIGOLD, "Little paw prints, a tiny crown, and no compost. Drive off two scavengers to follow the trail.",
 			[QuestObjective.make("Drive off scavengers in the Dump", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
 		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel only shows her older way into the city to friends of Wren's. Get through the gate, knock at the manhole and ask Wren in the Crease about the old tunnels.",
@@ -552,6 +552,25 @@ static func _gallery_quest() -> QuestData:
 	quest.turn_in_npc = ""
 	quest.reward_gold = 60
 	quest.reward_xp = 60
+	return quest
+
+
+## Nov 18 evening (Part 1.6): "Take a Number" - the Waiting Room of Eternity (S-NECRO) as a real, tracked quest. It was Gerald's
+## "Number 4,000,212" (process two roaming staff to unseal the door), which never sent anyone to the dungeon itself; it is the same quest
+## (same id, same giver) with new steps: find the lit elevator in the Elevator Bank, then clear the Waiting Room. Accepting it unseals the
+## door (`OPEN_ON_ACCEPT`). Its reward fits a three-fight side dungeon with a boss: gold, experience and a Necrocrat Path Pack.
+const OPEN_ON_ACCEPT: Dictionary = {"S-NECRO": "side_s_necro"}
+const TAKE_A_NUMBER_GOLD: int = 260
+const TAKE_A_NUMBER_XP: int = 120
+
+
+static func _take_a_number() -> QuestData:
+	var quest: QuestData = _side(SIDE_NECRO, "S-NECRO", 140, "Take a Number", DnaZone.NPC_BARNABY,
+		"Gerald is Number 4,000,212 and they are on 3. The Waiting Room of Eternity is down the lit elevator in the Elevator Bank: find it, then fight your way to the front of the line.",
+		[QuestObjective.make("Find the Waiting Room of Eternity (the lit elevator in the Elevator Bank)", Condition.flag(str(DnaZone.FLAG_WAITING_ROOM_FOUND))),
+			QuestObjective.make("Clear the Waiting Room of Eternity", Condition.flag(str(DnaZone.FLAG_MINI_DUNGEON_CLEARED)))] as Array[QuestObjective])
+	quest.reward_gold = TAKE_A_NUMBER_GOLD
+	quest.reward_xp = TAKE_A_NUMBER_XP
 	return quest
 
 

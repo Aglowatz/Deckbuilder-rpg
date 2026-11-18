@@ -206,32 +206,32 @@
 					"id": "DNA-BD-TOWERS",
 					"angle": 0,
 					"width": 96,
-					"ring": 0,
-					"distance": 0.72,
+					"ring": 1,
+					"distance": 0.86,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 90,
 					"width": 96,
-					"ring": 0,
-					"distance": 0.72,
+					"ring": 1,
+					"distance": 0.86,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 180,
 					"width": 96,
-					"ring": 0,
-					"distance": 0.72,
+					"ring": 1,
+					"distance": 0.86,
 					"lift": 0
 				},
 				{
 					"id": "DNA-BD-TOWERS",
 					"angle": 270,
 					"width": 96,
-					"ring": 0,
-					"distance": 0.72,
+					"ring": 1,
+					"distance": 0.86,
 					"lift": 0
 				},
 				{

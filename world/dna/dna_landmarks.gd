@@ -388,13 +388,9 @@ static func _hall(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 	# the red stamp banners either side of the frame
 	for side: float in [-1.0, 1.0]:
 		_banner(mesh, Vector3(side * (door_w * 0.5 + 2.6), terrace_h + door_h + 0.4, door_z + 0.9), door_h * 0.78, Vector3(0, 0, 1), 1.8 * k)
-	# the ghost queue on the steps, shuffling up towards the doors
-	for index: int in range(4):
-		var queue_id: String = "DNA-SHEET-GHOST-QUEUE-0%d" % (index % 3 + 1)
-		var t: float = (float(index) + 0.5) / 4.0
-		var step_y: float = terrace_h * (1.0 - t)
-		var step_z: float = half_d + run * t
-		_card(mesh, queue_id, Vector3((-0.9 if index % 2 == 0 else 0.9), step_y, step_z), 2.1 * k, Vector3(0, 0, 1))
+	# Nov 18 evening (Part 1.4): the ghost queue that sank into the steps is gone; a single-file line of ghosts waits up the stair's left side,
+	# each on its own tread (DnaBuilder._build_stair_ghosts, from `stair` below)
+	root.set_meta("stair", {"foot_z": half_d + run, "width": stair_w, "height": terrace_h, "run": run, "landing_z": half_d, "door_z": door_z, "door_w": door_w})
 	for side: float in [-1.0, 1.0]:
 		var lamp: Vector3 = Vector3(side * (door_w * 0.5 + 1.0 * k), terrace_h + door_h * 0.55, body_front + 0.5)
 		mesh.box("iron", lamp, Vector3(0.3, 0.45, 0.3) * k, Basis.IDENTITY, 0.02)
