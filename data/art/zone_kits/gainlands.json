@@ -2964,6 +2964,64 @@
 			"use": "Zone sky",
 			"zone": "gainlands"
 		},
+		"GAIN-STATUE-CLENCH-STANDING": {
+			"aspect": 0.502,
+			"asset": "Clench statue, standing",
+			"category": "Prop",
+			"cleared_alpha": 28676,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "GAIN-STATUE-CLENCH-STANDING",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				759,
+				1511
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.gain-statue-clench-standing",
+			"tinted": false,
+			"use": "Zone hub statue (standing)",
+			"zone": "gainlands"
+		},
+		"GAIN-STATUE-CLENCH-TOPPLED": {
+			"aspect": 1.494,
+			"asset": "Clench statue, toppled",
+			"category": "Prop",
+			"cleared_alpha": 26621,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-STATUE-CLENCH-TOPPLED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1506,
+				1008
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.gain-statue-clench-toppled",
+			"tinted": false,
+			"use": "Zone hub statue after the zone is freed",
+			"zone": "gainlands"
+		},
 		"GAIN-TREE-CYPRESS": {
 			"aspect": 0.232,
 			"asset": "GAIN-TREE-CYPRESS",

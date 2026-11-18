@@ -114,3 +114,4 @@ ICON-UI-WARDROBE,Menu: Wardrobe,Menu icons,Wardrobe (hats and cloaks).,512x512 P
 ICON-UI-CRAFT,Menu: Crafting / Alchemist,Menu icons,Alchemist crafting.,512x512 PNG,A small bubbling round flask with four-colored smoke.,,Needed
 ICON-UI-GLOSSARY,Menu: Glossary,Menu icons,"Glossary buttons (pause menu, HUD menu) and the Glossary page heading (art import Oct 31).",512x512 PNG,"Approved_Icons, batch 10.",,Done
 ICON-UI-FEATS,Menu: Feats,Menu icons,"Feats buttons (pause menu, HUD menu) and the Feats page heading (art import Oct 31).",512x512 PNG,"Approved_Icons, batch 10.",,Done
+ICON-NODE-WELL,Dungeon node: Hollow Well,Dungeon nodes,"The Hollow Well node on the tutorial dungeon map.",512x512 PNG,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved

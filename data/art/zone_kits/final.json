@@ -2779,6 +2779,64 @@
 			"use": "Sky inside the walls",
 			"zone": "final"
 		},
+		"CAP-STATUE-PRIMM-STANDING": {
+			"aspect": 0.466,
+			"asset": "Primm statue, standing",
+			"category": "Prop",
+			"cleared_alpha": 30434,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "CAP-STATUE-PRIMM-STANDING",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				709,
+				1522
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.cap-statue-primm-standing",
+			"tinted": false,
+			"use": "Zone hub statue (standing)",
+			"zone": "final"
+		},
+		"CAP-STATUE-PRIMM-TOPPLED": {
+			"aspect": 1.591,
+			"asset": "Primm statue, toppled",
+			"category": "Prop",
+			"cleared_alpha": 36466,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "CAP-STATUE-PRIMM-TOPPLED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1484,
+				933
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.cap-statue-primm-toppled",
+			"tinted": false,
+			"use": "Zone hub statue after the zone is freed",
+			"zone": "final"
+		},
 		"CAP-TREE-DEAD": {
 			"aspect": 0.653,
 			"asset": "Dead tree",

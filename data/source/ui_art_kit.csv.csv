@@ -75,3 +75,22 @@ UI-NODE-BANNER,Pop-up banner base,Screen pieces,The base of the non-combat dunge
 UI-PACK-GILDED-N,Gilded Pack (Necrocrat),Packs,"The Gilded Necrocrat pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved
 UI-PACK-GILDED-G,Gilded Pack (Gourmand),Packs,"The Gilded Gourmand pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved
 UI-PACK-GILDED-R,Gilded Pack (Refusemancer),Packs,"The Gilded Refusemancer pack (Fig Sly, the Card Packs page, pack opening).","1024x1536 PNG, transparent","See docs/art/batch16_nov14.csv (Batch 16, Nov 16).",,Approved
+UI-PACK-GILDED-B,Gilded Pack (Beefcake),Packs,"The Gilded Beefcake pack","1024x1536 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-BG-PASS,Order Up background,Minigames,"Order Up (Buffet card game)","1536x1024 PNG","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-BG-CONVEYOR,Sort It Out background,Minigames,"Sort It Out (Dump card game)","1536x1024 PNG","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-BG-FILING,File in Order background,Minigames,"File in Order (D.N.A. card game)","1536x1024 PNG","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BENCH,Reps bench,Minigames,"Reps card game","1024x1024 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BARBELL,Reps barbell,Minigames,"Reps: plates slide onto its ends","1536x256 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-PLATE-01,Plate (heaviest),Minigames,"Reps: one plate per correct guess","256x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-PLATE-02,Plate 2,Minigames,"Reps: one plate per correct guess","256x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-PLATE-03,Plate 3,Minigames,"Reps: one plate per correct guess","256x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-PLATE-04,Plate (lightest),Minigames,"Reps: one plate per correct guess","256x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-TICKET,Order ticket,Minigames,"Order Up: the target","512x384 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BELL,Service bell,Minigames,"Order Up","512x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BIN-01,Sorting bin (red),Minigames,"Sort It Out","768x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BIN-02,Sorting bin (blue),Minigames,"Sort It Out","768x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BIN-03,Sorting bin (yellow),Minigames,"Sort It Out","768x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-BIN-04,Sorting bin (purple),Minigames,"Sort It Out","768x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-CABINET,Filing cabinet row,Minigames,"File in Order","2048x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-STAMP-APPROVED,APPROVED stamp,Minigames,"File in Order win","1536x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved
+MG-PROP-STAMP-REJECTED,REJECTED stamp,Minigames,"File in Order loss","1536x512 PNG, transparent","See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",,Approved

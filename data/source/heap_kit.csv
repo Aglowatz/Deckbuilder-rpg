@@ -75,3 +75,8 @@ KIT-HEAP-THORNWALL-DEAD,"Withered thorn wall (parted)",Prop,CUTOUT,"See docs/art
 DUMP-HERO-RACCOON-STATUE,"Raccoon king statue",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","768x1024 PNG, transparent","The statue by the Rotheart's gate",2,Approved
 DUMP-PROP-MILL-SAILS,"Mill sails",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","1024x1024 PNG, transparent","The windmill's sails (spinning)",2,Approved
 KIT-HEAP-THORN-THICKET,"Breathing thorn thicket",Prop,CUTOUT,"Cut from KIT-HEAP-THORNWALL by tools/art/dump_gate_pieces.py (Fable Nov 16b).","1027x795, transparent","The thorns across the forest road until Moss Mulligan is beaten",2,Approved
+DUMP-STATUE-COMPOSTELLA-STANDING,"Compostella statue, standing",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","Zone hub statue (standing)",2,Approved
+DUMP-STATUE-COMPOSTELLA-TOPPLED,"Compostella statue, toppled",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","Zone hub statue after the zone is freed",2,Approved
+DUMP-SHEET-ENTRANCE-FLAGS-07,"Entrance pennant (green)",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","640x640 PNG, transparent","Pennants at the Dump entrance",2,Approved
+DUMP-SHEET-ENTRANCE-FLAGS-08,"Entrance pennant (cream)",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","640x640 PNG, transparent","Pennants at the Dump entrance",2,Approved
+DUMP-PROP-PIG,"Pig",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The farm animals",2,Approved

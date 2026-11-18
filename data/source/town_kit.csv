@@ -24,3 +24,7 @@ LEVER-OPEN,"Vault lever (pulled)",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv 
 TOWN-PROP-SHORE-STONES-01,"Shore stones (one large stone, two pebbles)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x384 PNG, transparent","The lake bank of Crosspath",2,Approved
 TOWN-PROP-SHORE-STONES-02,"Shore stones (three medium stones)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x384 PNG, transparent","The lake bank of Crosspath",2,Approved
 TOWN-PROP-SHORE-STONES-03,"Shore stones (a low flat stone)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x384 PNG, transparent","The lake bank of Crosspath",2,Approved
+TOWN-PROP-CELLAR-FOURSEALS-CLOSED,"Four Seals cellar door, closed",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","The vault cellar door",2,Approved
+TOWN-PROP-CELLAR-FOURSEALS-OPEN,"Four Seals cellar door, open",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","The vault cellar door, opened",2,Approved
+TOWN-PROP-SEAL-LOCKED,"Seal, locked",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door",2,Approved
+TOWN-PROP-SEAL-BLANK,"Seal, blank",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door (turned)",2,Approved

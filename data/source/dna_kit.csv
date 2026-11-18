@@ -40,3 +40,22 @@ DNA-SHEET-LOBBY,D.N.A. lobby dressing,Cutout sheet,SHEET,See docs/art/art_needed
 DNA-PROP-SERVING-ORB,"Now-serving orb",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The D.N.A. queue / now-serving spots",2,Approved
 DNA-PROP-CRATES,"Archive crates",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x512 PNG, transparent","The wasteland outside the D.N.A.",2,Approved
 DNA-PROP-CABINET-TIPPED,"Tipped filing cabinet",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","768x512 PNG, transparent","The wasteland outside the D.N.A.",2,Approved
+DNA-WALL-HALL-A,"Hall wall bay (doors)",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, tileable horizontally","The hall outer walls inside (wall)",2,Approved
+DNA-WALL-HALL-B,"Hall wall bay (shelves)",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, tileable horizontally","The hall outer walls inside (wall)",2,Approved
+DNA-WALL-HALL-NARROW,"Hall wall bay (narrow)",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","887x1774 PNG, tileable horizontally","Short hall wall runs and corners (wall)",2,Approved
+DNA-WALL-EXTERIOR,"Hall exterior wall",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, tileable horizontally","The building outside faces (wall)",2,Approved
+DNA-RAIL-PARTITION,"Waist-high partition",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","2172x416 PNG, transparent, tileable horizontally","Partitions on the old interior wall footprints (trim)",2,Approved
+DNA-FLOOR-MARBLE,"Checker marble floor",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","618x618 PNG, tileable","The hall floor (ground)",2,Approved
+DNA-FLOOR-RUNNER,"Red carpet runner",Surface,SURFACE,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","887x1774 PNG, tileable vertically","Carpet runners on the main routes (ground)",2,Approved
+DNA-PROP-COLUMN,"Hall column",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","887x1774 PNG, transparent","Freestanding columns on the hall floor",2,Approved
+DNA-RAIL-POST,"Partition post",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","887x1774 PNG, transparent","Partition ends and joins",2,Approved
+DNA-PROP-CHANDELIER,"Chandelier",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1024x1536 PNG, transparent","Hanging over the hall floor",2,Approved
+DNA-PROP-SCONCE,"Ghost-flame sconce",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, transparent","On the wall pilasters",2,Approved
+DNA-PROP-LOBBY-CLOCK,"Lobby clock",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","887x1774 PNG, transparent","The hall landmark",2,Approved
+DNA-BANNER-STAMP-01,"Stamp banner",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","724x2172 PNG, transparent","Hanging from the gallery and on posts",2,Approved
+DNA-BANNER-STAMP-02,"Stamp banner (torn)",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","724x2172 PNG, transparent","Hanging from the gallery and on posts",2,Approved
+DNA-PROP-OFFICE-BOOTH-01,"Clerk booth",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, transparent","Booths along the hall sides",2,Approved
+DNA-PROP-OFFICE-BOOTH-02,"Glazed office booth",Prop,CUTOUT,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1254x1254 PNG, transparent","Booths along the hall sides",2,Approved
+DNA-BD-HALL-INTERIOR,"Hall interior backdrop",Sky / backdrop,BACKDROP,"See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).","1774x887 PNG, opaque","The north end of the hall",2,Approved
+DNA-STATUE-MORTIMER-STANDING,"Mortimer statue, standing",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","Zone hub statue (standing)",2,Approved
+DNA-STATUE-MORTIMER-TOPPLED,"Mortimer statue, toppled",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","Zone hub statue after the zone is freed",2,Approved

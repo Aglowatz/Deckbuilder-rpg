@@ -72,3 +72,5 @@ CAP-PROP-RUBBLE-ROW,"Rubble row",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Ba
 CAP-PROP-CREASE-STALL-01,"Crease stall (Fig Sly, plum awning)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","768x768 PNG, transparent","The Crease market",2,Approved
 CAP-PROP-CREASE-STALL-02,"Crease stall (supplies, green awning)",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","768x768 PNG, transparent","The Crease market",2,Approved
 CAP-PROP-CREASE-CRATES,"Crease crates",Prop,CUTOUT,"See docs/art/batch16_nov14.csv (Batch 16, Nov 16).","512x512 PNG, transparent","The Crease market",2,Approved
+CAP-STATUE-PRIMM-STANDING,"Primm statue, standing",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","Zone hub statue (standing)",2,Approved
+CAP-STATUE-PRIMM-TOPPLED,"Primm statue, toppled",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","Zone hub statue after the zone is freed",2,Approved

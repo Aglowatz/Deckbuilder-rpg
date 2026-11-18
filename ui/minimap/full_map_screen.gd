@@ -370,7 +370,11 @@ func _draw_board(cells: Rect2, screen: Rect2) -> void:
 	for step: int in range(4):
 		var grow: float = 3.0 + float(step) * 6.0
 		_canvas.draw_rect(Rect2(screen.position - Vector2(grow, grow) + Vector2(0.0, 6.0), screen.size + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.12 - 0.02 * float(step)), false, 6.0)
-	var picture: ColorRect = _picture_layer(screen == _inset_screen and _inset_cells.size.x > 0.0)
+	var for_inset: bool = screen == _inset_screen and _inset_cells.size.x > 0.0
+	if not for_inset and _draw_painted(screen):
+		_canvas.draw_rect(screen, Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
+		return
+	var picture: ColorRect = _picture_layer(for_inset)
 	picture.position = screen.position
 	picture.size = screen.size
 	picture.visible = true
@@ -384,6 +388,82 @@ func _draw_board(cells: Rect2, screen: Rect2) -> void:
 
 
 var _picture_layers: Array[ColorRect] = [null, null]
+
+## Overnight Nov 18 (Batch 17, MAP-WORLD-TOWN): an area with a painted parchment map shows it instead of the walk-grid picture. The file
+## is resampled onto a fixed world rectangle by tools/art/town_map_warp.py (keep WORLD_RECT in sync), so it is drawn with the same world ->
+## screen transform as the pins and every pin sits on its painted place. Unexplored cells get a soft dark veil (the towns stay dark until
+## walked, as on the drawn map).
+const PAINTED_MAPS: Dictionary = {
+	"town": {"path": "res://assets/art/maps/MAP-WORLD-TOWN.webp", "rect": Rect2(-45.0, -35.0, 140.0, 130.0)},
+}
+const PAINTED_FOG: Color = Color(0.07, 0.05, 0.04, 0.9)
+var _painted_clip: Control = null
+var _painted_fog_key: int = -1
+
+
+## True when this area has a painted map (and the file is in the game).
+static func has_painted_map(area_id: String) -> bool:
+	return PAINTED_MAPS.has(area_id) and ResourceLoader.exists(str((PAINTED_MAPS[area_id] as Dictionary)["path"]))
+
+
+func _draw_painted(screen: Rect2) -> bool:
+	if not has_painted_map(_area_id):
+		return false
+	var spec: Dictionary = PAINTED_MAPS[_area_id] as Dictionary
+	if _painted_clip == null:
+		_painted_clip = Control.new()
+		_painted_clip.name = "PaintedMap"
+		_painted_clip.clip_contents = true
+		_painted_clip.show_behind_parent = true
+		_painted_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var back: ColorRect = ColorRect.new()
+		back.name = "Parchment"
+		back.color = Color(0.42, 0.33, 0.2)
+		back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_painted_clip.add_child(back)
+		var art: TextureRect = TextureRect.new()
+		art.name = "Art"
+		art.texture = load(str(spec["path"])) as Texture2D
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_SCALE
+		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_painted_clip.add_child(art)
+		var veil: TextureRect = TextureRect.new()
+		veil.name = "Fog"
+		veil.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		veil.stretch_mode = TextureRect.STRETCH_SCALE
+		veil.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_painted_clip.add_child(veil)
+		_canvas.add_child(_painted_clip)
+	_painted_clip.visible = true
+	_painted_clip.position = screen.position
+	_painted_clip.size = screen.size
+	var back_rect: ColorRect = _painted_clip.get_node("Parchment") as ColorRect
+	back_rect.size = screen.size
+	var rect: Rect2 = spec["rect"] as Rect2
+	var top_left: Vector2 = _to_screen(rect.position) - screen.position
+	var bottom_right: Vector2 = _to_screen(rect.end) - screen.position
+	var art_rect: TextureRect = _painted_clip.get_node("Art") as TextureRect
+	art_rect.position = top_left
+	art_rect.size = bottom_right - top_left
+	var fog_rect: TextureRect = _painted_clip.get_node("Fog") as TextureRect
+	var revealed: int = _fog.revealed_count()
+	if revealed != _painted_fog_key or fog_rect.texture == null:
+		_painted_fog_key = revealed
+		fog_rect.texture = ImageTexture.create_from_image(painted_fog_image(_fog))
+	fog_rect.position = Vector2.ZERO
+	fog_rect.size = screen.size
+	return true
+
+
+## The veil over the painted map: one pixel per fog cell, clear where walked, dark where not.
+static func painted_fog_image(fog: FogOfWar) -> Image:
+	var image: Image = Image.create(fog.width, fog.height, false, Image.FORMAT_RGBA8)
+	for cy: int in range(fog.height):
+		for cx: int in range(fog.width):
+			image.set_pixel(cx, cy, Color(PAINTED_FOG, 0.0) if fog.is_cell_revealed(Vector2i(cx, cy)) else PAINTED_FOG)
+	return image
 
 
 ## The picture layer of the main map (false) or of the inset (true): a rect behind the canvas's own drawing, made on first use.
@@ -417,6 +497,8 @@ func _draw_map() -> void:
 	for layer: ColorRect in _picture_layers:
 		if layer != null:
 			layer.visible = false
+	if _painted_clip != null:
+		_painted_clip.visible = false
 	var placed: Dictionary = map_layout(_canvas.size, _fog.origin, Vector2(float(_fog.width), float(_fog.height)), inset.get("rect", Rect2()) as Rect2)
 	_main_cells = placed["main_cells"] as Rect2
 	_main_screen = placed["main_screen"] as Rect2

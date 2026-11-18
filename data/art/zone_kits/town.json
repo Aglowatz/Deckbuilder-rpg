@@ -234,6 +234,122 @@
 			"use": "The square",
 			"zone": "town"
 		},
+		"TOWN-PROP-CELLAR-FOURSEALS-CLOSED": {
+			"aspect": 1.623,
+			"asset": "Four Seals cellar door, closed",
+			"category": "Prop",
+			"cleared_alpha": 25989,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-CELLAR-FOURSEALS-CLOSED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1532,
+				944
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.town-prop-cellar-fourseals-closed",
+			"tinted": false,
+			"use": "The vault cellar door",
+			"zone": "town"
+		},
+		"TOWN-PROP-CELLAR-FOURSEALS-OPEN": {
+			"aspect": 1.518,
+			"asset": "Four Seals cellar door, open",
+			"category": "Prop",
+			"cleared_alpha": 30899,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-CELLAR-FOURSEALS-OPEN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1532,
+				1009
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.town-prop-cellar-fourseals-open",
+			"tinted": false,
+			"use": "The vault cellar door, opened",
+			"zone": "town"
+		},
+		"TOWN-PROP-SEAL-BLANK": {
+			"aspect": 0.992,
+			"asset": "Seal, blank",
+			"category": "Prop",
+			"cleared_alpha": 922,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-SEAL-BLANK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				481,
+				485
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.town-prop-seal-blank",
+			"tinted": false,
+			"use": "The four seals on the vault door (turned)",
+			"zone": "town"
+		},
+		"TOWN-PROP-SEAL-LOCKED": {
+			"aspect": 0.981,
+			"asset": "Seal, locked",
+			"category": "Prop",
+			"cleared_alpha": 610,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-SEAL-LOCKED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				462,
+				471
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.town-prop-seal-locked",
+			"tinted": false,
+			"use": "The four seals on the vault door",
+			"zone": "town"
+		},
 		"TOWN-PROP-SHORE-STONES-01": {
 			"aspect": 1.504,
 			"asset": "Shore stones (one large stone, two pebbles)",

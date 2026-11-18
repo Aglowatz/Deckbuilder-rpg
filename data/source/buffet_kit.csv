@@ -42,3 +42,10 @@ BUFF-DEC-ROSETTES,"Crumb's rosettes",Cutout sheet,SHEET,"See docs/art/art_batch_
 BUF-PROP-SALT-SHAKER,Salt-shaker bridge pillar,Prop,CUTOUT,See docs/art/art_needed_nov2.csv (Batch 11).,"1024x1536 PNG, transparent",The entrance bridge's pillars,2,Approved
 BUFF-PROP-STALL-01,"Sweet stall",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","768x768 PNG, transparent","The Buffet hub's market stalls",2,Approved
 BUFF-PROP-STALL-02,"Savoury stall",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","768x768 PNG, transparent","The Buffet hub's market stalls",2,Approved
+BUFF-STATUE-GRANDCHEF-STANDING,"Grand Chef statue, standing",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","Zone hub statue (standing)",2,Approved
+BUFF-STATUE-GRANDCHEF-TOPPLED,"Grand Chef statue, toppled",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","Zone hub statue after the zone is freed",2,Approved
+BUFF-PROP-FRUIT-TART,"Giant fruit tart",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1024 PNG, transparent","The east food forest",2,Approved
+BUFF-PROP-CAKESTAND-TALL,"Tall cake stand",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","The east food forest",2,Approved
+BUFF-PROP-VEG-01,"Cabbage 1",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved
+BUFF-PROP-VEG-02,"Cabbage 2",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved
+BUFF-PROP-VEG-03,"Cabbage 3",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved

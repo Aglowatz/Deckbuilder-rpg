@@ -1510,6 +1510,35 @@
 			"use": "The windmill's sails (spinning)",
 			"zone": "heap"
 		},
+		"DUMP-PROP-PIG": {
+			"aspect": 1.075,
+			"asset": "Pig",
+			"category": "Prop",
+			"cleared_alpha": 2664,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-PIG",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				485,
+				451
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.dump-prop-pig",
+			"tinted": false,
+			"use": "The farm animals",
+			"zone": "heap"
+		},
 		"DUMP-PROP-SCRAPPILE": {
 			"aspect": 1.32,
 			"asset": "Sorted scrap pile",
@@ -2539,6 +2568,64 @@
 			"use": "The entrance bridge posts",
 			"zone": "heap"
 		},
+		"DUMP-SHEET-ENTRANCE-FLAGS-07": {
+			"aspect": 0.851,
+			"asset": "Entrance pennant (green)",
+			"category": "Prop",
+			"cleared_alpha": 2059,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				640,
+				640
+			],
+			"group": "prop",
+			"id": "DUMP-SHEET-ENTRANCE-FLAGS-07",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				531,
+				624
+			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
+			"slot": "prop.dump-sheet-entrance-flags-07",
+			"tinted": false,
+			"use": "Pennants at the Dump entrance",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-ENTRANCE-FLAGS-08": {
+			"aspect": 0.87,
+			"asset": "Entrance pennant (cream)",
+			"category": "Prop",
+			"cleared_alpha": 1903,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				640,
+				640
+			],
+			"group": "prop",
+			"id": "DUMP-SHEET-ENTRANCE-FLAGS-08",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				542,
+				623
+			],
+			"sheet_status": "Approved",
+			"size": "640x640 PNG, transparent",
+			"slot": "prop.dump-sheet-entrance-flags-08",
+			"tinted": false,
+			"use": "Pennants at the Dump entrance",
+			"zone": "heap"
+		},
 		"DUMP-SHEET-FLAGS": {
 			"asset": "Rag flags",
 			"category": "Cutout sheet",
@@ -3312,6 +3399,64 @@
 			"tinted": false,
 			"transparent": false,
 			"use": "The zone sky (the current one is too strong at the horizon)",
+			"zone": "heap"
+		},
+		"DUMP-STATUE-COMPOSTELLA-STANDING": {
+			"aspect": 0.504,
+			"asset": "Compostella statue, standing",
+			"category": "Prop",
+			"cleared_alpha": 32431,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "DUMP-STATUE-COMPOSTELLA-STANDING",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				767,
+				1522
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.dump-statue-compostella-standing",
+			"tinted": false,
+			"use": "Zone hub statue (standing)",
+			"zone": "heap"
+		},
+		"DUMP-STATUE-COMPOSTELLA-TOPPLED": {
+			"aspect": 1.914,
+			"asset": "Compostella statue, toppled",
+			"category": "Prop",
+			"cleared_alpha": 58422,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-STATUE-COMPOSTELLA-TOPPLED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1516,
+				792
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.dump-statue-compostella-toppled",
+			"tinted": false,
+			"use": "Zone hub statue after the zone is freed",
 			"zone": "heap"
 		},
 		"DUMP-SURF-CLIFF": {

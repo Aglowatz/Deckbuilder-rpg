@@ -40,6 +40,64 @@
 			"tinted": false,
 			"zone": "dna"
 		},
+		"DNA-BANNER-STAMP-01": {
+			"aspect": 0.343,
+			"asset": "Stamp banner",
+			"category": "Prop",
+			"cleared_alpha": 6197,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				724,
+				2172
+			],
+			"group": "prop",
+			"id": "DNA-BANNER-STAMP-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				512,
+				1491
+			],
+			"sheet_status": "Approved",
+			"size": "724x2172 PNG, transparent",
+			"slot": "prop.dna-banner-stamp-01",
+			"tinted": false,
+			"use": "Hanging from the gallery and on posts",
+			"zone": "dna"
+		},
+		"DNA-BANNER-STAMP-02": {
+			"aspect": 0.354,
+			"asset": "Stamp banner (torn)",
+			"category": "Prop",
+			"cleared_alpha": 10979,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				724,
+				2172
+			],
+			"group": "prop",
+			"id": "DNA-BANNER-STAMP-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				503,
+				1420
+			],
+			"sheet_status": "Approved",
+			"size": "724x2172 PNG, transparent",
+			"slot": "prop.dna-banner-stamp-02",
+			"tinted": false,
+			"use": "Hanging from the gallery and on posts",
+			"zone": "dna"
+		},
 		"DNA-BD-HALL-FACADE": {
 			"aspect": 2.516,
 			"asset": "Hall of Final Approvals facade",
@@ -67,6 +125,35 @@
 			"tinted": false,
 			"transparent": true,
 			"use": "The D.N.A. skyline",
+			"zone": "dna"
+		},
+		"DNA-BD-HALL-INTERIOR": {
+			"aspect": 2.0,
+			"asset": "Hall interior backdrop",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1774,
+				887
+			],
+			"group": "backdrop",
+			"id": "DNA-BD-HALL-INTERIOR",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1774,
+				887
+			],
+			"sheet_status": "Approved",
+			"size": "1774x887 PNG, opaque",
+			"slot": "backdrop.dna-bd-hall-interior",
+			"tinted": false,
+			"transparent": false,
+			"use": "The north end of the hall",
 			"zone": "dna"
 		},
 		"DNA-BD-TOWERS": {
@@ -391,6 +478,78 @@
 			"use": "Walls, floors",
 			"zone": "dna"
 		},
+		"DNA-FLOOR-MARBLE": {
+			"asset": "Checker marble floor",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				618,
+				618
+			],
+			"group": "ground",
+			"id": "DNA-FLOOR-MARBLE",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				618,
+				618
+			],
+			"seam": {
+				"x": {
+					"after": 0.77,
+					"before": 0.77
+				},
+				"y": {
+					"after": 0.19,
+					"before": 0.19
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "618x618 PNG, tileable",
+			"slot": "ground.dna-floor-marble",
+			"tile_u": 1.55,
+			"tile_v": 1.55,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "The hall floor (ground)",
+			"zone": "dna"
+		},
+		"DNA-FLOOR-RUNNER": {
+			"asset": "Red carpet runner",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "ground",
+			"id": "DNA-FLOOR-RUNNER",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				768,
+				1536
+			],
+			"seam": {
+				"y": {
+					"after": 1.41,
+					"before": 1.41
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "887x1774 PNG, tileable vertically",
+			"slot": "ground.dna-floor-runner",
+			"tile_u": 1.92,
+			"tile_v": 3.84,
+			"tile_x": false,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Carpet runners on the main routes (ground)",
+			"zone": "dna"
+		},
 		"DNA-HERO-ENDLESS-QUEUE": {
 			"asset": "The endless queue",
 			"category": "Hero landmark",
@@ -614,6 +773,64 @@
 			"use": "The wasteland outside the D.N.A.",
 			"zone": "dna"
 		},
+		"DNA-PROP-CHANDELIER": {
+			"aspect": 0.664,
+			"asset": "Chandelier",
+			"category": "Prop",
+			"cleared_alpha": 101702,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "DNA-PROP-CHANDELIER",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				999,
+				1504
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.dna-prop-chandelier",
+			"tinted": false,
+			"use": "Hanging over the hall floor",
+			"zone": "dna"
+		},
+		"DNA-PROP-COLUMN": {
+			"aspect": 0.281,
+			"asset": "Hall column",
+			"category": "Prop",
+			"cleared_alpha": 10289,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "prop",
+			"id": "DNA-PROP-COLUMN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				432,
+				1535
+			],
+			"sheet_status": "Approved",
+			"size": "887x1774 PNG, transparent",
+			"slot": "prop.dna-prop-column",
+			"tinted": false,
+			"use": "Freestanding columns on the hall floor",
+			"zone": "dna"
+		},
 		"DNA-PROP-CRATES": {
 			"aspect": 1.062,
 			"asset": "Archive crates",
@@ -703,6 +920,93 @@
 			"use": "Lighting",
 			"zone": "dna"
 		},
+		"DNA-PROP-LOBBY-CLOCK": {
+			"aspect": 0.383,
+			"asset": "Lobby clock",
+			"category": "Prop",
+			"cleared_alpha": 11493,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "prop",
+			"id": "DNA-PROP-LOBBY-CLOCK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				574,
+				1499
+			],
+			"sheet_status": "Approved",
+			"size": "887x1774 PNG, transparent",
+			"slot": "prop.dna-prop-lobby-clock",
+			"tinted": false,
+			"use": "The hall landmark",
+			"zone": "dna"
+		},
+		"DNA-PROP-OFFICE-BOOTH-01": {
+			"aspect": 0.841,
+			"asset": "Clerk booth",
+			"category": "Prop",
+			"cleared_alpha": 15315,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "prop",
+			"id": "DNA-PROP-OFFICE-BOOTH-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1010,
+				1201
+			],
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, transparent",
+			"slot": "prop.dna-prop-office-booth-01",
+			"tinted": false,
+			"use": "Booths along the hall sides",
+			"zone": "dna"
+		},
+		"DNA-PROP-OFFICE-BOOTH-02": {
+			"aspect": 1.022,
+			"asset": "Glazed office booth",
+			"category": "Prop",
+			"cleared_alpha": 21574,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "prop",
+			"id": "DNA-PROP-OFFICE-BOOTH-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1183,
+				1158
+			],
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, transparent",
+			"slot": "prop.dna-prop-office-booth-02",
+			"tinted": false,
+			"use": "Booths along the hall sides",
+			"zone": "dna"
+		},
 		"DNA-PROP-PAPER": {
 			"aspect": 0.967,
 			"asset": "Paper towers",
@@ -763,6 +1067,35 @@
 			"use": "Queues",
 			"zone": "dna"
 		},
+		"DNA-PROP-SCONCE": {
+			"aspect": 0.478,
+			"asset": "Ghost-flame sconce",
+			"category": "Prop",
+			"cleared_alpha": 12778,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "prop",
+			"id": "DNA-PROP-SCONCE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				578,
+				1209
+			],
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, transparent",
+			"slot": "prop.dna-prop-sconce",
+			"tinted": false,
+			"use": "On the wall pilasters",
+			"zone": "dna"
+		},
 		"DNA-PROP-SERVING-ORB": {
 			"aspect": 0.32,
 			"asset": "Now-serving orb",
@@ -820,6 +1153,69 @@
 			"slot": "prop.dna-prop-stamp",
 			"tinted": false,
 			"use": "Accent prop",
+			"zone": "dna"
+		},
+		"DNA-RAIL-PARTITION": {
+			"asset": "Waist-high partition",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				2172,
+				416
+			],
+			"group": "trim",
+			"id": "DNA-RAIL-PARTITION",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1536,
+				294
+			],
+			"seam": {
+				"x": {
+					"after": 1.24,
+					"before": 1.24
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "2172x416 PNG, transparent, tileable horizontally",
+			"slot": "trim.dna-rail-partition",
+			"tile_u": 3.84,
+			"tile_v": 0.74,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Partitions on the old interior wall footprints (trim)",
+			"zone": "dna"
+		},
+		"DNA-RAIL-POST": {
+			"aspect": 0.249,
+			"asset": "Partition post",
+			"category": "Prop",
+			"cleared_alpha": 8179,
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "prop",
+			"id": "DNA-RAIL-POST",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				378,
+				1517
+			],
+			"sheet_status": "Approved",
+			"size": "887x1774 PNG, transparent",
+			"slot": "prop.dna-rail-post",
+			"tinted": false,
+			"use": "Partition ends and joins",
 			"zone": "dna"
 		},
 		"DNA-ROOF-SLATE": {
@@ -2781,6 +3177,64 @@
 			"use": "Zone sky",
 			"zone": "dna"
 		},
+		"DNA-STATUE-MORTIMER-STANDING": {
+			"aspect": 0.364,
+			"asset": "Mortimer statue, standing",
+			"category": "Prop",
+			"cleared_alpha": 18910,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "DNA-STATUE-MORTIMER-STANDING",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				550,
+				1510
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.dna-statue-mortimer-standing",
+			"tinted": false,
+			"use": "Zone hub statue (standing)",
+			"zone": "dna"
+		},
+		"DNA-STATUE-MORTIMER-TOPPLED": {
+			"aspect": 2.101,
+			"asset": "Mortimer statue, toppled",
+			"category": "Prop",
+			"cleared_alpha": 27524,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "DNA-STATUE-MORTIMER-TOPPLED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1481,
+				705
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.dna-statue-mortimer-toppled",
+			"tinted": false,
+			"use": "Zone hub statue after the zone is freed",
+			"zone": "dna"
+		},
 		"DNA-TREE-DEAD": {
 			"aspect": 0.572,
 			"asset": "Dead topiary",
@@ -2845,6 +3299,40 @@
 			"use": "Building trim",
 			"zone": "dna"
 		},
+		"DNA-WALL-EXTERIOR": {
+			"asset": "Hall exterior wall",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "wall",
+			"id": "DNA-WALL-EXTERIOR",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1254,
+				1254
+			],
+			"seam": {
+				"x": {
+					"after": 0.55,
+					"before": 0.55
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, tileable horizontally",
+			"slot": "wall.dna-wall-exterior",
+			"tile_u": 3.14,
+			"tile_v": 3.14,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "The building outside faces (wall)",
+			"zone": "dna"
+		},
 		"DNA-WALL-GREY": {
 			"asset": "Gray stone office wall",
 			"category": "Surface",
@@ -2881,6 +3369,108 @@
 			"tile_y": true,
 			"tinted": false,
 			"use": "Building walls",
+			"zone": "dna"
+		},
+		"DNA-WALL-HALL-A": {
+			"asset": "Hall wall bay (doors)",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "wall",
+			"id": "DNA-WALL-HALL-A",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1254,
+				1254
+			],
+			"seam": {
+				"x": {
+					"after": 0.26,
+					"before": 0.26
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, tileable horizontally",
+			"slot": "wall.dna-wall-hall-a",
+			"tile_u": 3.14,
+			"tile_v": 3.14,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "The hall outer walls inside (wall)",
+			"zone": "dna"
+		},
+		"DNA-WALL-HALL-B": {
+			"asset": "Hall wall bay (shelves)",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				1254,
+				1254
+			],
+			"group": "wall",
+			"id": "DNA-WALL-HALL-B",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1254,
+				1254
+			],
+			"seam": {
+				"x": {
+					"after": 0.33,
+					"before": 0.33
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1254x1254 PNG, tileable horizontally",
+			"slot": "wall.dna-wall-hall-b",
+			"tile_u": 3.14,
+			"tile_v": 3.14,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "The hall outer walls inside (wall)",
+			"zone": "dna"
+		},
+		"DNA-WALL-HALL-NARROW": {
+			"asset": "Hall wall bay (narrow)",
+			"category": "Surface",
+			"desc": "See docs/art/batch17a_dna.csv (Batch 17A, Nov 18).",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "wall",
+			"id": "DNA-WALL-HALL-NARROW",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				768,
+				1536
+			],
+			"seam": {
+				"x": {
+					"after": 0.9,
+					"before": 0.9
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "887x1774 PNG, tileable horizontally",
+			"slot": "wall.dna-wall-hall-narrow",
+			"tile_u": 1.92,
+			"tile_v": 3.84,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Short hall wall runs and corners (wall)",
 			"zone": "dna"
 		},
 		"TEX-DNA-CARPET": {

@@ -4,7 +4,7 @@ extends GutTest
 
 func test_the_kit_csv_lists_the_55_ui_ids() -> void:
 	var known: Dictionary = UiArt.known_ids()
-	assert_eq(known.size(), 73)  # Batch 16: + the three gilded packs per Path. Batch 15: + the match table, Dex's card back, two battle item slots, four locked packs, the pop-up banner. Import Nov 8: + UI-BG-PACKS, UI-BG-WARDROBE, UI-CAULDRON, UI-PACK-SHELF, MG-BG-CLASSROOM, MG-BG-GYM
+	assert_eq(known.size(), 92)  # Batch 17 (Nov 18): + UI-PACK-GILDED-B and the 18 card-game pieces (MG-BG-PASS ... MG-PROP-STAMP-REJECTED). Batch 16: + the three gilded packs per Path. Batch 15: + the match table, Dex's card back, two battle item slots, four locked packs, the pop-up banner. Import Nov 8: + UI-BG-PACKS, UI-BG-WARDROBE, UI-CAULDRON, UI-PACK-SHELF, MG-BG-CLASSROOM, MG-BG-GYM
 	assert_true(known.has("UI-FRAME-B"))
 	assert_true(known.has("UI-PACK-GENERAL-2"))
 	assert_true(known.has("MG-BG-CLASSROOM"), "minigame backgrounds go through the UI importer")

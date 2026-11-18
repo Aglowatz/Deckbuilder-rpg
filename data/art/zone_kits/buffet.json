@@ -659,6 +659,35 @@
 			"use": "Stalls and tables",
 			"zone": "buffet"
 		},
+		"BUFF-PROP-CAKESTAND-TALL": {
+			"aspect": 0.594,
+			"asset": "Tall cake stand",
+			"category": "Prop",
+			"cleared_alpha": 21412,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-CAKESTAND-TALL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				885,
+				1491
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.buff-prop-cakestand-tall",
+			"tinted": false,
+			"use": "The east food forest",
+			"zone": "buffet"
+		},
 		"BUFF-PROP-CLOCHE": {
 			"aspect": 1.255,
 			"asset": "Silver cloche",
@@ -749,6 +778,35 @@
 			"use": "Prop clusters",
 			"zone": "buffet"
 		},
+		"BUFF-PROP-FRUIT-TART": {
+			"aspect": 1.284,
+			"asset": "Giant fruit tart",
+			"category": "Prop",
+			"cleared_alpha": 7496,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-FRUIT-TART",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				972,
+				757
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.buff-prop-fruit-tart",
+			"tinted": false,
+			"use": "The east food forest",
+			"zone": "buffet"
+		},
 		"BUFF-PROP-POT": {
 			"aspect": 1.03,
 			"asset": "Giant stock pot",
@@ -835,6 +893,93 @@
 			"slot": "prop.buff-prop-stall-02",
 			"tinted": false,
 			"use": "The Buffet hub's market stalls",
+			"zone": "buffet"
+		},
+		"BUFF-PROP-VEG-01": {
+			"aspect": 1.153,
+			"asset": "Cabbage 1",
+			"category": "Prop",
+			"cleared_alpha": 887,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-VEG-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				511,
+				443
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.buff-prop-veg-01",
+			"tinted": false,
+			"use": "The hub vegetable patch",
+			"zone": "buffet"
+		},
+		"BUFF-PROP-VEG-02": {
+			"aspect": 1.016,
+			"asset": "Cabbage 2",
+			"category": "Prop",
+			"cleared_alpha": 812,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-VEG-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				505,
+				497
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.buff-prop-veg-02",
+			"tinted": false,
+			"use": "The hub vegetable patch",
+			"zone": "buffet"
+		},
+		"BUFF-PROP-VEG-03": {
+			"aspect": 1.146,
+			"asset": "Cabbage 3",
+			"category": "Prop",
+			"cleared_alpha": 722,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				512,
+				512
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-VEG-03",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				510,
+				445
+			],
+			"sheet_status": "Approved",
+			"size": "512x512 PNG, transparent",
+			"slot": "prop.buff-prop-veg-03",
+			"tinted": false,
+			"use": "The hub vegetable patch",
 			"zone": "buffet"
 		},
 		"BUFF-ROOF-COPPER": {
@@ -2127,6 +2272,64 @@
 			"tinted": false,
 			"transparent": false,
 			"use": "Zone sky",
+			"zone": "buffet"
+		},
+		"BUFF-STATUE-GRANDCHEF-STANDING": {
+			"aspect": 0.467,
+			"asset": "Grand Chef statue, standing",
+			"category": "Prop",
+			"cleared_alpha": 38483,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "BUFF-STATUE-GRANDCHEF-STANDING",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				710,
+				1521
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.buff-statue-grandchef-standing",
+			"tinted": false,
+			"use": "Zone hub statue (standing)",
+			"zone": "buffet"
+		},
+		"BUFF-STATUE-GRANDCHEF-TOPPLED": {
+			"aspect": 1.496,
+			"asset": "Grand Chef statue, toppled",
+			"category": "Prop",
+			"cleared_alpha": 36315,
+			"desc": "See docs/art/batch17_nov17.csv (Batch 17, Nov 18).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "BUFF-STATUE-GRANDCHEF-TOPPLED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1508,
+				1008
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.buff-statue-grandchef-toppled",
+			"tinted": false,
+			"use": "Zone hub statue after the zone is freed",
 			"zone": "buffet"
 		},
 		"BUFF-TREE-BROCCOLI": {
