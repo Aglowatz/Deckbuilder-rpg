@@ -548,7 +548,7 @@ func _build_scene() -> void:
 	# Overnight Nov 19 (Part 1.2): on the modal layer, so its pop-up covers the hand and the HUD and takes the click.
 	var script_layer: CanvasLayer = CanvasLayer.new()
 	script_layer.name = "ScriptEventLayer"
-	script_layer.layer = BattleHud.MODAL_LAYER
+	script_layer.layer = BattleHud.MODAL_LAYER - 1  # under the Peek and choice panels, over the hand and HUD
 	add_child(script_layer)
 	script_layer.add_child(script_banner)
 	# Controller support (Oct 26): the pad's card cursor

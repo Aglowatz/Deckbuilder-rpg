@@ -17,6 +17,6 @@ func test_alchemist_blurb_uses_the_copy_caps() -> void:
 	for node: Node in screen.find_children("*", "Label", true, false):
 		var text: String = (node as Label).text
 		assert_false(text.contains("beyond the fourth"), "the old four-copy rule is gone")
-		if text.contains("%d Common" % CopyCaps.cap_for(CardEnums.Rarity.COMMON, Session.profile.level)):
+		if text.contains("beyond your third"):  # Overnight Nov 19 (Part 3.7): you own up to 3 of every card
 			found = true
 	assert_true(found, "the blurb names the current caps")

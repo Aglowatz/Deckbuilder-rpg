@@ -321,7 +321,7 @@ func test_packs_survive_a_save_round_trip() -> void:
 func test_path_packs_are_stocked_only_after_that_zones_first_clear() -> void:
 	var state: UnlockState = Session.unlock_state()
 	assert_true(PackShop.stocked(PackData.VENDOR_PACK, state).is_empty(), "nothing before any dungeon is cleared")
-	assert_eq(PackShop.listing(PackData.VENDOR_PACK).size(), 5, "four Path packs plus the Prismatic Pack")
+	assert_eq(PackShop.listing(PackData.VENDOR_PACK).size(), 6, "four Path packs, the Prismatic Pack and (Nov 19) the Gilded General Pack")
 	Session.flags[str(ZoneCompletion.flag_name(GainlandsZone.ID))] = true
 	var stocked: Array[PackData] = PackShop.stocked(PackData.VENDOR_PACK, Session.unlock_state())
 	assert_eq(stocked.size(), 1)

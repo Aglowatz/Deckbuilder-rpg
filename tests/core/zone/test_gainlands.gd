@@ -384,16 +384,18 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_beefcake_card() ->
 	Session.dungeon_map = MiniDungeon.build_map(GainlandsZone.ID)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
-	var before: int = Session.owned_count("B-30")
+	# Overnight Nov 19: whichever Gainlands side dungeon this is, its first clear pays its own signature card
+	var prize: String = DungeonCatalog.find(Session.dungeon_key).reward_card_id() if DungeonCatalog.find(Session.dungeon_key) != null else "B-30"
+	var before: int = Session.owned_count(prize)
 	var first: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_true(bool(first.get("first_clear", false)))
-	assert_eq(Session.owned_count("B-30"), before + 1)
-	assert_true(Session.flag(GainlandsZone.FLAG_MINI_CLEARED))
+	assert_eq(Session.owned_count(prize), before + 1)
+	assert_true(Session.flag(SignatureCards.cleared_flag(Session.dungeon_key)))  # Overnight Nov 19: Swolympus keeps its own first-clear flag
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
 	var second: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_false(second.has("first_clear"))
-	assert_eq(Session.owned_count("B-30"), before + 1, "the card is a one-time reward")
+	assert_eq(Session.owned_count(prize), before + 1, "the card is a one-time reward")
 
 
 # ---- Story text ------------------------------------------------------------------------------------------------

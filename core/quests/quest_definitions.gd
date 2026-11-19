@@ -322,8 +322,8 @@ static func _fragments() -> QuestData:
 	for index: int in range(MemoryDefs.COUNT):
 		var told: Condition = Condition.flag(str(MemoryDefs.flag_name(index + 1)))
 		var free_step: QuestObjective = QuestObjective.make("%s: free a zone" % names[index], Condition.any_of([Condition.zones_completed(index + 1), told] as Array[Condition]))
-		for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
-			free_step.part(QuestObjective.TargetKind.SPOT, "town", "portal_%s" % zone_id, "A zone road out of Crosspath", Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+		# no arrow of its own: the zone main lines point the way; the Quest Log says where
+		free_step.at(QuestObjective.TargetKind.NONE, "", "", "Any zone not yet free: beat its main dungeon's leader").in_menu()
 		objectives.append(free_step)
 		objectives.append(QuestObjective.make("%s: talk to Elder Maren" % names[index], told)
 			.at(QuestObjective.TargetKind.NPC, "town", "elder", "Elder Maren's home, up the Gate Road from Crosspath's square"))
