@@ -211,6 +211,10 @@ func _build_text() -> void:
 	_body.add_child(_row("Battle speed (animations only)", battle))
 	_body.add_child(_check("Warn before ending a turn with energy and playable cards left", Settings.confirm_end_turn, _on_confirm_end_turn, "ConfirmEndTurnCheck"))
 	_body.add_child(_check("Auto-end the turn when nothing is playable", Settings.auto_end_turn, _on_auto_end_turn, "AutoEndTurnCheck"))
+	# Overnight Nov 19 (Part 1.3): how long an opponent's spell or sprung trap stays on the table.
+	var opponent: OptionButton = _options(Settings.OPPONENT_CARD_NAMES.duplicate(), Settings.opponent_cards, _on_opponent_cards)
+	opponent.name = "OpponentCardsOptions"
+	_body.add_child(_row("Opponent spells and traps", opponent))
 	# Fresh eyes round 2 (Oct 31): the once-ever first-time tips can be switched off (and back on) here.
 	_body.add_child(_check("Tutorial tips (first-time hints in duels and on new screens)", Settings.tutorial_tips, _on_tutorial_tips, "TutorialTipsCheck"))
 	_sample = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
@@ -659,6 +663,12 @@ func _on_colorblind(pressed: bool) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.colorblind_symbols = pressed
 	Settings.accessibility_changed.emit()
+	_saved()
+
+
+func _on_opponent_cards(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.opponent_cards = index
 	_saved()
 
 

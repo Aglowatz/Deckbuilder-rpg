@@ -866,6 +866,80 @@ func _wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds / speed, false).timeout
 
 
+## Overnight Nov 19 (Part 1.3): how an opponent's spell or sprung trap waits in the middle of the table: 0 = it does not (bots,
+## screenshots, tests), 1 = until the player clicks or presses Space, 2 = for Settings.OPPONENT_CARD_SECONDS. Set by the battle screen.
+var hold_reads: int = 0
+signal read_done
+var _reading: bool = false
+var _read_catcher: Control = null
+var _read_hint: Label = null
+
+
+## Holds the card in the middle of the table (above the rows, clear of the hand) until it has been read.
+func hold_for_reading(uid: int) -> void:
+	if hold_reads == 0 or not views.has(uid):
+		return
+	var view: CardView = view_for(uid)
+	if view == null:
+		return
+	if _read_catcher == null:
+		_read_catcher = Control.new()
+		_read_catcher.name = "ReadCatcher"
+		_read_catcher.mouse_filter = Control.MOUSE_FILTER_STOP
+		_read_catcher.position = Vector2.ZERO
+		_read_catcher.size = Vector2(1920, 1080)
+		_read_catcher.z_index = 900
+		_read_catcher.gui_input.connect(_on_read_input)
+		add_child(_read_catcher)
+		_read_hint = UIKit.label("", &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		_read_hint.name = "ReadHint"
+		_read_hint.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+		_read_hint.add_theme_constant_override("outline_size", 8)
+		_read_hint.size = Vector2(700, 34)
+		_read_hint.z_index = 901
+		add_child(_read_hint)
+	_read_hint.text = "Click or press %s to continue" % Keybinds.first_key(&"battle_advance") if hold_reads == 1 else ""
+	_read_hint.position = Vector2(CENTER_POINT.x - 350.0, CENTER_POINT.y + CardView.SIZE.y * SCALE_CENTER * 0.5 + 6.0)
+	_read_catcher.visible = hold_reads == 1
+	_read_hint.visible = hold_reads == 1
+	view.z_index = 850
+	_reading = true
+	if hold_reads == 2:
+		await get_tree().create_timer(Settings.OPPONENT_CARD_SECONDS, false).timeout
+		_reading = false
+	else:
+		await read_done
+	if is_instance_valid(view):
+		view.z_index = 0
+	_read_catcher.visible = false
+	_read_hint.visible = false
+
+
+func is_holding_read() -> bool:
+	return _reading
+
+
+## Lets a held card go (a click anywhere, Space, Enter or the pad's A).
+func release_read() -> void:
+	if not _reading:
+		return
+	_reading = false
+	read_done.emit()
+
+
+func _on_read_input(event: InputEvent) -> void:
+	var button: InputEventMouseButton = event as InputEventMouseButton
+	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT:
+		accept_event()
+		release_read()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _reading and hold_reads == 1 and (event.is_action_pressed(&"battle_advance") or event.is_action_pressed(&"ui_accept")):
+		get_viewport().set_input_as_handled()
+		release_read()
+
+
 func flush_center() -> void:
 	if _center_uid == 0:
 		return
@@ -1146,6 +1220,8 @@ func _on_cast(event: GameEvent) -> void:
 	_arc_to_target(event.card)
 	_thump_on_arrival(event.card)
 	await _wait(0.55)
+	if event.player != human and data != null and data.type == CardEnums.CardType.SPELL:
+		await hold_for_reading(event.card)
 
 
 func _on_entered(event: GameEvent) -> void:
@@ -1324,6 +1400,8 @@ func _on_trap_triggered(event: GameEvent) -> void:
 	fx.floating_text(CENTER_POINT + Vector2(0, -230), "TRAP!", UIStyle.GOLD, 64)
 	fx.shake(6.0, 0.22)
 	await _wait(0.68)
+	if event.player != human:
+		await hold_for_reading(event.card)
 
 
 func _on_token(event: GameEvent) -> void:

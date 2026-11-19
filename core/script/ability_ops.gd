@@ -282,6 +282,15 @@ static func execute(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 			var body: CardAbility.FxBlock = fx.args[0] as CardAbility.FxBlock
 			if body == null:
 				return false
+			if ctx.data.has(AbilityRunner.MAY_ANSWER):
+				var yes: bool = int(ctx.data[AbilityRunner.MAY_ANSWER]) == 1
+				ctx.data.erase(AbilityRunner.MAY_ANSWER)
+				if not yes:
+					return false
+				AbilityRunner.run_block(ctx, body)
+				return ctx.last_ok
+			if _ask_may(body, ctx):
+				return false
 			if not _decide(body, ctx):
 				return false
 			AbilityRunner.run_block(ctx, body)
@@ -435,11 +444,25 @@ static func _edict(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 	var did: bool = false
 	for index: int in victims:
 		var worst: CardInstance = null
+		var choices: Array[int] = []
 		for unit: CardInstance in state.players[index].units():
 			if state.unit_has_keyword(unit, CardEnums.Keyword.UNBREAKABLE):
 				continue
+			choices.append(unit.uid)
 			if worst == null or state.card_worth(unit) < state.card_worth(worst):
 				worst = unit
+		# Overnight Nov 19 (Part 1.1): "your opponent destroys a unit they control" - the victim chooses. A seat that chooses by hand
+		# (the player) with two or more units picks one; the rest of the effect waits for the answer.
+		if choices.size() >= 2 and state.wants_choice(index) and not ctx.data.has(AbilityRunner.PEEK_WAIT):
+			var source: CardInstance = ctx.source
+			state.push_choice({
+				"kind": "edict", "player": index, "options": choices, "source": source.uid if source != null else 0,
+				"prompt": "%s: choose one of your units to destroy." % (source.data.display_name if source != null else "Your opponent"),
+				"ctx": ctx,
+			})
+			ctx.data[AbilityRunner.PEEK_WAIT] = true
+			did = true
+			continue
 		if worst != null:
 			did = state.destroy_card(worst) or did
 	return did
@@ -586,6 +609,84 @@ static func _decide(block: CardAbility.FxBlock, ctx: AbilityContext) -> bool:
 	return true
 
 
+## "You may ...": a seat that chooses by hand answers Yes or No (Overnight Nov 19) when the effect can do anything. Returns true when
+## it waits (the may runs again with the answer).
+static func _ask_may(body: CardAbility.FxBlock, ctx: AbilityContext) -> bool:
+	var state: GameState = ctx.state
+	if not state.wants_choice(ctx.controller) or state.defer_state_checks <= 0 or ctx.data.has(AbilityRunner.PEEK_WAIT):
+		return false
+	var first: CardAbility.Fx = body.effects[0] if not body.effects.is_empty() else null
+	if first == null:
+		return false
+	if first.name == "use" and fx_uses_unaffordable(first, ctx):
+		return false
+	if first.name == "destroy" and not first.args.is_empty() and _cards(first.args[0], ctx).is_empty():
+		return false
+	var source: CardInstance = ctx.source
+	var name: String = source.data.display_name if source != null else "The effect"
+	state.push_choice({
+		"kind": "may", "player": ctx.controller, "options": [1, 0] as Array[int],
+		"labels": ["Yes: " + branch_label(body), "No"] as Array[String], "source": source.uid if source != null else 0,
+		"prompt": "%s: do you want to?" % name, "ctx": ctx, "auto": 1 if _decide(body, ctx) else 0,
+	})
+	ctx.data[AbilityRunner.PEEK_WAIT] = true
+	ctx.data[AbilityRunner.WAIT_RETRY] = true
+	return true
+
+
+## A short plain label for one branch of a choose/may ("Create a Garbage", "Destroy it").
+static func branch_label(block: CardAbility.FxBlock) -> String:
+	var parts: Array[String] = []
+	for effect: CardAbility.Fx in block.effects:
+		parts.append(_fx_label(effect))
+	return "; ".join(parts)
+
+
+static func _fx_label(effect: CardAbility.Fx) -> String:
+	match effect.name:
+		"create":
+			var count: String = str(effect.args[1]) if effect.args.size() > 1 else "1"
+			var kind: String = str(effect.args[0]).capitalize().replace("Redtape", "Red Tape")
+			return "Create %s %s" % ["a" if count == "1" else count, kind]
+		"destroy":
+			return "Destroy it"
+		"destroy_self":
+			return "Destroy this card"
+		"pump":
+			if effect.args.size() >= 3:
+				return "+%s/+%s until end of turn" % [str(effect.args[1]), str(effect.args[2])]
+			return "Pump"
+		"use":
+			var used: String = str(effect.args[1]) if effect.args.size() > 1 else "1"
+			return "Use %s %s" % ["a" if used == "1" else used, str(effect.args[0]).capitalize().replace("Redtape", "Red Tape")]
+		"draw":
+			return "Draw a card" if str(effect.args[0]) == "1" else "Draw %s cards" % str(effect.args[0])
+		"no_refresh":
+			return "it does not refresh next turn"
+		"buff":
+			return "Put a buff on it" if effect.args.size() < 2 or str(effect.args[1]) == "1" else "Put %s buffs on it" % str(effect.args[1])
+	return effect.name.capitalize()
+
+
+static func _auto_choose_index(fx: CardAbility.Fx, ctx: AbilityContext) -> int:
+	var best_index: int = 0
+	var best_have: int = 1 << 30
+	for i: int in range(fx.args.size()):
+		var block: CardAbility.FxBlock = fx.args[i] as CardAbility.FxBlock
+		if block == null or block.effects.is_empty():
+			continue
+		var have: int = 0
+		var branch_fx: CardAbility.Fx = block.effects[0]
+		if branch_fx.name == "create" and not branch_fx.args.is_empty():
+			var kind: int = ResourceKind.from_word(str(branch_fx.args[0]))
+			if kind != ResourceKind.NONE:
+				have = ctx.state.players[ctx.controller].count_resource(kind as ResourceKind.Kind)
+		if have < best_have:
+			best_index = i
+			best_have = have
+	return best_index
+
+
 static func fx_uses_unaffordable(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 	var kind: int = ResourceKind.from_word(str(fx.args[0]))
 	if kind == ResourceKind.NONE:
@@ -596,6 +697,34 @@ static func fx_uses_unaffordable(fx: CardAbility.Fx, ctx: AbilityContext) -> boo
 
 ## "Choose one": the engine takes the branch that creates the resource its controller has the fewest of; otherwise the first.
 static func _choose(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
+	# Overnight Nov 19: a seat that chooses by hand picks the branch (the effect waits, then runs again with the answer).
+	if ctx.data.has(AbilityRunner.CHOOSE_ANSWER):
+		var picked: int = int(ctx.data[AbilityRunner.CHOOSE_ANSWER])
+		ctx.data.erase(AbilityRunner.CHOOSE_ANSWER)
+		var chosen: CardAbility.FxBlock = fx.args[picked] as CardAbility.FxBlock if picked >= 0 and picked < fx.args.size() else null
+		if chosen == null:
+			return false
+		AbilityRunner.run_block(ctx, chosen)
+		return ctx.last_ok
+	var state: GameState = ctx.state
+	if state.wants_choice(ctx.controller) and state.defer_state_checks > 0 and not ctx.data.has(AbilityRunner.PEEK_WAIT) and fx.args.size() >= 2:
+		var options: Array[int] = []
+		var labels: Array[String] = []
+		for i: int in range(fx.args.size()):
+			var branch: CardAbility.FxBlock = fx.args[i] as CardAbility.FxBlock
+			if branch == null or branch.effects.is_empty():
+				continue
+			options.append(i)
+			labels.append(branch_label(branch))
+		var source: CardInstance = ctx.source
+		state.push_choice({
+			"kind": "choose", "player": ctx.controller, "options": options, "labels": labels, "source": source.uid if source != null else 0,
+			"prompt": "%s: choose one." % (source.data.display_name if source != null else "Choose"), "ctx": ctx,
+			"auto": _auto_choose_index(fx, ctx),
+		})
+		ctx.data[AbilityRunner.PEEK_WAIT] = true
+		ctx.data[AbilityRunner.WAIT_RETRY] = true
+		return true
 	var best: CardAbility.FxBlock = null
 	var best_have: int = 1 << 30
 	for arg: Variant in fx.args:

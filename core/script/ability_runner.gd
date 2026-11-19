@@ -20,6 +20,12 @@ const VALUE_NAMES: Array[String] = [
 
 ## Set in an ability context's data while one of its Peeks waits for the player (`GameState.peek_requests`).
 const PEEK_WAIT: String = "_peek_wait"
+## Overnight Nov 19: set with PEEK_WAIT when the effect that waits must run again once the player answers (a pick(...), a choose, a may).
+const WAIT_RETRY: String = "_wait_retry"
+## The player's answers to waiting pick(...) refs (oldest first), "choose one" (option index) and "you may" (1 = yes).
+const PICK_ANSWERS: String = "_pick_answers"
+const CHOOSE_ANSWER: String = "_choose_answer"
+const MAY_ANSWER: String = "_may_answer"
 
 
 ## Resolves an ability's effects (after costs were paid and targets chosen). Returns whether it ran.
@@ -49,9 +55,36 @@ static func run_effects(ctx: AbilityContext, effects: Array[CardAbility.Fx]) -> 
 		ctx.last_ok = AbilityOps.execute(effects[i], ctx)
 		if ctx.data.has(PEEK_WAIT):
 			# Fix pass Nov 4: a Peek waits for the player - the effects after it ("then draw a card") run once they choose.
-			if not ctx.state.peek_requests.is_empty():
-				(ctx.state.peek_requests.back()["rest"] as Array[CardAbility.Fx]).append_array(effects.slice(i + 1))
+			# Overnight Nov 19: the same for the player's choices; a waiting pick/choose/may runs its own effect again first.
+			var from: int = i if ctx.data.has(WAIT_RETRY) else i + 1
+			ctx.data.erase(WAIT_RETRY)
+			if not ctx.state.last_wait.is_empty():
+				(ctx.state.last_wait["rest"] as Array[CardAbility.Fx]).append_array(effects.slice(from))
 			return
+
+
+## pick(spec) inside an effect: the engine's choice, except for a seat that chooses by hand (Overnight Nov 19) when two or more
+## cards fit - then the effect waits (returns nothing this time) and runs again with the player's answer.
+static func _pick_ref(spec: TargetSpec, ctx: AbilityContext) -> Array[int]:
+	var answers: Array = ctx.data.get(PICK_ANSWERS, [])
+	if not answers.is_empty():
+		var answer: int = int(answers.pop_front())
+		if answers.is_empty():
+			ctx.data.erase(PICK_ANSWERS)
+		return [answer]
+	var state: GameState = ctx.state
+	if state.wants_choice(ctx.controller) and state.defer_state_checks > 0 and not ctx.data.has(PEEK_WAIT):
+		var pool: Array[int] = TargetResolver.candidates(spec, ctx, true)
+		if pool.size() >= 2:
+			var source: CardInstance = ctx.source
+			state.push_choice({
+				"kind": "pick", "player": ctx.controller, "options": pool, "source": source.uid if source != null else 0,
+				"prompt": "Choose a card for %s." % (source.data.display_name if source != null else "the effect"), "ctx": ctx, "spec": spec,
+			})
+			ctx.data[PEEK_WAIT] = true
+			ctx.data[WAIT_RETRY] = true
+			return [] as Array[int]
+	return TargetResolver.auto_pick(spec, ctx, ctx.ability)
 
 
 static func run_block(ctx: AbilityContext, block: CardAbility.FxBlock) -> void:
@@ -298,7 +331,7 @@ static func _call(fx: CardAbility.Fx, ctx: AbilityContext) -> Variant:
 				return []
 			return [pool[state.rng.randi_range(0, pool.size() - 1)]]
 		"pick":
-			return TargetResolver.auto_pick(TargetSpec.parse(str(fx.args[0])), ctx, ctx.ability)
+			return _pick_ref(TargetSpec.parse(str(fx.args[0])), ctx)
 		"top_atk":
 			var strongest: CardInstance = null
 			for ref: int in TargetResolver.candidates(TargetSpec.parse(str(fx.args[0])), ctx, false):

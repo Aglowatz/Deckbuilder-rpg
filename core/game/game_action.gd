@@ -19,6 +19,8 @@ enum Type {
 	USE_RESOURCE,
 	## Fix pass Nov 4: answer a waiting Peek - `uids` stay on top in this order (first = drawn next), `picks` go to the bottom.
 	PEEK,
+	## Overnight Nov 19: answer a waiting choice (`target` = the chosen uid, or the option index for choose/may).
+	CHOOSE,
 }
 
 var type: Type = Type.PASS

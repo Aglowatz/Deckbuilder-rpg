@@ -83,6 +83,10 @@ var reduce_shake: bool = false
 ## fade instead of sweeping. A superset of Reduce screen shake.
 var reduce_motion: bool = false
 var reduce_flashing: bool = false
+## Overnight Nov 19 (Part 1.3): an opponent's spell or sprung trap stays on the table until clicked (0, default) or for 4 seconds (1).
+const OPPONENT_CARD_NAMES: Array[String] = ["Wait for click", "Continue after 4 s"]
+const OPPONENT_CARD_SECONDS: float = 4.0
+var opponent_cards: int = 0
 ## Whether the HUD minimap is drawn (the M full map always works).
 var show_minimap: bool = true
 ## Overnight Oct 30-31, Part 2: the goal pointer (the quest objective's chevron and ground ring, the edge-of-screen arrow, the map's
@@ -452,6 +456,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("battle", "confirm_end_turn", confirm_end_turn)
 	config.set_value("battle", "auto_end_turn", auto_end_turn)
 	config.set_value("battle", "tutorial_tips", tutorial_tips)
+	config.set_value("battle", "opponent_cards", opponent_cards)
 	config.set_value("hud", "goal_pointer", goal_pointer)
 	config.set_value("input", "always_sprint", always_sprint)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
@@ -531,6 +536,7 @@ func load_settings(path: String = PATH) -> void:
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_motion = bool(config.get_value("access", "reduce_motion", reduce_motion))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
+	opponent_cards = clampi(int(config.get_value("battle", "opponent_cards", 0)), 0, OPPONENT_CARD_NAMES.size() - 1)
 	pad_prompts = clampi(int(config.get_value("input", "pad_prompts", 0)), 0, PAD_PROMPT_NAMES.size() - 1)
 	Keybinds.load_from(config)
 
@@ -643,6 +649,7 @@ func reset_to_defaults() -> void:
 	confirm_end_turn = true
 	auto_end_turn = false
 	tutorial_tips = true
+	opponent_cards = 0
 	goal_pointer = true
 	always_sprint = false
 	reduce_flashing = false

@@ -54,6 +54,15 @@ var interactive_peek: Array[bool] = [false, false]
 ## Waiting Peeks, oldest first: {player, count, ctx (AbilityContext or null), rest (Array[CardAbility.Fx] still to run after the choice)}.
 ## The looked-at cards stay on top of the deck until `resolve_peek`; every other action waits.
 var peek_requests: Array[Dictionary] = []
+## Overnight Nov 19 (Part 1.1): seats whose choices the engine must not make for them (the battle screen sets [0] for a human):
+## an edict ("your opponent destroys a unit they control" - the victim picks), a triggered ability's target, a pick(...) inside an
+## effect, a "choose one" and a "you may". Off in look-ahead clones and for the AI, which keeps the automatic picks.
+var interactive_choices: Array[bool] = [false, false]
+## Waiting choices, oldest first: {kind ("edict" | "target" | "pick" | "choose" | "may"), player, options (uids, or option indexes
+## for choose/may), labels (choose/may), source (card uid), prompt, ctx, rest (effects still to run), decl (target), trap (uid)}.
+var choice_requests: Array[Dictionary] = []
+## The request (Peek or choice) the running ability is waiting on: AbilityRunner appends the effects after the wait to its "rest".
+var last_wait: Dictionary = {}
 ## Current combat: attacker uids, attacker -> blocker, and the attackers that were blocked (even if the blocker later died).
 var attackers: Array[int] = []
 var blocks: Dictionary = {}
@@ -271,6 +280,8 @@ func awaiting_player() -> int:
 					return index
 			return -1
 		Stage.PLAYING:
+			if not choice_requests.is_empty():
+				return int(choice_requests[0]["player"])
 			if not peek_requests.is_empty():
 				return int(peek_requests[0]["player"])
 			if pending_toss > 0:
@@ -504,7 +515,7 @@ func pips_for(player_index: int, data: CardData, card: CardInstance = null) -> A
 
 
 func in_main_phase() -> bool:
-	return stage == Stage.PLAYING and (phase == Phase.MAIN1 or phase == Phase.MAIN2) and pending_toss == 0 and peek_requests.is_empty()
+	return stage == Stage.PLAYING and (phase == Phase.MAIN1 or phase == Phase.MAIN2) and pending_toss == 0 and peek_requests.is_empty() and choice_requests.is_empty()
 
 
 # --------------------------------------------------------------------------------------
@@ -987,6 +998,10 @@ func _resolve_card_abilities(
 		if not chosen_used and not ability.targets.is_empty() and not targets.is_empty():
 			bind_targets(ctx, ability, targets)
 			chosen_used = true
+		if AbilityRunner.condition_holds_for(ability, ctx) and ask_trigger_target(ctx):
+			# Overnight Nov 19: the player picks this trigger's target; it resolves when they answer.
+			emit_event(GameEvent.Type.EFFECT_TRIGGERED, card.owner, card.uid, trigger.uid if trigger != null else 0, int(kind))
+			continue
 		TargetResolver.auto_targets(ctx)
 		emit_event(GameEvent.Type.EFFECT_TRIGGERED, card.owner, card.uid, trigger.uid if trigger != null else 0, int(kind))
 		AbilityRunner.resolve(ctx)
@@ -1375,6 +1390,7 @@ func peek_deck(player_index: int, count: int, ctx: AbilityContext = null) -> boo
 		return false
 	if interactive_peek[player_index] and player_index == active and stage == Stage.PLAYING:
 		peek_requests.append({"player": player_index, "count": count, "ctx": ctx, "rest": [] as Array[CardAbility.Fx]})
+		last_wait = peek_requests.back()
 		return true
 	_auto_peek(player_index, take)
 	return false
@@ -1446,6 +1462,136 @@ func auto_peek_choice() -> Array:
 	for card: CardInstance in keep:
 		top.append(card.uid)
 	return [top, bottom]
+
+
+# ---- Player choices (Overnight Nov 19, Part 1.1) ---------------------------------------
+
+
+## Whether `player_index` makes this kind of choice by hand right now.
+func wants_choice(player_index: int) -> bool:
+	return player_index >= 0 and player_index < interactive_choices.size() and interactive_choices[player_index] and stage == Stage.PLAYING
+
+
+## Queues a choice and makes it the running ability's wait (the runner appends the effects after it to "rest").
+func push_choice(request: Dictionary) -> void:
+	if not request.has("rest"):
+		request["rest"] = [] as Array[CardAbility.Fx]
+	choice_requests.append(request)
+	last_wait = request
+	emit_event(GameEvent.Type.CHOICE_REQUESTED, int(request["player"]), int(request.get("source", 0)), 0, (request["options"] as Array[int]).size())
+
+
+## A triggered ability of a hand-choosing seat with a single target that has two or more legal choices waits for the player
+## (Grim Repper's "put two buffs on target unit you control" used to pick the most valuable unit by itself). `trap_uid` = the
+## uid of a trap that sprang (already revealed and in the Refuse Pile). Returns true when it waits; the caller must not resolve.
+func ask_trigger_target(ctx: AbilityContext, trap_uid: int = 0) -> bool:
+	if not wants_choice(ctx.controller):
+		return false
+	for decl: CardAbility.TargetDecl in ctx.ability.targets:
+		if ctx.targets.has(decl.name) and not (ctx.targets[decl.name] as Array).is_empty():
+			continue
+		if decl.max_count != 1:
+			continue
+		var pool: Array[int] = TargetResolver.legal_targets(decl, ctx)
+		if pool.size() < 2:
+			continue
+		var source: CardInstance = ctx.source
+		push_choice({
+			"kind": "target", "player": ctx.controller, "options": pool, "source": source.uid if source != null else 0,
+			"prompt": "Choose a target for %s." % (source.data.display_name if source != null else "the effect"),
+			"ctx": ctx, "decl": decl.name, "trap": trap_uid,
+		})
+		return true
+	return false
+
+
+## The engine's own answer to the first waiting choice (bots, tests): the same pick it makes for the AI.
+func auto_choice_answer() -> int:
+	if choice_requests.is_empty():
+		return 0
+	var request: Dictionary = choice_requests[0]
+	var options: Array[int] = request["options"]
+	if options.is_empty():
+		return 0
+	var ctx: AbilityContext = request.get("ctx") as AbilityContext
+	match str(request["kind"]):
+		"edict":
+			var worst: int = options[0]
+			for uid: int in options:
+				var card: CardInstance = find_card(uid)
+				var have: CardInstance = find_card(worst)
+				if card != null and have != null and card_worth(card) < card_worth(have):
+					worst = uid
+			return worst
+		"target", "pick":
+			if ctx != null:
+				var spec: TargetSpec = request.get("spec") as TargetSpec
+				if spec == null:
+					for decl: CardAbility.TargetDecl in ctx.ability.targets:
+						if decl.name == str(request.get("decl", "")):
+							spec = decl.spec
+				if spec != null:
+					var picked: Array[int] = TargetResolver.auto_pick(spec, ctx, ctx.ability, str(request.get("decl", "")))
+					if not picked.is_empty() and options.has(picked[0]):
+						return picked[0]
+			return options[0]
+		"choose", "may":
+			return int(request.get("auto", options[0]))
+	return options[0]
+
+
+## Answers the first waiting choice with `answer` (a uid for edict/target/pick, an option index for choose/may), then runs the
+## rest of the waiting ability.
+func resolve_choice(player_index: int, answer: int) -> bool:
+	if choice_requests.is_empty() or int(choice_requests[0]["player"]) != player_index:
+		return false
+	var request: Dictionary = choice_requests[0]
+	if not (request["options"] as Array[int]).has(answer):
+		return false
+	choice_requests.pop_front()
+	var ctx: AbilityContext = request.get("ctx") as AbilityContext
+	var rest: Array[CardAbility.Fx] = request["rest"]
+	emit_event(GameEvent.Type.CHOICE_MADE, player_index, int(request.get("source", 0)), answer)
+	defer_state_checks += 1
+	match str(request["kind"]):
+		"edict":
+			var victim: CardInstance = find_card(answer)
+			if victim != null:
+				destroy_card(victim)
+			_run_rest(ctx, rest)
+		"target":
+			if ctx != null:
+				ctx.data.erase(AbilityRunner.PEEK_WAIT)
+				ctx.targets[str(request["decl"])] = [answer]
+				TargetResolver.auto_targets(ctx)
+				AbilityRunner.resolve(ctx)
+		"pick":
+			if ctx != null:
+				var answers: Array = ctx.data.get(AbilityRunner.PICK_ANSWERS, [])
+				answers.append(answer)
+				ctx.data[AbilityRunner.PICK_ANSWERS] = answers
+			_run_rest(ctx, rest)
+		"choose":
+			if ctx != null:
+				ctx.data[AbilityRunner.CHOOSE_ANSWER] = answer
+			_run_rest(ctx, rest)
+		"may":
+			if ctx != null:
+				ctx.data[AbilityRunner.MAY_ANSWER] = answer
+			_run_rest(ctx, rest)
+	defer_state_checks -= 1
+	if defer_state_checks == 0:
+		check_state()
+	return true
+
+
+func _run_rest(ctx: AbilityContext, rest: Array[CardAbility.Fx]) -> void:
+	if ctx == null:
+		return
+	ctx.data.erase(AbilityRunner.PEEK_WAIT)
+	if not rest.is_empty() and not is_over():
+		AbilityRunner.run_effects(ctx, rest)
+	ctx.data.erase(AbilityRunner.PEEK_WAIT)
 
 
 func _auto_peek(player_index: int, take: int) -> void:
@@ -1900,17 +2046,24 @@ func _resolve_event_ability(card: CardInstance, ability: CardAbility, data: Dict
 	_bind_host(ctx, card, ctx.trigger)
 	if not AbilityRunner.condition_holds_for(ability, ctx):
 		return
-	TargetResolver.auto_targets(ctx)
 	if ability.once:
 		card.used_abilities.append(ability_index)
 	if is_trap:
 		player.traps.erase(card)
 		card.face_down = false
 		emit_event(GameEvent.Type.TRAP_TRIGGERED, card.owner, card.uid, ctx.trigger.uid if ctx.trigger != null else 0)
+		if ask_trigger_target(ctx, card.uid):
+			# Overnight Nov 19: the player picks the sprung trap's target; the trap goes to the pile now, its effect waits.
+			_send_to_refuse_pile(card)
+			return
+		TargetResolver.auto_targets(ctx)
 		AbilityRunner.resolve(ctx)
 		_send_to_refuse_pile(card)
 	else:
 		emit_event(GameEvent.Type.EFFECT_TRIGGERED, card.owner, card.uid, ctx.trigger.uid if ctx.trigger != null else 0, int(ability.kind))
+		if ask_trigger_target(ctx):
+			return
+		TargetResolver.auto_targets(ctx)
 		AbilityRunner.resolve(ctx)
 
 
@@ -1939,6 +2092,8 @@ func fire_attached_event(unit: CardInstance, event_name: String, data: Dictionar
 			ctx.host = unit
 			ctx.data = data
 			if not AbilityRunner.condition_holds_for(ability, ctx):
+				continue
+			if ask_trigger_target(ctx):
 				continue
 			TargetResolver.auto_targets(ctx)
 			AbilityRunner.resolve(ctx)
@@ -2458,6 +2613,12 @@ func legal_actions() -> Array[GameAction]:
 			result.append(GameAction.make(GameAction.Type.MULLIGAN, who))
 		return result
 	var player: PlayerState = players[who]
+	if not choice_requests.is_empty():
+		for option: int in choice_requests[0]["options"] as Array[int]:
+			var answer: GameAction = GameAction.make(GameAction.Type.CHOOSE, who)
+			answer.target = option
+			result.append(answer)
+		return result
 	if pending_toss > 0:
 		for combo: Array[int] in _discard_combinations(player.hand, pending_toss, 40):
 			var discard: GameAction = GameAction.make(GameAction.Type.TOSS, who)
@@ -2658,6 +2819,9 @@ func _activation_actions(player_index: int) -> Array[GameAction]:
 
 
 func apply_action(action: GameAction) -> bool:
+	if not choice_requests.is_empty():
+		# Overnight Nov 19: nothing else happens until the waiting choice is answered.
+		return action.type == GameAction.Type.CHOOSE and resolve_choice(action.player, action.target)
 	if not peek_requests.is_empty():
 		# Fix pass Nov 4: nothing else happens until the waiting Peek is answered.
 		return action.type == GameAction.Type.PEEK and resolve_peek(action.player, action.uids, action.picks)

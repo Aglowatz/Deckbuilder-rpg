@@ -80,7 +80,8 @@ func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> voi
 ## Part G: a banner at the top of an Arena duel: the fight's name and its rules/goal (a puzzle's goal is the whole point).
 func set_arena_banner(encounter_id: String) -> void:
 	var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
-	if encounter == null:
+	# Overnight Nov 19 (Part 1.4): no banner - the bout's name and rules are the first line of "Rules of this fight".
+	if encounter == null or true:
 		return
 	var story: StoryText = StoryText.shared()
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
@@ -120,14 +121,18 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	_shown_badges = badges
 	# Fix pass Nov 7 (Part 5, C2 F14 / C4c F9): a second call replaces the row (it was drawn twice, one over the other)
 	var at_y: float = _side_y
+	var old_height: float = -1.0
 	if rule_row != null and is_instance_valid(rule_row):
 		at_y = rule_row.position.y
+		old_height = rule_row.custom_minimum_size.y + 24.0
 		rule_row.queue_free()
-	else:
-		_side_y += 70.0
-	rule_row = RuleIconRow.make(badges, "Rules of this fight")
+	# Overnight Nov 19 (Part 1.4): one readable line per rule (icon with its hover, name and text) under the opponent's plate - the
+	# Arena's and the dungeons' rules too (the Arena's banner across the top, behind the opponent's hand, is gone).
+	rule_row = RuleIconRow.make(badges, "Rules of this fight", false, true)
 	rule_row.position = Vector2(24, at_y)
 	add_child(rule_row)
+	var height: float = rule_row.custom_minimum_size.y + 24.0
+	_side_y += height - (old_height if old_height >= 0.0 else 0.0)
 	_refresh_setup_note()
 	_refresh_jam()
 

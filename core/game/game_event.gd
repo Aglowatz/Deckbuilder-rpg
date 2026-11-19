@@ -60,6 +60,9 @@ enum Type {
 	SCRIPT_TRIGGERED,
 	## A timed scripted event (or a timed summon) happens on the owner's next turn (detail = the warning line).
 	SCRIPT_WARNING,
+	## Overnight Nov 19: the engine waits for a player choice (player = who chooses, card = source, amount = options) / it was made (other = answer).
+	CHOICE_REQUESTED,
+	CHOICE_MADE,
 }
 
 var sequence: int = 0

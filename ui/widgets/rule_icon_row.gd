@@ -12,18 +12,30 @@ const GAP: float = 6.0
 var badges: Array[RuleBadges.Badge] = []
 var caption_text: String = ""
 var _panel: PanelContainer
-var _row: HBoxContainer
+var _row: BoxContainer
+## Overnight Nov 19 (Part 1.4): one readable line per rule (icon + name + text) instead of a row of icons - the battle HUD's list.
+var lines_mode: bool = false
+const LINE_WIDTH: float = 300.0
+const LINE_CHARS: int = 120
 var _caption: Label
 
 
-static func make(rule_badges: Array[RuleBadges.Badge], caption: String = "Rules", compact: bool = false) -> RuleIconRow:
+static func make(rule_badges: Array[RuleBadges.Badge], caption: String = "Rules", compact: bool = false, as_lines: bool = false) -> RuleIconRow:
 	var row: RuleIconRow = RuleIconRow.new()
 	row.name = "RuleIconRow"
 	row.badges = rule_badges
 	row.caption_text = caption
+	row.lines_mode = as_lines
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
 	row._build(compact)
 	return row
+
+
+## The height of the list in lines mode (for stacking panels under it).
+func lines_height() -> float:
+	if _row == null:
+		return 0.0
+	return _row.get_parent().get_combined_minimum_size().y if _row.get_parent() is Control else ICON_PX
 
 
 func _build(compact: bool) -> void:
@@ -36,6 +48,19 @@ func _build(compact: bool) -> void:
 		_caption.tooltip_text = "Click for the full rules."
 		_caption.gui_input.connect(_on_caption_input)
 		column.add_child(_caption)
+	if lines_mode:
+		_row = VBoxContainer.new()
+		_row.add_theme_constant_override("separation", 4)
+		_row.mouse_filter = Control.MOUSE_FILTER_PASS
+		column.add_child(_row)
+		for badge: RuleBadges.Badge in badges:
+			_row.add_child(_line(badge))
+		var tall: float = 0.0 if compact or caption_text.is_empty() else 20.0
+		for badge: RuleBadges.Badge in badges:
+			var chars: int = mini(badge.text.length(), LINE_CHARS) + badge.name.length() + 2
+			tall += maxf(ICON_PX + 8.0, ceilf(float(chars) * 7.4 / LINE_WIDTH) * 19.0) + 4.0
+		custom_minimum_size = Vector2(LINE_WIDTH + ICON_PX + 16.0, tall)
+		return
 	_row = HBoxContainer.new()
 	_row.add_theme_constant_override("separation", int(GAP))
 	_row.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -45,19 +70,46 @@ func _build(compact: bool) -> void:
 	custom_minimum_size = Vector2(float(badges.size()) * (ICON_PX + GAP), ICON_PX + (0.0 if compact else 20.0))
 
 
+## One rule as a line: its icon (hover for the full text, click for the list) and "Name: text" beside it, wrapped.
+func _line(badge: RuleBadges.Badge) -> HBoxContainer:
+	var line: HBoxContainer = HBoxContainer.new()
+	line.name = "Line_%s" % badge.name.replace(" ", "_")
+	line.add_theme_constant_override("separation", 6)
+	line.mouse_filter = Control.MOUSE_FILTER_PASS
+	var button: Control = _icon(badge)
+	button.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	line.add_child(button)
+	var words: String = badge.text
+	if words.length() > LINE_CHARS:
+		words = words.substr(0, LINE_CHARS - 3).strip_edges() + "..."
+	var text: RichTextLabel = UIKit.rich("[color=#%s][b]%s[/b][/color]  %s" % [badge.color().lightened(0.2).to_html(false), badge.name, words], 15)
+	text.name = "Text"
+	text.custom_minimum_size = Vector2(LINE_WIDTH, 0)
+	text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	text.add_theme_color_override("default_color", UIStyle.PARCHMENT)
+	text.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.92))
+	text.add_theme_constant_override("outline_size", 5)
+	line.add_child(text)
+	return line
+
+
+func _find_badge(badge_name: String) -> Node:
+	return _row.find_child("Badge_%s" % badge_name.replace(" ", "_"), true, false) if _row != null else null
+
+
 ## Overnight Nov 10-11 (Part 1.5): a few words right after one badge's icon, inside the row ("Setting Up - attacks start Turn 3"); "" removes
 ## them. The icon keeps its tooltip and click.
 func set_note(badge_name: String, text: String) -> void:
 	if _row == null:
 		return
 	var node_name: String = "Note_%s" % badge_name.replace(" ", "_")
-	var note: Label = _row.get_node_or_null(node_name) as Label
+	var note: Label = _row.find_child(node_name, true, false) as Label
 	if text.is_empty():
 		if note != null:
 			note.queue_free()
 		return
 	if note == null:
-		var button: Node = _row.get_node_or_null("Badge_%s" % badge_name.replace(" ", "_"))
+		var button: Node = _find_badge(badge_name)
 		if button == null:
 			return
 		note = UIKit.label(text, &"", 15, Color("ffe08a"))
@@ -66,14 +118,32 @@ func set_note(badge_name: String, text: String) -> void:
 		note.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		note.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 		note.add_theme_constant_override("outline_size", 5)
-		_row.add_child(note)
-		_row.move_child(note, button.get_index() + 1)
+		if lines_mode:
+			# In the list the words go under the rule's own text.
+			var text_box: Node = button.get_parent().get_node_or_null("Text")
+			note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			note.custom_minimum_size = Vector2(LINE_WIDTH, 0)
+			var holder: VBoxContainer = VBoxContainer.new()
+			holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			if text_box != null:
+				var parent: Node = text_box.get_parent()
+				var at: int = text_box.get_index()
+				parent.remove_child(text_box)
+				holder.add_child(text_box)
+				parent.add_child(holder)
+				parent.move_child(holder, at)
+			else:
+				button.get_parent().add_child(holder)
+			holder.add_child(note)
+		else:
+			_row.add_child(note)
+			_row.move_child(note, button.get_index() + 1)
 	note.text = text
 
 
 ## The words beside a badge ("" when none) - for tests.
 func note_text(badge_name: String) -> String:
-	var note: Label = _row.get_node_or_null("Note_%s" % badge_name.replace(" ", "_")) as Label if _row != null else null
+	var note: Label = _row.find_child("Note_%s" % badge_name.replace(" ", "_"), true, false) as Label if _row != null else null
 	return note.text if note != null and not note.is_queued_for_deletion() else ""
 
 
@@ -104,7 +174,7 @@ func _icon(badge: RuleBadges.Badge) -> Control:
 func mark_fired(badge_name: String, turn: int) -> void:
 	if _row == null:
 		return
-	for child: Node in _row.get_children():
+	for child: Node in _row.find_children("Badge_*", "", true, false):
 		if child.name != "Badge_%s" % badge_name.replace(" ", "_") or child.has_meta("fired_turn"):
 			continue
 		child.set_meta("fired_turn", turn)

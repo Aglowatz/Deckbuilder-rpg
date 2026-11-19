@@ -1006,11 +1006,20 @@ const COLLECTION_MILESTONES: Array[Dictionary] = [
 ]
 
 
+## The newest Bestiary entry met (for tests and the note).
+var last_new_bestiary: String = ""
+
+
 ## The hero met an enemy (a battle started, or a roamer that never fights touched them). Unknown names are ignored.
 func bestiary_meet(enemy_name: String) -> void:
 	if Bestiary.find(enemy_name) == null:
 		return
+	var was_known: bool = Bestiary.is_known(counters, enemy_name)
 	bump_counter(Bestiary.MET_PREFIX + Bestiary.canonical(enemy_name))
+	# Overnight Nov 19 (Part 1.5): a first meeting (a fight, or a roamer that hurts on touch) says so.
+	if not was_known:
+		last_new_bestiary = Bestiary.canonical(enemy_name)
+		EventBus.toast_requested.emit("New Bestiary entry: %s" % Bestiary.canonical(enemy_name))
 	pay_completion_milestones()
 
 

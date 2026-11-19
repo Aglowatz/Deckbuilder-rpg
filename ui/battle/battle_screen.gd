@@ -6,7 +6,7 @@ extends Control
 
 signal finished(won: bool)
 
-enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, TOSS, MULLIGAN, OVER, PEEK }
+enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, TOSS, MULLIGAN, OVER, PEEK, CHOICE }
 
 const DRAG_START_DISTANCE: float = 16.0
 const PLAY_LINE_Y: float = 720.0
@@ -296,6 +296,10 @@ func _ready() -> void:
 			context = Session.make_ninja_battle()
 		elif str(_screenshot_args.get("vault", "false")) == "true":
 			context = Session.make_vault_battle()
+		elif _screenshot_args.has("arena"):
+			# Overnight Nov 19 (screenshots): `--arena=<encounter id>` is that Arena bout.
+			Session.ensure_game()
+			context = Session.make_arena_battle(str(_screenshot_args["arena"]))
 		elif _screenshot_args.has("zone_fight"):
 			# Fable Nov 15 (Part 4, screenshots): `--zone_fight=final:officer[:rift]` is that zone roamer's real fight (beside an open rift)
 			var fight: PackedStringArray = str(_screenshot_args["zone_fight"]).split(":")
@@ -325,6 +329,8 @@ func _ready() -> void:
 	ai = context.ai
 	# Fix pass Nov 4 (Part 1.1): your Peeks wait for your Top/Bottom choice (a bot playing your seat answers them itself).
 	game.interactive_peek[0] = true
+	# Overnight Nov 19 (Part 1.1): edicts, trigger targets, picks, choose-one and may wait for your own choice too.
+	game.interactive_choices[0] = true
 	_build_scene()
 	_screenshot_give(str(_screenshot_args.get("give", "")))
 	_screenshot_hover(str(_screenshot_args.get("hover", "")))
@@ -539,8 +545,12 @@ func _build_scene() -> void:
 	toast_layer.add_child(_toast_label)
 	# Overnight Oct 23, Part 1: scripted boss/elite events and the warning the turn before a timed one.
 	script_banner = ScriptEventBanner.new()
-	script_banner.z_index = 480
-	add_child(script_banner)
+	# Overnight Nov 19 (Part 1.2): on the modal layer, so its pop-up covers the hand and the HUD and takes the click.
+	var script_layer: CanvasLayer = CanvasLayer.new()
+	script_layer.name = "ScriptEventLayer"
+	script_layer.layer = BattleHud.MODAL_LAYER
+	add_child(script_layer)
+	script_layer.add_child(script_banner)
 	# Controller support (Oct 26): the pad's card cursor
 	pad = BattlePad.install(self)
 
@@ -601,6 +611,9 @@ func _drive() -> void:
 		if human_bot != null and _bot_active():
 			mode = Mode.WAITING
 			_refresh_ui()
+			if not game.choice_requests.is_empty():
+				game.apply_action(_choose_action(game.auto_choice_answer()))
+				continue
 			if not game.peek_requests.is_empty():
 				var auto: Array = game.auto_peek_choice()
 				game.apply_action(GameAction.peek(0, auto[0], auto[1]))
@@ -619,6 +632,8 @@ func _bot_active() -> bool:
 
 
 func _play_new_events() -> void:
+	# Overnight Nov 19 (Part 1.3): an opponent's spell or trap waits to be read (a bot at the table, screenshots and headless runs skip it).
+	board.hold_reads = 0 if (human_bot != null and _bot_active()) or _flag("shot_mode") or DisplayServer.get_name() == "headless" else (1 if Settings.opponent_cards == 0 else 2)
 	while _event_cursor < game.events.size():
 		var event: GameEvent = game.events[_event_cursor]
 		_event_cursor += 1
@@ -673,7 +688,7 @@ func _bot_step() -> void:
 
 ## Skips decisions that have no choices (no possible attackers, no possible blockers).
 func _auto_pass_if_pointless() -> bool:
-	if game.stage != GameState.Stage.PLAYING or game.pending_toss > 0 or not game.peek_requests.is_empty():
+	if game.stage != GameState.Stage.PLAYING or game.pending_toss > 0 or not game.peek_requests.is_empty() or not game.choice_requests.is_empty():
 		return false
 	if game.phase != GameState.Phase.COMBAT:
 		if _fast_end_turn and game.active == 0 and game.phase != GameState.Phase.END:
@@ -757,6 +772,10 @@ func _enter_human_mode() -> void:
 	if game.stage == GameState.Stage.MULLIGAN:
 		mode = Mode.MULLIGAN
 		_show_mulligan()
+	elif not game.choice_requests.is_empty():
+		mode = Mode.CHOICE
+		_fast_end_turn = false
+		_show_choice()
 	elif not game.peek_requests.is_empty():
 		mode = Mode.PEEK
 		_fast_end_turn = false
@@ -851,6 +870,17 @@ func _refresh_ui() -> void:
 			primary = "..."
 			primary_enabled = false
 			prompt = "[b]Peek[/b]\nTop or Bottom for each card, then Done."
+		Mode.CHOICE:
+			primary = "..."
+			primary_enabled = false
+			if not game.choice_requests.is_empty():
+				var request: Dictionary = game.choice_requests[0]
+				for uid: int in request["options"] as Array[int]:
+					if board.views.has(uid):
+						glows[uid] = CardView.Glow.TARGET
+				if int(request.get("source", 0)) != 0 and board.views.has(int(request["source"])):
+					glows[int(request["source"])] = CardView.Glow.SELECTED
+				prompt = "[b]Your choice[/b]\n" + str(request.get("prompt", ""))
 		Mode.OVER:
 			primary = "..."
 			primary_enabled = false
@@ -1327,6 +1357,9 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 		Mode.TOSS:
 			if button_event.pressed and zone == BattleBoard.Zone.HAND and mine:
 				_toggle_discard(uid)
+		Mode.CHOICE:
+			if button_event.pressed and not game.choice_requests.is_empty() and (game.choice_requests[0]["options"] as Array[int]).has(uid):
+				_answer_choice(uid)
 		Mode.TARGETING:
 			if button_event.pressed and _target_options.has(uid):
 				_finish_targeting(uid)
@@ -1368,6 +1401,9 @@ func pad_click_card(view: CardView) -> void:
 		Mode.TOSS:
 			if zone == BattleBoard.Zone.HAND and mine:
 				_toggle_discard(uid)
+		Mode.CHOICE:
+			if not game.choice_requests.is_empty() and (game.choice_requests[0]["options"] as Array[int]).has(uid):
+				_answer_choice(uid)
 		Mode.TARGETING:
 			if _target_options.has(uid):
 				_finish_targeting(uid)
@@ -1920,7 +1956,9 @@ func _show_script_event(event: GameEvent) -> void:
 		hud.rule_row.mark_fired(trigger.name, game.turn)
 	if lights != null:
 		lights.pulse(hud.portrait_center(event.player), ScriptEventBanner.AMBER, 300.0, 1.0, 60.0)
-	await script_banner.show_event(trigger, context.enemy_name, board.speed)
+	# Overnight Nov 19 (Part 1.2): the player closes the pop-up (a bot at the table, or screenshot mode, lets it go by itself).
+	var by_hand: bool = not (human_bot != null and _bot_active()) and not _flag("shot_mode") and not DisplayServer.get_name() == "headless"
+	await script_banner.show_event(trigger, context.enemy_name, board.speed, by_hand)
 
 
 ## Fresh eyes round 2 (Oct 31): the defeat recap's bookkeeping (see `defeat_recap_lines`).
@@ -2366,6 +2404,57 @@ func _show_peek() -> void:
 	peek_panel.lift = 40.0
 	peek_panel.chosen.connect(_peek_choice)
 	_peek_layer.add_child(peek_panel)
+
+
+## Overnight Nov 19 (Part 1.1): the waiting choice's panel (units on the table can also be clicked; see the CHOICE mode).
+var _choice_layer: CanvasLayer = null
+
+
+func _show_choice() -> void:
+	_close_choice()
+	if game.choice_requests.is_empty():
+		return
+	var request: Dictionary = game.choice_requests[0]
+	var options: Array[int] = request["options"]
+	var labels: Array[String] = []
+	if request.has("labels"):
+		labels = request["labels"]
+	var option_cards: Dictionary = {}
+	var on_board: bool = labels.is_empty()
+	if labels.is_empty():
+		for uid: int in options:
+			var card: CardInstance = game.find_card(uid)
+			if card != null:
+				option_cards[uid] = card.data
+			if game.find_permanent(uid) == null:
+				on_board = false
+	_choice_layer = CanvasLayer.new()
+	_choice_layer.name = "ChoiceLayer"
+	_choice_layer.layer = BattleHud.MODAL_LAYER
+	add_child(_choice_layer)
+	var panel: ChoicePanel = ChoicePanel.make(str(request.get("prompt", "")), options, labels, option_cards, on_board)
+	panel.chosen.connect(_answer_choice)
+	_choice_layer.add_child(panel)
+
+
+func _close_choice() -> void:
+	if _choice_layer != null:
+		_choice_layer.queue_free()
+		_choice_layer = null
+
+
+func _answer_choice(answer: int) -> void:
+	if busy:
+		return
+	_close_choice()
+	Audio.sfx(&"ui_select")
+	_submit(_choose_action(answer))
+
+
+static func _choose_action(answer: int) -> GameAction:
+	var action: GameAction = GameAction.make(GameAction.Type.CHOOSE, 0)
+	action.target = answer
+	return action
 
 
 func _peek_choice(top_uids: Array[int], bottom_uids: Array[int]) -> void:

@@ -136,6 +136,11 @@ static func player_rule_badges(encounter: ArenaEncounter) -> Array[RuleBadges.Ba
 	var result: Array[RuleBadges.Badge] = []
 	if encounter == null:
 		return result
+	# Overnight Nov 19 (Part 1.4): the bout itself first - its name and its rules or goal (the banner across the top used to say this).
+	var story: StoryText = StoryText.shared()
+	var bout: RuleBadges.Badge = RuleBadges.special(story.text(encounter.title_key()), story.text(encounter.rules_key()), "lorc/crossed-swords", [] as Array[Modifier], true)
+	bout.kind = "arena"
+	result.append(bout)
 	for modifier: Modifier in encounter.player_rules:
 		var words: Array = PLAYER_RULE_TEXTS.get(modifier.kind, [modifier.label if not modifier.label.is_empty() else "Arena rule", "A rule of this bout: %s." % modifier.label, RuleBadges.DEFAULT_ICON]) as Array
 		var badge: RuleBadges.Badge = RuleBadges.special(str(words[0]), str(words[1]), str(words[2]), [modifier] as Array[Modifier])
