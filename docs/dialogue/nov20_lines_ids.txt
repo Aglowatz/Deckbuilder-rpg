@@ -1,0 +1,8 @@
+# Fable Nov 20: lines changed tonight. Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov20_lines.csv --revert=docs/dialogue/nov20_lines_ids.txt
+data/dungeons/dungeon_content.json::quest.side_s_town.offer::1
+data/dungeons/dungeon_content.json::quest.side_s_town.active::0
+data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::1
+data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::2
+data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1
+data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::1
+data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::2

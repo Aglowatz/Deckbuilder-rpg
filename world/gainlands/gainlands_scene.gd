@@ -115,8 +115,8 @@ func _prompt_for(spot: ZoneSpot) -> String:
 
 ## Mount Swolympus is the end-game climb (S-BEEF): its gate at the overlook is sealed and says so in the UI (a padlock board on the gate, never world text).
 ## The Iron Cave's door (the zone's "mini dungeon", S-IRON) is open from the start and goes through ZoneScene's side-dungeon flow (Gainlands v2, Part F).
-const SWOLYMPUS_TOAST: String = "Sealed. Old Man Mountain says it opens when the kingdom is whole again."
-const SWOLYMPUS_TOAST_ASK: String = "Sealed. Old Man Mountain at the gym hall knows how to open it."
+const SWOLYMPUS_TOAST: String = "The trail up Mount Swolympus is sealed. Old Man Mountain at the Swole Station says it opens when the kingdom is whole again."
+const SWOLYMPUS_TOAST_ASK: String = "The trail up Mount Swolympus is sealed. Talk to Old Man Mountain at the Swole Station; he may know more."
 const SWOLYMPUS_TOAST_OPEN: String = "The gate is open. Follow the ridge to the mountain's foot."
 ## The unlocked gate opens when the hero comes this close (metres) and has not watched it open yet.
 const SWOLYMPUS_REVEAL_RANGE: float = 30.0

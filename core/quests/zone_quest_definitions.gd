@@ -59,7 +59,8 @@ const TARGETS: Dictionary = {
 		[QuestObjective.TargetKind.SPOT, "necrocrat", "mini_dungeon", "Down the lit elevator in the Elevator Bank"]],
 	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the junk heaps"]],
 	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
-	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest in one of Crosspath's odd corners"]],
+	# Fable Nov 20 (Part 4.1): the chest is marked and said in words (it had no marker and "somewhere in Crosspath" for a hint)
+	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The big chest on the little spit of land at the east edge of town: follow the lane east past the Rift Express stop until it meets the water"]],
 	"cracks_in_the_glass": [[QuestObjective.TargetKind.SPOT, "final", "gallery_mirror", "The cracked mirror beside the castle door"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
@@ -124,7 +125,7 @@ static func _add_parts(quest: QuestData) -> void:
 		SIDE_GOUR:
 			quest.objectives[0].part(kind_spot, BuffetZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
 		SIDE_TOWN:
-			quest.objectives[0].part(kind_spot, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The giant chest by the harbour")
+			quest.objectives[0].part(kind_spot, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The big chest on the spit of land (east edge of town)")
 		CapitalZone.QUEST_WHEELS:
 			for number: int in range(1, 4):
 				quest.objectives[0].part(kind_spot, CapitalZone.ID, "wheel_%d" % number, "Energy Wheel %d" % number, Condition.secret_found(CapitalZone.secret_id("wheel", str(number))))
@@ -587,13 +588,84 @@ static func side_quests() -> Array[QuestData]:
 			[QuestObjective.make("Drive off scavengers in the Dump", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
 		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel only shows her older way into the city to friends of Wren's. Get through the gate, knock at the manhole and ask Wren in the Crease about the old tunnels.",
 			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
-		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
+		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in the big chest on the spit of land at the east edge of town, past the Rift Express stop. Open the chest, then bring her the key.",
 			# Oct 20: after the armory quest. Fable pass Nov 10: the chest is the original giant chest by the harbour (brief 16 renamed its secret
 			# to NinjaBoss.secret_id("town"); the old "harbor_chest" id still counts for saves from before that).
-			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.any_of([Condition.secret_found("harbor_chest"), Condition.secret_found(NinjaBoss.secret_id(NinjaBoss.ORIGINAL_CHEST))] as Array[Condition]))], QuestDefinitions.story_gate()),
+			[QuestObjective.make("Open the big chest by the water, east of the Rift Express stop", Condition.any_of([Condition.secret_found("harbor_chest"), Condition.secret_found(NinjaBoss.secret_id(NinjaBoss.ORIGINAL_CHEST))] as Array[Condition]))], QuestDefinitions.story_gate()),
 		_gallery_quest(),
 		_gallery_line(),
-	] as Array[QuestData]
+	] as Array[QuestData] + way_in_quests()
+
+
+# ---- Fable Nov 20 (Part 4.3): sealed entrances say who to ask, and an opened side dungeon is a tracked step ---------------------------
+
+## Dungeon id -> what a sealed entrance says: [what the entrance is called there, where its quest giver stands]. The giver is the side
+## quest's own (`SIDE_QUESTS`), so the message always points at the quest that opens the door.
+const SEALED_PLACES: Dictionary = {
+	"S-REF": ["The landfill", "the stream in the Verdant Dump"],
+	"S-GOUR": ["The freezer", "the Grand Pantry"],
+	"S-NECRO": ["The Waiting Room's elevator", "the breakroom coffee bar"],
+	"S-BEEF": ["The trail up Mount Swolympus", "the Swole Station"],
+	"S-CAP": ["The tunnel mouth", "the road outside the Capital's gate"],
+	"S-TOWN": ["The hatch", "the north end of Crosspath"],
+	"S-GALLERY": ["The cracked mirror", "the Crease, under the Capital"],
+}
+
+
+## "The landfill is sealed. Talk to Brother Bramble at the stream in the Verdant Dump; they may know more." Never "???", never the hook.
+static func sealed_message(dungeon_id: String) -> String:
+	var place: Array = SEALED_PLACES.get(dungeon_id, ["This way", ""]) as Array
+	var quest: QuestData = QuestCatalog.find(str(SIDE_QUESTS.get(dungeon_id, "")))
+	if quest == null or quest.giver_npc.is_empty():
+		return "%s is sealed." % str(place[0])
+	var where: String = str(place[1])
+	return "%s is sealed. Talk to %s%s; they may know more." % [str(place[0]), quest.giver_npc, "" if where.is_empty() else " at " + where]
+
+
+## Once a side quest is handed in its dungeon is open, and nothing sent the player there. Each such dungeon now has a one-step quest that
+## starts by itself at that moment, with the entrance on the tracker, the map and in the world: [title, summary, step, area, spot, where].
+## (The Waiting Room, the Paste Works and the Shattered Gallery already carry their own "clear it" steps.)
+const WAY_IN: Dictionary = {
+	"S-TOWN": ["Under the Old Well", "Elder Maren has the old key and the iron hatch beside the Old Well is open. Whatever is under it belonged to the Old Kingdom.",
+		"Go down the iron hatch beside the Old Well and clear what is under it", "town", "well_door", "The iron hatch beside the Old Well, west of the market square"],
+	"S-REF": ["Little Paw Prints", "The trail of paw prints and crumbs of compost ends at the landfill, and its way down is open now.",
+		"Climb into the landfill and find who ate the compost", "refusemancer", "mini_dungeon", "The landfill's mouth in the Verdant Dump (marked on the map)"],
+	"S-GOUR": ["Seating: 1", "The golden reservation card opens the walk-in freezer's door. Seating: 1. Courses: 3. Survival: optional.",
+		"Open the freezer door and keep your reservation", "gourmand", "mini_dungeon", "The walk-in freezer's door in the Endless Buffet (marked on the map)"],
+	"S-CAP": ["The Older Way In", "Kestrel has shown you the mouth of the old service tunnels: an older way into the city that nobody remembers.",
+		"Go through the Old Service Tunnels", "final", "old_tunnels", "The tunnel mouth outside the Capital's wall (marked on the map)"],
+	"S-BEEF": ["Only the Worthy Climb", "Old Man Mountain has opened the gate. The trail up Mount Swolympus starts at the far end of the ridge.",
+		"Climb Mount Swolympus", "beefcake", GainlandsZone.SWOLYMPUS_TRAIL, "Through the open gate at the overlook, at the far end of the ridge"],
+}
+
+
+static func way_in_id(dungeon_id: String) -> String:
+	return "way_in_" + dungeon_id.to_lower().replace("-", "_")
+
+
+static func way_in_quests() -> Array[QuestData]:
+	var result: Array[QuestData] = []
+	for dungeon_id: String in WAY_IN.keys():
+		var row: Array = WAY_IN[dungeon_id] as Array
+		var quest: QuestData = QuestData.new()
+		quest.id = way_in_id(dungeon_id)
+		quest.category = QuestData.Category.SIDE
+		quest.title = str(row[0])
+		quest.summary = str(row[1])
+		quest.auto_give = true
+		quest.prerequisite = Condition.quest_completed(str(SIDE_QUESTS[dungeon_id]))
+		quest.objectives = [
+			QuestObjective.make(str(row[2]), Condition.flag(str(SignatureCards.cleared_flag(dungeon_id))))
+				.at(QuestObjective.TargetKind.DUNGEON, str(row[3]), str(row[4]), str(row[5])),
+		] as Array[QuestObjective]
+		quest.reward_gold = 30
+		quest.reward_xp = 20
+		quest.order = WAY_IN_ORDER + result.size()
+		result.append(quest)
+	return result
+
+
+const WAY_IN_ORDER: int = 372
 
 
 ## Fix pass Nov 7 (item 14, C5 F4): the Shattered Gallery's own line in the postgame - given at once, with a pin at every step: find Wren in

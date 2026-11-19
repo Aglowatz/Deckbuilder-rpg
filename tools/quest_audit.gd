@@ -112,6 +112,10 @@ func _collect_generated() -> void:
 		_generated[str(barricade.flag)] = "HeapGrowth barricade smashed"
 	for zone_id: String in ZoneQuestDefinitions.DEFEAT_THREE.keys():
 		_generated[ZoneQuestDefinitions.defeat_three_counter(zone_id)] = "ZoneQuestDefinitions.defeat_three_counter (GameSession.note_defeat_three)"
+	# Fable Nov 20: a side dungeon's "cleared" flag is made from its id (GameSession.side_cleared_flag, set by resolve_mini_dungeon)
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		if plan.is_side() or plan.is_postgame():
+			_generated[str(SignatureCards.cleared_flag(plan.id))] = "SignatureCards.cleared_flag (GameSession.resolve_mini_dungeon)"
 	for chest_id: String in NinjaBoss.CHEST_IDS:
 		_generated[NinjaBoss.secret_id(chest_id)] = "NinjaBoss.secret_id (Session.open_giant_chest)"
 	for zone_id: String in ZoneDefs.all_ids():

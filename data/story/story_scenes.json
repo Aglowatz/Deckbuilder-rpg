@@ -719,17 +719,17 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think...",
-					"No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another."
+					"Three. And you're looking at these woods as though you've stood in them before. It's coming back, isn't it? A room, a voice, the taste of frosting.",
+					"I've waited ten years to see that look, and I swore I wouldn't hurry it. A past that someone hands you is only one more thing they've told you to be."
 				],
 				[
 					"NPC-PLAYER",
-					"Maren keeps starting a story about a boy at court, then stops. You knew me, didn't you?"
+					"Bars, white coats, a courtyard. And Maren keeps starting a story about a boy at court. You've known who I am all along, haven't you?"
 				],
 				[
 					"NPC-ELOWEN",
-					"I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake.",
-					"You'd have liked him. He was hopeless at hiding anything."
+					"I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake. I knew where they took him, too. I got him out.",
+					"You know who you are. Now go free the last zone {villain} holds, and prove it."
 				]
 			]
 		},

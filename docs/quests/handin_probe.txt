@@ -1,0 +1,6 @@
+handin | PASS | meet_the_merchants | Elder Maren | town/elder | talks 2
+handin | PASS | first_deck_edit | Elder Maren | town/elder | talks 2
+handin | PASS | storeroom_ghosts | Elder Maren | town/elder | talks 2
+handin | PASS | side_s_town | Elder Maren | town/elder | talks 2
+handin | PASS | town_outskirts_watch | Gatekeeper Brannoch | town/guard | talks 2
+handin: 5 passed, 0 failed

@@ -75,6 +75,9 @@ static func set_glow(chest: Node3D, on: bool) -> void:
 	glow.add_child(sparkles)
 
 
+const KEY_FOUND_TOAST: String = "At the bottom of the chest lies an old iron key. Bring it to Elder Maren."
+
+
 ## Opens giant chest `chest_id` (a node of the scene at `chest_position`): the whole scene described above. The scene is locked until it ends.
 static func play(host: Node3D, chest_id: String, chest: Node3D) -> void:
 	var player: TownPlayer = host.get("player") as TownPlayer
@@ -107,6 +110,9 @@ static func play(host: Node3D, chest_id: String, chest: Node3D) -> void:
 	await tree.create_timer(0.9).timeout
 	if bool(result.get("is_fifth", false)):
 		host.call("on_ninja_ready")
+	# Fable Nov 20 (Part 4.1): "The Door Under the Well" - the old key lies at the bottom of Crosspath's chest; say so, and where it goes
+	if chest_id == NinjaBoss.ORIGINAL_CHEST and Session.quest_log != null and Session.quest_log.is_active(ZoneQuestDefinitions.SIDE_TOWN):
+		hud.toast(KEY_FOUND_TOAST, UIStyle.GOLD)
 	Session.save_game()
 	host.call("set_world_locked", false)
 	player.input_enabled = true

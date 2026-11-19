@@ -143,7 +143,7 @@ static func build_def() -> ZoneDef:
 		_spot("wren", "Billie Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Billie Muckfoot"}),
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town", "exit"),
-		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon", {"no_plate": true}),
+		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill", "mini_dungeon", {"no_plate": true}),
 		_spot("main_dungeon", "The Rotheart", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Descend into the Rotheart", "main_dungeon", {"no_plate": true}),
 		_spot("puzzle", "The Gardeners' Chest", "puzzle", Vector3(0, 0, 1.4), 1.9, "Open the chest", "reward_chest"),  # Fable Nov 16c: the Seed Shrine garden is gone; its reward is in a chest here
 		_spot("quiz", "Druid Thistlewick, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-THISTLEWICK", "speaker": "Druid Thistlewick"}),

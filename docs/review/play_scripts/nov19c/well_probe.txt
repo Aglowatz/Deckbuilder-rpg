@@ -1,0 +1,21 @@
+# Fable Nov 20, Part 4.1: where is the hidden chest of "The Door Under the Well", and can it be reached?
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 8
+dev travel town
+wait 20
+skip_dialogue
+calm
+cam 0
+spots
+scene
+dev goto chest
+wait 2
+shot well_chest_goto
+scene
+key M
+wait 2
+shot well_map
+key M

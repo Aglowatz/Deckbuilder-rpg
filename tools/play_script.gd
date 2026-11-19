@@ -215,6 +215,9 @@ func _run_line(line: String) -> void:
 			# for every pitch bonus x distance (comma lists, e.g. 0,4,6,8 and 0.9,1,1.1): <prefix>_p<pitch>_d<dist>. The place's own default
 			# comes back afterwards.
 			await _cam_grid(parts)
+		"handins":
+			# Fable Nov 20 (Part 4.2): `handins [area]` - the quest hand-in probe (tools/run_quest_handin_probe.sh)
+			await _handins(parts[1] if parts.size() > 1 else "")
 		"fadecat":
 			# `fadecat`: every thing the fader knows here, with its type and rule (the fade probe's list)
 			var fader_cat: Node = FadeScan.find_fader(get_tree().current_scene)
@@ -672,6 +675,76 @@ func _dev(parts: PackedStringArray) -> void:
 
 
 ## The hero onto the spot `id` of the current scene (a ZoneScene or the TownScene: both keep `spots`, `player`, `_camera`, `camera_offset`).
+## Fable Nov 20 (Part 4.2): the quest hand-in probe. For every quest that is handed in to somebody (`QuestData.turn_in_npc`): the quest
+## is set to "every step done", the hero is put in the hand-in area on that NPC's spot, E is pressed and the talk is clicked through;
+## the quest must then be completed. It fails when the NPC's spot is not in that area in that state, or when the talk does not
+## complete the quest (Gatekeeper Brannoch's "Outskirts Watch" could not be handed in). One line per quest: `handin | PASS/FAIL | ...`.
+func _handins(only_area: String) -> void:
+	var by_area: Dictionary = {}
+	var order: Array[String] = []
+	for quest: QuestData in QuestCatalog.all():
+		if quest.turn_in_npc.is_empty():
+			continue
+		if quest.turn_in_area.is_empty() or quest.turn_in_spot.is_empty():
+			_say("  handin | FAIL | %s | %s | no hand-in place set (area '%s', spot '%s')" % [quest.id, quest.turn_in_npc, quest.turn_in_area, quest.turn_in_spot])
+			continue
+		if not only_area.is_empty() and quest.turn_in_area != only_area:
+			continue
+		if not by_area.has(quest.turn_in_area):
+			by_area[quest.turn_in_area] = [] as Array[QuestData]
+			order.append(quest.turn_in_area)
+		(by_area[quest.turn_in_area] as Array[QuestData]).append(quest)
+	var passed: int = 0
+	var failed: int = 0
+	for area: String in order:
+		for quest: QuestData in by_area[area] as Array[QuestData]:
+			# a fresh game per quest: one quest's forced steps (a zone freed, Primm beaten) never change who stands where for the next
+			Session.save_enabled = false
+			Session.new_game()
+			Session.ensure_game(Affinity.Type.BEEFCAKE)
+			DevActions.set_level(12, true)
+			Session.set_flag(&"trial_cleared")
+			Session.set_flag(&"elder_greeted")
+			Session.set_flag(&"maren_met")
+			DevActions.set_quest_step(quest.id, quest.objectives.size())
+			var ready: bool = Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state())
+			if area == "town":
+				DevActions.travel_town()
+			else:
+				DevActions.travel_zone(area)
+			await driver.seconds(14.0 if area == "final" else 9.0)
+			await _skip_dialogue(30)
+			var scene_now: Node = get_tree().current_scene
+			if scene_now != null and "_spawn_grace" in scene_now:
+				scene_now.set("_spawn_grace", 600.0)
+			var went: String = _goto_spot(quest.turn_in_spot)
+			if went.begins_with("goto: no spot") and area == "final":
+				DevActions.travel_capital_inside()
+				await driver.seconds(12.0)
+				await _skip_dialogue(30)
+				went = _goto_spot(quest.turn_in_spot)
+			if went.begins_with("goto: "):
+				failed += 1
+				_say("  handin | FAIL | %s | %s | %s/%s | the NPC's spot is not there in this state (%s)" % [quest.id, quest.turn_in_npc, area, quest.turn_in_spot, went])
+				continue
+			await driver.seconds(0.8)
+			var tries: int = 0
+			while not Session.quest_log.is_completed(quest.id) and tries < 3:
+				await driver.tap_key(KEY_E)
+				await driver.seconds(0.6)
+				await _skip_dialogue(40)
+				await driver.seconds(0.4)
+				tries += 1
+			if Session.quest_log.is_completed(quest.id):
+				passed += 1
+				_say("  handin | PASS | %s | %s | %s/%s | talks %d%s" % [quest.id, quest.turn_in_npc, area, quest.turn_in_spot, tries, "" if ready else " (not ready after forcing every step: check the step conditions)"])
+			else:
+				failed += 1
+				_say("  handin | FAIL | %s | %s | %s/%s | talking %d times did not complete it (ready before the talk: %s)" % [quest.id, quest.turn_in_npc, area, quest.turn_in_spot, tries, str(ready)])
+			await _skip_dialogue(20)
+	_say("  handin: %d passed, %d failed" % [passed, failed])
+
+
 func _goto_spot(id: String) -> String:
 	var scene: Node = get_tree().current_scene
 	if scene == null or not ("spots" in scene) or not ("player" in scene):

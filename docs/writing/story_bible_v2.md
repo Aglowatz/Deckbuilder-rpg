@@ -308,6 +308,10 @@ name is her father's.
 - **Prologue:** brisk, low, practical, frightened for him. "I'll find you. I always do."
 - **Cave mouth 1-4:** she will not come into town ("the old woman with the shell looks at me like I owe her something, and she's probably
   right"). She checks his hands, brings tea, nearly says it, stops herself. Each visit her hood is a little further down.
+  **She knows exactly who he is from the first line of the game** (she knew what was being done to him and got him out); she holds his
+  name back because he has to remember on his own: "A past that someone hands you is only one more thing they've told you to be." At
+  the third visit (Fable Nov 20) she sees that his memories are coming back and says so: "You know who you are. Now go free the last
+  zone Primm holds, and prove it." She never doubts who he is and never "starts to think" it might be him.
 - **Castle gate:** she is there, as promised, and is taken in front of him. He learns her name from the man who takes her.
 - **Postgame:** in his cell, under his drawing. "Took you long enough, Tess."
 

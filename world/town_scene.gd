@@ -2450,15 +2450,38 @@ func _talk_guard() -> void:
 			_locked = false
 			_isla_arrives())
 		return
-	if Session.flag(&"isla_home") and Session.quests_offered_by(speaker).is_empty() and not Session.quest_log.is_active(QuestDefinitions.FREE_ZONES):
+	# Fable Nov 20 (Part 4.2): a quest of his that is done is handed in first ("Outskirts Watch" could never be handed in: he only
+	# knew how to give the Capital's quest and talk about it).
+	var ready: Array[QuestData] = Session.quests_ready_for(speaker)
+	if not ready.is_empty():
+		var finished_quest: QuestData = ready[0]
+		var ready_lines: Array[String] = DungeonCatalog.text_lines("quest.%s.ready" % finished_quest.id)
+		if ready_lines.is_empty():
+			ready_lines = _guard_lines()
+		_talk_npc("guard", speaker, ready_lines)
+		dialogue.finished.connect(func() -> void: Session.turn_in_quest(finished_quest.id), CONNECT_ONE_SHOT)
+		return
+	if Session.flag(&"isla_home") and Session.quests_offered_by(speaker).is_empty() and Session.quests_active_for(speaker).is_empty() and not Session.quest_log.is_active(QuestDefinitions.FREE_ZONES):
 		_face_npc("guard")
 		StoryScenePlayer.play(dialogue, "brannoch_isla")
 		return
 	if not Session.quests_offered_by(speaker).is_empty():
+		# the Capital's quest first, in his own words; any other quest of his is offered with that quest's own lines
 		var offer: QuestData = Session.quests_offered_by(speaker)[0]
-		_talk_npc("guard", speaker, story.get_lines("town.guard.capital_offer"))
+		for candidate: QuestData in Session.quests_offered_by(speaker):
+			if candidate.id == QuestDefinitions.FREE_ZONES:
+				offer = candidate
+		var offer_lines: Array[String] = story.get_lines("town.guard.capital_offer") if offer.id == QuestDefinitions.FREE_ZONES else DungeonCatalog.text_lines("quest.%s.offer" % offer.id)
+		if offer_lines.is_empty():
+			offer_lines = _guard_lines()
+		_talk_npc("guard", speaker, offer_lines)
 		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
 		return
+	# a quest of his still under way (not the Capital's, which has its own lines below): its reminder
+	for active_quest: QuestData in Session.quests_active_for(speaker):
+		if active_quest.id != QuestDefinitions.FREE_ZONES and not DungeonCatalog.text_lines("quest.%s.active" % active_quest.id).is_empty():
+			_talk_npc("guard", speaker, DungeonCatalog.text_lines("quest.%s.active" % active_quest.id))
+			return
 	if Session.quest_log.is_active(QuestDefinitions.FREE_ZONES):
 		var key: String = "town.guard.capital_done" if ZoneCompletion.count(Session.flags) >= ZoneCompletion.TOTAL_ZONES else "town.guard.capital_active"
 		_talk_npc("guard", speaker, story.get_lines(key))
@@ -2482,7 +2505,7 @@ func _use_well_door() -> void:
 	if plan == null:
 		return
 	if not Session.side_unlocked(plan.id):
-		hud.toast("The hatch is locked tight. The Elder might know why.", Color("ffcf70"))
+		hud.toast(ZoneQuestDefinitions.sealed_message(plan.id), Color("ffcf70"))
 		Audio.sfx(&"ui_error")
 		return
 	if not Session.any_deck_valid():

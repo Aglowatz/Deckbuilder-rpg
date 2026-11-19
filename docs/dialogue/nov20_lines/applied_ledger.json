@@ -1,0 +1,51 @@
+[
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_town.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "I always thought the key was lost, but it wasn't. Somebody hid it in a chest right here in town, so if you find it for me, we'll see what that door is for.",
+		"after": "I always thought the key was lost, but it wasn't. Somebody hid it in the big chest out east, dearie, on the little spit of land where the lane past the Rift Express stop meets the water. Fetch it and we'll see what that door is for."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_town.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "The key's in a hidden chest somewhere in town, so look in the odd corners, dearie. This town has never quite managed a straight one, and I've had a long time to check.",
+		"after": "The key's in the big chest out east, dearie. Go past the Rift Express stop until the lane meets the water, and it's on the little spit of land there. It's marked on your map, so even I could find it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elowen",
+		"before": "Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think...",
+		"after": "Three. And you're looking at these woods as though you've stood in them before. It's coming back, isn't it? A room, a voice, the taste of frosting."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elowen",
+		"before": "No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another.",
+		"after": "I've waited ten years to see that look, and I swore I wouldn't hurry it. A past that someone hands you is only one more thing they've told you to be."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "Maren keeps starting a story about a boy at court, then stops. You knew me, didn't you?",
+		"after": "Bars, white coats, a courtyard. And Maren keeps starting a story about a boy at court. You've known who I am all along, haven't you?"
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elowen",
+		"before": "I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake.",
+		"after": "I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake. I knew where they took him, too. I got him out."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elowen",
+		"before": "You'd have liked him. He was hopeless at hiding anything.",
+		"after": "You know who you are. Now go free the last zone {villain} holds, and prove it."
+	}
+]

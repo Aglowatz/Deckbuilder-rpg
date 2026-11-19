@@ -1855,7 +1855,8 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 		return
 	# A side dungeon opens once its quest is done (`ZoneQuestDefinitions.SIDE_QUESTS`); until then the entrance only drops the hook.
 	if not Session.side_unlocked(plan.id):
-		hud.toast("%s is sealed. %s" % [SpoilerFree.dungeon_name(plan.id, plan.dungeon_name), plan.hook], Color("ffcf70"))
+		# Fable Nov 20 (Part 4.3): the entrance names itself (never "???") and says who to ask, in one line
+		hud.toast(ZoneQuestDefinitions.sealed_message(plan.id), Color("ffcf70"))
 		Audio.sfx(&"ui_error")
 		return
 	_locked = true
