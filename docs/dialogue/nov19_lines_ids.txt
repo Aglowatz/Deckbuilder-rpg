@@ -22,3 +22,7 @@ data/story/intro_story.tres::town.alchemist.intro::3
 data/story/intro_story.tres::town.alchemist.return::0
 data/story/intro_story.tres::town.alchemist.quest_gift::0
 data/story/intro_story.tres::town.elder.progress.2::0
+data/story/intro_story.tres::town.arena.intro::2
+data/story/intro_story.tres::town.arena.intro::3
+data/story/intro_story.tres::arena.screen.locked::0
+data/story/intro_story.tres::arena.won.first::0

@@ -32,7 +32,7 @@ const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## The town NPCs that are painted sprites (docs/art/world_rollout.md, Part D): spot id -> sprite set. Everyone else is still a 3D model.
-const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN", "hob": "HOB", "isla": "ISLA", "hidden_vendor": "DEALER"}
+const NPC_SPRITES: Dictionary = {"arena_guard": "CAPITAL_GUARD", "elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN", "hob": "HOB", "isla": "ISLA", "hidden_vendor": "DEALER"}
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
 	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker", "rescuer", "hob", "isla",
@@ -653,6 +653,9 @@ func _build_actors() -> void:
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	if Session.arena_unlocked() and not town.hub_land:  # Oct 16: Grand Bellows runs the ring underground now (The Undercroft)
 		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
+	elif not Session.arena_unlocked() and town.anchors.has("npc_arena"):
+		# Overnight Nov 19 (Part 6.9): one of Primm's guards turns the hero away until the Arena opens.
+		_add_npc("arena_guard", "Knight", town.anchors["npc_arena"] as Vector3, 200.0)
 	_build_baker()
 	_build_strollers()
 	_build_standing_townsfolk()
@@ -3018,9 +3021,11 @@ func _open_alchemist() -> void:
 func _use_arena() -> void:
 	var story: StoryText = StoryText.shared()
 	if not Session.arena_unlocked():
+		if _npcs.has("arena_guard"):
+			_face_npc("arena_guard")
+			dialogue.start("Primm's Guard", story.get_lines("town.arena.guard"), "NPC-CAPITAL-GUARD")
+			return
 		dialogue.start(story.text("town.arena.name"), story.get_lines("town.arena.locked"))
-		if not town.hub_land:
-			hud.toast("The Arena is closed (%d of %d zones free)" % [Session.completed_zone_count(), ZoneCompletion.ARENA_UNLOCK_COUNT], Color("ffcf70"))
 		return
 	_face_npc("arena")
 	var lines: Array[String] = story.get_lines("town.arena.return" if Session.flag(&"arena_met") else "town.arena.intro")
@@ -3040,8 +3045,18 @@ func _open_arena(result: Dictionary = {}) -> void:
 		_locked = true
 		var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
 		var rules: Array[RuleBadges.Badge] = RuleBadges.for_encounter(EncounterModifiers.rules(ArenaScenario.rules_key(encounter)))
-		DeckPicker.guard(_overlay_layer, func() -> void:
-			RulesBrief.open(self, rules, "Before the fight: %s" % encounter.enemy_name, Session.start_arena_battle.bind(encounter_id)), func() -> void: _locked = false))
+		var go: Callable = func() -> void: RulesBrief.open(self, rules, "Before the fight: %s" % encounter.enemy_name, Session.start_arena_battle.bind(encounter_id))
+		# Overnight Nov 19 (Part 6.7): a bout with a set deck says so (its name and cards) with a Continue button - the deck choice did not matter.
+		if encounter.uses_restricted_deck():
+			var notice: AnnouncementScreen = AnnouncementScreen.make("A preset deck", "This bout uses %s, not your own deck. Here is what you get:" % ArenaScenario.preset_deck_name(encounter), ArenaScenario.preset_deck_lines(Session.content, encounter))
+			notice.name = "PresetDeckNotice"
+			notice.sting = "none"
+			_overlay_layer.add_child(notice)
+			notice.finished.connect(func() -> void:
+				notice.queue_free()
+				go.call())
+			return
+		DeckPicker.guard(_overlay_layer, go, func() -> void: _locked = false))
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 

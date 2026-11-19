@@ -159,5 +159,33 @@
 		"speaker": "Elder Maren",
 		"before": "Two zones free, and Auntie Alembic has opened the Alchemist's on the square. She brews cards from two Paths at once, if you can stand all the steam.",
 		"after": "Two zones free. Have you been to Auntie Alembic's yet? She brews cards of two Paths at once, if you can stand all the steam."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.arena.intro::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "SINCE YOU FREED A ZONE, THE RING IS OPEN! (normal voice) It's battles and puzzles, tiers one to three, and there are prizes for you: ring-exclusive gear, gold and essence.",
+		"after": "WITH {villain}'S GUARDS GONE FROM CROSSPATH, THE RING IS OPEN AGAIN! (normal voice) He needs his soldiers elsewhere these days, it seems. His grip on this corner has slipped, and the sand is ours."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.arena.intro::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "FIRST CLEARS PAY OUT, AND REPEATS ARE FOR GLORY! (normal voice) And for snacks, I should say. I brought snacks, and there are plenty to go round.",
+		"after": "EVERY WIN PAYS GOLD AND A PACK, AND EVERY TIER HAS ITS PRIZE! (normal voice) Bronze to Diamond, battles and puzzles. Beat a whole tier and the next one opens. I brought snacks."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.won.first::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "VICTORY ON THE SAND, AND THE PRIZE IS YOURS! (normal voice) Do mind your head on the way up to collect it, because the ceiling doesn't celebrate with the rest of us.",
+		"after": "VICTORY ON THE SAND, AND THE SPOILS ARE YOURS! (normal voice) Do mind your head on the way up to collect them, because the ceiling doesn't celebrate with the rest of us."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.screen.locked::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "The gates are chained until the first zone is free.",
+		"after": "Chained shut by order of {villain_title}. Come back once his guards have moved on."
 	}
 ]

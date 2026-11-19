@@ -26,6 +26,7 @@ func _build() -> void:
 	header_extra.add_child(UIKit.label("%d of %d cleared" % [cleared, ArenaDefs.all().size()], &"", 28, UIStyle.GOLD))
 	if not result.is_empty():
 		body.add_child(_result_banner(story))
+		_show_result_popups.call_deferred()
 	if stage != null:
 		body.add_child(_podium())
 	var scroll: ScrollContainer = ScrollContainer.new()
@@ -35,17 +36,27 @@ func _build() -> void:
 	var list: VBoxContainer = UIKit.vbox(10)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(list)
-	for tier: int in range(1, 4):
+	for tier: int in range(1, ArenaDefs.TIER_COUNT + 1):
+		var open: bool = Session.arena_tier_open(tier)
 		var head: HBoxContainer = UIKit.hbox(14)
 		list.add_child(head)
 		var tier_label: Label = UIKit.label(story.text("arena.tier.%d" % tier), &"HeadingLabel", 32)
 		tier_label.name = "Tier%d" % tier
+		if not open:
+			tier_label.modulate = Color(0.6, 0.6, 0.65)
 		head.add_child(tier_label)
-		var tier_blurb: Label = UIKit.label(story.text("arena.tier.%d.blurb" % tier), &"MutedLabel", 20)
+		var tier_blurb: Label = UIKit.label(story.text("arena.tier.%d.blurb" % tier) if open else "Locked: beat every bout of %s first." % story.text("arena.tier.%d" % (tier - 1)), &"MutedLabel", 20)
 		tier_blurb.size_flags_vertical = Control.SIZE_SHRINK_END
 		head.add_child(tier_blurb)
 		for encounter: ArenaEncounter in ArenaDefs.in_tier(tier):
-			list.add_child(_row(encounter, story))
+			var row: Control = _row(encounter, story)
+			if not open:
+				row.modulate = Color(0.55, 0.55, 0.6, 0.85)
+				var fight: Button = row.find_child("Fight_%s" % encounter.id, true, false) as Button
+				if fight != null:
+					fight.disabled = true
+					fight.text = "Locked"
+			list.add_child(row)
 
 
 func _result_banner(story: StoryText) -> Control:
@@ -105,7 +116,7 @@ func _row(encounter: ArenaEncounter, story: StoryText) -> Control:
 	var prize_box: VBoxContainer = UIKit.vbox(2)
 	prize_box.custom_minimum_size = Vector2(330.0 - _narrow() * 0.2, 0)
 	line.add_child(prize_box)
-	prize_box.add_child(UIKit.label(story.text("arena.screen.first_prize"), &"MutedLabel", 17))
+	prize_box.add_child(UIKit.label("Each win pays", &"MutedLabel", 17))
 	var prize: Label = UIKit.label(reward_text(ArenaScenario.resolve_reward(encounter, Session.profile.primary_affinity)), &"", 21, UIStyle.GOLD)
 	prize.name = "PrizeText"
 	prize.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -128,26 +139,63 @@ func _narrow() -> float:
 	return 0.0 if stage == null else 380.0
 
 
-## The prize podium of the announcer's booth: the first-clear prizes still to win (the next three bouts), with a trophy each.
+## Overnight Nov 19 (Part 6.2): the prize podium shows the current tier's prize (paid once every bout of the tier is beaten); later tiers'
+## prizes are greyed out and locked until reached.
 func _podium() -> Control:
 	var panel: PanelContainer = UIKit.panel()
 	panel.name = "PrizePodium"
 	var line: HBoxContainer = UIKit.hbox(18)
 	panel.add_child(line)
 	line.add_child(UIKit.label("Prize podium", &"HeadingLabel", 26, UIStyle.GOLD))
-	var shown: int = 0
-	for encounter: ArenaEncounter in ArenaDefs.all():
-		if Session.is_arena_cleared(encounter.id) or shown >= 3:
-			continue
-		shown += 1
-		line.add_child(CardIcons.glyph(CardIcons.ui("gems"), UIStyle.GOLD, Vector2(34, 34)))
-		var prize: Label = UIKit.label(reward_text(ArenaScenario.resolve_reward(encounter, Session.profile.primary_affinity)), &"", 19, UIStyle.PARCHMENT)
-		prize.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		prize.custom_minimum_size = Vector2(230, 0)
-		line.add_child(prize)
-	if shown == 0:
+	var story: StoryText = StoryText.shared()
+	var current: int = ArenaDefs.current_tier(Session.flags)
+	if current > ArenaDefs.TIER_COUNT:
 		line.add_child(UIKit.label("Every prize is yours, champion.", &"", 22, UIStyle.GOOD))
+		return panel
+	for tier: int in range(current, ArenaDefs.TIER_COUNT + 1):
+		var box: VBoxContainer = UIKit.vbox(2)
+		box.name = "PodiumTier%d" % tier
+		var locked: bool = tier != current
+		box.add_child(UIKit.label(story.text("arena.tier.%d" % tier) + (" (locked)" if locked else ": the prize for beating every bout"), &"MutedLabel", 17))
+		var prize: Label = UIKit.label(reward_text(ArenaDefs.TIER_PRIZES.get(tier, {}) as Dictionary) if not locked else "???", &"", 20, UIStyle.GOLD if not locked else UIStyle.MUTED)
+		prize.name = "PodiumPrize"
+		prize.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		prize.custom_minimum_size = Vector2(300 if not locked else 120, 0)
+		box.add_child(prize)
+		if locked:
+			box.modulate = Color(0.6, 0.6, 0.65, 0.8)
+		line.add_child(box)
 	return panel
+
+
+## Overnight Nov 19 (Part 6.6): after a win, "Victory!" with what was won; when a tier is complete, a second pop-up with the tier's prize and
+## the next tier opening. Each waits for a click or Space.
+func _show_result_popups() -> void:
+	if not bool(result.get("won", false)) or not is_inside_tree():
+		return
+	var lines: Array[String] = []
+	if bool(result.get("first_clear", false)):
+		lines.append(reward_text(result.get("reward", {}) as Dictionary))
+	elif int(result.get("replay_gold", 0)) > 0:
+		lines.append("%d gold" % int(result["replay_gold"]))
+	var victory: AnnouncementScreen = AnnouncementScreen.make("Victory!", "You won on the sand. Here is what you take home:", lines)
+	victory.name = "ArenaVictory"
+	add_child(victory)
+	await victory.finished
+	victory.queue_free()
+	if result.has("tier_complete"):
+		var tier: int = int(result["tier_complete"])
+		var story: StoryText = StoryText.shared()
+		var body_text: String = "Every bout of %s is beaten." % story.text("arena.tier.%d" % tier)
+		if result.has("next_tier"):
+			body_text += " %s is open!" % story.text("arena.tier.%d" % int(result["next_tier"]))
+		else:
+			body_text += " You have beaten the whole Undercroft. More copies of Announcer Grand Bellows are sold at Sable's stall."
+		var done: AnnouncementScreen = AnnouncementScreen.make("Tier complete!", body_text, ["Tier prize: %s" % reward_text(result.get("tier_prize", {}) as Dictionary)])
+		done.name = "ArenaTierComplete"
+		add_child(done)
+		await done.finished
+		done.queue_free()
 
 ## "90 gold, 40 XP, 5 Beefcake essence" / "Champion's Laurels (Helm)" - the prize of a (resolved) reward.
 static func reward_text(reward: Dictionary) -> String:
@@ -164,6 +212,10 @@ static func reward_text(reward: Dictionary) -> String:
 		var card: CardData = Session.card_by_id(str(reward["card"]))
 		if card != null:
 			parts.append(card.display_name)
+	if reward.has("pack"):
+		var pack: PackData = PackCatalog.find(str(reward["pack"])) if str(reward["pack"]) != "primary" else PackCatalog.path_pack(Session.profile.primary_affinity)
+		if pack != null:
+			parts.append("a %s" % pack.display_name)
 	if reward.has("gold"):
 		parts.append("%d gold" % int(reward["gold"]))
 	if reward.has("xp"):

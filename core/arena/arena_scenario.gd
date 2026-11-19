@@ -21,6 +21,39 @@ static func player_deck(content: ContentSet, encounter: ArenaEncounter, own_deck
 	return own_deck
 
 
+## Overnight Nov 19 (Part 6.7): the preset deck's name for the "this bout uses a preset deck" screen.
+static func preset_deck_name(encounter: ArenaEncounter) -> String:
+	if encounter.is_puzzle():
+		return "the puzzle's preset board and hand"
+	match encounter.id:
+		"arena_neutral_mile":
+			return "the Gladiator's Kit"
+		"arena_spells_only":
+			return "the Spellslinger's Satchel"
+	return "a preset deck"
+
+
+## The preset deck's cards as lines ("3x Dropped Weights"), basic Infrastructure last as one line.
+static func preset_deck_lines(content: ContentSet, encounter: ArenaEncounter) -> Array[String]:
+	var lines: Array[String] = []
+	var basics: int = 0
+	var ids: Array = encounter.player_recipe.keys()
+	if encounter.is_puzzle() and encounter.preset.has("player"):
+		ids = ((encounter.preset["player"] as Dictionary).get("hand", {}) as Dictionary).keys()
+	for id: Variant in ids:
+		var card: CardData = content.card(str(id))
+		var count: int = int(encounter.player_recipe.get(id, 1)) if not encounter.is_puzzle() else int((((encounter.preset["player"] as Dictionary).get("hand", {}) as Dictionary).get(id, 1)))
+		if card == null:
+			continue
+		if card.is_unlimited():
+			basics += count
+			continue
+		lines.append("%dx %s" % [count, card.display_name])
+	if basics > 0:
+		lines.append("%d basic Infrastructure" % basics)
+	return lines
+
+
 ## The key of an arena fight's one-sided rules in data/encounters/modifiers.json.
 static func rules_key(encounter: ArenaEncounter) -> String:
 	return "arena:%s" % encounter.id
@@ -117,6 +150,10 @@ static func resolve_reward(encounter: ArenaEncounter, primary: Affinity.Type, le
 	for key: String in ["gold", "xp"]:
 		if result.has(key):
 			result[key] = int(round(float(int(result[key])) * factor / 5.0)) * 5
+	# Overnight Nov 19 (Part 6.3): every win pays a pack; "primary" is the player's own Path Pack.
+	if result.has("pack") and str(result["pack"]) == "primary":
+		var path_pack: PackData = PackCatalog.path_pack(primary)
+		result["pack"] = path_pack.id if path_pack != null else "general_1"
 	var essence: Dictionary = {}
 	for key: Variant in (encounter.reward.get("essence", {}) as Dictionary).keys():
 		var path: Affinity.Type = primary if str(key) == "primary" else Affinity.from_symbol(str(key))

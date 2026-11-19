@@ -38,10 +38,12 @@ func _game_with_gear(piece: EquipmentData, starting_hp: int = -1) -> GameState:
 
 func test_there_are_eight_encounters_in_three_tiers_mixing_battles_and_puzzles() -> void:
 	var all: Array[ArenaEncounter] = ArenaDefs.all()
-	assert_eq(all.size(), 8)
+	# Overnight Nov 19 (Part 6): four tiers - Gold and Diamond have one puzzle and one battle each.
+	assert_eq(all.size(), 10)
 	assert_eq(ArenaDefs.in_tier(1).size(), 3)
 	assert_eq(ArenaDefs.in_tier(2).size(), 3)
 	assert_eq(ArenaDefs.in_tier(3).size(), 2)
+	assert_eq(ArenaDefs.in_tier(4).size(), 2)
 	var puzzles: int = 0
 	var goals: Dictionary = {}
 	for encounter: ArenaEncounter in all:
@@ -92,9 +94,12 @@ func test_the_prizes_include_four_exclusive_equipment_gold_and_essence() -> void
 	var equipment_ids: Dictionary = {}
 	var has_gold: bool = false
 	var has_essence: bool = false
+	# Overnight Nov 19 (Part 6.4): the equipment is the tiers' prizes now; every bout pays gold and a pack.
+	for tier: int in ArenaDefs.TIER_PRIZES.keys():
+		equipment_ids[str((ArenaDefs.TIER_PRIZES[tier] as Dictionary)["equipment"])] = true
 	for encounter: ArenaEncounter in ArenaDefs.all():
-		if encounter.reward.has("equipment"):
-			equipment_ids[str(encounter.reward["equipment"])] = true
+		assert_false(encounter.reward.has("equipment"), encounter.id)
+		assert_true(encounter.reward.has("pack"), "%s pays a pack" % encounter.id)
 		has_gold = has_gold or encounter.reward.has("gold")
 		has_essence = has_essence or encounter.reward.has("essence")
 	assert_eq(equipment_ids.size(), 4)
@@ -346,17 +351,19 @@ func test_first_clear_pays_the_prize_once_then_only_replay_gold() -> void:
 	assert_true(Session.is_arena_cleared("arena_warmup"))
 	assert_eq(Session.arena_cleared_count(), 1)
 	assert_gte(Session.gold, gold_before + 90)
-	assert_eq(Session.profile.essence_of(A), 5, "essence of the player's own Path")
+	assert_true(str((first["reward"] as Dictionary).get("pack", "")).begins_with("path_"), "a pack of the player's own Path (Bronze pays packs)")
+	var packs: int = Session.profile.total_packs()
 	var gold_mid: int = Session.gold
 	var again: Dictionary = _win("arena_warmup")
 	assert_false(bool(again["first_clear"]))
 	assert_eq(Session.gold, gold_mid + Economy.ARENA_REPLAY_GOLD, "a replay pays only the small flat gold")
-	assert_eq(Session.profile.essence_of(A), 5, "no second prize")
+	assert_eq(Session.profile.total_packs(), packs, "no second prize")
 
 
 func test_equipment_prizes_are_granted_and_equippable() -> void:
-	var result: Dictionary = _win("arena_hold_the_line")
-	assert_eq(str((result["reward"] as Dictionary)["equipment"]), "champions_laurels")
+	for id: String in ["arena_warmup", "arena_lethal_lunch", "arena_neutral_mile"]:
+		_win(id)
+	assert_true(Session.flag(ArenaDefs.tier_flag(1)), "Bronze complete")
 	var piece: EquipmentData = _equipment("champions_laurels")
 	assert_true(Session.profile.owned_equipment.has(piece))
 	Session.profile.equipment_slots.append(EquipmentData.Slot.HELM)
@@ -422,12 +429,13 @@ func test_the_arena_screen_lists_every_encounter_with_status_and_prize() -> void
 		assert_not_null(row.find_child("Fight_%s" % encounter.id, true, false))
 	var cleared_row: Node = screen.find_child("ArenaRow_arena_warmup", true, false)
 	assert_eq((cleared_row.find_child("Status", true, false) as Label).text, "CLEARED")
-	var new_row: Node = screen.find_child("ArenaRow_arena_marshal", true, false)
+	var new_row: Node = screen.find_child("ArenaRow_arena_lethal_lunch", true, false)
 	assert_eq((new_row.find_child("Status", true, false) as Label).text, "NEW")
-	assert_true((new_row.find_child("PrizeText", true, false) as Label).text.contains("Bloodsand Boots"))
+	assert_true((new_row.find_child("PrizeText", true, false) as Label).text.contains("gold"))
 	watch_signals(screen)
-	(new_row.find_child("Fight_arena_marshal", true, false) as FancyButton).pressed.emit()
-	assert_signal_emitted_with_parameters(screen, "fight_chosen", ["arena_marshal"])
+	(new_row.find_child("Fight_arena_lethal_lunch", true, false) as FancyButton).pressed.emit()
+	assert_signal_emitted_with_parameters(screen, "fight_chosen", ["arena_lethal_lunch"])
+	assert_true((screen.find_child("Fight_arena_marshal", true, false) as Button).disabled, "Gold is locked until Silver is beaten")
 	assert_true((screen.find_child("Tier1", true, false) as Label).text == "Bronze Sand")
 
 
@@ -438,7 +446,7 @@ func test_the_result_banner_announces_the_prize() -> void:
 	add_child_autofree(screen)
 	await wait_frames(3)
 	assert_not_null(screen.find_child("ArenaResultBanner", true, false))
-	assert_true((screen.find_child("ArenaPrizeLine", true, false) as Label).text.contains("Bloodsand Boots"))
+	assert_true((screen.find_child("ArenaPrizeLine", true, false) as Label).text.contains("gold"))
 
 
 ## Overnight Nov 19 (Part 1.4): no banner across the top; the bout's rules are the first line of "Rules of this fight".

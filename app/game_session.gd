@@ -4065,7 +4065,7 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, encounter.enemy_ai), AIPlayer.Skill.BOSS if encounter.tier >= 3 else (AIPlayer.Skill.ELITE if encounter.tier == 2 else AIPlayer.Skill.NORMAL), encounter.enemy_name)
 	context.enemy_name = encounter.enemy_name
 	context.enemy_icon = "lorc/muscle-up" if encounter.tier < 3 else "delapouite/strong-man"
-	context.is_boss = encounter.tier == 3 and not encounter.is_puzzle()
+	context.is_boss = encounter.tier >= 3 and not encounter.is_puzzle()
 	context.arena_id = encounter_id
 	context.board_key = "arena"
 	context.encounter_rules = EncounterModifiers.rules(ArenaScenario.rules_key(encounter))
@@ -4075,6 +4075,9 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 
 
 func start_arena_battle(encounter_id: String) -> void:
+	var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
+	if encounter == null or not arena_tier_open(encounter.tier):
+		return  # Overnight Nov 19: a locked tier cannot be fought
 	start_battle(make_arena_battle(encounter_id))
 
 
@@ -4098,6 +4101,16 @@ func resolve_arena_battle(context: BattleContext) -> Dictionary:
 			var reward: Dictionary = ArenaScenario.resolve_reward(encounter, profile.primary_affinity, profile.level)
 			result["reward"] = reward
 			_grant_arena_reward(reward)
+			# Overnight Nov 19 (Part 6.4): the tier's prize once every bout of it is beaten; the next tier opens.
+			if ArenaDefs.tier_complete(encounter.tier, flags) and not flag(ArenaDefs.tier_flag(encounter.tier)):
+				set_flag(ArenaDefs.tier_flag(encounter.tier))
+				var prize: Dictionary = (ArenaDefs.TIER_PRIZES.get(encounter.tier, {}) as Dictionary).duplicate()
+				_grant_arena_reward(prize)
+				result["tier_complete"] = encounter.tier
+				result["tier_prize"] = prize
+				if encounter.tier < ArenaDefs.TIER_COUNT:
+					result["next_tier"] = encounter.tier + 1
+					mark_vendor_new("arena")
 		else:
 			result["replay_gold"] = encounter.replay_gold
 			add_gold(encounter.replay_gold)
@@ -4127,6 +4140,13 @@ func _grant_arena_reward(reward: Dictionary) -> void:
 		var card: CardData = card_by_id(str(reward["card"]))
 		if card != null:
 			add_cards([card] as Array[CardData])
+	if reward.has("pack"):
+		add_pack(str(reward["pack"]), 1)
+
+
+## Overnight Nov 19 (Part 6.1): whether an Arena tier is open (the first always; the next once every bout of the one before is beaten).
+func arena_tier_open(tier: int) -> bool:
+	return ArenaDefs.tier_open(tier, flags)
 
 
 
