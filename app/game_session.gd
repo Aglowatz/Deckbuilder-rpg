@@ -3565,7 +3565,25 @@ func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 
 
 ## The flag a side dungeon sets on its first clear (zones keep theirs in their `ZoneDef`; the Forgotten Vault under the town has its own).
+## Where a signature card is sold after its dungeon's first clear ("the D.N.A.'s shop", "the Capital's Black Market", "Sable's stall in Crosspath").
+func signature_shop_name(card_id: String) -> String:
+	var dungeon_id: String = SignatureCards.dungeon_of(card_id)
+	var shop: String = str((SignatureCards.TABLE.get(dungeon_id, ["", ""]) as Array)[1])
+	match shop:
+		"town":
+			return "Sable's stall in Crosspath"
+		"final":
+			return "the Capital's Black Market"
+	if ZoneDefs.has_def(shop):
+		var def: ZoneDef = ZoneDefs.get_def(shop)
+		return "%s's shop (%s)" % [def.display_name, def.vendor_name]
+	return "its zone's shop"
+
+
 func side_cleared_flag(plan: DungeonCatalog.Blueprint) -> StringName:
+	# Overnight Nov 19 (Part 4): one rule with the signature shops (a zone's second side dungeon keeps a flag of its own).
+	if plan != null:
+		return SignatureCards.cleared_flag(plan.id)
 	if plan != null and plan.id == PathologyLab.DUNGEON_ID:
 		return PathologyLab.FLAG_CLEARED
 	if plan != null and plan.id == PasteWorks.DUNGEON_ID:
@@ -3620,6 +3638,14 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			if card != null:
 				add_cards([card] as Array[CardData])
 				result["card"] = card.display_name
+				# Overnight Nov 19 (Part 4.1): the clear screen shows the signature card as a card, and says where more copies are sold.
+				var summary: RewardSummary = RewardSummary.new()
+				summary.title = "%s cleared!" % plan.dungeon_name
+				summary.subtitle = "Signature card: %s" % card.display_name
+				summary.cards = [card] as Array[CardData]
+				if SignatureCards.is_signature(card.id):
+					summary.unlocks = ["More copies are now sold in %s (never in packs)" % signature_shop_name(card.id)] as Array[String]
+				pending_popups.append(summary)
 			result["first_clear"] = true
 			# Fable pass Nov 1 (Part 3): a side dungeon's first clear pays XP scaled with its tier (DungeonClearBonus; it paid none).
 			var clear_xp: int = DungeonClearBonus.side_xp(plan.id)

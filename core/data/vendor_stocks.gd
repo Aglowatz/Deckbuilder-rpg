@@ -89,6 +89,8 @@ static func zone_shelf(content: ContentSet, path: Affinity.Type, zone_id: String
 		data.add(id, freed)
 	for id: String in _pool(content, [path], CardEnums.Rarity.LEGENDARY, earned):
 		data.add(id, late)
+	if state != null:
+		SignatureCards.add_to_shop(data, zone_id, state)  # Overnight Nov 19 (Part 4.2): the zone's mini dungeon prizes, after the first clear
 	return data
 
 

@@ -50,6 +50,10 @@ func _build() -> void:
 		# UI + economy fixes Oct 22, Part 5: Sable sells a small rotating sample, not every card (VendorStocks, docs/design/vendors.md).
 		stock = VendorStocks.sable_sample(Session.content, Session.unlock_state(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME),
 			ProgressionTable.BONUS_VENDOR_UNLOCK_LEVELS, Session.profile.primary_affinity if Session.profile != null else Affinity.Type.NEUTRAL)
+		# Overnight Nov 19 (Parts 4.2, 6.8): the Forgotten Vault's prize and, after the Arena's Diamond tier, Announcer Grand Bellows.
+		SignatureCards.add_to_shop(stock, "town", Session.unlock_state())
+		if Session.flag(StringName(SignatureCards.DIAMOND_FLAG)):
+			stock.add(SignatureCards.BELLOWS_ID)
 	# Gear is only sold once the armory quest opened the equipment slots (Part 5).
 	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty() and Session.gear_unlocked(),
 			false, item_stock != null and not item_stock.entries.is_empty())

@@ -7,7 +7,7 @@ extends RefCounted
 const VENDOR_IDS: Array[String] = ["N-01", "N-02", "N-04", "N-05", "N-09", "N-14", "N-15", "N-17", "N-23", "N-26"]
 ## The Waiting Room of Eternity (S-NECRO)'s one-time unique reward: the Department of Final Approvals (Cards Oct 27: Betty Bones is
 ## her own card now, ENEMY-ONLY).
-const MINI_DUNGEON_REWARD_ID: String = "N-31"
+const MINI_DUNGEON_REWARD_ID: String = "N-30"  # Overnight Nov 19 (Part 4.1): Betty Bones, Surly Secretary
 
 ## The Gainlands (Beefcake): sold by Coach Brutus Benchley at the Swole Station.
 const GAINLANDS_VENDOR_IDS: Array[String] = ["B-01", "B-03", "B-05", "B-08", "B-09", "B-12", "B-14", "B-16", "B-20", "B-25"]

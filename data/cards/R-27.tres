@@ -16,6 +16,7 @@ rarity = 2
 flavor_text = ".... *sweats profusely*"
 availability = 1
 availability_source = "The Trash Panda Throne (His Majesty the Raccoon)"
+not_in_packs = true
 paths_all = Array[int]([3])
 script_text = "static => flag(free_eat)"
 rules_hash = "4f09af9b6949"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_c3wvl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d7i6j"]
+
+[resource]
+script = ExtResource("2_d7i6j")
+id = "C-36"
+display_name = "Announcer Grand Bellows"
+generic_cost = 4
+attack = 3
+defense = 4
+rules_text = "Ladies and Gentlemen! When this unit enters, choose a unit you control and an enemy unit. They fight (each deals damage equal to its attack to the other).
+The Crowd Goes Wild: whenever a unit you control destroys an enemy unit in combat, it gets +1/+0 until the end of your turn."
+rarity = 2
+flavor_text = "In this corner... everyone. Somehow, everyone."
+availability = 1
+availability_source = "The Arena's Diamond tier (then the Crosspath card vendor)"
+not_in_packs = true
+script_text = "enter a=unit.mine b=unit.opp => brawl(a,b)
+when(combat_kill:mine) => pump(trig,1,0,eot)"
+rules_hash = "b725076b9e1c"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG. Vertical 2:3 portrait composition for a full-art trading card. No text, no letters, no card frame, no border. Neutral stone and parchment tones. A booming arena announcer in a gold-trimmed coat with a speaking trumpet, arms flung wide, a cheering crowd of silhouettes behind him in an underground cave arena. Match NPC-BELLOWS."

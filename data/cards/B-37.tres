@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sxnsg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0aa3t"]
+
+[resource]
+script = ExtResource("2_0aa3t")
+id = "B-37"
+display_name = "Baron Quadzilla, Lord of Leg Day"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1, 1])
+attack = 5
+defense = 6
+keywords = Array[int]([4])
+rules_text = "Bulldoze.
+When this unit enters, create two Iron.
+Never Skip Leg Day: at the beginning of combat on your turn, you may use an Iron. If you do, other units you control get +1/+0 and Bulldoze until the end of your turn."
+rarity = 2
+flavor_text = "He has not skipped leg day in forty years. He has also not left the leg press."
+availability = 1
+availability_source = "The Iron Cave (signature card; then the Gainlands shop)"
+not_in_packs = true
+paths_all = Array[int]([1])
+script_text = "kw bulldoze
+enter => create(iron,2)
+boc => may({use(iron); pump(all(unit.mine.other),1,0,eot); kw_grant(all(unit.mine.other),bulldoze,eot)})"
+rules_hash = "8d78e38b598d"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG. Vertical 2:3 portrait composition for a full-art trading card. No text, no letters, no card frame, no border. Sunny gold and warm red palette. A huge, cheerful toad in a sweatband and a tiny weightlifting belt beaming on an iron leg-press throne in a torchlit cave, two iron plates glinting at his feet. Match NPC-QUADZILLA / CUT-QUADZILLA."

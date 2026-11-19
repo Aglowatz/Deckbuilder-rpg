@@ -36,8 +36,18 @@ static func store_thumb(card_id: String, loaded: Texture2D) -> void:
 		ArtCache.put(THUMB_GROUP, card_id, loaded)
 
 
+## Overnight Nov 19: cards whose painting is still to come (Batch 18) show their character's Bestiary square or portrait meanwhile.
+const STAND_INS: Dictionary = {
+	"B-37": "res://assets/art/bestiary/BST-BARON-QUADZILLA.webp",
+	"C-36": "res://assets/art/portraits/NPC-BELLOWS.webp",
+}
+
+
 static func path_for(card_id: String) -> String:
-	return "%s%s.%s" % [DIR, card_id, EXTENSION]
+	var own: String = "%s%s.%s" % [DIR, card_id, EXTENSION]
+	if STAND_INS.has(card_id) and not ResourceLoader.exists(own):
+		return str(STAND_INS[card_id])
+	return own
 
 
 static var _has_art_cache: Dictionary = {}

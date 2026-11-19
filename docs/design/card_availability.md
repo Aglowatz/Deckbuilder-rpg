@@ -91,3 +91,22 @@ The Mother Heap, Siphon the four leaders' cards.
 - Every Gourmand Epic is a prize or the Black Market's now, so the Buffet shelf's Epic tier shows only what the player has earned (Chef de
   Golem after the Doppelganger's pick). Gourmand and Necrocrat Path Packs keep a Legendary (G-32, N-32 stay GENERAL on the postgame shelf).
 - The Necrocrat / Beefcake pair has no craftable Legendary at the Alchemist (Clench is ENEMY-ONLY).
+
+## Overnight Nov 19: signature cards of the mini dungeons
+
+Each mini dungeon's first clear awards its signature card (shown as a card on the clear screen). Signature cards are never in packs
+(`not_in_packs`); after that dungeon's first clear the zone's shop sells them, up to 3 copies (`SignatureCards`).
+
+| Mini dungeon | Signature card | Sold at after the first clear |
+|---|---|---|
+| S-NECRO The Waiting Room of Eternity | N-30 Betty Bones, Surly Secretary (was ENEMY-ONLY) | the D.N.A.'s Requisitions |
+| S-GOUR Omakase | G-27 Toro Toro | the Buffet's shop |
+| S-REF The Trash Panda Throne | R-27 Raccoon | the Dump's shop |
+| S-BEEF The Ascent of Mount Swolympus | B-30 Barbell of the Ancients | the Gainlands' shop |
+| S-IRON The Iron Cave | B-37 Baron Quadzilla, Lord of Leg Day (new) | the Gainlands' shop |
+| S-CAP The Old Service Tunnels | C-29 The Wanderer | the Capital's Black Market |
+| S-PASTE The Paste Works | G-30 The Infinite Pantry (+ the Colonel's Ladle) | the Capital's Black Market |
+| S-TOWN The Forgotten Vault | C-21 Old Kingdom Banner | Sable's stall in Crosspath |
+
+N-31 The Department of Final Approvals and B-31 The Ultimate Cardio Machine are GENERAL now (packs and shops by rarity).
+C-36 Announcer Grand Bellows (new): one copy from the Arena's Diamond prize, more at Sable's stall after Diamond.

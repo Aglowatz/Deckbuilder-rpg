@@ -161,3 +161,7 @@ enter => create(ingredient)
 == BAS-B @808d5d492502  # Powerhouse
 produce B
 enter => create(iron)
+
+== C-36 @b725076b9e1c  # Announcer Grand Bellows
+enter a=unit.mine b=unit.opp => brawl(a,b)
+when(combat_kill:mine) => pump(trig,1,0,eot)

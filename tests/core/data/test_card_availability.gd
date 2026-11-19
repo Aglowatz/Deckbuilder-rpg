@@ -27,7 +27,7 @@ func _rng(seed_value: int = 1) -> RandomNumberGenerator:
 func test_the_overrides_import_availability_and_source() -> void:
 	assert_eq(CardAvailability.kind_of(_card("N-33")), CardAvailability.Kind.ENEMY_ONLY, "Mortimer is enemy-only")
 	assert_eq(_card("N-33").availability_source, "Mortimer Grimsby, CE-No|Echo of Mortimer Grimsby")  # Overnight Nov 7-8: the Gallery Echo owns it too
-	assert_eq(CardAvailability.kind_of(_card("N-30")), CardAvailability.Kind.ENEMY_ONLY, "Betty Bones")
+	assert_eq(CardAvailability.kind_of(_card("N-30")), CardAvailability.Kind.REWARD_LOCKED, "Overnight Nov 19: Betty Bones is the Waiting Room's signature card")
 	assert_eq(CardAvailability.kind_of(_card("NB-16")), CardAvailability.Kind.ENEMY_ONLY, "Chancellor Clench")
 	assert_eq(CardAvailability.kind_of(_card("P4-03")), CardAvailability.Kind.ENEMY_ONLY, "Mr. Tiggle")
 	assert_eq(CardAvailability.kind_of(_card("N-29")), CardAvailability.Kind.REWARD_LOCKED, "Mass Layoffs: the Hall's prize")
@@ -47,14 +47,14 @@ func test_allowed_follows_the_three_kinds() -> void:
 
 
 func test_every_dungeon_prize_and_boss_pick_is_reward_locked() -> void:
-	var locked: Array[String] = ["P4-02", "B-31", "B-30", "G-27", "N-31", "R-27", "C-29", "C-21", "G-30", "P4-01"]
+	var locked: Array[String] = ["P4-02", "B-37", "B-30", "G-27", "N-30", "R-27", "C-29", "C-21", "G-30", "P4-01"]
 	locked.append_array(ZoneCards.MAIN_DUNGEON_REWARD_IDS)
 	locked.append_array(DungeonSignatures.all_ids())
 	for id: String in locked:
 		assert_true(CardAvailability.is_reward_locked(_card(id)), "%s is reward-locked" % id)
 	for id: String in ["B-32", "G-33", "R-33", "N-29"]:
 		assert_true(ZoneCards.MAIN_DUNGEON_REWARD_IDS.has(id))
-	assert_eq(ZoneCards.MINI_DUNGEON_REWARD_ID, "N-31", "the Waiting Room pays the Department now")
+	assert_eq(ZoneCards.MINI_DUNGEON_REWARD_ID, "N-30", "Overnight Nov 19: the Waiting Room pays Betty Bones (its signature card)")
 
 
 # ---- Generators -----------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ func test_vendor_shelves_filter_by_availability() -> void:
 	for entry: VendorStockEntry in necro.entries:
 		ids.append(entry.card_id)
 	assert_true(ids.has("N-29"), "Mass Layoffs sells once earned (an Epic, after the boss)")
-	assert_true(ids.has("N-31"), "the Department sells once earned")
+	assert_true(ids.has("N-31"), "Overnight Nov 19: the Department is a normal card again (shelves by its rarity)")
 	assert_false(ids.has("N-33"), "Mortimer never")
 	assert_false(VendorStocks.sellable(_card("N-33"), {"N-33": true}))
 

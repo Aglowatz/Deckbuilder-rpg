@@ -17,6 +17,7 @@ rarity = 2
 flavor_text = "Where am I? What happened? ...Why am I so good at this?"
 availability = 1
 availability_source = "The Old Service Tunnels (Enforcer Sergeant Scuff) or a hidden chest in Crosspath"
+not_in_packs = true
 script_text = "static => selfstat(distinct_paths(infra.mine),distinct_paths(infra.mine))
 when(plays:mine:multipath) => draw(1)"
 rules_hash = "be7b74d07ec4"

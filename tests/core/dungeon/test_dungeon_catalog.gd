@@ -9,7 +9,7 @@ const NODE_COUNTS: Dictionary = {
 const REWARD_CARDS: Dictionary = {
 	# Cards Oct 27: Mortimer and Betty Bones are their own cards (ENEMY-ONLY); the Hall pays Mass Layoffs, the Waiting Room the Department.
 	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-29", "D-ROT": "R-33", "D-PC": "P4-02",
-	"S-BEEF": "B-30", "S-GOUR": "G-27", "S-NECRO": "N-31", "S-REF": "R-27", "S-CAP": "C-29", "S-TOWN": "C-21", "S-IRON": "B-31",
+	"S-BEEF": "B-30", "S-GOUR": "G-27", "S-NECRO": "N-30", "S-REF": "R-27", "S-CAP": "C-29", "S-TOWN": "C-21", "S-IRON": "B-37",
 	"S-PASTE": "G-30", "D-LAB": "P4-01",
 }
 

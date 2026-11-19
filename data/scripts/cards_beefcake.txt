@@ -127,3 +127,8 @@ play t=unit => pump(t,2,2,eot); create(iron)
 
 == B-36 @df70cb539fd7  # Desk Flip
 play t=unit => if(on_path(t,N),{damage(t,4)},{damage(t,2)})
+
+== B-37 @8d78e38b598d  # Baron Quadzilla, Lord of Leg Day
+kw bulldoze
+enter => create(iron,2)
+boc => may({use(iron); pump(all(unit.mine.other),1,0,eot); kw_grant(all(unit.mine.other),bulldoze,eot)})

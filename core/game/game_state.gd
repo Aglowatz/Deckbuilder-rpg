@@ -23,8 +23,11 @@ const MAX_TARGET_COMBOS: int = 30
 const EVENT_NAMES: Array[String] = [
 	"unit_enters", "unit_dies", "destroyed", "attacks", "blocks", "plays", "infra_enters", "creates_token", "token_created",
 	"resource_created", "resource_used", "eat", "hp_drops", "attached_attacks", "attached_dies", "attached_dmg_opp",
-	"attached_combat_dmg_unit",
+	"attached_combat_dmg_unit", "combat_kill",
 ]
+## Overnight Nov 19 (Part 6.8): the last unit that dealt combat damage to each unit this combat (uid -> source uid), for "combat_kill"
+## (Announcer Grand Bellows: "whenever a unit you control destroys an enemy unit in combat"). Cleared at each combat's damage.
+var combat_hits: Dictionary = {}
 
 var options: GameOptions
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -1725,6 +1728,11 @@ func destroy_unit(card: CardInstance) -> void:
 	_resolve_card_abilities(card, CardAbility.Kind.DIE, null, card)
 	fire_game_event("unit_dies", {"card": card, "player": controller})
 	fire_game_event("destroyed", {"card": card, "player": controller})
+	if phase == Phase.COMBAT and combat_hits.has(card.uid):
+		var killer: CardInstance = find_permanent(int(combat_hits[card.uid]))
+		combat_hits.erase(card.uid)
+		if killer != null and killer.owner != controller and killer.data.is_unit():
+			fire_game_event("combat_kill", {"card": killer, "player": killer.owner, "victim": card})
 	if card.data.is_unit() and not is_over():
 		_fire_modifier_effects(controller, Modifier.Kind.ON_ALLY_DEATH_EFFECT)
 	limbo.erase(card)

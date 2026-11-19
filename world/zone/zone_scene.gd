@@ -1906,6 +1906,7 @@ func _open_vendor() -> void:
 		data.vendor_name = def.vendor_name
 		for id: String in def.vendor_ids:
 			data.add(id)
+		SignatureCards.add_to_shop(data, def.id, Session.unlock_state())  # Overnight Nov 19 (Part 4.2): the Capital's two
 	var screen: VendorScreen = VendorScreen.new()
 	screen.stock = data
 	screen.screen_title = def.vendor_title
