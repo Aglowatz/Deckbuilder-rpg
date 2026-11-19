@@ -78,6 +78,9 @@ const HILL_HEIGHT: float = 7.0
 const FOUNTAIN_SIZE: Vector3 = Vector3(9.2, 8.5, 9.2)
 const WATCHTOWER: Vector2 = Vector2(91.0, 96.5)
 const TUNNEL_MOUTH: Vector2 = Vector2(96.0, 76.0)
+## Overnight Nov 19 (Part 8.3): the Old Service Tunnels' manhole, where the lantern-sign beside the old door stood (the travel prompt and the
+## quest marker are here).
+const SERVICE_MANHOLE: Vector2 = Vector2(99.6, 78.6)
 const TRAM_SHED: Rect2 = Rect2(104.5, 49.5, 10.0, 6.0)
 ## Overnight Nov 2-3, Part 4 (the designer's answer): its twin, mirrored about the east side plaza (x 100) for symmetry - decorative (no spot,
 ## no quest); the big transit rift moved from the block it stands in to the yards' east corner (core/zone/capital_rifts.gd).
@@ -483,7 +486,7 @@ func _anchors() -> void:
 	_anchor("kestrel", 37.5, 121.0)  # Fable pass Nov 10 (Part 1.3): south of the camp's painted backdrop (at 29.5, 111 the Low camera stood inside it)
 	_anchor("checkpoint_a", 15.5, 95.0)
 	_anchor("tunnel_in", 4.5, 88.5)
-	_anchor("old_tunnels", 96.0, 78.0)
+	_anchor("old_tunnels", SERVICE_MANHOLE.x, SERVICE_MANHOLE.y + 0.9)  # Overnight Nov 19: at the manhole (was the wall door, 96, 78)
 	_anchor("checkpoint_b", 97.0, 112.5)
 	# The gate and the Gate Plaza (the inside hub).
 	_anchor("gate_inside", 60.0, 69.5)

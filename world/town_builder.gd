@@ -469,6 +469,9 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 			anchors["alchemist_door"] = base + front * (extent + 0.05)
 		"gate":
 			anchors["npc_gate"] = base + front * (shop.npc_offset() - 0.1) + right * 1.9
+			# Overnight Nov 19 (Part 8.2): the Forgotten Cave comes out at a brush-covered mouth on the north edge (the hut is a plain house).
+			anchors["cave"] = TownCaveMouth.SPOT
+			TownCaveMouth.build(root, obstacles)
 		"elder_home":
 			anchors["npc_elder"] = base + front * (shop.npc_offset() + 0.15)
 			anchors["npc_well"] = anchors["npc_elder"]

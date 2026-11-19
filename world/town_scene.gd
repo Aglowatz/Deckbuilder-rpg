@@ -964,7 +964,7 @@ func _build_spots() -> void:
 	_build_vault_hatch()
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, VENDOR_REACH)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
-	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
+	_add_spot("gate", "The Forgotten Cave", town.anchors.get("cave", town.anchors["gate"]) as Vector3, 1.7)  # Overnight Nov 19 (Part 8.2)
 	if _npcs.has("hob"):
 		_add_spot("hob", "Old Hob", _hob_spot(), QUEST_NPC_REACH)
 	if _npcs.has("isla"):
@@ -1701,7 +1701,7 @@ func _isla_arrives() -> void:
 
 ## Oct 21: where the Rescuer waits, a little to the side of the cave mouth so the cave's own prompt stays reachable.
 func _cave_mouth_spot() -> Vector3:
-	return (town.anchors["gate"] as Vector3) + Vector3(2.2, 0.0, 1.2)
+	return (town.anchors.get("cave", town.anchors["gate"]) as Vector3) + Vector3(2.4, 0.0, 1.0)  # Overnight Nov 19: beside the new cave mouth
 
 
 ## The Cave Mouth scene that is waiting (one per freed zone, warmer each time); afterwards she slips away into the cave.
@@ -3327,6 +3327,7 @@ func _build_rift_station() -> void:
 		animation.play("Idle")
 		animation.seek(randf() * 1.5)
 	_npcs["rift_operator"] = operator
+	npc_hp.register(operator, 40.0)  # Overnight Nov 19 (Part 8.1): Rip turns to the hero like everyone else
 	town.obstacles.append(Vector3((town.anchors["npc_rift_station"] as Vector3).x, (town.anchors["npc_rift_station"] as Vector3).z, 0.35))
 	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0)
 

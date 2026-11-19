@@ -1082,11 +1082,28 @@ const CREASE_CAMERA_MARGIN: float = 3.4
 
 
 func _camera_soft_bounds(target: Vector3) -> Vector3:
-	var held: Vector3 = crease_camera_target(target, player.position)
+	var held: Vector3 = crease_camera_target(south_edge_camera_target(target, player.position), player.position)
 	if look_rig != null:
 		# the aim slides with the camera (the rig would otherwise turn the view back onto the hero and the wall would fill the frame as before)
 		look_rig.look_shift = look_rig.look_shift.lerp(Vector3(held.x - target.x, 0.0, 0.0), 1.0 - exp(-CityCamera.follow_rate() * get_process_delta_time()))
 	return held
+
+
+## Overnight Nov 19 (Part 8.4): along the outside's southern edge the lens trailed south into the Crease's cavern rock (the underground hideout
+## is built far south of the outside, CREASE_Z0) and looked up at its underside. Outside, the lens stops SOUTH_EDGE_MARGIN short of the
+## Crease: it slides in along its own line toward the hero (the view keeps its angle and the hero stays centred, a little closer).
+const SOUTH_EDGE_MARGIN: float = 3.0
+
+
+static func south_edge_camera_target(target: Vector3, hero: Vector3) -> Vector3:
+	var limit: float = float(CapitalLayout.CREASE_Z0) - SOUTH_EDGE_MARGIN
+	if hero.z >= float(CapitalLayout.CREASE_Z0) - 0.5 or target.z <= limit:
+		return target
+	var reach: float = target.z - hero.z
+	if reach <= 0.01:
+		return target
+	var keep: float = clampf((limit - hero.z) / reach, 0.35, 1.0)
+	return hero + (target - hero) * keep
 
 
 ## The rule itself (for the test): `target` held inside the Crease's width less the margin while the hero stands in the Crease.

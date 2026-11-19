@@ -278,7 +278,7 @@ func _rooms_and_corridors() -> void:
 	anchors["spawn"] = Vector3(46.5, 0.0, 64.5)
 	anchors["exit"] = Vector3(46.5, 0.0, 66.6)
 	anchors["gate"] = Vector3(46.5, 0.0, GATE_Z)
-	anchors["rift_station"] = Vector3(48.5, 0.0, 55.5)
+	anchors["rift_station"] = Vector3(50.3, 0.0, 55.5)  # Overnight Nov 19 (Part 8.1): a little right, off the walkway (was 48.5)
 	# Brief 16: Shiro Swindle's giant chest, in the open floor north-west of the lobby (see NinjaBoss).
 	anchors["giant_chest"] = Vector3(28.2, 0.0, 42.6)
 	# Brief 16: the hidden vault lever, at the far west end of the office.

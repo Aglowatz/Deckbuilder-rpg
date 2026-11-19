@@ -769,6 +769,12 @@ func _build_fast_travel() -> void:
 		animation.play("Idle")
 		animation.seek(randf() * 1.5)
 	_npcs["rift_operator"] = operator
+	if npc_hp == null:
+		npc_hp = NpcHp.new()
+		npc_hp.target = player
+		add_child(npc_hp)
+	if npc_hp != null:
+		npc_hp.register(operator, _rift_operator_yaw())  # Overnight Nov 19 (Part 8.1): Rip turns to the hero in every zone
 	builder.add_blocker(operator_pos, 0.35)
 	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0, travel.text("travel.prompt"), false, "rift_station")
 

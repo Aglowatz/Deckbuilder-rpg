@@ -923,8 +923,8 @@ func _build_landmarks() -> void:
 	_place_landmark("camp", CapitalLandmarks.build({"id": "CAP-HERO-RESISTANCE-CAMP"}), Vector3.ZERO)
 	# one low mesh round the hero's standing ground: its box crosses the lens line, so the fader would ghost the whole camp (the tents stay low)
 	CapitalLandmarks.mark_view(landmarks["camp"] as Node3D)
-	_place_landmark("tunnel_mouth", CapitalLandmarks.build({"id": "CAP-HERO-SERVICE-TUNNEL"}), Vector3(CapitalLayout.TUNNEL_MOUTH.x, 0.0, CapitalLayout.TUNNEL_MOUTH.y))
-	CapitalLandmarks.mark_view(landmarks["tunnel_mouth"] as Node3D, true)
+	# Overnight Nov 19 (Part 8.3): no door in the wall any more - a manhole in the ground outside it (the wall there is plain wall).
+	_place_landmark("tunnel_mouth", CapitalProps.service_manhole(), Vector3(CapitalLayout.SERVICE_MANHOLE.x, 0.0, CapitalLayout.SERVICE_MANHOLE.y))
 	# the gate's crown over the opening, between the towers: part of the great wall (it fades, and hides round the lens, like the wall)
 	var gate_x: float = float(CapitalLayout.GATE_X0 + CapitalLayout.GATE_X1 + 1) * 0.5
 	var gate_z: float = float(CapitalLayout.WALL_Z0 + CapitalLayout.WALL_Z1 + 1) * 0.5
@@ -1106,6 +1106,13 @@ func _build_signs() -> void:
 				sign_data.pos = SignPlacement.off_paths(sign_data.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		elif sign_data.style != "banner":
 			sign_data.pos = SignPlacement.off_paths(sign_data.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
+		# Overnight Nov 19 (Part 8.5): every board faces the camera; a plaque on a sideways wall stands on posts in front of it instead.
+		var fixed: Dictionary = SignFacing.fix(sign_data.pos, sign_data.yaw, sign_data.style, 180.0, sign_data.style == "wall" and sign_backed(sign_data))
+		if bool(fixed["moved"]):
+			_hung.erase(sign_data)
+		sign_data.pos = fixed["pos"] as Vector3
+		sign_data.yaw = float(fixed["yaw"])
+		sign_data.style = str(fixed["style"])
 		var width: float = 1.5 * sign_data.size
 		var height: float = 1.5 * sign_data.size
 		var inside: bool = sign_data.pos.z < float(CapitalLayout.WALL_Z0) and sign_data.pos.z < CREASE_Z

@@ -630,7 +630,7 @@ func _build_signs() -> void:
 		var use_plaque: bool = EnvKit.has(plaque_id) and not ICON_BOARDS.has(sign_spec.key)
 		var panel_h: float = panel_size.x * 1.15 / maxf(EnvKit.aspect(plaque_id), 0.1) if use_plaque else panel_size.y
 		holder.position = sign_mount(sign_spec, panel_h)
-		holder.rotation_degrees.y = sign_spec.yaw if sign_spec.key != "sign.heal_couch" else 0.0
+		holder.rotation_degrees.y = sign_rotation(sign_spec)
 		if sign_spec.key == "sign.heal_couch":
 			_sign_post(holder.position - Vector3(0, panel_h * 0.5, 0.05))
 		chunk_for(sign_spec.pos).add_child(holder)
@@ -1464,3 +1464,8 @@ func has_line_of_sight(a: Vector3, b: Vector3) -> bool:
 		if _hits_obstacle(point, 0.12):
 			return false
 	return true
+
+
+## Overnight Nov 19 (Part 8.5): every D.N.A. board faces the camera (eight stood turned away, two edge-on); its mount on the rail is unchanged.
+static func sign_rotation(_sign_spec: DnaLayout.Sign) -> float:
+	return 0.0

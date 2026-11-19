@@ -563,6 +563,34 @@ static func manhole() -> Node3D:
 	return CapitalLandmarks.finish(root, mesh, [], 0.1)
 
 
+## Overnight Nov 19 (Part 8.3): the Old Service Tunnels' way in - an old round iron cover in the ground outside the wall, pushed slightly ajar,
+## a faint warm glow and a wisp of steam rising from the gap. (The arched door in the wall is gone; the wall is whole.)
+static func service_manhole() -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "ServiceManhole"
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("shaft_glow", EnvKit.glow(Color("ffb070"), 1.6))
+	mesh.set_material("steam", M.translucent(Color(0.9, 0.9, 0.86), 0.28, 0.0))
+	# the stone collar and the dark shaft with a warm glow deep down
+	mesh.lathe("ash", Vector3.ZERO, [Vector2(0.9, 0.0), Vector2(0.9, 0.05), Vector2(0.72, 0.07)], 20, 1.0, false, false)
+	mesh.lathe("dark", Vector3.ZERO, [Vector2(0.72, 0.07), Vector2(0.0, 0.03)], 20, 1.0, false, false)
+	mesh.blob("shaft_glow", Vector3(0.18, 0.035, 0.1), Vector3(0.32, 0.01, 0.22), 2, 10)
+	# the iron cover, slid back a hand's width and tipped up on one side
+	var tilt: Basis = Basis(Vector3(0, 0, 1), 0.12)
+	var cover: Vector3 = Vector3(-0.22, 0.14, -0.06)
+	mesh.lathe("iron", cover, [Vector2(0.7, 0.0), Vector2(0.7, 0.05), Vector2(0.0, 0.07)], 20, 1.0, false, false)
+	for index: int in range(4):
+		var r: float = 0.18 + 0.15 * float(index)
+		mesh.lathe("iron_dark", cover + Vector3(0, 0.072, 0), [Vector2(r, 0.0), Vector2(r - 0.03, 0.006)], 20, 1.0, false, false)
+	mesh.box("iron_dark", cover + Vector3(0.1, 0.08, 0.0), Vector3(0.22, 0.03, 0.06), tilt)
+	# a wisp of steam from the gap
+	for index: int in range(3):
+		var h: float = 0.35 + 0.42 * float(index)
+		mesh.blob("steam", Vector3(0.35 + 0.06 * float(index), h, 0.12 - 0.05 * float(index)), Vector3(0.22 + 0.06 * float(index), 0.18, 0.2), 3, 8)
+	return CapitalLandmarks.finish(root, mesh, [], 0.4)
+
+
 ## The jar of old seed in the Reek: a glass jar with a cork, the seeds glowing faintly green inside.
 static func seed_jar() -> Node3D:
 	var root: Node3D = Node3D.new()

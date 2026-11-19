@@ -170,9 +170,10 @@ static func shops() -> Array[Shop]:
 	list.append(_kit("", "cottage", 61.6, street_z - off - 2.4, 0.0, "Cottage"))
 	list.append(_kit("", "home_a", 49.0, street_z + off + 3.0, 180.0, "Row house"))
 	# --- the Rift Express on the square's south-east corner ---
-	list.append(_shop("rift_station", "", Vector3(34.4, 0.0, 23.0), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
+	# Overnight Nov 19 (Part 8.1): out in the open lawn south-east of the square (it stood beside Auntie Alembic's).
+	list.append(_shop("rift_station", "", Vector3(40.6, 0.0, 35.2), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
 	# --- Gate Road (north): the cave gate beyond the north-west house, Elder Maren's home facing the road ---
-	list.append(_kit("gate", "stone_hut", 7.4, -12.0, 90.0, "The Forgotten Cave"))
+	list.append(_kit("gate", "stone_hut", 7.4, -12.0, 90.0, "Old stone hut"))  # Overnight Nov 19 (Part 8.2): no longer the cave's door (TownCaveMouth)
 	list.append(_kit("elder_home", "home_a", 31.6, -10.6, -90.0, "Elder Maren's home", {"width": 6.4}))
 	# --- Champions' Road (south): the chapel and the Deck Station; the Old Well in its yard off the west street ---
 	list.append(_kit("church", "chapel", 17.3, 33.3, 90.0, "Chapel of the Four Paths"))
