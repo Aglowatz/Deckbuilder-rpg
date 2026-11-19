@@ -87,6 +87,13 @@ static func modifier_text(modifier: Modifier, enemy: bool = false) -> String:
 		units = "the enemy's units"
 		if modifier.kind == Modifier.Kind.MAX_HP:
 			return "" if modifier.value == 0 else "the enemy starts with %s HP" % _signed(modifier.value)
+	# Fable Nov 19 (Part 5.2): a seat that starts the fight with units on the field
+	if modifier.kind == Modifier.Kind.STARTING_UNITS:
+		if modifier.value <= 0 or modifier.tokens.is_empty() or modifier.tokens[0] == null:
+			return ""
+		var unit: CardData = modifier.tokens[0]
+		var what: String = "%s %s (%d/%d)" % ["a" if modifier.value == 1 else str(modifier.value), unit.display_name, unit.attack, unit.defense]
+		return ("the enemy starts with %s on the field" if enemy else "you start with %s on the field") % what
 	match modifier.kind:
 		Modifier.Kind.OPENING_HAND_SIZE:
 			return "" if modifier.value == 0 else "%s card%s in your opening hand" % [_signed(modifier.value), "" if absi(modifier.value) == 1 else "s"]

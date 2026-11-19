@@ -414,6 +414,11 @@ func _card_tile(card: CardData) -> Button:
 		line.text = "???"
 		line.add_theme_color_override("font_color", UIStyle.MUTED)
 		tile.tooltip_text = "Not found yet."
+		# Fable Nov 19 (Part 5.3): a card not found yet magnifies too, as its card back
+		tile.mouse_entered.connect(func() -> void: _preview.show_back_for(tile, card))
+		tile.mouse_exited.connect(_preview.hide_preview)
+		tile.focus_entered.connect(func() -> void: _preview.show_back_for(tile, card))
+		tile.focus_exited.connect(_preview.hide_preview)
 		if kind == CardAvailability.Kind.REWARD_LOCKED:
 			line.text = "Locked"
 			tile.tooltip_text = "Earned from: %s" % CardAvailability.hint(card)

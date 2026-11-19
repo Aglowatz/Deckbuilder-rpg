@@ -210,6 +210,11 @@ func _run_line(line: String) -> void:
 						_say("    state: " + state_line)
 				await _shot("%s_%s" % [parts[1], "default" if angle == 0 else "low"])
 			Settings.set_camera_angle(0)
+		"camgrid":
+			# Fable Nov 19 (Part 2): `camgrid <prefix> <x> <z> <pitches> <dists>` - the hero near (x, z) ("here here" = where he stands), a shot
+			# for every pitch bonus x distance (comma lists, e.g. 0,4,6,8 and 0.9,1,1.1): <prefix>_p<pitch>_d<dist>. The place's own default
+			# comes back afterwards.
+			await _cam_grid(parts)
 		"fadecat":
 			# `fadecat`: every thing the fader knows here, with its type and rule (the fade probe's list)
 			var fader_cat: Node = FadeScan.find_fader(get_tree().current_scene)
@@ -769,6 +774,49 @@ func _edge_shots(prefix: String) -> void:
 			await _shot("%s_%s_%s" % [prefix, key, "default" if angle == 0 else "low"])
 		_say("  edgeshots: %s at (%.1f, %.1f)" % [key, at.x, at.z])
 	Settings.set_camera_angle(0)
+
+
+func _cam_grid(parts: PackedStringArray) -> void:
+	var scene: Node = get_tree().current_scene
+	if scene == null or not ("player" in scene) or parts.size() < 6:
+		_say("  camgrid: needs a walkable scene and <prefix> <x> <z> <pitches> <dists>")
+		return
+	var player: Node3D = scene.get("player") as Node3D
+	var map: Object = _walk_map()
+	var at: Vector3 = player.position
+	if parts[2] != "here":
+		at = Vector3(float(parts[2]), 0.0, float(parts[3]))
+		# the nearest walkable cell (a ring search, half a metre steps)
+		var found: bool = map == null or bool(map.call("is_walkable", at))
+		var ring: float = 0.5
+		while not found and ring < 8.0:
+			for step: int in range(16):
+				var probe: Vector3 = at + Vector3(cos(TAU * float(step) / 16.0), 0.0, sin(TAU * float(step) / 16.0)) * ring
+				if bool(map.call("is_walkable", probe)):
+					at = probe
+					found = true
+					break
+			ring += 0.5
+	if "_spawn_grace" in scene:
+		scene.set("_spawn_grace", 600.0)
+	var keep_pitch: float = CameraRig.zone_pitch_target
+	var keep_dist: float = CameraRig.zone_distance_target
+	for pitch: String in parts[4].split(","):
+		for dist: String in parts[5].split(","):
+			if get_tree().current_scene != scene or not is_instance_valid(player):
+				return
+			CameraRig.zone_pitch_bonus = float(pitch)
+			CameraRig.zone_pitch_target = float(pitch)
+			CameraRig.zone_distance = float(dist)
+			CameraRig.zone_distance_target = float(dist)
+			_teleport(str(at.x), str(at.z))
+			await driver.seconds(0.9)
+			await _shot("%s_p%s_d%s" % [parts[1], pitch, dist])
+	CameraRig.zone_pitch_bonus = keep_pitch
+	CameraRig.zone_pitch_target = keep_pitch
+	CameraRig.zone_distance = keep_dist
+	CameraRig.zone_distance_target = keep_dist
+	_say("  camgrid %s at (%.1f, %.1f)" % [parts[1], at.x, at.z])
 
 
 func _fade_scan(prefix: String, shots: int) -> void:

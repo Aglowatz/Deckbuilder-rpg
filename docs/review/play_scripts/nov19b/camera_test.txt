@@ -1,0 +1,80 @@
+# Fable Nov 19, Part 2: the camera test - three spots per place, pitch bonus x distance
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+cam 0
+hud off
+calm
+wait 4
+camgrid cam_forest_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_forest_hub -1.5 2.5 0,4,6,8 0.9,1,1.1
+camgrid cam_forest_busy 14.5 -17.5 0,4,6,8 0.9,1,1.1
+dev travel town
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_crosspath_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_crosspath_hub 25 17 0,4,6,8 0.9,1,1.1
+camgrid cam_crosspath_busy 15 13.5 0,4,6,8 0.9,1,1.1
+dev travel zone beefcake
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_gainlands_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_gainlands_hub 90 22 0,4,6,8 0.9,1,1.1
+camgrid cam_gainlands_busy 100 36 0,4,6,8 0.9,1,1.1
+dev travel zone gourmand
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_buffet_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_buffet_hub 46.5 50.5 0,4,6,8 0.9,1,1.1
+camgrid cam_buffet_busy 66.5 40 0,4,6,8 0.9,1,1.1
+dev travel zone refusemancer
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_dump_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_dump_hub 50 126 0,4,6,8 0.9,1,1.1
+camgrid cam_dump_busy 34.5 66 0,4,6,8 0.9,1,1.1
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_dna_arrival 46.5 62.5 0,4,6,8,10 0.9,1,1.1
+camgrid cam_dna_hub 45.5 52 0,4,6,8,10 0.9,1,1.1
+camgrid cam_dna_busy 17 36 0,4,6,8,10 0.9,1,1.1
+dev travel zone final
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_capital_arrival here here 0,4,6,8 0.9,1,1.1
+camgrid cam_capital_hub 54.5 88.5 0,4,6,8 0.9,1,1.1
+camgrid cam_capital_busy 20.5 12 0,4,6,8 0.9,1,1.1
+dev travel capital
+wait 20
+skip_dialogue
+hud off
+calm
+wait 4
+camgrid cam_crease_arrival here here 0,4,6,8 0.9,1,1.1
+hold A 1.6
+wait 0.5
+camgrid cam_crease_hub here here 0,4,6,8 0.9,1,1.1
+hold D+W 1.6
+wait 0.5
+camgrid cam_crease_busy here here 0,4,6,8 0.9,1,1.1

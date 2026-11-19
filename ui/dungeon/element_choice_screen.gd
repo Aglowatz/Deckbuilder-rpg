@@ -119,7 +119,10 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 	cards_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.add_child(cards_row)
 	for card: CardData in offer.sample_cards:
-		cards_row.add_child(CardView.wrapped(card, 0.28))
+		var small: Control = CardView.wrapped(card, 0.28)
+		small.mouse_filter = Control.MOUSE_FILTER_PASS  # the tile under it still takes the click
+		CardHoverZoom.attach(small)  # Fable Nov 19 (Part 5.3): the three sample cards of an offer magnify
+		cards_row.add_child(small)
 	var plan: Label = UIKit.label(offer.plan, &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	plan.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	plan.custom_minimum_size = Vector2(250, 72)

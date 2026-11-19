@@ -160,6 +160,8 @@ func _on_reveal() -> void:
 	for shown: CardData in result.revealed:
 		var holder: Control = CardView.wrapped(shown, 0.5)
 		_cards_row.add_child(holder)
+		holder.mouse_filter = Control.MOUSE_FILTER_PASS
+		CardHoverZoom.attach(holder)  # Fable Nov 19 (Part 5.3)
 		holder.modulate.a = 0.0
 		Audio.sfx(&"card_draw")
 		create_tween().tween_property(holder, "modulate:a", 1.0, 0.25)
@@ -302,6 +304,8 @@ func _on_offer_accept() -> void:
 	var holder: Control = CardView.wrapped(taken, 0.5)
 	holder.name = "TakenCard"
 	_cards_row.add_child(holder)
+	holder.mouse_filter = Control.MOUSE_FILTER_PASS
+	CardHoverZoom.attach(holder)
 	Audio.sfx(&"splash")
 	if not NodeCard.still():
 		holder.modulate.a = 0.0

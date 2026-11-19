@@ -1226,7 +1226,12 @@ func _update_music(delta: float) -> void:
 		_graveyard_music = 0
 
 
+func _enter_tree() -> void:
+	ZoneCamera.apply("crosspath")
+
+
 func _exit_tree() -> void:
+	ZoneCamera.clear()
 	if arrival_active:
 		print("arrival: interrupted by a scene change at step %d of %d" % [_arrival_index, _arrival_steps.size()])
 		arrival_active = false

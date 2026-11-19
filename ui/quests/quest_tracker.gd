@@ -11,7 +11,9 @@ const GROUP: StringName = &"quest_tracker"
 
 ## Longest checklist shown at once (a longer one shows a window round the current step).
 const MAX_ROWS: int = 5
-const WIDTH: float = 340.0
+## Fable Nov 19 (Part 4.5, readability; no new art): wider (340 -> 380) so a step wraps less, body text 18 / 19 px (16 / 17), the unknown
+## steps and the pager no longer half-faded (they were 50-55 % see-through on dark wood).
+const WIDTH: float = 380.0
 const MAIN_COLOR: Color = Color("e9b949")
 const SIDE_COLOR: Color = Color("8fb8d8")
 
@@ -41,7 +43,7 @@ func _ready() -> void:
 	_tag_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tag_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	top.add_child(_tag_panel)
-	_tag = UIKit.label("MAIN", &"", 13, Color("1d1408"))
+	_tag = UIKit.label("MAIN", &"", 15, Color("1d1408"))
 	_tag.add_theme_font_override("font", UIStyle.font_bold())
 	_tag_panel.add_child(_tag)
 	_header = Button.new()
@@ -66,7 +68,7 @@ func _ready() -> void:
 	_switcher.mouse_filter = Control.MOUSE_FILTER_PASS
 	column.add_child(_switcher)
 	_switcher.add_child(_arrow("◂", -1, &"quest_prev"))
-	_count = UIKit.label("", &"MutedLabel", 14)
+	_count = UIKit.label("", &"", 16, Color(UIStyle.PARCHMENT, 0.85))
 	_count.name = "QuestCount"
 	_count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -89,7 +91,7 @@ func _arrow(glyph: String, step: int, action: StringName) -> Button:
 	button.name = "QuestPrev" if step < 0 else "QuestNext"
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
-	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_font_size_override("font_size", 16)
 	button.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	button.custom_minimum_size = Vector2(64, 24)
 	var word: String = "Previous" if step < 0 else "Next"
@@ -185,7 +187,7 @@ func refresh() -> void:
 	var shown: int = qlog.visible_steps(quest, state).size()
 	var window: Vector2i = row_window(shown, current)
 	if window.x > 0:
-		_body.add_child(_row("✔", "%d earlier step%s done (J: the full list)" % [window.x, "" if window.x == 1 else "s"], Color(UIStyle.GOOD, 0.75), false))  # Nov 9-10 (late critic #7): "1 done" read as a broken line
+		_body.add_child(_row("✔", "%d earlier step%s done (J: the full list)" % [window.x, "" if window.x == 1 else "s"], Color(UIStyle.GOOD, 0.9), false))  # Nov 9-10 (late critic #7): "1 done" read as a broken line
 	for index: int in range(window.x, window.y):
 		var progress: Vector2i = qlog.objective_progress(quest, index, state)
 		var done: bool = progress.x >= progress.y
@@ -193,13 +195,13 @@ func refresh() -> void:
 		if progress.y > 1 and not done:
 			text += "  %d/%d" % [progress.x, progress.y]
 		if done:
-			_body.add_child(_row("✔", text, Color(UIStyle.GOOD, 0.8), false))
+			_body.add_child(_row("✔", text, Color(UIStyle.GOOD, 0.92), false))
 		elif index == current:
 			_body.add_child(_row("»", text, UIStyle.GOLD, true))
 		else:
-			_body.add_child(_row("○", text, Color(UIStyle.PARCHMENT, 0.55), false))
+			_body.add_child(_row("○", text, Color(UIStyle.PARCHMENT, 0.82), false))
 	if qlog.hidden_steps(quest, state) > 0:
-		_body.add_child(_row("…", QuestLog.HIDDEN_STEPS_TEXT, Color(UIStyle.PARCHMENT, 0.5), false))
+		_body.add_child(_row("…", QuestLog.HIDDEN_STEPS_TEXT, Color(UIStyle.PARCHMENT, 0.78), false))
 	if current < quest.objectives.size() and quest.objectives[current].target_id != QuestDefinitions.OUTSKIRTS_SPOT:
 		var elsewhere: String = elsewhere_hint(quest.objectives[current].target_area, SceneManager.current_area)
 		if not elsewhere.is_empty():
@@ -223,11 +225,11 @@ func _row(mark: String, text: String, color: Color, highlight: bool) -> HBoxCont
 	row.name = "Objective"
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.set_meta(&"current", highlight)
-	var mark_label: Label = UIKit.label(mark, &"", 16, color)
-	mark_label.custom_minimum_size = Vector2(18, 0)
+	var mark_label: Label = UIKit.label(mark, &"", 18, color)
+	mark_label.custom_minimum_size = Vector2(20, 0)
 	mark_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	row.add_child(mark_label)
-	var line: Label = UIKit.label(text, &"", 17 if highlight else 16, color)
+	var line: Label = UIKit.label(text, &"", 19 if highlight else 18, color)
 	line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	line.custom_minimum_size = Vector2(WIDTH - 50.0, 0)
 	if highlight:

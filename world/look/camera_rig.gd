@@ -43,6 +43,12 @@ static var active_rigs: int = 0
 ## Nov 18 day (Part 6.3): degrees added to every angle preset's pitch by the current zone (the D.N.A. looks down a little more into its
 ## plaza so the partitions hide less). 0 everywhere else; the scene sets it and puts it back when it leaves.
 static var zone_pitch_bonus: float = 0.0
+## Fable Nov 19 (Part 2): each place has its own default pitch bonus AND distance (data/camera/zone_camera.json, ZoneCamera). The
+## distance multiplies the camera-to-hero length (1.0 = as everywhere). The targets let the rig glide between two places of one scene
+## (the Capital and the Crease).
+static var zone_distance: float = 1.0
+static var zone_pitch_target: float = 0.0
+static var zone_distance_target: float = 1.0
 
 
 ## The camera-to-hero distance at Normal zoom, Cinematic angle: the hero fills `HERO_SCREEN_FRACTION` of the screen height.
@@ -81,7 +87,7 @@ static func shape(offset: Vector3) -> Vector3:
 	var index: int = angle_index()
 	var new_pitch: float = deg_to_rad(ANGLE_PITCH[index] + zone_pitch_bonus) + (pitch - base_pitch)
 	var ratio: float = offset.length() / maxf(base.length(), 0.0001)
-	var length: float = normal_distance() * ANGLE_DISTANCE[index] * ratio * (Settings.camera_zoom / Settings.ZOOM_DEFAULT)
+	var length: float = normal_distance() * ANGLE_DISTANCE[index] * ratio * (Settings.camera_zoom / Settings.ZOOM_DEFAULT) * zone_distance
 	return Vector3(sin(yaw) * cos(new_pitch), sin(new_pitch), cos(yaw) * cos(new_pitch)) * length
 
 
@@ -103,6 +109,8 @@ static func tick(delta: float) -> void:
 	swivel = lerpf(swivel, swivel_target, 1.0 - exp(-SWIVEL_SPEED * delta))
 	if absf(swivel - swivel_target) < 0.02:
 		swivel = swivel_target
+	zone_pitch_bonus = move_toward(zone_pitch_bonus, zone_pitch_target, delta * 8.0)
+	zone_distance = move_toward(zone_distance, zone_distance_target, delta * 0.15)
 
 
 ## Held keys and the right stick set the swivel target: left key -1, right key +1, stick axis -1..1; released it returns to 0.

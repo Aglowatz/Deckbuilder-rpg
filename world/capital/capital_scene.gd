@@ -33,10 +33,12 @@ var _hold_still: bool = false
 ## Overnight Nov 2-3, Part 5: the city camera works while the Capital is the scene in the tree (parked for a battle it is out of it).
 func _enter_tree() -> void:
 	CityCamera.in_capital = true
+	apply_zone_camera()
 
 
 func _exit_tree() -> void:
 	CityCamera.in_capital = false
+	ZoneCamera.clear()
 
 
 ## The city camera's pull-in stops at buildings, the walls and the hill (solid / void cells), never at a prop's blocker.
@@ -403,6 +405,11 @@ func _zone_process(delta: float) -> void:
 		for enemy: ZoneEnemy in enemies:
 			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 	_hide_wall_round_the_lens()
+	# Fable Nov 19 (Part 2): the Crease has its own default camera (data/camera/zone_camera.json, "crease"); the rig glides between the two
+	if player != null and not _screenshot_args.has("pitch_bonus"):
+		var place: String = "crease" if player.position.z >= capital_crease_z() else CapitalZone.ID
+		if ZoneCamera.current != place:
+			ZoneCamera.apply(place, ZoneCamera.current != "")
 	if capital.crease != null:
 		capital.crease.set_shown(player.position.z >= capital_crease_z())  # A8: the cavern's shell only while the hero is in the Crease
 	_update_area_music(delta)

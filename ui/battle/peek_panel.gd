@@ -60,7 +60,10 @@ func _ready() -> void:
 func _card_column(card: CardInstance) -> Control:
 	var column: VBoxContainer = UIKit.vbox(8)
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_child(CardView.wrapped(card.data, CARD_SCALE))
+	var peeked: Control = CardView.wrapped(card.data, CARD_SCALE)
+	peeked.mouse_filter = Control.MOUSE_FILTER_PASS
+	CardHoverZoom.attach(peeked)  # Fable Nov 19 (Part 5.3)
+	column.add_child(peeked)
 	var status: Label = UIKit.label("", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_status[card.uid] = status
 	column.add_child(status)

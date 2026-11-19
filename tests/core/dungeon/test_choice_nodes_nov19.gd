@@ -3,7 +3,8 @@ extends CardTestBase
 ## no option is purely good (a boon carries a drawback; doing nothing is fine), early drawbacks are short, and the Hall of Final Approvals'
 ## Processing Time applies in three fights only (the Intake Clerk, the Executive Elevator Operator, Mortimer), spells only.
 
-const SKIPPED: Array[String] = ["D-PC"]
+## Fable Nov 19 (Part 5.1): the castle follows the rule too now (the owner said yes).
+const SKIPPED: Array[String] = []
 
 
 func _is_good(token: String) -> bool:

@@ -27,17 +27,8 @@ func _make_map() -> ZoneMap:
 	return dna
 
 
-## Nov 18 day (Part 6.3): the D.N.A.'s camera looks down this many degrees more than the other zones at every preset (`--pitch_bonus=N` for
-## shots). Picked from the shots of both: see docs/overnight_report.md, Nov 18 day.
-const PITCH_BONUS: float = 6.0
-
-
-func _enter_tree() -> void:
-	CameraRig.zone_pitch_bonus = float(_screenshot_args.get("pitch_bonus", PITCH_BONUS))
-
-
-func _exit_tree() -> void:
-	CameraRig.zone_pitch_bonus = 0.0
+## Nov 18 day (Part 6.3): the D.N.A.'s camera looks down 6 degrees more than the presets. Fable Nov 19 (Part 2): the number lives in
+## data/camera/zone_camera.json now ("necrocrat"), like every place's (ZoneScene applies it; `--pitch_bonus=N` for a shot).
 
 
 func _build_environment() -> void:

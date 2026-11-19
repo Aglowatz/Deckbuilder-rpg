@@ -164,6 +164,10 @@ enum Kind {
 	## the Tidy-Bots), the Capital's rifts, the gravy and soup, the Dump's pits and the Gainlands' falls (`ZoneRun.world_damage`). Battles and
 	## story damage are untouched. Presence; added last so saved kinds keep their numbers.
 	WORLD_IMMUNITY,
+	## Fable Nov 19 (Part 5.2): at the start of every duel `value` copies of the token in `tokens[0]` enter the owner's field (ready to
+	## block, never able to attack on the first turn like any unit that just arrived). A dungeon drawback puts it on the enemy's side:
+	## "the enemy starts with an extra unit".
+	STARTING_UNITS,
 }
 
 ## `color` value meaning "matches every card".

@@ -54,15 +54,15 @@ func test_the_farms_are_desk_islands_with_wide_aisles() -> void:
 
 
 func test_the_dna_camera_looks_down_a_little_more() -> void:
-	assert_between(DnaScene.PITCH_BONUS, 6.0, 10.0, "6-10 degrees steeper (the brief)")
+	assert_between(ZoneCamera.pitch_bonus(DnaZone.ID), 6.0, 10.0, "6-10 degrees steeper (the brief); the number lives in data/camera/zone_camera.json")
 	CameraRig.zone_pitch_bonus = 0.0
 	var flat: Vector3 = CameraRig.shape(WorldLookRig.base_offset())
-	CameraRig.zone_pitch_bonus = DnaScene.PITCH_BONUS
+	CameraRig.zone_pitch_bonus = ZoneCamera.pitch_bonus(DnaZone.ID)
 	var steep: Vector3 = CameraRig.shape(WorldLookRig.base_offset())
 	CameraRig.zone_pitch_bonus = 0.0
 	var pitch_flat: float = rad_to_deg(atan2(flat.y, Vector2(flat.x, flat.z).length()))
 	var pitch_steep: float = rad_to_deg(atan2(steep.y, Vector2(steep.x, steep.z).length()))
-	assert_almost_eq(pitch_steep - pitch_flat, DnaScene.PITCH_BONUS, 0.01)
+	assert_almost_eq(pitch_steep - pitch_flat, ZoneCamera.pitch_bonus(DnaZone.ID), 0.01)
 	assert_almost_eq(flat.length(), steep.length(), 0.01, "same distance: only the pitch changes")
 
 

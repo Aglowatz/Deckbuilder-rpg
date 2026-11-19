@@ -248,6 +248,10 @@ func _begin_playing() -> void:
 		for modifier: Modifier in players[index].modifiers.modifiers:
 			if modifier.kind == Modifier.Kind.STARTING_RESOURCES and modifier.value > 0:
 				ResourceRules.create(self, index, modifier.value2 as ResourceKind.Kind, modifier.value)
+			# Fable Nov 19 (Part 5.2): a seat that starts with extra units (a dungeon drawback on the enemy's side)
+			if modifier.kind == Modifier.Kind.STARTING_UNITS and modifier.value > 0 and not modifier.tokens.is_empty() and modifier.tokens[0] != null:
+				for _copy: int in range(modifier.value):
+					create_stated_token(index, modifier.tokens[0])
 	mark_placed_before_duel()
 	_begin_turn()
 

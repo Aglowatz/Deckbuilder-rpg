@@ -82,6 +82,14 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+func _enter_tree() -> void:
+	ZoneCamera.apply("forest")
+
+
+func _exit_tree() -> void:
+	ZoneCamera.clear()
+
+
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(MusicDirector.forest())

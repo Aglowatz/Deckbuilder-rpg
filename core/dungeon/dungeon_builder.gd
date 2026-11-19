@@ -194,7 +194,8 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 
 ## A boon from "Name|max_hp=2,atk=1,def=1,start_hp=1". Overnight Nov 19 (Part 5): also "next=1" (only the next fight), "draw=1" (+1 card in
 ## the opening hand), "exhausted=1" (your units enter exhausted), "slow=1" (your first unit enters exhausted), "iron=1" (start the fight with
-## Iron), and "foe_atk" / "foe_def" / "foe_hp" (the ENEMY gets stronger: the whole source goes to the enemy's side).
+## Iron), and "foe_atk" / "foe_def" / "foe_hp" / "foe_unit" (the ENEMY gets stronger or starts with a unit: the whole source goes to the
+## enemy's side).
 static func boon_from(spec: String) -> ModifierSource:
 	var halves: PackedStringArray = spec.split("|", true, 1)
 	var modifiers: Array[Modifier] = []
@@ -218,7 +219,14 @@ static func boon_from(spec: String) -> ModifierSource:
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, int(stats["slow"])))
 	if stats.has("iron"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(stats["iron"]), Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)))
-	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp")
+	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp") or stats.has("foe_unit")
+	# Fable Nov 19 (Part 5.2): "foe_unit=16" - the ENEMY starts the fight with token T-16 on the field ("foe_units=2" for two of it)
+	if stats.has("foe_unit"):
+		var token: CardData = TokenRegistry.data("T-%02d" % int(stats["foe_unit"]))
+		if token != null:
+			var starting: Modifier = CardBuilder.modifier(Modifier.Kind.STARTING_UNITS, maxi(int(stats.get("foe_units", 1)), 1))
+			starting.tokens = [token] as Array[CardData]
+			modifiers.append(starting)
 	if stats.has("foe_atk") or stats.has("foe_def"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, int(stats.get("foe_atk", 0)), Modifier.ANY_COLOR, int(stats.get("foe_def", 0))))
 	if stats.has("foe_hp"):

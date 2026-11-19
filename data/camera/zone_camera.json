@@ -1,0 +1,13 @@
+{
+	"_about": "The default camera of each place (Fable Nov 19, Part 2). pitch_bonus = degrees added to every camera angle preset (the camera looks down more); distance = how far the camera stands (1.0 = as everywhere, 0.9 = 10 % closer, 1.1 = 10 % further). To apply a choice from the contact sheets in docs/overnight_shots/nov19b/camera/, change the two numbers of that place here: nothing else. Read by ZoneCamera (world/look/zone_camera.gd).",
+	"places": {
+		"crosspath": {"pitch_bonus": 0, "distance": 1.0},
+		"forest": {"pitch_bonus": 0, "distance": 1.0},
+		"beefcake": {"pitch_bonus": 0, "distance": 1.0},
+		"gourmand": {"pitch_bonus": 0, "distance": 1.0},
+		"refusemancer": {"pitch_bonus": 0, "distance": 1.0},
+		"necrocrat": {"pitch_bonus": 6, "distance": 1.0},
+		"final": {"pitch_bonus": 0, "distance": 1.0},
+		"crease": {"pitch_bonus": 0, "distance": 1.0}
+	}
+}

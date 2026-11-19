@@ -278,7 +278,28 @@ func _plan_anchors() -> Dictionary:
 	return {}
 
 
+## Fable Nov 19 (Part 2): the place's default camera (data/camera/zone_camera.json). A scene parked for a battle leaves the tree and
+## comes back, so the camera is applied on entering it and cleared on leaving.
+func _enter_tree() -> void:
+	apply_zone_camera()
+
+
+func _exit_tree() -> void:
+	ZoneCamera.clear()
+
+
+func apply_zone_camera() -> void:
+	ZoneCamera.apply(_zone_id())
+	if _screenshot_args.has("pitch_bonus"):
+		CameraRig.zone_pitch_bonus = float(_screenshot_args["pitch_bonus"])
+		CameraRig.zone_pitch_target = CameraRig.zone_pitch_bonus
+	if _screenshot_args.has("zone_dist"):
+		CameraRig.zone_distance = float(_screenshot_args["zone_dist"])
+		CameraRig.zone_distance_target = CameraRig.zone_distance
+
+
 func _ready() -> void:
+	apply_zone_camera()
 	def = ZoneDefs.get_def(_zone_id())
 	SceneManager.pause_allowed = true
 	# Overnight Oct 18, Phase 2 cycle 29: the zone shop's stage art is warmed like Crosspath's (its first open loaded it on the spot, ~45 ms). The

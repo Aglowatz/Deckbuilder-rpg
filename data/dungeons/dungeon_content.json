@@ -411,7 +411,7 @@
 							"Skip the queue",
 							"You skip the queue. Your units march in with their heads high, and the clerks make the first of them wait at the door out of spite.",
 							"boon:Cut the Line|atk=1,next=1",
-							"curse:Back of the Queue|slow=1,next=1"
+							"curse:Security Was Called|foe_unit=10,next=1"
 						]
 					]
 				},
@@ -786,19 +786,21 @@
 					"choices": [
 						[
 							"Study the portrait",
-							"The smile never changes, and neither, you realise, does anything else in this place. It is strangely restful, and that frightens you more than the guards do.",
-							"heal:3"
+							"The smile never changes, and neither, you realise, does anything else in this place. It is strangely restful, and that frightens you more than the guards do. You leave rested, and you keep checking over your shoulder.",
+							"heal:6",
+							"curse:His Eyes Follow|max_hp=-1"
 						],
 						[
 							"Pocket a gilded candlestick",
 							"It is heavier than it looks and worth more than it should be, and now it is covered in your fingerprints, in a building that remembers fingerprints.",
-							"gold:50",
-							"curse:Fingerprints Everywhere|max_hp=-1"
+							"gold:80",
+							"curse:Fingerprints Everywhere|max_hp=-2"
 						],
 						[
 							"Count the reflections",
-							"There is always one more reflection than there should be. You wave, he waves a moment too late, and for a moment you are a little less afraid of him.",
-							"boon:Seen Him First|def=1"
+							"There is always one more reflection than there should be. You wave, he waves a moment too late, and for a moment you are a little less afraid of him. Then the extra one steps out of the floor and goes to tell someone.",
+							"boon:Seen Him First|def=1",
+							"curse:One Reflection Too Many|foe_unit=16,next=1"
 						]
 					]
 				},
@@ -811,19 +813,21 @@
 					"choices": [
 						[
 							"Read the notes",
-							"It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy.",
-							"boon:Lab Notes|atk=1,def=1"
+							"It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy. You read every page, and it is hard to think of anything else afterwards.",
+							"boon:Lab Notes|atk=1,def=1",
+							"curse:Too Much Reading|draw=-1"
 						],
 						[
 							"Take the samples",
-							"Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need.",
-							"gold:50"
+							"Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need. One of the jars bites.",
+							"gold:80",
+							"damage:3"
 						],
 						[
 							"Practise the smile in the mirror",
 							"The smile comes out perfect, which is horrifying, and your face stays like that for a while. The guards leave you alone.",
 							"boon:Perfect Smile|def=1",
-							"damage:1"
+							"damage:2"
 						]
 					]
 				},
@@ -837,18 +841,20 @@
 						[
 							"Pick the odd one out",
 							"It tastes of dandelion, bitter and ordinary, and it feels like the first honest thing you have found in the castle.",
-							"heal:3"
+							"heal:8",
+							"curse:The Gardeners Noticed|foe_atk=1,next=1"
 						],
 						[
 							"Pick a handful of the rest",
 							"They wilt in your hand and leave behind a few coins, which is more than they should have been able to do.",
-							"gold:40"
+							"gold:90",
+							"curse:Uniform Pollen|max_hp=-2"
 						],
 						[
 							"Plant something crooked",
 							"You press a bent stem into the soil. The gardener will find it tomorrow and have to rethink everything. You walk on, lighter.",
 							"boon:Crooked Little Hope|atk=1,def=1",
-							"damage:1"
+							"damage:3"
 						]
 					]
 				}
@@ -1472,7 +1478,7 @@
 							"Take the journal for Wren's true record",
 							"You take the journal for Wren's true record. The alarm in the study goes off as you lift it, and the whole Lab hears it.",
 							"boon:The True Record|max_hp=2",
-							"curse:Alarm Raised|foe_atk=1"
+							"curse:Alarm Raised|foe_unit=25,next=1"
 						],
 						[
 							"Leave it on the desk",

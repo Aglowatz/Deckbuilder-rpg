@@ -25,16 +25,22 @@ func attach(target: Control, card: CardData) -> void:
 
 
 ## `extra`: more [title, body] entries under the keywords (the Deck Station adds "Works well with", overnight Oct 30-31).
-func show_for(target: Control, card: CardData, extra: Array[Array] = []) -> void:
+## Fable Nov 19 (Part 5.3): a card never seen magnifies as its card back (no name, no rules, no keyword help).
+func show_back_for(target: Control, card: CardData) -> void:
+	show_for(target, card, [] as Array[Array], true)
+
+
+func show_for(target: Control, card: CardData, extra: Array[Array] = [], back: bool = false) -> void:
 	if _card != null:
 		_card.queue_free()
-	_card = CardView.create(card, CardView.Mode.FULL)
+	_card = CardView.create(card, CardView.Mode.BACK if back else CardView.Mode.FULL)
+	_card.set_meta("back", back)
 	_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_card.scale = Vector2(0.92, 0.92)
 	add_child(_card)
 	for child: Node in _help_box.get_children():
 		child.queue_free()
-	var entries: Array[Array] = KeywordInfo.entries_for(card)
+	var entries: Array[Array] = [] as Array[Array] if back else KeywordInfo.entries_for(card)
 	entries.append_array(extra)
 	_help.visible = not entries.is_empty()
 	for entry: Array in entries:
