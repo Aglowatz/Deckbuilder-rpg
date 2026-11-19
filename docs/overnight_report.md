@@ -1,3 +1,317 @@
+# Fable Nov 19 - report: what fades and what doesn't, a camera test per zone, the Path colours, a design for the info screens
+
+Brief: `docs/prompts/fable_nov19_fade_camera_colour.md`. Start tag `pre-fable-nov19`. Questions: `docs/overnight_inbox.md`, "Fable Nov 19"
+(6 items). Shots: `docs/overnight_shots/nov19b/` (`ref_*` are yours). **No export, nothing uploaded.** Commits: `e239a77e` (Parts 1 and 3),
+`e06c7a04` (Parts 2, 4, 5), then the report commit.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Objects disappearing | yes | one typed fader; your four cases fixed; probe test + tool; FPS unchanged within noise |
+| 2 Camera test per zone | yes (no default changed) | 16 contact sheets (8 places x the Cinematic and the Low preset), one line per place to apply a choice |
+| 3 Path colours | yes | one palette file, every UI tint reads it; guide + swatches; 4 Batch 18 rows |
+| 4 Info screens | yes (spec, 5 mock-ups, 11 Batch 18 rows) | applied now: only the quest box's readability |
+| 5 Small items | yes | castle nodes, the enemy's starting unit (3 nodes), hover magnification; the Glossary has no card pictures (nothing to magnify) |
+| 6 Tests and report | yes | GUT full run 3372 / 3375 (1 test updated and re-run green on its own, 2 pending as before); five zone walk smokes and the forest smoke pass; the Dump's walk smoke fails on the start tag too (Wren takes the heal spot's prompt) |
+
+---
+
+## Part 1 - objects disappearing
+
+### What was wrong (the stock-take, before any change)
+
+Three separate systems faded things, each by its own rule:
+1. **The group fader** (`OcclusionFader`): every mesh 1 m or taller was a candidate; if one sight line from the lens to the hero touched its
+   box, **the whole parent group faded to nothing** (its roof, its trim, its neighbours under the same parent); and **anything within
+   6.5 m of the lens faded too**, whether or not it hid the hero ("foreground clutter"). That second rule is your first screenshot: with
+   the Low camera 23 m behind the hero, every house the lens came near was gone. Ground decals draped over terrain counted as "tall"
+   because their box spans the hills: the mud, moss and petal decals of the Dump and the Gainlands faded on most of the map.
+2. **The tree cards' shader** (`kit_card.gdshader`): a tree in the lens-to-hero corridor went 86 % see-through, bushes included.
+3. **The D.N.A.'s per-piece shader** (`dna_fade.gdshader`): cabinets and partitions went 86 % see-through when the line to the hero's
+   **hips** crossed them; full-height walls between the lens and the hero's room were cut away completely.
+Plus, unchanged and not part of the problem: the distance range fade (`StyleRig._limit_range`, things 48 m+ away), the Capital's "hide the
+wall the lens is inside", and the labels' own fader.
+
+Measured by walking the hero over every walkable cell of every place in the running game at the default and the Low camera
+(`docs/review/nov19b/fade_stock_before.txt`):
+
+| Place | Things that could fade, before | of which low (under 1.5 m) | small (under 1.3 m across) | Now | of which low or small |
+|---|---|---|---|---|---|
+| Opening Forest | 1 | 0 | 0 | 1 | 0 |
+| Crosspath | 55 | 15 | 1 | 32 | 0 |
+| Gainlands | 116 | 70 | 18 | 29 | 0 |
+| Buffet | 68 | 39 | 5 | 24 | 0 |
+| Dump | 146 | 68 | 27 | 46 | 0 |
+| D.N.A. | 20 | 6 | 6 | 8 | 0 |
+| Capital and Crease | 178 | 49 | 38 | 78 | 0 |
+
+### The rules as built (one system: `world/style/occlusion_fader.gd`)
+
+Every thing gets a **type** from its size and its name (or a `fade_type` meta set by hand; none was needed):
+
+| Type | What | Rule |
+|---|---|---|
+| `tall_occluder` | a building, a tall wall, a big tree, a column (1.5 m or taller and a metre or more across) | the only type that ever goes see-through |
+| `low_blocker` | anything lower than the hero's shoulder (1.5 m): counters, desks, fences, hedges, rails, rocks, crates, graves | **never fades** |
+| `small_prop` | under a metre across at any height (lamp posts, poles), or short and narrow (barrels, plants), or named lamp / banner / post / plant / bench... | **never fades** |
+| `sign` | anything of a prop's size with "sign" in its name: signposts, sign boards | **never fades** |
+
+1. **What looks solid stays visible:** rules above. Also checked live: a thing whose top is under the hero's shoulder *where he stands*
+   never fades (a wall on lower ground), and a piece that shrinks under 1.5 m while it animates (the Dump's roots) stops fading.
+2. **Only what really hides him:** five sight lines run from the lens to his hips, chest, head and both shoulders; a tall occluder
+   starts to fade when **two** of them pass through it. Near it, beside it or in front of it: nothing. The "anything near the lens"
+   rule is gone.
+3. **Partly, never to nothing, and only where he is:** a tall occluder is never faded as a whole. A **soft window** opens in it round the
+   hero (2.3 m radius at his depth, in the world shaders: `assets/shaders/style_occlusion.gdshaderinc`): only the part of it nearer the
+   lens than he is, kept at 36 % (a fine dither), with a soft rim. Its roof, its far side and everything outside the circle stay solid.
+   A mesh whose material cannot take the window fades as a whole instead, to 45 % opacity, never less.
+4. **His outline:** through whatever is left in front of him the hero's shape is drawn as a soft outline in **his Path's colour**
+   (lightened; warm white before a Path is chosen). It reads the depth buffer, so only the hidden part of him is tinted. Both were tried:
+   the outline alone keeps the building perfect but hides who or what stands next to him (a roamer, a chest, the person he talks to); the
+   window alone loses him in a busy roof. Together, with the outline at 40 % inside the window, he reads at once and so does the
+   ground round him. Used for every tall occluder.
+5. **Where it blocks stays readable:** the lowest 0.75 m of anything with a window stays solid (its foot), in the shader.
+6. **The one exception - a piece the lens itself is inside** (the camera trails behind the hero and passes through houses), or that hides
+   him while standing within 3 m of the lens (it would fill the screen with one roof): nothing of it can be drawn, so it is cut away,
+   and **a soft outline of its footprint is laid on the ground** so nobody tries to walk through the gap.
+7. **Smooth:** a quarter of a second in and out; a thing that started to fade keeps its window until no line touches it for 0.2 s.
+8. **One system, one set of rules, no per-zone exceptions.** The tree cards and the D.N.A.'s cabinets keep their own shaders (they are
+   batched by the hundred) but follow the same rules now: nothing under the hero's shoulder fades, 60 % see-through at most (was 86 %),
+   and the foot of a D.N.A. piece stays solid; a D.N.A. wall cut away for the room keeps a 0.7 m stub.
+The person in reach (the [E] prompt) counts like the hero: a tall thing that hides them opens its window. A far quest door no longer
+hollows out the house in front of it (its marker shows it).
+
+### Your four cases
+
+| Case | Before (yours) | After |
+|---|---|---|
+| 1 Whole buildings vanish near the hero | `ref_fade_crosspath_building_gone.png` | `p1_after_building_a_default.jpg`, `p1_after_building_a_low.jpg`: every house stands; the one he is behind has a window round him |
+| 2 The signpost disappears | `ref_fade_crosspath_signpost.png` | `p1_after_signpost_default.jpg`, `p1_after_signpost_low.jpg`: the signpost never fades (type `sign`); walk strip `walks/walk_signpost.jpg` |
+| 3 / 4 The D.N.A. counter disappears | `ref_fade_dna_counter_visible.png`, `ref_fade_dna_counter_gone.png` | `p1_after_counter_default.jpg`, `p1_after_counter_low.jpg`: the counter is a `low_blocker`, solid with the hero behind it; walk strip `walks/walk_counter.jpg` |
+
+All ten owner-case shots on one sheet: `p1_owner_cases_after.jpg`.
+
+### Per zone: what faded before, what fades now, and why
+
+Before / after sheets, six of the worst spots per zone as the scan ranked them (Capital: eight), default and Low camera:
+`p1_fade_<zone>.jpg` (columns: before default, after default, before Low, after Low).
+
+| Zone | Faded before (besides buildings) | Fades now | Why |
+|---|---|---|---|
+| **Crosspath** | the signposts (on 375 of the walked cells), the bridge's deck planks and rails, a market stall, a lantern post, the gate's sign icon | the houses, the church, the inn, the well, the notice board, the cart, the bridge's tall posts | they are taller than the hero and stand between the lens and him |
+| **Opening Forest** | the forest's props as one group of 47 | the same tall tree and rock group, as a window | the clearing is ringed by tall trees; nothing low was involved |
+| **Gainlands** | the mud and chalk ground decals (1,669 and 825 cells), 70 low pieces: the gym yard's low walls, benches, racks; 18 posts | the mill sails and towers, the gym hall, the stone gateway, the tall yard frames | only tall structures |
+| **Buffet** | the crumb decals (1,770 cells), kitchen counters and tables, pancakes, plates, pads, the neon strip, the bridge's bunting | the broccoli giant, the cake cathedral, the hall wings, the ovens, the tall cheese wedges, the columns | only tall structures; counters are waist-high |
+| **Dump** | seven ground decal sheets (up to 3,250 cells each), 68 low pieces (roots, crop rows, the barricade, scrap boards), 27 posts | the greenhouse, the windmill, the shacks, tall debris walls, big trees | only tall structures; the tree cards fade to 60 % in their own shader |
+| **D.N.A.** | **the front counter**, the kitchen counter, the console, the water cooler, the round table, the time clock, the television, a sign icon | the entrance gate, the columns, the street rows behind the fronts, the ruler's statue and banners | counters and desks are `low_blocker`s; in the cubicle farms nothing fades any more (every partition is under the shoulder) |
+| **Capital and Crease** | 18 graves, the queue posts, six street lamps, hatches, beds, carts, junk piles, complaint boxes, the manhole | the great wall (both runs), the gate arch, the district houses, the tram shed, the watchtower, booths and tall rift crystals | the wall used to vanish whole; now it stands with a window (`walks/walk_wall.jpg`) |
+
+### Walk sequences
+
+Seven steps along a line, default camera above and Low below, one strip each (`docs/overnight_shots/nov19b/walks/`):
+`walk_street` and `walk_behind_houses` (Crosspath's houses), `walk_signpost`, `walk_counter`, `walk_cubicles`, `walk_maze` (D.N.A.),
+`walk_wall`, `walk_graves` (Capital), `walk_forest`, `walk_kitchen` (Buffet), `walk_trees`, `walk_windmill` (Dump), `walk_gym`
+(Gainlands). In each the window follows the hero and nothing else changes from frame to frame.
+
+### The probe (kept as a test and a tool)
+
+- `tests/world/test_fade_probe_nov19.gd`: builds all seven places, lists every thing the fader knows with its type and rule, walks the
+  hero over every walkable cell at both cameras, and **fails if a low blocker, a small prop or a sign can fade** (checked on each piece's
+  own box, not by the fader's word). 385 things known across the seven places; 0 offenders.
+- `bash tools/run_fade_probe.sh`: the same sweep in the running game (with dressing and people): 7 places, 0 things other than tall
+  occluders can fade, 0 script errors. The full list with types: `docs/review/nov19b/fade_stock_after.txt`.
+- `tests/world/test_occlusion_ground.gd`: the rules one by one (types, the window, never whole, beside / in front of a wall, easing and
+  hold, the lens-inside cut and its footprint).
+- Play-script commands for next time: `fadeshot <name> <x> <z>`, `fadescan <prefix> [shots]`, `fadecat`, `fades`.
+
+### FPS (`tools/perf_run.sh`, the same session, before = the start tag's code)
+
+| Area | Medium before | Medium after | Low-end before | Low-end after |
+|---|---|---|---|---|
+| Crosspath | 77.3 | 76.2 | 92.0 | 90.4 |
+| Gainlands | 83.0 | 85.6 | 105.0 | 97.3 |
+| Buffet | 82.5 | 82.7 | 93.0 | 98.4 |
+| D.N.A. | 81.6 | 79.7 | 88.3 | 89.7 |
+| Dump | 75.6 | 73.0 | 83.4 | 83.1 |
+| Capital (inside) | 67.7 | 65.8 | 82.1 | 80.3 |
+
+Average frame rate is the same within the run-to-run noise (about 2 fps down on Medium where more things are now drawn that used to be
+faded away; nothing below 60). The 1 % lows moved both ways between runs (`docs/perf/runs/nov19b_fade_before.md`, `_after.md`).
+
+### Known limits
+
+- With the **Low** camera a tall statue or post right in front of the lens is now part of the picture instead of fading (the D.N.A.
+  gate's stamp statue in `p1_after_counter_low.jpg`). It never hides the hero; it does take a corner of the screen.
+- A building the lens is inside still disappears (it cannot be drawn from inside); its footprint outline is what tells you it is
+  there. Inbox 3 has the alternative.
+- The window is a dither, so on a still screenshot zoomed in it shows its pattern; in motion at 1080p it reads as glass.
+- A person the hero talks to **behind a house** is seen through the same window (Gatekeeper Brannoch behind the item shop): both figures
+  read, but small, where the whole house used to vanish. If that feels cramped in play, talk points behind buildings can open a wider
+  window (one number, `WINDOW_RADIUS`, or a second window on the person).
+
+---
+
+## Part 2 - the camera test (no default changed)
+
+**Your saved setting is the Low camera** (`settings.cfg`: `camera_angle=3`), while the game's default for a new player is Cinematic, so
+every place was shot at both. Per place: three spots (the arrival, the hub, a busy area) x pitch +0, +4, +6, +8 degrees (the D.N.A.
+also +10) x three distances (10 % closer, as now, 10 % further). The cell marked **(NOW)** is today's default. New fade rules on.
+
+Sheets: `docs/overnight_shots/nov19b/camera/camera_<place>_low.jpg` (what you see) and `camera_<place>_cinematic.jpg` (what a new
+player sees), for `crosspath`, `forest`, `gainlands`, `buffet`, `dump`, `dna`, `capital`, `crease`.
+
+| Place | Recommendation | Why |
+|---|---|---|
+| Crosspath | **+4, distance as now** | the roofs of the south rows hide less of the street and the square reads as a place; the tree line and the mountains stay in the picture at Low. At +8 the horizon is gone and it stops looking like Crosspath |
+| Opening Forest | **+0 (as now)** | its mood is the depth between the trunks and the teal light; every degree steeper trades that for forest floor |
+| Gainlands | **+4, distance as now** | the mill wheels and yard frames cover less of the plateau paths; the skyline (Swolympus, the far Capital) still shows |
+| Buffet | **+4, distance as now** | tables and counters in the foreground stop hiding the plaza floor; at +6 and +8 the gingerbread skyline is cut off |
+| Dump | **+0 (as now), or 10 % further** | the terraces read by their horizon and layers; steeper flattens the ravine. A little further out shows more of the route |
+| D.N.A. | **+6 (as now)** | +8 and +10 gain nothing more over the partitions and lose the far wall and its windows |
+| Capital | **+4, distance as now** | the checkered plazas and the paths between the districts read better; the wall tops and the castle still close the picture |
+| Crease | **+0 (as now)** | a low cavern: steeper only shows more ceiling |
+
+**To apply a choice:** one line per place in **`data/camera/zone_camera.json`** (`"pitch_bonus"` in degrees, `"distance"` 1.0 = as now,
+0.9 = 10 % closer). Nothing else. `ZoneCamera` (`world/look/zone_camera.gd`) reads it; the D.N.A.'s +6 moved there from its scene; the
+rig glides between the Capital's and the Crease's values when you walk down. Test: `tests/world/test_zone_camera_nov19.gd` (no default
+changed). To re-shoot: `bash tools/play.sh docs/review/play_scripts/nov19b/camera_test.txt` (play command `camgrid`).
+
+---
+
+## Part 3 - one colour per Path
+
+The audit's finding: **the painted art already agrees with itself** (icons, frames, card backs, packs, plinths: red and gold; cream
+and copper; moss and rust; ghost green on slate). **The odd one out was the UI's own tint table**: Gourmand blue, Necrocrat violet,
+and three more private tables (packs: yellow and violet; boss intros: yellow and violet; the crest: blue and violet).
+
+**The palette** (`docs/art/path_colour_guide.md`, swatches `docs/art/path_colour_swatches.png`):
+
+| Path | Main | Accent |
+|---|---|---|
+| Beefcake | `#E0321F` red | `#E0A030` gold |
+| Gourmand | `#F0C494` cream | `#C06A3A` copper |
+| Refusemancer | `#58933B` deep moss | `#B5552D` rust |
+| Necrocrat | `#72E55B` bright ghost green | `#55606A` slate |
+
+- Chosen with a colour-blind simulator (`python tools/path_palette_check.py`): the smallest difference between two Paths under
+  red-green colour blindness was 9 with the old tints, 13 with the icons' paint taken literally, **21 with this palette**. The two
+  greens are told apart by brightness (deep moss against glowing ghost green).
+- The card frames do not change at all (their cloth tints are kept as they were).
+- **Option 2**, shown in the guide: Necrocrat as ghost teal `#7EE5CB` (further from the moss for normal vision). Recommended: ghost green.
+
+**In code:** one file, **`core/data/path_palette.json`**, read by `PathPalette`; `UIStyle.affinity_color()` is now that table, so about
+sixty call sites follow (Alembic's jars and essence bars, toasts, card accents and cost pips, the battle board's effects, deck
+filters, the Deck Station racks, the Collection Book bars, the character page, shops and pack covers, zone title cards, boss intro
+bands, the memory screen, the ending, map tints, portals, vault levers, the crest texture, the Lab's tanks, the castle model's district
+lights, and the hero's outline from Part 1). The private tables are gone (`test_path_palette.gd` keeps it so). A Path pack takes its
+Path's colour whatever its data file says (`PackData.tint()`).
+
+Before / after (the "before" is the old tints loaded into the same build): `p3_before_*.jpg`, `p3_after_*.jpg` for `alembic`, `deck`,
+`packs`, `map`, `codex`, `battle`. A fresh save has no essence, so Alembic's bars are empty in the shot; the visible changes are the
+row borders, the filter chips and the Collection Book's Path list.
+
+**Painted art in the wrong colours** (4 rows added to `docs/art/batch18_nov18.csv`): `UI-CARDBACK-N` and `UI-PACK-N` (green like the
+Refusemancer's; should be slate with ghost green), `V-ALEMBIC` (flasks and apron splashes in blue and violet), `VS-ALEMBIC` (jars blue
+/ red / orange / green, a violet flame).
+
+---
+
+## Part 4 - a design for the info screens
+
+- **As they are now:** 17 shots in `docs/overnight_shots/nov19b/ui_now/` (title, pause, settings x4, the quest box, quest log, map,
+  glossary, feats, three pop-ups, the character page, dialogue, save slots).
+- **The proposal** (`docs/art/ui_style_guide.md`): *a storybook page in a gilt frame.* Reading happens on parchment in dark ink (today
+  the parchment is only the margin and the text sits pale on dark wood or violet panels that differ from screen to screen); a crimson
+  ribbon carries each title; one gold button per screen, wood buttons for the rest; row plates, bookmark tabs, a gold divider and a
+  real scroll bar tie the lists together; tooltips stay dark so they read over anything. Type sizes, colours and an 8 px spacing grid
+  are in the guide.
+- **Mock-ups** (`docs/overnight_shots/nov19b/ui_mockups/`, made from art already in the game; magenta dashed boxes mark the new
+  pieces): `mock_quest_box.jpg`, `mock_main_menu.jpg`, `mock_quest_log.jpg`, `mock_tooltip.jpg`, `mock_settings.jpg`.
+- **New art:** 11 rows in `docs/art/batch18_nov18.csv` with exact sizes and 9-slice margins: `UI-INFO-PAGE`, `UI-INFO-RIBBON`,
+  `UI-INFO-DIVIDER`, `UI-INFO-ROW`, `UI-INFO-TAB`, `UI-INFO-BTN-STATES`, `UI-INFO-SCROLLBAR`, `UI-QUESTBOX`, `UI-QUEST-MARKS`,
+  `UI-INFO-TOOLTIP`, `UI-MAP-FRAME`.
+- **Applied now (no new art):** the quest box only. Text 18 / 19 px (was 16 / 17), the "???" steps and the "2 of 6" pager no longer
+  half see-through, 380 px wide (was 340) so steps wrap less. Before `ui_now/now_hud_quest_box.jpg`, after `p4_after_quest_box.jpg`.
+  The rest changes every menu, so it waits for your yes (inbox 4).
+
+---
+
+## Part 5 - small items
+
+1. **Primm's Castle choice nodes** follow the rule of every other dungeon now: no purely good option; the deepest dungeon, so strong
+   boons with lasting drawbacks. **Rooms and fights are unchanged**, and anything that strengthens the enemy in the castle lasts one fight
+   only, so Primm's own fight is never touched. The two story events (the early journals, the Corrected) got drawbacks too.
+
+   | Node | Option | Boon | Drawback | Duration |
+   |---|---|---|---|---|
+   | 3 Grand Foyer | Study the portrait | heal 6 (was 3) | 'His Eyes Follow': -1 max HP | rest of the dungeon |
+   | 3 Grand Foyer | Pocket a gilded candlestick | +80 gold (was 50) | 'Fingerprints Everywhere': -2 max HP (was -1) | rest of the dungeon |
+   | 3 Grand Foyer | Count the reflections | 'Seen Him First': your units +1 defense | 'One Reflection Too Many': the enemy starts with a Militia (1/1) | next fight |
+   | 8 The early journals | Read them | 'A Good Man's Plans': +2 max HP, units +1 defense | lose 3 HP | rest of the dungeon |
+   | 8 The early journals | Sit with the book | heal 7 (was 4) | 'Sympathy for Him': -1 max HP | rest of the dungeon |
+   | 12 Lab Notes | Read the notes | 'Lab Notes': your units +1 / +1 | 'Too Much Reading': -1 card in the opening hand | rest of the dungeon |
+   | 12 Lab Notes | Take the samples | +80 gold (was 50) | lose 3 HP | at once |
+   | 12 Lab Notes | Practise the smile | 'Perfect Smile': your units +1 defense | lose 2 HP (was 1) | rest of the dungeon |
+   | 16 The Corrected | Sit with them and listen | 'They Were Heard': +4 max HP (was 3) | lose 3 HP | rest of the dungeon |
+   | 16 The Corrected | Free the nearest bed | heal 8 (was 5) | 'Their Voices Stay': -1 max HP | rest of the dungeon |
+   | 16 The Corrected | Take the record book | +90 gold (was 60) | 'Robbed the Corrected': -2 max HP | rest of the dungeon |
+   | 22 Garden | Pick the odd one out | heal 8 (was 3) | 'The Gardeners Noticed': enemy units +1 attack | next fight |
+   | 22 Garden | Pick a handful of the rest | +90 gold (was 40) | 'Uniform Pollen': -2 max HP | rest of the dungeon |
+   | 22 Garden | Plant something crooked | 'Crooked Little Hope': your units +1 / +1 | lose 3 HP (was 1) | rest of the dungeon |
+
+   Four result texts gained a closing sentence for the new drawback (Study the portrait, Count the reflections, Read the notes, Take the
+   samples). The full table of every dungeon: `docs/design/choice_nodes_nov19.md` (updated).
+2. **The enemy-side drawback "the enemy starts with an extra unit":** new `Modifier.Kind.STARTING_UNITS` (the unit enters at the start
+   of the duel, like a unit that just arrived), boon spec key `foe_unit=<token number>` (`foe_units=2` for two). Used in three nodes:
+   the Hall of Final Approvals' kiosk, "Skip the queue" ('Security Was Called': a Zombie Temp 1/1, next fight; it replaces the
+   exhausted first unit); the Path-ology Lab's study, "Take the journal" ('Alarm Raised': a Failed Experiment 3/3, next fight; it
+   replaces the enemy's +1 attack for the rest of the dungeon); the castle's Grand Foyer above. Tests
+   `tests/core/dungeon/test_fable_nov19_part5.gd`.
+3. **Hover magnification:** the Collection Book magnifies a card not found yet as its **card back** (found cards already had the big
+   preview); the dungeon challenge's revealed cards, the three sample cards of a Path offer and the Peek panel's cards grow under the
+   mouse like reward cards. The Deck Station, the shops, the packs page and Alembic already had it. **The Glossary shows no card
+   pictures** (text and icons only), so there was nothing to magnify there. Tests `tests/ui/test_hover_zoom_nov19.gd`.
+4. **Your decisions, recorded** (no code): Baron Quadzilla stays as built (playtest first); Grand Bellows stays; the Cardio Machine and
+   the Department of Final Approvals stay normal cards; the separate Swolympus / Iron Cave clear flags stay; the Arena's numbers wait for
+   your hand pass; opponent cards wait for a click by default; Crosspath's shop-front signs: no change. The inbox items they answered
+   are marked answered; the backlog entries they closed are removed.
+
+---
+
+## Part 6 - tests (no export)
+
+- **GUT:** the full run (43 shards, 3375 tests): **3372 passed, 1 failing, 2 pending** (both pending before this pass: art not imported
+  yet). The one failure was `test_boon_effects`, which did not know the new `foe_unit` key: a test to update. Fixed and re-run on its
+  own (5 of 5); the whole suite was not run a second time. Real saves untouched (19 files checked).
+- **Walk smokes:** Crosspath OK, the Opening Forest OK, the Gainlands OK, the Buffet OK, the D.N.A. OK, the Capital OK.
+  - The Capital's smoke failed at first **because of this pass**, for a reason worth knowing: its walker counted time in frames, the
+    Capital now draws faster on the Low camera (fewer things in the transparent pass), so its 8 "seconds" ran out early and the hero
+    stopped short of a crate stack in the Transit Yards. The smoke times its walks by the clock now; the game was not at fault.
+  - **The Dump's smoke fails, and it already failed on the start tag** (checked by running the tag's code): at the heal spot the prompt
+    offers Wren, who stands nearer. Not from this pass and not fixed in it (the heal spot or Wren needs to move a step; listed in the
+    backlog).
+- **Probes:** the new fade probe (test and `tools/run_fade_probe.sh`): 0 offenders. The sign-angle probe (in the suite): passed. The
+  NPC visibility probe: 150 checks, 0 failed after one fix to the probe itself (it counted a building's invisible shadow proxy as a
+  thing in the way; the old fader used to hide that proxy together with its house).
+- **Not run:** the strict playthrough bot and any export (the brief asked for neither).
+
+---
+
+## Decisions needed (details in the inbox, "Fable Nov 19")
+
+1. **The camera per zone:** recommended Crosspath +4, Gainlands +4, Buffet +4, Capital +4, the rest as now. One line each in
+   `data/camera/zone_camera.json`.
+2. **The palette:** approve red / cream / moss / ghost green (or option 2, ghost teal for the Necrocrat).
+3. **The fade look:** keep "a window round the hero plus his outline" for every tall thing (recommended), or buildings fully solid
+   with the outline only.
+4. **The info-screen look:** yes to "a storybook page in a gilt frame"? Then it can be built with the stand-ins before the art arrives.
+5. **Which camera is the default for a new player:** you play on Low; the game ships on Cinematic. Recommended: keep Cinematic until
+   the zone pitches are chosen, then decide.
+6. **The castle's numbers** (heals 6 to 8, gold 80 to 90 against -1 / -2 max HP): first numbers; recommended to playtest as they are.
+
+---
+
 # Overnight Nov 19 (Opus) - report: the story after each zone, Alembic, signature cards, choice nodes, the Arena, world fixes, the playtest build
 
 Brief: `docs/prompts/opus_nov18_night.md`. Start tag `pre-overnight-nov19`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 19" (8 items).

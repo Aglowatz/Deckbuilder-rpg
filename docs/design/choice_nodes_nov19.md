@@ -1,6 +1,6 @@
 # Dungeon choice nodes (Overnight Nov 19, Part 5)
 
-Every option of every choice node: its boon, its drawback and how long each lasts. Early nodes give small boons with short drawbacks (the next fight only); later nodes give stronger boons and drawbacks that last the rest of the dungeon. A do-nothing option is allowed. Primm's Castle (D-PC) is listed as it is, unchanged (the owner's castle rule).
+Every option of every choice node: its boon, its drawback and how long each lasts. Early nodes give small boons with short drawbacks (the next fight only); later nodes give stronger boons and drawbacks that last the rest of the dungeon. A do-nothing option is allowed. Fable Nov 19 (Part 5): Primm's Castle follows the same rules now (the owner's yes): the deepest dungeon, so strong boons with lasting drawbacks; its rooms and fights are unchanged, and anything that strengthens the enemy there lasts one fight only, so Primm's own fight is never touched. New that day: the enemy-side drawback "the enemy starts with an extra unit" (three nodes).
 
 | Dungeon | Node | Option | Boon | Drawback | Duration |
 |---|---|---|---|---|---|
@@ -18,7 +18,7 @@ Every option of every choice node: its boon, its drawback and how long each last
 | The Test Kitchen | 10: R&D Archives | Leave the archives alone | nothing | nothing | at once |
 | The Hall of Final Approvals | 2: Take-a-Number Kiosk | Take a number and wait | nothing | nothing | at once |
 | The Hall of Final Approvals | 2: Take-a-Number Kiosk | Take every number | +35 gold | lose 2 HP | at once |
-| The Hall of Final Approvals | 2: Take-a-Number Kiosk | Skip the queue | 'Cut the Line': your units +1 attack | 'Back of the Queue': your first unit enters exhausted | next fight |
+| The Hall of Final Approvals | 2: Take-a-Number Kiosk | Skip the queue | 'Cut the Line': your units +1 attack | 'Security Was Called': the enemy starts with a Zombie Temp (1/1) on the field | next fight |
 | The Hall of Final Approvals | 8: Form 27-B Office | Fill out the forms | 'Duly Authorized': +3 max HP | pay 20 gold | rest of the dungeon |
 | The Hall of Final Approvals | 8: Form 27-B Office | Forge the stamp | +50 gold | lose 2 HP | at once |
 | The Hall of Final Approvals | 8: Form 27-B Office | Ask the clerk what Form 27-C is | a card (N-15); heal 1 | 'Put on Hold': your first unit enters exhausted | next fight |
@@ -31,17 +31,20 @@ Every option of every choice node: its boon, its drawback and how long each last
 | The Rotheart | 7: Weeping Compost Pool | Comfort the pool | heal 2; a card (R-01) | lose 1 random card(s) from your deck | rest of the dungeon |
 | The Rotheart | 12: The Heart Roots | Sever the Heart Roots | the Rotheart starts her fight with less HP | lose 2 HP | boss fight |
 | The Rotheart | 12: The Heart Roots | Leave them be | nothing | nothing | at once |
-| Primm's Castle | 3: Grand Foyer | Study the portrait | heal 3 | - | at once |
-| Primm's Castle | 3: Grand Foyer | Pocket a gilded candlestick | +50 gold | 'Fingerprints Everywhere': -1 max HP | rest of the dungeon |
-| Primm's Castle | 3: Grand Foyer | Count the reflections | 'Seen Him First': your units +1 defense | - | rest of the dungeon |
-| Primm's Castle | 8 | (story event "pc_early_journals", built in code) | | | |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Read the notes | 'Lab Notes': your units +1 attack, your units +1 defense | - | rest of the dungeon |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Take the samples | +50 gold | - | at once |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Practise the smile in the mirror | 'Perfect Smile': your units +1 defense | lose 1 HP | rest of the dungeon |
-| Primm's Castle | 16 | (story event "pc_corrected_citizens", built in code) | | | |
-| Primm's Castle | 22: Garden of Uniform Flowers | Pick the odd one out | heal 3 | - | at once |
-| Primm's Castle | 22: Garden of Uniform Flowers | Pick a handful of the rest | +40 gold | - | at once |
-| Primm's Castle | 22: Garden of Uniform Flowers | Plant something crooked | 'Crooked Little Hope': your units +1 attack, your units +1 defense | lose 1 HP | rest of the dungeon |
+| Primm's Castle | 3: Grand Foyer | Study the portrait | heal 6 | 'His Eyes Follow': -1 max HP | rest of the dungeon |
+| Primm's Castle | 3: Grand Foyer | Pocket a gilded candlestick | +80 gold | 'Fingerprints Everywhere': -2 max HP | rest of the dungeon |
+| Primm's Castle | 3: Grand Foyer | Count the reflections | 'Seen Him First': your units +1 defense (rest of the dungeon) | 'One Reflection Too Many': the enemy starts with a Militia (1/1) on the field | next fight |
+| Primm's Castle | 8: the early journals (story event) | Read them | 'A Good Man's Plans': +2 max HP, your units +1 defense | lose 3 HP | rest of the dungeon |
+| Primm's Castle | 8: the early journals (story event) | Rest among them | heal 7 | 'Sympathy for Him': -1 max HP | rest of the dungeon |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Read the notes | 'Lab Notes': your units +1 attack, +1 defense | 'Too Much Reading': -1 card in the opening hand | rest of the dungeon |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Take the samples | +80 gold | lose 3 HP | at once |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Practise the smile in the mirror | 'Perfect Smile': your units +1 defense | lose 2 HP | rest of the dungeon |
+| Primm's Castle | 16: The Corrected (story event) | Sit with them and listen | 'They Were Heard': +4 max HP | lose 3 HP | rest of the dungeon |
+| Primm's Castle | 16: The Corrected (story event) | Free the nearest bed | heal 8 | 'Their Voices Stay': -1 max HP | rest of the dungeon |
+| Primm's Castle | 16: The Corrected (story event) | Take the ward's record book | +90 gold | 'Robbed the Corrected': -2 max HP | rest of the dungeon |
+| Primm's Castle | 22: Garden of Uniform Flowers | Pick the odd one out | heal 8 | 'The Gardeners Noticed': enemy units +1 attack | next fight |
+| Primm's Castle | 22: Garden of Uniform Flowers | Pick a handful of the rest | +90 gold | 'Uniform Pollen': -2 max HP | rest of the dungeon |
+| Primm's Castle | 22: Garden of Uniform Flowers | Plant something crooked | 'Crooked Little Hope': your units +1 attack, +1 defense | lose 3 HP | rest of the dungeon |
 | The Path-ology Lab | 4: The Observation Deck | Read the notes on the Subject | 'Know Your Enemy': your units +1 attack | lose 2 HP | next fight |
 | The Path-ology Lab | 4: The Observation Deck | Drink the Path-ologists' tea | heal 4 | 'Sedated': your first unit enters exhausted | next fight |
 | The Path-ology Lab | 4: The Observation Deck | Rifle the lockers | +80 gold | lose 3 HP | at once |
@@ -49,7 +52,7 @@ Every option of every choice node: its boon, its drawback and how long each last
 | The Path-ology Lab | 7: The Draining Chamber | Read the dials | 'Know the Machine': your units +1 attack | 'Feedback': the enemy starts with +3 HP | rest of the dungeon |
 | The Path-ology Lab | 7: The Draining Chamber | Tear out the straps | 'Never Again': +3 max HP | lose 3 HP | rest of the dungeon |
 | The Path-ology Lab | 11 | (story event "lab_cell4", built in code) | | | |
-| The Path-ology Lab | 12: The Mentor's Study | Take the journal for Wren's true record | 'The True Record': +2 max HP | 'Alarm Raised': enemy units +1 attack | rest of the dungeon |
+| The Path-ology Lab | 12: The Mentor's Study | Take the journal for Wren's true record | 'The True Record': +2 max HP (rest of the dungeon) | 'Alarm Raised': the enemy starts with a Failed Experiment (3/3) on the field | next fight |
 | The Path-ology Lab | 12: The Mentor's Study | Leave it on the desk | nothing | nothing | at once |
 | The Shattered Gallery | 3: The Weight of Glass | Lift it anyway | 'Unbroken Reflection': your units +1 attack | lose 5 HP | rest of the dungeon |
 | The Shattered Gallery | 3: The Weight of Glass | Leave it on the rack | - | 'Second Thoughts': -2 max HP | rest of the dungeon |

@@ -191,6 +191,10 @@ func _test(scene: Node, camera: Camera3D, player: TownPlayer, npc: Dictionary) -
 			continue  # the spot's own floating marker stands on the plate point
 		if _is_overlay(mesh_instance) or _cuts_away(mesh_instance):
 			continue
+		# Fable Nov 19: a shadows-only proxy draws nothing (it only casts the building's shadow). The old fader hid it with its faded
+		# building, so it never showed up here; a building with a window keeps its shadow, and its proxy is not a thing in the way.
+		if mesh_instance.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
+			continue
 		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
 		if maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y < MIN_HEIGHT:
 			continue

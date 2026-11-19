@@ -4,7 +4,18 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
-## Overnight Nov 19 - yours to decide (the safest choice was taken)
+## Fable Nov 19 - yours to decide (the safest choice was taken)
+
+1. **The default camera of each zone.** No default was changed. Sheets: `docs/overnight_shots/nov19b/camera/camera_<place>_low.jpg` (your saved setting is the Low camera) and `camera_<place>_cinematic.jpg` (a new player's). Recommendation: **Crosspath +4, Gainlands +4, Buffet +4, Capital +4** degrees, distance as now; **the Opening Forest, the Dump, the D.N.A. (+6) and the Crease as they are**. To apply: one line per place in `data/camera/zone_camera.json`.
+2. **The Path palette** (`docs/art/path_colour_guide.md`): Beefcake red `#E0321F`, Gourmand cream `#F0C494` with copper, Refusemancer deep moss `#58933B`, Necrocrat bright ghost green `#72E55B` with slate. It is applied (the UI's Gourmand blue and Necrocrat violet are gone). Recommendation: approve it; the close second is the Necrocrat as ghost teal `#7EE5CB` (copy three values from `"alternatives"` in `core/data/path_palette.json`).
+3. **How a building in the way looks.** Built: a soft see-through window round the hero (36 % of the surface kept) plus his outline in his Path's colour; a building the lens itself stands inside is cut away and leaves its footprint outlined on the ground. The alternative for buildings is "always fully solid, outline only" (prettier houses, but you cannot see who or what stands next to the hero behind them). Recommendation: keep the window with the outline. If the footprint outline of a cut-away house reads as clutter to you, say so and it becomes a plain soft shadow.
+4. **The info-screen look** (`docs/art/ui_style_guide.md`, five mock-ups in `docs/overnight_shots/nov19b/ui_mockups/`): a storybook page in a gilt frame, reading on parchment in dark ink, a ribbon title, one gold button per screen. Only the quest box's readability was applied. Recommendation: say yes and the menus are rebuilt with the stand-in art first; the 11 new pieces (Batch 18) drop in by id when they arrive.
+5. **Which camera a new player starts with.** You play on Low; the game ships on Cinematic. With the new fade rules Low keeps more of the world in view than it did, and it is the camera your playtest notes come from. Recommendation: decide after the zone pitches (item 1) are in; no change now.
+6. **The castle's new numbers** (heals 6 to 8 and gold 80 to 90, against -1 / -2 max HP, 3 HP, or one less card in the opening hand; enemy-side drawbacks last one fight so Primm's fight is untouched). First numbers. Recommendation: playtest as they are.
+
+Recorded from your answers (no change needed): Baron Quadzilla stays as built (playtest first); Announcer Grand Bellows stays; the Cardio Machine and the Department of Final Approvals stay normal cards; the separate Swolympus / Iron Cave clear flags stay; the Arena's numbers wait for your hand pass; opponent cards wait for a click by default; Crosspath's shop-front signs: no change.
+
+## Overnight Nov 19 - answered Nov 19 (items 1 to 5, 7, 8; item 6 waits for the hand pass of the Arena)
 
 1. **Primm's Castle choice nodes** were left unchanged (your "castle rooms unchanged" rule); three options there are still purely good (Study the portrait, Read the notes, Pick the odd one out). Recommendation: let them follow the Part 5 rules too - say yes and they get a drawback each.
 2. **Baron Quadzilla** was built as proposed (3 + (B)(B), 5/6, Bulldoze, two Iron on entry, "Never Skip Leg Day"). It is stronger than Toro Toro per point of cost, but Toro Toro's extra cost (three Ingredients) is steep and both are one-copy prizes until the shop opens. Recommendation: playtest as is; if it dominates, make it 4 + (B)(B).

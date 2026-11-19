@@ -79,6 +79,10 @@ func test_each_token_reads_its_own_numbers_and_curses_are_curses() -> void:
 			if kv[0] == "next":
 				assert_true(text.contains("next fight"), "%s -> %s" % [token, text])
 				continue
+			# Fable Nov 19 (Part 5.2): "the enemy starts with a <unit> on the field" (the number is the token's, not a stat)
+			if kv[0] == "foe_unit" or kv[0] == "foe_units":
+				assert_true(text.to_lower().contains("the enemy starts with") and text.contains("on the field"), "%s -> %s" % [token, text])
+				continue
 			if kv[0] == "slow" or kv[0] == "exhausted":
 				assert_true(text.contains("exhausted"), "%s -> %s" % [token, text])
 				continue

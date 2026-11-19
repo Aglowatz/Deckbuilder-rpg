@@ -386,7 +386,13 @@ func _walk_to(scene: Node, target: Vector3, radius: float, limit: float) -> void
 	var stuck_for: float = 0.0
 	var sidestep: float = 0.0
 	var side: float = 1.0
+	# Fable Nov 19: the walk is timed by the clock, not by frames. It counted 2 frames as 1/30 s, so once the Capital drew faster (the
+	# new fade rules) the 8 "seconds" ran out early and the hero stopped short of a crate stack he was still walking round.
+	var last_msec: int = Time.get_ticks_msec()
 	while elapsed < limit:
+		var now_msec: int = Time.get_ticks_msec()
+		var step: float = clampf(float(now_msec - last_msec) / 1000.0, 0.0, 0.25)
+		last_msec = now_msec
 		var offset: Vector3 = target - player.position
 		offset.y = 0.0
 		if offset.length() < radius * 0.55:
@@ -398,11 +404,11 @@ func _walk_to(scene: Node, target: Vector3, radius: float, limit: float) -> void
 			await _hold(KEY_A, across.x < -0.35)
 			await _hold(KEY_D, across.x > 0.35)
 			await driver.frames(2)
-			elapsed += 2.0 / 60.0
-			sidestep -= 2.0 / 60.0
+			elapsed += step
+			sidestep -= step
 			continue
 		if player.position.distance_to(last_pos) < 0.02:
-			stuck_for += 2.0 / 60.0
+			stuck_for += step
 			if stuck_for > 0.4:
 				stuck_for = 0.0
 				sidestep = 0.5
@@ -421,7 +427,7 @@ func _walk_to(scene: Node, target: Vector3, radius: float, limit: float) -> void
 		await _hold(KEY_A, offset.x < -0.35)
 		await _hold(KEY_D, offset.x > 0.35)
 		await driver.frames(2)
-		elapsed += 2.0 / 60.0
+		elapsed += step
 	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
 		await _hold(key, false)
 	var off: float = Vector2(player.position.x - target.x, player.position.z - target.z).length()
