@@ -170,8 +170,16 @@ func _podium() -> Control:
 
 ## Overnight Nov 19 (Part 6.6): after a win, "Victory!" with what was won; when a tier is complete, a second pop-up with the tier's prize and
 ## the next tier opening. Each waits for a click or Space.
+## Screenshots only: skip straight to the tier-complete pop-up.
+static var skip_victory_for_shot: bool = false
+
+
 func _show_result_popups() -> void:
 	if not bool(result.get("won", false)) or not is_inside_tree():
+		return
+	if skip_victory_for_shot:
+		skip_victory_for_shot = false
+		await _tier_popup()
 		return
 	var lines: Array[String] = []
 	if bool(result.get("first_clear", false)):
@@ -183,6 +191,10 @@ func _show_result_popups() -> void:
 	add_child(victory)
 	await victory.finished
 	victory.queue_free()
+	await _tier_popup()
+
+
+func _tier_popup() -> void:
 	if result.has("tier_complete"):
 		var tier: int = int(result["tier_complete"])
 		var story: StoryText = StoryText.shared()

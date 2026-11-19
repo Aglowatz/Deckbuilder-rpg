@@ -3620,6 +3620,46 @@ func _screenshot_open(what: String) -> void:
 			_open_alchemist()
 		"arena":
 			_open_arena()
+		"arena_win", "arena_tier", "arena_diamond":
+			# Overnight Nov 19 (screenshots): a won bout (Victory pop-up), a won last bout of Bronze (Tier complete), the Diamond tier open
+			var ids: Array[String] = ["arena_warmup"]
+			if what == "arena_tier":
+				ids = ["arena_warmup", "arena_lethal_lunch", "arena_neutral_mile"]
+			if what == "arena_diamond":
+				for tier: int in [1, 2, 3]:
+					for encounter: ArenaEncounter in ArenaDefs.in_tier(tier):
+						Session.set_flag(ArenaDefs.flag_name(encounter.id))
+						Session.set_flag(ArenaDefs.tier_flag(tier))
+				_open_arena()
+				return
+			var last: Dictionary = {}
+			for id: String in ids:
+				var context: BattleContext = Session.make_arena_battle(id)
+				context.game._end_game(0, false)
+				last = Session.resolve_arena_battle(context)
+			if what == "arena_tier":
+				last["first_clear"] = false
+				last["replay_gold"] = 0
+				last["won"] = true
+				ArenaScreen.skip_victory_for_shot = true
+			_open_arena(last)
+		"arena_preset":
+			_open_arena()
+			var arena_screen: ArenaScreen = _overlay_layer.find_child("*", true, false) as ArenaScreen
+			for child: Node in _overlay_layer.get_children():
+				if child is ArenaScreen:
+					arena_screen = child as ArenaScreen
+			if arena_screen != null:
+				arena_screen.fight_chosen.emit("arena_neutral_mile")
+		"signature_popup":
+			# Overnight Nov 19 (screenshots): the Waiting Room's first-clear box with its signature card
+			var card: CardData = Session.card_by_id("N-30")
+			var summary: RewardSummary = RewardSummary.new()
+			summary.title = "The Waiting Room of Eternity cleared!"
+			summary.subtitle = "Signature card: %s" % card.display_name
+			summary.cards = [card] as Array[CardData]
+			summary.unlocks = ["More copies are now sold in %s (never in packs)" % Session.signature_shop_name("N-30")] as Array[String]
+			_show_reward_box(summary)
 		"quests":
 			_open_quest_log()
 		"memory1":

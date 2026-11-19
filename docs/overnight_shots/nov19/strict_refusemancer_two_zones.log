@@ -1,0 +1,547 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+playthrough: path refusemancer, real fights true, save/load true
+world_look: generic scenery at (3.95, 0.0, -8.2), scale 1.00
+playthrough: PASS  the starting forest loads on a new game
+load_timing: starting_area 2502 ms (slowest step: painted: base material 1399 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 0.0 s)
+playthrough: UI the Rescuer's Path choice: Refusemancer (the tile's chosen signal)
+playthrough: confirm 'Enter'
+playthrough: PASS  the Forgotten Cave opens
+playthrough: FIGHT the Forgotten Cave (fight 1) | board dungeon:hollow | L1, 120 gold, deck 45
+load_timing: battle 1125 ms (slowest step: frame 2 488 ms); worst frame in the first 5 s after the fade-in: 51 ms (at 3.0 s)
+playthrough: fight won for real: the Forgotten Cave (fight 1) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 1) (turn -1)
+playthrough: FIGHT the Forgotten Cave (fight 2) | board dungeon:hollow | L1, 160 gold, deck 45
+load_timing: battle 725 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 39 ms (at 4.3 s)
+playthrough: fight won for real: the Forgotten Cave (fight 2) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 2) (turn -1)
+playthrough: FIGHT the Forgotten Cave (fight 3) | board dungeon:hollow | L1, 200 gold, deck 45
+load_timing: battle 755 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 42 ms (at 4.3 s)
+playthrough: fight won for real: the Forgotten Cave (fight 3) (level 1)
+playthrough: FIGHT won the Forgotten Cave (fight 3) (turn -1)
+load_timing: rewards 730 ms (slowest step: fade out 297 ms); worst frame in the first 5 s after the fade-in: 85 ms (at 1.3 s)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+arrival: Crosspath after the cave - welcome_maren -> welcome_wanderer -> welcome_maren_end -> welcome_path (3.8 s)
+load_timing: town 6811 ms (slowest step: look rig: scenery 1189 ms); worst frame in the first 5 s after the fade-in: 72 ms (at 3.8 s)
+playthrough: PASS  the tutorial cave is cleared by play
+playthrough: CHAPTER Chapter 0: the forest and the Forgotten Cave | 1.7 min wall, 1.3 min game | L3, 520 gold, deck 48, 0 gear
+playthrough: PASS  the town loads after the tutorial
+playthrough: PASS  strict: Maren's welcome is heard
+playthrough: talked to Tilly Tonic
+playthrough: UI Character page: equipped Tilly's Power Wraps (CharacterScreen.equip_selected_into's calls)
+playthrough: talked to Sable
+playthrough: UI Sable's shop: bought 3 cards (the shop's buy calls)
+playthrough: talked to Pip Threadwell
+playthrough: UI Packs page: opened 1 packs (PacksScreen.open_all)
+playthrough: UI Deck Station: saved the deck to its slot (Session.save_deck_to_slot, the Save button's call)
+playthrough: FIGHT the store room ghosts (try 1) | board town | L4, 365 gold, deck 48
+load_timing: battle 1068 ms (slowest step: frame 2 432 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 1.6 s)
+playthrough: fight won for real: the store room ghosts (try 1) (level 4)
+playthrough: FIGHT won the store room ghosts (try 1) (turn -1)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 4487 ms (slowest step: look rig: scenery 997 ms); worst frame in the first 5 s after the fade-in: 36 ms (at 3.4 s)
+playthrough: talked to Bertram
+playthrough: FIGHT the armory's one fight (try 1) | board town | L5, 570 gold, deck 48
+playthrough: fight won for real: the armory's one fight (try 1) (level 5)
+playthrough: FIGHT won the armory's one fight (try 1) (turn -1)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 4365 ms (slowest step: look rig: scenery 984 ms); worst frame in the first 5 s after the fade-in: 98 ms (at 3.7 s)
+playthrough: ISSUE TRAPPED: could not walk to town spot equipment_vendor at (14.2, 19.6) - stuck after 22 s from (-18.5, 6.0), route 13 points; moved there (L5, 584 gold, Town at (12.6, 16.5))
+playthrough: talked to Bertram
+playthrough: UI Character page: equipped Starter Blade (Session.equip_item, the Weapon slot's call)
+playthrough: PASS  Maren's early-game chain is done (merchants, deck edit, ghosts, armory)
+playthrough: CHAPTER Chapter 1: Crosspath, Settling In | 3.1 min wall, 3.0 min game | L5, 584 gold, deck 48, 2 gear
+playthrough: PASS  the zone main lines wait for Maren's send-off
+playthrough: HELD hero cannot move at (14.2, 20.6); buttons on screen: ▾ Fragments, Menu, Continue; dialogue false
+playthrough: PASS  Brannoch gives Free the Four Zones on the imperial road
+playthrough: tend deck (after the tutorial): 1 packs opened, 4 cards bought, Paths ["Refusemancer"], deck 45 cards, level 5, gold 234
+playthrough: tend deck (before refusemancer gatekeeper try 1): 0 packs opened, 2 cards bought, Paths ["Refusemancer"], deck 45 cards, level 5, gold 84
+playthrough: FIGHT refusemancer gatekeeper (try 1) | board zone:refusemancer | L5, 84 gold, deck 45
+load_timing: battle 871 ms (slowest step: fade out 289 ms); worst frame in the first 5 s after the fade-in: 58 ms (at 2.6 s)
+playthrough: fight won for real: refusemancer gatekeeper (try 1) (level 5)
+playthrough: FIGHT won refusemancer gatekeeper (try 1) (turn -1)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 4850 ms (slowest step: look rig: scenery 1016 ms); worst frame in the first 5 s after the fade-in: 80 ms (at 3.3 s)
+playthrough: PASS  Maren sends the hero down their own Path (the four zone lines start)
+playthrough: PASS  the hero's own Path line is the tracked quest
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: PASS  refusemancer: walking down the road enters the zone
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: PASS  save/load at enter_refusemancer (zone:refusemancer): the same state
+load_timing: heap_zone 3339 ms (slowest step: zone: builder 1161 ms); worst frame in the first 5 s after the fade-in: 41 ms (at 0.3 s)
+playthrough: UI Quest log: tracked side_s_ref
+playthrough: FIGHT side_s_ref (a step's fight) | board zone:refusemancer | L5, 284 gold, deck 45
+load_timing: battle 769 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 2.7 s)
+playthrough: fight won for real: side_s_ref (a step's fight) (level 5)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: FIGHT won side_s_ref (a step's fight) (turn -1)
+load_timing: heap_zone 3578 ms (slowest step: zone: builder 1272 ms); worst frame in the first 5 s after the fade-in: 113 ms (at 2.2 s)
+playthrough: ISSUE TRAPPED: could not walk to side_s_ref step 0 (roamers) at (38.6, 86.8) - stuck after 25 s from (29.6, 118.6), route 23 points; moved there (L5, 344 gold, HeapZone at (75.2, 98.8))
+playthrough: FIGHT side_s_ref (a step's fight) | board zone:refusemancer | L5, 344 gold, deck 45
+load_timing: battle 754 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 62 ms (at 3.3 s)
+playthrough: fight won for real: side_s_ref (a step's fight) (level 5)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: FIGHT won side_s_ref (a step's fight) (turn -1)
+load_timing: heap_zone 3323 ms (slowest step: zone: builder 1165 ms); worst frame in the first 5 s after the fade-in: 97 ms (at 1.5 s)
+playthrough: ISSUE TRAPPED: could not walk to side_s_ref step 1 (marigold) at (50.0, 126.3) - stuck after 22 s from (38.2, 87.4), route 15 points; moved there (L5, 404 gold, HeapZone at (75.2, 92.4))
+playthrough: ISSUE MARKER: no marker on refusemancer side dungeon door (tracked quest main_refusemancer; its arrow points at Magic Bean at (34, 106)) (L6, 549 gold, HeapZone at (50.0, 127.3))
+playthrough: ISSUE TRAPPED: could not walk to refusemancer side dungeon door at (31.0, 11.1) - stuck after 27 s from (50.0, 127.3), route 8 points; moved there (L6, 549 gold, HeapZone at (43.8, 99.6))
+playthrough: confirm 'Enter'
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 1) | board BB-S-REF | L6, 549 gold, deck 45
+load_timing: battle 776 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 56 ms (at 4.1 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 1) (turn -1)
+load_timing: rewards 677 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.5 s)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 2) | board BB-S-REF | L6, 579 gold, deck 45
+load_timing: battle 693 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.4 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 2) (turn -1)
+load_timing: rewards 676 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.9 s)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 3) | board BB-S-REF | L6, 609 gold, deck 45
+load_timing: battle 791 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 1.1 s)
+playthrough: LOSS refusemancer side dungeon S-REF (fight 3) - level 6, deck Refusemancer deck, 45 cards, turn 23
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: tend deck (refusemancer side dungeon S-REF try 2): 1 packs opened, 4 cards bought, Paths ["Refusemancer"], deck 45 cards, level 6, gold 209
+playthrough: re-entering refusemancer side dungeon S-REF (try 2)
+load_timing: heap_zone 4605 ms (slowest step: zone: builder 1789 ms); worst frame in the first 5 s after the fade-in: 98 ms (at 3.9 s)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (S-REF) at (31.0, 11.1) - stuck after 27 s from (50.0, 126.0), route 8 points; moved there (L6, 209 gold, HeapZone at (43.6, 99.6))
+playthrough: confirm 'Enter'
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 1) | board BB-S-REF | L6, 209 gold, deck 45
+load_timing: battle 759 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 60 ms (at 3.1 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 1) (turn -1)
+load_timing: rewards 618 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 34 ms (at 1.0 s)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 2) | board BB-S-REF | L6, 239 gold, deck 45
+load_timing: battle 693 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 55 ms (at 0.1 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 2) (turn -1)
+load_timing: rewards 677 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.3 s)
+playthrough: FIGHT refusemancer side dungeon S-REF (fight 3) | board BB-S-REF | L6, 269 gold, deck 45
+load_timing: battle 691 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 2.3 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 3) (level 6)
+playthrough: FIGHT won refusemancer side dungeon S-REF (fight 3) (turn -1)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+load_timing: heap_zone 3825 ms (slowest step: zone: builder 1415 ms); worst frame in the first 5 s after the fade-in: 57 ms (at 1.3 s)
+playthrough: CHAPTER refusemancer side dungeon S-REF | 9.6 min wall, 8.7 min game | L7, 454 gold, deck 45, 4 gear
+playthrough: PASS  refusemancer: the favour side_s_ref is done by play
+playthrough: PASS  refusemancer: a favour done pays the midpoint gear (dumpster_gloves)
+playthrough: confirm 'Descend into the Rotheart'
+playthrough: PASS  refusemancer: the main dungeon opens from its door
+playthrough: FIGHT refusemancer boss (fight 1) | board BB-ROT | L7, 454 gold, deck 45
+load_timing: battle 792 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.5 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 7)
+playthrough: FIGHT won refusemancer boss (fight 1) (turn -1)
+load_timing: rewards 671 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 3.9 s)
+playthrough: FIGHT refusemancer boss (fight 2) | board BB-ROT | L7, 484 gold, deck 45
+playthrough: LOSS refusemancer boss (fight 2) - level 7, deck Refusemancer deck, 45 cards, turn 4
+load_timing: battle 726 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 45 ms (at 0.1 s)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: tend deck (refusemancer boss try 2): 1 packs opened, 6 cards bought, Paths ["Refusemancer"], deck 45 cards, level 7, gold 184
+playthrough: re-entering refusemancer boss (try 2)
+load_timing: heap_zone 3821 ms (slowest step: zone: builder 1415 ms); worst frame in the first 5 s after the fade-in: 128 ms (at 4.0 s)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-HOG) at (50.0, 10.6) - too slow after 76 s from (50.0, 126.0), route 6 points; moved there (L7, 184 gold, HeapZone at (50.0, 126.0))
+playthrough: ISSUE SHORTCUT: re-entered D-HOG by its call (no door by play from HeapZone at (50.0, 11.6)) (L7, 184 gold, HeapZone at (50.0, 11.6))
+playthrough: FIGHT refusemancer boss (fight 1) | board BB-ROT | L7, 184 gold, deck 45
+load_timing: battle 726 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 30 ms (at 0.1 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 7)
+playthrough: FIGHT won refusemancer boss (fight 1) (turn -1)
+load_timing: rewards 710 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 37 ms (at 1.1 s)
+playthrough: FIGHT refusemancer boss (fight 2) | board BB-ROT | L8, 344 gold, deck 45
+load_timing: battle 726 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 63 ms (at 1.8 s)
+playthrough: LOSS refusemancer boss (fight 2) - level 8, deck Refusemancer deck, 45 cards, turn 12
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 206 cards
+playthrough: tend deck (refusemancer boss try 3): 0 packs opened, 2 cards bought, Paths ["Refusemancer"], deck 45 cards, level 8, gold 144
+playthrough: re-entering refusemancer boss (try 3)
+load_timing: heap_zone 3863 ms (slowest step: zone: builder 1427 ms); worst frame in the first 5 s after the fade-in: 79 ms (at 2.6 s)
+playthrough: ISSUE TRAPPED: could not walk to the dungeon door again (D-HOG) at (50.0, 10.6) - too slow after 75 s from (50.0, 126.0), route 6 points; moved there (L8, 144 gold, HeapZone at (44.7, 98.7))
+playthrough: ISSUE SHORTCUT: re-entered D-HOG by its call (no door by play from HeapZone at (44.7, 101.8)) (L8, 144 gold, HeapZone at (44.7, 101.8))
+playthrough: FIGHT refusemancer boss (fight 1) | board BB-ROT | L8, 144 gold, deck 45
+load_timing: battle 726 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 0.1 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 1) (turn -1)
+load_timing: rewards 676 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 0.3 s)
+playthrough: FIGHT refusemancer boss (fight 2) | board BB-ROT | L8, 174 gold, deck 45
+load_timing: battle 692 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 0.1 s)
+playthrough: fight won for real: refusemancer boss (fight 2) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 2) (turn -1)
+load_timing: dungeon_map 712 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 66 ms (at 5.0 s)
+playthrough: FIGHT refusemancer boss (fight 3) | board BB-ROT | L8, 229 gold, deck 45
+load_timing: battle 691 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 57 ms (at 3.8 s)
+playthrough: fight won for real: refusemancer boss (fight 3) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 3) (turn -1)
+load_timing: rewards 676 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 33 ms (at 0.3 s)
+playthrough: FIGHT refusemancer boss (fight 4) | board BB-ROT | L8, 259 gold, deck 45
+load_timing: battle 757 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 27 ms (at 0.0 s)
+playthrough: fight won for real: refusemancer boss (fight 4) (level 8)
+playthrough: FIGHT won refusemancer boss (fight 4) (turn -1)
+load_timing: rewards 720 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 0.3 s)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 210 cards
+load_timing: heap_zone 10174 ms (slowest step: painted: base material 4732 ms); worst frame in the first 5 s after the fade-in: 71 ms (at 1.3 s)
+playthrough: PASS  refusemancer: beating the boss frees the zone
+playthrough: PASS  refusemancer: its main quest line completes
+playthrough: CHAPTER Zone 1: refusemancer freed | 7.9 min wall, 7.5 min game | L10, 1304 gold, deck 45, 6 gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 6242 ms (slowest step: look rig: scenery 1292 ms); worst frame in the first 5 s after the fade-in: 132 ms (at 2.5 s)
+playthrough: HELD hero cannot move at (25.3, -11.3); buttons on screen: ▾ Fragments, ◂ [, ] ▸, Menu; dialogue false
+playthrough: HELD hero cannot move at (25.6, -11.3); buttons on screen: ▾ A Pinch of Everything, ◂ [, ] ▸, Menu; dialogue false
+playthrough: PASS  refusemancer: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+playthrough: PASS  save/load at town_after_refusemancer (town): the same state
+load_timing: town 4451 ms (slowest step: look rig: scenery 1059 ms); worst frame in the first 5 s after the fade-in: 94 ms (at 2.7 s)
+playthrough: tend deck (after refusemancer): 4 packs opened, 13 cards bought, Paths ["Refusemancer"], deck 45 cards, level 10, gold 479
+playthrough: tend deck (before beefcake gatekeeper try 1): 0 packs opened, 6 cards bought, Paths ["Refusemancer"], deck 45 cards, level 10, gold 179
+playthrough: FIGHT beefcake gatekeeper (try 1) | board zone:beefcake | L10, 179 gold, deck 45
+load_timing: battle 1136 ms (slowest step: frame 2 483 ms); worst frame in the first 5 s after the fade-in: 68 ms (at 4.8 s)
+playthrough: fight won for real: beefcake gatekeeper (try 1) (level 10)
+playthrough: FIGHT won beefcake gatekeeper (try 1) (turn -1)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 4818 ms (slowest step: look rig: scenery 1002 ms); worst frame in the first 5 s after the fade-in: 84 ms (at 4.6 s)
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 77 cards
+playthrough: PASS  beefcake: walking down the road enters the zone
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 77 cards
+playthrough: PASS  save/load at enter_beefcake (zone:beefcake): the same state
+load_timing: gainlands_zone 2848 ms (slowest step: zone: builder 875 ms); worst frame in the first 5 s after the fade-in: 45 ms (at 2.1 s)
+playthrough: UI Quest log: tracked gain_power
+playthrough: PASS  beefcake: the favour gain_power is done by play
+playthrough: PASS  beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: confirm 'Enter the House of Gains'
+playthrough: PASS  beefcake: the main dungeon opens from its door
+playthrough: FIGHT beefcake boss (fight 1) | board BB-HOG | L10, 444 gold, deck 45
+load_timing: battle 740 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 87 ms (at 4.1 s)
+playthrough: fight won for real: beefcake boss (fight 1) (level 10)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+load_timing: rewards 676 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 0.3 s)
+playthrough: FIGHT beefcake boss (fight 2) | board BB-HOG | L10, 519 gold, deck 45
+load_timing: battle 756 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 0.1 s)
+playthrough: LOSS beefcake boss (fight 2) - level 10, deck Refusemancer deck, 45 cards, turn 17
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 77 cards
+playthrough: tend deck (beefcake boss try 2): 1 packs opened, 6 cards bought, Paths ["Refusemancer"], deck 45 cards, level 10, gold 219
+playthrough: re-entering beefcake boss (try 2)
+load_timing: gainlands_zone 3210 ms (slowest step: zone: builder 1054 ms); worst frame in the first 5 s after the fade-in: 132 ms (at 4.0 s)
+load_timing: battle 799 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.2 s)
+playthrough: ISSUE SHORTCUT: re-entered D-HFA by its call (no door by play from Battle) (L10, 219 gold, Battle)
+playthrough: FIGHT beefcake boss (fight 1) | board BB-HOG | L10, 219 gold, deck 45
+load_timing: battle 723 ms (slowest step: fade out 290 ms); worst frame in the first 5 s after the fade-in: 33 ms (at 4.8 s)
+playthrough: fight won for real: beefcake boss (fight 1) (level 10)
+playthrough: FIGHT won beefcake boss (fight 1) (turn -1)
+load_timing: rewards 675 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 26 ms (at 0.3 s)
+playthrough: FIGHT beefcake boss (fight 2) | board BB-HOG | L11, 424 gold, deck 45
+load_timing: battle 707 ms (slowest step: fade out 291 ms); worst frame in the first 5 s after the fade-in: 58 ms (at 3.7 s)
+playthrough: fight won for real: beefcake boss (fight 2) (level 11)
+playthrough: FIGHT won beefcake boss (fight 2) (turn -1)
+playthrough: FIGHT beefcake boss (fight 3) | board BB-HOG | L11, 439 gold, deck 45
+load_timing: battle 772 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 0.1 s)
+playthrough: fight won for real: beefcake boss (fight 3) (level 11)
+playthrough: FIGHT won beefcake boss (fight 3) (turn -1)
+load_timing: rewards 674 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.6 s)
+load_timing: dungeon_map 680 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 92 ms (at 0.2 s)
+load_timing: dungeon_map 617 ms (slowest step: fade in 252 ms); worst frame in the first 5 s after the fade-in: 114 ms (at 3.6 s)
+playthrough: FIGHT beefcake boss (fight 4) | board BB-HOG | L11, 469 gold, deck 45
+load_timing: battle 772 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 0.7 s)
+playthrough: fight won for real: beefcake boss (fight 4) (level 11)
+playthrough: FIGHT won beefcake boss (fight 4) (turn -1)
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 77 cards
+load_timing: gainlands_zone 4064 ms (slowest step: painted: base material 1176 ms); worst frame in the first 5 s after the fade-in: 73 ms (at 4.6 s)
+playthrough: PASS  beefcake: beating the boss frees the zone
+playthrough: PASS  beefcake: its main quest line completes
+playthrough: CHAPTER Zone 2: beefcake freed | 7.6 min wall, 7.1 min game | L12, 1524 gold, deck 45, 10 gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+load_timing: town 5694 ms (slowest step: look rig: scenery 1138 ms); worst frame in the first 5 s after the fade-in: 138 ms (at 2.1 s)
+playthrough: HELD hero cannot move at (25.3, -11.3); buttons on screen: ▾ Fragments, ◂ [, ] ▸, Menu; dialogue false
+playthrough: HELD hero cannot move at (25.7, -11.3); buttons on screen: ▾ Fragments, ◂ [, ] ▸, Menu; dialogue false
+playthrough: PASS  beefcake: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 102 cards
+playthrough: PASS  save/load at town_after_beefcake (town): the same state
+load_timing: town 4400 ms (slowest step: look rig: scenery 991 ms); worst frame in the first 5 s after the fade-in: 97 ms (at 2.6 s)
+playthrough: tend deck (after beefcake): 3 packs opened, 24 cards bought, Paths ["Refusemancer", "Beefcake"], deck 45 cards, level 12, gold 594
+playthrough: PASS  Snapshot saved: n19_two_zones_refusemancer at L13 (46 cards, 5 gear, 600 gold, zones freed 2)
+playthrough: ==== strict summary ====
+playthrough: walks { "walked": 36, "trapped": 7, "metres": 960.939352214336, "seconds": 484.419 }
+playthrough: CHAPTERLIST Chapter 0: the forest and the Forgotten Cave | 1.7 min wall, 1.3 min game | L3, 520 gold, deck 48, 0 gear
+playthrough: CHAPTERLIST Chapter 1: Crosspath, Settling In | 3.1 min wall, 3.0 min game | L5, 584 gold, deck 48, 2 gear
+playthrough: CHAPTERLIST refusemancer side dungeon S-REF | 9.6 min wall, 8.7 min game | L7, 454 gold, deck 45, 4 gear
+playthrough: CHAPTERLIST Zone 1: refusemancer freed | 7.9 min wall, 7.5 min game | L10, 1304 gold, deck 45, 6 gear
+playthrough: CHAPTERLIST Zone 2: beefcake freed | 7.6 min wall, 7.1 min game | L12, 1524 gold, deck 45, 10 gear
+playthrough: ISSUELIST TRAPPED: could not walk to town spot equipment_vendor at (14.2, 19.6) - stuck after 22 s from (-18.5, 6.0), route 13 points; moved there (L5, 584 gold, Town at (12.6, 16.5))
+playthrough: ISSUELIST TRAPPED: could not walk to side_s_ref step 0 (roamers) at (38.6, 86.8) - stuck after 25 s from (29.6, 118.6), route 23 points; moved there (L5, 344 gold, HeapZone at (75.2, 98.8))
+playthrough: ISSUELIST TRAPPED: could not walk to side_s_ref step 1 (marigold) at (50.0, 126.3) - stuck after 22 s from (38.2, 87.4), route 15 points; moved there (L5, 404 gold, HeapZone at (75.2, 92.4))
+playthrough: ISSUELIST MARKER: no marker on refusemancer side dungeon door (tracked quest main_refusemancer; its arrow points at Magic Bean at (34, 106)) (L6, 549 gold, HeapZone at (50.0, 127.3))
+playthrough: ISSUELIST TRAPPED: could not walk to refusemancer side dungeon door at (31.0, 11.1) - stuck after 27 s from (50.0, 127.3), route 8 points; moved there (L6, 549 gold, HeapZone at (43.8, 99.6))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (S-REF) at (31.0, 11.1) - stuck after 27 s from (50.0, 126.0), route 8 points; moved there (L6, 209 gold, HeapZone at (43.6, 99.6))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-HOG) at (50.0, 10.6) - too slow after 76 s from (50.0, 126.0), route 6 points; moved there (L7, 184 gold, HeapZone at (50.0, 126.0))
+playthrough: ISSUELIST SHORTCUT: re-entered D-HOG by its call (no door by play from HeapZone at (50.0, 11.6)) (L7, 184 gold, HeapZone at (50.0, 11.6))
+playthrough: ISSUELIST TRAPPED: could not walk to the dungeon door again (D-HOG) at (50.0, 10.6) - too slow after 75 s from (50.0, 126.0), route 6 points; moved there (L8, 144 gold, HeapZone at (44.7, 98.7))
+playthrough: ISSUELIST SHORTCUT: re-entered D-HOG by its call (no door by play from HeapZone at (44.7, 101.8)) (L8, 144 gold, HeapZone at (44.7, 101.8))
+playthrough: ISSUELIST SHORTCUT: re-entered D-HFA by its call (no door by play from Battle) (L10, 219 gold, Battle)
+playthrough: UICALL the Rescuer's Path choice: Refusemancer (the tile's chosen signal)
+playthrough: UICALL Character page: equipped Tilly's Power Wraps (CharacterScreen.equip_selected_into's calls)
+playthrough: UICALL Sable's shop: bought 3 cards (the shop's buy calls)
+playthrough: UICALL Packs page: opened 1 packs (PacksScreen.open_all)
+playthrough: UICALL Deck Station: saved the deck to its slot (Session.save_deck_to_slot, the Save button's call)
+playthrough: UICALL Character page: equipped Starter Blade (Session.equip_item, the Weapon slot's call)
+playthrough: UICALL Quest log: tracked side_s_ref
+playthrough: UICALL Quest log: tracked gain_power
+playthrough: ---- 29 steps, 29 passed, 0 failed ----
+playthrough: fights { "won": 25, "lost": 4, "stalled": 0, "decreed": 0 }
+playthrough: FULL path=refusemancer completed=false postgame_lab=false gallery=false level=13 game_hours=0.47 wall_hours=0.51 gold_earned=4930 gold_now=600 losses=4 walls=0
+playthrough: FULL loss refusemancer side dungeon S-REF (fight 3) - level 6, deck Refusemancer deck, 45 cards, turn 23
+playthrough: FULL loss refusemancer boss (fight 2) - level 7, deck Refusemancer deck, 45 cards, turn 4
+playthrough: FULL loss refusemancer boss (fight 2) - level 8, deck Refusemancer deck, 45 cards, turn 12
+playthrough: FULL loss beefcake boss (fight 2) - level 10, deck Refusemancer deck, 45 cards, turn 17
+playthrough: [x] the starting forest loads on a new game
+playthrough: [x] the Forgotten Cave opens
+playthrough: [x] the tutorial cave is cleared by play
+playthrough: [x] the town loads after the tutorial
+playthrough: [x] strict: Maren's welcome is heard
+playthrough: [x] Maren's early-game chain is done (merchants, deck edit, ghosts, armory)
+playthrough: [x] the zone main lines wait for Maren's send-off
+playthrough: [x] Brannoch gives Free the Four Zones on the imperial road
+playthrough: [x] Maren sends the hero down their own Path (the four zone lines start)
+playthrough: [x] the hero's own Path line is the tracked quest
+playthrough: [x] refusemancer: walking down the road enters the zone
+playthrough: [x] save/load at enter_refusemancer (zone:refusemancer): the same state
+playthrough: [x] refusemancer: the favour side_s_ref is done by play
+playthrough: [x] refusemancer: a favour done pays the midpoint gear (dumpster_gloves)
+playthrough: [x] refusemancer: the main dungeon opens from its door
+playthrough: [x] refusemancer: beating the boss frees the zone
+playthrough: [x] refusemancer: its main quest line completes
+playthrough: [x] refusemancer: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_refusemancer (town): the same state
+playthrough: [x] beefcake: walking down the road enters the zone
+playthrough: [x] save/load at enter_beefcake (zone:beefcake): the same state
+playthrough: [x] beefcake: the favour gain_power is done by play
+playthrough: [x] beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: [x] beefcake: the main dungeon opens from its door
+playthrough: [x] beefcake: beating the boss frees the zone
+playthrough: [x] beefcake: its main quest line completes
+playthrough: [x] beefcake: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_beefcake (town): the same state
+playthrough: [x] Snapshot saved: n19_two_zones_refusemancer at L13 (46 cards, 5 gear, 600 gold, zones freed 2)
+WARNING: 18 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 3 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted wERROR: 36 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 9 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 12 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 3 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 10 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 45 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+hen freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 72 RIDs of type "StorageBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 12 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 72 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 20 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 1764 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 69 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
