@@ -325,12 +325,11 @@ func test_unlock_digest_names_what_a_level_or_a_zone_opens() -> void:
 	var found_equipment_level: bool = false
 	for level: int in range(2, ProgressionTable.MAX_LEVEL + 1):
 		var level_lines: Array[String] = UnlockDigest.level_unlocks(level)
-		if level_lines.has("New stock at the Equipment Vendor"):
+		if " ".join(level_lines).contains("New equipment at Bertram"):  # Overnight Nov 19: the note names the vendor
 			found_equipment_level = true
 	assert_true(found_equipment_level, "one level opens new stock at the Equipment Vendor")
-	var two_zones: Dictionary = flags.duplicate()
-	two_zones[str(ZoneCompletion.flag_name("gourmand"))] = true
-	assert_true(UnlockDigest.capture(two_zones, 1).lines_since(after).has("The Alchemist is now available"))
+	# Overnight Nov 19 (Part 3.1): the first freed zone opens the Alchemist too.
+	assert_true(joined.contains("The Alchemist is now available"), joined)
 
 
 func test_the_three_boxes_share_one_frame() -> void:

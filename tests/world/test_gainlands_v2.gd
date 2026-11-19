@@ -171,7 +171,7 @@ func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_middle_path() -> 
 	assert_eq(mini.battles.size(), 3, "three sets: two battles and the boss")
 	for battle: ZoneDef.MiniBattle in mini.battles:
 		assert_lte(battle.hp, 16, "%s is tuned for the start of the game" % battle.enemy)
-	assert_eq(mini.reward_card_id, "B-31", "the first clear pays The Ultimate Cardio Machine (never skip leg day)")
+	assert_eq(mini.reward_card_id, "B-37", "Overnight Nov 19: the first clear pays Baron Quadzilla, its signature card")
 	var rules: Array = DungeonRules.rules("S-IRON")
 	assert_eq(rules.size(), 1, "one dungeon rule")
 	assert_true(str((rules[0] as Dictionary)["name"]).contains("Leg Day"), "a leg-day rule")
