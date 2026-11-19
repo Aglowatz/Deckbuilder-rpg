@@ -16,6 +16,11 @@ const MARKERS: Dictionary = {
 
 ## True for a curse (numbers that only take away).
 static func is_curse(source: ModifierSource) -> bool:
+	if source.for_enemy:
+		return true  # Overnight Nov 19: anything that strengthens the enemy is a drawback
+	for modifier: Modifier in source.modifiers:
+		if modifier.kind == Modifier.Kind.ENTER_EXHAUSTED or modifier.kind == Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED:
+			return true
 	var any_negative: bool = false
 	for modifier: Modifier in source.modifiers:
 		for number: int in _numbers(modifier):
@@ -35,12 +40,12 @@ static func kind_word(source: ModifierSource) -> String:
 static func describe(source: ModifierSource) -> String:
 	var parts: PackedStringArray = []
 	for modifier: Modifier in source.modifiers:
-		var part: String = modifier_text(modifier)
+		var part: String = modifier_text(modifier, source.for_enemy)
 		if not part.is_empty():
 			parts.append(part)
 	var sentences: PackedStringArray = []
 	if not parts.is_empty():
-		sentences.append(_capital(_join(parts)) + " " + DURATION + ".")
+		sentences.append(_capital(_join(parts)) + " " + duration(source) + ".")
 	if MARKERS.has(source.source_name):
 		sentences.append(_capital(str(MARKERS[source.source_name])) + ".")
 	if sentences.is_empty():
@@ -52,12 +57,23 @@ static func describe(source: ModifierSource) -> String:
 static func short(source: ModifierSource) -> String:
 	var parts: PackedStringArray = []
 	for modifier: Modifier in source.modifiers:
-		var part: String = modifier_text(modifier)
+		var part: String = modifier_text(modifier, source.for_enemy)
 		if not part.is_empty():
 			parts.append(part)
 	if MARKERS.has(source.source_name):
 		parts.append(str(MARKERS[source.source_name]))
-	return _join(parts) if not parts.is_empty() else "no numbers change"
+	if parts.is_empty():
+		return "no numbers change"
+	return _join(parts) + (" in the next fight" if source.fights_left == 1 else (" for the rest of the dungeon" if source.fights_left == 0 and not MARKERS.has(source.source_name) else ""))
+
+
+## Overnight Nov 19 (Part 5): how long it lasts.
+static func duration(source: ModifierSource) -> String:
+	if source.fights_left == 1:
+		return "in the next fight"
+	if source.fights_left > 1:
+		return "for the next %d fights" % source.fights_left
+	return DURATION
 
 
 static func _capital(text: String) -> String:
@@ -65,9 +81,21 @@ static func _capital(text: String) -> String:
 
 
 ## One modifier in words, lower case, no full stop ("your units get +1 attack"); "" for one that changes nothing.
-static func modifier_text(modifier: Modifier) -> String:
+static func modifier_text(modifier: Modifier, enemy: bool = false) -> String:
 	var units: String = "your units" if modifier.color == Modifier.ANY_COLOR else "your %s units" % Affinity.display_name(modifier.color as Affinity.Type)
+	if enemy:
+		units = "the enemy's units"
+		if modifier.kind == Modifier.Kind.MAX_HP:
+			return "" if modifier.value == 0 else "the enemy starts with %s HP" % _signed(modifier.value)
 	match modifier.kind:
+		Modifier.Kind.OPENING_HAND_SIZE:
+			return "" if modifier.value == 0 else "%s card%s in your opening hand" % [_signed(modifier.value), "" if absi(modifier.value) == 1 else "s"]
+		Modifier.Kind.ENTER_EXHAUSTED:
+			return "your units enter exhausted"
+		Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED:
+			return "your first unit enters exhausted"
+		Modifier.Kind.STARTING_RESOURCES:
+			return "start with %d Iron" % modifier.value if modifier.value2 == int(ResourceKind.Kind.IRON) else "start with %d extra resources" % modifier.value
 		Modifier.Kind.MAX_HP:
 			return "" if modifier.value == 0 else "%s max HP" % _signed(modifier.value)
 		Modifier.Kind.STARTING_HP:
@@ -95,7 +123,7 @@ static func _numbers(modifier: Modifier) -> Array[int]:
 			return [modifier.value, modifier.value2] as Array[int]
 		Modifier.Kind.COST_CHANGE:
 			return [-modifier.value] as Array[int]  # a lower cost helps
-		Modifier.Kind.MAX_HP, Modifier.Kind.STARTING_HP, Modifier.Kind.HP_GAIN_BONUS:
+		Modifier.Kind.MAX_HP, Modifier.Kind.STARTING_HP, Modifier.Kind.HP_GAIN_BONUS, Modifier.Kind.OPENING_HAND_SIZE, Modifier.Kind.STARTING_RESOURCES:
 			return [modifier.value] as Array[int]
 	return [] as Array[int]
 

@@ -105,7 +105,8 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			]
 		"D-HFA":
 			return [
-				_rule("Processing Time", "Each player's first spell each turn costs 1 more.", "both", [CardBuilder.modifier(Modifier.Kind.FIRST_SPELL_COST_CHANGE, 1)] as Array[Modifier]),
+				# Overnight Nov 19 (Part 5.4): three fights only - the Intake Clerk (early), the Executive Elevator Operator and Mortimer.
+				_rule("Processing Time", "Each player's first spell each turn costs 1 more (units and other cards are not affected).", "both", [CardBuilder.modifier(Modifier.Kind.FIRST_SPELL_COST_CHANGE, 1)] as Array[Modifier], PROCESSING_TIME_NODES),
 				_rule("Red Tape Everywhere", "Start each battle with one Red Tape.", "both", [CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, ResourceKind.Kind.RED_TAPE)] as Array[Modifier]),
 			]
 		"D-ROT":
@@ -154,5 +155,9 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 
 
 ## `harmful`: a player-side rule that hurts the player (the Lab's lower max life), shown as a bad badge.
+## Overnight Nov 19 (Part 5.4): the Hall of Final Approvals' fights under Processing Time (3 Intake Clerk, 13 Executive Elevator Operator, 14 Mortimer).
+const PROCESSING_TIME_NODES: Array = [3, 13, 14]
+
+
 static func _rule(rule_name: String, text: String, scope: String, modifiers: Variant, nodes: Array = [], harmful: bool = false) -> Dictionary:
 	return {"name": rule_name, "text": text, "scope": scope, "modifiers": modifiers, "nodes": nodes, "harmful": harmful}

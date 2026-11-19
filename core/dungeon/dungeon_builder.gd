@@ -192,7 +192,9 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 	return null
 
 
-## A boon from "Name|max_hp=2,atk=1,def=1,start_hp=1".
+## A boon from "Name|max_hp=2,atk=1,def=1,start_hp=1". Overnight Nov 19 (Part 5): also "next=1" (only the next fight), "draw=1" (+1 card in
+## the opening hand), "exhausted=1" (your units enter exhausted), "slow=1" (your first unit enters exhausted), "iron=1" (start the fight with
+## Iron), and "foe_atk" / "foe_def" / "foe_hp" (the ENEMY gets stronger: the whole source goes to the enemy's side).
 static func boon_from(spec: String) -> ModifierSource:
 	var halves: PackedStringArray = spec.split("|", true, 1)
 	var modifiers: Array[Modifier] = []
@@ -208,9 +210,25 @@ static func boon_from(spec: String) -> ModifierSource:
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_HP, int(stats["start_hp"])))
 	if stats.has("atk") or stats.has("def"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, int(stats.get("atk", 0)), Modifier.ANY_COLOR, int(stats.get("def", 0))))
+	if stats.has("draw"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.OPENING_HAND_SIZE, int(stats["draw"])))
+	if stats.has("exhausted"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.ENTER_EXHAUSTED, int(stats["exhausted"])))
+	if stats.has("slow"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, int(stats["slow"])))
+	if stats.has("iron"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(stats["iron"]), Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)))
+	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp")
+	if stats.has("foe_atk") or stats.has("foe_def"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, int(stats.get("foe_atk", 0)), Modifier.ANY_COLOR, int(stats.get("foe_def", 0))))
+	if stats.has("foe_hp"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.MAX_HP, int(stats["foe_hp"])))
 	if modifiers.is_empty():
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.MAX_HP, 0))
-	return MainDungeonDef.boon_source(halves[0].strip_edges(), modifiers)
+	var source: ModifierSource = MainDungeonDef.boon_source(halves[0].strip_edges(), modifiers)
+	source.fights_left = int(stats.get("next", 0))
+	source.for_enemy = foe
+	return source
 
 
 static func _add_challenge(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, node: DungeonCatalog.BlueprintNode, content: Dictionary) -> void:

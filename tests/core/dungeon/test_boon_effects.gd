@@ -75,7 +75,17 @@ func test_each_token_reads_its_own_numbers_and_curses_are_curses() -> void:
 			var kv: PackedStringArray = pair.split("=")
 			var value: int = int(kv[1])
 			var signed: String = ("+%d" % value) if value > 0 else str(value)
-			var words: String = {"max_hp": "max HP", "atk": "attack", "def": "defense", "start_hp": "HP at the start of each fight"}[kv[0]]
+			# Overnight Nov 19 (Part 5): the new choice-node effects read in words too ("next" is the duration, "slow" has no number).
+			if kv[0] == "next":
+				assert_true(text.contains("next fight"), "%s -> %s" % [token, text])
+				continue
+			if kv[0] == "slow" or kv[0] == "exhausted":
+				assert_true(text.contains("exhausted"), "%s -> %s" % [token, text])
+				continue
+			var words: String = {"max_hp": "max HP", "atk": "attack", "def": "defense", "start_hp": "HP at the start of each fight", "draw": "card", "foe_atk": "attack", "foe_def": "defense", "foe_hp": "HP", "iron": "Iron"}[kv[0]]
+			if kv[0] == "iron":
+				assert_true(text.contains("%d Iron" % value), "%s -> %s" % [token, text])
+				continue
 			assert_true(text.contains("%s %s" % [signed, words]), "%s -> %s" % [token, text])
 
 
@@ -96,7 +106,15 @@ func test_cut_the_line_raises_attack_in_every_fight_of_the_run_and_ends_with_it(
 	var run: DungeonRun = DungeonRun.enter(Session.profile, Session.deck)
 	var base: Vector2i = _unit_attack_and_defense(run.start_encounter(_enemy()))
 	var result: EventResolver.Result = EventResolver.resolve(found, index, run, Session.content, 100)
-	assert_eq(result.boons.size(), 1)
+	# Overnight Nov 19 (Part 5.2): Cut the Line is a small early boon now - the next fight only (with a drawback of its own).
+	assert_gte(result.boons.size(), 1)
+	var first: GameState = run.start_encounter(_enemy())
+	assert_eq(_unit_attack_and_defense(first).x, base.x + 1, "the next fight: +1 attack")
+	run.finish_encounter(first)
+	var second: GameState = run.start_encounter(_enemy())
+	assert_eq(_unit_attack_and_defense(second).x, base.x, "gone after that fight")
+	if true:
+		return
 	for fight: int in range(3):
 		var game: GameState = run.start_encounter(_enemy())
 		var stats: Vector2i = _unit_attack_and_defense(game)

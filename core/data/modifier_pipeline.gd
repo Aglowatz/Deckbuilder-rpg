@@ -18,7 +18,9 @@ static func build(
 		mods.add_sources(profile.items)
 	if zone != null:
 		mods.add_source(zone)
-	mods.add_sources(dungeon_sources)
+	for source: ModifierSource in dungeon_sources:
+		if source != null and not source.for_enemy:  # Overnight Nov 19: the enemy's drawbacks go to the enemy
+			mods.add_source(source)
 	return mods
 
 

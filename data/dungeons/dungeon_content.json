@@ -91,9 +91,10 @@
 						],
 						[
 							"Do a set with the ghost of a champion",
-							"The ghost miscounts your reps on purpose, always upward, to be encouraging. You walk away standing taller, if not stronger, and he presses a Gym Bro's number into your hand.",
+							"The ghost miscounts your reps on purpose, always upward, to be encouraging. You walk away standing taller, with a new card and legs like jelly.",
 							"heal:3",
-							"card:B-01"
+							"card:B-01",
+							"curse:Jelly Legs|slow=1,next=1"
 						]
 					]
 				},
@@ -235,14 +236,16 @@
 						],
 						[
 							"Take only the sealed jars",
-							"A few shelves are still clean, stacked with jars labelled DO NOT OPEN, WE MEAN IT. You respect their wishes and sell them unopened.",
-							"gold:40"
+							"The sealed jars are worth a few coins each. One of them was not as sealed as it looked, and it bites.",
+							"gold:40",
+							"damage:2"
 						],
 						[
 							"Ask the ladle to stop",
-							"It has been stirring for ten years, and in all that time nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.",
+							"The ladle stops, sulks and gives you a recipe card. On the way out the pantry quietly helps itself to one of your cards.",
 							"heal:1",
-							"card:G-04"
+							"card:G-04",
+							"lose:1"
 						]
 					]
 				},
@@ -252,18 +255,26 @@
 					"choices": [
 						[
 							"Compare the handwriting",
-							"Laid beside the old recipe cards, it is plain: whoever signed these memos has never held a ladle. The person giving orders in this kitchen is not the cook who used to.",
-							"boon:Impostor Exposed|atk=1,def=1"
+							"The handwriting gives the impostor away, and you fight better for knowing it. Somewhere in the kitchen, someone knows you know.",
+							"boon:Impostor Exposed|atk=1,def=1",
+							"curse:Watched by the Impostor|foe_atk=1"
 						],
 						[
 							"Photograph the blueprints",
-							"Blueprints like these are evidence, and evidence always has a buyer. The one you find asks no questions, which is the best kind.",
-							"gold:50"
+							"The blueprints are worth good money. The flash powder takes your eyebrows and a little more.",
+							"gold:50",
+							"curse:Flash Burn|max_hp=-2"
 						],
 						[
 							"Pocket the recipe marked DO NOT SERVE",
-							"It is one line long and ends with 'send it back.' You can see why it was classified.",
-							"card:G-17"
+							"You pocket the recipe marked DO NOT SERVE. It is heavy with guilt, and you keep reaching for it instead of your cards.",
+							"card:G-17",
+							"curse:Do Not Serve|draw=-1"
+						],
+						[
+							"Leave the archives alone",
+							"You leave the archives as you found them. Some doors are better left closed.",
+							"nothing"
 						]
 					]
 				}
@@ -387,19 +398,20 @@
 					"choices": [
 						[
 							"Take a number and wait",
-							"You wait, and then you wait some more, until a vending machine takes pity on you and dispenses one sad cookie.",
-							"heal:3"
+							"You take a number and wait. And wait. NOW SERVING 4. You leave exactly as you came.",
+							"nothing"
 						],
 						[
 							"Take every number",
-							"The machine jams, apologises and coughs up a handful of coins along with a written warning. You are now marked 'Difficult.'",
+							"The machine jams, apologises and coughs up a handful of coins, then pinches your fingers in the slot for good measure.",
 							"gold:35",
-							"curse:Marked 'Difficult'|max_hp=-1"
+							"damage:2"
 						],
 						[
 							"Skip the queue",
-							"Nobody dares object, at least not yet, and somewhere down the queue they have started whispering about Number 4,000,213.",
-							"boon:Cut the Line|atk=1"
+							"You skip the queue. Your units march in with their heads high, and the clerks make the first of them wait at the door out of spite.",
+							"boon:Cut the Line|atk=1,next=1",
+							"curse:Back of the Queue|slow=1,next=1"
 						]
 					]
 				},
@@ -421,9 +433,10 @@
 						],
 						[
 							"Ask the clerk what Form 27-C is",
-							"The clerk looks up for the first time in decades. Nobody has ever asked. She slides you a Pink Slip 'for personal use' and, you swear, winks.",
+							"The clerk explains Form 27-C at length, hands you a card and puts your next appointment on hold.",
 							"card:N-15",
-							"heal:1"
+							"heal:1",
+							"curse:Put on Hold|slow=1,next=1"
 						]
 					]
 				},
@@ -433,20 +446,26 @@
 					"choices": [
 						[
 							"Shred a spare appeal",
-							"The shredder hums happily and pays out in coins. It says 'denied' in a voice like a kettle.",
+							"The shredder pays well for a spare appeal. It also takes the tips of your fingers, and they don't grow back in here.",
 							"gold:70",
-							"damage:1"
+							"curse:Paper Cuts|max_hp=-2"
 						],
 						[
 							"Shred your own number",
-							"Nothing is left of Number 4,000,213. You feel lighter and slightly nonexistent as the machine files you under 'Resolved.'",
-							"heal:4"
+							"You shred your own number and feel lighter at once. Without a number, nobody will hand you anything for the rest of the visit.",
+							"heal:4",
+							"curse:No Number|draw=-1"
 						],
 						[
 							"Reach in for what it ate",
-							"You pull out half of a lost appeal, which is technically a weapon, and the machine takes a bite of you in exchange.",
+							"You reach in and pull out what it ate: a card, still warm. The shredder takes a bite of you in return.",
 							"card:N-17",
-							"damage:2"
+							"damage:3"
+						],
+						[
+							"Leave the shredder alone",
+							"You back away from the shredder. It hums, disappointed.",
+							"nothing"
 						]
 					]
 				}
@@ -571,14 +590,16 @@
 						],
 						[
 							"Bottle some of it",
-							"Somebody will pay good gold for a bottle of this. Down here, that somebody is usually a hedgehog.",
-							"gold:40"
+							"You bottle some of the pool to sell. The pool notices, and the next thing you meet down here is angrier for it.",
+							"gold:40",
+							"curse:The Pool's Grudge|foe_atk=1,next=1"
 						],
 						[
 							"Comfort the pool",
-							"You tell it that it's doing very well. It sobs harder, then gives you a very old Mulch Mole it was keeping safe, along with a little of its warmth.",
+							"You comfort the pool, and it gives you something it was saving. It keeps something of yours, too.",
 							"heal:2",
-							"card:R-01"
+							"card:R-01",
+							"lose:1"
 						]
 					]
 				},
@@ -1398,18 +1419,21 @@
 					"choices": [
 						[
 							"Read the notes on the Subject",
-							"Drain cycles, power readings, a column labelled 'cooperative?' that someone has filled in with 'asks for his mother.' You put the notes down very carefully.",
-							"boon:Know Your Enemy|atk=1"
+							"The notes on the Subject show how they planned to beat you. You use it in the next fight, and the paper cuts you twice.",
+							"boon:Know Your Enemy|atk=1,next=1",
+							"damage:2"
 						],
 						[
 							"Drink the Path-ologists' tea",
-							"It is the first thing down here that tastes like anything at all, and you feel steadier for it.",
-							"heal:4"
+							"The Path-ologists' tea warms you to the bones. It also makes you sleepy, and your first unit dozes off at the start of the next fight.",
+							"heal:4",
+							"curse:Sedated|slow=1,next=1"
 						],
 						[
 							"Rifle the lockers",
-							"You find keycards, a petty cash tin and a resignation letter that somebody got halfway through writing.",
-							"gold:80"
+							"The lockers hold a good deal of gold and one very sharp mousetrap.",
+							"gold:80",
+							"damage:3"
 						]
 					]
 				},
@@ -1419,18 +1443,21 @@
 					"choices": [
 						[
 							"Put your hand on the glass",
-							"The four colors lean toward your palm like plants toward a window. They were yours. They remember.",
-							"heal:6"
+							"You put your hand on the glass and the machine gives some of it back. It keeps a little of you, too.",
+							"heal:6",
+							"curse:Drained|max_hp=-1"
 						],
 						[
 							"Read the dials",
-							"Every cycle logged, every reading neat. You learn exactly how the machine works, which is how to break it.",
-							"boon:Know the Machine|atk=1"
+							"You read the dials and learn how the machine fights. The machine learns how you fight, and tells the guards.",
+							"boon:Know the Machine|atk=1",
+							"curse:Feedback|foe_hp=3"
 						],
 						[
 							"Tear out the straps",
-							"They come away easily. They were only ever as strong as the people who buckled them.",
-							"boon:Never Again|max_hp=3"
+							"You tear out the straps, and feel stronger for it. The buckles bite on the way out.",
+							"boon:Never Again|max_hp=3",
+							"damage:3"
 						]
 					]
 				},
@@ -1443,13 +1470,14 @@
 					"choices": [
 						[
 							"Take the journal for Wren's true record",
-							"It goes into your pack, light as a confession.",
-							"boon:The True Record|max_hp=2"
+							"You take the journal for Wren's true record. The alarm in the study goes off as you lift it, and the whole Lab hears it.",
+							"boon:The True Record|max_hp=2",
+							"curse:Alarm Raised|foe_atk=1"
 						],
 						[
 							"Leave it on the desk",
-							"You leave it open at the last entry, so that he will find it there and wonder who has read it.",
-							"heal:3"
+							"You leave the journal where it lies. Wren will have to make do with what you remember.",
+							"nothing"
 						]
 					]
 				}

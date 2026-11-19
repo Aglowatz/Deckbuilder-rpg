@@ -113,6 +113,8 @@ func gain_card(card: CardData) -> void:
 
 ## Adds a dungeon-wide source. A max-HP increase also raises current HP by the same amount.
 func add_dungeon_source(source: ModifierSource) -> void:
+	if source != null and source.fights_left > 0:
+		source = source.duplicate()  # Overnight Nov 19: its own countdown (the event keeps the template)
 	var before: int = max_hp()
 	dungeon_sources.append(source)
 	var gained: int = max_hp() - before
@@ -145,6 +147,10 @@ func start_encounter(
 	# Zone/dungeon effects apply to the enemy too (ModifierPipeline.build_for_enemy's contract).
 	if zone != null:
 		enemy.modifiers.add_source(zone)
+	# Overnight Nov 19 (Part 5): a choice's drawback that strengthens the enemy.
+	for source: ModifierSource in dungeon_sources:
+		if source != null and source.for_enemy:
+			enemy.modifiers.add_source(source)
 	var game: GameState = GameState.new(options)
 	game.add_player(player)
 	game.add_player(enemy)
@@ -164,8 +170,23 @@ func boon_start_bonus() -> int:
 	return total
 
 
+## Overnight Nov 19 (Part 5): a "next fight only" boon or drawback counts down after each fight and is gone at 0.
+func tick_timed_sources() -> void:
+	var before: int = max_hp()
+	for index: int in range(dungeon_sources.size() - 1, -1, -1):
+		var source: ModifierSource = dungeon_sources[index]
+		if source == null or source.fights_left <= 0:
+			continue
+		source.fights_left -= 1
+		if source.fights_left == 0:
+			dungeon_sources.remove_at(index)
+	if max_hp() < before:
+		hp = mini(hp, max_hp())
+
+
 ## Records the result of a finished duel: HP carries over; a loss fails the run.
 func finish_encounter(game: GameState) -> void:
+	tick_timed_sources()
 	hp = maxi(0, game.players[0].hp)
 	if _carry_cap >= 0:
 		hp = mini(hp, _carry_cap)

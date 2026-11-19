@@ -40,7 +40,7 @@ func test_written_events_have_two_or_three_choices_with_results() -> void:
 			var label: String = "%s node %s" % [plan.id, number]
 			assert_false(str(spec.get("body", "")).contains("worth a closer look"), "%s is not the placeholder scene" % label)
 			var choices: Array = spec.get("choices", []) as Array
-			assert_between(choices.size(), 2, 3, "%s has 2 or 3 choices" % label)
+			assert_between(choices.size(), 2, 4, "%s has 2 to 4 choices (Overnight Nov 19: a do-nothing option may join)" % label)
 			var distinct: Dictionary = {}
 			for choice: Variant in choices:
 				var parts: Array = choice as Array
