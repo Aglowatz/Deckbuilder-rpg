@@ -4,6 +4,17 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 19 - yours to decide (the safest choice was taken)
+
+1. **Primm's Castle choice nodes** were left unchanged (your "castle rooms unchanged" rule); three options there are still purely good (Study the portrait, Read the notes, Pick the odd one out). Recommendation: let them follow the Part 5 rules too - say yes and they get a drawback each.
+2. **Baron Quadzilla** was built as proposed (3 + (B)(B), 5/6, Bulldoze, two Iron on entry, "Never Skip Leg Day"). It is stronger than Toro Toro per point of cost, but Toro Toro's extra cost (three Ingredients) is steep and both are one-copy prizes until the shop opens. Recommendation: playtest as is; if it dominates, make it 4 + (B)(B).
+3. **Announcer Grand Bellows** built as proposed (4, 3/4, enter: one of yours fights one of theirs; your units that kill in combat get +1/+0). It needed a new engine event (`combat_kill`). Recommendation: keep.
+4. **The Ultimate Cardio Machine** (the Iron Cave's old prize) and **the Department of Final Approvals** are now normal cards (packs and shops by rarity). Recommendation: keep; the Cardio Machine had no other source.
+5. **Mount Swolympus and the Iron Cave** shared one "side dungeon cleared" flag (clearing one counted as the other's first clear). Swolympus now has its own flag; an old save that cleared only Swolympus will see the Iron Cave's first-clear prize again once. Recommendation: fine as is.
+6. **The Arena's tier prizes and win rewards** (gold, XP, a General or Path Pack, some essence) are first numbers; the Diamond battle is the Champion of the Four Fists again (54 HP, more Epics) because no other arena foe has art. Recommendation: part of your by-hand Arena pass (backlog).
+7. **Crosspath's shop-front signs** stay on their walls, so the east- and west-facing ones are still edge-on. Recommendation: add a small free-standing board in front of each (a short Fable task) rather than turning the signs off their walls.
+8. **"Opponent cards: wait for click"** is the default and also applies to the opponent's traps; scripted-event pop-ups always wait for a click (bots and screenshots skip both). Recommendation: keep; the 4 s option is in Settings, next to Battle speed.
+
 ## Nov 18 evening - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov18_evening.md`. Report: top of `docs/overnight_report.md`. Tag `pre-nov18-evening`. Most important first.

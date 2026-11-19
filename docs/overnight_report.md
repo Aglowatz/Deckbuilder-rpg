@@ -1,3 +1,222 @@
+# Overnight Nov 19 (Opus) - report: the story after each zone, Alembic, signature cards, choice nodes, the Arena, world fixes, the playtest build
+
+Brief: `docs/prompts/opus_nov18_night.md`. Start tag `pre-overnight-nov19`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 19" (8 items).
+Shots: `docs/overnight_shots/nov19/` (`ref_*` are yours; `p1_`..`p10_` mine). Dialogue revert:
+`node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov19_lines.csv --revert=docs/dialogue/nov19_lines_ids.txt` (27 changed lines; the new
+keys `memory.1.alembic`, `town.arena.guard`, the Diamond tier's and its two bouts' texts are additions and stay; the Part 5 event texts are
+part of the mechanics change and revert with git).
+
+**The playtest build:** `builds/TheWaywardPath-v1.0.0-windows.zip`, **801 MB** (800,892,178 bytes; 778 MB on Nov 15 - two cards, the new art stand-ins and code). Export OK; `run_release_smoke_exported.sh` PASSED; the three `play_exported.sh` checks (`n19a`, `n19b`, `n19c`) ran to "done" with **0 SCRIPT ERROR**. Not uploaded anywhere.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Card and battle bugs | yes | all five; shot `n19_arena_rules` (rules list) |
+| 2 The story after each zone | yes | strict bot: Maren's scene played after every freed zone, both Paths |
+| 3 Auntie Alembic | yes | `p10_alembic_shop` |
+| 4 Signature cards | yes | `p10_signature_clear` |
+| 5 Choice nodes | yes (not Primm's Castle) | table below; castle left as it was (your rule) - inbox 1 |
+| 6 The Arena | yes | `p10_arena_*` |
+| 7 Equipment text | yes | |
+| 8 The world | yes (Crosspath shop-front signs not turned) | `p8_*` - inbox 7 |
+| 9 Batch 18 rows, backlog | yes | 5 new rows; 5 backlog items |
+| 10 Flow end to end | yes | two strict runs; one representative clear screen (every mini dungeon uses the same code path) |
+| 11 Tests, build, report | yes - GUT 3342 tests in 34 shards green after fixes (8 old-design assertions updated), walk smokes, probes, export | |
+
+## Part 1 - card and battle bugs
+- **The player's own choices** (Post-Human Resources Ghoul and the rest). A general "player choice" pause in the engine (`GameState.choice_requests`,
+  `ChoicePanel`): when the opponent's edict ("your opponent destroys a unit they control") hits you, YOU pick which of your units dies (highlighted
+  on the board, or a button). The same pause now covers every choice the engine used to make for you: a triggered ability's target (Grim Repper,
+  Swole Revenge, The Junkyard Gym, Bulking Program...), a pick inside an effect (Push Broom, Endless Filing, Circle of Life Insurance), "choose one"
+  (Community Garden, County Fairgrounds, Spirit-Lifting Belt) and "you may" (Barbell of the Ancients, Rubbish Goat). One option only = no question.
+  The AI and look-ahead copies keep the automatic picks. Tests `tests/core/game/test_player_choices_nov19.gd`.
+- **Scripted events** (Vellum, Mortimer, every boss/gatekeeper/arena/dungeon script) are a pop-up: the foe's portrait, its line, what the event does
+  in plain words; click, Space, Enter or pad A closes it, and the event's board animation plays after.
+- **Opponent spells and traps** wait in the middle of the table (big, clear of your hand) with "Click or press Space to continue". Setting
+  "Opponent spells and traps: Wait for click (default) / Continue after 4 s" (Settings, next to Battle speed). Units don't wait.
+- **Rules of this fight** is a list of readable lines (icon with its hover, name, text) under the opponent's plate, for every fight; the Arena's
+  banner across the top is gone and the bout's own name and rules are the list's first line.
+- **A roamer that hurts you** (meatballs, sprites, couriers, gulls, Tidy-Bots) counts as met: its Bestiary entry unlocks with a "New Bestiary
+  entry" note (it did unlock silently before; the note is new and fires for fights too).
+
+## Part 2 - the story after each zone
+- **Back in Crosspath after a freed zone** the hero arrives a step in front of Elder Maren and her memory scene plays at once (once per zone;
+  talking to her later still works if it was cut short). Then the other news.
+- **Fragments**: two steps per memory, "free a zone" (ticks the moment the Nth zone falls, whichever it was, with the zone roads marked) then
+  "talk to Elder Maren".
+- **Story and unlock notices wait for a click** ("Someone is waiting...", the shops opening, the arena and alchemist news); small toasts still fade.
+- **Elowen**: no cups after the second zone (pacing, watching the road); she walks off facing her way with her walk frames; "I'll find you. I always
+  do" is "once I'm clear of them and it's safe, I'll come and find you. Trust me that far."; "I won't come into town, though. I can't risk being seen."
+- **Maren after the second zone** rewritten: wary (a Path-walker who remembers nothing, or says so), starting to trust because he's helping, worried
+  what happens when his memories return; the "that boy is ten years dead" suspicion is gone from this scene (she still worked at the castle, memory 3).
+- **Plume speaks PR** ("a leadership transition, which His Perfection fully supports and, in a very real sense, arranged"); his after-the-ending
+  broadcasts spin too.
+- **One Agnes** in the freed D.N.A.; probe `tests/world/test_no_duplicate_npcs_nov19.gd` checks every zone before and after freeing.
+- **"New equipment"**: the level-13 note names Bertram's advanced rack; a freed zone's screen names its shop and the new piece ("New equipment at
+  Clerk Ledgerbone, Requisitions (Gear): Notary Seal" - it was behind the shop's Gear tab); the map and minimap show a gold **NEW** tag on any vendor
+  with something new (equipment, items, cards, packs, Alembic, the Arena, a zone shop) until you open it. Tests per unlock.
+
+## Part 3 - Auntie Alembic
+- Opens with the **first** freed zone. Closed note: "CLOSED FOR INVENTORY. AND FOR REASONS. ... DO COME BACK LATER, DEAR."
+- **"A Pinch of Everything" is MAIN**: Maren's first memory scene ends (after "Decks may now use two Paths") by sending you to her; the quest starts
+  tracked; steps "Talk to Auntie Alembic", "Brew a card: click two Path jars, then Craft".
+- See the essence rules below. Brew cards show **owned/3**; never-seen cards are card backs; hovering magnifies (backs stay backs).
+
+## Part 4 - signature cards
+First clear = a reward box with the card itself and "More copies are now sold in <shop> (never in packs)". Table in
+`docs/design/card_availability.md`. Betty Bones replaces the Department of Final Approvals (now a normal card); the Ultimate Cardio Machine (the
+Iron Cave's old prize) is a normal card too (inbox 4). Swolympus and the Iron Cave had shared one "cleared" flag; fixed (inbox 5). The Gilded
+General Pack is sold by Foil Fenwick once all four zones are free (400 gold).
+
+### The two new cards as built
+| Card | Built |
+|---|---|
+| **Baron Quadzilla, Lord of Leg Day** (B-37) | Beefcake, Epic unit, 3 + (B)(B), 5/6, Bulldoze. When this unit enters, create two Iron. Never Skip Leg Day: at the beginning of combat on your turn, you may use an Iron; if you do, other units you control get +1/+0 and Bulldoze until the end of your turn. Not in packs; the Iron Cave's first clear, then the Gainlands shop. Stand-in art: the Bestiary square. |
+| **Announcer Grand Bellows** (C-36) | Colourless, Epic unit, 4, 3/4. Ladies and Gentlemen! When this unit enters, choose a unit you control and an enemy unit; they fight. The Crowd Goes Wild: whenever a unit you control destroys an enemy unit in combat, it gets +1/+0 until the end of your turn (new engine event `combat_kill`). One from the Diamond prize, more at Sable's after. Stand-in art: his portrait. |
+
+Numbers as proposed (inbox 2, 3).
+
+## Part 5 - choice nodes
+Full table (also `docs/design/choice_nodes_nov19.md`):
+
+| Dungeon | Node | Option | Boon | Drawback | Duration |
+|---|---|---|---|---|---|
+| The House of Gains | 5: Locker Room of Legends | Borrow the lucky towel | 'Lucky Towel': +2 max HP | lose 1 HP | rest of the dungeon |
+| The House of Gains | 5: Locker Room of Legends | Raid the gym bag | +60 gold | 'Spotter Knows': -1 max HP | rest of the dungeon |
+| The House of Gains | 5: Locker Room of Legends | Do a set with the ghost of a champion | heal 3; a card (B-01) | 'Jelly Legs': your first unit enters exhausted | next fight |
+| The House of Gains | 7 | (story event "hg_descent", built in code) | | | |
+| The House of Gains | 9 | (story event "hg_rescue", built in code) | | | |
+| The Test Kitchen | 7: The Corrupted Pantry | Eat the glowing stew | 'Corrupted Feast': +3 max HP, your units +1 attack | lose 2 HP | rest of the dungeon |
+| The Test Kitchen | 7: The Corrupted Pantry | Take only the sealed jars | +40 gold | lose 2 HP | at once |
+| The Test Kitchen | 7: The Corrupted Pantry | Ask the ladle to stop | heal 1; a card (G-04) | lose 1 random card(s) from your deck | rest of the dungeon |
+| The Test Kitchen | 10: R&D Archives | Compare the handwriting | 'Impostor Exposed': your units +1 attack, your units +1 defense | 'Watched by the Impostor': enemy units +1 attack | rest of the dungeon |
+| The Test Kitchen | 10: R&D Archives | Photograph the blueprints | +50 gold | 'Flash Burn': -2 max HP | rest of the dungeon |
+| The Test Kitchen | 10: R&D Archives | Pocket the recipe marked DO NOT SERVE | a card (G-17) | 'Do Not Serve': -1 card in the opening hand | rest of the dungeon |
+| The Test Kitchen | 10: R&D Archives | Leave the archives alone | nothing | nothing | at once |
+| The Hall of Final Approvals | 2: Take-a-Number Kiosk | Take a number and wait | nothing | nothing | at once |
+| The Hall of Final Approvals | 2: Take-a-Number Kiosk | Take every number | +35 gold | lose 2 HP | at once |
+| The Hall of Final Approvals | 2: Take-a-Number Kiosk | Skip the queue | 'Cut the Line': your units +1 attack | 'Back of the Queue': your first unit enters exhausted | next fight |
+| The Hall of Final Approvals | 8: Form 27-B Office | Fill out the forms | 'Duly Authorized': +3 max HP | pay 20 gold | rest of the dungeon |
+| The Hall of Final Approvals | 8: Form 27-B Office | Forge the stamp | +50 gold | lose 2 HP | at once |
+| The Hall of Final Approvals | 8: Form 27-B Office | Ask the clerk what Form 27-C is | a card (N-15); heal 1 | 'Put on Hold': your first unit enters exhausted | next fight |
+| The Hall of Final Approvals | 12: The Shredding Room | Shred a spare appeal | +70 gold | 'Paper Cuts': -2 max HP | rest of the dungeon |
+| The Hall of Final Approvals | 12: The Shredding Room | Shred your own number | heal 4 | 'No Number': -1 card in the opening hand | rest of the dungeon |
+| The Hall of Final Approvals | 12: The Shredding Room | Reach in for what it ate | a card (N-17) | lose 3 HP | at once |
+| The Hall of Final Approvals | 12: The Shredding Room | Leave the shredder alone | nothing | nothing | at once |
+| The Rotheart | 7: Weeping Compost Pool | Drink from the pool | 'Compost Courage': +3 max HP | lose 2 HP | rest of the dungeon |
+| The Rotheart | 7: Weeping Compost Pool | Bottle some of it | +40 gold | 'The Pool's Grudge': enemy units +1 attack | next fight |
+| The Rotheart | 7: Weeping Compost Pool | Comfort the pool | heal 2; a card (R-01) | lose 1 random card(s) from your deck | rest of the dungeon |
+| The Rotheart | 12: The Heart Roots | Sever the Heart Roots | the Rotheart starts her fight with less HP | lose 2 HP | boss fight |
+| The Rotheart | 12: The Heart Roots | Leave them be | nothing | nothing | at once |
+| Primm's Castle | 3: Grand Foyer | Study the portrait | heal 3 | - | at once |
+| Primm's Castle | 3: Grand Foyer | Pocket a gilded candlestick | +50 gold | 'Fingerprints Everywhere': -1 max HP | rest of the dungeon |
+| Primm's Castle | 3: Grand Foyer | Count the reflections | 'Seen Him First': your units +1 defense | - | rest of the dungeon |
+| Primm's Castle | 8 | (story event "pc_early_journals", built in code) | | | |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Read the notes | 'Lab Notes': your units +1 attack, your units +1 defense | - | rest of the dungeon |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Take the samples | +50 gold | - | at once |
+| Primm's Castle | 12: The Doppelganger's Lab Notes | Practise the smile in the mirror | 'Perfect Smile': your units +1 defense | lose 1 HP | rest of the dungeon |
+| Primm's Castle | 16 | (story event "pc_corrected_citizens", built in code) | | | |
+| Primm's Castle | 22: Garden of Uniform Flowers | Pick the odd one out | heal 3 | - | at once |
+| Primm's Castle | 22: Garden of Uniform Flowers | Pick a handful of the rest | +40 gold | - | at once |
+| Primm's Castle | 22: Garden of Uniform Flowers | Plant something crooked | 'Crooked Little Hope': your units +1 attack, your units +1 defense | lose 1 HP | rest of the dungeon |
+| The Path-ology Lab | 4: The Observation Deck | Read the notes on the Subject | 'Know Your Enemy': your units +1 attack | lose 2 HP | next fight |
+| The Path-ology Lab | 4: The Observation Deck | Drink the Path-ologists' tea | heal 4 | 'Sedated': your first unit enters exhausted | next fight |
+| The Path-ology Lab | 4: The Observation Deck | Rifle the lockers | +80 gold | lose 3 HP | at once |
+| The Path-ology Lab | 7: The Draining Chamber | Put your hand on the glass | heal 6 | 'Drained': -1 max HP | rest of the dungeon |
+| The Path-ology Lab | 7: The Draining Chamber | Read the dials | 'Know the Machine': your units +1 attack | 'Feedback': the enemy starts with +3 HP | rest of the dungeon |
+| The Path-ology Lab | 7: The Draining Chamber | Tear out the straps | 'Never Again': +3 max HP | lose 3 HP | rest of the dungeon |
+| The Path-ology Lab | 11 | (story event "lab_cell4", built in code) | | | |
+| The Path-ology Lab | 12: The Mentor's Study | Take the journal for Wren's true record | 'The True Record': +2 max HP | 'Alarm Raised': enemy units +1 attack | rest of the dungeon |
+| The Path-ology Lab | 12: The Mentor's Study | Leave it on the desk | nothing | nothing | at once |
+| The Shattered Gallery | 3: The Weight of Glass | Lift it anyway | 'Unbroken Reflection': your units +1 attack | lose 5 HP | rest of the dungeon |
+| The Shattered Gallery | 3: The Weight of Glass | Leave it on the rack | - | 'Second Thoughts': -2 max HP | rest of the dungeon |
+| The Shattered Gallery | 3: The Weight of Glass | Break it for the silver | +150 gold | lose 1 random card(s) from your deck | rest of the dungeon |
+| The Shattered Gallery | 6: The Valid Reflection | Sign it | 'Approved': +3 max HP | 'Filed Away': your units -1 attack | rest of the dungeon |
+| The Shattered Gallery | 6: The Valid Reflection | Refuse to sign | - | lose 4 HP | at once |
+| The Shattered Gallery | 6: The Valid Reflection | Sign someone else's name | heal 6 | pay 100 gold | at once |
+| The Shattered Gallery | 8: The Quiet Frame | Rest (pay 250 gold) | heal 12 | pay 250 gold | at once |
+| The Shattered Gallery | 8: The Quiet Frame | Rest, and leave a card as the fee | heal 8 | lose 1 random card(s) from your deck | rest of the dungeon |
+| The Shattered Gallery | 8: The Quiet Frame | Keep moving | nothing | nothing | at once |
+| The Shattered Gallery | 12: Your Reflection | Look it in the eye | 'Know Yourself': your units +1 attack | 'Seen Through': -3 max HP | rest of the dungeon |
+| The Shattered Gallery | 12: Your Reflection | Turn your back on it | - | lose 3 HP | at once |
+| The Shattered Gallery | 12: Your Reflection | Smash it | 'Shattered Pride': your units +1 defense | lose 6 HP | rest of the dungeon |
+
+Story events built in code: hg_descent (the House of Gains' stairs: pay 40 gold, lose 3 HP, or lose a random card for the run), hg_rescue and lab_cell4 (rescues), pc_early_journals and pc_corrected_citizens (Primm's Castle, unchanged).
+
+Processing Time ("each player's first spell each turn costs 1 more"; units and other cards unaffected - tested) now applies in three Hall of
+Final Approvals fights only: the Intake Clerk (early, node 3), the Executive Elevator Operator (13) and Mortimer (14), and shows in Rules of this fight there.
+
+## Part 6 - the Arena
+| Tier | Bouts (kind) | Each win pays (first clear) | Tier prize (every bout beaten) |
+|---|---|---|---|
+| Bronze Sand | Warm-Up Brawl (battle), Lethal Lunch (puzzle), The Neutral Mile (battle, preset deck) | gold, XP, a Path / General Pack (+ Energy Draught on the Mile) | Champion's Laurels |
+| Silver Sand | Hold the Line (puzzle), Spells Only, Please (battle, preset deck + rule), The Four Fists (battle) | gold, XP, a General Pack tier II / Path Pack (+ essence) | Crowd-Pleaser's Cape |
+| Gold Sand | Zero to Hero (puzzle), The Marshal (battle) | gold, XP, a pack (+ essence / an item) | Gladiator's Net |
+| Diamond Sand (new) | The Final Bell (puzzle: three blockers, eleven HP, exactly five energy - solved in a test), The Four Fists, Unbound (battle: the Champion again, 54 HP, more Epics) | gold, XP, a pack, essence | Bloodsand Boots + Announcer Grand Bellows |
+
+A tier opens when every bout of the one before is beaten; locked tiers are greyed with "Locked: beat every bout of ... first". The podium shows
+the current tier's prize, later tiers as "???". Pop-ups: "Victory!" (what you won) and "Tier complete!" (prize, next tier open). Preset-deck bouts
+show "A preset deck" (its name and cards) with Continue instead of the deck choice. Bellows: the ring is open because Primm's guards have left
+Crosspath; before it opens one of Primm's Capital guards stands at the hatch ("Closed by order of His Perfection. Move along.").
+
+## Part 7 - equipment text
+The Upgrade / Sidegrade / Downgrade line and the "Compared with... You'd lose..." block are gone (Bertram's shop tiles, zone shops' Gear, every
+equipment tooltip); tiles are 24 px shorter. The Character screen never showed it.
+
+## Part 8 - the world
+- **Rip** turns to the hero (every zone, Crosspath too); his three-quarter idles are mirrored side frames (Batch 18 row). D.N.A. station 1.8 m right;
+  Crosspath's station out on the open lawn south-east of the square (`p8_rip_crosspath`).
+- **The Forgotten Cave** comes out at a brush-covered cave mouth on Crosspath's north edge, a short walk from Maren (painted cave mouth, brambles,
+  hedge, lantern - `p8_cave_mouth`); prompt, map icon, markers and Elowen's spot moved with it; the stone hut is a plain house.
+- **The Old Service Tunnels**: plain wall where the door was; a manhole (iron cover ajar, warm glow, steam) where the lantern-sign stood; sign gone
+  (`p8_manhole`).
+- **The Capital's south edge**: the camera trailed into the Crease's cavern rock (built far south) and looked at it from below; outside, the lens now
+  stops short of it, sliding in along its own line (`p8_south_edge_a/b`).
+- **Signs**: every board in the Capital and the D.N.A. turns to face the camera (Buffet, Gainlands and Dump already did); a plaque on a sideways wall
+  stands on posts in front of it. Probe `tests/world/test_sign_facing_nov19.gd` lists every sign with its angle (`p8_capital_signs`). Crosspath's
+  shop-front signs not turned (inbox 7).
+
+## Essence, brewing and the save migration
+- A copy beyond your third converts to essence of its Path (more for rarer cards).
+- A brew costs **6 essence of each of two Paths + 40 gold** (it was 2 + 2; the gold is unchanged).
+- Each Path holds **at most 18**; extra is lost, and a conversion into a full jar says so ("your Beefcake essence is full (18), so no more is kept").
+- Alembic's gift: **+6 of every Path**, added to what you have, capped at 18.
+- Bars fill out of 18; the number is white below 18 and gold at 18; the header says "at most 18 each".
+- **Saves**: every Path above 18 is clamped to 18 on load (`GameSession.migrate_essence_cap`).
+
+## Part 10 - end to end
+- Strict bot, Refusemancer: new game to two freed zones in 31 min, exit 0, **0 script errors**, Maren's fragment after each zone, "A Pinch of
+  Everything" tracked after the first. 11 issues: walk traps and door shortcuts of the kind every earlier strict run had (Dump route snags, the west
+  street) - nothing from tonight's changes.
+- Strict bot, Necrocrat: two freed zones in 41 min (the Hall of Final Approvals took six tries), exit 0, **0 script errors**, Maren's scene after
+  each. 8 issues: route traps, plus "Gerald did not offer the Waiting Room quest" (likely yesterday's Take a Number change - left for the next pass).
+- The bot does not brew at Alembic's; the gift, the cost and the cap are covered by tests.
+
+## Checks (Part 11)
+- **GUT:** full run 3332/3342 with 8 failing - all assertions of the old design (card and pack counts, the Fragments step's marker, the Alembic
+  blurb, the Iron Cave's prize, Swolympus's flag, the script pop-up's layer under the Peek); fixed and re-run green. Real saves untouched.
+- **Walk smokes:** Crosspath (19 shots), Gainlands (14), Buffet (22), Dump (21), D.N.A. (20), Capital - all OK. **NPC visibility probe:** 150/150.
+  **Duplicate-character probe**, **sign-angle probe**, **D.N.A. prop probe:** green (in the suite). **Card-games smoke:** 137/137. Log `_smokes_nov19.txt`.
+
+## Left undone
+- Primm's Castle's choice nodes (your castle rule - inbox 1); Crosspath's shop-front signs (inbox 7).
+- One clear-screen shot stands for all eight mini dungeons (they share one code path); the bot does not brew at Alembic's (tests cover it).
+- A hover-magnify sweep of the other menu card grids (backlog).
+- Open from the strict Necrocrat run: Gerald did not offer the Waiting Room quest (probably yesterday's Take a Number change).
+
+## Needs you (details and recommendations in the inbox)
+1. Primm's Castle choice nodes - give them drawbacks too? (yes recommended)
+2. Baron Quadzilla's numbers - playtest as is.
+3. Announcer Grand Bellows - keep.
+4. The Ultimate Cardio Machine and the Department are normal cards now - keep.
+5. Swolympus's own first-clear flag - fine as is.
+6. Arena prize numbers and the Diamond battle's foe - your by-hand pass.
+7. Crosspath shop-front signs - free-standing boards (recommended).
+8. Opponent cards wait for a click by default - keep.
+
+---
+
 # Nov 18 evening (Opus) - report: the D.N.A. finished properly, card ownership, a defeat-three quest per zone
 
 Brief: `docs/prompts/opus_nov18_evening.md`. Start tag `pre-nov18-evening`. Questions: `docs/overnight_inbox.md`, "Nov 18 evening" (6 items).
