@@ -357,12 +357,12 @@ func test_first_completion_opens_the_arena_and_the_second_the_alchemist() -> voi
 	_enter("beefcake")
 	var first: Dictionary = Session.resolve_main_dungeon(true)
 	assert_true(bool(first["arena_opened"]))
-	assert_false(bool(first["alchemist_opened"]))
+	assert_true(bool(first["alchemist_opened"]), "Overnight Nov 19: Alembic opens with the first zone")
 	assert_eq(Session.completed_zone_count(), 1)
 	_enter("necrocrat")
 	var second: Dictionary = Session.resolve_main_dungeon(true)
 	assert_false(bool(second["arena_opened"]), "the arena only announces once")
-	assert_true(bool(second["alchemist_opened"]))
+	assert_false(bool(second["alchemist_opened"]), "and so does the Alchemist")
 	assert_eq(Session.completed_zone_count(), 2)
 
 

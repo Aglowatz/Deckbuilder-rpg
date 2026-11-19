@@ -1,0 +1,24 @@
+# Overnight Nov 19: lines changed tonight. Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov19_lines.csv --revert=docs/dialogue/nov19_lines_ids.txt
+data/story/intro_story.tres::memory.2.after::0
+data/story/intro_story.tres::memory.2.after::1
+data/story/intro_story.tres::memory.2.after::2
+data/story/intro_story.tres::memory.2.after::3
+data/story/intro_story.tres::prologue.rescuer.4::3
+data/story/story_scenes.json::scenes/cave_mouth_1/steps/3::2
+data/story/story_scenes.json::scenes/cave_mouth_2/steps/0::1
+data/story/story_scenes.json::scenes/cave_mouth_2/steps/3::2
+data/story/story_scenes.json::scenes/plume_ribbon/steps/1::1
+data/story/capital_story.tres::facade.speaker.1.0.freed::0
+data/story/capital_story.tres::facade.speaker.1.0.freed::1
+data/story/capital_story.tres::facade.speaker.2.1.freed::0
+data/story/capital_story.tres::facade.speaker.3.1.freed::0
+data/story/capital_story.tres::facade.speaker.3.1.freed::1
+data/story/capital_story.tres::facade.speaker.3.2.freed::0
+data/story/intro_story.tres::town.alchemist.locked::1
+data/story/intro_story.tres::town.alchemist.announce::0
+data/story/intro_story.tres::town.alchemist.intro::1
+data/story/intro_story.tres::town.alchemist.intro::2
+data/story/intro_story.tres::town.alchemist.intro::3
+data/story/intro_story.tres::town.alchemist.return::0
+data/story/intro_story.tres::town.alchemist.quest_gift::0
+data/story/intro_story.tres::town.elder.progress.2::0

@@ -7,10 +7,13 @@ extends RefCounted
 ## Fix pass Nov 4 (B), Part 4.2: a brew spends only what it needs (it took ALL the essence: 18 for a 6-essence craft left 0, now 12), the
 ## gold is 100, and each Path holds at most ESSENCE_CAP_PER_PATH (3 crafts' worth); the odds are the base odds.
 
-const MIN_ESSENCE_PER_PATH: int = 2  # Fixes Nov 8: 136 multi-Path crafts are part of the completion goal (was 6)
+## Overnight Nov 19 (Part 3.4): a brew costs 6 essence of each of its Paths again (2 since Fixes Nov 8; Alembic's lines and the
+## instructions always said 6). The gold price is unchanged.
+const MIN_ESSENCE_PER_PATH: int = 6
 const GOLD_COST: int = Economy.ALCHEMY_GOLD  # Fix pass Nov 4 (B): 100 (was 150, Overnight Oct 29)
 ## The most essence one Path can hold: three crafts' worth (Fix pass Nov 4 (B)); more is lost.
-const ESSENCE_CAP_PER_PATH: int = 60  # Fixes Nov 8: room to save for a run of crafts (was three crafts' worth, 18)
+## Overnight Nov 19 (Part 3.5): 18 - three brews' worth (60 since Fixes Nov 8). Saves are clamped on load (`GameSession.migrate_essence_cap`).
+const ESSENCE_CAP_PER_PATH: int = 18
 ## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade (the dual-Path cards are Uncommon, Epic and Legendary).
 const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]
 ## Every this-many essence beyond the two minimums shifts one weight point from Common to Epic and

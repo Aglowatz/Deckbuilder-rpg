@@ -48,3 +48,8 @@ static func message(card: CardData, conversion_result: Dictionary) -> String:
 	for path: Variant in essence.keys():
 		parts.append("%d %s essence" % [int(essence[path]), Affinity.display_name(int(path) as Affinity.Type)])
 	return "Extra copy of %s converted into %s." % [card.display_name, " and ".join(parts)]
+
+
+## Overnight Nov 19 (Part 3.5): the note when the copy's Path essence is already full (Alchemy.ESSENCE_CAP_PER_PATH): nothing more is kept.
+static func full_message(card: CardData, full_paths: Array[String]) -> String:
+	return "Extra copy of %s: your %s essence is full (%d), so no more is kept." % [card.display_name, " and ".join(full_paths), Alchemy.ESSENCE_CAP_PER_PATH]

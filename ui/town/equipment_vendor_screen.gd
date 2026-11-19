@@ -6,7 +6,7 @@ extends OverlayScreen
 ## (Part D). Each tile shows its slot and a tooltip that also compares against whatever is
 ## currently equipped in that slot.
 
-const TILE_SIZE: Vector2 = Vector2(220, 250)
+const TILE_SIZE: Vector2 = Vector2(220, 226)  # Overnight Nov 19 (Part 7): 250 with the verdict line
 const COLUMNS: int = 5
 
 var stock: EquipmentVendorData
@@ -130,13 +130,7 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	var owned: Label = UIKit.label("", &"", 16, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(owned)
 	_owned_labels[piece.id] = owned
-	if not locked:
-		var equipped: EquipmentData = Session.profile.equipped_in(piece.slot) if Session.profile != null else null
-		var word: String = EquipmentCompare.verdict(piece, equipped)
-		var verdict: Label = UIKit.label(word if equipped == null or word == EquipmentCompare.VERDICT_EQUIPPED else "%s vs %s" % [word, equipped.source_name], &"MutedLabel", 14, _verdict_color(word), HORIZONTAL_ALIGNMENT_CENTER)
-		verdict.custom_minimum_size = Vector2(TILE_SIZE.x - 20, 0)
-		verdict.autowrap_mode = TextServer.AUTOWRAP_WORD
-		column.add_child(verdict)
+	# Overnight Nov 19 (Part 7): no Upgrade / Sidegrade / Downgrade line against what is worn; the tile is shorter to fit.
 	if locked:
 		holder.set_meta("teaser", teaser)
 	else:

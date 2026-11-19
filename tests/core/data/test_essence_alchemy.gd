@@ -179,14 +179,14 @@ func test_a_craft_spends_only_what_it_needs() -> void:
 	profile.set_essence(A, 18)
 	profile.set_essence(D, 18)
 	Session.gold = 500
-	assert_eq(Alchemy.MIN_ESSENCE_PER_PATH, 2)
+	assert_eq(Alchemy.MIN_ESSENCE_PER_PATH, 6, "Overnight Nov 19: 6 of each Path again")
 	assert_eq(Alchemy.GOLD_COST, 40, "crafting costs 40 gold")
 	var result: Alchemy.Result = Session.craft_dual_card(A, D)
 	assert_true(result.ok, result.reason)
-	assert_eq(profile.essence_of(A), 16)
-	assert_eq(profile.essence_of(D), 16)
+	assert_eq(profile.essence_of(A), 12)
+	assert_eq(profile.essence_of(D), 12)
 	assert_eq(Session.gold, 460)
-	assert_eq(int(result.essence_spent[A]), 2)
+	assert_eq(int(result.essence_spent[A]), 6)
 
 
 ## Fixes Nov 8: the cauldron favours multi-Path cards you do not own yet, so finishing a set takes one brew per card.
@@ -208,9 +208,10 @@ func test_the_cauldron_brews_missing_cards_first() -> void:
 
 
 func test_essence_is_capped_per_path() -> void:
-	# Fixes Nov 8: the cap is 60 (room to save for a run of crafts; it was three crafts' worth, 18).
+	# Overnight Nov 19: the cap is 18 again (three brews' worth).
 	var profile: PlayerProfile = Session.profile
 	var cap: int = Alchemy.ESSENCE_CAP_PER_PATH
+	assert_eq(cap, 18)
 	profile.set_essence(A, 0)
 	profile.add_essence(A, cap + 30)
 	assert_eq(profile.essence_of(A), cap, "a Path holds at most the cap")

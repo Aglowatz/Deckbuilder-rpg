@@ -54,6 +54,8 @@ var group_count: int = 1
 ## Fable Nov 16b (Part 4): an icon of this point's own instead of its kind's (the cellar of the Four Seals: a padlock while a seal is still
 ## locked). "" = the kind's icon.
 var icon_override: String = ""
+## Overnight Nov 19 (Part 2.8): a vendor with something new since the player last looked (a gold "NEW" tag on the icon).
+var new_mark: bool = false
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

@@ -86,8 +86,10 @@ func test_maren_taught_at_the_castle_and_her_eyes_are_going() -> void:
 	var story: StoryText = StoryText.shared()
 	assert_string_contains(_all_text(story.get_lines("cave_mouth.maren")), "my eyes aren't what they were")
 	var second: String = _all_text(story.get_lines("memory.2.after"))
-	assert_string_contains(second, "I taught the royal children at the castle")
-	assert_string_contains(second, "That boy is ten years dead", "she talks herself out of it")
+	# Overnight Nov 19 (Part 2.5): after the second zone she does not suspect the prince yet - wary, starting to trust, worried about his memories.
+	assert_false(second.contains("ten years dead"), "no prince suspicion yet")
+	assert_string_contains(second, "whatever you are, you're helping us")
+	assert_string_contains(second, "your memories come back")
 	assert_string_contains(second, "A woman called Wren leads it", "the resistance instruction is unchanged")
 	var third: String = _all_text(story.get_lines("memory.3.after"))
 	assert_string_contains(third, "I worked at the castle once, studying the Paths")

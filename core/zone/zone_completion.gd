@@ -8,7 +8,7 @@ extends RefCounted
 ## The Arena (The Grand Clashatorium) opens after this many zones are completed.
 const ARENA_UNLOCK_COUNT: int = 1
 ## The Alchemist (Auntie Alembic's) opens after this many zones are completed.
-const ALCHEMIST_UNLOCK_COUNT: int = 2
+const ALCHEMIST_UNLOCK_COUNT: int = 1  # Overnight Nov 19 (Part 3.1): her shop opens with the first freed zone (was 2)
 const TOTAL_ZONES: int = 4
 
 

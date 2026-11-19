@@ -59,12 +59,13 @@ static func level_unlocks(reached_level: int) -> Array[String]:
 	var lines: Array[String] = []
 	var row: LevelData = ProgressionTable.row(reached_level)
 	if row != null:
+		# Overnight Nov 19 (Part 2.8): the note names the vendor and where to find them (the map marks them NEW).
 		if row.reward_equipment_vendor_unlock:
-			lines.append("New stock at the Equipment Vendor")
+			lines.append("New equipment at Bertram's advanced rack (Equipment Vendor, Crosspath)")
 		if row.reward_item_vendor_advanced_unlock:
-			lines.append("New stock at the Item Vendor")
+			lines.append("New stock at Tilly Tonic's (Item Vendor, Crosspath)")
 		if not row.reward_vendor_unlock.is_empty():
-			lines.append("%s now at the vendor" % row.reward_vendor_unlock)
+			lines.append("%s now at Sable's stall (Card Vendor, Crosspath)" % row.reward_vendor_unlock)
 	for item: CosmeticData in CosmeticCatalog.all():
 		if item.unlock != null and item.unlock.kind == Condition.Kind.PLAYER_LEVEL and item.unlock.amount == reached_level and item.is_for_sale():
 			lines.append("New at the tailor: %s" % item.display_name)

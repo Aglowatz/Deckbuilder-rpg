@@ -30,6 +30,11 @@ func _ready() -> void:
 	super._ready()
 
 
+## Overnight Nov 19 (Part 3.7): the instructions at the top of the essence column.
+static func instructions() -> String:
+	return "Every copy of a card beyond your third turns into essence of its Path (more for rarer cards). A brew takes %d essence of each of two Paths, plus %d gold. Each Path holds at most %d essence: once a Path is full, extra copies of its cards add no more." % [Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.GOLD_COST, Alchemy.ESSENCE_CAP_PER_PATH]
+
+
 ## The copy caps at the hero's level, as on the Character screen (Part 1 replaced the old four-copy rule).
 func _caps_text() -> String:
 	var level: int = Session.profile.level if Session.profile != null else 1
@@ -55,8 +60,9 @@ func _build_essence_column() -> Control:
 	panel.custom_minimum_size = Vector2(620.0 - _narrow(), 0)
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Your Path essence", &"HeadingLabel", 32))
-	var blurb: Label = UIKit.label("Every copy of a card beyond your copy cap (now %s) turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each; a brew uses %d of each, and a Path holds at most %d." % [_caps_text(), Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.ESSENCE_CAP_PER_PATH], &"MutedLabel", 20)
+	column.add_child(UIKit.label("Your Path essence (at most %d each)" % Alchemy.ESSENCE_CAP_PER_PATH, &"HeadingLabel", 30))
+	# Overnight Nov 19 (Part 3.7): you own up to 3 copies of every card, so a copy beyond the third converts; a brew costs 6 + 6; 18 is the cap.
+	var blurb: Label = UIKit.label(instructions(), &"MutedLabel", 20)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 	column.add_child(blurb)
@@ -89,11 +95,11 @@ func _build_essence_column() -> Control:
 		bar.custom_minimum_size = Vector2(140.0 - _narrow() * 0.8, 18)
 		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		bar.show_percentage = false
-		bar.max_value = Alchemy.MIN_ESSENCE_PER_PATH
+		bar.max_value = Alchemy.ESSENCE_CAP_PER_PATH  # Overnight Nov 19 (Part 3.6): the bar is the jar - 9 of 18 is half full
 		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bar.add_theme_stylebox_override("fill", UIStyle.box(UIStyle.affinity_color(path), Color(0, 0, 0, 0), 0, 6))
 		inner.add_child(bar)
-		var amount: Label = UIKit.label("0", &"", 34, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_RIGHT)
+		var amount: Label = UIKit.label("0", &"", 34, Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
 		amount.name = "Amount"
 		amount.custom_minimum_size = Vector2(70, 0)
 		amount.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -195,7 +201,9 @@ func _refresh() -> void:
 		var entry: Dictionary = _essence_rows[path]
 		var amount: int = Session.profile.essence_of(path as Affinity.Type)
 		(entry["amount"] as Label).text = str(amount)
-		(entry["bar"] as ProgressBar).value = float(mini(amount, Alchemy.MIN_ESSENCE_PER_PATH))
+		# Overnight Nov 19 (Part 3.6): white below the cap, gold when the jar is full.
+		(entry["amount"] as Label).add_theme_color_override("font_color", UIStyle.GOLD if amount >= Alchemy.ESSENCE_CAP_PER_PATH else Color.WHITE)
+		(entry["bar"] as ProgressBar).value = float(mini(amount, Alchemy.ESSENCE_CAP_PER_PATH))
 		var button: Button = entry["button"] as Button
 		var chosen: bool = _selected.has(path as Affinity.Type)
 		var colour: Color = UIStyle.affinity_color(path as Affinity.Type)
@@ -204,6 +212,8 @@ func _refresh() -> void:
 		button.set_meta("chosen", chosen)
 		(entry["tick"] as Label).visible = chosen
 		button.tooltip_text = "%d / %d essence needed to craft." % [amount, Alchemy.MIN_ESSENCE_PER_PATH] if amount < Alchemy.MIN_ESSENCE_PER_PATH else "Click to use this Path in the brew."
+		if amount >= Alchemy.ESSENCE_CAP_PER_PATH:
+			button.tooltip_text += "\nFull (%d): extra copies of %s cards add no more essence until you brew." % [Alchemy.ESSENCE_CAP_PER_PATH, Affinity.display_name(path as Affinity.Type)]
 	_rebuild_preview()
 	if _selected.size() == 3:
 		var essence: Array[String] = []
@@ -250,13 +260,6 @@ func _rebuild_preview() -> void:
 	if _selected.size() < 2:
 		return
 	var pool: Array[CardData] = Alchemy.possible_cards(Session.content, _selected[0], _selected[1]) if _selected.size() == 2 else Alchemy.tri_path_pool(Session.content, _selected)
-	var total: int = 0
-	for path: Affinity.Type in _selected:
-		total += Session.profile.essence_of(path)
-	var weights: Array[int] = Alchemy.weights_for(total, _selected.size())
-	var weight_sum: int = 0
-	for card: CardData in pool:
-		weight_sum += weights[int(card.rarity)]
 	# Overnight Nov 4-5, Part 1: a pair has 16 cards; in one row they pushed the screen past its right edge. Two rows of 8.
 	var row: GridContainer = GridContainer.new()
 	row.columns = 8
@@ -264,11 +267,22 @@ func _rebuild_preview() -> void:
 	row.add_theme_constant_override("v_separation", 4)
 	row.name = "PossibleRow"
 	_preview_box.add_child(row)
+	# Overnight Nov 19 (Part 3.8-3.9): no odds - under each card how many you own out of 3; a card never seen (owned, met in a battle,
+	# a shop or a pack) is a card back until it is; hovering magnifies either, like the reward cards.
 	for card: CardData in pool:
 		var holder: VBoxContainer = UIKit.vbox(2)
-		holder.add_child(CardView.wrapped(card, 0.34))
-		var odds: Label = UIKit.label("%d%%" % roundi(100.0 * float(weights[int(card.rarity)]) / float(maxi(1, weight_sum))), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
-		holder.add_child(odds)
+		holder.name = "Possible_%s" % card.id
+		var seen: bool = Session.has_seen(card.id)
+		var view: Control = CardView.wrapped(card, 0.34, CardView.Mode.FULL if seen else CardView.Mode.BACK)
+		view.name = "Card"
+		if not seen:
+			view.set_meta("unseen", true)
+		view.mouse_filter = Control.MOUSE_FILTER_PASS
+		CardHoverZoom.attach(view)
+		holder.add_child(view)
+		var owned: Label = UIKit.label("%d/%d" % [Session.owned_count(card.id), CopyCaps.own_cap(card)] if seen else "?/%d" % CopyCaps.own_cap(card), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		owned.name = "Owned"
+		holder.add_child(owned)
 		row.add_child(holder)
 
 

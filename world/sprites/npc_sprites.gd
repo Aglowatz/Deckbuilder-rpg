@@ -100,6 +100,13 @@ static func rescuer_key() -> String:
 ## walks away as herself; only a set with no walk frames at all still borrows Elowen's (`use_walk_set`).
 static func walk_off(owner: Node, npc: Node3D, offset: Vector3, seconds: float, fade_seconds: float, then: Callable = Callable()) -> Tween:
 	use_walk_set(npc)
+	# Overnight Nov 19 (Part 2.4): she turns to the way she goes, so the walk frames carry her forward (facing the hero, she slid off sideways).
+	if Vector2(offset.x, offset.z).length() > 0.01:
+		npc.rotation.y = atan2(offset.x, offset.z)
+		var actor: SpriteActor = npc as SpriteActor
+		if actor != null and actor.sprite != null:
+			actor.sprite.snap_heading(Vector3(offset.x, 0.0, offset.z))
+	npc.set_meta("walking_off", true)
 	var tween: Tween = owner.create_tween().set_parallel(true)
 	tween.tween_property(npc, "position", npc.position + offset, seconds)
 	for node: Node in npc.find_children("*", "GeometryInstance3D", true, false):

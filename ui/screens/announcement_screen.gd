@@ -66,7 +66,9 @@ func _ready() -> void:
 	column.add_child(button)
 	ConfirmKey.attach(self, button)  # Fresh eyes round 2 (Oct 31): E / Enter / Space / pad A continue
 	_animate_in()
-	if sting.is_empty():
+	if sting == "none":
+		Audio.sfx(&"ui_open")  # Overnight Nov 19: a plain notice (no fanfare)
+	elif sting.is_empty():
 		Audio.sfx(&"level_up")
 	else:
 		Audio.sting(StringName(sting))

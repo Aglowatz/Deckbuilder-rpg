@@ -46,7 +46,7 @@ func test_completion_fires_the_event_with_the_zone_id() -> void:
 func test_unlock_thresholds_arena_after_one_alchemist_after_two() -> void:
 	Session.complete_zone("refusemancer")
 	assert_true(Session.arena_unlocked())
-	assert_false(Session.alchemist_unlocked())
+	assert_true(Session.alchemist_unlocked(), "Overnight Nov 19: one zone opens Alembic's")
 	Session.complete_zone("beefcake")
 	assert_true(Session.arena_unlocked())
 	assert_true(Session.alchemist_unlocked())

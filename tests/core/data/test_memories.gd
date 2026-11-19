@@ -76,7 +76,7 @@ func test_an_early_reveal_by_primm_also_renames_the_player() -> void:
 func test_the_fragments_quest_tracks_the_memories() -> void:
 	var quest: QuestData = QuestCatalog.find(MemoryDefs.QUEST_ID)
 	assert_not_null(quest)
-	assert_eq(quest.objectives.size(), MemoryDefs.COUNT)
+	assert_eq(quest.objectives.size(), MemoryDefs.COUNT * 2, "Overnight Nov 19: free a zone, then talk to Maren, per memory")
 	assert_true(quest.auto_give)
 
 

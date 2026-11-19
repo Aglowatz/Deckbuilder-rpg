@@ -66,18 +66,9 @@ static func tooltip(piece: EquipmentData, equipped: EquipmentData) -> String:
 		parts.append("\"%s\"" % piece.flavor_text)
 	if piece.source != "":
 		parts.append("Found: %s" % piece.source)
-	if equipped == null:
-		parts.append("\nNothing in this slot now.")
-	elif equipped == piece:
+	# Overnight Nov 19 (Part 7): the comparison with the piece worn now is gone from descriptions (owner); "Equipped" still says so.
+	if equipped == piece:
 		parts.append("\nEquipped.")
-	else:
-		var lines: PackedStringArray = diff_lines(piece, equipped)
-		parts.append("\nCompared with %s:" % equipped.source_name)
-		if lines.is_empty():
-			parts.append("  no change in the numbers (different effects)")
-		for line: String in lines:
-			parts.append("  " + line)
-		parts.append("  You'd lose: %s" % equipped.description)
 	return "\n".join(parts)
 
 

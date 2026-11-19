@@ -232,8 +232,26 @@ func _talk_hob() -> void:
 	StoryScenePlayer.play(dialogue, OldHob.cameo_scene(def.id, Session.flags))
 
 
+## Overnight Nov 19 (Part 2.7): the freed NPCs that are not already standing somewhere in the zone - a character is never in two places
+## at once (the D.N.A.'s Agnes Overdue stayed at her front desk AND appeared by the hub once the zone was freed).
+static func freed_npcs_to_build(zone_def: ZoneDef) -> Array[Dictionary]:
+	var present: Dictionary = {}
+	for entry: Dictionary in zone_def.npcs:
+		var npc_id: String = str(entry.get("npc_id", ""))
+		if not npc_id.is_empty():
+			present[npc_id] = true
+	var result: Array[Dictionary] = []
+	for entry: Dictionary in zone_def.freed_npcs:
+		var npc_id: String = str(entry.get("npc_id", ""))
+		if not npc_id.is_empty() and present.has(npc_id):
+			continue
+		present[npc_id] = true
+		result.append(entry)
+	return result
+
+
 func _build_freed_npcs(hub: Vector3) -> void:
-	for entry: Dictionary in def.freed_npcs:
+	for entry: Dictionary in freed_npcs_to_build(def):
 		var pos: Vector3 = hub + (entry["offset"] as Vector3)
 		pos.y = builder.height_at(pos)
 		var npc: Node3D = _make_npc(entry, pos, "Idle")
@@ -293,7 +311,7 @@ func _ready() -> void:
 		for flag: String in str(_screenshot_args.get("flags", "")).split(",", false):
 			Session.set_flag(StringName(flag))
 		if _screenshot_args.has("announce"):
-			Session.pending_zone_result = {"kind": "zone_freed", "arena_opened": true, "alchemist_opened": Session.completed_zone_count() >= 2}
+			Session.pending_zone_result = {"kind": "zone_freed", "arena_opened": true, "alchemist_opened": Session.completed_zone_count() >= ZoneCompletion.ALCHEMIST_UNLOCK_COUNT}
 	if Session.zone_run == null:
 		# Reached some other way (a dev launch): start a fresh visit.
 		Session.ensure_game()
@@ -1893,6 +1911,7 @@ func _open_vendor() -> void:
 	screen.screen_title = def.vendor_title
 	screen.vendor_screen_id = def.vendor_screen_id
 	screen.gear_stock = ExpansionGear.zone_vendor_stock(def.id)
+	Session.clear_vendor_new("zone_" + def.id)
 	if def.id == CapitalZone.ID:
 		screen.pack_vendor_id = PackData.VENDOR_BLACK_MARKET
 		screen.pack_story_prefix = "pack.black_market"
@@ -2229,6 +2248,25 @@ func _apply_pending_result() -> void:
 		hud.toast("Won! +%d gold, +%d XP. HP stays as it is." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
 
 
+## Overnight Nov 19 (Part 2.8): "New equipment at Clerk Ledgerbone's (the D.N.A.'s shop): Notary Seal" - the pieces the freeing put on the zone
+## shop's Gear shelf ("" when none).
+static func freed_shop_line(zone_def: ZoneDef) -> String:
+	var names: Array[String] = []
+	var stock: EquipmentVendorData = ExpansionGear.zone_vendor_stock(zone_def.id)
+	for entry: EquipmentVendorEntry in stock.entries:
+		if entry.unlock != null and entry.unlock.kind == Condition.Kind.FLAG_SET and entry.unlock.key == str(ZoneCompletion.flag_name(zone_def.id)):
+			var piece: EquipmentData = Session.content.equipment.get(entry.equipment_id) as EquipmentData if Session.content != null else null
+			names.append(piece.source_name if piece != null else entry.equipment_id.capitalize())
+	if names.is_empty():
+		return ""
+	var keeper: String = zone_def.vendor_name if not zone_def.vendor_name.is_empty() else "the zone's shop"
+	for spot: Dictionary in zone_def.spots:
+		if str(spot.get("kind", "")) == "vendor_npc":
+			keeper = str(spot.get("title", keeper))
+			break
+	return "New equipment at %s (Gear): %s" % [keeper, ", ".join(names)]
+
+
 ## The announcement after the zone's final boss falls: the zone is free; what just unlocked.
 func _show_zone_freed(result: Dictionary) -> void:
 	var story_text: StoryText = StoryText.shared()
@@ -2236,6 +2274,10 @@ func _show_zone_freed(result: Dictionary) -> void:
 	lines.append(ZoneCompletion.progress_text(Session.flags))
 	if result.has("equipment"):
 		lines.append("New gear: %s" % str(result["equipment"]))
+	# Overnight Nov 19 (Part 2.8): the zone shop's new pieces, with the vendor's name (the map marks the shop NEW).
+	var shop_line: String = freed_shop_line(def)
+	if not shop_line.is_empty():
+		lines.append(shop_line)
 	if bool(result.get("arena_opened", false)):
 		Session.set_flag(&"arena_announced")
 	if bool(result.get("alchemist_opened", false)):
@@ -2271,6 +2313,8 @@ func _collect_pois() -> Array[MapPoi]:
 		var label: String = spot.title
 		var poi: MapPoi = MapPoi.make(poi_kind, spot.position, label, marker)
 		poi.turn_in = turn_in
+		if spot.kind == "vendor_npc" or poi_kind == MapPoi.Kind.VENDOR:
+			poi.new_mark = Session.vendor_is_new("zone_" + def.id)  # Overnight Nov 19 (Part 2.8)
 		# Day pass Nov 9: the map names the dungeon's usual traveller level (LevelHints) on hover and in "Where to?".
 		if poi_kind == MapPoi.Kind.DUNGEON or poi_kind == MapPoi.Kind.MINI_DUNGEON:
 			var plan: DungeonCatalog.Blueprint = DungeonCatalog.main_for_zone(def.id) if poi_kind == MapPoi.Kind.DUNGEON else DungeonCatalog.side_for_zone(def.id)

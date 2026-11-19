@@ -370,7 +370,16 @@ func alchemist_unlocked() -> bool:
 func complete_zone(zone_id: String) -> bool:
 	if not ZoneDefs.has_def(zone_id) or is_zone_completed(zone_id):
 		return false
+	var alchemist_before: bool = alchemist_unlocked()
+	var arena_before: bool = arena_unlocked()
 	flags[str(ZoneCompletion.flag_name(zone_id))] = true
+	# Overnight Nov 19 (Part 2.8): what opened is marked "new" on the map until the player looks.
+	if alchemist_unlocked() and not alchemist_before:
+		mark_vendor_new("alchemist")
+	if arena_unlocked() and not arena_before:
+		mark_vendor_new("arena")
+	if not ExpansionGear.zone_vendor_stock(zone_id).entries.is_empty():
+		mark_vendor_new("zone_" + zone_id)
 	_sync_freed_stories()
 	sync_path_limit()
 	refresh_quests()
@@ -619,12 +628,19 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 			continue
 		var conversion: Dictionary = Essence.conversion(card)
 		var essence_by_path: Dictionary = conversion["essence"] as Dictionary
+		var full_paths: Array[String] = []
 		for path: Variant in essence_by_path.keys():
+			var before: int = profile.essence_of(int(path) as Affinity.Type)
 			profile.add_essence(int(path) as Affinity.Type, int(essence_by_path[path]))
+			if profile.essence_of(int(path) as Affinity.Type) - before < int(essence_by_path[path]):
+				full_paths.append(Affinity.display_name(int(path) as Affinity.Type))
 		var gold_amount: int = int(conversion["gold"])
 		if gold_amount > 0:
 			add_gold(gold_amount)
 		var text: String = Essence.message(card, conversion)
+		# Overnight Nov 19 (Part 3.5): a full jar (18) keeps nothing more - the note says so.
+		if not full_paths.is_empty():
+			text = Essence.full_message(card, full_paths)
 		notices.append(text)
 		EventBus.essence_converted.emit(text, essence_by_path, gold_amount)
 	EventBus.collection_changed.emit()
@@ -777,7 +793,27 @@ func grant_dev_level() -> Array[LevelData]:
 	return add_xp(maxi(needed, 1))
 
 
+## Overnight Nov 19 (Part 2.8): a vendor has something new (its map and minimap icon carries a gold NEW tag until its screen is opened).
+## Town spot ids ("equipment_vendor", "item_vendor", "vendor", "pack_vendor", "alchemist", "arena") or "zone_<zone id>" for a zone's shop.
+func mark_vendor_new(spot_id: String) -> void:
+	flags["vendor_new_" + spot_id] = true
+
+
+func clear_vendor_new(spot_id: String) -> void:
+	flags.erase("vendor_new_" + spot_id)
+
+
+func vendor_is_new(spot_id: String) -> bool:
+	return bool(flags.get("vendor_new_" + spot_id, false))
+
+
 func _apply_level_rewards(row: LevelData) -> void:
+	if row.reward_equipment_vendor_unlock:
+		mark_vendor_new("equipment_vendor")
+	if row.reward_item_vendor_advanced_unlock:
+		mark_vendor_new("item_vendor")
+	if not row.reward_vendor_unlock.is_empty():
+		mark_vendor_new("vendor")
 	# Overnight Oct 17, Part 6: the reward track's gold, packs and cosmetics for this level.
 	if level_track_grants:
 		for grant: Dictionary in row.grants:
@@ -1302,6 +1338,7 @@ func from_dict(data: Dictionary) -> bool:
 		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
 	gold = int(data.get("gold", 0))
 	var infra_notice: String = migrate_infrastructure_caps()
+	migrate_essence_cap()
 	var cap_notice: String = enforce_copy_caps()
 	if not infra_notice.is_empty():
 		cap_notice = infra_notice if cap_notice.is_empty() else infra_notice + " " + cap_notice
@@ -1393,6 +1430,20 @@ func from_dict(data: Dictionary) -> bool:
 ## most any of its saved decks holds, whichever is more, up to the card's cap at the player's level (`enforce_copy_caps` then trims decks
 ## and converts owned copies past the cap as usual). The starting decks hold basic Infrastructure only, so they need nothing. Idempotent:
 ## after it ran, every deck holds no more than is owned. Returns a short town notice ("" when nothing changed).
+## Overnight Nov 19 (Part 3.5): a Path holds at most Alchemy.ESSENCE_CAP_PER_PATH (18); an older save's jars above it are clamped.
+## Returns how much essence was trimmed in all.
+func migrate_essence_cap() -> int:
+	if profile == null:
+		return 0
+	var trimmed: int = 0
+	for path: Affinity.Type in Affinity.colored_types():
+		var have: int = profile.essence_of(path)
+		if have > Alchemy.ESSENCE_CAP_PER_PATH:
+			trimmed += have - Alchemy.ESSENCE_CAP_PER_PATH
+			profile.set_essence(path, Alchemy.ESSENCE_CAP_PER_PATH)
+	return trimmed
+
+
 func migrate_infrastructure_caps() -> String:
 	if profile == null or deck_box == null:
 		return ""
@@ -3791,6 +3842,7 @@ func _grant_dungeon_packs(zone_id: String, first_clear: bool, result: Dictionary
 		pending_level_ups.append_array(add_xp(config.first_clear_bonus_xp))
 		result["bonus_xp"] = config.first_clear_bonus_xp
 	result["vendor_unlock"] = path_pack.display_name
+	mark_vendor_new("pack_vendor")  # Overnight Nov 19 (Part 2.8): Foil Fenwick stocks it; his map icon says NEW
 
 const ENDING_SCENE: String = "res://scenes/ending.tscn"
 

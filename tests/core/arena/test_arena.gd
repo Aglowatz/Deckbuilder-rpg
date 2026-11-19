@@ -441,16 +441,17 @@ func test_the_result_banner_announces_the_prize() -> void:
 	assert_true((screen.find_child("ArenaPrizeLine", true, false) as Label).text.contains("Bloodsand Boots"))
 
 
+## Overnight Nov 19 (Part 1.4): no banner across the top; the bout's rules are the first line of "Rules of this fight".
 func test_the_battle_hud_shows_the_arena_rules_banner() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
 	var hud: BattleHud = BattleHud.new()
 	add_child_autofree(hud)
 	hud.setup(game, "Lunch Rush", "lorc/imp")
 	hud.set_arena_banner("arena_lethal_lunch")
+	hud.set_rule_badges(ArenaScenario.player_rule_badges(ArenaDefs.find("arena_lethal_lunch")))
 	await wait_frames(2)
-	var banner: Node = hud.find_child("ArenaBanner", true, false)
-	assert_not_null(banner)
+	assert_null(hud.find_child("ArenaBanner", true, false), "no banner at the top")
 	var texts: PackedStringArray = []
-	for label: Node in banner.find_children("*", "Label", true, false):
-		texts.append((label as Label).text)
+	for label: Node in hud.rule_row.find_children("*", "RichTextLabel", true, false):
+		texts.append((label as RichTextLabel).text)
 	assert_true("\n".join(texts).contains("win THIS turn"))

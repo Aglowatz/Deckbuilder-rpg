@@ -152,21 +152,27 @@ const ALEMBIC: String = "alembic_cauldron"
 const FLAG_ALEMBIC_VISITED: String = "alembic_quest_visited"
 
 
+## Overnight Nov 19 (Part 3.2): set when Elder Maren sends the hero to Auntie Alembic (the end of her first memory scene).
+const FLAG_SENT_TO_ALEMBIC: String = "maren_sent_to_alembic"
+
+
 static func _alembic() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = ALEMBIC
-	quest.category = QuestData.Category.SIDE
-	quest.order = 95
+	# Overnight Nov 19 (Part 3.2): a MAIN quest - Elder Maren sends the hero to Alembic at the end of her first memory scene (the one that
+	# opens the second Path). Old saves past that scene get it too.
+	quest.category = QuestData.Category.MAIN
+	quest.order = 36
 	quest.title = "A Pinch of Everything"
-	quest.summary = "Auntie Alembic's cauldron is bubbling again. She brews cards of two Paths at once out of essence, and she has a starter jar for you."
+	quest.summary = "Elder Maren sent you to Auntie Alembic. Her cauldron brews cards of two Paths at once out of essence, and she has a starter jar for you: six essence of every Path."
 	quest.auto_give = true
-	quest.prerequisite = Condition.zones_completed(ZoneCompletion.ALCHEMIST_UNLOCK_COUNT)
+	quest.prerequisite = Condition.any_of([Condition.flag(FLAG_SENT_TO_ALEMBIC), Condition.zones_completed(2)] as Array[Condition])
 	quest.giver_npc = "Auntie Alembic"
 	quest.giver_area = "town"
 	quest.giver_spot = "alchemist"
 	quest.objectives = [
-		QuestObjective.make("Visit Auntie Alembic's in Crosspath", Condition.flag(FLAG_ALEMBIC_VISITED)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's, the alchemist's shop in Crosspath"),
-		QuestObjective.make("Brew a card of two Paths at her cauldron", Condition.counter("cards_crafted", 1)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's cauldron: pick two Paths"),
+		QuestObjective.make("Talk to Auntie Alembic in Crosspath", Condition.flag(FLAG_ALEMBIC_VISITED)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's, the alchemist's shop in Crosspath"),
+		QuestObjective.make("Brew a card: click two Path jars, then Craft", Condition.counter("cards_crafted", 1)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's cauldron: pick two Paths, then press Craft"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
 	quest.reward_xp = 40
@@ -311,8 +317,15 @@ static func _fragments() -> QuestData:
 	# Oct 20, Part 5: the memories' names are spoilers; the steps only count them
 	var names: Array[String] = ["A first memory", "A second memory", "A third memory", "A last memory"]
 	var objectives: Array[QuestObjective] = []
+	# Overnight Nov 19 (Part 2.2): two steps per memory - "free a zone" ticks the moment the Nth zone is freed (whichever zone, in the order
+	# they were freed), then "talk to Elder Maren" is the open step until her scene has played.
 	for index: int in range(MemoryDefs.COUNT):
-		objectives.append(QuestObjective.make("%s: free a zone, then see Elder Maren" % names[index], Condition.flag(str(MemoryDefs.flag_name(index + 1))))
+		var told: Condition = Condition.flag(str(MemoryDefs.flag_name(index + 1)))
+		var free_step: QuestObjective = QuestObjective.make("%s: free a zone" % names[index], Condition.any_of([Condition.zones_completed(index + 1), told] as Array[Condition]))
+		for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
+			free_step.part(QuestObjective.TargetKind.SPOT, "town", "portal_%s" % zone_id, "A zone road out of Crosspath", Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+		objectives.append(free_step)
+		objectives.append(QuestObjective.make("%s: talk to Elder Maren" % names[index], told)
 			.at(QuestObjective.TargetKind.NPC, "town", "elder", "Elder Maren's home, up the Gate Road from Crosspath's square"))
 	quest.objectives = objectives
 	quest.reward_gold = 200

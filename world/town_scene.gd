@@ -608,11 +608,20 @@ func _build_actors() -> void:
 		# the eave of her house, so the occlusion fader hid the whole house at the very first sight of Crosspath.
 		spawn = (town.anchors["npc_elder"] as Vector3) + CAVE_EXIT_OFFSET
 		faces_square = true
+	# Overnight Nov 19 (Part 2.1): the first time back in Crosspath after freeing a zone, the hero arrives in front of Elder Maren and her
+	# scene plays at once (no walk to her first). Once per freed zone; talking to her later still works if it was cut short.
+	_maren_return = 0
+	var waiting: int = Session.pending_memory()
+	if not Session.cave_exit_pending and waiting > 0 and Session.flag(&"elder_greeted") and town.anchors.has("npc_elder") and not Session.flag(StringName(MAREN_RETURN_FLAG % waiting)) and not _screenshot_args.has("quiet"):
+		spawn = (town.anchors["npc_elder"] as Vector3) + MAREN_RETURN_OFFSET
+		_maren_return = waiting
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Hero", spawn)
 	if faces_square:
 		player.face(TownLayout.PLAZA)
+	if _maren_return > 0:
+		player.face(town.anchors["npc_elder"] as Vector3)
 	player.speed_multiplier = 1.35  # the town is spread out: a brisker walk
 	npc_hp = NpcHp.new()
 	npc_hp.target = player
@@ -1279,6 +1288,8 @@ func _process(delta: float) -> void:
 		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
 		Session.pending_level_ups.clear()
 		_show_level_up(gained)
+	elif not _locked and not dialogue.active and not _notice_queue.is_empty() and _overlay == null:
+		_show_next_notice()
 
 
 func _update_nearest() -> void:
@@ -2003,6 +2014,39 @@ var _arrival_token: int = 0
 var _arrival_started_msec: int = 0
 
 
+## Overnight Nov 19 (Part 2.1): where the hero stands for Maren's scene after a freed zone (a step in front of her door, facing her), and the
+## flag that says the scene for that memory has played automatically ("maren_return_1".."maren_return_4").
+const MAREN_RETURN_OFFSET: Vector3 = Vector3(-1.6, 0.0, 0.9)
+const MAREN_RETURN_FLAG: String = "maren_return_%d"
+var _maren_return: int = 0
+## Overnight Nov 19 (Part 2.3): story and unlock notices that wait for a click (title, body, lines), shown one at a time when the hero is free.
+var _notice_queue: Array[Dictionary] = []
+var _notice_open: bool = false
+## The notices shown this visit (tests).
+var notices_shown: Array[String] = []
+
+
+## Queues a notice that stays until the player clicks Continue or presses Space.
+func queue_notice(title: String, body: String, lines: Array[String] = []) -> void:
+	_notice_queue.append({"title": title, "body": body, "lines": lines})
+
+
+func _show_next_notice() -> void:
+	if _notice_queue.is_empty() or _notice_open:
+		return
+	var entry: Dictionary = _notice_queue.pop_front()
+	_notice_open = true
+	_locked = true
+	notices_shown.append(str(entry["title"]))
+	var screen: AnnouncementScreen = AnnouncementScreen.make(str(entry["title"]), str(entry["body"]), entry["lines"] as Array[String])
+	screen.sting = "none"
+	_overlay_layer.add_child(screen)
+	screen.finished.connect(func() -> void:
+		screen.queue_free()
+		_notice_open = false
+		_locked = false)
+
+
 ## Fable Nov 12c (A4): where the hero stands on the first exit from the cave, from Elder Maren's spot: screen-left of her, facing the square.
 const CAVE_EXIT_OFFSET: Vector3 = Vector3(-1.4, 0.0, 0.35)
 
@@ -2108,6 +2152,16 @@ func _show_pending_results() -> void:
 		return  # once per visit (the watchdog in _process and a late reveal must not play them twice)
 	_results_shown = true
 	_results_pending = false
+	if _maren_return > 0 and Session.pending_memory() == _maren_return:
+		Session.set_flag(StringName(MAREN_RETURN_FLAG % _maren_return))
+		var number: int = _maren_return
+		_maren_return = 0
+		_play_memory(number, _show_pending_results_rest)
+		return
+	_show_pending_results_rest()
+
+
+func _show_pending_results_rest() -> void:
 	_show_town_result()
 	_show_storeroom_result()
 	_show_npc_result()
@@ -2116,7 +2170,8 @@ func _show_pending_results() -> void:
 	_show_vault_result()
 	_show_old_well_result()
 	if _npcs.has("rescuer"):
-		hud.toast("Someone is waiting at the mouth of the Forgotten Cave.", UIStyle.GOLD)
+		# Overnight Nov 19 (Part 2.3): a story notice waits for a click.
+		queue_notice("Someone is waiting", "Someone is waiting for you at the mouth of the Forgotten Cave, in the brush on the north edge of town, near Elder Maren's house.")
 	elif Session.flag(&"primm_defeated") and StoryScenes.should_play("isla_homecoming", Session.flags):
 		hud.toast("Someone is walking down the Capital road toward Brannoch's gate.", UIStyle.GOLD)
 
@@ -2277,7 +2332,7 @@ func _show_graveyard_result() -> void:
 
 ## Elder Maren and a memory fragment: she asks what came back, the screen dims and the fragment plays, then she answers. Fragment 1 also announces the second Path;
 ## fragment 4 reveals who the Wanderer is (`Session.recover_memory`).
-func _play_memory(number: int) -> void:
+func _play_memory(number: int, then: Callable = Callable()) -> void:
 	# Maren's story theme underlies her lines; the fragment itself has its own cue (`MemoryScreen`, MUS-MEM-0N) on top of it.
 	var maren_music: int = Audio.push_music(&"MUS-MAREN", 1.2, false)
 	var story: StoryText = StoryText.shared()
@@ -2292,18 +2347,22 @@ func _play_memory(number: int) -> void:
 			Session.recover_memory(number)
 			hud.toast("Fragment %d of %d recovered." % [number, MemoryDefs.COUNT], UIStyle.GOLD)
 			dialogue.start("Elder Maren", story.get_lines(MemoryDefs.key(number, "after_known" if known else "after")), "NPC-ELDER")
-			dialogue.finished.connect(func() -> void: _after_memory(number, known, maren_music), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+			dialogue.finished.connect(func() -> void: _after_memory(number, known, maren_music, then), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
 
 
-func _after_memory(number: int, known: bool, maren_music: int) -> void:
+func _after_memory(number: int, known: bool, maren_music: int, then: Callable = Callable()) -> void:
 	var story: StoryText = StoryText.shared()
+	var done: Callable = func() -> void:
+		_locked = false
+		if then.is_valid():
+			then.call()
 	if number == MemoryDefs.COUNT and not known:
 		dialogue.start("", story.get_lines("memory.4.reply"), NpcRegistry.PLAYER_ID)
 		dialogue.finished.connect(func() -> void:
 			dialogue.start("Elder Maren", story.get_lines("memory.4.after2"), "NPC-ELDER")
 			dialogue.finished.connect(func() -> void:
-				_locked = false
-				Audio.pop_music(maren_music, 1.5), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+				Audio.pop_music(maren_music, 1.5)
+				done.call(), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
 		return
 	Audio.pop_music(maren_music, 1.5)
 	if number == 1:
@@ -2311,9 +2370,23 @@ func _after_memory(number: int, known: bool, maren_music: int) -> void:
 		_overlay_layer.add_child(popup)
 		popup.finished.connect(func() -> void:
 			popup.queue_free()
-			_locked = false)
+			# Overnight Nov 19 (Part 3.2): the scene ends by sending the hero to Auntie Alembic (a MAIN quest, tracked).
+			dialogue.start("Elder Maren", story.get_lines("memory.1.alembic"), "NPC-ELDER")
+			dialogue.finished.connect(func() -> void:
+				send_to_alembic()
+				done.call(), CONNECT_ONE_SHOT))
 		return
-	_locked = false
+	done.call()
+
+
+## Overnight Nov 19 (Part 3.2): Maren has sent the hero to Alembic - "A Pinch of Everything" starts (MAIN) and is tracked.
+func send_to_alembic() -> void:
+	Session.set_flag(StringName(QuestDefinitions.FLAG_SENT_TO_ALEMBIC))
+	if not Session.quest_log.is_active(QuestDefinitions.ALEMBIC) and not Session.quest_log.is_completed(QuestDefinitions.ALEMBIC):
+		Session.start_quest(QuestDefinitions.ALEMBIC)
+	if Session.quest_log.is_active(QuestDefinitions.ALEMBIC):
+		Session.quest_log.track(QuestDefinitions.ALEMBIC)
+		EventBus.quest_changed.emit()
 
 
 const ELDER_STATE_COUNTER: String = "elder_heard_state"
@@ -2894,6 +2967,7 @@ static func _new_card_vendor_screen() -> VendorScreen:
 func _open_vendor() -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("vendor")
 	var screen: VendorScreen = _new_card_vendor_screen()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
@@ -2907,7 +2981,7 @@ func _use_alchemist() -> void:
 	if not Session.alchemist_unlocked():
 		_face_npc("alchemist")
 		dialogue.start(story.text("town.alchemist.name"), story.get_lines("town.alchemist.locked"))
-		hud.toast("%s (%d of %d zones free)" % ["Auntie Alembic's is closed", Session.completed_zone_count(), ZoneCompletion.ALCHEMIST_UNLOCK_COUNT], Color("ffcf70"))
+		hud.toast("Auntie Alembic's is closed. Come back later.", Color("ffcf70"))
 		return
 	_face_npc("alchemist")
 	var lines: Array[String] = story.get_lines("town.alchemist.return" if Session.flag(&"alchemist_met") else "town.alchemist.intro")
@@ -2934,6 +3008,7 @@ func _use_alchemist() -> void:
 func _open_alchemist() -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("alchemist")
 	var screen: AlchemistScreen = AlchemistScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
@@ -2957,6 +3032,7 @@ func _use_arena() -> void:
 func _open_arena(result: Dictionary = {}) -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("arena")
 	var screen: ArenaScreen = ArenaScreen.new()
 	screen.result = result
 	screen.fight_chosen.connect(func(encounter_id: String) -> void:
@@ -2994,6 +3070,7 @@ func _talk_item_vendor() -> void:
 func _open_item_vendor() -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("item_vendor")
 	var screen: ItemVendorScreen = ItemVendorScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
@@ -3041,6 +3118,7 @@ func _talk_equipment_vendor() -> void:
 func _open_equipment_vendor() -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("equipment_vendor")
 	var screen: EquipmentVendorScreen = EquipmentVendorScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
@@ -3065,6 +3143,7 @@ func _talk_pack_vendor() -> void:
 func _open_pack_vendor() -> void:
 	if not Session.has_profile():
 		return
+	Session.clear_vendor_new("pack_vendor")
 	var screen: PackShopScreen = PackShopScreen.make(PackData.VENDOR_PACK, "town.pack_vendor")
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
@@ -3121,7 +3200,7 @@ const DECK_STATION_LABEL: String = "Deck Station"
 const DECK_STATION_ICON: String = "ICON-UI-DECK"
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
-	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.VENDOR, "codex": MapPoi.Kind.INTERACTABLE,
+	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "alchemist": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.VENDOR, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE, "arena": MapPoi.Kind.ARENA,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE, StoreroomGhosts.SPOT_ID: MapPoi.Kind.CHALLENGE,
 }
@@ -3145,6 +3224,7 @@ func _collect_pois() -> Array[MapPoi]:
 			var poi: MapPoi = MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, poi_label(spot.id, spot.title))
 			if spot.id == "deck":
 				poi.icon_override = DECK_STATION_ICON
+			poi.new_mark = Session.vendor_is_new(spot.id)
 			result.append(poi)
 		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
 			result.append(_tint_own_path(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title), spot.id.trim_prefix("npc_")))
@@ -3312,8 +3392,9 @@ func _announce_new_unlocks() -> void:
 	if PackShop.tier2_unlocked(Session.unlock_state()) and not Session.flag(&"general_tier2_announced"):
 		Session.set_flag(&"general_tier2_announced")
 		notices.append(story.text("pack.card_vendor.tier2"))
+	# Overnight Nov 19 (Part 2.3): shop and unlock news waits for a click.
 	for notice: String in notices:
-		hud.toast(notice, Color("ffd98a"))
+		queue_notice("Now open", notice)
 
 
 ## After an arena fight the town reopens the Arena screen with what happened.

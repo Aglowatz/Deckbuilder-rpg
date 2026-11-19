@@ -44,6 +44,19 @@ static func poi(canvas: CanvasItem, centre: Vector2, point: MapPoi, radius: floa
 		_poi_disc(canvas, centre, point, radius)
 	if point.quest_marker:
 		_quest_badge(canvas, centre + Vector2(radius * 0.9, -radius * 1.2), radius, point.turn_in)
+	if point.new_mark:
+		new_badge(canvas, centre + Vector2(-radius * 0.2, -radius * 1.35), radius)
+
+
+## Overnight Nov 19 (Part 2.8): the gold "NEW" tag over a vendor with new stock.
+static func new_badge(canvas: CanvasItem, at: Vector2, radius: float) -> void:
+	var font: Font = UIStyle.font_bold()
+	var size: int = int(clampf(radius * 0.95, 10.0, 16.0))
+	var width: float = font.get_string_size("NEW", HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+	var box: Rect2 = Rect2(at - Vector2(width * 0.5 + 4.0, size * 0.8), Vector2(width + 8.0, size + 4.0))
+	canvas.draw_rect(box, Color("ffd25a"))
+	canvas.draw_rect(box, Color(0.2, 0.1, 0.02), false, 1.5)
+	canvas.draw_string(font, Vector2(box.position.x + 4.0, box.position.y + size), "NEW", HORIZONTAL_ALIGNMENT_LEFT, -1, size, Color(0.18, 0.09, 0.02))
 
 
 static func _poi_icon(canvas: CanvasItem, centre: Vector2, icon: String, radius: float, dimmed: bool) -> void:

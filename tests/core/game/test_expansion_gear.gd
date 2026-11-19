@@ -107,8 +107,9 @@ func test_comparison_shows_the_numbers_that_change() -> void:
 	var glass: PackedStringArray = EquipmentCompare.diff_lines(_piece("glass_jaw_gauntlets"), null)
 	assert_true(glass.has("+2 unit attack") and glass.has("-3 Max HP"), str(glass))
 	var text: String = EquipmentCompare.tooltip(_piece("glass_jaw_gauntlets"), _piece("pointy_stick"))
-	assert_true(text.contains("Compared with A Very Pointy Stick") and text.contains("You'd lose"))
-	assert_true(EquipmentCompare.tooltip(_piece("lucky_sock"), null).contains("Nothing in this slot"))
+	# Overnight Nov 19 (Part 7): no comparison with the worn piece in descriptions any more.
+	assert_false(text.contains("Compared with") or text.contains("You'd lose"))
+	assert_false(EquipmentCompare.tooltip(_piece("lucky_sock"), null).contains("Nothing in this slot"))
 
 
 func test_chest_rolls_never_repeat_owned_gear_and_never_replace_a_fixed_reward() -> void:

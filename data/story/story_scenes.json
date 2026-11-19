@@ -286,7 +286,7 @@
 				],
 				[
 					"NPC-PLUME",
-					"Great news, citizens! The D.N.A. has been freed, a change His Perfection fully supports and in fact arranged!",
+					"Great news, citizens! The D.N.A. is undergoing a leadership transition, which His Perfection fully supports and, in a very real sense, arranged!",
 					"And you must be our brave volunteer! Do accept this Certificate of Participation. Frame it or don't, as the mood takes you; it has been notarized either way!"
 				],
 				[
@@ -664,7 +664,7 @@
 				[
 					"NPC-ELOWEN",
 					"A friend. That's still all I can tell you, and I'm sorry that it isn't more.",
-					"I won't come into town, though. The old woman with the shell looks at me as if I owe her something, and she's probably right."
+					"I won't come into town, though. I can't risk being seen."
 				],
 				[
 					"NPC-ELOWEN",
@@ -677,7 +677,7 @@
 			"steps": [
 				[
 					"",
-					"The hooded figure is back at the cave mouth, this time with two cups of something hot. She hands you one without asking whether you want it."
+					"The hooded figure is back at the cave mouth, pacing. She keeps glancing at the treeline and the road, and only stops when she sees that it's you."
 				],
 				[
 					"NPC-ELOWEN",
@@ -690,7 +690,7 @@
 				[
 					"NPC-ELOWEN",
 					"You always did come back to the same places. Even when you were...",
-					"Drink your tea. It's for the shaking."
+					"Never mind that. Did anyone follow you? Patrols have been through these woods twice since this morning, and they were looking hard."
 				],
 				[
 					"NPC-PLAYER",
