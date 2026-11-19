@@ -13,6 +13,8 @@ var _preview_box: VBoxContainer
 var _cost_label: Label
 var _hint_label: Label
 var _craft_button: FancyButton
+## Fable Nov 20: the brewed card's size in "The brew" panel (of CardView.SIZE).
+const RESULT_CARD_SCALE: float = 0.95
 var _stage: Control
 var _cauldron: TextureRect
 ## Import Nov 8: the painted cauldron (Batch 13); the vector glyph stands in without it.
@@ -343,29 +345,51 @@ func _reveal(result: Alchemy.Result) -> void:
 	flash_tween.tween_property(flash, "color:a", 0.7 * Settings.flash_scale(), 0.1)
 	flash_tween.tween_property(flash, "color:a", 0.0, 0.5)
 	flash_tween.tween_callback(flash.queue_free)
-	_result_holder = Control.new()
-	_result_holder.name = "CraftResult"
-	_result_holder.position = Vector2(270, 0)
-	_stage.add_child(_result_holder)
-	var holder: Control = CardView.wrapped(result.card, 0.55)
+	# Fable Nov 20 (Part 3.1): the new card large and centred in "The brew" panel, its line underneath (wrapped, never over the
+	# card); hovering it magnifies it like a reward card. It takes the place of the cauldron and the possible-cards grid until the
+	# next brew or the next jar click.
+	var brew_column: Node = _stage.get_parent()
+	var box: VBoxContainer = UIKit.vbox(14)
+	box.name = "CraftResult"
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.custom_minimum_size = Vector2(700, _stage.custom_minimum_size.y + _preview_box.custom_minimum_size.y + 12.0)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_result_holder = box
+	var holder: Control = CardView.wrapped(result.card, RESULT_CARD_SCALE)
+	holder.name = "CraftedCard"
+	holder.mouse_filter = Control.MOUSE_FILTER_PASS
+	CardHoverZoom.attach(holder)
+	# a plain frame keeps the card's place while it rises (a container would reset the card's scale)
+	var frame: Control = Control.new()
+	frame.name = "CraftedCardFrame"
+	frame.custom_minimum_size = holder.custom_minimum_size
+	frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(frame)
+	frame.add_child(holder)
+	holder.size = holder.custom_minimum_size
 	holder.pivot_offset = holder.custom_minimum_size * 0.5
 	holder.scale = Vector2(0.1, 0.1)
 	holder.position = Vector2(0, 160)
-	_result_holder.add_child(holder)
 	var rise: Tween = holder.create_tween().set_parallel(true)
 	rise.tween_property(holder, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	rise.tween_property(holder, "position", Vector2(0, 0), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	var caption: Label = UIKit.label("%s joins your collection!" % result.card.display_name, &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	caption.name = "CraftCaption"
-	caption.position = Vector2(-150, 232)
-	caption.size = Vector2(500, 36)
-	_result_holder.add_child(caption)
+	caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	caption.custom_minimum_size = Vector2(660, 0)
+	caption.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	box.add_child(caption)
+	brew_column.add_child(box)
+	brew_column.move_child(box, _stage.get_index())
+	_stage.visible = false
+	_preview_box.visible = false
 	_brewing = false
-	_selected.clear()
+	# Fable Nov 20 (Part 3.2): the two (or three) chosen essences stay chosen, so the next brew is one click away while there is
+	# enough essence and gold (the Craft button says what is missing otherwise).
 	vendor_react("buy")
 	crafted.emit(result.card)
 	_refresh()
-	_cauldron.visible = false
 
 
 func _clear_result() -> void:
@@ -374,6 +398,10 @@ func _clear_result() -> void:
 		_result_holder = null
 	if _cauldron != null:
 		_cauldron.visible = true
+	if _stage != null:
+		_stage.visible = true
+	if _preview_box != null:
+		_preview_box.visible = true
 
 
 ## The essence column is this much narrower next to Auntie Alembic (the vendor stage takes the left side).

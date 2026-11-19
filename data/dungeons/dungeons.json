@@ -679,7 +679,7 @@
 		"theme": "The Verdant Dump's vibrant junkyard-farm turned unnaturally alive and twisted: choking vines, mutated glowing fungi, invasive roots splitting machinery, sickly purple-green light, pulsing roots leading to a giant corrupted heart-tree.",
 		"story": "Hortensia Clipwell, the Royal Groundskeeper, outlawed composting as 'untidy' and brought the grieving Compostella a Path-ologist seed of life that never dies; Clipwell flees to the Capital when the zone falls. Without decay, growth chokes everything. The deeper you go, the more warped the land becomes. Severing the Heart Roots weakens Compostella; freeing her means letting the deathless seed finally rot.",
 		"boss": "Compostella, the Rotheart (the corrupted Refusemancer leader)",
-		"buffs": "Overgrowth: at the start of each turn, each unit gets a buff. Rot: at end of turn, units with 1 defense are destroyed.",
+		"buffs": "Wild Growth: at the start of each player's own turn, one random unit that player controls gets +1/+1. Rot: at end of turn, units with 1 defense are destroyed.",
 		"reward_first": "Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump.",
 		"reward_repeat": "Refusemancer Path Pack + gold.",
 		"hook": "Druids at the Compost Grange: \"The Archdruid hasn't spoken in weeks. The compost... it's growing teeth.\"",

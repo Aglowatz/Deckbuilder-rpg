@@ -360,8 +360,6 @@ func get_defense(card: CardInstance) -> int:
 
 
 ## Whether any player has a dungeon rule of `kind` (rules that hit both sides, like Rot, are in both players' sets).
-## Fable pass Nov 1: Wild Growth (OVERGROWTH) buffs a unit at most this many times.
-const OVERGROWTH_CAP: int = 3
 
 
 ## Fix pass Nov 7 (item 4): the round of the turn being played (each side's first turn is round 1).
@@ -1082,13 +1080,17 @@ func _begin_turn() -> void:
 				emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, 0, 0)
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
 	ProtocolJam.on_turn_start(self, active)  # Oct 21: Elowen (T-24) jams one of Siphon's Protocols until her side's next turn
+	# Fable Nov 20 (Part 2.2): Wild Growth no longer grows every unit on every turn (whoever landed units first won). At the start of
+	# each player's OWN turn ONE random unit that player controls gets +1/+1, once.
 	if rule_active(Modifier.Kind.OVERGROWTH) and current_round() >= growth_start_round():
-		for each_player: PlayerState in players:
-			for unit: CardInstance in each_player.field.duplicate():
-				# Fable pass Nov 1 (Part 2): Wild Growth stops at OVERGROWTH_CAP buffs per unit (a Possum reached 8/10 by turn 6).
-				if unit.data.is_unit() and unit.overgrowth_stacks < OVERGROWTH_CAP:
-					unit.overgrowth_stacks += 1
-					buff_unit(unit, 1)
+		var growers: Array[CardInstance] = []
+		for unit: CardInstance in player.field:
+			if unit.data.is_unit():
+				growers.append(unit)
+		if not growers.is_empty():
+			var grown: CardInstance = growers[rng.randi_range(0, growers.size() - 1)]
+			grown.overgrowth_stacks += 1
+			buff_unit(grown, 1)
 	_resolve_delayed(active)
 	if is_over():
 		return

@@ -179,9 +179,9 @@ when(rat_dies:mine) => create(garbage)
 when(token_dies:mine) => create(garbage)
 act | use(garbage,2) => create(redtape)
 
-== NR-05 @2c616c63ca64  # Rusty Grave Shovel
+== NR-05 @54b8e0ef47e7  # Rusty Grave Shovel
 attach
-host => stat(1,1); kw(toxic)
+host => kw(toxic,swat)
 
 == NR-06 @a5df31aa602f  # Rat Swarm
 trap(attacks:opp) => create(T-02,3)

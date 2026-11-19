@@ -54,7 +54,7 @@ func test_the_farms_are_desk_islands_with_wide_aisles() -> void:
 
 
 func test_the_dna_camera_looks_down_a_little_more() -> void:
-	assert_between(ZoneCamera.pitch_bonus(DnaZone.ID), 6.0, 10.0, "6-10 degrees steeper (the brief); the number lives in data/camera/zone_camera.json")
+	assert_between(ZoneCamera.pitch_bonus(DnaZone.ID), 4.0, 10.0, "steeper than the presets (Fable Nov 20: +4 like every place, it was +6); the number lives in data/camera/zone_camera.json")
 	CameraRig.zone_pitch_bonus = 0.0
 	var flat: Vector3 = CameraRig.shape(WorldLookRig.base_offset())
 	CameraRig.zone_pitch_bonus = ZoneCamera.pitch_bonus(DnaZone.ID)

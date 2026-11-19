@@ -189,6 +189,9 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 			return DungeonEvent.boon(RotheartDungeon.severed_boon())
 		"nothing":
 			return DungeonEvent.nothing()
+		"hint":
+			# Fable Nov 20: "hint:<words>" is the choice's own bracket text (it replaces the list made from the outcomes)
+			return DungeonEvent.hint_text(arg)
 	return null
 
 
@@ -217,6 +220,9 @@ static func boon_from(spec: String) -> ModifierSource:
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.ENTER_EXHAUSTED, int(stats["exhausted"])))
 	if stats.has("slow"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, int(stats["slow"])))
+	# Fable Nov 20 (Part 2.3): "first=1" - you take the first turn (no coin flip)
+	if stats.has("first"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.ALWAYS_FIRST, 1))
 	if stats.has("iron"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(stats["iron"]), Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)))
 	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp") or stats.has("foe_unit")

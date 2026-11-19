@@ -163,7 +163,14 @@ func _build_display() -> void:
 	_body.add_child(_slider_row("UI scale", (Settings.ui_scale - Settings.UI_SCALE_MIN) / (Settings.UI_SCALE_MAX - Settings.UI_SCALE_MIN), _on_ui_scale, _scale_text(), "UiScaleSlider"))
 	var angle_options: OptionButton = _options(CameraRig.ANGLE_NAMES, Settings.camera_angle, _on_camera_angle)
 	angle_options.name = "CameraAngleOptions"
-	_body.add_child(_row("Camera angle", angle_options))
+	_body.add_child(_row("Camera preset", angle_options))
+	# Fable Nov 20 (Part 1.2): the camera test options stay available so the playtesters can choose (every place).
+	var tilt_options: OptionButton = _options(CameraRig.TILT_NAMES, Settings.camera_tilt, _on_camera_tilt)
+	tilt_options.name = "CameraTiltOptions"
+	_body.add_child(_row("Camera angle (how far it looks down)", tilt_options))
+	var distance_options: OptionButton = _options(CameraRig.DISTANCE_NAMES, Settings.camera_distance, _on_camera_distance)
+	distance_options.name = "CameraDistanceOptions"
+	_body.add_child(_row("Camera distance", distance_options))
 	var zoom_options: OptionButton = _options(CameraRig.ZOOM_NAMES, CameraRig.zoom_index(), _on_camera_zoom_preset)
 	zoom_options.name = "CameraZoomOptions"
 	_body.add_child(_row("Camera zoom (the mouse wheel fine-tunes)", zoom_options))
@@ -531,6 +538,14 @@ func _on_zoom(value: float) -> void:
 
 func _on_camera_angle(index: int) -> void:
 	Settings.set_camera_angle(index)
+
+
+func _on_camera_tilt(index: int) -> void:
+	Settings.set_camera_tilt(index)
+
+
+func _on_camera_distance(index: int) -> void:
+	Settings.set_camera_distance(index)
 
 
 func _on_city_camera(index: int) -> void:

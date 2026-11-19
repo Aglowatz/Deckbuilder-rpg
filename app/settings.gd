@@ -127,6 +127,9 @@ var camera_angle: int = 0
 ## Overnight Nov 2-3, Part 5: the Capital's own camera (CityCamera.MODE_NAMES): 0 Standard (the angle above), 1 Raised, 2 Low. Only the Capital
 ## reads it; Standard until the designer picks one.
 var city_camera: int = 0
+## Fable Nov 20: the playtesters' camera test options (CameraRig.TILT_NAMES / DISTANCE_NAMES), applied in every place.
+var camera_tilt: int = 1
+var camera_distance: int = 1
 ## Controller support (Oct 26): the controller button names in prompts - 0 Auto (from the pad's name), 1 Xbox, 2 PlayStation (`InputDevice.layout`).
 var pad_prompts: int = 0
 const PAD_PROMPT_NAMES: Array[String] = ["Auto (from the controller)", "Xbox (A B X Y)", "PlayStation (Cross Circle Square Triangle)"]
@@ -446,6 +449,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "zoom", camera_zoom)
 	config.set_value("video", "camera_angle", camera_angle)
 	config.set_value("video", "city_camera", city_camera)
+	config.set_value("video", "camera_tilt", camera_tilt)
+	config.set_value("video", "camera_distance", camera_distance)
 	config.set_value("video", "renderer", renderer)
 	config.set_value("meta", "version", SETTINGS_VERSION)
 	config.set_value("text", "dialogue", text_dialogue)
@@ -516,6 +521,8 @@ func load_settings(path: String = PATH) -> void:
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, CameraRig.ANGLE_NAMES.size() - 1)
 	city_camera = clampi(int(config.get_value("video", "city_camera", city_camera)), 0, 2)
+	camera_tilt = clampi(int(config.get_value("video", "camera_tilt", camera_tilt)), 0, CameraRig.TILT_NAMES.size() - 1)
+	camera_distance = clampi(int(config.get_value("video", "camera_distance", camera_distance)), 0, CameraRig.DISTANCE_NAMES.size() - 1)
 	renderer = str(config.get_value("video", "renderer", renderer))
 	if not RENDERERS.has(renderer):
 		renderer = "auto"
@@ -708,6 +715,24 @@ func set_city_camera(index: int) -> void:
 	if clamped == city_camera:
 		return
 	city_camera = clamped
+	camera_changed.emit()
+
+
+func set_camera_tilt(index: int) -> void:
+	var clamped: int = clampi(index, 0, CameraRig.TILT_NAMES.size() - 1)
+	if clamped == camera_tilt:
+		return
+	camera_tilt = clamped
+	_zoom_dirty = 0.6
+	camera_changed.emit()
+
+
+func set_camera_distance(index: int) -> void:
+	var clamped: int = clampi(index, 0, CameraRig.DISTANCE_NAMES.size() - 1)
+	if clamped == camera_distance:
+		return
+	camera_distance = clamped
+	_zoom_dirty = 0.6
 	camera_changed.emit()
 
 

@@ -112,8 +112,8 @@ enum Kind {
 	FIRST_SPELL_COST_CHANGE,
 	## Dungeon rule (Experimental): the first unit each side puts onto the field this duel gains a random keyword (presence).
 	EXPERIMENTAL_KEYWORD,
-	## Dungeon rule (Overgrowth): at the start of every turn every unit on either side gets +1/+1 for good (presence); Fable pass Nov 1:
-	## at most `GameState.OVERGROWTH_CAP` times per unit (Compostella's Wild Growth stacked a Possum to 8/10).
+	## Dungeon rule (Wild Growth). Fable Nov 20: at the start of each player's own turn ONE random unit that player controls gets +1/+1
+	## for good (it was: every unit on either side, every turn, which snowballed for whoever landed units first).
 	OVERGROWTH,
 	## Dungeon rule (Rot): at the end of every turn every unit with exactly 1 defense is destroyed (presence).
 	ROT,
@@ -182,6 +182,8 @@ const ANY_COLOR: int = -1
 @export var label: String = ""
 ## New brief, Part F: SCRIPTED_ESCALATING_SUMMON's ordered token stages.
 @export var tokens: Array[CardData] = []
+## Fable Nov 20: a STAT_CHANGE that leaves tokens alone (Clipwell's Topiaries enter at their printed size).
+@export var skip_tokens: bool = false
 
 
 func matches_color(card_color: Affinity.Type) -> bool:

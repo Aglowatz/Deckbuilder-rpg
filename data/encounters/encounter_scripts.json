@@ -876,7 +876,7 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health Clipwell trims two topiaries into guards: two 1/1 Topiaries join her (Prize Topiary makes them 2/2).",
+			"text": "At half health Clipwell trims two topiaries into guards: two 1/2 Topiaries join her.",
 			"line": "Gentlemen, if you would? He's grown well over regulation height.",
 			"effects": [
 				{
@@ -884,7 +884,8 @@
 					"token": "T-22",
 					"count": 2,
 					"token_name": "Topiary",
-					"token_keywords": []
+					"token_keywords": [],
+					"token_stats": [1, 2]
 				}
 			],
 			"banner": "Two Topiaries join Clipwell."

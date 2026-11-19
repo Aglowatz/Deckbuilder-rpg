@@ -7,7 +7,8 @@ extends RefCounted
 ## An outcome of kind NEXT chains into another event ("forms that require other forms").
 
 ## LOSE_CARD (Fix pass Nov 4 (B)): a random non-basic card leaves the run's deck for the rest of this run (it is back after the run).
-enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT, LOSE_CARD }
+## HINT (Fable Nov 20): no effect; its `event_id` is the choice's own bracket text.
+enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT, LOSE_CARD, HINT }
 
 
 class Outcome:
@@ -32,7 +33,7 @@ class Outcome:
 			OutcomeKind.BOON:
 				if boon == null:
 					return "boon: ?"
-				return "%s: %s (%s)" % ["curse" if _is_curse() else "boon", boon.source_name, BoonText.short(boon)]  # Fixes Oct 27: what it does
+				return "%s: %s, %s" % ["curse" if _is_curse() else "boon", boon.source_name, BoonText.short(boon)]  # Fixes Oct 27: what it does; Fable Nov 20: no brackets inside the button's brackets
 			OutcomeKind.CARD:
 				return "gain a card"
 			OutcomeKind.LOSE_CARD:
@@ -59,6 +60,10 @@ class Choice:
 
 	func hint() -> String:
 		var parts: PackedStringArray = []
+		# Fable Nov 20: a choice may carry its own words ("hint:-5 HP; you take the first turn in the fight"): one set of brackets, as written
+		for outcome: Outcome in outcomes:
+			if outcome.kind == OutcomeKind.HINT:
+				return outcome.event_id
 		for outcome: Outcome in outcomes:
 			var text: String = outcome.describe()
 			if not text.is_empty():
@@ -109,6 +114,12 @@ static func _outcome(kind: OutcomeKind, amount: int = 0) -> Outcome:
 
 static func nothing() -> Outcome:
 	return _outcome(OutcomeKind.NOTHING)
+
+
+static func hint_text(words: String) -> Outcome:
+	var outcome: Outcome = _outcome(OutcomeKind.HINT)
+	outcome.event_id = words
+	return outcome
 
 
 static func heal(amount: int) -> Outcome:

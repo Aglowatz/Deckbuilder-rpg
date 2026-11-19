@@ -75,7 +75,7 @@ func test_the_rescue_is_only_flex_at_your_side() -> void:
 	var rescue: DungeonEvent = MainDungeons.def("beefcake").event("hg_rescue")
 	var boon: ModifierSource = rescue.choices[0].outcomes[0].boon
 	assert_eq(boon.modifiers.size(), 0, "no +1/+1, no +3 max HP")
-	assert_eq(rescue.choices[0].hint(), "boon: %s (Grandmaster Flex fights beside you in the final battle)" % HouseOfGainsDungeon.BOON_NAME)
+	assert_eq(rescue.choices[0].hint(), "boon: %s, Grandmaster Flex fights beside you in the final battle" % HouseOfGainsDungeon.BOON_NAME)
 	var flex: CardData = TokenRegistry.data(HouseOfGainsDungeon.ALLY_TOKEN_ID)
 	assert_eq(flex.attack, 3)
 	assert_eq(flex.defense, 5)

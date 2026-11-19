@@ -77,7 +77,7 @@ func sum_for_card(kind: Modifier.Kind, card: CardData) -> int:
 func stat_bonus_for(card: CardData) -> Vector2i:
 	var bonus: Vector2i = Vector2i.ZERO
 	for modifier: Modifier in modifiers:
-		if modifier.kind == Modifier.Kind.STAT_CHANGE and modifier.matches_card(card):
+		if modifier.kind == Modifier.Kind.STAT_CHANGE and modifier.matches_card(card) and not (modifier.skip_tokens and card.is_token):
 			bonus += Vector2i(modifier.value, modifier.value2)
 	return bonus
 

@@ -1,6 +1,6 @@
 # Path colour guide (The Wayward Path)
 
-Written Nov 19 2026 (Fable Nov 19, Part 3). **One official colour per Path, everywhere a Path is shown by colour.** It is the colour
+Written Nov 19 2026 (Fable Nov 19, Part 3); the palette was changed on Nov 20 (Gourmand blue, Necrocrat violet). **One official colour per Path, everywhere a Path is shown by colour.** It is the colour
 companion of `docs/art/path_icon_style_guide.md`: the icon says which Path, the colour agrees with the icon.
 
 - The palette lives in **one file: `core/data/path_palette.json`**. Change a hex value there and every screen follows.
@@ -9,51 +9,46 @@ companion of `docs/art/path_icon_style_guide.md`: the icon says which Path, the 
 
 ![swatches](path_colour_swatches.png)
 
-## The palette
+## The palette (Fable Nov 20: the owner's decision)
+
+**Gourmand is blue again and Necrocrat is violet again**; Beefcake red and Refusemancer moss green stay as set on Nov 19. (The cream
+of Nov 19 was too neutral for Gourmand; the Necrocrat's Path icon keeps its green ghost-flame, which is fine.)
 
 | Path | Main | Accent | Text on dark | Ink on parchment | In words |
 |---|---|---|---|---|---|
 | **Beefcake** | `#E0321F` | `#E0A030` | `#F26A54` | `#A3200F` | strong red, gold accent (the gold arm on the red disc) |
-| **Gourmand** | `#F0C494` | `#C06A3A` | `#F5D3AC` | `#8A4A22` | warm cream, copper accent (the white hat on cream in a copper rim) |
+| **Gourmand** | `#5AAAF2` | `#F0C494` | `#96C8F7` | `#1F5596` | clear blue, cream accent (the white chef's hat) |
 | **Refusemancer** | `#58933B` | `#B5552D` | `#86BE64` | `#3F6B26` | deep moss green, rust accent (the leaf in rust arrows) |
-| **Necrocrat** | `#72E55B` | `#55606A` | `#9BEF88` | `#2C5E55` | bright ghost green, slate accent (the skull in green flame on slate) |
+| **Necrocrat** | `#9A5FC7` | `#72E55B` | `#C39BE6` | `#64358F` | the old violet, ghost-green accent (the flame round the skull) |
 | *Colorless* | `#B8A98A` | `#4C4441` | `#CFC3A8` | `#5A5046` | stone (unchanged) |
 
 Roles:
 - **main**: bars (the essence tracker), borders, glows, map and quest markers, battle effects, filter chips, the hero's outline behind a wall.
 - **accent**: the second colour where a place uses two (a bar's highlight line, a rim, a dual trim). Never used alone to mean the Path.
-- **text**: small text on the dark panels (a lighter step of the main; red and moss are too dark for 14 px text at full strength).
+- **text**: small text on the dark panels (a lighter step of the main).
 - **ink**: text and thin lines on parchment (a darker step of the main).
 - **frame**: the cloth tint of the tinted card frames (`CardView`), kept exactly as it was so the cards do not change.
 
-## Why these
+## Do the four read apart?
 
-1. **They are the icons' own colours.** The approved medallions are red and gold, cream and copper, moss and rust, ghost green on
-   slate; the card frames, card backs, packs and plinths are painted the same way. Only the UI's tints disagreed: Gourmand was **blue**
-   (`#4A8FE0`) and Necrocrat **violet** (`#9A5FC7`), colours that appear on no Gourmand or Necrocrat picture.
-2. **The card frames change least:** not at all. The frames are painted art and already agree; the frame cloth tints stay as they were.
-3. **Two greens are told apart by brightness, not by hue.** Refusemancer is a deep, earthy moss; Necrocrat is a bright, glowing ghost
-   green, and each always comes with its accent (rust for the moss, slate for the ghost green) and its icon.
-4. **Colour-blind check** (`tools/path_palette_check.py`; the smallest difference between any two Paths, CIE Lab units; under about 10
-   two colours are hard to tell apart at a glance):
+`tools/path_palette_check.py` (the smallest difference between any two Paths, CIE Lab units; under about 10 two colours are hard to tell
+apart at a glance):
 
-   | Palette | Normal | Protanopia | Deuteranopia | Tritanopia |
-   |---|---|---|---|---|
-   | UI tints until today (red, blue, green, violet) | 40 | 14 | **9** | 18 |
-   | The icons' paint taken literally | 36 | 22 | 13 | 23 |
-   | **This palette** | 38 | 22 | **21** | 29 |
-   | Option 2 (Necrocrat as ghost teal) | 47 | 21 | 21 | 33 |
+| Palette | Normal | Protanopia | Deuteranopia | Tritanopia |
+|---|---|---|---|---|
+| UI tints until Nov 18 (red, blue `#4A8FE0`, green, violet) | 40 | 14 | **9** | 18 |
+| Nov 19 (cream, ghost green) | 38 | 22 | 21 | 29 |
+| **This palette** | 49 | 21 | **14** | 23 |
 
-   The hard pair for red-green colour-blind players is Beefcake red against Refusemancer moss (21); that is why the red is a little
-   brighter and the moss a little deeper than on the icons. Colour is never the only signal: the Path icon is always beside it.
-5. **Readable on both backgrounds:** each main is at least 3.9:1 on the dark panel (`#1C1722`), each ink at least 4.6:1 on parchment
-   (`#E9DCBF`); small text uses the `text` step (5.5:1 or more on dark).
-
-## Option 2, if you prefer more distance between the two greens
-
-Necrocrat as **ghost teal** (`main #7EE5CB`, `text #A5F0DD`, `ink #25605A`): further from the moss for normal vision (47 against 38),
-the same for colour-blind players. It agrees a little less with the icon's flame, which is a yellow-green. **Recommended: the palette
-above (ghost green)**; to try option 2, copy the three values from `"alternatives"` in the JSON file over Necrocrat's.
+- For normal vision the four are further apart than ever (49).
+- The close pair for red-green colour-blind players is **Gourmand blue against Necrocrat violet** (14 for deuteranopia): violet loses
+  its red and reads as a darker blue. That is why the blue is a step **lighter** than the old one (`#5AAAF2` against `#4A8FE0`): the two
+  then differ by brightness (14 against 9 with the exact old blue). The violet is the old one, unchanged. The exact old blue is kept
+  under `"alternatives"` in the JSON file, as is the Nov 19 palette.
+- Beefcake red against Refusemancer moss is 21 to 22 for red-green colour-blind players, as on Nov 19.
+- Colour is never the only signal: the Path icon is always beside it.
+- Readable on both backgrounds: each main is at least 3.9:1 on the dark panel (`#1C1722`), each ink at least 4.6:1 on parchment
+  (`#E9DCBF`).
 
 ## Where each colour is used (the audit)
 
@@ -83,27 +78,29 @@ In code, every row reads the palette (before this pass the "was" column):
 | The Lab's four tanks, the castle's district lights | `world/dungeon_backdrop.gd` | two own lists (yellow, **violet**) | the ring of four mains |
 | The hero's outline behind a wall (Part 1) | `world/sprites/world_sprite.gd` `outline_color` | new | the hero's Path main, lightened |
 
-A test (`tests/core/data/test_path_palette.gd`) keeps it so: the file has the five rows and every role, the old blue and violet are
+A test (`tests/core/data/test_path_palette.gd`) keeps it so: the file has the five rows and every role, no hex value of a Path colour is
 gone from the code, and the listed files hold no Path colour table of their own.
 
 ## Painted art
 
-Painted art that already agrees (no change): the four energy medallions, the four essence flasks, the card frames, the Beefcake,
-Gourmand and Refusemancer card backs and packs, the four gilded packs, the four plinths, the resource icons.
+The card frames, the Path icons (medallions), the essence flasks, the plinths and the Beefcake, Gourmand and Refusemancer card backs
+and packs stay as they are: they are painted in the icons' own colours (Gourmand's cream and copper, the Necrocrat's green flame on
+slate) and the owner is fine with that; the UI's tint beside them is blue and violet.
 
-Painted art in the wrong colours (Batch 18 rows in `docs/art/batch18_nov18.csv`):
+Painted art still wrong under this palette (Batch 18 rows in `docs/art/batch18_nov18.csv`, re-checked Nov 20):
 
 | File | What is wrong | Right colours |
 |---|---|---|
-| `UI-CARDBACK-N` | its field is the same deep green as the Refusemancer back; side by side the two backs read as one Path | slate grey field, ghost-green glow, pale bone trim |
-| `UI-PACK-N` (and `UI-PACK-LOCKED-N`) | the wrapper is the same green as the Refusemancer pack | slate wrapper, ghost-green glow |
-| `V-ALEMBIC` (her portrait) | her two flasks and the splashes on her apron are red, yellow, **blue** and **violet** | red, cream-copper, moss green, ghost green |
-| `VS-ALEMBIC` (her shop picture) | the four jars are **blue**, red, orange and green, the cauldron's flame is violet and blue | four jars in the four Path colours, in the fixed order; a four-colour flame |
+| `UI-CARDBACK-N` | its field is the same deep green as the Refusemancer back; side by side the two backs read as one Path | violet field, bone trim, the green-flame medallion unchanged |
+| `UI-PACK-N` (and `UI-PACK-LOCKED-N`) | the wrapper is the same green as the Refusemancer pack | violet wrapper, the medallion unchanged |
+| `VS-ALEMBIC` (her shop picture; low priority) | the four jars are blue, red, **orange** and green | red, blue, moss green, violet, in the fixed order |
+
+Dropped on Nov 20: `V-ALEMBIC` (her flasks and apron splashes are red, yellow, blue, green and violet: with blue and violet back as
+Path colours nothing in it is wrong any more).
 
 ## Rules for new work
 
-- A Path's colour is its **main**; never invent a fifth (no blue for Gourmand, no violet for Necrocrat: violet and blue belong to the
-  regime, the rifts and the UI's own chrome).
+- A Path's colour is its **main**; never invent a fifth.
 - Where two Paths meet (a dual card, an Alembic recipe) show both colours side by side, first Path on the left; never a blend.
 - All four together: the fixed order Beefcake, Gourmand, Refusemancer, Necrocrat (`PathPalette.ring()`).
 - In code never write a Path colour as a hex value: ask `PathPalette` (or `UIStyle.affinity_color`).

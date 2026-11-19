@@ -49,6 +49,28 @@ static var zone_pitch_bonus: float = 0.0
 static var zone_distance: float = 1.0
 static var zone_pitch_target: float = 0.0
 static var zone_distance_target: float = 1.0
+## Fable Nov 20 (Part 1.2): the player's own choice on top, for the playtesters to compare (Settings > Display). "Camera tilt": how many
+## degrees every preset looks down more - Standard (0), +4 (the default: the place's own value from zone_camera.json, 4 everywhere),
+## +6, +8. "Camera distance": Closer / Default / Further (x 0.9 / 1.0 / 1.1 on the place's distance). Applied in every place.
+const TILT_NAMES: Array[String] = ["Standard", "+4 (default)", "+6", "+8"]
+const TILT_DEGREES: Array[float] = [0.0, 4.0, 6.0, 8.0]
+const TILT_DEFAULT: int = 1
+const DISTANCE_NAMES: Array[String] = ["Closer", "Default", "Further"]
+const DISTANCE_SCALES: Array[float] = [0.9, 1.0, 1.1]
+const DISTANCE_DEFAULT: int = 1
+
+
+## The degrees added to the preset's pitch right now: the place's own value at the default choice, the player's value otherwise.
+## Outside a place with a camera of its own (no ZoneCamera applied) nothing is added.
+static func pitch_bonus() -> float:
+	var choice: int = clampi(Settings.camera_tilt, 0, TILT_DEGREES.size() - 1)
+	if choice == TILT_DEFAULT or ZoneCamera.current == "":
+		return zone_pitch_bonus
+	return TILT_DEGREES[choice]
+
+
+static func distance_scale() -> float:
+	return zone_distance * DISTANCE_SCALES[clampi(Settings.camera_distance, 0, DISTANCE_SCALES.size() - 1)]
 
 
 ## The camera-to-hero distance at Normal zoom, Cinematic angle: the hero fills `HERO_SCREEN_FRACTION` of the screen height.
@@ -85,9 +107,9 @@ static func shape(offset: Vector3) -> Vector3:
 	var base_pitch: float = atan2(base.y, maxf(Vector2(base.x, base.z).length(), 0.0001))
 	var yaw: float = atan2(offset.x, offset.z) + deg_to_rad(swivel)
 	var index: int = angle_index()
-	var new_pitch: float = deg_to_rad(ANGLE_PITCH[index] + zone_pitch_bonus) + (pitch - base_pitch)
+	var new_pitch: float = deg_to_rad(ANGLE_PITCH[index] + pitch_bonus()) + (pitch - base_pitch)
 	var ratio: float = offset.length() / maxf(base.length(), 0.0001)
-	var length: float = normal_distance() * ANGLE_DISTANCE[index] * ratio * (Settings.camera_zoom / Settings.ZOOM_DEFAULT) * zone_distance
+	var length: float = normal_distance() * ANGLE_DISTANCE[index] * ratio * (Settings.camera_zoom / Settings.ZOOM_DEFAULT) * distance_scale()
 	return Vector3(sin(yaw) * cos(new_pitch), sin(new_pitch), cos(yaw) * cos(new_pitch)) * length
 
 

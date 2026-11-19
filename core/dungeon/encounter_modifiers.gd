@@ -224,7 +224,9 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 		"starting_resources":
 			made.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(spec.get("count", 1)), Modifier.ANY_COLOR, _resource_of(spec)))
 		"stat":
-			made.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, int(spec.get("atk", 0)), path, int(spec.get("def", 0))))
+			var stat: Modifier = CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, int(spec.get("atk", 0)), path, int(spec.get("def", 0)))
+			stat.skip_tokens = bool(spec.get("non_tokens", false))  # Fable Nov 20: "non_tokens": true leaves tokens at their printed size
+			made.append(stat)
 		"starting_tokens":
 			var token: CardData = _token_of(spec, key)
 			if token != null:
@@ -337,8 +339,12 @@ static func _token_of(spec: Dictionary, key: String) -> CardData:
 		return null
 	# Oct 20: a rule may rename a token and set its keywords ("token_name", "token_keywords": [] = none) - the store room's plain 1/1 Ghost is
 	# the Hungry Ghost (its art) without Flying. The copy keeps the token's id, so its art and its bestiary entry still match.
-	if spec.has("token_name") or spec.has("token_keywords"):
+	# Fable Nov 20: "token_stats": [attack, defense] sets the token's printed size (Clipwell's Topiary is a 1/2).
+	if spec.has("token_name") or spec.has("token_keywords") or spec.get("token_stats") is Array:
 		token = token.duplicate() as CardData
+		if spec.get("token_stats") is Array and (spec["token_stats"] as Array).size() == 2:
+			token.attack = int((spec["token_stats"] as Array)[0])
+			token.defense = int((spec["token_stats"] as Array)[1])
 		if spec.has("token_name"):
 			token.display_name = str(spec["token_name"])
 		if spec.has("token_keywords"):

@@ -35,7 +35,7 @@ var keyword_sources: Dictionary = {}
 var cannot_block: bool = false
 ## Brief 14: how many buffs (permanent +1/+1) this unit has received.
 var buffs: int = 0
-## Fable pass Nov 1: how many Wild Growth (OVERGROWTH) buffs this unit has had, capped at `GameState.OVERGROWTH_CAP`.
+## How many Wild Growth (OVERGROWTH) buffs this unit has had (Fable Nov 20: one random unit of the turn's player grows per turn; no cap).
 var overgrowth_stacks: int = 0
 ## Brief 14: the unit this Tool is attached to (0 = not attached).
 var attached_to: int = 0

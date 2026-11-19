@@ -934,19 +934,36 @@ func _equipment_detail(page: Control, worn: EquipmentData) -> void:
 	glyph.position = Vector2(10, 10)
 	glyph.size = Vector2(110, 110)
 	frame.add_child(glyph)
-	var name_label: Label = _text(piece.source_name, 32, rarity_colour.lerp(UIStyle.PARCHMENT, 0.3), Vector2(180, 700), 640)
+	# Fable Nov 20 (Part 3.3): no tier on any equipment visual; the description wraps onto as many lines as it needs, left of the
+	# Equip button, and the status line sits under it (the Thorned Loincloth ran off the panel in one line). A column lays them out.
+	var text_width: float = width - 180.0 - 260.0
+	var column: VBoxContainer = VBoxContainer.new()
+	column.name = "GearText"
+	column.position = Vector2(180, 696)
+	column.custom_minimum_size = Vector2(text_width, 0)
+	column.size = Vector2(text_width, 0)
+	column.add_theme_constant_override("separation", 2)
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	page.add_child(column)
+	var name_label: Label = UIKit.label(piece.source_name, &"", 32, rarity_colour.lerp(UIStyle.PARCHMENT, 0.3))
 	name_label.name = "GearName"
 	name_label.add_theme_font_override("font", UIStyle.font_title())
-	page.add_child(name_label)
-	page.add_child(_text("%s  •  Tier %d" % [EquipmentRarity.display_name(int(piece.rarity)), piece.tier], 21, UIStyle.PARCHMENT, Vector2(182, 744), 640))
-	var effect: Label = _text(piece.description, 21, UIStyle.PARCHMENT, Vector2(182, 774), 720)
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(name_label)
+	var rarity_label: Label = UIKit.label(EquipmentRarity.display_name(int(piece.rarity)), &"", 21, UIStyle.PARCHMENT)
+	rarity_label.name = "GearRarity"
+	column.add_child(rarity_label)
+	var effect: Label = UIKit.label(piece.description, &"", 21, UIStyle.PARCHMENT)
 	effect.name = "GearEffect"
 	effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	page.add_child(effect)
+	effect.custom_minimum_size = Vector2(text_width, 0)
+	column.add_child(effect)
 	var blocked: String = "" if piece == worn else Session.why_not_equip(piece)
-	var status: Label = _text("Equipped" if piece == worn else (blocked if not blocked.is_empty() else "Not equipped"), 21, UIStyle.GOOD if piece == worn else (Color("ff8a85") if not blocked.is_empty() else UIStyle.MUTED), Vector2(182, 846), 760)
+	var status: Label = UIKit.label("Equipped" if piece == worn else (blocked if not blocked.is_empty() else "Not equipped"), &"", 21, UIStyle.GOOD if piece == worn else (Color("ff8a85") if not blocked.is_empty() else UIStyle.MUTED))
 	status.name = "GearStatus"
-	page.add_child(status)
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(status)
+	_fit_gear_text.call_deferred(column, effect, EQUIP_PAGE_RECT.size.y - 696.0 - 14.0)
 	var button: FancyButton = FancyButton.make("Unequip" if piece == worn else "Equip", &"", Vector2(200, 62))
 	button.name = "GearButton"
 	button.position = Vector2(width - 228, 730)
@@ -962,6 +979,18 @@ func _equipment_detail(page: Control, worn: EquipmentData) -> void:
 		_refresh()
 		_apply_tutorial_highlight())
 	page.add_child(button)
+
+
+## Fable Nov 20: with Large text and the longest description the column must still end inside the page: the description steps down a
+## size at a time (never under 15) until it does.
+func _fit_gear_text(column: VBoxContainer, effect: Label, room: float) -> void:
+	if not is_instance_valid(column) or not is_instance_valid(effect):
+		return
+	var font_size: int = effect.get_theme_font_size("font_size")
+	while column.get_combined_minimum_size().y > room and font_size > 15:
+		font_size -= 1
+		effect.add_theme_font_size_override("font_size", font_size)
+	column.size = Vector2(column.custom_minimum_size.x, 0)
 
 
 # ---- Tutorial highlights (Part B5 / B6) ------------------------------------------------------------------------------------------

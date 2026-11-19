@@ -47,14 +47,18 @@ func test_rot_destroys_units_with_one_defense_at_end_of_turn() -> void:
 	assert_not_null(game.find_permanent(sturdy.uid), "a 3-defense unit stays")
 
 
-func test_overgrowth_buffs_every_unit_at_the_start_of_each_turn() -> void:
+## Fable Nov 20 (Part 2.2): Wild Growth grows one random unit of the turn's player (it was every unit of both sides, every turn).
+func test_overgrowth_buffs_one_unit_of_the_player_whose_turn_starts() -> void:
 	var game: GameState = _game_in("refusemancer")
 	var mine: CardInstance = _unit(game, 0, 2, 4)
 	var theirs: CardInstance = _unit(game, 1, 2, 4)
 	var before: int = game.get_attack(mine)
 	GameFactory.pass_turn(game)
-	assert_eq(game.get_attack(mine), before + 1, "turn start: your unit grew")
-	assert_eq(game.get_attack(theirs), before + 1, "the enemy's unit grew too")
+	assert_eq(game.get_attack(theirs), before + 1, "the enemy's turn starts: its only unit grew")
+	assert_eq(game.get_attack(mine), before, "yours did not grow on the enemy's turn")
+	GameFactory.pass_turn(game)
+	assert_eq(game.get_attack(mine), before + 1, "your turn starts: your unit grew")
+	assert_eq(game.get_attack(theirs), before + 1, "and the enemy's did not grow again")
 
 
 func test_perfect_order_caps_a_unit_at_two_keywords() -> void:

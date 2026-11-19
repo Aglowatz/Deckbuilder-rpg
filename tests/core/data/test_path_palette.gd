@@ -28,20 +28,25 @@ func test_the_four_are_easy_to_tell_apart() -> void:
 		for b: int in range(a + 1, ring.size()):
 			var gap: float = Vector3(ring[a].r - ring[b].r, ring[a].g - ring[b].g, ring[a].b - ring[b].b).length()
 			assert_gt(gap, 0.3, "Paths %d and %d" % [a, b])
-	# the two greens differ by brightness: Necrocrat glows, Refusemancer is deep
-	assert_gt(PathPalette.main(Affinity.Type.NECROCRAT).get_luminance(), PathPalette.main(Affinity.Type.REFUSEMANCER).get_luminance() + 0.25)
 
-
-func test_gourmand_is_not_blue_and_necrocrat_is_not_violet() -> void:
+## Fable Nov 20 (the owner's decision): Gourmand is blue again and Necrocrat violet; Beefcake red and Refusemancer moss stay.
+func test_gourmand_is_blue_and_necrocrat_is_violet() -> void:
+	PathPalette.reload()
 	var gourmand: Color = PathPalette.main(Affinity.Type.GOURMAND)
-	assert_gt(gourmand.r, gourmand.b, "cream and copper, as on the chef's hat medallion")
+	assert_gt(gourmand.b, gourmand.r + 0.3, "blue")
+	assert_gt(gourmand.b, gourmand.g, "blue, not teal")
 	var necrocrat: Color = PathPalette.main(Affinity.Type.NECROCRAT)
-	assert_gt(necrocrat.g, necrocrat.r, "ghost green, as the flame round the skull")
-	assert_gt(necrocrat.g, necrocrat.b)
+	assert_eq(necrocrat.to_html(false), "9a5fc7", "the old violet")
+	# the blue is the lighter of the two, so red-green colour-blind players can tell them apart by brightness
+	assert_gt(gourmand.get_luminance(), necrocrat.get_luminance() + 0.12)
+	var beefcake: Color = PathPalette.main(Affinity.Type.BEEFCAKE)
+	assert_gt(beefcake.r, beefcake.g + 0.4, "red stays")
+	var moss: Color = PathPalette.main(Affinity.Type.REFUSEMANCER)
+	assert_gt(moss.g, moss.r, "moss green stays")
 
 
 func test_no_file_keeps_a_path_colour_table_of_its_own() -> void:
-	for old_hex: String in ["4a8fe0", "9a5fc7", "e2553f", "5aa84e"]:
+	for old_hex: String in ["4a8fe0", "9a5fc7", "e2553f", "5aa84e", "f0c494", "72e55b"]:
 		for path: String in ["res://ui/ui_style.gd", "res://ui/card/card_view.gd", "res://core/data/pack_definitions.gd", "res://core/dungeon/boss_intros.gd", "res://world/kit/kit_textures.gd", "res://world/dungeon_backdrop.gd", "res://core/dungeon/ending_defs.gd"]:
 			assert_false(FileAccess.get_file_as_string(path).to_lower().contains(old_hex), "%s still holds the old tint %s" % [path, old_hex])
 	for gone: Array in [["res://ui/ui_style.gd", "AFFINITY_COLORS"], ["res://core/data/pack_definitions.gd", "PATH_COLORS"], ["res://ui/card/card_view.gd", "FRAME_CLOTH"], ["res://world/kit/kit_textures.gd", "PATH_COLORS: Array"]]:
@@ -53,7 +58,7 @@ func test_a_path_pack_takes_its_path_colour() -> void:
 	pack.kind = PackData.Kind.PATH
 	pack.path = Affinity.Type.NECROCRAT
 	pack.art_color = Color(0.6, 0.42, 0.88)
-	assert_eq(pack.tint(), PathPalette.main(Affinity.Type.NECROCRAT), "not the violet saved in its file")
+	assert_eq(pack.tint(), PathPalette.main(Affinity.Type.NECROCRAT), "the palette, not the colour saved in its file")
 	pack.path = Affinity.Type.NEUTRAL
 	pack.kind = PackData.Kind.GENERAL
 	assert_eq(pack.tint(), pack.art_color, "a general pack keeps its own colour")

@@ -605,17 +605,18 @@
 				},
 				"12": {
 					"title": "The Heart Roots",
-					"body": "Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. You could cut them, and it would hurt her far more than you.",
+					"body": "Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. They turn toward you and taste the air. They are hungry, and a little blood would keep them busy while you walk in.",
 					"choices": [
 						[
-							"Sever the Heart Roots",
-							"The roots shriek and let go. Whatever waits ahead will be weaker for it.",
-							"sever",
-							"damage:2"
+							"Give blood to distract the Rotheart",
+							"You open your palm over the roots. They drink, and drink, and for a long moment the whole chamber looks away from the door. You go in first.",
+							"hint:-5 HP; you take the first turn in the fight",
+							"damage:5",
+							"boon:Blood for the Roots|first=1,next=1"
 						],
 						[
-							"Leave them be",
-							"The roots keep pulsing, and the Rotheart keeps its strength.",
+							"Walk on",
+							"The roots keep pulsing, and the Rotheart keeps watch.",
 							"nothing"
 						]
 					]

@@ -1,6 +1,6 @@
 extends GutTest
 ## Fable pass Nov 1, Part 2 (boss tempo): the setup window (a boss's units do not attack during its first N turns, `BossTempo` /
-## `Modifier.Kind.SETUP_TURNS`), every boss carrying one by data, and Compostella's Wild Growth capped at 3 buffs per unit.
+## `Modifier.Kind.SETUP_TURNS`), every boss carrying one by data, and Compostella's Wild Growth (Fable Nov 20: one random unit per own turn).
 
 
 func before_each() -> void:
@@ -116,15 +116,20 @@ func test_every_dungeon_boss_and_primms_phases_open_with_a_setup_window() -> voi
 		assert_eq(EncounterModifiers.setup_turns(PrimmBoss.rules_key(index)), PrimmBoss.SETUP_TURNS, "Primm phase %d" % index)
 
 
-func test_wild_growth_stops_at_three_buffs_per_unit() -> void:
+## Fable Nov 20 (Part 2.2): Wild Growth grows ONE random unit of the turn's player, on that player's own turn (it was every unit on
+## every turn, capped at three per unit). The full checks are in tests/core/dungeon/test_fable_nov20_part2.gd.
+func test_wild_growth_grows_one_unit_on_its_owners_turn() -> void:
 	var stage0: CardData = _token(1, 1, "0")
-	var growth: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1), _escalating([stage0, stage0, stage0, stage0, stage0, stage0] as Array[CardData])]
+	var growth: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1), _escalating([stage0] as Array[CardData])]
 	var game: GameState = _game(growth)
 	GameFactory.pass_turn(game)  # boss turn 1: token A enters (after the growth step)
 	var first: CardInstance = game.players[1].field[0]
-	for _step: int in range(10):
-		GameFactory.pass_turn(game)
-	assert_eq(first.overgrowth_stacks, GameState.OVERGROWTH_CAP)
-	assert_eq(game.get_attack(first), 1 + GameState.OVERGROWTH_CAP, "a 1/1 stops at 4/4")
-	assert_eq(game.get_defense(first), 1 + GameState.OVERGROWTH_CAP)
-	assert_true(str((DungeonRules.rules("refusemancer")[0] as Dictionary).get("text", "")).contains("up to 3"), "the Rotheart rule says so")
+	assert_eq(first.overgrowth_stacks, 0)
+	GameFactory.pass_turn(game)  # the hero's turn: nothing of the boss grows
+	assert_eq(first.overgrowth_stacks, 0, "not on the other player's turn")
+	GameFactory.pass_turn(game)  # boss turn 2: one of its units grows once
+	var grown: int = 0
+	for unit: CardInstance in game.players[1].field:
+		grown += unit.overgrowth_stacks
+	assert_eq(grown, 1, "one unit, once")
+	assert_string_contains(str((DungeonRules.rules("refusemancer")[0] as Dictionary).get("text", "")), "one random unit")

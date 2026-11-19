@@ -1,0 +1,73 @@
+# Fable Nov 20, Part 1.2: one shot per place at the new default camera (+4 degrees), Cinematic and Low presets
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_forest_cinematic -1.5 2.5
+cam 3
+fadeshot p1_cam_forest_low -1.5 2.5
+dev travel town
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_crosspath_cinematic 25 17
+cam 3
+fadeshot p1_cam_crosspath_low 25 17
+dev travel zone beefcake
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_gainlands_cinematic 90 22
+cam 3
+fadeshot p1_cam_gainlands_low 90 22
+dev travel zone gourmand
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_buffet_cinematic 46.5 50.5
+cam 3
+fadeshot p1_cam_buffet_low 46.5 50.5
+dev travel zone refusemancer
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_dump_cinematic 50 126
+cam 3
+fadeshot p1_cam_dump_low 50 126
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_dna_cinematic 45.5 52
+cam 3
+fadeshot p1_cam_dna_low 45.5 52
+dev travel zone final
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+fadeshot p1_cam_capital_cinematic 54.5 88.5
+cam 3
+fadeshot p1_cam_capital_low 54.5 88.5

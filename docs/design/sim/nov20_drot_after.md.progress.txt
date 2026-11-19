@@ -1,0 +1,6 @@
+D-ROT:2	D-ROT:2                                       97%  turns 4.6  ok, fast
+D-ROT:3	D-ROT:3                                       97%  turns 4.4  ok, fast
+D-ROT:6	D-ROT:6                                       94%  turns 6.2  too easy (+19)
+D-ROT:8	D-ROT:8                                      100%  turns 4.5  ok, fast
+D-ROT:10	D-ROT:10                                     100%  turns 5.3  too easy (+25), fast
+D-ROT:11	D-ROT:11                                      97%  turns 4.7  ok, fast

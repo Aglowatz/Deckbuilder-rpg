@@ -139,20 +139,13 @@
 	],
 	"Hortensia Clipwell, Royal Groundskeeper": [
 		{
-			"name": "Prize Topiary",
-			"text": "Clipwell's tokens get a further +1/+1 on top of Royal Groundskeeper, trimmed to regulation.",
-			"icon": "lorc/leaf-swirl",
-			"kind": "token_stats",
-			"atk": 1,
-			"def": 1
-		},
-		{
 			"name": "Royal Groundskeeper",
-			"text": "Clipwell's units get +1/+1. The grounds are kept to a royal standard.",
+			"text": "Clipwell's units get +1/+1 (her Topiaries do not: they stay 1/2). The grounds are kept to a royal standard.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "stat",
 			"atk": 1,
-			"def": 1
+			"def": 1,
+			"non_tokens": true
 		}
 	],
 	"Hive of Mutant Bees": [
@@ -707,20 +700,15 @@
 	"Echo of Hortensia Clipwell": [
 		{
 			"name": "Mirror Topiary",
-			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +1/+1.",
+			"text": "Every second turn a 1/2 Topiary is trimmed into being.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "timed_summon",
 			"token": "T-22",
+			"token_name": "Topiary",
+			"token_keywords": [],
+			"token_stats": [1, 2],
 			"every": 2,
 			"count": 1
-		},
-		{
-			"name": "Mirror Topiary",
-			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +1/+1.",
-			"icon": "lorc/leaf-swirl",
-			"kind": "token_stats",
-			"atk": 1,
-			"def": 1
 		}
 	],
 	"Echo of the Rotheart": [

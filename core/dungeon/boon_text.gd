@@ -95,6 +95,8 @@ static func modifier_text(modifier: Modifier, enemy: bool = false) -> String:
 		var what: String = "%s %s (%d/%d)" % ["a" if modifier.value == 1 else str(modifier.value), unit.display_name, unit.attack, unit.defense]
 		return ("the enemy starts with %s on the field" if enemy else "you start with %s on the field") % what
 	match modifier.kind:
+		Modifier.Kind.ALWAYS_FIRST:
+			return "the enemy takes the first turn" if enemy else "you take the first turn"
 		Modifier.Kind.OPENING_HAND_SIZE:
 			return "" if modifier.value == 0 else "%s card%s in your opening hand" % [_signed(modifier.value), "" if absi(modifier.value) == 1 else "s"]
 		Modifier.Kind.ENTER_EXHAUSTED:

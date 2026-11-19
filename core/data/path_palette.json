@@ -2,12 +2,13 @@
 	"_about": "The one official colour of each Path (docs/art/path_colour_guide.md). Every place the UI shows a Path by colour reads this file through PathPalette. main = bars, borders, glows, markers; accent = the second colour (rims, a bar's highlight); text = small text on dark panels; ink = text and lines on parchment; frame = the cloth tint of the tinted card frames. Check a change with: python tools/path_palette_check.py",
 	"paths": {
 		"beefcake": {"main": "E0321F", "accent": "E0A030", "text": "F26A54", "ink": "A3200F", "frame": "D8392B"},
-		"gourmand": {"main": "F0C494", "accent": "C06A3A", "text": "F5D3AC", "ink": "8A4A22", "frame": "E6A468"},
+		"gourmand": {"main": "5AAAF2", "accent": "F0C494", "text": "96C8F7", "ink": "1F5596", "frame": "E6A468"},
 		"refusemancer": {"main": "58933B", "accent": "B5552D", "text": "86BE64", "ink": "3F6B26", "frame": "9AA832"},
-		"necrocrat": {"main": "72E55B", "accent": "55606A", "text": "9BEF88", "ink": "2C5E55", "frame": "5F9A62"},
+		"necrocrat": {"main": "9A5FC7", "accent": "72E55B", "text": "C39BE6", "ink": "64358F", "frame": "5F9A62"},
 		"colorless": {"main": "B8A98A", "accent": "4C4441", "text": "CFC3A8", "ink": "5A5046", "frame": "9A9590"}
 	},
 	"alternatives": {
-		"Necrocrat as ghost teal": {"necrocrat": {"main": "7EE5CB", "text": "A5F0DD", "ink": "25605A"}}
+		"Gourmand as the exact old blue (closer to the violet for red-green colour-blind players: 9 against 14)": {"gourmand": {"main": "4A8FE0", "text": "8DBBF2", "ink": "22559C"}},
+		"Nov 19 icon palette (Gourmand cream, Necrocrat ghost green)": {"gourmand": {"main": "F0C494", "accent": "C06A3A", "text": "F5D3AC", "ink": "8A4A22"}, "necrocrat": {"main": "72E55B", "accent": "55606A", "text": "9BEF88", "ink": "2C5E55"}}
 	}
 }
