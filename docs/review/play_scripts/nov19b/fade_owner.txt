@@ -1,0 +1,29 @@
+# Fable Nov 19, Part 1: the owner's four cases (and a few neighbours)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev travel town
+wait 16
+skip_dialogue
+hud off
+wait 5
+fadecat
+fadeshot own_signpost 13.6 14.3
+fadeshot own_signpost_e 36.8 14.3
+fadeshot own_building_a 28.5 -7.5
+fadeshot own_building_b 36.5 10.5
+fadeshot own_building_c 20.5 48.5
+fadeshot own_bridge 18.5 58.5
+dev travel zone necrocrat
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot own_counter 45.5 48.2
+fadeshot own_counter_far 45.5 46.5
+fadeshot own_kitchen 23.5 47.6
+fadeshot own_cubicles 17 36
+fadeshot own_maze 18 13

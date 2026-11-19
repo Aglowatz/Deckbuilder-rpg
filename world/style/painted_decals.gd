@@ -156,6 +156,7 @@ static func build(parent: Node3D, placements: Array[Placement], priority: int = 
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		instance.set_meta(StyleToon.META_NO_TOON, true)
 		instance.set_meta(&"painted_decal", true)
+		instance.set_meta(&"no_occlusion_fade", true)  # Fable Nov 19: a ground decal is never in the way
 		parent.add_child(instance)
 		meshes.append(instance)
 	return meshes

@@ -106,6 +106,14 @@ style_ground_sat={
 "type": "float",
 "value": 1.0
 }
+occlusion_hero={
+"type": "vec3",
+"value": Vector3(0, -1000, 0)
+}
+occlusion_window={
+"type": "vec4",
+"value": Vector4(2.3, 0.36, 0.75, 0)
+}
 style_player_pos={
 "type": "vec3",
 "value": Vector3(0, -1000, 0)

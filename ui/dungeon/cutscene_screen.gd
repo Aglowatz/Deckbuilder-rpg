@@ -22,7 +22,7 @@ const STAGES: Dictionary = {
 	"flex": {
 		"tint": Color(0.2, 0.06, 0.06),
 		"left": {"icon": "delapouite/prisoner", "color": Color("b9a99a"), "scale": 0.9, "squash": 0.55, "coat": true},
-		"right": {"icon": "delapouite/viking-head", "color": Color("e2553f"), "scale": 1.15},
+		"right": {"icon": "delapouite/viking-head", "color": Color("e0321f"), "scale": 1.15},
 	},
 	"wonder": {
 		"tint": Color(0.2, 0.15, 0.06),

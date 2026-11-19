@@ -17,7 +17,8 @@ uniform float sway = 0.035;
 uniform float speed = 0.9;
 uniform float base_dark = 0.7;
 uniform vec3 hero_pos = vec3(0.0, -1000.0, 0.0);
-uniform float fade_strength : hint_range(0.0, 1.0) = 0.86;
+// Fable Nov 19: a tree in the way goes see-through, never to nothing (60 % see-through; it was 86 %).
+uniform float fade_strength : hint_range(0.0, 1.0) = 0.6;
 // How far (metres) beyond the card's half width the fade corridor reaches.
 uniform float fade_reach = 1.6;
 
@@ -51,6 +52,8 @@ void vertex() {
 	float sight_y = mix(cam.y, hero.y, t);
 	float top = origin.y + sy;
 	float tall_enough = 1.0 - smoothstep(top - 0.6, top + 0.8, sight_y);
+	// Fable Nov 19 (rule 1): nothing lower than the hero's shoulder ever fades (bushes, saplings, ferns)
+	tall_enough *= smoothstep(hero_pos.y + 1.5, hero_pos.y + 2.1, top);
 	float enabled = step(-999.0, hero_pos.y);  // the default hero_pos (y -1000) disables the fade
 	v_fade = corridor * in_front * tall_enough * enabled * fade_strength;
 }

@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_back;
 #include "res://assets/shaders/style_ground_light.gdshaderinc"
+#include "res://assets/shaders/style_occlusion.gdshaderinc"
 // Triplanar painted material for surfaces without good UVs (cliffs, boulders, island undersides, cheese wheels): world-space projection on three axes blended by the
 // normal (two taps at most), toned by the original flat colour (`tint`, kept as a subtle hue), under the game's toon bands. Switches with the global `style_paint`.
 
@@ -40,7 +41,7 @@ void vertex() {
 }
 
 void fragment() {
-	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
+	if (occlusion_window_cut(occlusion_fade, VERTEX, v_world, VIEW_MATRIX, FRAGCOORD.xy)) {
 		discard;
 	}
 	vec3 wn = normalize(v_normal);

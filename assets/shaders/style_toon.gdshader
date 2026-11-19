@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_back;
 #include "res://assets/shaders/style_ground_light.gdshaderinc"
+#include "res://assets/shaders/style_occlusion.gdshaderinc"
 #include "res://assets/shaders/style_wind.gdshaderinc"
 // The unified toon material for every world mesh and character (docs/art/style_guide.md, section 2).
 // Banded lighting with soft edges (the bands also step lantern pools), the coloured shadow comes from the zone's tinted ambient light,
@@ -122,7 +123,7 @@ void fragment() {
 		discard;
 	}
 	// Walls and roofs between the camera and the hero dissolve in a 4x4 ordered dither (OcclusionFader), staying in the opaque pipeline.
-	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
+	if (occlusion_window_cut(occlusion_fade, VERTEX, v_world, VIEW_MATRIX, FRAGCOORD.xy)) {
 		discard;
 	}
 	if (flat_up) {

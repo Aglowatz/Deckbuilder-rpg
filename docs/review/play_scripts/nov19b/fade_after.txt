@@ -1,0 +1,454 @@
+# Fable Nov 19, Part 1: the same spots as fade_before.txt, shot with the new rules, then a fresh scan
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+hud off
+calm
+wait 5
+fadeshot forest_1 4.5 -5.5
+fadeshot forest_2 -1.5 2.5
+fadeshot forest_3 14.5 -17.5
+fadeshot forest_4 -5.5 -7.5
+fadescan scan_forest 0
+dev travel town
+wait 16
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot own_signpost 13.6 14.3
+fadeshot own_signpost_w 12.2 15.5
+fadeshot own_building_a 28.5 -7.5
+fadeshot own_building_b 36.5 10.5
+fadeshot own_building_c 13.6 10.5
+fadeshot crosspath_1 28.5 54.5
+fadeshot crosspath_2 28.5 64.5
+fadeshot crosspath_3 18.5 58.5
+fadeshot crosspath_4 20.5 48.5
+fadeshot crosspath_5 28.5 -7.5
+fadeshot crosspath_6 36.5 10.5
+cam 0
+dev tp 4 13.4
+wait 1.2
+shot walk_street_default_0
+hold D 0.55
+wait 0.35
+shot walk_street_default_1
+hold D 0.55
+wait 0.35
+shot walk_street_default_2
+hold D 0.55
+wait 0.35
+shot walk_street_default_3
+hold D 0.55
+wait 0.35
+shot walk_street_default_4
+hold D 0.55
+wait 0.35
+shot walk_street_default_5
+hold D 0.55
+wait 0.35
+shot walk_street_default_6
+hold D 0.55
+wait 0.35
+cam 3
+dev tp 4 13.4
+wait 1.2
+shot walk_street_low_0
+hold D 0.55
+wait 0.35
+shot walk_street_low_1
+hold D 0.55
+wait 0.35
+shot walk_street_low_2
+hold D 0.55
+wait 0.35
+shot walk_street_low_3
+hold D 0.55
+wait 0.35
+shot walk_street_low_4
+hold D 0.55
+wait 0.35
+shot walk_street_low_5
+hold D 0.55
+wait 0.35
+shot walk_street_low_6
+hold D 0.55
+wait 0.35
+cam 0
+cam 0
+dev tp 11.4 14.5
+wait 1.2
+shot walk_signpost_default_0
+hold D 0.3
+wait 0.35
+shot walk_signpost_default_1
+hold D 0.3
+wait 0.35
+shot walk_signpost_default_2
+hold D 0.3
+wait 0.35
+shot walk_signpost_default_3
+hold D 0.3
+wait 0.35
+shot walk_signpost_default_4
+hold D 0.3
+wait 0.35
+shot walk_signpost_default_5
+hold D 0.3
+wait 0.35
+cam 3
+dev tp 11.4 14.5
+wait 1.2
+shot walk_signpost_low_0
+hold D 0.3
+wait 0.35
+shot walk_signpost_low_1
+hold D 0.3
+wait 0.35
+shot walk_signpost_low_2
+hold D 0.3
+wait 0.35
+shot walk_signpost_low_3
+hold D 0.3
+wait 0.35
+shot walk_signpost_low_4
+hold D 0.3
+wait 0.35
+shot walk_signpost_low_5
+hold D 0.3
+wait 0.35
+cam 0
+fadescan scan_crosspath 0
+dev travel zone beefcake
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot gainlands_1 96.5 18.5
+fadeshot gainlands_2 90.5 10.5
+fadeshot gainlands_3 102.5 30.5
+fadeshot gainlands_4 84.5 18.5
+fadeshot gainlands_5 100.5 40.5
+fadeshot gainlands_6 90.5 26.5
+cam 0
+dev tp 84 18.5
+wait 1.2
+shot walk_gym_default_0
+hold D 0.6
+wait 0.35
+shot walk_gym_default_1
+hold D 0.6
+wait 0.35
+shot walk_gym_default_2
+hold D 0.6
+wait 0.35
+shot walk_gym_default_3
+hold D 0.6
+wait 0.35
+shot walk_gym_default_4
+hold D 0.6
+wait 0.35
+shot walk_gym_default_5
+hold D 0.6
+wait 0.35
+cam 3
+dev tp 84 18.5
+wait 1.2
+shot walk_gym_low_0
+hold D 0.6
+wait 0.35
+shot walk_gym_low_1
+hold D 0.6
+wait 0.35
+shot walk_gym_low_2
+hold D 0.6
+wait 0.35
+shot walk_gym_low_3
+hold D 0.6
+wait 0.35
+shot walk_gym_low_4
+hold D 0.6
+wait 0.35
+shot walk_gym_low_5
+hold D 0.6
+wait 0.35
+cam 0
+fadescan scan_gainlands 0
+dev travel zone gourmand
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot buffet_1 46.5 50.5
+fadeshot buffet_2 70.5 4.5
+fadeshot buffet_3 44.5 40.5
+fadeshot buffet_4 66.5 34.5
+fadeshot buffet_5 64.5 44.5
+fadeshot buffet_6 76.5 40.5
+cam 0
+dev tp 58 36
+wait 1.2
+shot walk_forest_default_0
+hold D 0.6
+wait 0.35
+shot walk_forest_default_1
+hold D 0.6
+wait 0.35
+shot walk_forest_default_2
+hold D 0.6
+wait 0.35
+shot walk_forest_default_3
+hold D 0.6
+wait 0.35
+shot walk_forest_default_4
+hold D 0.6
+wait 0.35
+shot walk_forest_default_5
+hold D 0.6
+wait 0.35
+cam 3
+dev tp 58 36
+wait 1.2
+shot walk_forest_low_0
+hold D 0.6
+wait 0.35
+shot walk_forest_low_1
+hold D 0.6
+wait 0.35
+shot walk_forest_low_2
+hold D 0.6
+wait 0.35
+shot walk_forest_low_3
+hold D 0.6
+wait 0.35
+shot walk_forest_low_4
+hold D 0.6
+wait 0.35
+shot walk_forest_low_5
+hold D 0.6
+wait 0.35
+cam 0
+fadescan scan_buffet 0
+dev travel zone refusemancer
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot dump_1 34.5 62.5
+fadeshot dump_2 40.5 54.5
+fadeshot dump_3 22.5 58.5
+fadeshot dump_4 52.5 24.5
+fadeshot dump_5 48.5 34.5
+fadeshot dump_6 34.5 72.5
+cam 0
+dev tp 28 72.5
+wait 1.2
+shot walk_trees_default_0
+hold D 0.6
+wait 0.35
+shot walk_trees_default_1
+hold D 0.6
+wait 0.35
+shot walk_trees_default_2
+hold D 0.6
+wait 0.35
+shot walk_trees_default_3
+hold D 0.6
+wait 0.35
+shot walk_trees_default_4
+hold D 0.6
+wait 0.35
+shot walk_trees_default_5
+hold D 0.6
+wait 0.35
+cam 3
+dev tp 28 72.5
+wait 1.2
+shot walk_trees_low_0
+hold D 0.6
+wait 0.35
+shot walk_trees_low_1
+hold D 0.6
+wait 0.35
+shot walk_trees_low_2
+hold D 0.6
+wait 0.35
+shot walk_trees_low_3
+hold D 0.6
+wait 0.35
+shot walk_trees_low_4
+hold D 0.6
+wait 0.35
+shot walk_trees_low_5
+hold D 0.6
+wait 0.35
+cam 0
+fadescan scan_dump 0
+dev travel zone necrocrat
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot own_counter 45.5 48.2
+fadeshot own_counter_far 45.5 46.5
+fadeshot own_kitchen 23.5 47.6
+fadeshot own_cubicles 17 36
+fadeshot own_maze 18 13
+fadeshot dna_1 44.5 44.5
+fadeshot dna_2 52.5 32.5
+fadeshot dna_3 34.5 36.5
+fadeshot dna_4 24.5 38.5
+fadeshot dna_5 40.5 28.5
+fadeshot dna_6 50.5 52.5
+cam 0
+dev tp 40.2 48.2
+wait 1.2
+shot walk_counter_default_0
+hold D 0.4
+wait 0.35
+shot walk_counter_default_1
+hold D 0.4
+wait 0.35
+shot walk_counter_default_2
+hold D 0.4
+wait 0.35
+shot walk_counter_default_3
+hold D 0.4
+wait 0.35
+shot walk_counter_default_4
+hold D 0.4
+wait 0.35
+shot walk_counter_default_5
+hold D 0.4
+wait 0.35
+cam 3
+dev tp 40.2 48.2
+wait 1.2
+shot walk_counter_low_0
+hold D 0.4
+wait 0.35
+shot walk_counter_low_1
+hold D 0.4
+wait 0.35
+shot walk_counter_low_2
+hold D 0.4
+wait 0.35
+shot walk_counter_low_3
+hold D 0.4
+wait 0.35
+shot walk_counter_low_4
+hold D 0.4
+wait 0.35
+shot walk_counter_low_5
+hold D 0.4
+wait 0.35
+cam 0
+cam 0
+dev tp 11 36
+wait 1.2
+shot walk_cubicles_default_0
+hold D 0.55
+wait 0.35
+shot walk_cubicles_default_1
+hold D 0.55
+wait 0.35
+shot walk_cubicles_default_2
+hold D 0.55
+wait 0.35
+shot walk_cubicles_default_3
+hold D 0.55
+wait 0.35
+shot walk_cubicles_default_4
+hold D 0.55
+wait 0.35
+shot walk_cubicles_default_5
+hold D 0.55
+wait 0.35
+cam 3
+dev tp 11 36
+wait 1.2
+shot walk_cubicles_low_0
+hold D 0.55
+wait 0.35
+shot walk_cubicles_low_1
+hold D 0.55
+wait 0.35
+shot walk_cubicles_low_2
+hold D 0.55
+wait 0.35
+shot walk_cubicles_low_3
+hold D 0.55
+wait 0.35
+shot walk_cubicles_low_4
+hold D 0.55
+wait 0.35
+shot walk_cubicles_low_5
+hold D 0.55
+wait 0.35
+cam 0
+fadescan scan_dna 0
+dev travel capital
+wait 22
+skip_dialogue
+hud off
+calm
+wait 5
+fadeshot capital_1 20.5 2.5
+fadeshot capital_2 60.5 78.5
+fadeshot capital_3 48.5 80.5
+fadeshot capital_4 14.5 10.5
+fadeshot capital_5 8.5 2.5
+fadeshot capital_6 54.5 88.5
+fadeshot capital_7 28.5 8.5
+fadeshot capital_8 34.5 134.5
+cam 0
+dev tp 26 69.3
+wait 1.2
+shot walk_wall_default_0
+hold D 0.6
+wait 0.35
+shot walk_wall_default_1
+hold D 0.6
+wait 0.35
+shot walk_wall_default_2
+hold D 0.6
+wait 0.35
+shot walk_wall_default_3
+hold D 0.6
+wait 0.35
+shot walk_wall_default_4
+hold D 0.6
+wait 0.35
+shot walk_wall_default_5
+hold D 0.6
+wait 0.35
+cam 3
+dev tp 26 69.3
+wait 1.2
+shot walk_wall_low_0
+hold D 0.6
+wait 0.35
+shot walk_wall_low_1
+hold D 0.6
+wait 0.35
+shot walk_wall_low_2
+hold D 0.6
+wait 0.35
+shot walk_wall_low_3
+hold D 0.6
+wait 0.35
+shot walk_wall_low_4
+hold D 0.6
+wait 0.35
+shot walk_wall_low_5
+hold D 0.6
+wait 0.35
+cam 0
+fadescan scan_capital 0

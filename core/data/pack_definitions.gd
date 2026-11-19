@@ -4,12 +4,6 @@ extends RefCounted
 ## yet, so hand-tuned weights and prices in the .tres files are never overwritten. All numbers are placeholders (balance is out
 ## of scope): tune them in the .tres files.
 
-const PATH_COLORS: Dictionary = {
-	Affinity.Type.BEEFCAKE: Color(0.93, 0.38, 0.2),
-	Affinity.Type.GOURMAND: Color(0.95, 0.76, 0.25),
-	Affinity.Type.REFUSEMANCER: Color(0.38, 0.74, 0.38),
-	Affinity.Type.NECROCRAT: Color(0.6, 0.42, 0.88),
-}
 const PATH_ICONS: Dictionary = {
 	Affinity.Type.BEEFCAKE: "delapouite/biceps",
 	Affinity.Type.GOURMAND: "delapouite/fork-knife-spoon",
@@ -44,7 +38,7 @@ static func path_pack(path: Affinity.Type, order: int) -> PackData:
 	pack.include_neutral = true
 	pack.card_count = 3
 	pack.rarity_weights = [60, 28, 10, 2] as Array[int]
-	pack.art_color = PATH_COLORS[path] as Color
+	pack.art_color = PathPalette.main(path)
 	pack.art_icon = str(PATH_ICONS[path])
 	pack.frame_style = "foil"
 	pack.price = 150

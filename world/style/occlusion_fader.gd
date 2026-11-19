@@ -1,63 +1,130 @@
 class_name OcclusionFader
 extends Node
-## Walls, roofs and tall props between the camera and the hero fade out (an ordered dither driven by the toon shader instance uniform `occlusion_fade`, shadows
-## stay), so the hero is never hidden behind a building (docs/art/graphics_loop.md, G-14). Candidates are the tall meshes of the scene (found again every few
-## seconds): wide terrain and low ground pieces never qualify. When a candidate blocks the view the whole object it belongs to (its parent node: a building with
-## its roof, trim and doors) dissolves together. Pure geometry: the segment camera -> hero is tested against each candidate's world AABB.
+## What may go see-through for the camera, and how (Fable Nov 19, Part 1: "what looks solid must stay visible").
+##
+## One system, four types (`type_of`; a mesh or any of its parents may name its own with the meta `fade_type`):
+##   tall_occluder  a building, a tall wall, a big tree, a column: the ONLY type that ever goes see-through, and only while it
+##                  really hides the hero (two of the three sight lines lens -> head / chest / hips pass through it).
+##   low_blocker    anything lower than the hero's shoulder (counters, desks, fences, hedges, rails, rocks, crates): never fades.
+##   small_prop     lamps, posts, plants, banners, barrels (under a metre across, or named so): never fades.
+##   sign           signs and signposts: never fade.
+##
+## A tall occluder that hides the hero is never faded as a whole. Only a soft circle round the hero goes see-through, in the shader
+## (`style_occlusion.gdshaderinc`, the instance uniform `occlusion_fade` is the mesh's eased share): the part of it nearer the lens
+## than the hero, kept at WINDOW_KEEP of its surface, never nothing; its roof, its far side and its foot (the lowest FOOT metres) stay
+## solid, so the place it blocks still reads. The hero's own outline is drawn through whatever is left (`hero_hidden` drives
+## WorldSprite.set_silhouette in the Path colour).
+##
+## The one exception is a piece the LENS itself is inside (the camera trails 17 m behind the hero and passes through houses): nothing
+## of it can be drawn, so it is cut away and a soft outline of its footprint is laid on the ground instead (`_footprints`).
+##
+## Easing: EASE_TIME in and out; a thing that started to fade keeps fading until no sight line touches it for HOLD seconds (no flicker
+## along an edge). Pure geometry: the sight lines are tested against each candidate's world box, cached at a scan every few seconds.
 
 const SCAN_INTERVAL: float = 4.0
-## Fix pass Nov 7 (item 2, C1b F4): points the player needs to see besides the hero - the tracked quest's door, the spot in reach. A house
-## between the camera and one of them dissolves too, while the hero is within FOCUS_RANGE of it (so far-off goals never hollow out a
-## street). Set by the quest marker layer and the town each frame.
+## Kept for the scenes that still set them (the quest door, the person in reach): the window round the hero covers the person in
+## reach; a far door is shown by its marker, and no longer hollows out the house in front of it.
 static var focus_points: Array[Vector3] = []
-## Fable pass Nov 10 (Part 1.3): the person the hero can talk to right now (the [E] prompt's NPC), set by the scenes each frame; INF = none.
-## A prop between the lens and them dissolves like one in front of the hero.
 static var talk_focus: Vector3 = Vector3.INF
-const FOCUS_RANGE: float = 11.0
+
+const TALL_OCCLUDER: StringName = &"tall_occluder"
+const LOW_BLOCKER: StringName = &"low_blocker"
+const SMALL_PROP: StringName = &"small_prop"
+const SIGN: StringName = &"sign"
+const TYPES: Array[StringName] = [TALL_OCCLUDER, LOW_BLOCKER, SMALL_PROP, SIGN]
+const RULES: Dictionary = {
+	TALL_OCCLUDER: "a see-through window round the hero while it hides most of him; cut away only when the lens is inside it",
+	LOW_BLOCKER: "never fades (lower than the hero's shoulder)",
+	SMALL_PROP: "never fades (small: a lamp, a post, a plant, a banner)",
+	SIGN: "never fades (a sign)",
+}
+## The hero's shoulder: nothing whose top is lower than this above its own foot (or above the hero's feet) ever fades.
+const SHOULDER: float = 1.5
+## Under this across (the wider side of its footprint) a thing is a small prop whatever its height: a lamp post, a pole, a sapling.
+const SMALL_ACROSS: float = 1.0
+## ... and a short thing this narrow is a small prop too (a barrel stack, a plant in a pot, a market crate pile).
+const SMALL_SHORT_ACROSS: float = 2.0
+const SMALL_SHORT_HEIGHT: float = 2.4
+const NAMED_ACROSS: float = 3.6
+const NAMED_HEIGHT: float = 6.5
+const SIGN_WORDS: Array[String] = ["sign"]
+const SMALL_WORDS: Array[String] = ["lamp", "lantern", "banner", "bunting", "pennant", "flag", "post", "plant", "bush", "flower", "barrel", "crate", "bench", "torch", "candle"]
+
 const MIN_HEIGHT: float = 1.0
 const MAX_EXTENT: float = 400.0
-const FADED: float = 1.0  # Fable Nov 12 (art critic #3, the "milky" fades): 0.97 left 3 % of every piece - a kit building is dozens of overlapping pieces, so it stood as a beige ghost with its props drawn in outline
-## The camera is inside (or this close to) a solid piece: it is cut away completely so the lens never looks at back faces.
+## The window: its radius in metres at the hero's depth, the share of the surface kept inside it, the height of the solid foot.
+const WINDOW_RADIUS: float = 2.3
+const WINDOW_KEEP: float = 0.36
+const OUTLINE_IN_WINDOW: float = 0.4
+const FOOT: float = 0.75
+## A mesh whose material has no window (not a toon / painted shader) fades as a whole instead, to this transparency (55 % see-through).
+const WHOLE_FADE: float = 0.55
+## The lens is inside (or this close to) a tall piece: it is cut away.
 const CUT_AWAY: float = 1.0
 const CAMERA_PADDING: float = 0.7
-## Anything this close to the lens (foreground clutter that covers the lower part of the picture) dissolves too.
-const NEAR_CAMERA: float = 6.5
-const SPEED: float = 7.0
-const HERO_LIFT: float = 0.9
-## Fable pass Nov 1: the hero's head height - a sight line to it too, so a roof that covers the figure from above dissolves.
-const HERO_HEAD: float = 1.7
+## ... and a tall piece that hides the hero while it stands this close to the lens is cut away too (it would fill the screen).
+const NEAR_LENS: float = 3.0
+const EASE_TIME: float = 0.25
+const HOLD: float = 0.2
+## The five sight lines end at the hero's hips, chest and head, and at his two shoulders (SIGHT_SIDE to each side, across the view): a
+## roof's corner that covers half of him counts, a post that crosses one line does not.
+const SIGHT_HEIGHTS: Array[float] = [0.7, 1.15, 1.6, 1.2, 1.2]
+const SIGHT_SIDE: float = 0.32
+const LINES_TO_START: int = 2
+const TALK_REACH: float = 3.0
 const PADDING: float = 0.15
 const MAX_GROUP_MESHES: int = 80
 ## Meshes looked at per frame while a scan is under way.
 const SCAN_BATCH: int = 160
+const TEST_INTERVAL: float = 0.06
 
 var camera: Camera3D
 var hero: Node3D
 var root: Node
+## 0..1: how much a tall occluder hides the hero right now (eased); his outline shows through it.
+var hero_hidden: float = 0.0
+## The colour of the hero's outline behind a wall: his Path's official colour, lightened (set by the scene; a warm white before a Path is chosen).
+static var outline_color: Color = Color(1.0, 0.96, 0.86)
 
 var _candidates: Array[MeshInstance3D] = []
-## Per candidate group key: the meshes that dissolve together (the candidate plus its siblings under the same parent).
+## Per group key: the meshes that take the window together (the candidate plus its siblings under the same parent, without its low
+## pieces and its signs).
 var _members: Dictionary = {}
+var _group_type: Dictionary = {}
+var _group_box: Dictionary = {}
+var _group_name: Dictionary = {}
+## Per group key: the eased window share (0..1) and the eased cut (0..1).
 var _fade: Dictionary = {}
+var _cut_fade: Dictionary = {}
 var _dither_cache: Dictionary = {}
 var _scan_timer: float = 0.0
-## Cached at each scan: the world box of every candidate, the group each belongs to, and the list of groups.
+## Cached at each scan: the world box of every candidate that may block (tall pieces only), the group each belongs to.
 var _boxes: Array[AABB] = []
 var _box_keys: Array[int] = []
-## Per box: how close to the lens it dissolves as foreground clutter (a mesh may set its own with the meta `occlusion_near`; kit buildings use a small value).
-var _box_near: Array[float] = []
-var _next_box_near: Array[float] = []
 var _group_keys: Array[int] = []
 var _pending: Array[Node] = []
 var _pending_index: int = 0
-var _next_candidates: Array[MeshInstance3D] = []
-var _next_members: Dictionary = {}
-## Per group key: the shadows-only proxies of the group (BuildingKit), whose shadows switch off with the body (Graphics Tier 1).
+var _next: Dictionary = {}
 var _shadow_proxies: Dictionary = {}
-var _next_shadow_proxies: Dictionary = {}
-var _next_boxes: Array[AABB] = []
-var _next_box_keys: Array[int] = []
-var _next_group_keys: Array[int] = []
+var _test_timer: float = 0.0
+var _blocking: Dictionary = {}
+var _cut: Dictionary = {}
+## Per group key: seconds since a sight line last touched it (hysteresis).
+var _clear_for: Dictionary = {}
+var _footprints: Dictionary = {}
+var _silhouette_on: bool = false
+## A tall thing crosses at least one sight line: the hero's outline shows through it even before (or without) a window.
+var _touched: bool = false
+
+static var _footprint_shader: Shader
+
+
+func _ready() -> void:
+	RenderingServer.global_shader_parameter_set(&"occlusion_window", Vector4(WINDOW_RADIUS, WINDOW_KEEP, FOOT, 0.0))
+
+
+func _exit_tree() -> void:
+	RenderingServer.global_shader_parameter_set(&"occlusion_hero", Vector3(0.0, -1000.0, 0.0))
 
 
 func _process(delta: float) -> void:
@@ -72,36 +139,71 @@ func _process(delta: float) -> void:
 		if _scan_timer <= 0.0:
 			_scan_timer = SCAN_INTERVAL
 			_scan()
-	# The visibility tests are pure float maths over every cached box; the answer changes slowly (the hero walks, the camera glides), so they run about 16 times a second
-	# and the dissolve itself still advances every frame.
 	_test_timer -= delta
 	if _test_timer <= 0.0:
+		_run_tests(TEST_INTERVAL - _test_timer)
 		_test_timer = TEST_INTERVAL
-		_run_tests()
+	RenderingServer.global_shader_parameter_set(&"occlusion_hero", hero.global_position)
 	# The painted tree cards fade themselves in their shader from the hero's position (KitFoliage / kit_card.gdshader): a MultiMesh field cannot be faded per tree from here.
 	KitFoliage.set_hero(hero.global_position)
-	var blocking_groups: Dictionary = _blocking
-	var cut_groups: Dictionary = _cut
-	for key: int in _active_keys(blocking_groups, cut_groups):
-		var current: float = float(_fade.get(key, 0.0))
-		var target: float = CUT_AWAY if cut_groups.has(key) else (FADED if blocking_groups.has(key) else 0.0)
-		if absf(current - target) < 0.004:
+	var step: float = delta / EASE_TIME
+	var hidden_target: float = 1.0 if _touched else 0.0
+	for key: int in _active_keys():
+		var window_target: float = 1.0 if _blocking.has(key) and not _cut.has(key) else 0.0
+		var cut_target: float = CUT_AWAY if _cut.has(key) else 0.0
+		if _blocking.has(key) and not _cut.has(key):
+			hidden_target = 1.0
+		var window: float = float(_fade.get(key, 0.0))
+		var cut: float = float(_cut_fade.get(key, 0.0))
+		if absf(window - window_target) < 0.004 and absf(cut - cut_target) < 0.004:
 			continue
-		current = move_toward(current, target, delta * SPEED)
-		_fade[key] = current
+		window = move_toward(window, window_target, step)
+		cut = move_toward(cut, cut_target, step)
+		_fade[key] = window
+		_cut_fade[key] = cut
 		for member: Variant in _members.get(key, []) as Array:
 			if is_instance_valid(member):
 				var piece: MeshInstance3D = member as MeshInstance3D
-				# A smooth transparency fade for every piece (GC-4): Godot's per-instance `transparency` moves the piece to the transparent pass while it fades and keeps its
-				# shadow. The ordered dither (`occlusion_fade` in the toon shaders) is no longer driven: the checkerboard read as a glitch on the ground and on props.
-				piece.transparency = current
-				# Graphics Tier 1: a piece that is (almost) cut away stops casting its sun shadow too - the shadow of an invisible building read as a flat
-				# violet rectangle on the ground (docs/art/graphics_tier1.md, Part 0). The original setting comes back as the piece fades in again.
-				_set_shadow_faded(piece, current > 0.8)
-		# The building's shadows-only proxy (BuildingKit "ShadowProxy", never faded itself) follows its body: an invisible house must not shade the ground.
+				# a piece that has shrunk under the shoulder since the scan (a root that grows and sinks) is a low blocker now
+				if window > 0.0 and _piece_box(piece).size.y < SHOULDER:
+					piece.set_instance_shader_parameter(&"occlusion_fade", 0.0)
+					piece.transparency = 0.0
+					continue
+				if _dithers(piece):
+					piece.set_instance_shader_parameter(&"occlusion_fade", window)
+					piece.transparency = cut
+				else:
+					piece.transparency = maxf(cut, window * WHOLE_FADE)
+				# A piece that is cut away stops casting its sun shadow too: the shadow of an invisible building read as a flat violet rectangle.
+				_set_shadow_faded(piece, cut > 0.8)
 		for proxy: Variant in _shadow_proxies.get(key, []) as Array:
 			if is_instance_valid(proxy):
-				_set_shadow_faded(proxy as MeshInstance3D, current > 0.8)
+				_set_shadow_faded(proxy as MeshInstance3D, cut > 0.8)
+		_set_footprint(key, cut)
+	hero_hidden = move_toward(hero_hidden, hidden_target, step)
+	_show_silhouette(hero_hidden > 0.02)
+
+
+func _show_silhouette(shown: bool) -> void:
+	if not shown and not _silhouette_on:
+		return
+	_silhouette_on = shown
+	var sprite: Object = hero_sprite(hero)
+	if sprite != null:
+		# inside an open window the figure itself shows through the gaps, so the outline only fills them in lightly
+		sprite.set("outline_tint", outline_color)
+		sprite.call("set_hidden_outline", (hero_hidden * (OUTLINE_IN_WINDOW if not _blocking.is_empty() else 1.0)) if shown else 0.0)
+
+
+## The painted card of a hero node (TownPlayer.model is a SpriteActor with `sprite`), or null for the 3D fallback.
+static func hero_sprite(hero_node: Node) -> Object:
+	if hero_node == null or not ("model" in hero_node):
+		return null
+	var model: Object = hero_node.get("model") as Object
+	if model == null or not ("sprite" in model):
+		return null
+	var sprite: Object = model.get("sprite") as Object
+	return sprite if sprite != null and sprite.has_method("set_hidden_outline") else null
 
 
 func _set_shadow_faded(piece: MeshInstance3D, faded: bool) -> void:
@@ -123,32 +225,148 @@ func _set_shadow_faded(piece: MeshInstance3D, faded: bool) -> void:
 		piece.remove_meta(&"shadow_before_fade")
 
 
+## The soft outline a cut-away piece leaves on the ground (its footprint, so nobody tries to walk through the gap).
+func _set_footprint(key: int, cut: float) -> void:
+	var mark: MeshInstance3D = _footprints.get(key) as MeshInstance3D
+	if cut <= 0.01:
+		if mark != null and is_instance_valid(mark):
+			mark.queue_free()
+		_footprints.erase(key)
+		return
+	if mark == null or not is_instance_valid(mark):
+		if not _group_box.has(key):
+			return
+		var box: AABB = _group_box[key] as AABB
+		if _footprint_shader == null:
+			_footprint_shader = Shader.new()
+			_footprint_shader.code = FOOTPRINT_CODE
+		var quad: PlaneMesh = PlaneMesh.new()
+		quad.size = Vector2(box.size.x, box.size.z)
+		var material: ShaderMaterial = ShaderMaterial.new()
+		material.shader = _footprint_shader
+		material.set_shader_parameter("size", quad.size)
+		mark = MeshInstance3D.new()
+		mark.name = "FadeFootprint"
+		mark.mesh = quad
+		mark.material_override = material
+		mark.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mark.set_meta(&"no_occlusion_fade", true)
+		mark.set_meta(StyleToon.META_NO_TOON, true)
+		mark.set_meta(PaintedClasses.META_NO_PAINT, true)
+		add_child(mark)
+		mark.global_position = Vector3(box.get_center().x, clampf(hero.global_position.y, box.position.y, box.position.y + 1.5) + 0.07, box.get_center().z)
+		_footprints[key] = mark
+	(mark.material_override as ShaderMaterial).set_shader_parameter("amount", cut)
+
+
+const FOOTPRINT_CODE: String = """shader_type spatial;
+render_mode unshaded, blend_mix, depth_draw_never, cull_disabled, shadows_disabled;
+uniform vec2 size = vec2(4.0, 4.0);
+uniform float amount = 1.0;
+void fragment() {
+	vec2 m = (0.5 - abs(UV - 0.5)) * size;
+	float edge = min(m.x, m.y);
+	float line = 1.0 - smoothstep(0.12, 0.34, edge);
+	float soft = smoothstep(0.0, 0.1, edge);
+	float hatch = step(0.5, fract((UV.x * size.x + UV.y * size.y) * 0.9)) * 0.1;
+	ALBEDO = vec3(0.05, 0.05, 0.09);
+	ALPHA = amount * soft * (line * 0.62 + 0.2 + hatch);
+}
+"""
+
+
 func _group_key(mesh_instance: MeshInstance3D) -> int:
 	var parent: Node = mesh_instance.get_parent()
-	# A building (a parent with a modest number of pieces) dissolves as one; a chunk or a whole-map holder with hundreds of children does not (one wall would take its
-	# neighbours with it, and only the first pieces of the group would ever fade).
+	# A building (a parent with a modest number of pieces) takes the window as one; a chunk or a whole-map holder with hundreds of children does not.
 	if parent != null and parent != root and parent is Node3D and parent != camera and parent.get_child_count() <= MAX_GROUP_MESHES:
 		return parent.get_instance_id()
 	return mesh_instance.get_instance_id()
 
 
+## The type of a thing by its box and what it is called (`names`: its own and its parent's node names). An explicit `fade_type` wins.
+static func type_of(size: Vector3, names: String = "", explicit: StringName = &"") -> StringName:
+	if explicit != &"" and TYPES.has(explicit):
+		return explicit
+	var lower: String = names.to_lower()
+	var across: float = maxf(size.x, size.z)
+	# a name only counts for a thing of a prop's size: "Building_signwriter" is a house
+	var prop_sized: bool = across < NAMED_ACROSS and size.y < NAMED_HEIGHT
+	if prop_sized:
+		for word: String in SIGN_WORDS:
+			if lower.contains(word):
+				return SIGN
+	if size.y < SHOULDER:
+		return LOW_BLOCKER
+	if across < SMALL_ACROSS or (across < SMALL_SHORT_ACROSS and size.y < SMALL_SHORT_HEIGHT):
+		return SMALL_PROP
+	if prop_sized:
+		for word: String in SMALL_WORDS:
+			if lower.contains(word):
+				return SMALL_PROP
+	return TALL_OCCLUDER
+
+
+## A mesh's explicit type: its own `fade_type` meta or the nearest parent's (up to the scene root).
+func _explicit_type(mesh_instance: Node) -> StringName:
+	var node: Node = mesh_instance
+	for _level: int in range(4):
+		if node == null or node == root:
+			break
+		if node.has_meta(&"fade_type"):
+			return StringName(str(node.get_meta(&"fade_type")))
+		node = node.get_parent()
+	return &""
+
+
+static func _names(mesh_instance: Node, top: Node) -> String:
+	var text: String = str(mesh_instance.name)
+	var parent: Node = mesh_instance.get_parent()
+	if parent != null and parent != top:
+		text += "/" + str(parent.name)
+	return text
+
+
+func _piece_box(piece: MeshInstance3D) -> AABB:
+	var box: AABB = piece.global_transform * piece.get_aabb()
+	# A piece may name the box that blocks the view (world space, meta `occlusion_box`) when its mesh box is much bigger than its
+	# body - the Capital's walls carry towers and buttresses.
+	if piece.has_meta(&"occlusion_box"):
+		box = piece.get_meta(&"occlusion_box") as AABB
+	# (the old `occlusion_shrink` is no longer used: a roof's eaves hide the hero as much as its walls do, and the window only opens round him)
+	return box
+
+
+func _piece_type(piece: MeshInstance3D) -> StringName:
+	if piece.mesh == null:
+		return SMALL_PROP
+	return type_of(_piece_box(piece).size, _names(piece, root), _explicit_type(piece))
+
+
 ## Starts a scan of the tree for candidates. The work is spread over frames (SCAN_BATCH meshes each): a big zone has thousands of meshes and one frame of scanning was a
 ## visible hitch. The old candidate list keeps working until the new one is complete.
 func _scan() -> void:
+	var path: Affinity.Type = Session.profile.primary_affinity if Session.profile != null else Affinity.Type.NEUTRAL
+	outline_color = Color(1.0, 0.96, 0.86) if path == Affinity.Type.NEUTRAL else PathPalette.main(path).lightened(0.45)
 	_pending = root.find_children("*", "MeshInstance3D", true, false)
 	_pending_index = 0
-	_next_candidates = []
-	_next_members = {}
-	_next_shadow_proxies = {}
-	_next_boxes = []
-	_next_box_keys = []
-	_next_box_near = []
-	_next_group_keys = []
+	_next = {"candidates": [] as Array[MeshInstance3D], "members": {}, "type": {}, "tall_box": {}, "any_box": {}, "name": {}, "proxies": {}, "boxes": [] as Array[AABB], "keys": [] as Array[int], "groups": [] as Array[int]}
 	_scan_step()
+
+
+## The whole scan at once (tests, the probe).
+func scan_now() -> void:
+	_scan()
+	while _pending_index < _pending.size():
+		_scan_step()
 
 
 func _scan_step() -> void:
 	var end: int = mini(_pending_index + SCAN_BATCH, _pending.size())
+	var next_members: Dictionary = _next["members"] as Dictionary
+	var next_type: Dictionary = _next["type"] as Dictionary
+	var tall_box: Dictionary = _next["tall_box"] as Dictionary
+	var any_box: Dictionary = _next["any_box"] as Dictionary
+	var next_name: Dictionary = _next["name"] as Dictionary
 	while _pending_index < end:
 		var node: Node = _pending[_pending_index]
 		_pending_index += 1
@@ -157,79 +375,92 @@ func _scan_step() -> void:
 		var mesh_instance: MeshInstance3D = node as MeshInstance3D
 		if mesh_instance.mesh == null or mesh_instance.layers == 0 or mesh_instance.get_parent() == camera:
 			continue
-		if mesh_instance.has_meta(&"no_occlusion_fade") or hero.is_ancestor_of(mesh_instance):
+		if mesh_instance.has_meta(&"no_occlusion_fade") or hero.is_ancestor_of(mesh_instance) or str(mesh_instance.name).begins_with("Decals_"):
 			continue
-		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
-		# Fable Nov 12c (A6): a piece may name the box that blocks the view (world space, meta `occlusion_box`) when its mesh box is much
-		# bigger than its body - the Capital's walls carry towers and buttresses, so the hero walking BESIDE a wall stood inside the mesh
-		# box and the whole 72 m wall faded away.
-		if mesh_instance.has_meta(&"occlusion_box"):
-			box = mesh_instance.get_meta(&"occlusion_box") as AABB
-		# Big kit buildings: only their core blocks the view (the eaves and the corners of a house at the lens edge are part of the picture, as in the paint-over).
-		if mesh_instance.has_meta(&"occlusion_shrink"):
-			var shrink: float = minf(float(mesh_instance.get_meta(&"occlusion_shrink")), minf(box.size.x, box.size.z) * 0.4)
-			box = AABB(box.position + Vector3(shrink, 0.0, shrink), box.size - Vector3(shrink * 2.0, 0.0, shrink * 2.0))
-		# Overnight Oct 19: a thin piece hanging over the hero's ground (a pennant line across an entrance, a beam, a sign over a path) blocks the view as much as a
-		# wall does, so it qualifies too and fades on its own (never with its whole landmark).
-		var overhead: bool = is_overhead(box, hero.global_position.y) or mesh_instance.has_meta(&"occlusion_overhead")
-		if (box.size.y < MIN_HEIGHT and not overhead) or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
+		var box: AABB = _piece_box(mesh_instance)
+		if box.size.y < MIN_HEIGHT or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
 			continue
 		if not mesh_instance.is_visible_in_tree():
 			continue
-		_next_candidates.append(mesh_instance)
-		var solo: bool = mesh_instance.has_meta(&"occlusion_overhead") or (overhead and box.size.y < MIN_HEIGHT)
-		var key: int = mesh_instance.get_instance_id() if solo else _group_key(mesh_instance)
-		_next_boxes.append(box)
-		_next_box_keys.append(key)
-		_next_box_near.append(float(mesh_instance.get_meta(&"occlusion_near", NEAR_CAMERA)))
-		if not _next_members.has(key):
-			_next_group_keys.append(key)
+		(_next["candidates"] as Array[MeshInstance3D]).append(mesh_instance)
+		var key: int = _group_key(mesh_instance)
+		var type: StringName = type_of(box.size, _names(mesh_instance, root), _explicit_type(mesh_instance))
+		any_box[key] = (any_box[key] as AABB).merge(box) if any_box.has(key) else box
+		if type == TALL_OCCLUDER:
+			(_next["boxes"] as Array[AABB]).append(box)
+			(_next["keys"] as Array[int]).append(key)
+			tall_box[key] = (tall_box[key] as AABB).merge(box) if tall_box.has(key) else box
+		# the group is a tall occluder as soon as one of its pieces is; else it keeps its first piece's type
+		if not next_type.has(key) or type == TALL_OCCLUDER:
+			next_type[key] = type
+		if not next_members.has(key):
+			(_next["groups"] as Array[int]).append(key)
 			var members: Array = []
 			var parent: Node = mesh_instance.get_parent()
 			if key != mesh_instance.get_instance_id() and parent != null:
+				var siblings: Array[Node] = parent.find_children("*", "MeshInstance3D", true, false)
+				next_name[key] = "%s (%d)" % [str(parent.name), siblings.size()] if siblings.size() > 1 else "%s/%s" % [str(parent.name), str(mesh_instance.name)]
 				var proxies: Array = []
-				for sibling: Node in parent.find_children("*", "MeshInstance3D", true, false):
-					if (sibling as MeshInstance3D).cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
+				for sibling: Node in siblings:
+					var piece: MeshInstance3D = sibling as MeshInstance3D
+					if piece.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
 						proxies.append(sibling)
-					elif members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade") and not _is_ground(sibling as MeshInstance3D):
-						members.append(sibling)
+					elif members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade") and not _is_ground(piece):
+						var piece_type: StringName = _piece_type(piece)
+						# only the tall pieces of a group take the window: its low pieces, its posts and its signs stay
+						if piece_type == TALL_OCCLUDER:
+							members.append(sibling)
 				if not proxies.is_empty():
-					_next_shadow_proxies[key] = proxies
+					(_next["proxies"] as Dictionary)[key] = proxies
 			else:
-				members.append(mesh_instance)
-			_next_members[key] = members
+				next_name[key] = "%s/%s" % [str(mesh_instance.get_parent().name) if mesh_instance.get_parent() != null else "", str(mesh_instance.name)]
+				if type == TALL_OCCLUDER:
+					members.append(mesh_instance)
+			next_members[key] = members
 	if _pending_index >= _pending.size():
-		# Fable Nov 12c (A6 / the "ghost buildings"): a group that is still faded but that this scan no longer lists (its pieces were
-		# hidden meanwhile: the Capital's wall pieces round the lens, a range-culled block) keeps its members until its fade is back at
-		# zero. It used to be dropped at once, so its pieces kept whatever transparency they had - a wall that stayed invisible, a
-		# building left as a pale ghost - for the rest of the visit.
-		for key: Variant in _fade.keys():
-			if float(_fade[key]) > 0.004 and not _next_members.has(key) and _members.has(key):
-				_next_members[key] = _members[key]
+		var next_box: Dictionary = {}
+		for key: Variant in any_box.keys():
+			next_box[key] = tall_box[key] if tall_box.has(key) else any_box[key]
+			# a group with no tall piece of its own never blocks, so it holds nothing to fade (its nested tall pieces belong to their own group)
+			if next_type.get(key) != TALL_OCCLUDER:
+				next_members[key] = []
+		# A group that is still faded but that this scan no longer lists (its pieces were hidden meanwhile) keeps its members until its
+		# fade is back at zero, so nothing is left as a ghost.
+		for key: Variant in _active_keys():
+			if not next_members.has(key) and _members.has(key):
+				next_members[key] = _members[key]
+				next_type[key] = _group_type.get(key, TALL_OCCLUDER)
+				next_name[key] = _group_name.get(key, "?")
+				if _group_box.has(key):
+					next_box[key] = _group_box[key]
 				if _shadow_proxies.has(key):
-					_next_shadow_proxies[key] = _shadow_proxies[key]
-		_candidates = _next_candidates
-		_members = _next_members
-		_shadow_proxies = _next_shadow_proxies
-		_boxes = _next_boxes
-		_box_keys = _next_box_keys
-		_box_near = _next_box_near
-		_group_keys = _next_group_keys
+					(_next["proxies"] as Dictionary)[key] = _shadow_proxies[key]
+		_candidates = _next["candidates"] as Array[MeshInstance3D]
+		_members = next_members
+		_group_type = next_type
+		_group_box = next_box
+		_group_name = next_name
+		_shadow_proxies = _next["proxies"] as Dictionary
+		_boxes = _next["boxes"] as Array[AABB]
+		_box_keys = _next["keys"] as Array[int]
+		_group_keys = _next["groups"] as Array[int]
 		_pending = []
+		_next = {}
 
 
-## True for a thin piece (under MIN_HEIGHT tall) that hangs at least OVERHEAD_LIFT above the ground the hero stands on and spans at least OVERHEAD_SPAN: strings
-## of pennants, beams and signs over a path. Ground clutter (rugs, low fences, decals) never qualifies.
-const OVERHEAD_LIFT: float = 1.4
-const OVERHEAD_SPAN: float = 1.5
+func _named_small(piece: Node) -> bool:
+	var size: Vector3 = _piece_box(piece as MeshInstance3D).size
+	if maxf(size.x, size.z) >= NAMED_ACROSS or size.y >= NAMED_HEIGHT:
+		return false
+	var lower: String = _names(piece, root).to_lower()
+	for word: String in SMALL_WORDS:
+		if lower.contains(word):
+			return true
+	return false
 
 
-static func is_overhead(box: AABB, ground_y: float) -> bool:
-	return box.size.y < MIN_HEIGHT and box.position.y >= ground_y + OVERHEAD_LIFT and maxf(box.size.x, box.size.z) >= OVERHEAD_SPAN 		and maxf(box.size.x, box.size.z) <= MAX_EXTENT
-
-
-## Wide terrain never fades with its group (Overnight Oct 17, Phase 2): the starting forest's 900 m floor shares a parent with the clearing's props, so a
-## blocking prop took the whole floor to 88% transparent and the purple sky showed through it.
+## Wide terrain never fades with its group (the starting forest's 900 m floor shares a parent with the clearing's props), nor does
+## anything flat (a rug, a plank, a decal).
 static func _is_ground(mesh_instance: MeshInstance3D) -> bool:
 	if mesh_instance == null or mesh_instance.mesh == null:
 		return false
@@ -264,7 +495,7 @@ static func _segment_hits(box: AABB, from: Vector3, to: Vector3) -> bool:
 	return true
 
 
-## True for a mesh drawn with the toon or painted-triplanar shader (they carry the dither uniform); false for anything else (translucent pieces).
+## True for a mesh drawn with the toon or painted-triplanar shader (they carry the window); false for anything else.
 func _dithers(mesh_instance: MeshInstance3D) -> bool:
 	var key: int = mesh_instance.get_instance_id()
 	if _dither_cache.has(key):
@@ -277,75 +508,96 @@ func _dithers(mesh_instance: MeshInstance3D) -> bool:
 	var result: bool = false
 	if material is ShaderMaterial:
 		var shader: Shader = (material as ShaderMaterial).shader
-		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted"))
+		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted_triplanar"))
 	_dither_cache[key] = result
 	return result
 
 
-const TEST_INTERVAL: float = 0.06
-var _test_timer: float = 0.0
-var _blocking: Dictionary = {}
-var _cut: Dictionary = {}
-
-
-func _run_tests() -> void:
+## Which groups hide the hero (`_blocking`) and which hold the lens (`_cut`). `elapsed` feeds the hysteresis; a negative value
+## forgets the past (the probe asks "what would fade here" for a hero that was put there).
+func _run_tests(elapsed: float = TEST_INTERVAL) -> void:
 	var from: Vector3 = camera.global_position
-	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
-	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
-	var to_head: Vector3 = hero.global_position + Vector3(0.0, HERO_HEAD, 0.0)  # Fable pass Nov 1: a roof over the hero's head counts too
-	var focus: Array[Vector3] = []
-	for point: Vector3 in focus_points:
-		if Vector2(point.x - to.x, point.z - to.z).length() <= FOCUS_RANGE:
-			focus.append(point + Vector3(0.0, 1.0, 0.0))
-	if talk_focus != Vector3.INF:
-		focus.append(talk_focus + Vector3(0.0, 1.0, 0.0))
-		focus.append(talk_focus + Vector3(0.0, 0.3, 0.0))
-	var blocking_groups: Dictionary = {}
+	var feet: Vector3 = hero.global_position
+	var lines: Dictionary = {}
 	var cut_groups: Dictionary = {}
+	var across: Vector3 = Vector3(from.z - feet.z, 0.0, feet.x - from.x).normalized() * SIGHT_SIDE
+	var ends: Array[Vector3] = []
+	for line: int in range(SIGHT_HEIGHTS.size()):
+		ends.append(feet + Vector3(0.0, SIGHT_HEIGHTS[line], 0.0) + (across if line == 3 else (-across if line == 4 else Vector3.ZERO)))
+	var touched: bool = false
+	# the person in reach (the [E] prompt's NPC, a step or two from the hero): a tall thing that hides them opens its window too
+	var talk: bool = talk_focus != Vector3.INF and Vector2(talk_focus.x - feet.x, talk_focus.z - feet.z).length() <= TALK_REACH
+	var talk_hits: Dictionary = {}
+	var near_lens: Dictionary = {}
 	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
 	for index: int in range(_boxes.size()):
 		var box: AABB = _boxes[index]
 		var key: int = _box_keys[index]
-		if cut_groups.has(key):
+		# never anything whose top is under the hero's shoulder where he stands (a wall on lower ground)
+		if box.position.y + box.size.y < feet.y + SHOULDER:
 			continue
 		if box.grow(CAMERA_PADDING).has_point(from):
 			cut_groups[key] = true
-		elif blocking_groups.has(key):
 			continue
-		elif box.grow(_box_near[index]).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low) or _segment_hits(box.grow(PADDING), from, to_head):
+		if box.grow(NEAR_LENS).has_point(from):
+			near_lens[key] = true
+		var grown: AABB = box.grow(PADDING)
+		var mask: int = int(lines.get(key, 0))
+		for line: int in range(SIGHT_HEIGHTS.size()):
+			if mask & (1 << line) == 0 and _segment_hits(grown, from, ends[line]):
+				mask |= 1 << line
+		if mask != 0:
+			lines[key] = mask
+		if talk and _segment_hits(grown, from, talk_focus + Vector3(0.0, 1.1, 0.0)) and _segment_hits(grown, from, talk_focus + Vector3(0.0, 0.4, 0.0)):
+			talk_hits[key] = true
+	var blocking_groups: Dictionary = {}
+	var fresh: bool = elapsed < 0.0
+	for key: Variant in lines.keys():
+		var mask: int = int(lines[key])
+		var count: int = (mask & 1) + ((mask >> 1) & 1) + ((mask >> 2) & 1) + ((mask >> 3) & 1) + ((mask >> 4) & 1)
+		touched = true
+		if count >= LINES_TO_START or (not fresh and _blocking.has(key)):
 			blocking_groups[key] = true
-		else:
-			for point: Vector3 in focus:
-				# the box must lie between them: the point itself sits at a wall (a door), so a box that holds it only counts when the
-				# hero is not inside it
-				if _segment_hits(box.grow(PADDING), from, point) and not box.grow(0.6).has_point(to):
-					blocking_groups[key] = true
-					break
+			_clear_for.erase(key)
+	# A tall thing that hides the hero AND stands right at the lens would fill the picture with one wall or roof and leave only the
+	# window to look through: it is cut away like a piece the lens is inside (its footprint stays outlined on the ground).
+	for key: Variant in near_lens.keys():
+		if blocking_groups.has(key):
+			cut_groups[key] = true
+	for key: Variant in talk_hits.keys():
+		blocking_groups[key] = true
+		_clear_for.erase(key)
+	if not fresh:
+		# hysteresis: a group that was blocking and is touched by no line any more holds on for HOLD seconds
+		for key: Variant in _blocking.keys():
+			if blocking_groups.has(key) or cut_groups.has(key):
+				continue
+			var clear: float = float(_clear_for.get(key, 0.0)) + elapsed
+			if clear < HOLD:
+				_clear_for[key] = clear
+				blocking_groups[key] = true
+			else:
+				_clear_for.erase(key)
 	_blocking = blocking_groups
 	_cut = cut_groups
+	_touched = touched
 	if OS.get_environment("OCCLUSION_DEBUG") != "" and Engine.get_process_frames() % 120 == 0:
 		print("occlusion: ", debug_summary())
 		print("occlusion blockers: ", "; ".join(debug_blockers()))
-		print("occlusion sight: cam %s hero %s" % [str(from.snapped(Vector3(0.1, 0.1, 0.1))), str(to.snapped(Vector3(0.1, 0.1, 0.1)))])
-		for key: Variant in _fade.keys():
-			if float(_fade[key]) > 0.004:
-				var owner_node: Object = instance_from_id(int(key))
-				print("occlusion faded: %s fade %.2f members %d" % [str((owner_node as Node).name) if owner_node is Node else "?", float(_fade[key]), (_members.get(int(key), []) as Array).size()])
-		for index: int in range(_boxes.size()):
-			var near_box: AABB = _boxes[index]
-			if (near_box.size.y > 5.0 or Vector2(near_box.get_center().x - to.x, near_box.get_center().z - to.z).length() < 9.0) and is_instance_valid(_candidates[index]):
-				print("occlusion near: %s/%s box %s size %s" % [str(_candidates[index].get_parent().name), str(_candidates[index].name), str(near_box.position.snapped(Vector3(0.1, 0.1, 0.1))), str(near_box.size.snapped(Vector3(0.1, 0.1, 0.1)))])
 
 
 ## Only the groups that are fading, faded or about to fade need work this frame (the rest of a big scene's groups sit at zero).
-func _active_keys(blocking_groups: Dictionary, cut_groups: Dictionary) -> Array[int]:
+func _active_keys() -> Array[int]:
 	var work: Dictionary = {}
 	for key: Variant in _fade.keys():
 		if float(_fade[key]) > 0.004:
 			work[int(key)] = true
-	for key: Variant in blocking_groups.keys():
+	for key: Variant in _cut_fade.keys():
+		if float(_cut_fade[key]) > 0.004:
+			work[int(key)] = true
+	for key: Variant in _blocking.keys():
 		work[int(key)] = true
-	for key: Variant in cut_groups.keys():
+	for key: Variant in _cut.keys():
 		work[int(key)] = true
 	var result: Array[int] = []
 	for key: Variant in work.keys():
@@ -353,15 +605,58 @@ func _active_keys(blocking_groups: Dictionary, cut_groups: Dictionary) -> Array[
 	return result
 
 
+## What goes see-through for the hero and the lens as they stand now, one row per PIECE that takes it:
+## {name, size (the piece's own box), kind (the piece's own type), why ("window" | "cut")}. `recompute` runs the test first,
+## forgetting the past.
+func verdict_now(recompute: bool = false) -> Array[Dictionary]:
+	if recompute:
+		_run_tests(-1.0)
+	var result: Array[Dictionary] = []
+	var keys: Dictionary = {}
+	for key: Variant in _blocking.keys():
+		keys[key] = "window"
+	for key: Variant in _cut.keys():
+		keys[key] = "cut"
+	for key: Variant in keys.keys():
+		var group: String = str(_group_name.get(key, "?"))
+		for member: Variant in _members.get(key, []) as Array:
+			if is_instance_valid(member):
+				var piece: MeshInstance3D = member as MeshInstance3D
+				if _piece_box(piece).size.y < SHOULDER:
+					continue
+				result.append({"name": group, "piece": str(piece.name), "size": _piece_box(piece).size, "kind": str(_piece_type(piece)), "why": str(keys[key])})
+	return result
+
+
+## Every thing the fader knows, with its type and its rule (the fade probe's list): {name, type, rule, size, can_fade, pieces}.
+func catalogue() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for key: int in _group_keys:
+		var type: StringName = _group_type.get(key, LOW_BLOCKER) as StringName
+		var box: AABB = _group_box.get(key, AABB()) as AABB
+		var pieces: int = (_members.get(key, []) as Array).size()
+		result.append({"name": str(_group_name.get(key, "?")), "type": str(type), "rule": str(RULES[type]), "size": box.size, "can_fade": pieces > 0, "pieces": pieces})
+	return result
+
+
+## One line per active group: its name, box, eased values and what its first piece really carries (the play-script `fadeshot` log).
+func debug_state() -> PackedStringArray:
+	var lines: PackedStringArray = PackedStringArray()
+	lines.append("lens %s hero %s" % [str(camera.global_position.snapped(Vector3(0.1, 0.1, 0.1))), str(hero.global_position.snapped(Vector3(0.1, 0.1, 0.1)))])
+	for key: int in _active_keys():
+		var members: Array = _members.get(key, []) as Array
+		var first: MeshInstance3D = members[0] as MeshInstance3D if not members.is_empty() and is_instance_valid(members[0]) else null
+		var box: AABB = _group_box.get(key, AABB()) as AABB
+		lines.append("%s box %s + %s window %.2f cut %.2f piece %s transparency %.2f uniform %s visible %s" % [str(_group_name.get(key, "?")), str(box.position.snapped(Vector3(0.1, 0.1, 0.1))), str(box.size.snapped(Vector3(0.1, 0.1, 0.1))), float(_fade.get(key, 0.0)), float(_cut_fade.get(key, 0.0)), str(first.name) if first != null else "-", first.transparency if first != null else -1.0, str(first.get_instance_shader_parameter(&"occlusion_fade")) if first != null else "-", str(first.is_visible_in_tree()) if first != null else "-"])
+	return lines
+
+
 func debug_summary() -> String:
-	return "boxes %d groups %d blocking %d cut %d fading %d" % [_boxes.size(), _group_keys.size(), _blocking.size(), _cut.size(), _fade.size()]
+	return "boxes %d groups %d blocking %d cut %d" % [_boxes.size(), _group_keys.size(), _blocking.size(), _cut.size()]
 
 
 func debug_blockers() -> PackedStringArray:
 	var names: PackedStringArray = PackedStringArray()
 	for key: Variant in _blocking.keys():
-		var members: Array = _members.get(int(key), []) as Array
-		if not members.is_empty() and is_instance_valid(members[0]):
-			var piece: MeshInstance3D = members[0] as MeshInstance3D
-			names.append("%s/%s %s" % [str(piece.get_parent().name), str(piece.name), str(piece.global_position.snapped(Vector3(0.1, 0.1, 0.1)))])
+		names.append(str(_group_name.get(key, "?")))
 	return names

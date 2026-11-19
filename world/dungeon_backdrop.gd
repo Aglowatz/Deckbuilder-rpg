@@ -376,7 +376,7 @@ func _build_lab() -> void:
 	glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	var steel: StandardMaterial3D = _material(Color("9aa8ae"), 0.35)
 	# Four tanks, one per Path, each glowing in its Path colour.
-	var path_colors: Array[Color] = [Color("e0483c"), Color("e8b84a"), Color("7a4cc8"), Color("58b84c")]
+	var path_colors: Array[Color] = PathPalette.ring()
 	for index: int in range(4):
 		var x: float = -7.5 + float(index) * 5.0
 		_cylinder(0.9, 3.4, glass, Vector3(x, 1.7, -5.2))
@@ -514,7 +514,7 @@ func _build_castle() -> void:
 	# The scale model of the kingdom on a round table: four districts around a tiny castle.
 	_cylinder(2.4, 0.9, _material(Color("5a3a22"), 0.7), Vector3(0, 0.45, -1.0))
 	_cylinder(2.2, 0.12, _material(Color("2a5a3a"), 0.9), Vector3(0, 0.95, -1.0))
-	var district_colors: Array[Color] = [Color("e2553f"), Color("f2c14e"), Color("a870d8"), Color("7bc86c")]
+	var district_colors: Array[Color] = PathPalette.ring()
 	for district: int in range(4):
 		var angle: float = TAU * float(district) / 4.0 + 0.4
 		for house: int in range(5):

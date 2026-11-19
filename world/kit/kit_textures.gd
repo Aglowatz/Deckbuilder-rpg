@@ -6,7 +6,7 @@ extends RefCounted
 
 static var _cache: Dictionary = {}
 
-const PATH_COLORS: Array[Color] = [Color("d9503a"), Color("e8b53a"), Color("5ab0e0"), Color("8a5fd0")]
+## The crest's four fields are the four Path colours in the fixed order (PathPalette.ring()).
 
 
 static func texture(name: String) -> Texture2D:
@@ -153,7 +153,7 @@ static func _sign(kind: String) -> Image:
 				for step: int in range(9):
 					var ang: float = a0 + (PI / 2.0) * float(step) / 8.0
 					pts.append(c + Vector2(cos(ang), sin(ang)) * 36.0)
-				canvas.polygon(pts, PATH_COLORS[index])
+				canvas.polygon(pts, PathPalette.ring()[index])
 			canvas.circle(c.x, c.y, 10.0, Color("2a2230"))
 			canvas.circle(c.x, c.y, 6.0, Color("f6eedc"))
 	return canvas.image

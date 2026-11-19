@@ -49,6 +49,17 @@ const VENDOR_BLACK_MARKET: String = "black_market"
 # ---- Presentation ----
 ## Foil colour of the pack art / frame.
 @export var art_color: Color = Color(0.5, 0.5, 0.5)
+
+
+## The colour the pack is shown in: a Path's pack always takes its Path's official colour (PathPalette; the saved `art_color` of a
+## Path pack is only its fallback), any other pack its own `art_color`.
+func tint() -> Color:
+	if path != Affinity.Type.NEUTRAL and (kind == Kind.PATH or kind == Kind.GILDED):
+		return PathPalette.main(path)
+	return art_color
+
+
+
 ## "plain", "foil", "gilded" or "prismatic" (`PackArt`).
 @export var frame_style: String = "plain"
 ## A CardIcons glyph name shown on the pack.

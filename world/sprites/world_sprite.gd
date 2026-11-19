@@ -588,11 +588,28 @@ static func _crossed(before: float, after: float, mark: float) -> bool:
 	return before < mark or after >= mark
 
 
-## Fable pass Nov 1 (the fountain): shows or hides the hero's x-ray silhouette - the same card drawn flat and dark with the depth test off, so the
-## figure reads through a landmark that never fades (the square's fountain). Call it every frame while it should show; its uniforms and transform
-## follow the real card.
+## The hero's outline through whatever hides him (Fable Nov 19, Part 1; first built Nov 1 for the square's fountain): the same card drawn
+## again as a flat, soft shape in `outline_color` with the depth test off, but ONLY where the scene in front of it is nearer than the card
+## (it reads the depth texture), so the part of the figure that is in plain view is never tinted. Two callers: a scene that knows a painted
+## landmark hides him (`set_silhouette`, called every frame while it should show) and the occlusion fader (`set_hidden_outline`).
+var outline_tint: Color = Color(1.0, 0.96, 0.86)
+var _outline_scene: float = 0.0
+var _outline_fader: float = 0.0
+
+
 func set_silhouette(shown: bool) -> void:
-	if not shown:
+	_outline_scene = 1.0 if shown else 0.0
+	_update_outline()
+
+
+func set_hidden_outline(amount: float) -> void:
+	_outline_fader = clampf(amount, 0.0, 1.0)
+	_update_outline()
+
+
+func _update_outline() -> void:
+	var amount: float = maxf(_outline_scene, _outline_fader)
+	if amount <= 0.0:
 		if _silhouette != null:
 			_silhouette.visible = false
 		return
@@ -604,14 +621,27 @@ func set_silhouette(shown: bool) -> void:
 		var close: int = code.find(";", open)
 		if open < 0 or close < 0:
 			return
-		code = code.substr(0, open) + "render_mode unshaded, cull_disabled, depth_test_disabled, blend_mix;" + code.substr(close + 1)
+		code = code.substr(0, open) + "render_mode unshaded, cull_disabled, depth_test_disabled, blend_mix;
+uniform sampler2D outline_depth : hint_depth_texture, filter_nearest, repeat_disable;
+uniform vec3 outline_tint = vec3(1.0);
+uniform float outline_amount = 1.0;" + code.substr(close + 1)
 		var light_at: int = code.find("void light()")
 		if light_at >= 0:
 			code = code.substr(0, light_at)
+		var scissor_at: int = code.find("ALPHA_SCISSOR_THRESHOLD")
+		if scissor_at >= 0:
+			code = code.substr(0, scissor_at) + "// " + code.substr(scissor_at)
 		var fragment_end: int = code.rfind("}")
 		if fragment_end < 0:
 			return
-		code = code.substr(0, fragment_end) + "\tALBEDO = vec3(0.07, 0.08, 0.12);\n\tALPHA = min(ALPHA, 0.6);\n}\n"
+		code = code.substr(0, fragment_end) + "	float scene_depth = texture(outline_depth, SCREEN_UV).r;
+	vec4 scene_view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, scene_depth, 1.0);
+	float scene_dist = -scene_view.z / scene_view.w;
+	float behind = smoothstep(0.2, 0.5, -VERTEX.z - scene_dist);
+	ALBEDO = outline_tint;
+	ALPHA = step(0.5, ALPHA) * 0.45 * outline_amount * behind;
+}
+"
 		var shader: Shader = Shader.new()
 		shader.code = code
 		_silhouette_material = ShaderMaterial.new()
@@ -629,6 +659,8 @@ func set_silhouette(shown: bool) -> void:
 	for uniform: Dictionary in _material.shader.get_shader_uniform_list():
 		var uniform_name: String = str(uniform["name"])
 		_silhouette_material.set_shader_parameter(uniform_name, _material.get_shader_parameter(uniform_name))
+	_silhouette_material.set_shader_parameter("outline_tint", Vector3(outline_tint.r, outline_tint.g, outline_tint.b))
+	_silhouette_material.set_shader_parameter("outline_amount", amount)
 	_silhouette.transform = _mesh.transform
 	_silhouette.visible = _mesh.visible
 

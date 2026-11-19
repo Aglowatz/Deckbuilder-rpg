@@ -267,7 +267,7 @@ func _flourish(banner_height: float) -> Control:
 	row.add_theme_constant_override("separation", 10)
 	box.add_child(row)
 	var gold: Color = Color(0.93, 0.78, 0.42, 0.9)
-	var tint: Color = (PackDefinitions.PATH_COLORS.get(path, gold) as Color) if path >= 0 else gold
+	var tint: Color = PathPalette.main(path as Affinity.Type) if path >= 0 else gold
 	row.add_child(_rule(gold))
 	var icon_id: String = IconArt.energy_id(path as Affinity.Type) if path >= 0 else ""
 	if not icon_id.is_empty() and IconArt.has(icon_id):

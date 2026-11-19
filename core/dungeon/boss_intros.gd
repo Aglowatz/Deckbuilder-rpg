@@ -5,10 +5,14 @@ extends RefCounted
 ## the battle's enemy name. Pure data; `BossIntro` (ui/battle) draws it.
 
 const PATH: String = "res://data/encounters/boss_intros.json"
-const PATH_COLORS: Dictionary = {
-	"beefcake": Color("e8743b"), "necrocrat": Color("9b7fe0"), "gourmand": Color("e9c46a"), "refusemancer": Color("6fbf73"),
-	"regime": Color("d8d8e8"), "neutral": Color("ffcf70"),
-}
+## The band colours that are not a Path's (a Path's own comes from PathPalette).
+const OTHER_COLORS: Dictionary = {"regime": Color("d8d8e8"), "neutral": Color("ffcf70")}
+
+
+static func band_color(path_id: String) -> Color:
+	if PathPalette.KEYS.values().has(path_id) and path_id != "colorless":
+		return PathPalette.of_id(path_id)
+	return OTHER_COLORS.get(path_id, OTHER_COLORS["neutral"]) as Color
 
 static var _data: Dictionary = {}
 static var _loaded: bool = false
@@ -68,5 +72,5 @@ static func find(enemy_name: String) -> Dictionary:
 		"title": title,
 		"line": str(entry.get("line", "")),
 		"sting": str(entry.get("sting", "")),
-		"color": PATH_COLORS.get(str(entry.get("path", "neutral")), PATH_COLORS["neutral"]),
+		"color": band_color(str(entry.get("path", "neutral"))),
 	}

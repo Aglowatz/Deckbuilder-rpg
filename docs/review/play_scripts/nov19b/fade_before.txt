@@ -1,0 +1,50 @@
+# Fable Nov 19, Part 1: what fades where (the scan picks each zone's six worst spots and shoots them, default + Low camera)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+hud off
+wait 6
+fadescan forest 6
+dev travel town
+wait 16
+skip_dialogue
+hud off
+wait 5
+fadescan crosspath 6
+dev travel zone beefcake
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadescan gainlands 6
+dev travel zone gourmand
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadescan buffet 6
+dev travel zone refusemancer
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadescan dump 6
+dev travel zone necrocrat
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+fadescan dna 6
+dev travel capital
+wait 22
+skip_dialogue
+hud off
+calm
+wait 5
+fadescan capital 8

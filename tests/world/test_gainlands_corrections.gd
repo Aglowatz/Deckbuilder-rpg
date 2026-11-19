@@ -206,11 +206,13 @@ func test_tree_cards_fade_in_their_shader_from_the_hero_position() -> void:
 	assert_true(field.has_meta(&"no_occlusion_fade"), "tree fields opt out of the fader too")
 
 
-func test_the_occlusion_fader_uses_a_smooth_transparency() -> void:
+func test_the_occlusion_fader_never_fades_a_whole_piece() -> void:
+	# Fable Nov 19 (Part 1): the group fade (first a dither, then a smooth transparency: GC-4) is gone. A tall occluder opens a window
+	# round the hero in its shader; only a mesh without that shader fades as a whole, and never past WHOLE_FADE.
 	var source: String = FileAccess.get_file_as_string("res://world/style/occlusion_fader.gd")
-	assert_false(source.contains("set_instance_shader_parameter(\"occlusion_fade\""), "the fader no longer drives the ordered dither")
-	assert_true(source.contains("piece.transparency = "), "every faded piece uses the per-instance transparency")
-	assert_true(source.contains("KitFoliage.set_hero("), "the fader feeds the hero position to the tree cards")
+	assert_true(source.contains("set_instance_shader_parameter(&\"occlusion_fade\""), "the window is driven per mesh")
+	assert_lt(OcclusionFader.WHOLE_FADE, 0.66, "a whole-piece fade never goes to nothing")
+	assert_gt(OcclusionFader.WINDOW_KEEP, 0.3, "the window keeps at least a third of the surface")
 
 
 func test_terrain_and_islands_never_dissolve() -> void:

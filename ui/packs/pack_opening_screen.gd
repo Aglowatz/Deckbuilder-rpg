@@ -135,7 +135,7 @@ func _tear() -> void:
 	Audio.sfx(&"pack_whoosh", -4.0, 0.05)
 	Audio.sting(&"STG-PACK-COMMON")
 	_shake = 8.0
-	var colour: Color = opening.pack.art_color.lightened(0.3)
+	var colour: Color = opening.pack.tint().lightened(0.3)
 	PackFx.flash(self, colour, 0.55, 0.5)
 	PackFx.burst(self, Vector2(960, 330), colour, 40, 520.0, 0.9, true)
 	PackFx.ring(self, Vector2(960, 420), colour, 520.0, 0.6)

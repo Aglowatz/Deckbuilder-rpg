@@ -182,7 +182,7 @@ func _fountain() -> void:
 	var path_colors: Array[Color] = []
 	for index: int in range(4):
 		var spec: Dictionary = EndingDefs.PATH_ICONS[FOUNTAIN_PATH_ORDER[index]]
-		var tint: Color = Color(str(spec["color"]))
+		var tint: Color = PathPalette.of_id(str(spec.get("path", "colorless")))
 		path_colors.append(tint)
 		var a: float = FOUNTAIN_PILLAR_ANGLES[index]
 		var dir: Vector3 = Vector3(cos(a), 0.0, sin(a))
@@ -324,7 +324,7 @@ func _crest() -> void:
 		var local: Vector3 = pos - center
 		plinth.box("stone", local + Vector3(0, 0.08, 0), Vector3(0.8, 0.16, 0.8), Basis(Vector3.UP, angle), 0.03, 0.75)
 		plinth.lathe("stone", local + Vector3(0, 0.16, 0), [Vector2(0.32, 0.0), Vector2(0.26, 0.1), Vector2(0.24, 0.42), Vector2(0.4, 0.5), Vector2(0.4, 0.58)], 12, 0.85, false, true)
-		var tint: Color = Color(str(spec["color"]))
+		var tint: Color = PathPalette.of_id(str(spec.get("path", "colorless")))
 		var glow: StandardMaterial3D = _material(tint, 0.3)
 		glow.emission_enabled = true
 		glow.emission = tint

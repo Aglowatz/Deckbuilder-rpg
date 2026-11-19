@@ -24,13 +24,18 @@ const POSTGAME_LINES: int = 3
 ## How many credits lines the story file has (`ending.credits.1` ...).
 const CREDITS_LINES: int = 12
 ## The Path icons shown in the reunion: [icon, tint] for Beefcake, Gourmand, Refusemancer, Necrocrat.
+## The official colour of PATH_ICONS[index]'s Path (PathPalette; Fable Nov 19, Part 3).
+static func path_color(index: int) -> Color:
+	return PathPalette.of_id(str(PATH_ICONS[clampi(index, 0, PATH_ICONS.size() - 1)].get("path", "colorless")))
+
+
 const PATH_ICONS: Array[Dictionary] = [
 	# Fable Nov 14 (Part 4): "art" is the canonical Path icon (PathIcons), drawn in its own colours wherever it exists; "icon" (the old
 	# silhouettes: a viking head, a tree face, a stamp) is only the fallback when the icon art is missing. "color" tints glows and gems.
-	{"icon": "delapouite/biceps", "art": "ICON-ENERGY-B", "color": "e2553f"},
-	{"icon": "delapouite/chef-toque", "art": "ICON-ENERGY-G", "color": "f2c14e"},
-	{"icon": "lorc/recycle", "art": "ICON-ENERGY-R", "color": "7bc86c"},
-	{"icon": "lorc/skull-crack", "art": "ICON-ENERGY-N", "color": "a870d8"},
+	{"icon": "delapouite/biceps", "art": "ICON-ENERGY-B", "path": "beefcake"},
+	{"icon": "delapouite/chef-toque", "art": "ICON-ENERGY-G", "path": "gourmand"},
+	{"icon": "lorc/recycle", "art": "ICON-ENERGY-R", "path": "refusemancer"},
+	{"icon": "lorc/skull-crack", "art": "ICON-ENERGY-N", "path": "necrocrat"},
 ]
 
 

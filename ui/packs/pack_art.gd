@@ -240,7 +240,7 @@ class PackFace:
 		if pack.kind == PackData.Kind.GILDED:
 			# (a Path's own gilded wrapper, UI-PACK-GILDED-N / -G / -R, is painted in its colours: no tint over it)
 			if not art_id.begins_with("UI-PACK-GILDED-"):
-				picture.modulate = Color.WHITE.lerp(pack.art_color.lightened(0.15), 0.4)
+				picture.modulate = Color.WHITE.lerp(pack.tint().lightened(0.15), 0.4)
 		if (pack.kind == PackData.Kind.GILDED or pack.kind == PackData.Kind.PATH) and not PackArt.PAINTED_MEDALLIONS.has(art_id):
 			_build_medallion()
 
@@ -269,12 +269,12 @@ class PackFace:
 			return Color(0.5, 0.5, 0.5)
 		if pack.frame_style == "prismatic":
 			return Color.from_hsv(fposmod(_time * 0.12, 1.0), 0.55, 0.85)
-		return pack.art_color
+		return pack.tint()
 
 	func _draw() -> void:
 		if _art:
 			if torn_open:
-				_draw_tear(Color("e8c25a") if pack.kind == PackData.Kind.GILDED else pack.art_color)
+				_draw_tear(Color("e8c25a") if pack.kind == PackData.Kind.GILDED else pack.tint())
 			return
 		var base: Color = _base_color()
 		var width: float = PackArt.SIZE.x
@@ -368,7 +368,7 @@ static func icon(pack_data: PackData, scale_factor: float) -> Control:
 		var swatch: Panel = Panel.new()
 		swatch.size = holder.custom_minimum_size * Vector2(0.6, 0.7)
 		swatch.position = (holder.custom_minimum_size - swatch.size) * 0.5
-		swatch.add_theme_stylebox_override("panel", UIStyle.box(pack_data.art_color, pack_data.art_color.lightened(0.4), 2, 4, 0))
+		swatch.add_theme_stylebox_override("panel", UIStyle.box(pack_data.tint(), pack_data.tint().lightened(0.4), 2, 4, 0))
 		holder.add_child(swatch)
 		return holder
 	var art: PackArt = create(pack_data)

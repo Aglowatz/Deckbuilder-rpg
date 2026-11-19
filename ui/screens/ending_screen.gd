@@ -114,7 +114,7 @@ func _ready() -> void:
 func _path_icon(spec: Dictionary, side: float, center: Vector2) -> TextureRect:
 	var art: TextureRect = IconArt.rect(str(spec.get("art", "")), side) if IconArt.has(str(spec.get("art", ""))) else null
 	if art == null:
-		return _icon(str(spec["icon"]), Color(str(spec["color"])), side, center)
+		return _icon(str(spec["icon"]), PathPalette.of_id(str(spec.get("path", "colorless"))), side, center)
 	art.custom_minimum_size = Vector2(side, side)
 	art.size = Vector2(side, side)
 	art.pivot_offset = art.size * 0.5
@@ -284,7 +284,7 @@ func _fx(name: String) -> void:
 			var glow: Tween = create_tween()
 			glow.tween_property(seat, "modulate:a", 1.0, 1.2)
 			for index: int in range(EndingDefs.PATH_ICONS.size()):
-				_burst(Vector2(660.0 + 200.0 * float(index), 560.0), Color(str(EndingDefs.PATH_ICONS[index]["color"])), 60)
+				_burst(Vector2(660.0 + 200.0 * float(index), 560.0), EndingDefs.path_color(index), 60)
 			Audio.sfx(&"victory", -4.0)
 		"primm_sees":
 			var mirror: TextureRect = _icon("delapouite/shinto-shrine-mirror", Color("cfc8d8"), 240.0, Vector2(960, 560))

@@ -15,13 +15,7 @@ const DANGER: Color = Color("d9534f")
 const GOOD: Color = Color("6fbf73")
 const HP_RED: Color = Color("d8404a")
 
-const AFFINITY_COLORS: Dictionary = {
-	Affinity.Type.NEUTRAL: Color("b8a98a"),
-	Affinity.Type.BEEFCAKE: Color("e2553f"),
-	Affinity.Type.GOURMAND: Color("4a8fe0"),
-	Affinity.Type.REFUSEMANCER: Color("5aa84e"),
-	Affinity.Type.NECROCRAT: Color("9a5fc7"),
-}
+## Fable Nov 19 (Part 3): the Path colours live in ONE file, core/data/path_palette.json (PathPalette, docs/art/path_colour_guide.md).
 ## The Path names players see (the single source is `Affinity.DISPLAY_NAMES`).
 static var AFFINITY_NAMES: Dictionary = Affinity.DISPLAY_NAMES
 const AFFINITY_BLURBS: Dictionary = {
@@ -36,7 +30,16 @@ static var _fonts: Dictionary = {}
 
 
 static func affinity_color(type: Affinity.Type) -> Color:
-	return AFFINITY_COLORS.get(type, AFFINITY_COLORS[Affinity.Type.NEUTRAL]) as Color
+	return PathPalette.main(type)
+
+
+## The Path's lighter step for small text on dark panels, and its dark step for text on parchment.
+static func affinity_text_color(type: Affinity.Type) -> Color:
+	return PathPalette.text(type)
+
+
+static func affinity_ink(type: Affinity.Type) -> Color:
+	return PathPalette.ink(type)
 
 
 static func affinity_name(type: Affinity.Type) -> String:

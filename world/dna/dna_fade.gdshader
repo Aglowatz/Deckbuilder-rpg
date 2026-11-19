@@ -13,7 +13,10 @@ uniform bool use_texture = true;
 uniform bool use_tex_alpha = false;
 uniform float tile = 2.56;
 uniform vec3 hero_pos = vec3(0.0, -1000.0, 0.0);
-uniform float fade_strength : hint_range(0.0, 1.0) = 0.86;
+// Fable Nov 19 (Part 1): a cabinet or partition in the way goes see-through, never to nothing (60 %; it was 86 %).
+uniform float fade_strength : hint_range(0.0, 1.0) = 0.6;
+// ... and the lowest `foot` metres of anything that fades stay solid (a wall cut away for the room keeps its stub), so the place it blocks still reads.
+uniform float foot = 0.7;
 uniform float fade_reach = 1.1;
 // Oct 19 (the office interior): the reach grows by this much for a piece at the lens (t = 0), so a full-height wall near the camera cuts away wide.
 uniform float near_reach = 0.0;
@@ -36,6 +39,8 @@ uniform float emission_strength = 0.0;
 global uniform float style_desaturate;
 
 varying float v_fade;
+varying float v_world_y;
+varying float v_floor_piece;
 
 float cross2(vec2 a, vec2 b) {
 	return a.x * b.y - a.y * b.x;
@@ -117,6 +122,8 @@ void vertex() {
 	float sight_y = mix(cam.y, hero.y, t);
 	float covers = (1.0 - smoothstep(top - 0.3, top + 0.35, sight_y)) * smoothstep(bottom - 0.6, bottom + 0.05, sight_y);
 	float enabled = step(-999.0, hero_pos.y);
+	// Fable Nov 19 (rule 1): a piece standing on the floor that is lower than the hero's shoulder never fades (counters, desks, low partitions)
+	covers *= max(step(0.05, bottom), smoothstep(hero_pos.y + 1.45, hero_pos.y + 1.6, top));
 	// a wall standing at the lens cuts away whether or not it blocks the hero: the camera never looks at a wall face in the foreground
 	float at_lens = (1.0 - smoothstep(near_reach * 0.45, near_reach, length(origin.xz - cam.xz))) * step(0.5, near_reach);
 	float front = cut_front ? in_front * step(0.0, t_raw) * (1.0 - smoothstep(top - 0.3, top + 0.35, cam.y)) : 0.0;
@@ -133,6 +140,8 @@ void vertex() {
 		// Overnight Nov 18 (the grand hall): a wall at the lens also cuts away (an 11 m hall wall a few metres in front of the camera filled the view)
 		v_fade = max(cut, at_lens) * enabled * fade_strength;
 	}
+	v_world_y = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y;
+	v_floor_piece = 1.0 - step(0.05, bottom);
 	v_tint = COLOR.rgb;
 	v_disc = CUSTOM1.yzw;
 }
@@ -156,5 +165,6 @@ void fragment() {
 		soft *= soft;
 	}
 	EMISSION = c * emission_strength * soft;
-	ALPHA = base_alpha * (1.0 - v_fade) * soft * (use_tex_alpha ? smoothstep(0.35, 0.7, tex_a) : 1.0);
+	float fade_here = v_fade * mix(1.0, smoothstep(hero_pos.y + foot * 0.6, hero_pos.y + foot, v_world_y), v_floor_piece);
+	ALPHA = base_alpha * (1.0 - fade_here) * soft * (use_tex_alpha ? smoothstep(0.35, 0.7, tex_a) : 1.0);
 }

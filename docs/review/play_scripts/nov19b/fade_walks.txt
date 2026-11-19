@@ -1,0 +1,633 @@
+# Fable Nov 19, Part 1: walk sequences (the hero stepped along a line, a shot per step; default then Low camera)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev travel town
+wait 16
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 2.0 13.4
+wait 0.5
+shot walk_street_default_0
+dev tp 3.6 13.4
+wait 0.5
+shot walk_street_default_1
+dev tp 5.2 13.4
+wait 0.5
+shot walk_street_default_2
+dev tp 6.8 13.4
+wait 0.5
+shot walk_street_default_3
+dev tp 8.4 13.4
+wait 0.5
+shot walk_street_default_4
+dev tp 10.0 13.4
+wait 0.5
+shot walk_street_default_5
+dev tp 11.6 13.4
+wait 0.5
+shot walk_street_default_6
+dev tp 13.2 13.4
+wait 0.5
+shot walk_street_default_7
+cam 3
+dev tp 2.0 13.4
+wait 0.5
+shot walk_street_low_0
+dev tp 3.6 13.4
+wait 0.5
+shot walk_street_low_1
+dev tp 5.2 13.4
+wait 0.5
+shot walk_street_low_2
+dev tp 6.8 13.4
+wait 0.5
+shot walk_street_low_3
+dev tp 8.4 13.4
+wait 0.5
+shot walk_street_low_4
+dev tp 10.0 13.4
+wait 0.5
+shot walk_street_low_5
+dev tp 11.6 13.4
+wait 0.5
+shot walk_street_low_6
+dev tp 13.2 13.4
+wait 0.5
+shot walk_street_low_7
+cam 0
+cam 0
+dev tp 11.2 14.4
+wait 0.5
+shot walk_signpost_default_0
+dev tp 12.0 14.4
+wait 0.5
+shot walk_signpost_default_1
+dev tp 12.8 14.4
+wait 0.5
+shot walk_signpost_default_2
+dev tp 13.6 14.4
+wait 0.5
+shot walk_signpost_default_3
+dev tp 14.4 14.4
+wait 0.5
+shot walk_signpost_default_4
+dev tp 15.2 14.4
+wait 0.5
+shot walk_signpost_default_5
+dev tp 16.0 14.4
+wait 0.5
+shot walk_signpost_default_6
+cam 3
+dev tp 11.2 14.4
+wait 0.5
+shot walk_signpost_low_0
+dev tp 12.0 14.4
+wait 0.5
+shot walk_signpost_low_1
+dev tp 12.8 14.4
+wait 0.5
+shot walk_signpost_low_2
+dev tp 13.6 14.4
+wait 0.5
+shot walk_signpost_low_3
+dev tp 14.4 14.4
+wait 0.5
+shot walk_signpost_low_4
+dev tp 15.2 14.4
+wait 0.5
+shot walk_signpost_low_5
+dev tp 16.0 14.4
+wait 0.5
+shot walk_signpost_low_6
+cam 0
+cam 0
+dev tp 24.0 -7.5
+wait 0.5
+shot walk_behind_houses_default_0
+dev tp 25.5 -7.5
+wait 0.5
+shot walk_behind_houses_default_1
+dev tp 27.0 -7.5
+wait 0.5
+shot walk_behind_houses_default_2
+dev tp 28.5 -7.5
+wait 0.5
+shot walk_behind_houses_default_3
+dev tp 30.0 -7.5
+wait 0.5
+shot walk_behind_houses_default_4
+dev tp 31.5 -7.5
+wait 0.5
+shot walk_behind_houses_default_5
+dev tp 33.0 -7.5
+wait 0.5
+shot walk_behind_houses_default_6
+cam 3
+dev tp 24.0 -7.5
+wait 0.5
+shot walk_behind_houses_low_0
+dev tp 25.5 -7.5
+wait 0.5
+shot walk_behind_houses_low_1
+dev tp 27.0 -7.5
+wait 0.5
+shot walk_behind_houses_low_2
+dev tp 28.5 -7.5
+wait 0.5
+shot walk_behind_houses_low_3
+dev tp 30.0 -7.5
+wait 0.5
+shot walk_behind_houses_low_4
+dev tp 31.5 -7.5
+wait 0.5
+shot walk_behind_houses_low_5
+dev tp 33.0 -7.5
+wait 0.5
+shot walk_behind_houses_low_6
+cam 0
+dev travel zone necrocrat
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 40.0 48.2
+wait 0.5
+shot walk_counter_default_0
+dev tp 41.2 48.2
+wait 0.5
+shot walk_counter_default_1
+dev tp 42.4 48.2
+wait 0.5
+shot walk_counter_default_2
+dev tp 43.6 48.2
+wait 0.5
+shot walk_counter_default_3
+dev tp 44.8 48.2
+wait 0.5
+shot walk_counter_default_4
+dev tp 46.0 48.2
+wait 0.5
+shot walk_counter_default_5
+dev tp 47.2 48.2
+wait 0.5
+shot walk_counter_default_6
+cam 3
+dev tp 40.0 48.2
+wait 0.5
+shot walk_counter_low_0
+dev tp 41.2 48.2
+wait 0.5
+shot walk_counter_low_1
+dev tp 42.4 48.2
+wait 0.5
+shot walk_counter_low_2
+dev tp 43.6 48.2
+wait 0.5
+shot walk_counter_low_3
+dev tp 44.8 48.2
+wait 0.5
+shot walk_counter_low_4
+dev tp 46.0 48.2
+wait 0.5
+shot walk_counter_low_5
+dev tp 47.2 48.2
+wait 0.5
+shot walk_counter_low_6
+cam 0
+cam 0
+dev tp 11.0 36.0
+wait 0.5
+shot walk_cubicles_default_0
+dev tp 12.5 36.0
+wait 0.5
+shot walk_cubicles_default_1
+dev tp 14.0 36.0
+wait 0.5
+shot walk_cubicles_default_2
+dev tp 15.5 36.0
+wait 0.5
+shot walk_cubicles_default_3
+dev tp 17.0 36.0
+wait 0.5
+shot walk_cubicles_default_4
+dev tp 18.5 36.0
+wait 0.5
+shot walk_cubicles_default_5
+dev tp 20.0 36.0
+wait 0.5
+shot walk_cubicles_default_6
+cam 3
+dev tp 11.0 36.0
+wait 0.5
+shot walk_cubicles_low_0
+dev tp 12.5 36.0
+wait 0.5
+shot walk_cubicles_low_1
+dev tp 14.0 36.0
+wait 0.5
+shot walk_cubicles_low_2
+dev tp 15.5 36.0
+wait 0.5
+shot walk_cubicles_low_3
+dev tp 17.0 36.0
+wait 0.5
+shot walk_cubicles_low_4
+dev tp 18.5 36.0
+wait 0.5
+shot walk_cubicles_low_5
+dev tp 20.0 36.0
+wait 0.5
+shot walk_cubicles_low_6
+cam 0
+cam 0
+dev tp 14.0 13.0
+wait 0.5
+shot walk_maze_default_0
+dev tp 15.2 13.0
+wait 0.5
+shot walk_maze_default_1
+dev tp 16.4 13.0
+wait 0.5
+shot walk_maze_default_2
+dev tp 17.6 13.0
+wait 0.5
+shot walk_maze_default_3
+dev tp 18.8 13.0
+wait 0.5
+shot walk_maze_default_4
+dev tp 20.0 13.0
+wait 0.5
+shot walk_maze_default_5
+dev tp 21.2 13.0
+wait 0.5
+shot walk_maze_default_6
+cam 3
+dev tp 14.0 13.0
+wait 0.5
+shot walk_maze_low_0
+dev tp 15.2 13.0
+wait 0.5
+shot walk_maze_low_1
+dev tp 16.4 13.0
+wait 0.5
+shot walk_maze_low_2
+dev tp 17.6 13.0
+wait 0.5
+shot walk_maze_low_3
+dev tp 18.8 13.0
+wait 0.5
+shot walk_maze_low_4
+dev tp 20.0 13.0
+wait 0.5
+shot walk_maze_low_5
+dev tp 21.2 13.0
+wait 0.5
+shot walk_maze_low_6
+cam 0
+dev travel capital
+wait 22
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 22.0 69.3
+wait 0.5
+shot walk_wall_default_0
+dev tp 24.0 69.3
+wait 0.5
+shot walk_wall_default_1
+dev tp 26.0 69.3
+wait 0.5
+shot walk_wall_default_2
+dev tp 28.0 69.3
+wait 0.5
+shot walk_wall_default_3
+dev tp 30.0 69.3
+wait 0.5
+shot walk_wall_default_4
+dev tp 32.0 69.3
+wait 0.5
+shot walk_wall_default_5
+dev tp 34.0 69.3
+wait 0.5
+shot walk_wall_default_6
+cam 3
+dev tp 22.0 69.3
+wait 0.5
+shot walk_wall_low_0
+dev tp 24.0 69.3
+wait 0.5
+shot walk_wall_low_1
+dev tp 26.0 69.3
+wait 0.5
+shot walk_wall_low_2
+dev tp 28.0 69.3
+wait 0.5
+shot walk_wall_low_3
+dev tp 30.0 69.3
+wait 0.5
+shot walk_wall_low_4
+dev tp 32.0 69.3
+wait 0.5
+shot walk_wall_low_5
+dev tp 34.0 69.3
+wait 0.5
+shot walk_wall_low_6
+cam 0
+cam 0
+dev tp 10.0 6.0
+wait 0.5
+shot walk_graves_default_0
+dev tp 12.2 6.0
+wait 0.5
+shot walk_graves_default_1
+dev tp 14.4 6.0
+wait 0.5
+shot walk_graves_default_2
+dev tp 16.6 6.0
+wait 0.5
+shot walk_graves_default_3
+dev tp 18.8 6.0
+wait 0.5
+shot walk_graves_default_4
+dev tp 21.0 6.0
+wait 0.5
+shot walk_graves_default_5
+dev tp 23.2 6.0
+wait 0.5
+shot walk_graves_default_6
+cam 3
+dev tp 10.0 6.0
+wait 0.5
+shot walk_graves_low_0
+dev tp 12.2 6.0
+wait 0.5
+shot walk_graves_low_1
+dev tp 14.4 6.0
+wait 0.5
+shot walk_graves_low_2
+dev tp 16.6 6.0
+wait 0.5
+shot walk_graves_low_3
+dev tp 18.8 6.0
+wait 0.5
+shot walk_graves_low_4
+dev tp 21.0 6.0
+wait 0.5
+shot walk_graves_low_5
+dev tp 23.2 6.0
+wait 0.5
+shot walk_graves_low_6
+cam 0
+dev travel zone gourmand
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 56.0 36.0
+wait 0.5
+shot walk_forest_default_0
+dev tp 58.0 36.0
+wait 0.5
+shot walk_forest_default_1
+dev tp 60.0 36.0
+wait 0.5
+shot walk_forest_default_2
+dev tp 62.0 36.0
+wait 0.5
+shot walk_forest_default_3
+dev tp 64.0 36.0
+wait 0.5
+shot walk_forest_default_4
+dev tp 66.0 36.0
+wait 0.5
+shot walk_forest_default_5
+dev tp 68.0 36.0
+wait 0.5
+shot walk_forest_default_6
+cam 3
+dev tp 56.0 36.0
+wait 0.5
+shot walk_forest_low_0
+dev tp 58.0 36.0
+wait 0.5
+shot walk_forest_low_1
+dev tp 60.0 36.0
+wait 0.5
+shot walk_forest_low_2
+dev tp 62.0 36.0
+wait 0.5
+shot walk_forest_low_3
+dev tp 64.0 36.0
+wait 0.5
+shot walk_forest_low_4
+dev tp 66.0 36.0
+wait 0.5
+shot walk_forest_low_5
+dev tp 68.0 36.0
+wait 0.5
+shot walk_forest_low_6
+cam 0
+cam 0
+dev tp 40.0 46.0
+wait 0.5
+shot walk_kitchen_default_0
+dev tp 41.6 46.0
+wait 0.5
+shot walk_kitchen_default_1
+dev tp 43.2 46.0
+wait 0.5
+shot walk_kitchen_default_2
+dev tp 44.8 46.0
+wait 0.5
+shot walk_kitchen_default_3
+dev tp 46.4 46.0
+wait 0.5
+shot walk_kitchen_default_4
+dev tp 48.0 46.0
+wait 0.5
+shot walk_kitchen_default_5
+dev tp 49.6 46.0
+wait 0.5
+shot walk_kitchen_default_6
+cam 3
+dev tp 40.0 46.0
+wait 0.5
+shot walk_kitchen_low_0
+dev tp 41.6 46.0
+wait 0.5
+shot walk_kitchen_low_1
+dev tp 43.2 46.0
+wait 0.5
+shot walk_kitchen_low_2
+dev tp 44.8 46.0
+wait 0.5
+shot walk_kitchen_low_3
+dev tp 46.4 46.0
+wait 0.5
+shot walk_kitchen_low_4
+dev tp 48.0 46.0
+wait 0.5
+shot walk_kitchen_low_5
+dev tp 49.6 46.0
+wait 0.5
+shot walk_kitchen_low_6
+cam 0
+dev travel zone refusemancer
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 26.0 72.5
+wait 0.5
+shot walk_trees_default_0
+dev tp 28.0 72.5
+wait 0.5
+shot walk_trees_default_1
+dev tp 30.0 72.5
+wait 0.5
+shot walk_trees_default_2
+dev tp 32.0 72.5
+wait 0.5
+shot walk_trees_default_3
+dev tp 34.0 72.5
+wait 0.5
+shot walk_trees_default_4
+dev tp 36.0 72.5
+wait 0.5
+shot walk_trees_default_5
+dev tp 38.0 72.5
+wait 0.5
+shot walk_trees_default_6
+cam 3
+dev tp 26.0 72.5
+wait 0.5
+shot walk_trees_low_0
+dev tp 28.0 72.5
+wait 0.5
+shot walk_trees_low_1
+dev tp 30.0 72.5
+wait 0.5
+shot walk_trees_low_2
+dev tp 32.0 72.5
+wait 0.5
+shot walk_trees_low_3
+dev tp 34.0 72.5
+wait 0.5
+shot walk_trees_low_4
+dev tp 36.0 72.5
+wait 0.5
+shot walk_trees_low_5
+dev tp 38.0 72.5
+wait 0.5
+shot walk_trees_low_6
+cam 0
+cam 0
+dev tp 26.0 58.0
+wait 0.5
+shot walk_windmill_default_0
+dev tp 28.0 58.0
+wait 0.5
+shot walk_windmill_default_1
+dev tp 30.0 58.0
+wait 0.5
+shot walk_windmill_default_2
+dev tp 32.0 58.0
+wait 0.5
+shot walk_windmill_default_3
+dev tp 34.0 58.0
+wait 0.5
+shot walk_windmill_default_4
+dev tp 36.0 58.0
+wait 0.5
+shot walk_windmill_default_5
+dev tp 38.0 58.0
+wait 0.5
+shot walk_windmill_default_6
+cam 3
+dev tp 26.0 58.0
+wait 0.5
+shot walk_windmill_low_0
+dev tp 28.0 58.0
+wait 0.5
+shot walk_windmill_low_1
+dev tp 30.0 58.0
+wait 0.5
+shot walk_windmill_low_2
+dev tp 32.0 58.0
+wait 0.5
+shot walk_windmill_low_3
+dev tp 34.0 58.0
+wait 0.5
+shot walk_windmill_low_4
+dev tp 36.0 58.0
+wait 0.5
+shot walk_windmill_low_5
+dev tp 38.0 58.0
+wait 0.5
+shot walk_windmill_low_6
+cam 0
+dev travel zone beefcake
+wait 18
+skip_dialogue
+hud off
+calm
+wait 5
+cam 0
+dev tp 82.0 18.5
+wait 0.5
+shot walk_gym_default_0
+dev tp 84.0 18.5
+wait 0.5
+shot walk_gym_default_1
+dev tp 86.0 18.5
+wait 0.5
+shot walk_gym_default_2
+dev tp 88.0 18.5
+wait 0.5
+shot walk_gym_default_3
+dev tp 90.0 18.5
+wait 0.5
+shot walk_gym_default_4
+dev tp 92.0 18.5
+wait 0.5
+shot walk_gym_default_5
+dev tp 94.0 18.5
+wait 0.5
+shot walk_gym_default_6
+cam 3
+dev tp 82.0 18.5
+wait 0.5
+shot walk_gym_low_0
+dev tp 84.0 18.5
+wait 0.5
+shot walk_gym_low_1
+dev tp 86.0 18.5
+wait 0.5
+shot walk_gym_low_2
+dev tp 88.0 18.5
+wait 0.5
+shot walk_gym_low_3
+dev tp 90.0 18.5
+wait 0.5
+shot walk_gym_low_4
+dev tp 92.0 18.5
+wait 0.5
+shot walk_gym_low_5
+dev tp 94.0 18.5
+wait 0.5
+shot walk_gym_low_6
+cam 0

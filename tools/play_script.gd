@@ -189,6 +189,39 @@ func _run_line(line: String) -> void:
 			# Fable Nov 12c (A6): `meshscan <x> <z> [radius]` lists the visible meshes whose box comes within `radius` metres of (x, z):
 			# path, box, first material's colour and whether it is textured - to name the thing a screenshot shows.
 			_meshscan(float(parts[1]) if parts.size() > 1 else 0.0, float(parts[2]) if parts.size() > 2 else 0.0, float(parts[3]) if parts.size() > 3 else 2.0)
+		"fadescan":
+			# Fable Nov 19 (Part 1): `fadescan <prefix> [shots]` - what the occlusion fader hides over every walkable cell, at the default
+			# and the Low camera; logs the list and shoots the worst spots (default 6) at both cameras.
+			await _fade_scan(parts[1] if parts.size() > 1 else "fade", int(parts[2]) if parts.size() > 2 else 6)
+		"fadeshot":
+			# `fadeshot <name> <x> <z>`: the hero at (x, z), shot at the default and the Low camera, with what the fader hides in the log
+			for angle: int in [0, 3]:
+				Settings.set_camera_angle(angle)
+				_teleport(parts[2], parts[3])
+				await driver.seconds(1.5)
+				var fader_at: Node = FadeScan.find_fader(get_tree().current_scene)
+				var seen: Dictionary = {}
+				if fader_at != null:
+					for entry: Dictionary in FadeScan.faded_now(fader_at):
+						seen["%s[%s %s]" % [str(entry["name"]), str(entry["kind"]), str(entry.get("why", ""))]] = true
+				_say("  fadeshot %s cam %d: %s" % [parts[1], angle, ", ".join(PackedStringArray(seen.keys()))])
+				if fader_at != null and fader_at.has_method("debug_state"):
+					for state_line: String in fader_at.call("debug_state") as PackedStringArray:
+						_say("    state: " + state_line)
+				await _shot("%s_%s" % [parts[1], "default" if angle == 0 else "low"])
+			Settings.set_camera_angle(0)
+		"fadecat":
+			# `fadecat`: every thing the fader knows here, with its type and rule (the fade probe's list)
+			var fader_cat: Node = FadeScan.find_fader(get_tree().current_scene)
+			if fader_cat != null:
+				for row: Dictionary in fader_cat.call("catalogue") as Array[Dictionary]:
+					_say("  fadecat | %s | %s | %s | pieces %d" % [str(row["name"]), str(row["type"]), str((row["size"] as Vector3).snapped(Vector3(0.1, 0.1, 0.1))), int(row["pieces"])])
+		"fades":
+			# `fades`: what the fader hides right now
+			var fader_now: Node = FadeScan.find_fader(get_tree().current_scene)
+			if fader_now != null:
+				for entry: Dictionary in FadeScan.faded_now(fader_now):
+					_say("  fades: %s %s %s" % [str(entry["name"]), str(entry["kind"]), str((entry["size"] as Vector3).snapped(Vector3(0.1, 0.1, 0.1)))])
 		"at":
 			# `at <anchor>`: the hero onto a named anchor of the current zone's map (the Capital's `po_*` camera spots)
 			var at_scene: Node = get_tree().current_scene
@@ -735,6 +768,38 @@ func _edge_shots(prefix: String) -> void:
 				return
 			await _shot("%s_%s_%s" % [prefix, key, "default" if angle == 0 else "low"])
 		_say("  edgeshots: %s at (%.1f, %.1f)" % [key, at.x, at.z])
+	Settings.set_camera_angle(0)
+
+
+func _fade_scan(prefix: String, shots: int) -> void:
+	var scene: Node = get_tree().current_scene
+	var map: Object = _walk_map()
+	if map == null or not ("player" in scene):
+		_say("  fadescan: no walkable map here")
+		return
+	var spots: Array[Dictionary] = []
+	var rows: Array[Dictionary] = FadeScan.scan(scene, map, spots, shots)
+	var counts: Dictionary = {}
+	for row: Dictionary in rows:
+		counts[row["kind"]] = int(counts.get(row["kind"], 0)) + 1
+	_say("  fadescan %s: %d things can fade %s" % [prefix, rows.size(), str(counts)])
+	for row: Dictionary in rows:
+		_say("  fadescan row | %s | %s | %s | %d cells | cams %s" % [str(row["name"]), str(row["kind"]), str((row["size"] as Vector3).snapped(Vector3(0.1, 0.1, 0.1))), int(row["count"]), str((row["cams"] as Dictionary).keys())])
+	var player: Node3D = scene.get("player") as Node3D
+	if "_spawn_grace" in scene:
+		scene.set("_spawn_grace", 600.0)
+	var index: int = 0
+	for spot: Dictionary in spots:
+		index += 1
+		var at: Vector3 = spot["pos"] as Vector3
+		_say("  fadescan spot %d (%.1f, %.1f) cam %d score %.0f: %s" % [index, at.x, at.z, int(spot["cam"]), float(spot["score"]), ", ".join(spot["names"] as PackedStringArray)])
+		for angle: int in [0, 3]:
+			if get_tree().current_scene != scene or not is_instance_valid(player):
+				return
+			Settings.set_camera_angle(angle)
+			_teleport(str(at.x), str(at.z))
+			await driver.seconds(1.6)
+			await _shot("%s_%d_%s" % [prefix, index, "default" if angle == 0 else "low"])
 	Settings.set_camera_angle(0)
 
 

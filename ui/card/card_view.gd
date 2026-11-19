@@ -48,12 +48,6 @@ const PATH_BACKS: Dictionary = {
 }
 const RARITY_GEMS: Array[String] = ["UI-RARITY-C", "UI-RARITY-U", "UI-RARITY-E", "UI-RARITY-L"]
 ## The cloth colours of the tinted frames (matching each Path own frame: Beefcake red, Necrocrat green, Gourmand cream-copper, Refusemancer rust-moss).
-const FRAME_CLOTH: Dictionary = {
-	Affinity.Type.BEEFCAKE: Color("d8392b"),
-	Affinity.Type.NECROCRAT: Color("5f9a62"),
-	Affinity.Type.GOURMAND: Color("e6a468"),
-	Affinity.Type.REFUSEMANCER: Color("9aa832"),
-}
 ## Frame order of the four bands: top-left, top-right, bottom-left, bottom-right.
 const FRAME_PATH_ORDER: Array[Affinity.Type] = [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER]
 ## Frame layout, in card units (the frame images are 2:3, laid out at 300x450 like the card; measured on the 1024x1536 originals):
@@ -1014,7 +1008,7 @@ static func player_back_path() -> Affinity.Type:
 
 ## The Path colours the cloth of a tinted frame takes (Beefcake red, Necrocrat green, Gourmand cream-copper, Refusemancer rust-moss).
 static func frame_cloth_color(path: Affinity.Type) -> Color:
-	return FRAME_CLOTH.get(path, Color("a09070")) as Color
+	return PathPalette.frame(path) if path != Affinity.Type.NEUTRAL else Color("a09070")
 
 
 func _build_back_framed(back: Texture2D) -> void:
