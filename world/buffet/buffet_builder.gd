@@ -346,6 +346,10 @@ func _terrain_color(centroid: Vector3) -> Color:
 	# A gravy stain along the banks.
 	if depth > -2.0:
 		color = color.lerp(M.CREAM_SHADE.darkened(0.12), smoothstep(-2.0, -0.4, depth) * 0.7)
+	# Fable Nov 20 (Part 5.3): a wet band along the table's edge, uneven in width, where the beach meets the gravy all round
+	var wet_reach: float = 1.9 + (_noise(x * 0.37, z * 0.41) - 0.5) * 1.6
+	if edge < wet_reach:
+		return color.lerp(M.CREAM_SHADE.darkened(0.16), (1.0 - smoothstep(0.2, wet_reach, edge)) * 0.65)
 	var area: BuffetLayout.Area = layout.area_at(x, z)
 	if area != null:
 		match area.id:

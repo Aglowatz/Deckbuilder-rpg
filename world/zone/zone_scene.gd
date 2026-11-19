@@ -670,7 +670,10 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	marker.mesh = mesh
 	marker.rotation_degrees.x = 180.0
 	spot.label_height = NpcSprites.label_height(_npcs.get(str(data.get("npc", ""))) as Node, 0.0) if npc else 0.0
-	marker.position = pos + Vector3(0, ground + (spot.label_height if spot.label_height > 0.0 else (1.45 if npc else 1.7)), 0)
+	# Fable Nov 20 (Part 5.2): the marker's height is the ground's plus the head's, once. `pos` already stands on the ground, so on high
+	# ground (the Gainlands' plateau, 4 m up) the ground was counted twice until the hero came near, and every quest mark made before
+	# that floated 4 m and more over the head it belonged to.
+	marker.position = Vector3(pos.x, ground + (spot.label_height if spot.label_height > 0.0 else (1.45 if npc else 1.7)), pos.z)
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()

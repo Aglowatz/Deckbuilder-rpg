@@ -1,0 +1,31 @@
+# Fable Nov 20, Part 5: first look - the D.N.A. axis, the Gainlands markers and crag
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_dna_desk 45.5 39.5
+fadeshot p5_dna_gate_in 45.5 57.0
+fadeshot p5_dna_gate_out 45.5 64.0
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+cam 0
+spots
+fadeshot p5_gain_crag_north 64.5 26.0
+fadeshot p5_gain_crag_ne 67.5 27.5
+dev goto gus
+wait 1
+shot p5_gain_marker_gus
+dev goto brenda
+wait 1
+shot p5_gain_marker_brenda
+dev goto tony
+wait 1
+shot p5_gain_marker_tony

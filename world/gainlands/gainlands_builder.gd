@@ -292,6 +292,19 @@ func _build_land() -> void:
 	# lower lumps on the corners the road sees, so the walls step instead of rising as one straight block
 	for lump: Vector4 in [Vector4(63.4, 35.9, 1.5, 2.6), Vector4(66.9, 35.7, 1.7, 4.2), Vector4(60.2, 29.0, 1.2, 1.8), Vector4(64.9, 37.0, 1.0, 5.4)]:
 		crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(lump.x, lump.y), Vector2(lump.z, lump.z * 0.9), 8, lump.x + lump.y), GainlandsLayout.IRON_CRAG_TOP - lump.w, "IronCragLump"))
+	# Fable Nov 20 (Part 5.2): the hero walking behind the crag (the northern path) was hidden: its rock walls run far below the sea, so
+	# the fader took it for land. Each rock names the box that blocks the view (plateau to its top) and is a tall occluder: the
+	# see-through window and the hero's outline work on it like on a building.
+	var crag_pieces: Array[MeshInstance3D] = [crag]
+	for child: Node in crag.get_children():
+		if child is MeshInstance3D:
+			crag_pieces.append(child as MeshInstance3D)
+	for piece: MeshInstance3D in crag_pieces:
+		var rock_box: AABB = piece.get_aabb()
+		var foot: float = GainlandsLayout.PLATEAU_Y - 0.5
+		piece.set_meta(&"occlusion_box", AABB(Vector3(rock_box.position.x, foot, rock_box.position.z), Vector3(rock_box.size.x, rock_box.end.y - foot, rock_box.size.z)))
+		piece.set_meta(&"fade_type", "tall_occluder")
+		piece.remove_meta(&"no_occlusion_fade")
 	var front: Vector3 = Basis(Vector3.UP, deg_to_rad(GainlandsLayout.IRON_CAVE_YAW)) * Vector3(0, 0, 1)
 	var side: Vector3 = Vector3(front.z, 0.0, -front.x)
 	var mouth: Vector3 = Vector3(GainlandsLayout.IRON_CAVE_MOUTH.x, GainlandsLayout.PLATEAU_Y, GainlandsLayout.IRON_CAVE_MOUTH.y)

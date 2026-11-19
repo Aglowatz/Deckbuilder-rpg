@@ -1,0 +1,37 @@
+# Fable Nov 20, Part 5: third look - quest marks over the Gainlands' people, the crag, the quiz clearing
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gate beefcake
+dev gate gourmand
+dev quest gain_power 2
+dev quest gain_spot_me 0
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_gain_crag_north 64.5 26.0
+cam 0
+dev goto gus
+wait 2
+shot p5_gain_marker_gus
+cam 3
+wait 1
+shot p5_gain_marker_gus_low
+cam 0
+dev goto spot_me
+wait 2
+shot p5_gain_marker_gary
+dev goto brenda
+wait 2
+shot p5_gain_marker_brenda
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_buf_quiz 19.9 64.5
+fadeshot p5_buf_quiz_path 27.0 66.0

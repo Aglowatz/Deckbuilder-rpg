@@ -1,0 +1,43 @@
+# Fable Nov 20, Part 5: second look - the Gainlands crag and quest marks, the Buffet's quiz clearing and west shore, the Dump's Wren
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_gain_crag_north 64.5 26.0
+dev goto gus
+wait 1
+shot p5_gain_marker_gus
+dev goto brenda
+wait 1
+shot p5_gain_marker_brenda
+cam 3
+wait 1
+shot p5_gain_marker_brenda_low
+cam 0
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_buf_quiz 19.9 64.5
+fadeshot p5_buf_quiz_path 27.0 64.0
+fadeshot p5_buf_west_north 8.0 20.0
+fadeshot p5_buf_west_north2 6.2 30.0
+fadeshot p5_buf_west_mid 6.0 54.0
+fadeshot p5_buf_nw_corner 9.5 9.5
+dev travel zone refusemancer
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p5_dump_wren 39.5 121.2
+scene

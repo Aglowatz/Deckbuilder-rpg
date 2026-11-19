@@ -20,8 +20,11 @@ const H: int = 72
 ## Every doorway between rooms is at least this many cells wide (four hero widths and more).
 const LINK_WIDTH: int = 4
 ## The approach causeway from the south edge into the lobby (x APPROACH_X0 .. APPROACH_X1 - 1, z APPROACH_Z0 .. APPROACH_Z1 - 1) and its gate at the lobby wall.
-const APPROACH_X0: int = 44
-const APPROACH_X1: int = 49
+## Fable Nov 20 (Part 5.1): the building's one axis - the Hall, the red runner from the gate to the Hall's stair, the entrance gate and
+## the routing desk in the Mail Room all stand on x = AXIS_X (the gate stood a metre east of the runner, the desk a metre west).
+const AXIS_X: float = 45.5
+const APPROACH_X0: int = 43
+const APPROACH_X1: int = 48
 const APPROACH_Z0: int = 60
 const APPROACH_Z1: int = 68
 const GATE_Z: float = 60.5
@@ -275,9 +278,9 @@ func _rooms_and_corridors() -> void:
 	_link(Rect2i(43, 14, 4, 2), Floor.EXEC)   # elevator bank <-> executive floor
 	_link(Rect2i(69, 24, 5, 2), Floor.CONCRETE) # farm B <-> records basement
 	# A fresh visit starts on the causeway facing the gate; the exit spot waits at its far end.
-	anchors["spawn"] = Vector3(46.5, 0.0, 64.5)
-	anchors["exit"] = Vector3(46.5, 0.0, 66.6)
-	anchors["gate"] = Vector3(46.5, 0.0, GATE_Z)
+	anchors["spawn"] = Vector3(AXIS_X, 0.0, 64.5)
+	anchors["exit"] = Vector3(AXIS_X, 0.0, 66.6)
+	anchors["gate"] = Vector3(AXIS_X, 0.0, GATE_Z)
 	anchors["rift_station"] = Vector3(50.3, 0.0, 55.5)  # Overnight Nov 19 (Part 8.1): a little right, off the walkway (was 48.5)
 	# Brief 16: Shiro Swindle's giant chest, in the open floor north-west of the lobby (see NinjaBoss).
 	anchors["giant_chest"] = Vector3(28.2, 0.0, 42.6)
@@ -438,16 +441,16 @@ func _furnish_lobby() -> void:
 	_card("DNA-SHEET-CABINETS-01", cell_center(54, 52) + Vector3(0.3, 0, 0), 1.5, 0.35)
 	_sign("sign.requisitions", Vector3(52.5, 1.55, 52.0), 0.0, "sign", 0.9)
 	# The way in and out: the gate in the south wall onto the approach causeway (the exit spot stands at the causeway's far end).
-	anchors["exit_door"] = Vector3(46.5, 0.0, 59.5)
-	_sign("sign.exit", Vector3(43.2, 1.7, 59.4), 180.0, "sign", 1.0)
+	anchors["exit_door"] = Vector3(AXIS_X, 0.0, 59.5)
+	_sign("sign.exit", Vector3(42.3, 1.7, 59.4), 180.0, "sign", 1.0)
 	# Overnight Oct 31 - Nov 1 (critics: "the lobby reads as a greybox"): the waiting area along the west wall and a television by the
 	# wall, from the zone's own pieces; the middle stays open (GC-7) and the north wall keeps the ghost queue.
 	# Fix pass Nov 4 (B), Part 3.3: the west side of the lobby is a clear passage (LOBBY_WEST_PASSAGE) from the gate to the breakroom's doorway; the
 	# bench and the cooler moved to the south wall west of the exit, the television to the east wall (they stood in front of the doorway).
 	_piece("bench", Vector3(40.2, 0.0, 59.3), 180.0, 2.0)
 	_blockers(Vector3(39.3, 0.0, 59.3), Vector3(41.1, 0.0, 59.3), 0.35, 0.4)
-	_piece("water_cooler", Vector3(42.0, 0.0, 59.4), 180.0)
-	_blockers(Vector3(42.0, 0.0, 59.4), Vector3(42.0, 0.0, 59.4), 0.3)
+	_piece("water_cooler", Vector3(41.7, 0.0, 59.4), 180.0)
+	_blockers(Vector3(41.7, 0.0, 59.4), Vector3(41.7, 0.0, 59.4), 0.3)
 	_piece("television", Vector3(55.3, 0.0, 49.2), -90.0)
 	_blockers(Vector3(55.3, 0.0, 49.2), Vector3(55.3, 0.0, 49.2), 0.35)
 	anchors["lobby_center"] = cell_center(45, 53)
@@ -456,10 +459,10 @@ func _furnish_lobby() -> void:
 ## The approach causeway: a stone causeway with ghost lamps at its head and foot; a gate (DnaLandmarks) stands at the lobby wall; a bridge stub beyond its far end
 ## reads as the way back to town (DnaBuilder draws both).
 func _furnish_approach() -> void:
-	_wall_lamp(Vector3(43.5, 0.0, 63.5), 2)
-	_wall_lamp(Vector3(49.5, 0.0, 63.5), 3)
-	_wall_lamp(Vector3(43.5, 0.0, 67.5), 1)
-	_wall_lamp(Vector3(49.5, 0.0, 67.5), 2)
+	_wall_lamp(Vector3(42.5, 0.0, 63.5), 2)
+	_wall_lamp(Vector3(48.5, 0.0, 63.5), 3)
+	_wall_lamp(Vector3(42.5, 0.0, 67.5), 1)
+	_wall_lamp(Vector3(48.5, 0.0, 67.5), 2)
 
 
 # ---- Breakroom (hub, safe) -----------------------------------------------------------------
@@ -595,7 +598,7 @@ func _furnish_mail_room() -> void:
 	_sign("sign.mailroom", Vector3(45.0, 1.7, 28.25), 0.0, "sign", 1.15)
 	_sign("sign.puzzle", Vector3(45.0, 1.15, 28.25), 0.0, "poster", 0.85)
 	# The routing terminal: a console with three screens in the middle of the room.
-	var terminal: Vector3 = cell_center(44, 35)
+	var terminal: Vector3 = Vector3(AXIS_X, 0.0, 35.5)  # Fable Nov 20: on the runner's line (was cell 44: a metre west of it)
 	anchors["puzzle"] = terminal + Vector3(1.0, 0, 1.0)
 	_piece("console", terminal, 0.0, 3.0)
 	_blockers(terminal + Vector3(-1.4, 0, 0), terminal + Vector3(1.4, 0, 0), 0.34, 0.4)

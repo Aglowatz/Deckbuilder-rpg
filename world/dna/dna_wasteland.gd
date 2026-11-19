@@ -58,7 +58,7 @@ const PAPER_DRIFTS: Array = [
 	["DNA-DEC-FORMS-05", 15.6, 52.2, 1.3, 10.0], ["DEC-PAPERS", 62.4, 53.0, 1.8, 150.0],
 ]
 ## The rubble rows at the foot of the south faces (CAP-PROP-RUBBLE-ROW): [x0, x1, z].
-const RUBBLE_ROWS: Array[Array] = [[20.5, 40.4, 61.5], [52.6, 58.5, 61.5], [4.5, 19.0, 45.4], [59.5, 90.0, 45.4]]
+const RUBBLE_ROWS: Array[Array] = [[20.5, 39.4, 61.5], [51.6, 58.5, 61.5], [4.5, 19.0, 45.4], [59.5, 90.0, 45.4]]
 const RUBBLE_ROW_HEIGHT: float = 0.95
 
 var root: Node3D
@@ -304,7 +304,7 @@ func _lamp(parent: Node3D, pos: Vector3, lean_degrees: float) -> void:
 	var lamp: Node3D = CapitalProps.street_lamp(false)
 	lamp.name = "OldLamp"
 	lamp.position = pos
-	lamp.rotation_degrees = Vector3(0.0, 90.0 if pos.x < 46.5 else -90.0, lean_degrees)
+	lamp.rotation_degrees = Vector3(0.0, 90.0 if pos.x < DnaLayout.AXIS_X else -90.0, lean_degrees)
 	parent.add_child(lamp)
 	(placed["lamp"] as Array).append(pos)
 

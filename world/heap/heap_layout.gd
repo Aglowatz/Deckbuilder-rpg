@@ -815,7 +815,7 @@ func _anchors() -> void:
 	_at("hub", 50.0, 126.0)
 	_at("rift_station", 42.0, 130.0)
 	_at("heal", 39.5, 118.0)
-	_at("wren", 38.5, 123.5)  # Fable pass Nov 10 (Part 1.3): out of the Rift station's line (its post and board hid her name plate from the camera); 1.6: west of it, off the greenhouse's corner, 4 m from the trough and the stable
+	_at("wren", 37.5, 124.7)  # Fable Nov 20 (Part 5.4): a step south-west, out of the Harvest Meal's reach (her Talk prompt took the meal's); Fable pass Nov 10 (Part 1.3): out of the Rift station's line (its post and board hid her name plate from the camera); 1.6: west of it, off the greenhouse's corner, 4 m from the trough and the stable
 	_at("stable_1", 36.0, 127.0)
 	# Fixes Oct 26: Brother Bramble greets visitors at the Commons Greenhouse door (his line: "Welcome to the Compost Grange... close the door behind you"),
 	# facing the arrival; he stood at (57, 112) east of the greenhouse. His dam quest is run at the stables, so nothing else needs him there.

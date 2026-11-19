@@ -20,6 +20,13 @@ const CLIFF_WIDTH: float = 1.6
 const RIVER_BASE_Z: float = 44.0
 const RIVER_HALF_WIDTH: float = 3.4
 const SOUP_LEVEL: float = -0.35
+## Fable Nov 20: the beach at the table's edge - its height over the gravy at the edge, the level it reaches SHORE_BEACH metres in, and
+## how far in the "never under the gravy" floor holds (fully to SHORE_HOLD, fading out by SHORE_FADE).
+const SHORE_RISE: float = 0.10
+const SHORE_LEVEL: float = -0.05
+const SHORE_BEACH: float = 2.6
+const SHORE_HOLD: float = 5.0
+const SHORE_FADE: float = 13.0
 const RIVER_BED: float = -1.3
 ## Rafts and the lazy susan.
 const RAFT_RADIUS: float = 1.7
@@ -294,6 +301,14 @@ func _base_height(x: float, z: float) -> float:
 	var hills: float = _hills(x, z) * flat * smoothstep(1.0, 5.0, -soup_depth(x, z))
 	var edge: float = clampf(edge_distance(x, z) / 4.0, 0.0, 1.0)
 	var land: float = hills - (1.0 - edge) * 0.9
+	# Fable Nov 20 (Part 5.3): near the table's edge the ground never lies under the gravy round it. Where the hills dip (the west side,
+	# worst at the north end past the river) the land ran a metre and more under the gravy's level and the gravy stood over it like a
+	# slab. Now the last metres rise to a low beach a hand's breadth over the gravy at the very edge (the shore mesh carries it on
+	# under the water line), level with the rest of the zone a few steps in; further in the hills are as they were.
+	var from_edge: float = maxf(edge_distance(x, z), 0.0)
+	var beach: float = lerpf(SOUP_LEVEL + SHORE_RISE, SHORE_LEVEL, smoothstep(0.0, SHORE_BEACH, from_edge))
+	var hold: float = 1.0 - smoothstep(SHORE_HOLD, SHORE_FADE, from_edge)
+	land = lerpf(land, maxf(land, beach), hold)
 	var depth: float = soup_depth(x, z)
 	if depth > -1.8:
 		# Banks slope into the soup; the bed is below the soup surface.
@@ -758,6 +773,16 @@ const ENTRANCE_FOREST_RADIUS: float = 0.95
 const ENTRANCE_TREES_FROM_X: float = 67.0
 ## The view from the entrance to the hub: no broccoli or cauliflower stands here (the grove on the plaza's south-east corner did).
 const ENTRANCE_VIEW: Rect2 = Rect2(52.5, 64.0, 14.0, 12.0)
+## Fable Nov 20 (Part 5.3): Professor Pate and Dex Shufflewick stood behind a wall of broccoli: the camera looks north, so every tree
+## south of them and of their path hid them. No tree stands in the clearing in front of them (QUIZ_CLEARING) or in the strip south of
+## the path that leads to them (QUIZ_PATH_VIEW); the trees behind them, the forest's west half and its east border stay.
+const QUIZ_CLEARING: Rect2 = Rect2(10.5, 59.0, 17.5, 17.5)
+const QUIZ_PATH_VIEW: Rect2 = Rect2(28.0, 62.0, 6.5, 6.0)
+
+
+static func in_quiz_clearing(at: Vector2) -> bool:
+	return QUIZ_CLEARING.has_point(at) or QUIZ_PATH_VIEW.has_point(at)
+
 
 
 func _entrance_forest() -> void:
@@ -785,6 +810,8 @@ func _entrance_forest() -> void:
 	for at: int in range(props.size() - 1, -1, -1):
 		var prop: Prop = props[at]
 		if prop.kind in ["broccoli", "cauliflower"] and ENTRANCE_VIEW.has_point(Vector2(prop.pos.x, prop.pos.z)):
+			props.remove_at(at)
+		elif prop.kind in ["broccoli", "cauliflower"] and in_quiz_clearing(Vector2(prop.pos.x, prop.pos.z)):
 			props.remove_at(at)
 
 

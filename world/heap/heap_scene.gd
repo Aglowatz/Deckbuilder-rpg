@@ -815,7 +815,8 @@ func _check_chutes() -> void:
 func _slide(chute: HeapLayout.Chute) -> void:
 	_busy = true
 	_locked = true
-	_dismount(false)
+	# Fable Nov 20 (Part 5.4): the mount comes down the slide with you and you are still riding at the bottom (the slide used to send
+	# it home). `_update_mount` keeps it under the hero every frame.
 	player.airborne = true
 	var points: Array[Vector3] = heap.chute_points(chute)
 	var end: Vector3 = builder.anchor(chute.dest_anchor)
