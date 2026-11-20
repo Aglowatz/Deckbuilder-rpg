@@ -3,4 +3,31 @@ handin | PASS | first_deck_edit | Elder Maren | town/elder | talks 2
 handin | PASS | storeroom_ghosts | Elder Maren | town/elder | talks 2
 handin | PASS | side_s_town | Elder Maren | town/elder | talks 2
 handin | PASS | town_outskirts_watch | Gatekeeper Brannoch | town/guard | talks 2
-handin: 5 passed, 0 failed
+handin | PASS | dna_backlog | Agnes Overdue | necrocrat/dolores | talks 2
+handin | PASS | dna_onboarding | Gerald | necrocrat/barnaby | talks 1
+handin | PASS | dna_hall_monitor | Kyle | necrocrat/matching | talks 1
+handin | PASS | dna_audit | Clerk Ledgerbone | necrocrat/pip | talks 2
+handin | PASS | side_s_necro | Gerald | necrocrat/barnaby | talks 1
+handin | PASS | gain_power | Foreman Gus | beefcake/gus | talks 1
+handin | PASS | gain_spot_me | Old Man Mountain | beefcake/brenda | talks 1
+handin | PASS | side_s_beef | Old Man Mountain | beefcake/brenda | talks 1
+handin | PASS | gain_lanes | Coach Brutus Benchley | beefcake/tony | talks 1
+handin | PASS | gain_spot_check | Foreman Gus | beefcake/gus | talks 1
+handin | PASS | side_s_ref | Brother Bramble | refusemancer/marigold | talks 2
+handin | PASS | heap_herd | Billie Muckfoot | refusemancer/wren | talks 1
+handin | PASS | heap_fert | Granny Gristle | refusemancer/hob | talks 1
+handin | PASS | heap_dam | Brother Bramble | refusemancer/marigold | talks 2
+handin | PASS | heap_pest_control | Billie Muckfoot | refusemancer/wren | talks 1
+handin | PASS | buf_pantry | Sous-Chef Tarragon | gourmand/tarragon | talks 2
+handin | PASS | buf_pie | Madame Mirepoix | gourmand/dolcetta | talks 1
+handin | PASS | buf_mend | Basil | gourmand/odalys | talks 1
+handin | PASS | side_s_gour | Basil | gourmand/odalys | talks 1
+handin | PASS | buf_leftovers | Sous-Chef Tarragon | gourmand/tarragon | talks 2
+handin | PASS | side_s_cap | Kestrel | final/kestrel | talks 2
+handin | PASS | cap_burial | Widow Pell | final/pell | talks 2
+handin | PASS | cap_wheels | Rollo Spokes | final/rollo | talks 2
+handin | PASS | cap_recipes | Chef Marlo | final/marlo | talks 2
+handin | PASS | cap_paste_works | Chef Marlo | final/marlo | talks 2
+handin | PASS | cap_patrol_thinning | Kestrel | final/kestrel | talks 2
+handin | PASS | cap_untidy | Old Fern | final/fern | talks 2
+handin: 32 passed, 0 failed

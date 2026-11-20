@@ -1,0 +1,31 @@
+# Fable Nov 20, Part 7: the four puzzle boards in the running battle screen
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev arena arena_lethal_lunch
+wait 12
+skip_dialogue
+shot p7_board_bronze
+dev lose
+wait 8
+skip_dialogue
+dev arena arena_hold_the_line
+wait 12
+skip_dialogue
+shot p7_board_silver
+dev lose
+wait 8
+skip_dialogue
+dev arena arena_zero_to_hero
+wait 12
+skip_dialogue
+shot p7_board_gold
+dev lose
+wait 8
+skip_dialogue
+dev arena arena_final_bell
+wait 12
+skip_dialogue
+shot p7_board_diamond
