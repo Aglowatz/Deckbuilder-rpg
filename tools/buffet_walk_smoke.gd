@@ -45,7 +45,7 @@ func run() -> void:
 	await _the_dungeons(zone)
 	await _the_chest_and_the_lever(zone)
 	await _back_out_over_the_bridge(zone)
-	_finish(_failures.is_empty(), "bridge -> plaza -> NPCs, vendor, interactables -> quiz, Dinner in a Dash, taste test, stew pot -> the Walk-In Freezer (Omakase), the Test Kitchen -> giant chest, lever -> bridge -> town (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "bridge -> plaza -> NPCs, vendor, interactables -> quiz, Dinner in a Dash, taste test, stew pot -> the Raw Deal (the walk-in freezer), the Test Kitchen -> giant chest, lever -> bridge -> town (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------

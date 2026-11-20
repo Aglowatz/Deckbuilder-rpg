@@ -1,3 +1,254 @@
+# Fable Nov 21 - report: your playtest list, cards, dungeons, the Deck Station, the castle scene, five cameras
+
+Brief: `docs/prompts/fable_nov20_night.md`. Start tag `pre-fable-nov21`. Questions: `docs/overnight_inbox.md`, "Fable Nov 21"
+(6 items). Shots: `docs/overnight_shots/nov20/` (no `ref_*` shots of yours were in the folder). **Nothing was uploaded.** One commit
+per part, all pushed.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Your decisions | yes | the well's key has a small chest of its own; the rest recorded as "stays" |
+| 2 Cards | yes | the sacrifice-for-damage bug found and fixed; six card changes; two renames; the AI's opening hand |
+| 3 Three- and four-Path cards wait for Primm | yes | one lock in the filter every source already uses; pop-up; explained in four places |
+| 4 Dungeons | yes | no full heal in the four main-zone dungeons; six new drawbacks; a silent bug found (below) |
+| 5 Menus | yes | all eight items; a hover-zoom probe kept as a test |
+| 6 Camera | yes | five presets on V, +6 the default, 15 shots, fade probe green at the steepest |
+| 7 The world | yes | The Raw Deal moved and renamed; round window in trees, cabinets and the crag; quests track on start |
+| 8 Story | yes | Maren's staff line; the castle gate scene rewritten, played and shot |
+| 9 Batch 18 | yes | 11 rows held, 5 rows added |
+| 10 Mock-ups | yes | two directions, five screens each; nothing built |
+| 11 Tests, build, report | yes | every test shard green; seven walk smokes and three probes pass; 1.0.0 exported (764 MB zip), exported smoke and three exported play checks clean |
+
+---
+
+## Part 2.1 - the sacrifice-to-damage bug
+
+**The cause.** The rules were right: on the rules engine Dead Weight and Yeet could always hit the opponent (and the AI did). The
+fault was in the battle screen's order of questions. For Dead Weight it asked **"Choose a target" first** and "Choose the unit to
+destroy" second, in nearly the same words, with your own units lit up as legal targets. So the natural click (the unit you mean to
+sacrifice) made that unit the *target of the damage*; the card then destroyed a unit and hit nothing, and with a single unit there was
+no second question at all. Nothing on screen said the opponent's portrait could be clicked. A second, smaller fault: the portrait's
+click area was read from the cursor rather than from the click itself and ignored the portrait's on-screen scale.
+
+**The fix** (`ui/battle/battle_screen.gd`):
+- the cost comes first: "Choose the unit to destroy. This is the cost, paid first."; then the target;
+- the unit that is destroyed is no longer offered as a target;
+- the target prompt says what can be chosen: "Choose a target: a unit or the opponent. Click a unit or the opponent's portrait."
+  (and "Choose one of your units" for Yeet's first choice); the controller text likewise;
+- the portrait takes the click's own position and the drawn size; a click that chose it is used up.
+The same order is used for abilities with a sacrifice cost (Necro Rat).
+
+**Cards affected:** Dead Weight (NB-04, the reported one: the cost question came second), Yeet (B-25: its prompts did not say which
+choice was which or that the opponent could be picked). Checked and working, now with the clearer prompt: Hammer Thrower (B-34) and
+Sir Loin (GB-13), the other two cards that can aim at "a unit or the opponent". No other card sacrifices a unit for damage (Necro Rat
+destroys a unit and drains 5 HP with no target choice for the opponent).
+
+**Tests:** one per card that it can target and damage the opponent on the engine (`tests/core/game/test_cards_nov21.gd`), the same in
+the real battle screen with the mouse and the controller (`tests/ui/test_sacrifice_damage_targets_nov21.gd`, including a real click
+event on the portrait), and the AI finishing a game with each. I also drove a real fight with injected mouse clicks:
+`p2_dead_weight_1_choose_the_sacrifice.jpg`, `_2_choose_the_target.jpg`, `_3_opponent_hit.jpg`.
+
+## Part 2 - the other card changes
+
+| Change | Now |
+|---|---|
+| Overdue Library Book | "Draw 1 extra card each turn. Then discard 1 card at random." |
+| Soul Food Kitchen | (G)(N), 2 total |
+| Food Fight | (G)(R), 2 total |
+| Community Garden | 1(G)(R) |
+| Un-Deadlifter ("Undead Lifter") | 1(N)(B), still 3/2 |
+| To Die For | "Destroy target unit. Create two Ingredients." |
+
+Sheet rows for your Google Sheet: `docs/design/sheet_changes_nov21.csv`. Logged in `docs/design/balance_log.md`.
+
+**Renames.** "Colorless" / "Colourless" is **"Pathless"** in every shown text (the Path's name, the Collection Book's filter and
+card page, the Deck Station, the Wicked Dagger and Solid Plate, the Old Kingdom dungeon rule, the card quiz, the Glossary, which now
+has a "Pathless" entry). "Patchwork Cloak" is **"Pathwork Cloak"**. Left on purpose: internal ids and file names (`colorless_regime`
+decks, `cards_colorless.txt`, the palette key), code comments, the art-prompt sheets, and the section header "Colorless:" in
+`card_list.csv` (your sheet's own header; the importer reads either word). The kingdom of Patchwork keeps its name.
+
+**The AI's opening hand.** "Resources" read as Infrastructure (the cards that give energy; inbox 3). Every AI opening hand now holds
+at least two, by the same hidden, seeded swap your own hand has had since Nov 7, after its draw and after its mulligan
+(`GameOptions.foe_opening_infrastructure_floor`). Exceptions: every fight of the Forgotten Cave (the tutorial). The Opening Forest has
+no fights. Tests: the rule over 200 seeds, the mulligan, the same seed twice, the exceptions, Captain Spotless over 80 fights, every
+Arena battle over 25.
+
+## Part 3 - three- and four-Path cards wait for Primm
+
+- **The rule.** `core/data/multi_path_lock.gd`. Every generator (packs, reward picks, the reward generator, shops, Auntie Alembic)
+  already asks one filter (`CardAvailability.allowed`); it now refuses a card of three or four Paths until Primm is defeated. After
+  his defeat they are ordinary cards. No fixed prize before Primm is one (quests, boss picks, dungeon prizes, signature cards,
+  chests, the Arena: tested); the one four-Path prize, Reunion of the Paths, is paid by his defeat.
+- **Owned cards stay owned** and cannot go in a deck until then (the deck check says so too).
+- **Where it is explained:** the pop-up when you try to add one; a one-time notice in the Deck Station the first time your collection
+  holds one, and "Sealed" on that card's tile; the Glossary ("Three- and four-Path cards"); the card's page in the Collection Book.
+  After Primm, Crosspath's news says once: "Three- and four-Path cards are open".
+- **The pop-up.** A card refused for its Path (the wrong Path for this deck, or a sealed card) opens a pop-up with the card's name as
+  the title, the reason, and OK (mouse, Enter / Space / E / Esc, the pad's A or B). `p3_sealed_card_popup.jpg`,
+  `p3_wrong_path_popup.jpg`, `p3_seal_explained_once.jpg`. A copy-cap refusal stays a short line.
+
+## Part 4 - dungeons: the choice-room table
+
+Full table of every room: `docs/design/choice_nodes_nov21.md` (made by `python tools/choice_nodes_nov21.py`). The four heal rooms:
+
+| Dungeon | Room | Option | You get | It costs | Lasts |
+|---|---|---|---|---|---|
+| The House of Gains | The Meditation Garden | Pay the towel deposit and stretch | heal 5 | 30 gold | at once |
+| | | Skip the fee and nap on the mats | heal 5 | the first unit you play gets -2 attack | next fight |
+| | | Walk on | nothing | nothing | |
+| The Test Kitchen | The Staff Break Room | Buy a staff lunch from the honesty box | heal 5 | 40 gold | at once |
+| | | Eat the counted samples | heal 5 | the enemy starts with +2 HP | next fight |
+| | | Leave the fridge alone | nothing | nothing | |
+| The Hall of Final Approvals | The Coffin Breakroom | File one of your cards as Form 9-Z and lie down | heal 5 | a random card leaves your deck | this run |
+| | | Nap without an appointment | heal 5 | you skip your first card draw | next fight |
+| | | Keep walking | nothing | nothing | |
+| The Rotheart | The Last Clean Spring | Leave an offering and drink | heal 5 | 50 gold | at once |
+| | | Wade in and soak | heal 5 | your units enter exhausted | next fight |
+| | | Leave it clean | nothing | nothing | |
+
+The price rises in the designed order of the zones (30, 40, a card, 50 gold; the drawback from one unit to all of them). Shot:
+`p4_heal_room_2_the_choice.jpg`.
+
+**New drawbacks** (code in the engine, each with a test, `tests/core/dungeon/test_dungeon_heals_nov21.gd`), and the other rooms that
+use them now:
+
+| Drawback | Used in |
+|---|---|
+| The first unit you play has -2 attack | the Meditation Garden |
+| You skip your first card draw | the Coffin Breakroom; the Take-a-Number Kiosk ("Take every number", was 2 damage) |
+| The first card you play each turn costs 1 more (mine) | the Corrupted Pantry ("Take only the sealed jars", was 2 damage) |
+| Your first Infrastructure enters exhausted (mine) | the R&D Archives ("Photograph the blueprints", was -2 max HP) |
+| The enemy starts with one more card (mine) | the Form 27-B Office ("Forge the stamp", was 2 damage) |
+| The enemy's first unit gets +1/+1 (mine) | the Locker Room of Legends ("Raid the gym bag", was -1 max HP) |
+| Your units enter exhausted (existed) | the Last Clean Spring |
+| The opponent starts with 2 extra HP (existed) | the Staff Break Room |
+
+**A bug found on the way:** four choices had "a random card leaves your deck" written as their cost, and the game never read it
+(the Corrupted Pantry's ladle, the Weeping Compost Pool, and two rooms of the Shattered Gallery): they were free. The cost is real now.
+
+**Full heals that stay** (reported, not changed): the Forgotten Cave's Whispering Shrine (the tutorial), **Primm's Castle's
+Resistance Safe Room** (your "castle rooms unchanged" rule), the Path-ology Lab's Night Shift Break Room. The side dungeons have no
+heal room. Inbox 2.
+
+## Part 5 - menus
+
+1. **Deck Station Path filter:** toggles; as many Paths as the deck may walk (one at the start, two after a zone is free); none on
+   shows everything; with some on, only the cards a deck of exactly those Paths could hold (a two-Path card needs both on); Pathless
+   cards only while the Pathless toggle is on (it does not count toward the limit); one too many opens a pop-up.
+   `p5_deck_filter_two_paths.jpg`, `p5_deck_filter_too_many_paths.jpg`.
+2. **Keyword search:** a search box above the toggles: names, card text, keywords, the type and the Path; every typed word must
+   match. `p5_deck_search_keyword.jpg`. (Typed with a keyboard; the controller's cursor skips the box.)
+3. **The Wardrobe's "Your Look":** the turning hero is gone; the piece under the pointer (or the focus) is shown by itself, large,
+   with its name and description; "You are wearing" stays underneath. Every hat and cloak has its own picture; the Plain Cloak (and
+   "No hat") show the stand-in mark their tiles use, tinted by the dye: Batch 18 row `ICON-COS-PLAINCLOAK`.
+   `p5_wardrobe_item_hat.jpg`, `_item_cloak.jpg`, `_plain_cloak_dyed.jpg`.
+4. **Open all** opens the gilded packs too and its button counts them. `p5_packs_open_all_counts_gilded.jpg`.
+5. **Rewards wait for a click.** Seven reward paths only flashed a line; they use the reward box now (Continue, or Enter / Space /
+   E): the prize chest of each zone (**the Head Chef's Ladle**), the old puzzle prize, a gatekeeper's first win, the Restless Cairn,
+   the Sealed Vault's card, Tilly's gift, a side dungeon's first-clear gear, and the packs for toppling Primm. Every item, piece of
+   gear and pack in a reward box can be hovered (or focused) for its full info; a dungeon treasure's list likewise.
+   `p5_reward_box_waits_hover_info.jpg`. Checked and already waiting: hidden chests, quest rewards, card picks after fights, dungeon
+   fight rewards, treasure rooms, the Arena's prizes.
+6. **Hover zoom everywhere.** The probe (`tests/ui/test_card_hover_zoom_probe_nov21.gd`, list in `docs/review/hover_zoom_probe.txt`)
+   finds 21 scripts that show a card and requires a zoom in each. Six had none and have one now: a won card in the reward box (the
+   Toro Toro case), battle choices, the Refuse Pile's top card, the card games, the matching game, the deck cover picker.
+7. **Mid-fight pop-ups:** one layout: the event's name, a blank line, the complete effect, a blank line, the dialogue with the
+   speaker's name in bold. `p5_event_popup_1_clench.jpg`, `_2_doppelganger.jpg`, `_3_mortimer.jpg`. Where the short and the long
+   description said the same thing twice, the fuller one stands alone.
+8. **Small grey text:** the quest log's later and unknown steps (parchment at 40 to 60 % before, 78 to 82 % now, the unknown line
+   in italics) and the level-up's "XP toward level N" (18 px muted violet-grey before, 20 px parchment now).
+
+## Part 6 - the camera
+
+V cycles five presets: **+6 (the default), +8, +10, +12, +14 degrees** from the original, each 3 % further out than the one before
+(+14 stands 12 % further out than +6), with a toast ("Camera 3 of 5: +10°"). Settings > Display keeps "Camera preset" (the four
+framings; V used to cycle these), "Camera angle" (the same five) and "Camera distance". The choice is saved; an older settings file
+maps onto the new presets (+8 stays +8, everything else becomes +6). Sheets, five presets each, at the default framing and at your
+Low framing: `p6_camera_five_crosspath_default.jpg` / `_low.jpg`, `p6_camera_five_dna_*.jpg`, `p6_camera_five_buffet_*.jpg`; the toast:
+`p6_cam_v_toast.jpg`. **The fade probe at +14:** green (7 places, nothing but tall occluders fades, 0 errors;
+`docs/review/fade_probe_tilt4_nov21.txt`).
+
+## Part 7 - the world
+
+- **The Raw Deal** (was Omakase; inbox 4). Still entered through a walk-in freezer; the outside is the sushi pavilion that already
+  stood over the freezer door (red roof, green noren, paper lanterns, a counter with stools, a sign board). It moved to the **east
+  district of the Buffet, behind Colonel Casserole's gate**: that district is sealed from the Test Kitchen's by the hedge, so he must
+  be beaten to reach it (tested by route: none from the middle district, one from his gate). Its quest marker, map icon, sealed
+  message ("The Raw Deal's freezer door is sealed. Talk to Basil...") and Basil's line follow. Shots: `p7_raw_deal_front.jpg`,
+  `p7_raw_deal_sealed_message.jpg`, `p7_raw_deal_from_the_path.jpg`, `p7_raw_deal_on_the_map.jpg`, `p7_raw_deal_gate_colonel_*.jpg`.
+  Left on purpose: the Itamae's own word "Omakase." (his line and his event's name) and the music file names.
+- **See-through windows.** Tree cards, the D.N.A.'s cabinets and partitions, and the Iron Cave's rock open the same round window as
+  the buildings (the shared include is in their three shaders), and the hero's outline is drawn behind batched trees and cabinets.
+  `p7_window_tree_dump.jpg`, `p7_window_cabinet_dna.jpg`, `p7_window_crag_gainlands_default.jpg`. FPS at Medium, before and after:
+  the Dump 66.6 and 71.3, the D.N.A. 79.2 and 77.9, the Gainlands 82.2 and 84.2 (within the run-to-run noise). Full D.N.A. walls keep
+  their room cut.
+- **Quests track on start.** A quest that starts on its own ("Under the Old Well" after Maren takes the key) becomes the tracked
+  quest, with "Now tracking: ..." A batch of several new quests keeps the old rule.
+
+## Part 8 - story
+
+- **Maren after the fourth zone:** "Four signs in a ring, the same as the ones carved on this staff of mine. I have leaned on it for
+  as long as I can remember, and my fingers have known those four signs longer than my head has." ("never told a soul why" and the
+  Queen's gift are gone.)
+- **The castle gate** (`scenes/pc_capture`, nine steps, shots `p8_castle_gate_1.jpg` to `_8.jpg`): the guards already have her when
+  he arrives; Plume: "Miss Elowen Vey! Former junior Path-ologist. The charges: absent without leave, and the removal of one item of
+  laboratory property, which has been walking about ever since."; he starts to run and she shakes her head; Elowen: "Don't follow
+  me! Stay out of sight and get to the top of that castle. Stop Primm! It's the only way any of this ends."; she is gone before he
+  is halfway there; the Wanderer: "I had to learn her name from a list of charges. She said not to follow her, and to stop him. So
+  I'll keep out of sight, and I'll go up." She never speaks to him. The story bible (three rows) and the NPC registry (Elowen's
+  entry) agree.
+
+**Dialogue revert** (six lines and one scene):
+`node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21_lines.csv --revert=docs/dialogue/nov21_lines_ids.txt`, then
+`python tools/nov21_lines.py --revert-scenes` (the castle gate; both versions are in `docs/dialogue/nov21_scene_rewrites.json`).
+
+## Part 9 - Batch 18 (`docs/art/batch18_nov18.csv`, 34 rows)
+
+- **On hold** (status column): the 11 info-screen rows.
+- **Added:** `STORY-REVEAL-KITCHEN` and `STORY-DOPPEL` as a remake pair (what differs today and the description both share:
+  `docs/art/doppelganger_nov21.md`; in short, one shows a blank white face in a calm kitchen, the other a black smoke creature in a
+  cannon factory, and her own lines say she has no face); `BUFF-HERO-RAWDEAL-FRONT` and `BUFF-SIGN-RAWDEAL`; `ICON-COS-PLAINCLOAK`.
+- Every new row has its exact file path and size, a self-contained description under 600 characters and small existing refs
+  (`python tools/batch18_nov21_rows.py` checks all three).
+
+## Part 10 - mock-ups
+
+`docs/overnight_shots/nov20/ui_mockups_v2/`, notes in `docs/art/ui_style_guide.md` ("Nov 21"). **A "Patchwork":** a cream linen
+page in a quilt border of the four Paths' cloths, stitched seams, cloth tabs and banners, dark ink (`a_*.jpg`). **B "Stained
+glass":** a night-blue page in a leaded gold frame, panes of coloured glass that light up when chosen, pale lettering (`b_*.jpg`).
+Five screens each (quest box, pause menu, quest log, tooltip, settings). Nothing built, no art rows. Inbox 1.
+
+## Part 11 - tests, build
+
+- **Tests:** all 45 shards green: **3,545 of 3,547 passed, 0 failing, 2 pending**; real saves untouched (20 files checked). On
+  the way, seven older tests failed and were brought in line with tonight's rules: the three-essence brew and the four-Path prize
+  (both open only after Primm, when the seal lifts), the Buffet's gates (the Raw Deal is behind the Colonel now), the camera key's
+  label, the tree cards' window. One was a real find: a roaming meatball stood 2.3 m from the Raw Deal's new door; it moved.
+  The hover-zoom probe and the puzzle solver tests are part of the suite.
+- **Walk smokes, all green:** Crosspath, the Opening Forest, the Gainlands, the Buffet, the Dump, the D.N.A., the Capital.
+- **Probes:** NPC visibility 150 checks, 0 failed; fade probe 7 places, nothing but tall occluders fades, 0 script errors (and the
+  same at the steepest camera, Part 6); quest hand-in 32 of 32.
+- **Build:** 2,266 MB of RAM was free, so the normal export ran: `bash tools/export_windows.sh 1.0.0` -> EXPORT OK.
+  **`builds/TheWaywardPath-v1.0.0-windows.zip`, 764 MB on disk (800,971,658 bytes).**
+- **The exported build:** `run_release_smoke_exported.sh` PASSED (1.0.0). The three `play_exported.sh` checks failed on the first
+  try: tonight's new play command `dev hand` used a helper from the tests folder, which the test pack does not hold, so the play
+  driver would not load. The fault was in the test tool only (the playtest zip holds neither tools nor tests and was not rebuilt).
+  After the fix and a fresh test pack (`bash tools/export_test_pack.sh`) all three ran to "done" with **0 SCRIPT ERROR**.
+- **Not verified:** nobody played a whole dungeon by hand with the new heal rooms; the difficulty after Parts 2 and 4 was not
+  re-simulated (inbox 3 and 5).
+
+## Your decisions (the safest choice was taken; details in the inbox)
+
+1. The info screens: direction A, B, or B's frame round A's page.
+2. Primm's Castle and the Path-ology Lab still have a full-heal room: leave them, or give them the "heal 5 for a cost" rule too.
+3. "At least two resources" was read as two Infrastructure: confirm.
+4. The Raw Deal as the name, or another from the list.
+5. The first-turn drawbacks are first numbers (and the dungeons are harder without the full heal): playtest, then tune.
+6. Controller players cannot type in the Deck Station's search box: fine for now, or an on-screen keyboard later.
+
+---
+
 # Fable Nov 20 - report: your playtest list, the Arena puzzles rebuilt, colours back, cameras
 
 Brief: `docs/prompts/fable_nov19_night.md`. Start tag `pre-fable-nov20`. Questions: `docs/overnight_inbox.md`, "Fable Nov 20"

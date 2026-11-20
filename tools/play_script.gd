@@ -636,14 +636,14 @@ func _dev(parts: PackedStringArray) -> void:
 			result = "Low-end %s" % ("on" if Settings.low_end else "off (Medium)")
 		"hand":
 			# Fable Nov 21: `dev hand <card id>` puts that card in the player's hand in the running battle, with energy of every Path to play it
-			if battle == null or CardSet.card(arg) == null:
+			if battle == null or Session.content.card(arg) == null:
 				result = "hand: no battle or unknown card %s" % arg
 			else:
 				if battle.game.players[0].infrastructure.size() < 8:
 					for path: Affinity.Type in Affinity.colored_types():
 						for copy: int in range(3):
 							battle.game.players[0].infrastructure.append(battle.game.create_instance(CardBuilder.infra(path), 0))
-				var added: CardInstance = battle.game.create_instance(CardSet.card(arg), 0)
+				var added: CardInstance = battle.game.create_instance(Session.content.card(arg), 0)
 				battle.game.players[0].hand.append(added)
 				battle.board.sync_state(false)
 				battle.call("_refresh_ui")
