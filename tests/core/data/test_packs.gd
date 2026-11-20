@@ -67,7 +67,8 @@ func test_the_unique_cards_are_reward_locked_and_out_of_packs_until_earned() -> 
 		if card != null:
 			assert_true(CardAvailability.is_reward_locked(card), "%s is reward-locked" % id)
 			assert_false(CardAvailability.allowed(card), "%s never appears in packs before it is earned" % id)
-			assert_true(CardAvailability.allowed(card, {id: true}), "%s may appear once earned" % id)
+			# Fable Nov 21: the four-Path prize (Reunion of the Paths) is earned by Primm's defeat, which also lifts the seal on such cards
+			assert_true(CardAvailability.allowed(card, {id: true, MultiPathLock.UNLOCK_KEY: true}), "%s may appear once earned" % id)
 
 
 # ---- Pools ---------------------------------------------------------------------------------------------

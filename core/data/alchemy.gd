@@ -161,8 +161,12 @@ static func tri_path_cards(content: ContentSet, paths: Array[Affinity.Type]) -> 
 ## The tri-Path cards a brew of exactly these three Paths can produce (availability as for dual crafting), rarest last.
 static func tri_path_pool(content: ContentSet, paths: Array[Affinity.Type], earned: Dictionary = {}) -> Array[CardData]:
 	var result: Array[CardData] = []
+	# Fable Nov 21 (Part 3): the three-essence brew itself exists only after Primm's defeat (`tri_path_unlocked`), which is exactly when
+	# three-Path cards stop being sealed, so the seal is counted open here whatever map the caller passes
+	var open: Dictionary = earned.duplicate()
+	open[MultiPathLock.UNLOCK_KEY] = true
 	for card: CardData in tri_path_cards(content, paths):
-		if CardAvailability.allowed(card, earned):
+		if CardAvailability.allowed(card, open):
 			result.append(card)
 	return result
 

@@ -194,8 +194,9 @@ func test_tree_cards_fade_in_their_shader_from_the_hero_position() -> void:
 	assert_true(card.has_meta(&"no_occlusion_fade"), "the fader leaves tree cards alone (they fade themselves)")
 	var shader_code: String = (load(KitFoliage.CARD_SHADER) as Shader).code
 	assert_true(shader_code.contains("uniform vec3 hero_pos"), "the card shader knows where the hero is")
-	assert_true(shader_code.contains("ALPHA = 1.0 - v_fade"), "and fades with plain alpha, not a dither")
-	assert_false(shader_code.contains("BAYER"), "no ordered dither in the card shader")
+	# Fable Nov 21 (Part 7.2): a tree in the way opens the round window round the hero (the buildings' include), not a whole-card fade
+	assert_true(shader_code.contains("occlusion_window_cut(v_fade, v_view, v_world"), "and opens the round window round the hero")
+	assert_false(shader_code.contains("ALPHA = 1.0 - v_fade"), "it no longer fades as a whole card")
 	KitFoliage.set_hero(Vector3(12.0, 0.5, 34.0))
 	var material: ShaderMaterial = card.material_override as ShaderMaterial
 	assert_eq(material.get_shader_parameter("hero_pos"), Vector3(12.0, 0.5, 34.0), "set_hero reaches every card material")

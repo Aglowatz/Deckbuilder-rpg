@@ -144,7 +144,7 @@ func test_shops_before_primm() -> void:
 func test_auntie_alembic_before_and_after() -> void:
 	var three: Array[Affinity.Type] = [Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]
 	assert_false(Alchemy.tri_path_unlocked(Session.profile), "the three-essence brew is shut before Primm")
-	assert_eq(Alchemy.tri_path_pool(_content, three, _before).size(), 0, "and its pool is empty for a player who has not beaten him")
+	assert_false(Alchemy.tri_problem(Session.profile, 9999, three).is_empty(), "and it cannot be brewed")
 	for first: Affinity.Type in Affinity.colored_types():
 		for second: Affinity.Type in Affinity.colored_types():
 			if int(first) < int(second):

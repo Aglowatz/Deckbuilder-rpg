@@ -226,7 +226,9 @@ func test_with_every_gate_open_the_whole_zone_is_reachable() -> void:
 func test_each_gate_leads_to_its_own_district() -> void:
 	builder.open_gate("quest")
 	var seen: Dictionary = _reach(true)
-	assert_true(_reaches(seen, "mini_dungeon"), "Sir Loin's gate opens Layer-Cake Town (the mini dungeon)")
+	# Fable Nov 21 (Part 7.1): the sushi side dungeon moved out of Layer-Cake Town, behind Colonel Casserole's gate
+	assert_true(_reaches(seen, "main_dungeon"), "Sir Loin's gate opens Layer-Cake Town (the Test Kitchen)")
+	assert_false(_reaches(seen, "mini_dungeon"), "...but not the Raw Deal: that is behind Colonel Casserole")
 	assert_false(_reaches(seen, "puzzle"), "...but not the Pancake Plateau")
 	assert_true(_chest_reached(seen, "chest_cake"))
 	assert_false(_chest_reached(seen, "chest_wheel"), "...nor the Cheddar Cliffs")
@@ -234,6 +236,7 @@ func test_each_gate_leads_to_its_own_district() -> void:
 	builder.open_gate("ingredient")
 	seen = _reach(true)
 	assert_true(_reaches(seen, "puzzle") and _reaches(seen, "land_cheddar_down"), "the other two gates open the other two districts")
+	assert_true(_reaches(seen, "mini_dungeon"), "and the Raw Deal is reached through the Colonel's gate")
 
 
 func test_the_hidden_chests_are_at_least_six_and_nowhere_near_a_marked_spot() -> void:

@@ -172,6 +172,7 @@ func new_game() -> void:
 	dungeon_map = null
 	gold_spent_total = 0
 	cleared_dungeons = []
+	locked_multi_path_grants = [] as Array[String]
 	seen_cards = {}
 	earned_cards = {}
 	grandfathered_cards = {}
@@ -671,7 +672,7 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 	if profile == null:
 		return notices
 	for card: CardData in cards:
-		if MultiPathLock.is_multi(card) and not flag(MultiPathLock.FLAG_UNLOCKED):
+		if MultiPathLock.is_multi(card) and not flag(MultiPathLock.FLAG_UNLOCKED) and not profile.postgame_unlocked:
 			locked_multi_path_grants.append(card.id)  # Fable Nov 21 (Part 3): it is kept (never taken away), and counted for the tests
 		if CardAvailability.is_reward_locked(card):
 			earned_cards[card.id] = true  # Cards Oct 27: earned from its source - the shelves and packs may offer it from now on

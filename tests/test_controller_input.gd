@@ -101,7 +101,7 @@ func test_keyboard_keys_are_unchanged() -> void:
 
 
 func test_a_pad_rebind_applies_at_once() -> void:
-	assert_eq(Keybinds.rebind_pad(&"open_map", JOY_BUTTON_RIGHT_STICK), "Camera: cycle angle", "R3 moves out of the camera action")
+	assert_eq(Keybinds.rebind_pad(&"open_map", JOY_BUTTON_RIGHT_STICK), "Camera: next look-down preset (1 to 5)", "R3 moves out of the camera action")
 	assert_true(_button(JOY_BUTTON_RIGHT_STICK).is_action_pressed(&"open_map"))
 	assert_false(_button(JOY_BUTTON_BACK).is_action_pressed(&"open_map"), "View no longer opens the map")
 	assert_eq(Keybinds.pad_of(&"camera_angle"), Keybinds.PAD_NONE)
