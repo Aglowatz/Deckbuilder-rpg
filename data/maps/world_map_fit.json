@@ -1,0 +1,100 @@
+{
+	"_about": "Made by tools/art/world_map_fit.py: the world rectangle (x, z, width, depth in metres) each painted zone map covers.",
+	"maps": {
+		"beefcake": {
+			"id": "MAP-WORLD-GAIN",
+			"rect": [
+				-28.95,
+				-43.2,
+				170.24,
+				172.83
+			],
+			"score": 0.729,
+			"plan": [
+				54.5,
+				44.0,
+				159.0
+			],
+			"metres_per_painting_px": [
+				0.0831,
+				0.0844
+			]
+		},
+		"gourmand": {
+			"id": "MAP-WORLD-BUFF",
+			"rect": [
+				0.22,
+				-2.59,
+				99.03,
+				103.45
+			],
+			"score": 0.194,
+			"plan": [
+				50.0,
+				49.0,
+				102.0
+			],
+			"metres_per_painting_px": [
+				0.0484,
+				0.0505
+			]
+		},
+		"refusemancer": {
+			"id": "MAP-WORLD-DUMP",
+			"rect": [
+				-24.65,
+				-1.81,
+				148.5,
+				161.39
+			],
+			"score": 0.527,
+			"plan": [
+				50.0,
+				78.0,
+				158.0
+			],
+			"metres_per_painting_px": [
+				0.0725,
+				0.0788
+			]
+		},
+		"necrocrat": {
+			"id": "MAP-WORLD-DNA",
+			"rect": [
+				-2.62,
+				-11.88,
+				95.24,
+				94.77
+			],
+			"score": 0.246,
+			"plan": [
+				45.0,
+				36.0,
+				96.0
+			],
+			"metres_per_painting_px": [
+				0.0465,
+				0.0463
+			]
+		},
+		"final": {
+			"id": "MAP-WORLD-CAP",
+			"rect": [
+				-34.41,
+				-13.83,
+				181.72,
+				184.18
+			],
+			"score": 0.635,
+			"plan": [
+				56.0,
+				78.5,
+				163.0
+			],
+			"metres_per_painting_px": [
+				0.0887,
+				0.0899
+			]
+		}
+	}
+}

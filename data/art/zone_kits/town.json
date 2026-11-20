@@ -234,6 +234,35 @@
 			"use": "The square",
 			"zone": "town"
 		},
+		"TOWN-PROP-CAVE-MOUTH-BRUSH": {
+			"aspect": 1.001,
+			"asset": "Cave mouth in the brush",
+			"category": "Prop",
+			"cleared_alpha": 23522,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "TOWN-PROP-CAVE-MOUTH-BRUSH",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1020,
+				1019
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.town-prop-cave-mouth-brush",
+			"tinted": false,
+			"use": "The Forgotten Cave mouth on the north edge",
+			"zone": "town"
+		},
 		"TOWN-PROP-CELLAR-FOURSEALS-CLOSED": {
 			"aspect": 1.623,
 			"asset": "Four Seals cellar door, closed",

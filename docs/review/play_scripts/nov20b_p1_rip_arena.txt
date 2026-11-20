@@ -1,0 +1,64 @@
+# Fable Nov 20 day, Part 1: the Gainlands map, Rip from four sides in two zones, the Arena's board (a battle and a puzzle)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot p1_map_gainlands
+key Escape
+wait 1
+dev goto rift_station
+wait 2
+shot p1_rip_gainlands_1_from_the_front
+hold A 1.4
+wait 1
+shot p1_rip_gainlands_2_from_the_left
+hold W 1.3
+wait 1
+shot p1_rip_gainlands_3_from_behind_left
+hold D 1.6
+wait 1
+shot p1_rip_gainlands_4_from_behind
+hold D 1.4
+wait 1
+shot p1_rip_gainlands_5_from_behind_right
+hold S 1.3
+wait 1
+shot p1_rip_gainlands_6_from_the_right
+dev travel zone refusemancer
+wait 22
+skip_dialogue
+calm
+dev goto rift_station
+wait 2
+hold A 1.2
+hold W 1.2
+wait 1
+shot p1_rip_dump_from_behind_left
+hold D 2.6
+hold S 0.6
+wait 1
+shot p1_rip_dump_from_the_right
+dev arena arena_warm_up
+wait 12
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot p1_arena_board_battle
+dev lose
+wait 8
+skip_dialogue
+dev arena arena_lethal_lunch
+wait 12
+skip_dialogue
+shot p1_arena_board_puzzle

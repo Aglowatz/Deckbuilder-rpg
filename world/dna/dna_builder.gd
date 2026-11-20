@@ -627,6 +627,9 @@ func _build_signs() -> void:
 		if sign_spec.style == "memo":
 			panel_size *= 0.7
 		var plaque_id: String = "DNA-SHEET-SIGNS-%02d" % plaque_index(sign_spec.key)
+		if sign_spec.key == "sign.mini_dungeon" and EnvKit.has(WAITING_SIGN_ART) and EnvKit.has_art(WAITING_SIGN_ART):
+			plaque_id = WAITING_SIGN_ART  # Batch 18 (Nov 20): the Waiting Room of Eternity's own plaque, an hourglass
+			panel_size *= 1.4  # a little larger than the wall plaques: it hangs alone over the lit door and must read from the hall
 		var use_plaque: bool = EnvKit.has(plaque_id) and not ICON_BOARDS.has(sign_spec.key)
 		var panel_h: float = panel_size.x * 1.15 / maxf(EnvKit.aspect(plaque_id), 0.1) if use_plaque else panel_size.y
 		holder.position = sign_mount(sign_spec, panel_h)
@@ -642,6 +645,9 @@ func _build_signs() -> void:
 			continue
 		holder.add_child(DnaProps.board(panel_size, sign_spec.style))
 		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.04)))
+
+
+const WAITING_SIGN_ART: String = "DNA-SIGN-HOURGLASS"
 
 
 ## Nov 18 evening (Part 1.2, "nothing floats"): the signs built where they really hang - [{key, pos, bottom, mount_top}] (the prop probe).
@@ -984,7 +990,36 @@ const CLOCK_STAGE_H: float = 6.0
 var clock_tower: Node3D
 
 
+## Batch 18 (Nov 20): the painted tower (DNA-HERO-CLOCK-TOWER) replaces the kit-built one - a camera-facing card on the same spot, tall
+## enough that its lit clock face (four fifths of the way up) stands over the building fronts from the plaza. The two lights stay.
+const CLOCK_TOWER_ART: String = "DNA-HERO-CLOCK-TOWER"
+const CLOCK_TOWER_ART_H: float = 17.5
+
+
+func _build_painted_clock_tower() -> void:
+	var height: float = CLOCK_TOWER_ART_H
+	var card: MeshInstance3D = hanging_card(CLOCK_TOWER_ART, Vector2(height * _kit_aspect(CLOCK_TOWER_ART, 0.31), height), false)
+	card.name = "ClockTower"
+	var material: ShaderMaterial = card.material_override as ShaderMaterial
+	material.set_shader_parameter("fade_near", 0.0)
+	material.set_shader_parameter("fade_far", 0.01)
+	material.set_shader_parameter("emission", 0.55)
+	card.set_meta(&"no_range_cull", true)
+	card.set_meta(&"painted_tower", true)
+	root.add_child(card)
+	card.position = CLOCK_TOWER
+	clock_tower = card
+	for entry: Array in [[Vector3(0, height * 0.8, 1.6), WARM_LIGHT], [Vector3(0, height * 0.93, 0.6), Color(0.55, 1.0, 0.65)]]:
+		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		light.pos = CLOCK_TOWER + (entry[0] as Vector3)
+		light.color = entry[1] as Color
+		layout.lights.append(light)
+
+
 func _build_clock_tower() -> void:
+	if EnvKit.has(CLOCK_TOWER_ART) and EnvKit.has_art(CLOCK_TOWER_ART):
+		_build_painted_clock_tower()
+		return
 	var mesh: KitMesh = KitMesh.new()
 	DnaLandmarks._materials(mesh)
 	mesh.set_material("exterior", DnaLandmarks._surface("DNA-WALL-EXTERIOR", DnaLandmarks.GREY))

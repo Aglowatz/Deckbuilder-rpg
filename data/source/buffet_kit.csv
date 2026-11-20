@@ -49,3 +49,5 @@ BUFF-PROP-CAKESTAND-TALL,"Tall cake stand",Prop,CUTOUT,"See docs/art/batch17_nov
 BUFF-PROP-VEG-01,"Cabbage 1",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved
 BUFF-PROP-VEG-02,"Cabbage 2",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved
 BUFF-PROP-VEG-03,"Cabbage 3",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The hub vegetable patch",2,Approved
+BUFF-HERO-RAWDEAL-FRONT,"The Raw Deal front",Prop,CUTOUT,"See docs/art/batch18_nov18.csv (Batch 18, Nov 20).","1536x1024 PNG, transparent","The front of the sushi spot (side dungeon entrance)",2,Approved
+BUFF-SIGN-RAWDEAL,"The Raw Deal sign",Prop,CUTOUT,"See docs/art/batch18_nov18.csv (Batch 18, Nov 20).","1024x1024 PNG, transparent","The sign beside the freezer door",2,Approved

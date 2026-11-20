@@ -430,6 +430,8 @@ func _ready() -> void:
 			var bounds: Rect2 = builder.map_bounds()
 			top_spec = "%f,%f,%f" % [bounds.get_center().x, bounds.get_center().y, maxf(bounds.size.x, bounds.size.y) + 6.0]
 			player.position = Vector3(bounds.get_center().x, player.position.y, bounds.get_center().y)
+			_spawn_grace = 1.0e6  # no roamer starts a fight under the plan camera
+			print("PLAN-TOP %s %s" % [def.id, top_spec])  # the plan's world square (tools/art/world_map_fit.py reads it)
 		PlanView.install(self, builder, _plan_obstacles(), _plan_anchors(), top_spec, str(_screenshot_args.get("plan", "false")) == "true")
 	if _screenshot_args.has("windlog"):
 		# after the style rig has turned the materials into its toon and card shaders

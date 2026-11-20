@@ -177,7 +177,15 @@ static func known_ids() -> Dictionary:
 	return known
 
 
+## Batch 18 (Nov 20): the stained-glass info-screen set. The quest marks are three cells on one strip and the map frame's middle is
+## empty on purpose: both keep their canvas. The page and the map frame are drawn large, so they keep 1536 px.
+const KEEP_CANVAS_IDS: Array[String] = ["UI-QUEST-MARKS", "UI-MAP-FRAME"]
+const LARGE_IDS: Array[String] = ["UI-INFO-PAGE", "UI-MAP-FRAME", "UI-GLASS-STRIP"]
+
+
 static func _keeps_canvas(id: String) -> bool:
+	if KEEP_CANVAS_IDS.has(id):
+		return true
 	if id == "UI-PACK-SHELF":
 		return false  # Import Nov 8: the shelf board is a strip in a 3:2 canvas - trimmed to the board
 	if id == "UI-NODE-BANNER":
@@ -186,6 +194,8 @@ static func _keeps_canvas(id: String) -> bool:
 
 
 static func _max_side(id: String) -> int:
+	if LARGE_IDS.has(id):
+		return MAX_SIDE_BACKGROUND
 	if id.begins_with("UI-BG-") or id.begins_with("MG-BG-") or id == "UI-PACK-SHELF" or id == "UI-NODE-BANNER":
 		return MAX_SIDE_BACKGROUND
 	if id.begins_with("UI-CURSOR"):

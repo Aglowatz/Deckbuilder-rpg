@@ -1,0 +1,53 @@
+# Fable Nov 20 day, Part 1: the Test Kitchen's last room - the Doppelganger pair, beat by beat
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev travel dungeon D-TTK 12
+wait 6
+button Got it
+wait 1
+click 1364 212
+wait 3
+shot p1_doppel_01
+key E
+wait 1.4
+shot p1_doppel_02
+key E
+wait 1.4
+shot p1_doppel_03
+key E
+wait 1.4
+shot p1_doppel_04
+key E
+wait 1.4
+shot p1_doppel_05
+key E
+wait 1.4
+shot p1_doppel_06
+key E
+wait 1.4
+shot p1_doppel_07
+key E
+wait 1.4
+shot p1_doppel_08
+key E
+wait 1.4
+shot p1_doppel_09
+key E
+wait 1.4
+shot p1_doppel_10
+key E
+wait 1.4
+shot p1_doppel_11
+key E
+wait 1.4
+shot p1_doppel_12
+key E
+wait 1.4
+shot p1_doppel_13
+key E
+wait 1.4
+shot p1_doppel_14

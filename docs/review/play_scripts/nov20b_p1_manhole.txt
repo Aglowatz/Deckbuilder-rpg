@@ -1,0 +1,35 @@
+# Fable Nov 20 day, Part 1: the painted manhole and the cave mouth
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev travel capital
+wait 22
+skip_dialogue
+calm
+dev goto old_tunnels
+wait 2
+button Got it
+wait 1
+hold S 0.5
+wait 1
+shot p1_capital_manhole
+dev travel town
+wait 20
+skip_dialogue 80
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+skip_dialogue
+calm
+dev goto gate
+wait 2
+shot p1_cave_mouth_brush
+hold S 0.8
+wait 1
+shot p1_cave_mouth_brush_back

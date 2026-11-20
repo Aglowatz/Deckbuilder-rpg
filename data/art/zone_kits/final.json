@@ -1095,6 +1095,35 @@
 			"use": "The Capital's rim and the Transit Yards (hides edges)",
 			"zone": "final"
 		},
+		"CAP-PROP-SERVICE-MANHOLE": {
+			"aspect": 1.292,
+			"asset": "Service tunnel manhole",
+			"category": "Prop",
+			"cleared_alpha": 18897,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "CAP-PROP-SERVICE-MANHOLE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1018,
+				788
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.cap-prop-service-manhole",
+			"tinted": false,
+			"use": "The way into the Old Service Tunnels",
+			"zone": "final"
+		},
 		"CAP-PROP-TRAM": {
 			"aspect": 1.561,
 			"asset": "Pastel tram",

@@ -4521,12 +4521,16 @@
 		],
 		"dirs": [
 			"FRONT",
+			"FRONTSIDE",
 			"SIDE",
+			"BACKSIDE",
 			"BACK"
 		],
 		"fig_h": 440,
 		"frames": [
+			"BACKSIDE_IDLE",
 			"BACK_IDLE",
+			"FRONTSIDE_IDLE",
 			"FRONT_IDLE",
 			"FRONT_TALK",
 			"SIDE_IDLE"

@@ -211,7 +211,24 @@ static func time_clock() -> Node3D:
 const COUCH_LENGTH: float = 3.2
 
 
+## Batch 18 (Nov 20): the painted couch (DNA-PROP-HEAL-COUCH: the sofa on its rug with the side table, the cup and the lit lamp) replaces
+## the built one. A camera-facing card; the sofa itself (not the lamp) sits on the origin, about COUCH_LENGTH long.
+const COUCH_ART: String = "DNA-PROP-HEAL-COUCH"
+const COUCH_ART_HEIGHT: float = 3.3
+## Where the sofa's middle is across the picture (0 left, 1 right), and how far up the picture the rug's front edge leaves the floor line.
+const COUCH_ART_CENTRE: float = 0.585
+
+
 static func heal_couch() -> Node3D:
+	if EnvKit.has(COUCH_ART) and EnvKit.has_art(COUCH_ART):
+		var holder: Node3D = Node3D.new()
+		holder.name = "HealCouch"
+		var width: float = COUCH_ART_HEIGHT * EnvKit.aspect(COUCH_ART)
+		var card: Node3D = KitPieces.stand(holder, COUCH_ART, Vector3(-(COUCH_ART_CENTRE - 0.5) * width, 0.0, 0.35), COUCH_ART_HEIGHT, false, 1.7)
+		if card != null:
+			holder.set_meta(&"painted_couch", true)
+			return holder
+		holder.free()
 	var mesh: KitMesh = _mesh()
 	mesh.alias("velvet", "flat", Color("7a3a34").srgb_to_linear())
 	mesh.alias("velvet_dark", "flat", Color("5a2a26").srgb_to_linear())

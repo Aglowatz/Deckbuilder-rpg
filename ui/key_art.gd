@@ -48,8 +48,12 @@ class Result extends RefCounted:
 # ---- Loading --------------------------------------------------------------------------------
 
 
+## Batch 18 (Nov 20): backdrops filed with the vendor screens that are no "VS-" row of the NPC sheet (the Arena menu's cave).
+const EXTRA_VENDOR_IDS: Array[String] = ["ARENA-MENU-BG"]
+
+
 static func kind_of(id: String) -> Kind:
-	if id.begins_with("VS-"):
+	if id.begins_with("VS-") or EXTRA_VENDOR_IDS.has(id):
 		return Kind.VENDOR
 	if id == "APP-ICON":
 		return Kind.ICON
@@ -135,6 +139,8 @@ static func known_ids() -> Dictionary:
 				known[id] = kind_of(id)
 	for id: Variant in vendor_rows().keys():
 		known[str(id)] = Kind.VENDOR
+	for id: String in EXTRA_VENDOR_IDS:
+		known[id] = Kind.VENDOR
 	return known
 
 

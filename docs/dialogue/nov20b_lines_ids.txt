@@ -1,0 +1,3 @@
+# Fable Nov 20 day: the two captions under STORY-DOPPEL follow the new picture. Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov20b_lines.csv --revert=docs/dialogue/nov20b_lines_ids.txt
+data/story/intro_story.tres::still.doppel::1
+data/story/intro_story.tres::still.doppel::2

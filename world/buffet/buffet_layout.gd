@@ -72,6 +72,11 @@ const BROCCOLI_GIANT_SIZE: Vector3 = Vector3(16.0, 18.0, 16.0)
 ## the dividers and entered only through Colonel Casserole's gate (x 78): he must be beaten to reach it.
 const OMAKASE_PAVILION: Vector2 = Vector2(72.0, 6.0)
 const OMAKASE_PAVILION_SIZE: Vector3 = Vector3(8.0, 7.0, 5.0)
+## Batch 18 (Nov 20): the painted front BUFF-HERO-RAWDEAL-FRONT stands on the pavilion's front edge. RAWDEAL_FRONT_WIDTH metres wide (its
+## white stone base is the pavilion's 8 m); its steel freezer door is RAWDEAL_DOOR_AT of the way across, which is where the way in stands.
+const RAWDEAL_FRONT_WIDTH: float = 9.4
+const RAWDEAL_DOOR_AT: float = 0.28
+const RAWDEAL_DOOR: Vector2 = Vector2(OMAKASE_PAVILION.x + (RAWDEAL_DOOR_AT - 0.5) * RAWDEAL_FRONT_WIDTH, OMAKASE_PAVILION.y + OMAKASE_PAVILION_SIZE.z * 0.5 + 1.1)
 ## Where each region paint-over was painted from (the camera looks north): `bash tools/shot.sh res://scenes/buffet_zone.tscn <name> --at=po_<region>`.
 ## Not anchors: they are neither destinations of the walkability probe nor kept-clear ground.
 const PO_CAMERAS: Dictionary = {"po_hub": Vector2(50.0, 70.5), "po_hills": Vector2(34.0, 52.0), "po_forest": Vector2(19.0, 73.0), "po_bakery": Vector2(44.5, 33.0), "po_omakase": Vector2(46.0, 14.5)}
@@ -521,7 +526,7 @@ func _anchors() -> void:
 	_at("land_cheddar", 13.5, 15.5)
 	_at("land_cheddar_down", 22.0, 24.5)
 	# Layer-Cake Town (north-centre).
-	_at("mini_dungeon", 67.5, 10.0)
+	_at("mini_dungeon", RAWDEAL_DOOR.x, RAWDEAL_DOOR.y)  # Batch 18: in front of the painted freezer door (was 67.5, 10.0)
 	_at("main_dungeon", 57.0, 10.0)
 	# Pancake Plateau (north-east).
 	_at("puzzle", 82.0, 13.5)
@@ -735,7 +740,7 @@ func _signs() -> void:
 	_sign("sign.exit", 53.4, 73.0, 180.0)
 	_sign("sign.fountain", 47.6, 67.0, 175.0)
 	_sign("sign.main_dungeon", 52.4, 8.6, 180.0, 1.5)
-	_sign("sign.mini_dungeon", 71.6, 10.8, 180.0)
+	_sign("sign.mini_dungeon", RAWDEAL_DOOR.x - 2.1, RAWDEAL_DOOR.y + 0.3, 180.0)  # Batch 18: the painted hanging sign, left of the freezer door
 	_sign("sign.gate_ingredient", 26.0, 33.0, 170.0)
 	_sign("sign.gate_quest", 54.0, 33.0, 190.0)
 	_sign("sign.gate_battle", 74.0, 33.0, 170.0)

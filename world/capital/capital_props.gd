@@ -565,9 +565,31 @@ static func manhole() -> Node3D:
 
 ## Overnight Nov 19 (Part 8.3): the Old Service Tunnels' way in - an old round iron cover in the ground outside the wall, pushed slightly ajar,
 ## a faint warm glow and a wisp of steam rising from the gap. (The arched door in the wall is gone; the wall is whole.)
+## Batch 18 (Nov 20): the painted manhole (CAP-PROP-SERVICE-MANHOLE: the iron cover ajar in cracked paving, the orange glow, the steam)
+## lies on the ground. It was painted as seen from the game's camera, so it is laid flat and stretched away from the camera by
+## SERVICE_MANHOLE_DEPTH: on screen it then has the painted proportions, and the hero walks over it like any ground.
+const SERVICE_MANHOLE_ART: String = "CAP-PROP-SERVICE-MANHOLE"
+const SERVICE_MANHOLE_WIDTH: float = 2.6
+const SERVICE_MANHOLE_SOUTH: float = 2.9
+const SERVICE_MANHOLE_DEPTH: float = 2.3
+
+
 static func service_manhole() -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "ServiceManhole"
+	if EnvKit.has(SERVICE_MANHOLE_ART) and EnvKit.has_art(SERVICE_MANHOLE_ART):
+		# the node sits at the wall's foot (the wall's plinth covers the ground north of it), so the picture lies south of it: the hero,
+		# who stands 0.9 m south of the node to use it, has the cover right in front of his feet
+		var picture: MeshInstance3D = KitPieces.ground(root, SERVICE_MANHOLE_ART, Vector3(0.0, 0.02, SERVICE_MANHOLE_SOUTH), 0.0, SERVICE_MANHOLE_WIDTH)
+		if picture != null:
+			picture.name = "PaintedManhole"
+			picture.scale = Vector3(1.0, SERVICE_MANHOLE_DEPTH, 1.0)
+			picture.set_meta(&"no_range_cull", true)
+			root.set_meta("circles", [] as Array[Vector3])
+			root.set_meta("height", 0.1)
+			root.set_meta("triangles", 2)
+			root.set_meta(&"no_wind", true)
+			return root
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
 	mesh.set_material("shaft_glow", EnvKit.glow(Color("ffb070"), 1.6))

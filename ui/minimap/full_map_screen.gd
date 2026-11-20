@@ -395,6 +395,13 @@ var _picture_layers: Array[ColorRect] = [null, null]
 ## walked, as on the drawn map).
 const PAINTED_MAPS: Dictionary = {
 	"town": {"path": "res://assets/art/maps/MAP-WORLD-TOWN.webp", "rect": Rect2(-45.0, -35.0, 140.0, 130.0)},
+	# Batch 18 (Nov 20): the five zone maps. Each rect is the world rectangle the whole painting covers, measured by
+	# tools/art/world_map_fit.py against a fresh top-down plan of the zone (record: data/maps/world_map_fit.json; a test keeps them equal).
+	"beefcake": {"path": "res://assets/art/maps/MAP-WORLD-GAIN.webp", "rect": Rect2(-28.95, -43.2, 170.24, 172.83)},
+	"gourmand": {"path": "res://assets/art/maps/MAP-WORLD-BUFF.webp", "rect": Rect2(0.22, -2.59, 99.03, 103.45)},
+	"refusemancer": {"path": "res://assets/art/maps/MAP-WORLD-DUMP.webp", "rect": Rect2(-24.65, -1.81, 148.5, 161.39)},
+	"necrocrat": {"path": "res://assets/art/maps/MAP-WORLD-DNA.webp", "rect": Rect2(-2.62, -11.88, 95.24, 94.77)},
+	"final": {"path": "res://assets/art/maps/MAP-WORLD-CAP.webp", "rect": Rect2(-34.41, -13.83, 181.72, 184.18)},
 }
 const PAINTED_FOG: Color = Color(0.07, 0.05, 0.04, 0.9)
 var _painted_clip: Control = null

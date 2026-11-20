@@ -180,8 +180,11 @@ func show_item(key: String) -> void:
 		var dyed: bool = _look.cloak_dye != Dye.NATURAL and _look.cloak_id.is_empty()
 		_item_name.text = "%s%s" % [TailorScreen.PLAIN_CLOAK, " (%s)" % Dye.dye_name(_look.cloak_dye) if dyed else ""]
 		_item_kind.text = "Cloak. The cloak you woke up in, and the only one the dyes colour."
-		_item_icon.modulate = Dye.primary(_look.cloak_dye).lightened(0.25) if dyed else Color(1, 1, 1, 0.7)
-		if dyed:
+		var painted: bool = icon != null and icon.has_meta("plain_cloak")
+		_item_icon.modulate = IconArt.plain_cloak_tint(_look.cloak_dye) if painted else Dye.primary(_look.cloak_dye).lightened(0.25) if dyed else Color(1, 1, 1, 0.7)
+		if painted:
+			icon.modulate = IconArt.plain_cloak_tint(_look.cloak_dye)  # the tile follows the dye too
+		if dyed and not painted:
 			var box: StyleBoxFlat = StyleBoxFlat.new()
 			box.bg_color = Dye.primary(_look.cloak_dye)
 			box.set_corner_radius_all(42)
@@ -257,6 +260,11 @@ func _tile(slot: CosmeticData.Slot, item_id: String, title: String, art: Texture
 	icon.name = "Icon"
 	if art != null:
 		icon.texture = art
+	elif item_id.is_empty() and slot == CosmeticData.Slot.CLOAK and IconArt.plain_cloak_texture(ICON_SIZE) != null:
+		# Batch 18 (Nov 20): the Plain Cloak by itself, in the colour it is dyed.
+		icon.texture = IconArt.plain_cloak_texture(ICON_SIZE)
+		icon.modulate = IconArt.plain_cloak_tint(_look.cloak_dye)
+		icon.set_meta("plain_cloak", true)
 	elif item_id.is_empty():
 		icon.texture = IconArt.texture("ICON-UI-WARDROBE", ICON_SIZE) if slot == CosmeticData.Slot.HAT and IconArt.has("ICON-UI-WARDROBE") else IconArt.texture("ICON-UI-CHARACTER", ICON_SIZE) if IconArt.has("ICON-UI-CHARACTER") else null
 		icon.modulate = Color(1, 1, 1, 0.55)

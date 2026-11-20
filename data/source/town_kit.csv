@@ -28,3 +28,4 @@ TOWN-PROP-CELLAR-FOURSEALS-CLOSED,"Four Seals cellar door, closed",Prop,CUTOUT,"
 TOWN-PROP-CELLAR-FOURSEALS-OPEN,"Four Seals cellar door, open",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","The vault cellar door, opened",2,Approved
 TOWN-PROP-SEAL-LOCKED,"Seal, locked",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door",2,Approved
 TOWN-PROP-SEAL-BLANK,"Seal, blank",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door (turned)",2,Approved
+TOWN-PROP-CAVE-MOUTH-BRUSH,"Cave mouth in the brush",Prop,CUTOUT,"See docs/art/batch18_nov18.csv (Batch 18, Nov 20).","1024x1024 PNG, transparent","The Forgotten Cave mouth on the north edge",2,Approved

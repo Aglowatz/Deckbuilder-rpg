@@ -1,0 +1,16 @@
+[
+	{
+		"id": "data/story/intro_story.tres::still.doppel::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Beneath it there is only a shifting shadow in a spotless white coat.",
+		"after": "Beneath it there is no face at all, only smooth white porcelain above a spotless white coat."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.doppel::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Behind the shadow, the unfinished war machines stand in their rows and do not move.",
+		"after": "She holds the smile in one hand, and behind her the copper vat goes on breathing its green fumes."
+	}
+]

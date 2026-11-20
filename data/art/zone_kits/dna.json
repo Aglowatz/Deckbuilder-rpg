@@ -550,6 +550,35 @@
 			"use": "Carpet runners on the main routes (ground)",
 			"zone": "dna"
 		},
+		"DNA-HERO-CLOCK-TOWER": {
+			"aspect": 0.312,
+			"asset": "Clock tower (painted)",
+			"category": "Prop",
+			"cleared_alpha": 9052,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1024,
+				2048
+			],
+			"group": "prop",
+			"id": "DNA-HERO-CLOCK-TOWER",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				478,
+				1531
+			],
+			"sheet_status": "Approved",
+			"size": "1024x2048 PNG, transparent",
+			"slot": "prop.dna-hero-clock-tower",
+			"tinted": false,
+			"use": "The clock tower by the Hall stair",
+			"zone": "dna"
+		},
 		"DNA-HERO-ENDLESS-QUEUE": {
 			"asset": "The endless queue",
 			"category": "Hero landmark",
@@ -918,6 +947,35 @@
 			"slot": "prop.dna-prop-ghostlamp",
 			"tinted": false,
 			"use": "Lighting",
+			"zone": "dna"
+		},
+		"DNA-PROP-HEAL-COUCH": {
+			"aspect": 1.565,
+			"asset": "Breakroom couch",
+			"category": "Prop",
+			"cleared_alpha": 27359,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "DNA-PROP-HEAL-COUCH",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1532,
+				979
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.dna-prop-heal-couch",
+			"tinted": false,
+			"use": "The healing couch",
 			"zone": "dna"
 		},
 		"DNA-PROP-LOBBY-CLOCK": {
@@ -3146,6 +3204,35 @@
 			"tinted": false,
 			"use": "Sliced into window cutouts",
 			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SIGN-HOURGLASS": {
+			"aspect": 0.943,
+			"asset": "Hourglass plaque",
+			"category": "Prop",
+			"cleared_alpha": 6417,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DNA-SIGN-HOURGLASS",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				919,
+				975
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dna-sign-hourglass",
+			"tinted": false,
+			"use": "The sign over the Waiting Room elevator",
 			"zone": "dna"
 		},
 		"DNA-SKY-GLOOM": {

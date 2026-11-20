@@ -171,7 +171,11 @@ func _make_none_tile(slot: CosmeticData.Slot) -> Control:
 	var column: VBoxContainer = UIKit.vbox(4)
 	tile.add_child(column)
 	var hat: bool = slot == CosmeticData.Slot.HAT
-	column.add_child(UIKit.label("No hat" if hat else PLAIN_CLOAK, &"HeadingLabel", 24, UIStyle.GOLD))
+	var none_head: HBoxContainer = UIKit.hbox(8)
+	column.add_child(none_head)
+	if not hat and IconArt.plain_cloak_texture(52.0) != null:
+		none_head.add_child(_plain_cloak_icon("Icon_%s" % key, Dye.NATURAL))  # Batch 18 (Nov 20)
+	none_head.add_child(UIKit.label("No hat" if hat else PLAIN_CLOAK, &"HeadingLabel", 24, UIStyle.GOLD))
 	var blurb: Label = UIKit.label("Let the hair breathe. Pip will pretend not to mind." if hat else "Your own dark teal cloak, undyed. The dyes below colour it.", &"", 17, UIStyle.PARCHMENT)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(300 if stage == null else 244, 46)
@@ -186,6 +190,19 @@ func _make_none_tile(slot: CosmeticData.Slot) -> Control:
 	buttons.add_child(equip)
 	_tiles[key] = {"buy": equip, "slot": slot}
 	return tile
+
+
+## Batch 18 (Nov 20): the Plain Cloak's picture, multiplied by the dye's colour (the undyed cloak is the hero's teal).
+static func _plain_cloak_icon(node_name: String, dye: int) -> TextureRect:
+	var picture: TextureRect = TextureRect.new()
+	picture.name = node_name
+	picture.texture = IconArt.plain_cloak_texture(52.0)
+	picture.modulate = IconArt.plain_cloak_tint(dye)
+	picture.custom_minimum_size = Vector2(52, 52)
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return picture
 
 
 static func none_id(slot: CosmeticData.Slot) -> String:
@@ -211,6 +228,12 @@ func _make_dye_tile(index: int) -> Control:
 	swatch.custom_minimum_size = Vector2(52, 52)
 	swatch.add_theme_stylebox_override("panel", UIStyle.box(Dye.primary(index), Dye.secondary(index), 3, 12))
 	swatch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if IconArt.plain_cloak_texture(52.0) != null:
+		# Batch 18 (Nov 20): the dye shown on the Plain Cloak itself, on a dark plate (the flat swatch said nothing about what is dyed).
+		swatch.add_theme_stylebox_override("panel", UIStyle.box(Color(0.06, 0.05, 0.1, 0.9), Dye.primary(index), 2, 12))
+		var cloak: TextureRect = _plain_cloak_icon("DyeCloak_%s" % key, index)
+		cloak.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 3)
+		swatch.add_child(cloak)
 	head.add_child(swatch)
 	head.add_child(UIKit.label("%s Dye" % Dye.dye_name(index), &"HeadingLabel", 24, UIStyle.GOLD))
 	column.add_child(UIKit.label("Cloak dye", &"MutedLabel", 18))

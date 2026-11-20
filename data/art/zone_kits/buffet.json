@@ -507,6 +507,35 @@
 			"use": "Landmark inside the main Buffet zone (mashed-potato region)",
 			"zone": "buffet"
 		},
+		"BUFF-HERO-RAWDEAL-FRONT": {
+			"aspect": 1.203,
+			"asset": "The Raw Deal front",
+			"category": "Prop",
+			"cleared_alpha": 19149,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "BUFF-HERO-RAWDEAL-FRONT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1211,
+				1007
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.buff-hero-rawdeal-front",
+			"tinted": false,
+			"use": "The front of the sushi spot (side dungeon entrance)",
+			"zone": "buffet"
+		},
 		"BUFF-HERO-TEST-KITCHEN": {
 			"asset": "The Test Kitchen",
 			"category": "Hero landmark",
@@ -2243,6 +2272,35 @@
 			"tinted": false,
 			"use": "Sliced into window cutouts",
 			"width": 1.5,
+			"zone": "buffet"
+		},
+		"BUFF-SIGN-RAWDEAL": {
+			"aspect": 0.787,
+			"asset": "The Raw Deal sign",
+			"category": "Prop",
+			"cleared_alpha": 13283,
+			"desc": "See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "BUFF-SIGN-RAWDEAL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				796,
+				1012
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.buff-sign-rawdeal",
+			"tinted": false,
+			"use": "The sign beside the freezer door",
 			"zone": "buffet"
 		},
 		"BUFF-SKY-DINNER": {

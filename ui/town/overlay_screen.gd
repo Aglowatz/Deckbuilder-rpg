@@ -40,7 +40,7 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	UiScale.fit(self)
-	if not vendor_screen_id.is_empty() and KeyArt.has(vendor_screen_id):
+	if not vendor_screen_id.is_empty() and KeyArt.has(VendorStage.backdrop_for(vendor_screen_id)):
 		stage = VendorStage.make(vendor_screen_id, vendor_inset)
 		add_child(stage)
 	var backdrop: Control = UiSkin.screen_background(background_id) if stage == null else null

@@ -20,6 +20,7 @@ extends Node
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
 ##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
+##                                  reveal (lift the area's fog for a map shot) |
 ##                                  goto <spot id> (the hero onto a talk / use spot of the current zone or town; then `key E`)
 ##   log <text>                     write a note to the log
 ## The run stops after --limit seconds (default 900) or at the end of the script; every line is echoed to play.log with a timestamp.
@@ -672,6 +673,23 @@ func _dev(parts: PackedStringArray) -> void:
 			result = DevActions.end_battle(battle, true) if battle != null else "no battle"
 		"lose":
 			result = DevActions.end_battle(battle, false) if battle != null else "no battle"
+		"find":
+			# debugging aid: `dev find <NodeName>` prints where a 3D node is and whether it is drawn
+			for found: Node in get_tree().current_scene.find_children(arg, "Node3D", true, false):
+				var n3: Node3D = found as Node3D
+				var line: String = "  find %s at %s visible %s path %s" % [n3.name, str(n3.global_position), str(n3.is_visible_in_tree()), str(n3.get_path())]
+				if n3 is MeshInstance3D:
+					var mi: MeshInstance3D = n3 as MeshInstance3D
+					line += " layers %d mat %s transparency %.2f basis %s" % [mi.layers, str(mi.material_override), mi.transparency, str(mi.global_transform.basis)]
+				_say(line)
+			result = "find done"
+		"reveal":
+			# Fable Nov 20 day: lift the fog of the current area (map shots with every marker on)
+			var scene_now: Node = get_tree().current_scene
+			var mini: MinimapHud = scene_now.get("minimap") as MinimapHud if scene_now != null else null
+			if mini != null:
+				mini.reveal_all()
+			_say("  reveal: %s" % ("done" if mini != null else "no minimap here"))
 		"heal":
 			result = DevActions.full_heal(battle)
 		"primm":

@@ -23,6 +23,15 @@ var _line_tween: Tween
 var _nod_tween: Tween
 
 
+## Batch 18 (Nov 20): a vendor whose backdrop is not its "VS-" picture. The Arena is a cave under Crosspath (ARENA-MENU-BG: the ring on
+## the left third, the calm rock wall on the right where the menu sits); VS-BELLOWS, a colosseum, is retired.
+const BACKDROPS: Dictionary = {"VS-BELLOWS": "ARENA-MENU-BG"}
+
+
+static func backdrop_for(vendor_screen_id: String) -> String:
+	return str(BACKDROPS.get(vendor_screen_id, vendor_screen_id))
+
+
 static func make(vendor_screen_id: String, left_inset: float = INSET) -> VendorStage:
 	var stage: VendorStage = VendorStage.new()
 	stage.screen_id = vendor_screen_id
@@ -36,7 +45,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var picture: TextureRect = TextureRect.new()
 	picture.name = "ShopBackground"
-	picture.texture = KeyArt.texture(screen_id)
+	picture.texture = KeyArt.texture(backdrop_for(screen_id))
 	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	UIKit.full_rect(picture)

@@ -882,7 +882,32 @@ func _build_landmarks() -> void:
 	_place_landmark("BUFF-HERO-POTATO-PEAK", BuffetLayout.POTATO_PEAK, BuffetLayout.POTATO_PEAK_SIZE, 20.0, true)
 	_place_landmark("BUFF-HERO-CAKE-CATHEDRAL", BuffetLayout.CAKE_CATHEDRAL, BuffetLayout.CAKE_CATHEDRAL_SIZE, 0.0, false)
 	_place_landmark("BUFF-HERO-BROCCOLI-GIANT", BuffetLayout.BROCCOLI_GIANT, BuffetLayout.BROCCOLI_GIANT_SIZE, 30.0, false)
-	_place_landmark("BUFF-HERO-OMAKASE-PAVILION", BuffetLayout.OMAKASE_PAVILION, BuffetLayout.OMAKASE_PAVILION_SIZE, 0.0, false)
+	var pavilion: Node3D = _place_landmark("BUFF-HERO-OMAKASE-PAVILION", BuffetLayout.OMAKASE_PAVILION, BuffetLayout.OMAKASE_PAVILION_SIZE, 0.0, false)
+	_paint_raw_deal_front(pavilion)
+
+
+## Batch 18 (Nov 20): the Raw Deal's painted front (BUFF-HERO-RAWDEAL-FRONT) replaces the modelled pavilion: a flat picture on the model's
+## front edge, facing the camera (which never turns). The model stays as an unseen body: its blocking circles and its lantern lights are
+## the building's; its meshes are hidden. The painted freezer door is where the way in stands (BuffetLayout.RAWDEAL_DOOR).
+const RAWDEAL_FRONT: String = "BUFF-HERO-RAWDEAL-FRONT"
+const RAWDEAL_SIGN: String = "BUFF-SIGN-RAWDEAL"
+const RAWDEAL_SIGN_HEIGHT: float = 2.5
+var raw_deal_front: MeshInstance3D
+
+
+func _paint_raw_deal_front(pavilion: Node3D) -> void:
+	if pavilion == null or not EnvKit.has(RAWDEAL_FRONT) or not EnvKit.has_art(RAWDEAL_FRONT):
+		return
+	var width: float = BuffetLayout.RAWDEAL_FRONT_WIDTH
+	var height: float = width / maxf(EnvKit.aspect(RAWDEAL_FRONT), 0.01)
+	var front_z: float = BuffetLayout.OMAKASE_PAVILION.y + BuffetLayout.OMAKASE_PAVILION_SIZE.z * 0.5 + 0.2
+	raw_deal_front = KitPieces.wall(root, RAWDEAL_FRONT, Vector3(BuffetLayout.OMAKASE_PAVILION.x, pavilion.position.y + height * 0.5 - 0.08, front_z), 0.0, width)
+	if raw_deal_front == null:
+		return
+	raw_deal_front.name = "RawDealFront"
+	raw_deal_front.set_meta(&"no_range_cull", true)
+	for piece: Node in pavilion.find_children("*", "MeshInstance3D", true, false):
+		(piece as MeshInstance3D).visible = false
 
 
 ## A landmark model at (x, z) turned by `yaw`, hanging off the root (never chunk-culled): a view stands at y 0 off the table and never fades; a region landmark
@@ -1112,6 +1137,8 @@ func _build_signs() -> void:
 	for sign: BuffetLayout.Sign in layout.signs:
 		sign.pos = SignPlacement.off_paths(sign.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		# G-03: no readable text in the world. A board carries one pictogram; the words are read by using the sign (ZoneScene adds a "sign" spot).
+		if sign.key == "sign.mini_dungeon" and _painted_raw_deal_sign(sign):
+			continue
 		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
 		var node: Node3D = P.sign_post(size.x, size.y, sign.style)
 		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
@@ -1128,6 +1155,23 @@ func _build_signs() -> void:
 		elif sign.style == "menu":
 			mid = 1.3 + size.y * 0.5
 		node.add_child(IconSign.picture(size * 0.78, sign_icon(sign.key), Vector3(0, mid, 0.1)))
+
+
+## Batch 18 (Nov 20): the Raw Deal's own sign (BUFF-SIGN-RAWDEAL: a fish bone crossed with chopsticks, a snowflake, a red lantern) hangs
+## from its painted bracket on a wooden post beside the freezer door. True when it was built (else the plain board is).
+func _painted_raw_deal_sign(sign: BuffetLayout.Sign) -> bool:
+	if not EnvKit.has(RAWDEAL_SIGN) or not EnvKit.has_art(RAWDEAL_SIGN):
+		return false
+	var foot: Vector3 = _ground(sign.pos.x, sign.pos.z)
+	var card: Node3D = KitPieces.stand(root, RAWDEAL_SIGN, foot + Vector3(0.0, 0.9, 0.0), RAWDEAL_SIGN_HEIGHT, false)
+	if card == null:
+		return false
+	card.name = "RawDealSign"
+	var width: float = RAWDEAL_SIGN_HEIGHT * EnvKit.aspect(RAWDEAL_SIGN)
+	var post: MeshInstance3D = P.box(root, Vector3(0.14, 0.9 + RAWDEAL_SIGN_HEIGHT * 0.9, 0.14), M.flat(M.WOOD_DARK), Vector3.ZERO)
+	post.name = "RawDealSignPost"
+	post.position = foot + Vector3(-width * 0.46, (0.9 + RAWDEAL_SIGN_HEIGHT * 0.9) * 0.5, -0.06)
+	return true
 
 
 ## The icon id a sign shows (the keys are the `sign.*` story keys in the Buffet's story file).

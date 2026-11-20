@@ -1,0 +1,25 @@
+# Fable Nov 20 day, Part 1: the Arena's board (a battle and a puzzle)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev arena arena_warmup
+wait 12
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot p1_arena_board_battle
+dev lose
+wait 8
+skip_dialogue
+dev arena arena_lethal_lunch
+wait 12
+skip_dialogue
+shot p1_arena_board_puzzle
+dev lose
+wait 8
+skip_dialogue

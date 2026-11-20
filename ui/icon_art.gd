@@ -232,6 +232,23 @@ static func item_icon_id(item_id: String) -> String:
 	return ITEM_PREFIX + id_slug(str(ITEM_ART_ALIASES.get(item_id, item_id)))
 
 
+## Batch 18 (Nov 20): the Plain Cloak by itself, painted in a light neutral cloth so the dye can tint it.
+const PLAIN_CLOAK_ICON: String = "ICON-COS-PLAINCLOAK"
+
+
+## The Plain Cloak's own picture for about `px` pixels; null until it is imported.
+static func plain_cloak_texture(px: float) -> Texture2D:
+	return texture(PLAIN_CLOAK_ICON, px) if has(PLAIN_CLOAK_ICON) else null
+
+
+## The colour the light-grey Plain Cloak picture is multiplied by: the dye, or the hero's own dark teal when undyed.
+static func plain_cloak_tint(dye: int) -> Color:
+	return PLAIN_CLOAK_TEAL if dye == Dye.NATURAL else Dye.primary(dye).lightened(0.12)
+
+
+const PLAIN_CLOAK_TEAL: Color = Color(0.25, 0.62, 0.64)
+
+
 ## The shop / wardrobe icon of a hat or cloak: ICON-COS-<art name> ("WIDEBRIM" -> ICON-COS-WIDEBRIM, "REDCAPE" -> ICON-COS-REDCAPE).
 static func cosmetic_icon_id(art_name: String) -> String:
 	return COSMETIC_PREFIX + id_slug(art_name)
@@ -488,6 +505,7 @@ static func game_ids() -> Dictionary:
 		ids[str(FeatDefs.GROUP_ICONS[group])] = "Feat group: %s" % str(group)
 	ids[FeatDefs.SECRET_ICON] = "Feat: hidden"
 	ids["ICON-FEAT-PATHS"] = "Feat badge: the four Paths (the Path feats heading)"
+	ids[PLAIN_CLOAK_ICON] = "Cloak: the Plain Cloak by itself (Batch 18)"
 	return ids
 
 
