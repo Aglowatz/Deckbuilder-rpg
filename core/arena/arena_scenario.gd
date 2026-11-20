@@ -91,6 +91,15 @@ static func build_game(content: ContentSet, encounter: ArenaEncounter, profile: 
 	return game
 
 
+const RESOURCE_NAMES: Dictionary = {"iron": ResourceKind.Kind.IRON, "red_tape": ResourceKind.Kind.RED_TAPE, "contract": ResourceKind.Kind.CONTRACT, "ingredient": ResourceKind.Kind.INGREDIENT, "garbage": ResourceKind.Kind.GARBAGE}
+
+
+## A preset card by id: a collectible card, or a token ("T-02").
+static func _preset_card(content: ContentSet, card_id: String) -> CardData:
+	var card: CardData = content.card(card_id)
+	return card if card != null else TokenRegistry.data(card_id)
+
+
 ## Replaces the dealt zones with the encounter's preset board, hands, infrastructure and HP.
 static func apply_preset(game: GameState, content: ContentSet, preset: Dictionary) -> void:
 	for side: String in ["player", "enemy"]:
@@ -105,12 +114,12 @@ static func apply_preset(game: GameState, content: ContentSet, preset: Dictionar
 			state.hand.clear()
 			for card_id: Variant in (spec["hand"] as Dictionary).keys():
 				for copy: int in range(int((spec["hand"] as Dictionary)[card_id])):
-					state.hand.append(game.create_instance(content.card(str(card_id)), index))
+					state.hand.append(game.create_instance(_preset_card(content, str(card_id)), index))
 		if spec.has("field"):
 			state.field.clear()
 			for card_id: Variant in (spec["field"] as Dictionary).keys():
 				for copy: int in range(int((spec["field"] as Dictionary)[card_id])):
-					var unit: CardInstance = game.create_instance(content.card(str(card_id)), index)
+					var unit: CardInstance = game.create_instance(_preset_card(content, str(card_id)), index)
 					# Fix pass Nov 4 (Part 1.3): the enemy's preset units have Just Arrived on its first turn; yours are ready.
 					unit.just_arrived = index == 1
 					state.field.append(unit)
@@ -122,11 +131,22 @@ static func apply_preset(game: GameState, content: ContentSet, preset: Dictionar
 				var path: int = int(Affinity.from_symbol(str(letter)))
 				for copy: int in range(int((spec["infrastructure"] as Dictionary)[letter])):
 					state.infrastructure.append(game.create_instance(content.infrastructure[path] as CardData, index))
+		# Fable Nov 20 (Part 7): a puzzle may start with resources and Contracts ("resources": {"iron": 2, "red_tape": 1, "ingredient": 1,
+		# "garbage": 1, "contract": 1}) - placed as they are, no "created" triggers.
+		if spec.has("resources"):
+			state.resources.clear()
+			state.tokens.clear()
+			for kind_name: Variant in (spec["resources"] as Dictionary).keys():
+				var kind: int = RESOURCE_NAMES.get(str(kind_name), -1)
+				if kind < 0:
+					continue
+				for copy: int in range(int((spec["resources"] as Dictionary)[kind_name])):
+					state.zone_for_kind(kind as ResourceKind.Kind).append(game.create_instance(ResourceRules.data_for(kind as ResourceKind.Kind), index))
 		if spec.has("refuse"):
 			state.refuse_pile.clear()
 			for card_id: Variant in (spec["refuse"] as Dictionary).keys():
 				for copy: int in range(int((spec["refuse"] as Dictionary)[card_id])):
-					state.refuse_pile.append(game.create_instance(content.card(str(card_id)), index))
+					state.refuse_pile.append(game.create_instance(_preset_card(content, str(card_id)), index))
 
 
 ## The reward of a first clear with the "primary" Path resolved to the player's own, as
@@ -175,7 +195,7 @@ static func player_rule_badges(encounter: ArenaEncounter) -> Array[RuleBadges.Ba
 		return result
 	# Overnight Nov 19 (Part 1.4): the bout itself first - its name and its rules or goal (the banner across the top used to say this).
 	var story: StoryText = StoryText.shared()
-	var bout: RuleBadges.Badge = RuleBadges.special(story.text(encounter.title_key()), story.text(encounter.rules_key()), "lorc/crossed-swords", [] as Array[Modifier], true)
+	var bout: RuleBadges.Badge = RuleBadges.special(encounter.title(), encounter.rules(), "lorc/crossed-swords", [] as Array[Modifier], true)
 	bout.kind = "arena"
 	result.append(bout)
 	for modifier: Modifier in encounter.player_rules:

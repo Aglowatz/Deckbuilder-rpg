@@ -1,0 +1,368 @@
+{
+	"_about": "The Arena's puzzles (Fable Nov 20, Part 7). Each is a 'win this turn' position: preset = the board (hp, infrastructure by Path letter, field, hand, resources, refuse). title / brief hint at the synergy, lesson is the 'What you just did' line after a win. paths, synergy, solution, decoys and naive are the design notes the solver checks (core/arena/puzzle_solver.gd, tests/core/arena/test_arena_puzzles_nov20.gd; report: tools/arena_puzzle_lab.gd). Ids, tiers and prizes live in core/arena/arena_defs.gd.",
+	"puzzles": {
+		"arena_lethal_lunch": {
+			"tier": 1,
+			"enemy_name": "Lunch Rush",
+			"player_basics": "B",
+			"enemy_basics": "B",
+			"preset": {
+				"player": {
+					"hp": 6,
+					"infrastructure": {
+						"B": 4,
+						"N": 3
+					},
+					"field": {
+						"B-01": 1
+					},
+					"hand": {
+						"NB-03": 1,
+						"B-21": 1,
+						"B-20": 1,
+						"N-15": 1
+					},
+					"refuse": {
+						"B-11": 1,
+						"B-12": 1,
+						"N-01": 1
+					}
+				},
+				"enemy": {
+					"hp": 8,
+					"infrastructure": {
+						"B": 2
+					},
+					"field": {
+						"C-02": 1
+					},
+					"hand": {}
+				}
+			},
+			"title": "Back from the Dead, Back to the Gym",
+			"brief": "Lunch Rush has 8 HP and a Village Militia in the way. Your best lifter is lying in the Refuse Pile, and nobody has told him the gym is still open.",
+			"lesson": "A Necrocrat card brought a Beefcake bruiser back with Hustle, and his 5 attack turned Flex on 'Em from 2 damage into 4. A Reinstated unit keeps everything printed on it, so bring back the one your other cards care about.",
+			"paths": [
+				"Necrocrat",
+				"Beefcake"
+			],
+			"synergy": "Reinstate a Beefcake heavy hitter with Hustle (Vigor Mortis), and its 5 attack switches on a Beefcake payoff (Flex on 'Em deals 4 instead of 2) before it swings with Bulldoze.",
+			"solution": [
+				"Play Vigor Mortis on Beefy Bouncer in your Refuse Pile: he returns as a 5/4 with Bulldoze and Hustle (4 energy).",
+				"Play Flex on 'Em: you control a unit with 5 attack, so it deals 4 (3 energy; 8 -> 4 HP).",
+				"Attack with Beefy Bouncer and Gym Bro. If the Militia blocks the Bouncer, Bulldoze carries 3 over it and Gym Bro adds 1; if it blocks Gym Bro, the Bouncer deals 5. Either way at least 4."
+			],
+			"decoys": [
+				{
+					"card": "Leg Day Survivor",
+					"why": "in the Refuse Pile with Hustle already printed on it, so Vigor Mortis looks made for it; with 4 attack Flex on 'Em only deals 2 and the Militia blocks it: 3 of 8"
+				},
+				{
+					"card": "Pink Slip",
+					"why": "removes the blocker, but with Vigor Mortis it leaves no energy for Flex on 'Em: 6 of 8"
+				},
+				{
+					"card": "Dry Scoop",
+					"why": "+1 attack on anything is never the missing damage"
+				}
+			],
+			"naive": [
+				{
+					"name": "Just attack",
+					"steps": [
+						"Attack with *"
+					]
+				},
+				{
+					"name": "Bring back the unit that already has Hustle",
+					"steps": [
+						"Play Vigor Mortis on Leg Day Survivor"
+					]
+				},
+				{
+					"name": "Remove the blocker first",
+					"steps": [
+						"Play Pink Slip on their Village Militia"
+					]
+				},
+				{
+					"name": "Flex before anyone big is on the field",
+					"steps": [
+						"Play Flex on 'Em"
+					]
+				}
+			]
+		},
+		"arena_hold_the_line": {
+			"tier": 2,
+			"enemy_name": "The Dinner Rush",
+			"player_basics": "G",
+			"enemy_basics": "B",
+			"preset": {
+				"player": {
+					"hp": 6,
+					"infrastructure": {
+						"G": 4,
+						"B": 4
+					},
+					"field": {
+						"B-01": 1
+					},
+					"hand": {
+						"GB-08": 1,
+						"GB-13": 1,
+						"GB-12": 1
+					},
+					"resources": {
+						"ingredient": 1
+					}
+				},
+				"enemy": {
+					"hp": 9,
+					"infrastructure": {
+						"B": 2
+					},
+					"field": {
+						"C-08": 1
+					},
+					"hand": {}
+				}
+			},
+			"title": "Mise en Place",
+			"brief": "The Dinner Rush has 9 HP and a Tavern Regular who never leaves his seat. Sir Loin is ready to make an entrance, and a good chef counts his Ingredients before he walks in.",
+			"lesson": "Gourmand cards stock the pantry and a Beefcake finisher throws it. The Shaker Bottle's Ingredient had to be on the table BEFORE Sir Loin entered: he spends every Ingredient you have at that moment, 2 damage each, and that cleared the blocker.",
+			"paths": [
+				"Gourmand",
+				"Beefcake"
+			],
+			"synergy": "Ingredients are ammunition: a Gourmand-Beefcake tool makes one more Ingredient (and pumps an attacker), then Sir Loin's entrance turns two Ingredients into 4 damage on the blocker.",
+			"solution": [
+				"Play Shaker Bottle (2 energy).",
+				"Destroy Shaker Bottle on Gym Bro: he gets +2/+2 (3/3) and you create an Ingredient: you now have two.",
+				"Play Sir Loin, Prime Cut (6 energy) and aim his entrance at the Tavern Regular: two Ingredients, 4 damage, the Regular (3/4) is destroyed.",
+				"Attack with Sir Loin (6, Hustle) and Gym Bro (3): 9 damage, nothing left to block."
+			],
+			"decoys": [
+				{
+					"card": "A Feast for the Eyes",
+					"why": "a 5/5 with Hustle and three Ingredients for 5 energy, but then Sir Loin (6) cannot be played and nothing else spends Ingredients: the Regular blocks it and 3 damage gets through at most"
+				}
+			],
+			"naive": [
+				{
+					"name": "Just attack",
+					"steps": [
+						"Attack with *"
+					]
+				},
+				{
+					"name": "Sir Loin first, with the one Ingredient you start with",
+					"steps": [
+						"Play Sir Loin, Prime Cut on their Tavern Regular"
+					]
+				},
+				{
+					"name": "The biggest body with the most Ingredients",
+					"steps": [
+						"Play A Feast for the Eyes"
+					]
+				}
+			]
+		},
+		"arena_zero_to_hero": {
+			"tier": 3,
+			"enemy_name": "The Wall of Fame",
+			"player_basics": "N",
+			"enemy_basics": "B",
+			"preset": {
+				"player": {
+					"hp": 5,
+					"infrastructure": {
+						"N": 3,
+						"R": 3
+					},
+					"field": {
+						"NR-16": 1,
+						"NR-03": 1,
+						"N-01": 1,
+						"N-14": 1
+					},
+					"hand": {
+						"NR-09": 1,
+						"N-21": 1,
+						"NR-01": 1,
+						"NR-05": 1
+					},
+					"refuse": {
+						"C-01": 1,
+						"C-02": 1,
+						"N-02": 1,
+						"NR-01": 1
+					}
+				},
+				"enemy": {
+					"hp": 17,
+					"infrastructure": {
+						"B": 2
+					},
+					"field": {
+						"C-09": 1
+					},
+					"hand": {}
+				}
+			},
+			"title": "The Chairman Needs a Quorum",
+			"brief": "The Wall of Fame: 17 HP behind an Old Kingdom Automaton. Your Refuse Pile is one name short of a full meeting, and the Chairman does not sign anything for four.",
+			"lesson": "Refusemancer Rats and Necrocrat paperwork. One sacrifice put the fifth unit card in your Refuse Pile, Plague of Rats turned the pile into five Rats, the Chairman spent all five to destroy the blocker for 5 HP, and The Breakroom charged your opponent 1 HP for every one of your units that died on the way.",
+			"paths": [
+				"Refusemancer",
+				"Necrocrat"
+			],
+			"synergy": "The Refuse Pile as a resource: a Necrocrat sacrifice fills it to five unit cards, a Refusemancer-Necrocrat spell turns it into five Rat tokens, the Chairman cashes the Rats in (destroy a unit, 5 HP) and a Necrocrat Wonder pays 1 HP for each of the six deaths.",
+			"solution": [
+				"Play Become Useful at Work and destroy Skeleton Clerk for it (1 energy): The Breakroom takes 1 HP (17 -> 16) and your Refuse Pile now holds five unit cards.",
+				"Play Plague of Rats (5 energy): five Rat tokens, one for each unit card in your Refuse Pile.",
+				"Use Necro Rat's ability: destroy the five Rats to destroy the Old Kingdom Automaton; your opponent loses 5 HP, and The Breakroom takes 5 more for the five Rats (16 -> 6).",
+				"Attack with Necro Rat (4) and Rat King Bureaucrat (2): nothing is left to block, 6 damage."
+			],
+			"decoys": [
+				{
+					"card": "Sewer Rat Courier",
+					"why": "it brings a fifth Rat with no sacrifice, but it costs 2 and Plague of Rats takes 5 of your 6 energy"
+				},
+				{
+					"card": "Rusty Grave Shovel",
+					"why": "Toxic only kills the Automaton if it blocks the unit that carries the shovel, and it gets nothing through by itself"
+				},
+				{
+					"card": "Become Useful at Work (paying with Rat King Bureaucrat)",
+					"why": "the Rat King makes three Zombie Temps instead of two, but then the Skeleton Clerk attacks for 1 where the Rat King would attack for 2: 16 of 17"
+				}
+			],
+			"naive": [
+				{
+					"name": "Just attack",
+					"steps": [
+						"Attack with *"
+					]
+				},
+				{
+					"name": "Plague of Rats at once (four unit cards: four Rats)",
+					"steps": [
+						"Play Plague of Rats"
+					]
+				},
+				{
+					"name": "Sacrifice the unit with the most defense",
+					"steps": [
+						"Play Become Useful at Work (paying with Rat King Bureaucrat)"
+					]
+				},
+				{
+					"name": "The fifth Rat from Sewer Rat Courier",
+					"steps": [
+						"Play Sewer Rat Courier"
+					]
+				}
+			]
+		},
+		"arena_final_bell": {
+			"tier": 4,
+			"enemy_name": "The Wall of Fame",
+			"player_basics": "B",
+			"enemy_basics": "B",
+			"preset": {
+				"player": {
+					"hp": 4,
+					"infrastructure": {
+						"B": 5,
+						"N": 3,
+						"G": 1
+					},
+					"field": {
+						"NB-02": 1,
+						"B-04": 1
+					},
+					"hand": {
+						"GB-16": 1,
+						"NB-11": 1,
+						"NB-04": 1,
+						"B-21": 1,
+						"B-25": 1,
+						"NB-03": 1
+					}
+				},
+				"enemy": {
+					"hp": 30,
+					"infrastructure": {
+						"B": 2
+					},
+					"field": {
+						"C-09": 1
+					},
+					"hand": {}
+				}
+			},
+			"title": "The Heaviest Paperwork",
+			"brief": "The Wall of Fame has 30 HP and an Old Kingdom Automaton that blocks whatever you send. Nothing on your side hits for more than 3. Read every card twice, above all the one that waits for one of your own to fall.",
+			"lesson": "Three Paths in one swing. A Gourmand-Beefcake tool made a 13-attack unit, Flex on 'Em cashed in on it while it still stood, and the Necrocrat-Beefcake pair turned its death into damage twice: Dead Weight threw it for 13, and your own Death Grip sprang on your own sacrifice for 13 more. A trap does not care who makes its condition come true.",
+			"paths": [
+				"Gourmand",
+				"Beefcake",
+				"Necrocrat"
+			],
+			"synergy": "One unit's attack counted three times: GLP-100 (Gourmand-Beefcake) makes it 13, Flex on 'Em (Beefcake) needs it alive for 4, then Dead Weight (Necrocrat-Beefcake) sacrifices it for 13 and your own trap Death Grip (Necrocrat-Beefcake), set this turn, springs on that death for 13 more.",
+			"solution": [
+				"Overexert Millstone Pusher for (B)(B): 11 energy this turn.",
+				"Play GLP-100 (3 energy) and destroy it on Un-Deadlifter: +10 attack, defense 1 (13/1).",
+				"Play Flex on 'Em (3 energy) NOW, while a unit with 5 or more attack stands: 4 damage (30 -> 26).",
+				"Set Death Grip (3 energy): 'When a unit you control dies, your opponent loses HP equal to its attack.'",
+				"Play Dead Weight (2 energy) and destroy Un-Deadlifter for it: 13 damage to your opponent (26 -> 13), and Death Grip springs for 13 more (13 -> 0)."
+			],
+			"decoys": [
+				{
+					"card": "Yeet",
+					"why": "the same 13 damage as Dead Weight, but it costs 3 where Dead Weight costs 2: with GLP-100, Death Grip and Flex on 'Em you are exactly one energy short, and with Dead Weight as well the second throw has only the Millstone Pusher left (27 of 30)"
+				},
+				{
+					"card": "Vigor Mortis",
+					"why": "bringing Un-Deadlifter back gives a 3/2 with Hustle: GLP-100 and Death Grip are already spent, and the Automaton blocks it"
+				}
+			],
+			"naive": [
+				{
+					"name": "Just attack",
+					"steps": [
+						"Attack with *"
+					]
+				},
+				{
+					"name": "Pump and attack",
+					"steps": [
+						"Play GLP-100",
+						"Use GLP-100 on Un-Deadlifter",
+						"Attack with *"
+					]
+				},
+				{
+					"name": "The throw before the flex (Flex on 'Em then finds no 5-attack unit)",
+					"steps": [
+						"Play GLP-100",
+						"Use GLP-100 on Un-Deadlifter",
+						"Play Death Grip",
+						"Play Dead Weight on the opponent (paying with Un-Deadlifter)"
+					]
+				},
+				{
+					"name": "Yeet instead of Dead Weight",
+					"steps": [
+						"Play GLP-100",
+						"Use GLP-100 on Un-Deadlifter",
+						"Play Death Grip",
+						"Play Yeet on Un-Deadlifter, the opponent"
+					]
+				}
+			]
+		}
+	}
+}

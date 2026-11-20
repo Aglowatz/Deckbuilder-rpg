@@ -2571,6 +2571,13 @@ func _show_result() -> void:
 		else:
 			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+	# Fable Nov 20 (Part 7): a solved puzzle says what the player just did (the synergy, in a sentence or two)
+	if won and not context.arena_id.is_empty() and ArenaDefs.find(context.arena_id) != null and not ArenaDefs.find(context.arena_id).lesson.is_empty():
+		var lesson: Label = UIKit.label("What you just did: %s" % ArenaDefs.find(context.arena_id).lesson, &"", 21, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		lesson.name = "PuzzleLesson"
+		lesson.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		lesson.custom_minimum_size = Vector2(980, 0)
+		column.add_child(lesson)
 	if context.zone_battle:
 		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub with full HP; the cards and gold you have won are yours to keep."  # Fable pass Nov 10 (Part 4.1): no "losing costs nothing"
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))

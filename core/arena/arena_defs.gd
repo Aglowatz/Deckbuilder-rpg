@@ -5,12 +5,12 @@ extends RefCounted
 ##
 ## | Tier | Fight | Kind | Prize (first clear) |
 ## | 1 | Warm-Up Brawl | battle, your deck | gold, essence |
-## | 1 | Lethal Lunch | puzzle: win this turn | gold, essence |
+## | 1 | Back from the Dead, Back to the Gym (arena_lethal_lunch) | puzzle: win this turn, Necrocrat + Beefcake | gold, a pack |
 ## | 1 | The Neutral Mile | battle, restricted deck | gold, an Energy Draught |
-## | 2 | Hold the Line | puzzle: survive 3 turns | Champion's Laurels |
+## | 2 | Mise en Place (arena_hold_the_line) | puzzle: win this turn, Gourmand + Beefcake | gold, a pack |
 ## | 2 | Spells Only, Please | battle, no unit plays, restricted deck | Crowd-Pleaser's Cape |
 ## | 2 | The Four Fists | battle, your deck | gold, essence of every Path |
-## | 3 | Zero to Hero | puzzle: win this turn (harder) | Gladiator's Net |
+## | 3 | The Chairman Needs a Quorum (arena_zero_to_hero) | puzzle: win this turn, Refusemancer + Necrocrat | gold, a pack, an Energy Draught |
 ## | 3 | The Marshal | battle, your deck | Bloodsand Boots, gold, essence |
 
 ## Overnight Nov 19 (Part 6): four tiers, opened in order - a tier opens once every bout of the one before it is beaten. Every win pays gold,
@@ -88,19 +88,7 @@ static func _build() -> Array[ArenaEncounter]:
 	var warmup: ArenaEncounter = _battle("arena_warmup", 1, "Gladiator Rookie", 14, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 28, 18))
 	warmup.reward = {"gold": 90, "xp": 40, "pack": "primary"}
 	list.append(warmup)
-	# Lethal Lunch: 10 damage this turn through one blocker. Flex on 'Em (4 with a 5-attack unit) + Dropped Weights (2) + the attackers.
-	var lunch: ArenaEncounter = _puzzle("arena_lethal_lunch", 1, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
-	lunch.enemy_name = "Lunch Rush"
-	lunch.enemy_hp = 10
-	lunch.enemy_recipe = {"BAS-B": 20, "C-02": 3}
-	lunch.player_recipe = {"BAS-B": 20, "B-03": 3}
-	lunch.player_hp = 10
-	lunch.preset = {
-		"player": {"hp": 10, "infrastructure": {"B": 4}, "field": {"B-11": 1, "B-12": 1}, "hand": {"B-21": 1, "B-03": 1}},
-		"enemy": {"hp": 10, "infrastructure": {"B": 2}, "field": {"C-02": 1}, "hand": {}},
-	}
-	lunch.reward = {"gold": 120, "xp": 40, "pack": "general_1"}
-	list.append(lunch)
+	list.append(_data_puzzle("arena_lethal_lunch", 1, {"gold": 120, "xp": 40, "pack": "general_1"}))
 	var mile: ArenaEncounter = _battle("arena_neutral_mile", 1, "Sandbag Sentinel", 13, "Defensive", EnemyDecks.trimmed("colorless_regime", 30, 16))
 	mile.player_recipe = {
 		"BAS-B": 15, "C-01": 3, "C-02": 3, "C-03": 3, "C-04": 3, "C-06": 2, "C-07": 2, "C-08": 2, "C-13": 2, "C-14": 2, "C-12": 2, "C-16": 1,
@@ -108,18 +96,7 @@ static func _build() -> Array[ArenaEncounter]:
 	mile.reward = {"gold": 100, "xp": 40, "pack": "general_1", "item": "energy_draught"}
 	list.append(mile)
 	# ---- Tier 2: Silver Sand ------------------------------------------------------------------------
-	var line: ArenaEncounter = _puzzle("arena_hold_the_line", 2, ArenaEncounter.Goal.SURVIVE_TURNS, 3, 1)
-	line.enemy_name = "Stampeding Squad"
-	line.enemy_hp = 25
-	line.enemy_recipe = {"BAS-B": 24, "C-02": 2}
-	line.player_recipe = {"BAS-G": 20, "G-04": 3, "C-05": 3, "G-06": 3, "G-17": 2, "C-19": 2}
-	line.player_hp = 9
-	line.preset = {
-		"player": {"hp": 9, "infrastructure": {"G": 5}, "field": {}, "hand": {"G-04": 1, "C-05": 1, "G-06": 1, "G-17": 1, "C-19": 1}},
-		"enemy": {"hp": 25, "infrastructure": {"B": 4}, "field": {"C-02": 2}, "hand": {}},
-	}
-	line.reward = {"gold": 150, "xp": 80, "pack": "general_2"}
-	list.append(line)
+	list.append(_data_puzzle("arena_hold_the_line", 2, {"gold": 150, "xp": 80, "pack": "general_2"}))
 	# Rebalance (Oct 18): the Colossus runs on Gourmand basics, so it has no Iron to burst with (temporary Iron made its one big hit
 	# too big for a deck that cannot block).
 	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 6, "Passive", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.GOURMAND] as Array[Affinity.Type], 16))
@@ -134,37 +111,12 @@ static func _build() -> Array[ArenaEncounter]:
 	fists.reward = {"gold": 250, "xp": 100, "pack": "primary", "essence": {"B": 4, "G": 4, "R": 4, "N": 4}}
 	list.append(fists)
 	# ---- Tier 3: Gold Sand --------------------------------------------------------------------------
-	# Zero to Hero: both blockers must die first (Dropped Weights, Kettlebell), then 4 + 5 + 2 = 11 damage.
-	var hero: ArenaEncounter = _puzzle("arena_zero_to_hero", 3, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
-	hero.enemy_name = "The Wall of Fame"
-	hero.enemy_hp = 10  # Rebalance: Gym Bro is a 1/1 now, so the three attackers deal exactly 10 once both blockers are gone
-	hero.enemy_recipe = {"BAS-B": 20, "C-02": 3, "C-06": 3}
-	hero.player_recipe = {"BAS-B": 20, "B-03": 3, "B-15": 3}
-	hero.player_hp = 8
-	hero.preset = {
-		"player": {"hp": 8, "infrastructure": {"B": 5}, "field": {"B-12": 1, "B-11": 1, "B-01": 1}, "hand": {"B-03": 1, "B-15": 1, "B-17": 1, "B-20": 1}},
-		"enemy": {"hp": 10, "infrastructure": {"B": 2}, "field": {"C-02": 1, "C-06": 1}, "hand": {}},
-	}
-	hero.reward = {"gold": 200, "xp": 120, "pack": "general_2", "item": "energy_draught"}
-	list.append(hero)
+	list.append(_data_puzzle("arena_zero_to_hero", 3, {"gold": 200, "xp": 120, "pack": "general_2", "item": "energy_draught"}))
 	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 46, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3, "B-29": 1, "B-30": 1}))  # Rebalance Part E: 30 -> 38 HP, two Epics
 	marshal.reward = {"gold": 500, "xp": 250, "pack": "primary", "essence": {"primary": 6}}
 	list.append(marshal)
 	# ---- Tier 4: Diamond Sand (Overnight Nov 19) ---------------------------------------------------------
-	# The Final Bell: three blockers and exactly enough. Desk Flip (2) kills the Militia, Dropped Weights (1) the Brawler, the Kettlebell (1)
-	# the Archer (1/3: only its 3 damage will do), Dry Scoop (1) makes the Gym Bro a 2: 4 + 5 + 2 = 11 = the Wall's HP, all five energy.
-	var bell: ArenaEncounter = _puzzle("arena_final_bell", 4, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
-	bell.enemy_name = "The Wall of Fame"
-	bell.enemy_hp = 11
-	bell.enemy_recipe = {"BAS-B": 20, "C-02": 3, "C-06": 3, "C-03": 3}
-	bell.player_recipe = {"BAS-B": 20, "B-36": 3, "B-03": 3, "B-15": 3, "B-20": 3}
-	bell.player_hp = 8
-	bell.preset = {
-		"player": {"hp": 8, "infrastructure": {"B": 5}, "field": {"B-12": 1, "B-11": 1, "B-01": 1}, "hand": {"B-36": 1, "B-03": 1, "B-15": 1, "B-20": 1}},
-		"enemy": {"hp": 11, "infrastructure": {"B": 2}, "field": {"C-02": 1, "C-06": 1, "C-03": 1}, "hand": {}},
-	}
-	bell.reward = {"gold": 300, "xp": 150, "pack": "general_2", "essence": {"primary": 6}}
-	list.append(bell)
+	list.append(_data_puzzle("arena_final_bell", 4, {"gold": 300, "xp": 150, "pack": "general_2", "essence": {"primary": 6}}))
 	# The Four Fists, Unbound: the Silver champion again, every Path at once and harder than the Marshal (more HP, more Epics).
 	var unbound: ArenaEncounter = _battle("arena_four_fists_unbound", 4, "Champion of the Four Fists", 54, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("four_paths", 17), {"B-13": 2, "B-28": 2, "N-03": 2, "B-30": 1}))
 	unbound.reward = {"gold": 600, "xp": 300, "pack": "primary", "essence": {"primary": 6}}
@@ -182,6 +134,55 @@ static func _battle(id: String, tier: int, enemy: String, hp: int, ai: String, r
 	encounter.enemy_hp = hp
 	encounter.enemy_ai = ai
 	encounter.enemy_recipe = recipe
+	return encounter
+
+
+## Fable Nov 20 (Part 7): the puzzles are data (data/arena/arena_puzzles.json): the board, the hand, the words and the design notes
+## the solver checks. Their ids, tiers and prizes stay here (a save's cleared flags and the tiers' rewards do not move).
+const PUZZLE_FILE: String = "res://data/arena/arena_puzzles.json"
+
+static var _puzzle_data: Dictionary = {}
+
+
+static func puzzle_data() -> Dictionary:
+	if _puzzle_data.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PUZZLE_FILE))
+		if parsed is Dictionary:
+			_puzzle_data = (parsed as Dictionary).get("puzzles", {}) as Dictionary
+	return _puzzle_data
+
+
+static func _data_puzzle(id: String, tier: int, reward: Dictionary) -> ArenaEncounter:
+	var encounter: ArenaEncounter = puzzle_from(id, tier, puzzle_data().get(id, {}) as Dictionary)
+	encounter.reward = reward
+	return encounter
+
+
+## Builds a "win this turn" puzzle from its data row (also used by tools/arena_puzzle_lab.gd on a draft file).
+static func puzzle_from(id: String, tier: int, row: Dictionary) -> ArenaEncounter:
+	var encounter: ArenaEncounter = _puzzle(id, tier, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
+	encounter.enemy_name = str(row.get("enemy_name", "The Sand"))
+	encounter.preset = (row.get("preset", {}) as Dictionary).duplicate(true)
+	var enemy_side: Dictionary = encounter.preset.get("enemy", {}) as Dictionary
+	var player_side: Dictionary = encounter.preset.get("player", {}) as Dictionary
+	encounter.enemy_hp = int(enemy_side.get("hp", 10))
+	encounter.player_hp = int(player_side.get("hp", 10))
+	# the decks behind the preset: basics only, so nothing unknown can be drawn into a puzzle
+	encounter.enemy_recipe = {"BAS-%s" % str(row.get("enemy_basics", "B")): 30}
+	encounter.player_recipe = {"BAS-%s" % str(row.get("player_basics", "B")): 30}
+	encounter.title_text = str(row.get("title", ""))
+	encounter.brief = str(row.get("brief", ""))
+	encounter.rules_text = str(row.get("rules", "PUZZLE: win THIS turn. Everything you need is on the table. If the turn ends and your opponent still stands, you lose."))
+	encounter.lesson = str(row.get("lesson", ""))
+	encounter.synergy = str(row.get("synergy", ""))
+	for path: Variant in row.get("paths", []) as Array:
+		encounter.paths.append(str(path))
+	for step: Variant in row.get("solution", []) as Array:
+		encounter.solution.append(str(step))
+	for decoy: Variant in row.get("decoys", []) as Array:
+		encounter.decoys.append(decoy as Dictionary)
+	for line: Variant in row.get("naive", []) as Array:
+		encounter.naive_lines.append(line as Dictionary)
 	return encounter
 
 

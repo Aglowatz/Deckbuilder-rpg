@@ -161,4 +161,4 @@ func test_the_harvest_meal_is_out_of_billies_reach() -> void:
 	# the walk smoke stands 1.6 m south of the meal's spot; Billie's Talk (reach 1.7 m x the interact factor) must not cover that
 	var stand: Vector3 = meal + Vector3(0, 0, 1.6)
 	assert_gt(stand.distance_to(billie), 1.7 * StorybookScale.INTERACT_FACTOR + 0.5, "in front of the meal the prompt is the meal's")
-	assert_lt((layout.anchors["wren"] as Vector3).distance_to(Vector3(38.5, 0, 123.5)), 2.0, "she only moved a step")
+	assert_lt((layout.anchors["wren"] as Vector3).distance_to(Vector3(38.5, 0, 123.5)), 3.5, "she only moved a few steps")

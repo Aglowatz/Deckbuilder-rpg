@@ -46,7 +46,7 @@ func test_the_far_landmarks_are_views_and_the_stamp_shrine_stands_clear() -> voi
 
 func test_every_doorway_is_at_least_four_cells_wide() -> void:
 	# (x, z, w, d) of every link rect of the plan: all cells floor, the narrow side LINK_WIDTH or more
-	for rect: Rect2i in [Rect2i(35, 51, 1, 4), Rect2i(43, 42, 4, 4), Rect2i(23, 44, 5, 4), Rect2i(34, 32, 2, 5), Rect2i(54, 32, 2, 5), Rect2i(43, 24, 4, 4), Rect2i(14, 22, 5, 4), Rect2i(34, 16, 2, 5), Rect2i(54, 17, 2, 5), Rect2i(43, 14, 4, 2), Rect2i(69, 24, 5, 2), Rect2i(44, 60, 5, 8)]:
+	for rect: Rect2i in [Rect2i(35, 51, 1, 4), Rect2i(43, 42, 4, 4), Rect2i(23, 44, 5, 4), Rect2i(34, 32, 2, 5), Rect2i(54, 32, 2, 5), Rect2i(43, 24, 4, 4), Rect2i(14, 22, 5, 4), Rect2i(34, 16, 2, 5), Rect2i(54, 17, 2, 5), Rect2i(43, 14, 4, 2), Rect2i(69, 24, 5, 2), Rect2i(DnaLayout.APPROACH_X0, 60, DnaLayout.APPROACH_X1 - DnaLayout.APPROACH_X0, 8)]:
 		for cz: int in range(rect.position.y, rect.end.y):
 			for cx: int in range(rect.position.x, rect.end.x):
 				assert_true(layout.is_floor(cx, cz), "doorway cell (%d, %d) is floor" % [cx, cz])

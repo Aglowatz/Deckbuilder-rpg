@@ -39,6 +39,33 @@ var reward: Dictionary = {}
 var replay_gold: int = Economy.ARENA_REPLAY_GOLD
 
 
+## Fable Nov 20 (Part 7): a puzzle carries its own words and its design notes (data/arena/arena_puzzles.json). `title_text` and
+## `brief` hint at the synergy without giving it away; `lesson` is the "What you just did" line shown after a win. The rest is for
+## the solver's tests and the report: the Paths it combines, the synergy in a sentence, the intended line step by step, the decoys
+## (cards that look useful and lead nowhere, with why), and the naive lines that must fail.
+var title_text: String = ""
+var brief: String = ""
+var rules_text: String = ""
+var lesson: String = ""
+var paths: Array[String] = []
+var synergy: String = ""
+var solution: Array[String] = []
+var decoys: Array[Dictionary] = []
+var naive_lines: Array[Dictionary] = []
+
+
+func title() -> String:
+	return title_text if not title_text.is_empty() else StoryText.shared().text(title_key())
+
+
+func blurb() -> String:
+	return brief if not brief.is_empty() else StoryText.shared().text(blurb_key())
+
+
+func rules() -> String:
+	return rules_text if not rules_text.is_empty() else StoryText.shared().text(rules_key())
+
+
 func is_puzzle() -> bool:
 	return kind == Kind.PUZZLE
 

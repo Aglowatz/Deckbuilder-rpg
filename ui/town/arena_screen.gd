@@ -98,17 +98,17 @@ func _row(encounter: ArenaEncounter, story: StoryText) -> Control:
 	line.add_child(info)
 	var title_row: HBoxContainer = UIKit.hbox(12)
 	info.add_child(title_row)
-	title_row.add_child(UIKit.label(story.text(encounter.title_key()), &"HeadingLabel", 28))
+	title_row.add_child(UIKit.label(encounter.title(), &"HeadingLabel", 28))
 	var kind_tag: Label = UIKit.label(story.text("arena.screen.puzzle" if encounter.is_puzzle() else "arena.screen.battle"), &"", 18, Color("9cc8ff") if encounter.is_puzzle() else Color("ffb08a"))
 	title_row.add_child(kind_tag)
 	var status: Label = UIKit.label(story.text("arena.screen.cleared" if cleared else "arena.screen.new"), &"", 18, UIStyle.GOOD if cleared else UIStyle.GOLD)
 	status.name = "Status"
 	title_row.add_child(status)
-	var blurb: Label = UIKit.label(story.text(encounter.blurb_key()), &"", 20, UIStyle.PARCHMENT)
+	var blurb: Label = UIKit.label(encounter.blurb(), &"", 20, UIStyle.PARCHMENT)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(1040.0 - _narrow(), 0)
 	info.add_child(blurb)
-	var rules: Label = UIKit.label(story.text(encounter.rules_key()), &"MutedLabel", 19)
+	var rules: Label = UIKit.label(encounter.rules(), &"MutedLabel", 19)
 	rules.name = "Rules"
 	rules.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rules.custom_minimum_size = Vector2(1040.0 - _narrow(), 0)
@@ -186,7 +186,12 @@ func _show_result_popups() -> void:
 		lines.append(reward_text(result.get("reward", {}) as Dictionary))
 	elif int(result.get("replay_gold", 0)) > 0:
 		lines.append("%d gold" % int(result["replay_gold"]))
-	var victory: AnnouncementScreen = AnnouncementScreen.make("Victory!", "You won on the sand. Here is what you take home:", lines)
+	# Fable Nov 20 (Part 7): a solved puzzle repeats its "What you just did" line with the prize
+	var solved: ArenaEncounter = ArenaDefs.find(str(result.get("id", "")))
+	var body: String = "You won on the sand. Here is what you take home:"
+	if solved != null and solved.is_puzzle() and not solved.lesson.is_empty():
+		body = "What you just did: %s" % solved.lesson
+	var victory: AnnouncementScreen = AnnouncementScreen.make("Puzzle solved!" if solved != null and solved.is_puzzle() else "Victory!", body, lines)
 	victory.name = "ArenaVictory"
 	add_child(victory)
 	await victory.finished

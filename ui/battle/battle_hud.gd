@@ -91,9 +91,9 @@ func set_arena_banner(encounter_id: String) -> void:
 	add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(2)
 	panel.add_child(column)
-	var title: Label = UIKit.label("%s  -  %s" % [story.text("town.arena.name"), story.text(encounter.title_key())], &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	var title: Label = UIKit.label("%s  -  %s" % [story.text("town.arena.name"), encounter.title()], &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(title)
-	var rules: Label = UIKit.label(story.text(encounter.rules_key()), &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	var rules: Label = UIKit.label(encounter.rules(), &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	rules.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rules.custom_minimum_size = Vector2(880, 0)
 	column.add_child(rules)

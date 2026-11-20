@@ -647,6 +647,15 @@ func _dev(parts: PackedStringArray) -> void:
 			else:
 				Session.profile.set_essence(essence_path, int(arg2))
 				result = "%s essence = %d" % [arg, Session.profile.essence_of(essence_path)]
+		"arena":
+			# Fable Nov 20 (Part 7): `dev arena <encounter id>` starts that Arena bout or puzzle at once (every tier counted open)
+			for tier: int in range(1, ArenaDefs.TIER_COUNT + 1):
+				for bout: ArenaEncounter in ArenaDefs.in_tier(tier):
+					if bout.tier < (ArenaDefs.find(arg).tier if ArenaDefs.find(arg) != null else 1):
+						Session.set_flag(ArenaDefs.flag_name(bout.id))
+			Session.set_flag(&"arena_unlocked")
+			Session.start_battle(Session.make_arena_battle(arg))
+			result = "Arena: %s started" % arg
 		"shiro":
 			# Fix pass Nov 4 (B): `dev shiro` opens the five giant chests (the hidden quest) and starts the duel with Shiro Swindle
 			for chest_id: String in NinjaBoss.CHEST_IDS:

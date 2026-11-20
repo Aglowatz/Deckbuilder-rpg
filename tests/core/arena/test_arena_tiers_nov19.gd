@@ -71,32 +71,15 @@ func test_a_locked_tier_cannot_be_fought() -> void:
 	assert_null(Session.pending_battle, "Diamond is locked")
 
 
-func test_the_final_bell_is_solvable_with_exactly_five_energy() -> void:
-	var game: GameState = ArenaScenario.build_game(Session.content, ArenaDefs.find("arena_final_bell"), Session.profile, Session.deck, 7)
-	var foe: Dictionary = {}
-	for card: CardInstance in game.players[1].field:
-		foe[card.data.id] = card
-	var mine: Dictionary = {}
-	for card: CardInstance in game.players[0].field:
-		mine[card.data.id] = card
-	var hand: Dictionary = {}
-	for card: CardInstance in game.players[0].hand:
-		hand[card.data.id] = card
-	assert_true(game.play_card(0, (hand["B-36"] as CardInstance).uid, (foe["C-02"] as CardInstance).uid), "Desk Flip on the Militia")
-	assert_true(game.play_card(0, (hand["B-03"] as CardInstance).uid, (foe["C-06"] as CardInstance).uid), "Weights on the Brawler")
-	assert_true(game.play_card(0, (hand["B-15"] as CardInstance).uid), "the Kettlebell")
-	var bell: CardInstance = null
-	for card: CardInstance in game.players[0].field:
-		if card.data.id == "B-15":
-			bell = card
-	assert_true(game.activate_ability(0, bell.uid, 0, [(foe["C-03"] as CardInstance).uid] as Array[int]), "smash the Archer")
-	assert_true(game.play_card(0, (hand["B-20"] as CardInstance).uid, (mine["B-01"] as CardInstance).uid), "Dry Scoop on the Gym Bro")
-	assert_true(game.advance_phase())
-	assert_true(game.declare_attackers([(mine["B-12"] as CardInstance).uid, (mine["B-11"] as CardInstance).uid, (mine["B-01"] as CardInstance).uid] as Array[int]))
-	if not game.is_over():
-		game.declare_blockers({})
-	assert_true(game.is_over())
-	assert_true(ArenaDefs.find("arena_final_bell").player_won(game))
+## Fable Nov 20 (Part 7): the Diamond puzzle was rebuilt ("The Heaviest Paperwork"); its solver test is
+## tests/core/arena/test_arena_puzzles_nov20.gd::test_diamond_the_heaviest_paperwork.
+func test_the_diamond_puzzle_is_a_win_this_turn_board() -> void:
+	var encounter: ArenaEncounter = ArenaDefs.find("arena_final_bell")
+	assert_eq(encounter.tier, 4)
+	assert_eq(encounter.goal, ArenaEncounter.Goal.WIN_THIS_TURN)
+	var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, 7)
+	assert_eq(game.players[1].hp, 30)
+	assert_gte(game.players[0].hand.size(), 6, "the most cards of the four puzzles")
 
 
 func test_preset_deck_bouts_name_their_deck() -> void:

@@ -1,0 +1,93 @@
+# Fable Nov 20, Part 9: the flow, walked in the running game
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate refusemancer
+dev travel town
+wait 20
+skip_dialogue
+calm
+cam 0
+log --- The Door Under the Well: step 1, Maren gives it
+dev quest side_s_town 0
+wait 1
+dev goto elder
+wait 1
+key E
+wait 2
+shot p9_well_1_maren_reminder
+skip_dialogue
+key M
+wait 2
+shot p9_well_2_map_marker
+key M
+wait 1
+log --- step 2, the chest on the spit of land
+fadeshot p9_well_3_chest_approach 62.5 40.5
+cam 0
+dev goto chest
+wait 1
+shot p9_well_4_chest_prompt
+key E
+wait 4
+skip_dialogue
+wait 5
+shot p9_well_5_key_toast
+wait 3
+log --- step 3, back to Maren
+dev goto elder
+wait 1
+key E
+wait 2
+shot p9_well_6_maren_takes_key
+skip_dialogue
+wait 2
+skip_dialogue
+shot p9_well_7_way_in_tracked
+log --- step 4, the hatch
+dev goto well_door
+wait 1
+shot p9_well_8_hatch_prompt
+key E
+wait 2
+shot p9_well_9_hatch_confirm
+key Escape
+wait 1
+skip_dialogue
+log --- Outskirts Watch
+dev quest town_outskirts_watch 0
+dev goto guard
+wait 1
+key E
+wait 2
+shot p9_watch_1_brannoch_reminder
+skip_dialogue
+dev quest town_outskirts_watch 1
+dev goto guard
+wait 1
+shot p9_watch_2_ready_mark
+key E
+wait 2
+shot p9_watch_3_hand_in
+skip_dialogue
+wait 2
+skip_dialogue
+shot p9_watch_4_done
+scene
+log --- Alembic
+dev essence Beefcake 18
+dev essence Necrocrat 18
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 1
+dump
+shot p9_alembic_0_open

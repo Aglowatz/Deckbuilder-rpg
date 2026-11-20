@@ -53,7 +53,7 @@ func test_there_are_eight_encounters_in_three_tiers_mixing_battles_and_puzzles()
 	assert_gte(puzzles, 3)
 	assert_lt(puzzles, all.size(), "challenging battles too")
 	assert_true(goals.has(ArenaEncounter.Goal.WIN_THIS_TURN))
-	assert_true(goals.has(ArenaEncounter.Goal.SURVIVE_TURNS))
+	# Fable Nov 20: every puzzle is "win this turn" now (Hold the Line's id is the Silver puzzle "Mise en Place")
 	var restricted: int = 0
 	var rule_fights: int = 0
 	for encounter: ArenaEncounter in all:
@@ -130,85 +130,30 @@ func _unit(game: GameState, player: int, card_id: String) -> CardInstance:
 	return null
 
 
-func test_lethal_lunch_starts_on_the_preset_board() -> void:
+## Fable Nov 20 (Part 7): the puzzles were rebuilt; each has its own solver test in tests/core/arena/test_arena_puzzles_nov20.gd
+## (solvable, one solution, decoys unused, naive lines fail). Here: the preset board is what the data says, and a puzzle is lost when
+## the turn ends without lethal.
+func test_a_puzzle_starts_on_its_preset_board() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
-	assert_eq(game.active, 0)
-	assert_eq(game.turn, 1)
-	assert_eq(game.players[1].hp, 10)
-	assert_eq(game.players[0].infrastructure.size(), 4)
-	assert_eq(game.players[0].hand.size(), 2)
-	assert_not_null(_unit(game, 0, "B-11"))
-	assert_not_null(_unit(game, 1, "C-02"))
-	assert_false(_unit(game, 0, "B-11").just_arrived, "preset units are ready to attack")
+	var preset: Dictionary = ArenaDefs.find("arena_lethal_lunch").preset
+	assert_eq(game.players[1].hp, int((preset["enemy"] as Dictionary)["hp"]))
+	assert_eq(game.players[0].hp, int((preset["player"] as Dictionary)["hp"]))
+	assert_eq(game.players[0].hand.size(), 4)
+	assert_eq(game.players[0].refuse_pile.size(), 3, "the Refuse Pile is part of the board")
+	assert_eq(game.players[0].infrastructure.size(), 7)
+	assert_eq(game.players[1].field.size(), 1)
+	assert_eq(game.active, 0, "the player moves first")
+	var silver: GameState = _puzzle_game("arena_hold_the_line")
+	assert_eq(silver.players[0].count_resource(ResourceKind.Kind.INGREDIENT), 1, "preset resources are on the table")
 
 
-func test_lethal_lunch_has_a_win_this_turn_solution() -> void:
+func test_a_puzzle_is_lost_when_the_turn_ends_without_lethal() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
-	var blocker: CardInstance = _unit(game, 1, "C-02")
-	assert_true(game.play_card(0, _hand_card(game, "B-21").uid), "Flex on 'Em: 4 damage with a 5-attack unit")
-	assert_eq(game.players[1].hp, 6)
-	assert_true(game.play_card(0, _hand_card(game, "B-03").uid, blocker.uid), "drop the weights on the only blocker")
-	var attackers: Array[int] = [_unit(game, 0, "B-11").uid, _unit(game, 0, "B-12").uid]
-	assert_true(game.advance_phase(), "to combat")
-	assert_true(game.declare_attackers(attackers))
-	if not game.is_over():
-		game.declare_blockers({})
-	assert_true(game.is_over())
-	assert_eq(game.winner, 0)
-	assert_true(ArenaDefs.find("arena_lethal_lunch").player_won(game))
-
-
-func test_lethal_lunch_is_lost_when_the_turn_ends_without_lethal() -> void:
-	var game: GameState = _puzzle_game("arena_lethal_lunch")
-	var steps: int = 0
-	while not game.is_over() and steps < 20:
-		steps += 1
-		game.apply_action(GameAction.pass_phase(game.awaiting_player()))
-	assert_true(game.is_over(), "the one-turn clock ended the game")
+	game.advance_phase()
+	game.declare_attackers([] as Array[int])
+	game.advance_phase()
+	assert_true(game.is_over(), "the single turn is over")
 	assert_false(ArenaDefs.find("arena_lethal_lunch").player_won(game), "failing the puzzle is a loss")
-
-
-func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
-	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	var brawler: CardInstance = _unit(game, 1, "C-06")
-	var militia: CardInstance = _unit(game, 1, "C-02")
-	assert_true(game.play_card(0, _hand_card(game, "B-03").uid, militia.uid), "weights on the militia")
-	assert_true(game.play_card(0, _hand_card(game, "B-15").uid), "play the Kettlebell")
-	assert_true(game.activate_ability(0, _unit(game, 0, "B-15").uid, 0, [brawler.uid] as Array[int]), "smash the brawler")
-	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_unit(game, 0, "B-12").uid, _unit(game, 0, "B-11").uid, _unit(game, 0, "B-01").uid]
-	assert_true(game.declare_attackers(attackers))
-	if not game.is_over():
-		game.declare_blockers({})
-	assert_true(game.is_over())
-	assert_true(ArenaDefs.find("arena_zero_to_hero").player_won(game))
-
-
-func test_zero_to_hero_cannot_be_won_by_skipping_the_blockers() -> void:
-	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	assert_true(game.play_card(0, _hand_card(game, "B-03").uid))
-	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_unit(game, 0, "B-12").uid, _unit(game, 0, "B-11").uid, _unit(game, 0, "B-01").uid]
-	game.declare_attackers(attackers)
-	if not game.is_over():
-		var blocks: Dictionary = AIPlayer.new(AIPersonality.balanced()).choose_blocks(game, 1)
-		game.declare_blockers(blocks)
-	assert_ne(game.winner, 0, "blockers stop lethal: the puzzle needs the removal first")
-
-
-func test_hold_the_line_is_won_by_surviving_not_by_killing() -> void:
-	var encounter: ArenaEncounter = ArenaDefs.find("arena_hold_the_line")
-	assert_eq(encounter.first_player, 1, "the enemy moves first")
-	assert_eq(encounter.turn_limit(), 5, "the enemy's 3rd turn is game turn 5")
-	var game: GameState = _puzzle_game("arena_hold_the_line")
-	assert_eq(game.active, 1)
-	# A drawn game (the clock ran out) with the player alive is a win; a dead player is not.
-	game._end_game(-1, true)
-	assert_true(encounter.player_won(game))
-	var dead: GameState = _puzzle_game("arena_hold_the_line")
-	dead.players[0].hp = 0
-	dead._end_game(1, false)
-	assert_false(encounter.player_won(dead))
 
 
 func _ai_plays(game: GameState, ai: AIPlayer, enemy_ai: AIPlayer) -> void:
@@ -220,18 +165,6 @@ func _ai_plays(game: GameState, ai: AIPlayer, enemy_ai: AIPlayer) -> void:
 		if not game.apply_action(action):
 			if not game.apply_action(GameAction.pass_phase(who)):
 				break
-
-
-func test_hold_the_line_is_survivable() -> void:
-	var encounter: ArenaEncounter = ArenaDefs.find("arena_hold_the_line")
-	var wins: int = 0
-	for seed_value: int in range(1, 13):
-		var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, seed_value)
-		_ai_plays(game, AIPlayer.new(AIPersonality.defensive()), AIPlayer.new(AIPersonality.aggressive()))
-		assert_true(game.is_over())
-		if encounter.player_won(game):
-			wins += 1
-	assert_gt(wins, 0, "a competent player can hold the line (%d of 12 seeds)" % wins)
 
 
 func test_no_unit_casts_blocks_units_but_not_spells() -> void:
