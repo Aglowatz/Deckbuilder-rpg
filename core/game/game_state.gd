@@ -549,6 +549,10 @@ func play_infrastructure(player_index: int, uid: int) -> bool:
 	player.hand.erase(card)
 	player.infrastructure.append(card)
 	card.exhausted = false
+	# Fable Nov 21 (Part 4.3): a dungeon drawback - the first Infrastructure of the duel enters exhausted
+	if not player.first_infrastructure_exhaust_done and player.modifiers.has(Modifier.Kind.FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED):
+		player.first_infrastructure_exhaust_done = true
+		card.exhausted = true
 	player.infrastructure_played += 1
 	player.cards_played_this_turn += 1
 	emit_event(GameEvent.Type.INFRASTRUCTURE_PLAYED, player_index, uid, 0, 1, player.infrastructure.size())
@@ -1107,6 +1111,13 @@ func _begin_turn() -> void:
 		draws += 1 + maxi(0, player.modifiers.sum(Modifier.Kind.EXTRA_DRAWS))
 	if is_players_first_turn:
 		draws += maxi(0, player.modifiers.sum(Modifier.Kind.FIRST_TURN_EXTRA_DRAW))
+	# Fable Nov 21 (Part 4.3): a dungeon drawback takes cards from the first turn draw of the duel (the first turn that draws at all:
+	# the player who goes first draws nothing on turn 1, so the penalty waits for their second turn)
+	var penalty: int = player.modifiers.sum(Modifier.Kind.FIRST_DRAW_PENALTY) - player.draw_penalty_used
+	if penalty > 0 and draws > 0:
+		var cut: int = mini(penalty, draws)
+		draws -= cut
+		player.draw_penalty_used += cut
 	if draws > 0:
 		draw_cards(active, draws)
 	if is_over():

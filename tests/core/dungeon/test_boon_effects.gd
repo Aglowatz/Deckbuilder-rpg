@@ -90,6 +90,11 @@ func test_each_token_reads_its_own_numbers_and_curses_are_curses() -> void:
 			if kv[0] == "slow" or kv[0] == "exhausted":
 				assert_true(text.contains("exhausted"), "%s -> %s" % [token, text])
 				continue
+			# Fable Nov 21 (Part 4.3): the new drawbacks read in words (each has its own test in test_dungeon_heals_nov21.gd)
+			var nov21: Dictionary = {"first_unit_atk": "the first unit you play", "first_unit_def": "the first unit you play", "first_draw": "skip your first card draw", "first_cost": "the first card you play each turn costs", "first_infra": "first infrastructure enters exhausted", "foe_draw": "the enemy starts with", "foe_first_unit": "the enemy's first unit gets"}
+			if nov21.has(kv[0]):
+				assert_true(text.to_lower().contains(str(nov21[kv[0]])), "%s -> %s" % [token, text])
+				continue
 			var words: String = {"max_hp": "max HP", "atk": "attack", "def": "defense", "start_hp": "HP at the start of each fight", "draw": "card", "foe_atk": "attack", "foe_def": "defense", "foe_hp": "HP", "iron": "Iron"}[kv[0]]
 			if kv[0] == "iron":
 				assert_true(text.contains("%d Iron" % value), "%s -> %s" % [token, text])

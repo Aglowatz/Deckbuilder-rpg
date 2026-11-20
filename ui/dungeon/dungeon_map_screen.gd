@@ -765,7 +765,7 @@ const RETREAT_WARNING: String = "Leaving resets this dungeon. Cards and gold you
 
 ## The dungeon map's first-visit tip: the routes, HP, the reset rule (D2) and what a loss costs (D1: nothing).
 static func map_tip_text() -> String:
-	return "Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b], and only shrines heal. [b]%s[/b] Lose a duel and you wake at the respawn point with full HP, and the dungeon starts over." % RETREAT_WARNING
+	return "Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b], and healing is scarce: a rest room mends a little, for a price. [b]%s[/b] Lose a duel and you wake at the respawn point with full HP, and the dungeon starts over." % RETREAT_WARNING
 
 
 func _ask_retreat() -> void:

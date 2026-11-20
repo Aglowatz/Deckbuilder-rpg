@@ -79,7 +79,8 @@ func test_node_types_names_and_links_follow_the_csv() -> void:
 			var node: DungeonMap.MapNode = _node_by_number(map, plan.number)
 			assert_not_null(node, "%s node %d" % [blueprint.id, plan.number])
 			assert_eq(node.title, plan.node_name)
-			assert_eq(node.kind, DungeonBuilder.kind_of(plan.type), "%s node %d kind" % [blueprint.id, plan.number])
+			# Fable Nov 21 (Part 4.1): a heal room with a choice written for it is a choice room (the four main-zone dungeons)
+			assert_eq(node.kind, DungeonBuilder.node_kind(plan, DungeonCatalog.content_for(blueprint.id)), "%s node %d kind" % [blueprint.id, plan.number])
 			for target: int in plan.next:
 				assert_true(node.next.has(_node_by_number(map, target).id), "%s: %d links to %d" % [blueprint.id, plan.number, target])
 			assert_eq(node.next.size(), plan.next.size(), "%s: node %d has exactly the CSV links" % [blueprint.id, plan.number])
@@ -101,7 +102,7 @@ func test_house_of_gains_prison_branch_and_rescue() -> void:
 	var cell: DungeonMap.MapNode = _node_by_number(map, 9)
 	assert_eq(cell.kind, DungeonMap.Kind.RESCUE)
 	assert_eq(cell.scene, "rescue")
-	assert_eq(_node_by_number(map, 10).kind, DungeonMap.Kind.SHRINE)
+	assert_eq(_node_by_number(map, 10).kind, DungeonMap.Kind.EVENT, "the Meditation Garden is a choice room since Nov 21 (heal 5 for a cost)")
 	assert_eq(_node_by_number(map, 13).kind, DungeonMap.Kind.BOSS)
 	assert_eq(_node_by_number(map, 13).enemy_name, "Chancellor Clench, Iron Regent")
 	# Skipping the prison skips the rescue: the shortcut route never enters node 9.

@@ -81,8 +81,10 @@ func test_each_dungeon_mixes_every_node_type() -> void:
 		var kinds: Dictionary = {}
 		for node: DungeonMap.MapNode in MainDungeons.build_map(zone_id).nodes:
 			kinds[node.kind] = true
-		for kind: DungeonMap.Kind in [DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE, DungeonMap.Kind.EVENT, DungeonMap.Kind.TREASURE, DungeonMap.Kind.SHRINE, DungeonMap.Kind.BOSS]:
+		# Fable Nov 21 (Part 4.1): no heal room any more (their heal rooms are choice rooms)
+		for kind: DungeonMap.Kind in [DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE, DungeonMap.Kind.EVENT, DungeonMap.Kind.TREASURE, DungeonMap.Kind.BOSS]:
 			assert_true(kinds.has(kind), "%s has node kind %d" % [zone_id, kind])
+		assert_false(kinds.has(DungeonMap.Kind.SHRINE), "%s has no full-heal room" % zone_id)
 	var gourmand_kinds: Dictionary = {}
 	for node: DungeonMap.MapNode in MainDungeons.build_map("gourmand").nodes:
 		gourmand_kinds[node.kind] = true
@@ -253,7 +255,8 @@ func test_events_heal_hurt_and_pay_through_the_run_and_gold() -> void:
 	var dungeon: MainDungeonDef = MainDungeons.def("necrocrat")
 	Session.run.hp = 5
 	Session.gold = 100
-	# Form 27-B Office (node 8): filling out the forms costs 20 gold and grants a boon; forging the stamp pays 50 gold and costs 2 HP.
+	# Form 27-B Office (node 8): filling out the forms costs 20 gold and grants a boon; forging the stamp pays 50 gold and (since Nov 21)
+	# gives the next enemy one more card instead of costing 2 HP.
 	var forms: DungeonEvent = dungeon.event("dg_d_hfa_8")
 	var paid: EventResolver.Result = Session.resolve_dungeon_event(forms, 0)
 	assert_true(paid.ok)
@@ -265,8 +268,10 @@ func test_events_heal_hurt_and_pay_through_the_run_and_gold() -> void:
 	assert_eq(Session.gold, 10)
 	var hp_before: int = Session.run.hp
 	var hurt: EventResolver.Result = Session.resolve_dungeon_event(forms, 1)
-	assert_eq(Session.run.hp, hp_before - 2)
-	assert_eq(hurt.hp_delta, -2)
+	assert_eq(Session.run.hp, hp_before, "no HP is lost any more")
+	assert_eq(hurt.hp_delta, 0)
+	assert_eq(hurt.boons.size(), 1, "the drawback: Flagged for Audit")
+	assert_true(hurt.boons[0].for_enemy)
 	assert_eq(Session.gold, 60)
 
 

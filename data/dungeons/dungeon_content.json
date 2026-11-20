@@ -73,6 +73,29 @@
 				"13": "Chancellor Clench, Iron Regent"
 			},
 			"events": {
+				"10": {
+					"title": "The Meditation Garden",
+					"body": "A raked sand garden behind the squat racks, the one quiet place in the House of Gains. A sign reads: RECOVERY IS A PRIVILEGE. TOWEL DEPOSIT REQUIRED.",
+					"choices": [
+						[
+							"Pay the towel deposit and stretch",
+							"You pay, you stretch, and something in your back forgives you. Nobody mentions giving the deposit back.",
+							"heal:5",
+							"pay:30"
+						],
+						[
+							"Skip the fee and nap on the mats",
+							"You sleep like a dropped barbell and wake up stiff. Whoever you send out first in the next fight will still be yawning.",
+							"heal:5",
+							"curse:Slept on the Mats|first_unit_atk=-2,next=1"
+						],
+						[
+							"Walk on",
+							"You leave the sand exactly as it was raked.",
+							"nothing"
+						]
+					]
+				},
 				"5": {
 					"title": "Locker Room of Legends",
 					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, and something inside is humming a marching tune to itself.",
@@ -85,9 +108,9 @@
 						],
 						[
 							"Raid the gym bag",
-							"Inside are protein bars, a roll of gold and a note that says 'Spotter knows.' Somewhere down the hall a whistle blows, and you leave with the gold and a guilty conscience.",
+							"Inside are protein bars, a roll of gold and a note that says 'Spotter knows.' Somewhere down the hall a whistle blows: whoever meets you first in the next fight has been warned.",
 							"gold:60",
-							"curse:Spotter Knows|max_hp=-1"
+							"curse:Spotter Knows|foe_first_unit=1,next=1"
 						],
 						[
 							"Do a set with the ghost of a champion",
@@ -224,6 +247,29 @@
 				"13": "The Doppelganger"
 			},
 			"events": {
+				"9": {
+					"title": "The Staff Break Room",
+					"body": "A break room with a kettle, a noticeboard and a fridge labelled STAFF ONLY: SAMPLES ARE COUNTED. Beside the fridge stands an honesty box for staff lunches.",
+					"choices": [
+						[
+							"Buy a staff lunch from the honesty box",
+							"Forty coins go into the box and one honest lunch goes into you. It is the best thing you have eaten in this building.",
+							"heal:5",
+							"pay:40"
+						],
+						[
+							"Eat the counted samples",
+							"They really were counted. A whistle goes somewhere, and whatever you fight next has been given seconds.",
+							"heal:5",
+							"curse:Samples Were Counted|foe_hp=2,next=1"
+						],
+						[
+							"Leave the fridge alone",
+							"You put the kettle back where it was and go.",
+							"nothing"
+						]
+					]
+				},
 				"7": {
 					"title": "The Corrupted Pantry",
 					"body": "Shelves of glowing, sickly-green food hum softly. A ladle is still stirring a pot that nobody is minding, and the pot has started to hum back.",
@@ -236,9 +282,9 @@
 						],
 						[
 							"Take only the sealed jars",
-							"The sealed jars are worth a few coins each. One of them was not as sealed as it looked, and it bites.",
+							"The sealed jars are worth a few coins each. One of them was not as sealed as it looked, and your hands will be sticky for a whole fight.",
 							"gold:40",
-							"damage:2"
+							"curse:Sticky Fingers|first_cost=1,next=1"
 						],
 						[
 							"Ask the ladle to stop",
@@ -261,9 +307,9 @@
 						],
 						[
 							"Photograph the blueprints",
-							"The blueprints are worth good money. The flash powder takes your eyebrows and a little more.",
+							"The blueprints are worth good money. The flash powder takes your eyebrows, and you will be seeing spots when the next fight starts.",
 							"gold:50",
-							"curse:Flash Burn|max_hp=-2"
+							"curse:Flash Burn|first_infra=1,next=1"
 						],
 						[
 							"Pocket the recipe marked DO NOT SERVE",
@@ -392,6 +438,29 @@
 				"14": "Mortimer Grimsby, CE-No"
 			},
 			"events": {
+				"10": {
+					"title": "The Coffin Breakroom",
+					"body": "Six coffins with pillows, a kettle that has been boiling since the old King, and a sign-in sheet: NAPS BY APPOINTMENT. FORM 9-Z REQUIRED.",
+					"choices": [
+						[
+							"File one of your cards as Form 9-Z and lie down",
+							"A clerk stamps your card, files it and loses it at once. You sleep very well in the meantime.",
+							"heal:5",
+							"lose:1"
+						],
+						[
+							"Nap without an appointment",
+							"You oversleep, and nobody wakes you. You will start the next fight a card behind.",
+							"heal:5",
+							"curse:Overslept|first_draw=-1,next=1"
+						],
+						[
+							"Keep walking",
+							"You sign nothing and keep walking.",
+							"nothing"
+						]
+					]
+				},
 				"2": {
 					"title": "Take-a-Number Kiosk",
 					"body": "A small grey machine offers you ticket 4,000,213 while the display above says NOW SERVING 3. A polite ghost behind you coughs, then apologises for coughing.",
@@ -403,9 +472,9 @@
 						],
 						[
 							"Take every number",
-							"The machine jams, apologises and coughs up a handful of coins, then pinches your fingers in the slot for good measure.",
+							"The machine jams, apologises and coughs up a handful of coins. With a pocketful of numbers you no longer know which is yours, and you will be called late.",
 							"gold:35",
-							"damage:2"
+							"curse:Lost Your Place|first_draw=-1,next=1"
 						],
 						[
 							"Skip the queue",
@@ -427,9 +496,9 @@
 						],
 						[
 							"Forge the stamp",
-							"It works, mostly, though something up in the ceiling disapproves of it loudly, with a stapler.",
+							"It works, mostly, though something up in the ceiling makes a note of it. The next one you fight has read your file.",
 							"gold:50",
-							"damage:2"
+							"curse:Flagged for Audit|foe_draw=1,next=1"
 						],
 						[
 							"Ask the clerk what Form 27-C is",
@@ -578,6 +647,29 @@
 				"13": "Compostella, the Rotheart"
 			},
 			"events": {
+				"9": {
+					"title": "The Last Clean Spring",
+					"body": "One clear spring in all this rot, cold and sweet, in a ring of pale flowers that have not given up. The Rotheart's roots circle it and wait.",
+					"choices": [
+						[
+							"Leave an offering and drink",
+							"Fifty coins sink into the moss, and the spring lets you drink. Fair is fair.",
+							"heal:5",
+							"pay:50"
+						],
+						[
+							"Wade in and soak",
+							"The cold goes right through you and stays. Everyone you send out in the next fight will be slow to get moving.",
+							"heal:5",
+							"curse:Waterlogged|exhausted=1,next=1"
+						],
+						[
+							"Leave it clean",
+							"You leave the spring as it is. Somebody after you may need it more.",
+							"nothing"
+						]
+					]
+				},
 				"7": {
 					"title": "Weeping Compost Pool",
 					"body": "The pool is the colour of a bruise, and it's sobbing very quietly around a boot that bobs in the middle of it.",

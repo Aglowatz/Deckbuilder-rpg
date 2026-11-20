@@ -54,7 +54,8 @@ func test_the_kiosk_follows_the_brief() -> void:
 	var kiosk: Array = ((((content["dungeons"] as Dictionary)["D-HFA"] as Dictionary)["events"] as Dictionary)["2"] as Dictionary)["choices"] as Array
 	assert_eq((kiosk[0] as Array).slice(2), ["nothing"], "Take a number and wait does nothing")
 	assert_true(str((kiosk[1] as Array)[2]).begins_with("gold:"))
-	assert_true(str((kiosk[1] as Array)[3]).begins_with("damage:"))
+	# Fable Nov 21 (Part 4.3): the price of taking every number is a drawback in the next fight now (it was 2 damage)
+	assert_true(str((kiosk[1] as Array)[3]).begins_with("curse:Lost Your Place|first_draw=-1"))
 	var boon: ModifierSource = DungeonBuilder.boon_from(str((kiosk[2] as Array)[2]).substr(5))
 	assert_eq(boon.fights_left, 1, "the next encounter only")
 

@@ -21,6 +21,11 @@ static func is_curse(source: ModifierSource) -> bool:
 	for modifier: Modifier in source.modifiers:
 		if modifier.kind == Modifier.Kind.ENTER_EXHAUSTED or modifier.kind == Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED:
 			return true
+		# Fable Nov 21 (Part 4.3): the new drawbacks
+		if modifier.kind == Modifier.Kind.FIRST_DRAW_PENALTY or modifier.kind == Modifier.Kind.FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED:
+			return true
+		if modifier.kind == Modifier.Kind.FIRST_CARD_COST_CHANGE and modifier.value > 0:
+			return true
 	var any_negative: bool = false
 	for modifier: Modifier in source.modifiers:
 		for number: int in _numbers(modifier):
@@ -98,7 +103,27 @@ static func modifier_text(modifier: Modifier, enemy: bool = false) -> String:
 		Modifier.Kind.ALWAYS_FIRST:
 			return "the enemy takes the first turn" if enemy else "you take the first turn"
 		Modifier.Kind.OPENING_HAND_SIZE:
+			if enemy:
+				return "" if modifier.value == 0 else "the enemy starts with %s card%s in hand" % [_signed(modifier.value), "" if absi(modifier.value) == 1 else "s"]
 			return "" if modifier.value == 0 else "%s card%s in your opening hand" % [_signed(modifier.value), "" if absi(modifier.value) == 1 else "s"]
+		# Fable Nov 21 (Part 4.3): the new drawbacks, in the words the choice buttons show
+		Modifier.Kind.FIRST_UNIT_STAT_CHANGE:
+			var first_stats: PackedStringArray = []
+			if modifier.value != 0:
+				first_stats.append("%s attack" % _signed(modifier.value))
+			if modifier.value2 != 0:
+				first_stats.append("%s defense" % _signed(modifier.value2))
+			if first_stats.is_empty():
+				return ""
+			if modifier.value == modifier.value2:
+				first_stats = PackedStringArray(["%s/%s" % [_signed(modifier.value), _signed(modifier.value2)]])
+			return "%s gets %s" % ["the enemy's first unit" if enemy else "the first unit you play", " and ".join(first_stats)]
+		Modifier.Kind.FIRST_DRAW_PENALTY:
+			return "" if modifier.value <= 0 else ("you skip your first card draw" if modifier.value == 1 else "you draw %d cards fewer on your first draws" % modifier.value)
+		Modifier.Kind.FIRST_CARD_COST_CHANGE:
+			return "" if modifier.value == 0 else "the first card you play each turn costs %d %s" % [absi(modifier.value), "more" if modifier.value > 0 else "less"]
+		Modifier.Kind.FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED:
+			return "your first Infrastructure enters exhausted"
 		Modifier.Kind.ENTER_EXHAUSTED:
 			return "your units enter exhausted"
 		Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED:
@@ -132,6 +157,8 @@ static func _numbers(modifier: Modifier) -> Array[int]:
 			return [modifier.value, modifier.value2] as Array[int]
 		Modifier.Kind.COST_CHANGE:
 			return [-modifier.value] as Array[int]  # a lower cost helps
+		Modifier.Kind.FIRST_UNIT_STAT_CHANGE:
+			return [modifier.value, modifier.value2] as Array[int]
 		Modifier.Kind.MAX_HP, Modifier.Kind.STARTING_HP, Modifier.Kind.HP_GAIN_BONUS, Modifier.Kind.OPENING_HAND_SIZE, Modifier.Kind.STARTING_RESOURCES:
 			return [modifier.value] as Array[int]
 	return [] as Array[int]

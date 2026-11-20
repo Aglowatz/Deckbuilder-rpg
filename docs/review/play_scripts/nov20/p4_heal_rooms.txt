@@ -1,0 +1,17 @@
+# Fable Nov 21, Part 4: a heal room as a choice room (the Hall of Final Approvals' Coffin Breakroom)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 14
+dev gold 500
+dev flag trial_cleared
+dev travel dungeon D-HFA 9
+wait 6
+button Got it
+wait 1
+shot p4_heal_room_1_on_the_map
+click 1122 545
+wait 3
+shot p4_heal_room_2_the_choice
+dump

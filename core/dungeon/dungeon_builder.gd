@@ -59,7 +59,7 @@ static func build_def(blueprint: DungeonCatalog.Blueprint) -> MainDungeonDef:
 	var foes: Dictionary = content.get("foes", {}) as Dictionary
 	var battle_index: int = 0
 	for node: DungeonCatalog.BlueprintNode in blueprint.nodes:
-		var kind: DungeonMap.Kind = kind_of(node.type)
+		var kind: DungeonMap.Kind = node_kind(node, content)
 		if DungeonMap.is_battle_kind(kind):
 			_add_foe(def, blueprint, node, kind, foes.get(str(node.number)), defaults, content, battle_index)
 			battle_index += 1
@@ -68,6 +68,27 @@ static func build_def(blueprint: DungeonCatalog.Blueprint) -> MainDungeonDef:
 		elif kind == K.CHALLENGE:
 			_add_challenge(def, blueprint, node, content)
 	return def
+
+
+## Fable Nov 21 (Part 4.1): a heal room ("heal" in the dungeon list, a full heal) whose dungeon content holds an event under its node
+## number is a CHOICE room instead: the four main-zone dungeons' heal rooms offer "heal 5 HP for a cost" or "do nothing". A heal room
+## with no such event stays a full heal (the Forgotten Cave, Primm's Castle, the Path-ology Lab).
+static func node_kind(node: DungeonCatalog.BlueprintNode, content: Dictionary) -> DungeonMap.Kind:
+	var kind: DungeonMap.Kind = kind_of(node.type)
+	if kind == K.SHRINE and (content.get("events", {}) as Dictionary).has(str(node.number)):
+		return K.EVENT
+	return kind
+
+
+## The dungeons whose heal room is still a full heal, for the report: [dungeon id, room name].
+static func full_heal_rooms() -> Array[Array]:
+	var result: Array[Array] = []
+	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		var content: Dictionary = DungeonCatalog.content_for(blueprint.id)
+		for node: DungeonCatalog.BlueprintNode in blueprint.nodes:
+			if node_kind(node, content) == K.SHRINE:
+				result.append([blueprint.id, node.node_name])
+	return result
 
 
 ## The name of the foe fought at `node` (the blueprint's name for it).
@@ -180,6 +201,10 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 			return DungeonEvent.pay_gold(int(arg))
 		"card":
 			return DungeonEvent.card(arg)
+		"lose":
+			# Fable Nov 21 (Part 4): "lose:1" - a random non-basic card leaves the deck for the rest of this run. The token was written in
+			# two choices (the Corrupted Pantry's ladle, the Weeping Compost Pool) but not read here, so both were free.
+			return DungeonEvent.lose_card()
 		"boon", "curse":
 			# A curse is a boon with negative numbers: it lasts for the rest of the dungeon.
 			return DungeonEvent.boon(boon_from(arg))
@@ -198,7 +223,10 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 ## A boon from "Name|max_hp=2,atk=1,def=1,start_hp=1". Overnight Nov 19 (Part 5): also "next=1" (only the next fight), "draw=1" (+1 card in
 ## the opening hand), "exhausted=1" (your units enter exhausted), "slow=1" (your first unit enters exhausted), "iron=1" (start the fight with
 ## Iron), and "foe_atk" / "foe_def" / "foe_hp" / "foe_unit" (the ENEMY gets stronger or starts with a unit: the whole source goes to the
-## enemy's side).
+## enemy's side). Fable Nov 21 (Part 4.3), new drawbacks: "first_unit_atk=-2" / "first_unit_def" (the first unit you play gets it, for
+## good), "first_draw=-1" (you skip your first card draw), "first_cost=1" (the first card you play each turn costs 1 more), "first_infra=1"
+## (your first Infrastructure enters exhausted); on the ENEMY's side "foe_draw=1" (one more card in its opening hand) and
+## "foe_first_unit=1" (its first unit gets +1/+1).
 static func boon_from(spec: String) -> ModifierSource:
 	var halves: PackedStringArray = spec.split("|", true, 1)
 	var modifiers: Array[Modifier] = []
@@ -225,7 +253,19 @@ static func boon_from(spec: String) -> ModifierSource:
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.ALWAYS_FIRST, 1))
 	if stats.has("iron"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(stats["iron"]), Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)))
-	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp") or stats.has("foe_unit")
+	if stats.has("first_unit_atk") or stats.has("first_unit_def"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_STAT_CHANGE, int(stats.get("first_unit_atk", 0)), Modifier.ANY_COLOR, int(stats.get("first_unit_def", 0))))
+	if stats.has("first_draw"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_DRAW_PENALTY, absi(int(stats["first_draw"]))))
+	if stats.has("first_cost"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(stats["first_cost"])))
+	if stats.has("first_infra"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED, 1))
+	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp") or stats.has("foe_unit") or stats.has("foe_draw") or stats.has("foe_first_unit")
+	if stats.has("foe_draw"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.OPENING_HAND_SIZE, int(stats["foe_draw"])))
+	if stats.has("foe_first_unit"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_STAT_CHANGE, int(stats["foe_first_unit"]), Modifier.ANY_COLOR, int(stats["foe_first_unit"])))
 	# Fable Nov 19 (Part 5.2): "foe_unit=16" - the ENEMY starts the fight with token T-16 on the field ("foe_units=2" for two of it)
 	if stats.has("foe_unit"):
 		var token: CardData = TokenRegistry.data("T-%02d" % int(stats["foe_unit"]))
@@ -315,7 +355,7 @@ static func build_map(blueprint: DungeonCatalog.Blueprint, def: MainDungeonDef) 
 		map.add_node(entrance)
 	var battle_index: int = 0
 	for node: DungeonCatalog.BlueprintNode in blueprint.nodes:
-		var kind: DungeonMap.Kind = kind_of(node.type)
+		var kind: DungeonMap.Kind = node_kind(node, content)
 		var added: DungeonMap.MapNode = DungeonMap.MapNode.new()
 		added.kind = kind
 		added.number = node.number

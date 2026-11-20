@@ -57,6 +57,10 @@ var experiment_done: bool = false
 var first_unit_bonus_done: bool = false
 ## Processing Time (FIRST_UNIT_ENTER_EXHAUSTED) already exhausted a unit this turn.
 var first_unit_exhaust_done: bool = false
+## Fable Nov 21 (Part 4.3): how many cards the FIRST_DRAW_PENALTY drawback has already taken from this duel's turn draws, and whether
+## FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED has already exhausted an Infrastructure this duel.
+var draw_penalty_used: int = 0
+var first_infrastructure_exhaust_done: bool = false
 ## The Shattered Gallery's Perfect Form (MIRROR_FIRST_UNIT) already copied a unit for the opponent this turn.
 var unit_mirrored_this_turn: bool = false
 ## Overnight Nov 7-8, Part 6.3: the first non-Infrastructure card of this turn has been played (DRAW_COPY_FIRST_PLAY).
@@ -170,6 +174,8 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.experiment_done = experiment_done
 	copy.first_unit_bonus_done = first_unit_bonus_done
 	copy.first_unit_exhaust_done = first_unit_exhaust_done
+	copy.draw_penalty_used = draw_penalty_used
+	copy.first_infrastructure_exhaust_done = first_infrastructure_exhaust_done
 	copy.unit_mirrored_this_turn = unit_mirrored_this_turn
 	copy.first_play_done_this_turn = first_play_done_this_turn
 	copy.shield = shield

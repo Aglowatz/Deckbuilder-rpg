@@ -168,6 +168,12 @@ enum Kind {
 	## block, never able to attack on the first turn like any unit that just arrived). A dungeon drawback puts it on the enemy's side:
 	## "the enemy starts with an extra unit".
 	STARTING_UNITS,
+	## Fable Nov 21 (Part 4.3, a dungeon drawback): the owner draws `value` cards fewer the first time they would draw for their turn
+	## in a duel ("you skip your first card draw"). See `GameState` (start of turn) and `PlayerState.draw_penalty_used`.
+	FIRST_DRAW_PENALTY,
+	## Fable Nov 21 (Part 4.3, a dungeon drawback): the first Infrastructure the owner plays in a duel enters exhausted (one energy
+	## short on that turn). Presence. See `GameState.play_infrastructure` and `PlayerState.first_infrastructure_exhaust_done`.
+	FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED,
 }
 
 ## `color` value meaning "matches every card".
