@@ -128,7 +128,7 @@ var camera_angle: int = 0
 ## reads it; Standard until the designer picks one.
 var city_camera: int = 0
 ## Fable Nov 20: the playtesters' camera test options (CameraRig.TILT_NAMES / DISTANCE_NAMES), applied in every place.
-var camera_tilt: int = 1
+var camera_tilt: int = 0
 var camera_distance: int = 1
 ## Controller support (Oct 26): the controller button names in prompts - 0 Auto (from the pad's name), 1 Xbox, 2 PlayStation (`InputDevice.layout`).
 var pad_prompts: int = 0
@@ -453,7 +453,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "zoom", camera_zoom)
 	config.set_value("video", "camera_angle", camera_angle)
 	config.set_value("video", "city_camera", city_camera)
-	config.set_value("video", "camera_tilt", camera_tilt)
+	# Fable Nov 21 (Part 6): the five presets have their own key (the old "camera_tilt" held Standard / +4 / +6 / +8)
+	config.set_value("video", "camera_tilt_v2", camera_tilt)
 	config.set_value("video", "camera_distance", camera_distance)
 	config.set_value("video", "renderer", renderer)
 	config.set_value("meta", "version", SETTINGS_VERSION)
@@ -525,7 +526,10 @@ func load_settings(path: String = PATH) -> void:
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, CameraRig.ANGLE_NAMES.size() - 1)
 	city_camera = clampi(int(config.get_value("video", "city_camera", city_camera)), 0, 2)
-	camera_tilt = clampi(int(config.get_value("video", "camera_tilt", camera_tilt)), 0, CameraRig.TILT_NAMES.size() - 1)
+	if config.has_section_key("video", "camera_tilt_v2"):
+		camera_tilt = clampi(int(config.get_value("video", "camera_tilt_v2", camera_tilt)), 0, CameraRig.TILT_NAMES.size() - 1)
+	else:
+		camera_tilt = tilt_from_old(int(config.get_value("video", "camera_tilt", 1)))
 	camera_distance = clampi(int(config.get_value("video", "camera_distance", camera_distance)), 0, CameraRig.DISTANCE_NAMES.size() - 1)
 	renderer = str(config.get_value("video", "renderer", renderer))
 	if not RENDERERS.has(renderer):
@@ -682,7 +686,7 @@ func reset_to_defaults() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if CameraRig.active_rigs > 0 and UiInput.is_fresh_press(event):
 		if InputMap.has_action(&"camera_angle") and event.is_action_pressed(&"camera_angle"):
-			cycle_camera_angle()
+			cycle_camera_tilt()  # Fable Nov 21 (Part 6): V walks the five look-down presets (the four framing presets stay in Settings)
 			return
 		if InputMap.has_action(&"camera_zoom") and event.is_action_pressed(&"camera_zoom"):
 			cycle_camera_zoom()
@@ -748,6 +752,17 @@ func cycle_city_camera() -> void:
 ## Cycles Cinematic -> Classic -> Overview -> Low.
 func cycle_camera_angle() -> void:
 	set_camera_angle((camera_angle + 1) % CameraRig.ANGLE_NAMES.size())
+
+
+## Fable Nov 21 (Part 6): V - the next of the five presets (+6, +8, +10, +12, +14 degrees), with a small toast naming it. Saved.
+func cycle_camera_tilt() -> void:
+	set_camera_tilt((camera_tilt + 1) % CameraRig.TILT_NAMES.size())
+	EventBus.toast_requested.emit(CameraRig.tilt_toast(camera_tilt))
+
+
+## A settings file from before Nov 21 (0 Standard, 1 +4, 2 +6, 3 +8) as one of the five presets: +8 stays +8, the rest is the new default.
+static func tilt_from_old(old_index: int) -> int:
+	return 1 if old_index >= 3 else 0
 
 
 ## Cycles Close -> Normal -> Far (from the nearest preset).

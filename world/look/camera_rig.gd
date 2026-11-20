@@ -52,9 +52,13 @@ static var zone_distance_target: float = 1.0
 ## Fable Nov 20 (Part 1.2): the player's own choice on top, for the playtesters to compare (Settings > Display). "Camera tilt": how many
 ## degrees every preset looks down more - Standard (0), +4 (the default: the place's own value from zone_camera.json, 4 everywhere),
 ## +6, +8. "Camera distance": Closer / Default / Further (x 0.9 / 1.0 / 1.1 on the place's distance). Applied in every place.
-const TILT_NAMES: Array[String] = ["Standard", "+4 (default)", "+6", "+8"]
-const TILT_DEGREES: Array[float] = [0.0, 4.0, 6.0, 8.0]
-const TILT_DEFAULT: int = 1
+## Fable Nov 21 (Part 6, the owner): FIVE presets, cycled with V (`Settings.cycle_camera_tilt`): the camera looks down +6, +8, +10, +12
+## or +14 degrees more than the original presets, and stands a little further out the steeper it looks so the view stays comfortable
+## (`TILT_DISTANCE`). +6 is the default (it replaces +4); a place's own value in zone_camera.json is that default.
+const TILT_NAMES: Array[String] = ["+6 (default)", "+8", "+10", "+12", "+14"]
+const TILT_DEGREES: Array[float] = [6.0, 8.0, 10.0, 12.0, 14.0]
+const TILT_DISTANCE: Array[float] = [1.0, 1.03, 1.06, 1.09, 1.12]
+const TILT_DEFAULT: int = 0
 const DISTANCE_NAMES: Array[String] = ["Closer", "Default", "Further"]
 const DISTANCE_SCALES: Array[float] = [0.9, 1.0, 1.1]
 const DISTANCE_DEFAULT: int = 1
@@ -63,14 +67,24 @@ const DISTANCE_DEFAULT: int = 1
 ## The degrees added to the preset's pitch right now: the place's own value at the default choice, the player's value otherwise.
 ## Outside a place with a camera of its own (no ZoneCamera applied) nothing is added.
 static func pitch_bonus() -> float:
-	var choice: int = clampi(Settings.camera_tilt, 0, TILT_DEGREES.size() - 1)
-	if choice == TILT_DEFAULT or ZoneCamera.current == "":
+	if ZoneCamera.current == "":
 		return zone_pitch_bonus
-	return TILT_DEGREES[choice]
+	return zone_pitch_bonus + TILT_DEGREES[tilt_index()] - TILT_DEGREES[TILT_DEFAULT]
+
+
+static func tilt_index() -> int:
+	return clampi(Settings.camera_tilt, 0, TILT_DEGREES.size() - 1)
 
 
 static func distance_scale() -> float:
-	return zone_distance * DISTANCE_SCALES[clampi(Settings.camera_distance, 0, DISTANCE_SCALES.size() - 1)]
+	var steeper: float = TILT_DISTANCE[tilt_index()] if ZoneCamera.current != "" else 1.0
+	return zone_distance * DISTANCE_SCALES[clampi(Settings.camera_distance, 0, DISTANCE_SCALES.size() - 1)] * steeper
+
+
+## The toast when V picks a preset: "Camera 3 of 5: +10°".
+static func tilt_toast(index: int) -> String:
+	var choice: int = clampi(index, 0, TILT_DEGREES.size() - 1)
+	return "Camera %d of %d: +%d°" % [choice + 1, TILT_DEGREES.size(), int(TILT_DEGREES[choice])]
 
 
 ## The camera-to-hero distance at Normal zoom, Cinematic angle: the hero fills `HERO_SCREEN_FRACTION` of the screen height.

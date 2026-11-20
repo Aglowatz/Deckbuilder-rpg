@@ -6,7 +6,10 @@
 cd "$(dirname "$0")/.."
 script="$(mktemp --suffix=.txt)"
 {
-	echo "wait 3"; echo "dev newgame"; echo "wait 10"; echo "skip_dialogue"; echo "dev level 12"; echo "wait 5"; echo "fadecat"; echo "fadescan scan_forest 0"
+	echo "wait 3"; echo "dev newgame"; echo "wait 10"; echo "skip_dialogue"; echo "dev level 12"; echo "wait 5"
+	# Fable Nov 21 (Part 6): FADE_TILT=4 runs the whole probe at the steepest of the five camera presets (+14 degrees)
+	[ -n "$FADE_TILT" ] && echo "tilt $FADE_TILT"
+	echo "fadecat"; echo "fadescan scan_forest 0"
 	for row in "crosspath:dev travel town:16" "gainlands:dev travel zone beefcake:18" "buffet:dev travel zone gourmand:18" "dump:dev travel zone refusemancer:18" "dna:dev travel zone necrocrat:18" "capital:dev travel capital:22"; do
 		IFS=: read -r name cmd wait <<< "$row"
 		echo "$cmd"; echo "wait $wait"; echo "skip_dialogue"; echo "calm"; echo "wait 5"; echo "fadecat"; echo "fadescan scan_$name 0"
@@ -15,7 +18,9 @@ script="$(mktemp --suffix=.txt)"
 bash tools/play.sh "$script" fade_probe 1500 > /dev/null 2>&1
 log=_screenshots/play/fade_probe/stdout.log
 mkdir -p docs/review/nov19b
-grep -E "fadescan|fadecat" "$log" | sed 's/^play: *//' > docs/review/nov19b/fade_stock_after.txt
+out=docs/review/nov19b/fade_stock_after.txt
+[ -n "$FADE_TILT" ] && out="docs/review/fade_probe_tilt${FADE_TILT}_nov21.txt"
+grep -E "fadescan|fadecat|tilt:" "$log" | sed 's/^play: *//' > "$out"
 grep "fadescan scan_[a-z]*:" "$log"
 bad=$(grep "fadescan row" "$log" | grep -vc "tall_occluder")
 errors=$(grep -c "SCRIPT ERROR" "$log")

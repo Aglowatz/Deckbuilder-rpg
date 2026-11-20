@@ -1,0 +1,689 @@
+tilt: Camera 5 of 5: +14°
+> fadecat
+fadecat | StartingForest (48) | tall_occluder | (35.6, 11.8, 38.0) | pieces 21
+> fadescan scan_forest 0
+fadescan scan_forest: 1 things can fade { "tall_occluder": 1 }
+fadescan row | StartingForest (48) | tall_occluder | (80.3, 78.7, 79.7) | 966 cells | cams [0, 3]
+> fadecat
+fadecat | Building_item_vendor (2) | tall_occluder | (7.9, 8.900001, 7.4) | pieces 1
+fadecat | Building_pack_vendor (2) | tall_occluder | (8.1, 6.5, 7.4) | pieces 1
+fadecat | Building_market (2) | tall_occluder | (7.6, 8.7, 8.5) | pieces 1
+fadecat | Building_equipment_vendor (2) | tall_occluder | (8.0, 6.7, 9.6) | pieces 1
+fadecat | Building_tailor (2) | tall_occluder | (7.5, 8.7, 8.2) | pieces 1
+fadecat | Building_alchemist (2) | tall_occluder | (7.3, 12.4, 7.6) | pieces 1
+fadecat | Building_storeroom (2) | tall_occluder | (7.9, 9.0, 8.6) | pieces 1
+fadecat | Building_Row_house (2) | tall_occluder | (9.0, 8.8, 7.9) | pieces 1
+fadecat | @Node3D@775 (2) | tall_occluder | (7.9, 9.0, 8.6) | pieces 1
+fadecat | @Node3D@776 (2) | tall_occluder | (9.0, 8.8, 7.9) | pieces 1
+fadecat | @Node3D@777 (2) | tall_occluder | (7.9, 9.0, 8.6) | pieces 1
+fadecat | Building_codex (2) | tall_occluder | (7.4, 10.5, 7.2) | pieces 1
+fadecat | @Node3D@778 (2) | tall_occluder | (7.9, 9.0, 8.6) | pieces 1
+fadecat | Building_Cottage (2) | tall_occluder | (7.3, 6.4, 6.8) | pieces 1
+fadecat | @Node3D@779 (2) | tall_occluder | (9.0, 8.8, 7.9) | pieces 1
+fadecat | Building_gate (2) | tall_occluder | (7.4, 6.4, 9.0) | pieces 1
+fadecat | Building_elder_home (2) | tall_occluder | (7.9, 8.8, 8.400001) | pieces 1
+fadecat | Building_church (2) | tall_occluder | (10.7, 9.6, 8.2) | pieces 1
+fadecat | Building_The_inn (2) | tall_occluder | (9.0, 8.900001, 12.1) | pieces 1
+fadecat | Stall/Body | tall_occluder | (4.4, 3.5, 2.6) | pieces 1
+fadecat | DeckStationStall (7) | sign | (1.0, 1.0, 0.0) | pieces 0
+fadecat | Well/Body | tall_occluder | (3.2, 3.7, 2.6) | pieces 1
+fadecat | Building_vault (2) | tall_occluder | (9.0, 6.4, 7.4) | pieces 1
+fadecat | AbandonedCottage (2) | tall_occluder | (7.5, 6.6, 6.8) | pieces 1
+fadecat | Outskirt_Farmhouse (2) | tall_occluder | (7.3, 6.4, 6.8) | pieces 1
+fadecat | Outskirt_Fishers_cottage (2) | tall_occluder | (6.4, 6.2, 6.9) | pieces 1
+fadecat | Outskirt_Boat_shed (2) | tall_occluder | (5.8, 5.7, 6.6) | pieces 1
+fadecat | Outskirt_Wayside_cottage (2) | tall_occluder | (7.3, 6.4, 8.0) | pieces 1
+fadecat | LanternPost/Body | small_prop | (0.5, 4.1, 1.2) | pieces 0
+fadecat | Signpost (2) | sign | (1.5, 2.1, 0.8) | pieces 0
+fadecat | Signpost (2) | sign | (0.8, 2.1, 1.5) | pieces 0
+fadecat | Signpost (2) | sign | (0.8, 2.1, 1.5) | pieces 0
+fadecat | Signpost (2) | sign | (0.8, 2.1, 1.5) | pieces 0
+fadecat | NoticeBoard/Body | tall_occluder | (2.8, 3.3, 2.7) | pieces 1
+fadecat | Signpost/Body | sign | (1.4, 2.0, 1.4) | pieces 0
+fadecat | @Node3D@858/Body | small_prop | (1.4, 2.0, 1.4) | pieces 0
+fadecat | @Node3D@859/Body | small_prop | (1.4, 2.0, 1.4) | pieces 0
+fadecat | @Node3D@860/Body | small_prop | (1.4, 2.0, 1.4) | pieces 0
+fadecat | @Node3D@861/Body | small_prop | (1.4, 2.0, 1.4) | pieces 0
+fadecat | LanternPost/Body | small_prop | (0.5, 4.1, 1.2) | pieces 0
+fadecat | LanternPost/Body | small_prop | (1.2, 4.1, 0.5) | pieces 0
+fadecat | Cart/Body | tall_occluder | (3.5, 2.3, 3.0) | pieces 1
+fadecat | @Node3D@1172 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | BridgeDeck (28) | tall_occluder | (2.8, 7.3, 2.3) | pieces 4
+fadecat | Obstacle_beefcake (33) | small_prop | (3.6, 1.9, 7.9) | pieces 0
+fadecat | dna_booth (2) | tall_occluder | (6.3, 3.8, 6.2) | pieces 1
+fadecat | Obstacle_necrocrat (15) | low_blocker | (7.5, 1.4, 7.8) | pieces 0
+fadecat | Obstacle_gourmand (4) | sign | (0.7, 1.1, 0.9) | pieces 0
+fadecat | Obstacle_refusemancer (2) | tall_occluder | (3.7, 1.8, 8.8) | pieces 1
+> fadescan scan_crosspath 0
+fadescan scan_crosspath: 32 things can fade { "tall_occluder": 32 }
+fadescan row | Building_church (2) | tall_occluder | (10.7, 9.6, 8.2) | 102 cells | cams [0, 3]
+fadescan row | Building_The_inn (2) | tall_occluder | (9.0, 8.900001, 12.1) | 101 cells | cams [0, 3]
+fadescan row | @Node3D@776 (2) | tall_occluder | (9.0, 8.8, 7.9) | 90 cells | cams [0, 3]
+fadescan row | Building_Row_house (2) | tall_occluder | (9.0, 8.8, 7.9) | 87 cells | cams [0, 3]
+fadescan row | @Node3D@778 (2) | tall_occluder | (7.9, 9.0, 8.6) | 81 cells | cams [0, 3]
+fadescan row | @Node3D@779 (2) | tall_occluder | (9.0, 8.8, 7.9) | 76 cells | cams [0, 3]
+fadescan row | Building_codex (2) | tall_occluder | (7.4, 10.5, 7.2) | 71 cells | cams [0, 3]
+fadescan row | Building_item_vendor (2) | tall_occluder | (7.9, 8.900001, 7.4) | 66 cells | cams [0, 3]
+fadescan row | Building_vault (2) | tall_occluder | (9.0, 6.4, 7.4) | 65 cells | cams [0, 3]
+fadescan row | Outskirt_Wayside_cottage (2) | tall_occluder | (7.3, 6.4, 8.0) | 58 cells | cams [0, 3]
+fadescan row | Building_storeroom (2) | tall_occluder | (7.9, 9.0, 8.6) | 57 cells | cams [0, 3]
+fadescan row | Building_Cottage (2) | tall_occluder | (7.3, 6.4, 6.8) | 56 cells | cams [0, 3]
+fadescan row | AbandonedCottage (2) | tall_occluder | (7.5, 6.6, 6.8) | 54 cells | cams [0, 3]
+fadescan row | @Node3D@777 (2) | tall_occluder | (7.9, 9.0, 8.6) | 54 cells | cams [0, 3]
+fadescan row | Building_tailor (2) | tall_occluder | (7.5, 8.7, 8.2) | 49 cells | cams [0, 3]
+fadescan row | @Node3D@775 (2) | tall_occluder | (7.9, 9.0, 8.6) | 47 cells | cams [0, 3]
+fadescan row | Building_alchemist (2) | tall_occluder | (7.3, 12.4, 7.6) | 42 cells | cams [0, 3]
+fadescan row | Building_elder_home (2) | tall_occluder | (7.9, 8.8, 8.400001) | 40 cells | cams [0, 3]
+fadescan row | Outskirt_Farmhouse (2) | tall_occluder | (7.3, 6.4, 6.8) | 38 cells | cams [0, 3]
+fadescan row | Building_equipment_vendor (2) | tall_occluder | (8.0, 6.7, 9.6) | 38 cells | cams [0, 3]
+fadescan row | Building_market (2) | tall_occluder | (7.6, 8.7, 8.5) | 37 cells | cams [0, 3]
+fadescan row | Building_gate (2) | tall_occluder | (7.4, 6.4, 9.0) | 34 cells | cams [0, 3]
+fadescan row | Building_pack_vendor (2) | tall_occluder | (8.1, 6.5, 7.4) | 32 cells | cams [0, 3]
+fadescan row | BridgeDeck (28) | tall_occluder | (0.2, 7.1, 1.4) | 32 cells | cams [0, 3]
+fadescan row | Outskirt_Boat_shed (2) | tall_occluder | (5.8, 5.7, 6.6) | 30 cells | cams [0, 3]
+fadescan row | Outskirt_Fishers_cottage (2) | tall_occluder | (6.4, 6.2, 6.9) | 26 cells | cams [0, 3]
+fadescan row | dna_booth (2) | tall_occluder | (6.3, 3.8, 6.2) | 19 cells | cams [0, 3]
+fadescan row | Stall/Body | tall_occluder | (4.4, 3.5, 2.6) | 14 cells | cams [0, 3]
+fadescan row | NoticeBoard/Body | tall_occluder | (2.8, 3.3, 2.7) | 12 cells | cams [0, 3]
+fadescan row | Cart/Body | tall_occluder | (3.5, 2.3, 3.0) | 10 cells | cams [0, 3]
+fadescan row | Well/Body | tall_occluder | (3.2, 3.7, 2.6) | 5 cells | cams [0, 3]
+fadescan row | @Node3D@1172 (24) | tall_occluder | (2.3, 2.5, 0.0) | 2 cells | cams [0, 3]
+> fadecat
+fadecat | Gainlands/IronCrag | tall_occluder | (14.3, 13.2, 14.5) | pieces 1
+fadecat | StoneGateway/Body | tall_occluder | (15.0, 5.8, 1.7) | pieces 1
+fadecat | GymHall/Body | tall_occluder | (14.4, 8.900001, 10.3) | pieces 1
+fadecat | ChampionsArch/Body | tall_occluder | (12.0, 7.0, 2.3) | pieces 1
+fadecat | PumpShrine/Body | tall_occluder | (2.4, 3.2, 2.4) | pieces 1
+fadecat | @Node3D@2794 (14) | low_blocker | (3.7, 1.0, 3.6) | pieces 0
+fadecat | @Node3D@2805 (10) | low_blocker | (2.3, 2.9, 3.6) | pieces 0
+fadecat | @Node3D@2811 (5) | tall_occluder | (0.2, 3.0, 2.0) | pieces 2
+fadecat | @Node3D@2822 (10) | low_blocker | (3.1, 2.6, 1.1) | pieces 0
+fadecat | @Node3D@2833 (10) | low_blocker | (3.5, 2.9, 1.8) | pieces 0
+fadecat | @Node3D@2844 (10) | low_blocker | (3.5, 2.9, 1.8) | pieces 0
+fadecat | @Node3D@2867 (22) | tall_occluder | (6.0, 3.6, 0.4) | pieces 2
+fadecat | TowerMill1 (2) | tall_occluder | (7.9, 14.0, 7.9) | pieces 2
+fadecat | Sails/SailsBody | tall_occluder | (12.3, 12.7, 5.4) | pieces 1
+fadecat | TowerMill2 (2) | tall_occluder | (7.9, 13.9, 7.9) | pieces 2
+fadecat | Sails/SailsBody | tall_occluder | (12.3, 12.7, 5.4) | pieces 1
+fadecat | TowerMill3 (2) | tall_occluder | (8.5, 13.9, 8.5) | pieces 2
+fadecat | Sails/SailsBody | tall_occluder | (11.5, 12.7, 7.3) | pieces 1
+fadecat | @Node3D@2874 (6) | low_blocker | (4.2, 1.3, 2.5) | pieces 0
+fadecat | @Node3D@2875 (34) | tall_occluder | (10.3, 10.3, 2.6) | pieces 8
+fadecat | @Node3D@2917 (41) | tall_occluder | (4.8, 4.8, 3.8) | pieces 12
+fadecat | @Node3D@2918 (34) | tall_occluder | (8.7, 8.7, 2.2) | pieces 8
+fadecat | @Node3D@2965 (45) | tall_occluder | (4.1, 4.1, 3.2) | pieces 12
+fadecat | @Node3D@2966 (34) | tall_occluder | (7.7, 7.7, 2.0) | pieces 6
+fadecat | @Node3D@3013 (45) | tall_occluder | (3.6, 3.6, 2.8) | pieces 10
+fadecat | @Node3D@3014 (2) | low_blocker | (1.1, 2.2, 1.1) | pieces 0
+fadecat | @Node3D@3018 (2) | low_blocker | (1.1, 2.2, 1.1) | pieces 0
+fadecat | @Node3D@3022 (2) | low_blocker | (1.1, 2.2, 1.1) | pieces 0
+fadecat | @Node3D@3026 (2) | low_blocker | (1.1, 2.2, 1.1) | pieces 0
+fadecat | @Node3D@3035 (5) | tall_occluder | (2.0, 3.0, 0.2) | pieces 2
+fadecat | @Node3D@3072 (5) | low_blocker | (1.1, 1.9, 0.3) | pieces 0
+fadecat | @Node3D@3077 (5) | low_blocker | (0.8, 1.1, 0.2) | pieces 0
+fadecat | @Node3D@3082 (5) | low_blocker | (0.8, 1.1, 0.1) | pieces 0
+fadecat | @Node3D@3087 (5) | low_blocker | (0.8, 1.1, 0.2) | pieces 0
+fadecat | @Node3D@3092 (5) | low_blocker | (0.8, 1.1, 0.2) | pieces 0
+fadecat | @Node3D@3097 (5) | low_blocker | (0.8, 1.1, 0.1) | pieces 0
+fadecat | @Node3D@3102 (5) | low_blocker | (1.3, 2.1, 0.1) | pieces 0
+fadecat | @Node3D@3107 (5) | small_prop | (1.2, 2.0, 0.3) | pieces 0
+fadecat | @Node3D@3112 (5) | low_blocker | (0.8, 1.1, 0.1) | pieces 0
+fadecat | GainlandsZone/@MeshInstance3D@3184 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
+fadecat | GainlandsZone/@MeshInstance3D@3187 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | GainlandsZone/@MeshInstance3D@3190 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | @Node3D@3241 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | GainlandsZone/@MeshInstance3D@3267 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
+fadecat | LanternPost/Body | small_prop | (0.5, 4.1, 1.1) | pieces 0
+fadecat | @Node3D@3334/Body | tall_occluder | (1.2, 4.1, 0.7) | pieces 1
+fadecat | @Node3D@3335/Body | tall_occluder | (1.2, 4.1, 0.8) | pieces 1
+fadecat | @Node3D@3337/Body | tall_occluder | (1.2, 4.1, 1.1) | pieces 1
+fadecat | @Node3D@3338/Body | tall_occluder | (0.7, 4.1, 1.2) | pieces 1
+fadecat | @Node3D@3340/Body | tall_occluder | (1.2, 4.1, 1.0) | pieces 1
+fadecat | @Node3D@3341/Body | tall_occluder | (1.2, 4.1, 0.7) | pieces 1
+fadecat | @Node3D@3343/Body | tall_occluder | (1.1, 4.1, 1.2) | pieces 1
+fadecat | @Node3D@3344/Body | tall_occluder | (0.8, 4.1, 1.2) | pieces 1
+fadecat | @Node3D@3346/Body | tall_occluder | (0.7, 4.1, 1.2) | pieces 1
+fadecat | @Node3D@3347/Body | tall_occluder | (1.2, 4.1, 0.7) | pieces 1
+fadecat | RulerStatue (3) | tall_occluder | (1.7, 3.3, 0.0) | pieces 1
+fadecat | RulerBanner (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+fadecat | @Node3D@3357 (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+> fadescan scan_gainlands 0
+fadescan scan_gainlands: 28 things can fade { "tall_occluder": 28 }
+fadescan row | @Node3D@2918 (34) | tall_occluder | (10.0, 10.0, 0.3) | 480 cells | cams [0, 3]
+fadescan row | @Node3D@2875 (34) | tall_occluder | (11.8, 11.8, 0.3) | 468 cells | cams [0, 3]
+fadescan row | @Node3D@2917 (41) | tall_occluder | (11.8, 11.8, 0.3) | 310 cells | cams [0, 3]
+fadescan row | Sails/SailsBody | tall_occluder | (12.8, 14.1, 8.0) | 244 cells | cams [0, 3]
+fadescan row | @Node3D@2966 (34) | tall_occluder | (8.8, 8.8, 0.2) | 216 cells | cams [0, 3]
+fadescan row | TowerMill3 (2) | tall_occluder | (8.5, 13.9, 8.5) | 208 cells | cams [0, 3]
+fadescan row | @Node3D@2965 (45) | tall_occluder | (10.0, 10.0, 0.3) | 200 cells | cams [0, 3]
+fadescan row | TowerMill1 (2) | tall_occluder | (7.9, 14.0, 7.9) | 156 cells | cams [0, 3]
+fadescan row | @Node3D@3013 (45) | tall_occluder | (8.8, 8.8, 0.2) | 120 cells | cams [0, 3]
+fadescan row | TowerMill2 (2) | tall_occluder | (7.9, 13.9, 7.9) | 118 cells | cams [0, 3]
+fadescan row | ChampionsArch/Body | tall_occluder | (12.0, 7.0, 2.3) | 81 cells | cams [0, 3]
+fadescan row | StoneGateway/Body | tall_occluder | (15.0, 5.8, 1.7) | 78 cells | cams [0, 3]
+fadescan row | GymHall/Body | tall_occluder | (14.4, 8.900001, 10.3) | 68 cells | cams [0, 3]
+fadescan row | Gainlands/IronCrag | tall_occluder | (9.0, 8.0, 9.6) | 67 cells | cams [0, 3]
+fadescan row | @Node3D@2867 (22) | tall_occluder | (6.0, 3.6, 0.3) | 36 cells | cams [0, 3]
+fadescan row | GainlandsZone/@MeshInstance3D@3267 | tall_occluder | (1.2, 6.0, 1.2) | 10 cells | cams [0, 3]
+fadescan row | @Node3D@3337/Body | tall_occluder | (1.2, 4.1, 1.1) | 9 cells | cams [0, 3]
+fadescan row | @Node3D@3341/Body | tall_occluder | (1.2, 4.1, 0.7) | 8 cells | cams [0, 3]
+fadescan row | @Node3D@3334/Body | tall_occluder | (1.2, 4.1, 0.7) | 8 cells | cams [0, 3]
+fadescan row | @Node3D@3344/Body | tall_occluder | (0.8, 4.1, 1.2) | 8 cells | cams [0, 3]
+fadescan row | GainlandsZone/@MeshInstance3D@3184 | tall_occluder | (1.2, 4.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | @Node3D@3335/Body | tall_occluder | (1.2, 4.1, 0.8) | 7 cells | cams [0, 3]
+fadescan row | @Node3D@3347/Body | tall_occluder | (1.2, 4.1, 0.7) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@3338/Body | tall_occluder | (0.7, 4.1, 1.2) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@3035 (5) | tall_occluder | (2.0, 3.0, 0.2) | 6 cells | cams [0, 3]
+fadescan row | PumpShrine/Body | tall_occluder | (2.4, 3.2, 2.4) | 5 cells | cams [0, 3]
+fadescan row | GainlandsZone/@MeshInstance3D@3190 | tall_occluder | (1.2, 5.0, 1.2) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@3241 (24) | tall_occluder | (2.3, 2.5, 0.0) | 2 cells | cams [0, 3]
+> fadecat
+fadecat | @Node3D@3794 (15) | small_prop | (1.0, 2.7, 1.0) | pieces 0
+fadecat | kitchentable_A_large2/kitchentable_A_large | low_blocker | (2.7, 1.4, 4.1) | pieces 0
+fadecat | oven2 (2) | tall_occluder | (3.0, 3.0, 3.5) | pieces 1
+fadecat | oven/oven_door | small_prop | (1.9, 1.8, 0.6) | pieces 0
+fadecat | @Node3D@3805 (4) | low_blocker | (0.8, 1.2, 0.8) | pieces 0
+fadecat | @Node3D@3818 (14) | tall_occluder | (2.0, 1.6, 2.0) | pieces 1
+fadecat | loaf2/loaf | tall_occluder | (2.3, 1.7, 1.8) | pieces 1
+fadecat | HallWing/Body | tall_occluder | (11.5, 11.3, 5.3) | pieces 1
+fadecat | @Node3D@3829/Body | tall_occluder | (12.6, 11.3, 8.0) | pieces 1
+fadecat | @Node3D@3842 (12) | tall_occluder | (5.5, 2.1, 5.6) | pieces 2
+fadecat | @Node3D@3849 (6) | tall_occluder | (5.9, 1.9, 5.6) | pieces 1
+fadecat | wall_orderwindow_decorated2/wall_orderwindow_decorated | tall_occluder | (4.4, 4.4, 1.0) | pieces 1
+fadecat | kitchencounter_straight_A2/kitchencounter_straight_A | low_blocker | (2.6, 1.3, 2.7) | pieces 0
+fadecat | @Node3D@3850/kitchencounter_straight_A | low_blocker | (2.6, 1.3, 2.7) | pieces 0
+fadecat | @Node3D@3859 (14) | sign | (1.1, 1.1, 0.0) | pieces 0
+fadecat | table_round_A_small2/table_round_A_small | low_blocker | (1.5, 1.0, 1.5) | pieces 0
+fadecat | @Node3D@3896 (25) | tall_occluder | (2.2, 2.3, 2.2) | pieces 1
+fadecat | shaker-pepper2/shaker-pepper | tall_occluder | (1.6, 2.5, 1.6) | pieces 1
+fadecat | buffet_cottage (2) | tall_occluder | (7.7, 5.5, 6.5) | pieces 1
+fadecat | buffet_bakery (2) | tall_occluder | (9.8, 8.900001, 7.6) | pieces 1
+fadecat | buffet_kitchen (2) | tall_occluder | (7.6, 6.7, 8.900001) | pieces 1
+fadecat | cheese (12) | tall_occluder | (5.9, 1.7, 5.9) | pieces 12
+fadecat | cheese (12) | tall_occluder | (5.4, 1.6, 5.4) | pieces 12
+fadecat | cheese (12) | low_blocker | (4.5, 1.2, 4.5) | pieces 0
+fadecat | @Node3D@3927 (6) | tall_occluder | (2.1, 2.6, 2.1) | pieces 1
+fadecat | @Node3D@3944 (5) | low_blocker | (0.9, 1.1, 0.0) | pieces 0
+fadecat | @Node3D@3962 (6) | low_blocker | (1.1, 1.1, 0.0) | pieces 0
+fadecat | CakeCathedral/Body | tall_occluder | (14.8, 20.9, 14.3) | pieces 1
+fadecat | BroccoliGiant (5) | tall_occluder | (19.2, 19.6, 18.9) | pieces 1
+fadecat | OmakasePavilion/Body | tall_occluder | (11.8, 8.5, 8.5) | pieces 1
+fadecat | BuffetZone/@MeshInstance3D@4091 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
+fadecat | BuffetZone/@MeshInstance3D@4094 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | BuffetZone/@MeshInstance3D@4097 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | shaker-salt2/shaker-salt | low_blocker | (0.7, 1.4, 0.7) | pieces 0
+fadecat | paprika2/paprika | low_blocker | (1.1, 1.2, 1.1) | pieces 0
+fadecat | honey2/honey | low_blocker | (1.2, 1.1, 1.2) | pieces 0
+fadecat | @Node3D@4152 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | BuffetZone/@MeshInstance3D@4178 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
+fadecat | RulerStatue (3) | tall_occluder | (1.5, 3.3, 0.0) | pieces 1
+fadecat | RulerBanner (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+fadecat | @Node3D@4256 (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+> fadescan scan_buffet 0
+fadescan scan_buffet: 23 things can fade { "tall_occluder": 23 }
+fadescan row | BroccoliGiant (5) | tall_occluder | (19.2, 19.6, 18.9) | 227 cells | cams [0, 3]
+fadescan row | cheese (12) | tall_occluder | (2.7, 1.6, 2.0) | 156 cells | cams [0, 3]
+fadescan row | @Node3D@3829/Body | tall_occluder | (12.6, 11.3, 8.0) | 113 cells | cams [0, 3]
+fadescan row | HallWing/Body | tall_occluder | (11.5, 11.3, 5.3) | 103 cells | cams [0, 3]
+fadescan row | CakeCathedral/Body | tall_occluder | (14.8, 20.9, 14.3) | 86 cells | cams [0, 3]
+fadescan row | @Node3D@3842 (12) | tall_occluder | (5.5, 2.1, 5.6) | 66 cells | cams [0, 3]
+fadescan row | buffet_cottage (2) | tall_occluder | (7.7, 5.5, 6.5) | 50 cells | cams [0, 3]
+fadescan row | buffet_bakery (2) | tall_occluder | (9.8, 8.900001, 7.6) | 36 cells | cams [0, 3]
+fadescan row | OmakasePavilion/Body | tall_occluder | (11.8, 8.5, 8.5) | 32 cells | cams [0, 3]
+fadescan row | buffet_kitchen (2) | tall_occluder | (7.6, 6.7, 8.900001) | 25 cells | cams [0, 3]
+fadescan row | @Node3D@3849 (6) | tall_occluder | (5.9, 1.9, 5.6) | 23 cells | cams [0, 3]
+fadescan row | wall_orderwindow_decorated2/wall_orderwindow_decorated | tall_occluder | (4.4, 4.4, 1.0) | 17 cells | cams [0, 3]
+fadescan row | oven2 (2) | tall_occluder | (3.0, 3.0, 3.5) | 10 cells | cams [0, 3]
+fadescan row | BuffetZone/@MeshInstance3D@4178 | tall_occluder | (1.2, 6.0, 1.2) | 10 cells | cams [0, 3]
+fadescan row | BuffetZone/@MeshInstance3D@4097 | tall_occluder | (1.2, 5.0, 1.2) | 8 cells | cams [0, 3]
+fadescan row | BuffetZone/@MeshInstance3D@4091 | tall_occluder | (1.2, 4.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | BuffetZone/@MeshInstance3D@4094 | tall_occluder | (1.2, 5.0, 1.2) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@3818 (14) | tall_occluder | (2.0, 1.6, 2.0) | 6 cells | cams [0, 3]
+fadescan row | shaker-pepper2/shaker-pepper | tall_occluder | (1.6, 2.5, 1.6) | 5 cells | cams [0, 3]
+fadescan row | RulerStatue (3) | tall_occluder | (1.5, 3.3, 0.0) | 5 cells | cams [0, 3]
+fadescan row | @Node3D@3927 (6) | tall_occluder | (2.1, 2.6, 2.1) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@4152 (24) | tall_occluder | (2.3, 2.5, 0.0) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@3896 (25) | tall_occluder | (2.2, 2.3, 2.2) | 1 cells | cams [3]
+> fadecat
+fadecat | RootGate (2) | tall_occluder | (16.0, 8.900001, 8.5) | pieces 1
+fadecat | Landmark_DUMP-HERO-WINDMILL (2) | tall_occluder | (16.2, 17.2, 6.8) | pieces 2
+fadecat | Landmark_DUMP-HERO-COMMONS-GREENHOUSE (3) | tall_occluder | (11.7, 7.9, 8.400001) | pieces 3
+fadecat | @Node3D@4538 (4) | tall_occluder | (4.8, 2.2, 2.8) | pieces 3
+fadecat | @Node3D@4543 (3) | tall_occluder | (5.1, 2.2, 2.2) | pieces 3
+fadecat | @Node3D@4547 (4) | tall_occluder | (4.9, 2.2, 1.7) | pieces 3
+fadecat | @Node3D@4552 (4) | tall_occluder | (4.6, 2.7, 5.4) | pieces 3
+fadecat | @Node3D@4557 (3) | tall_occluder | (2.7, 2.7, 6.7) | pieces 3
+fadecat | @Node3D@4561 (4) | tall_occluder | (3.7, 2.7, 7.9) | pieces 3
+fadecat | @Node3D@4566 (3) | tall_occluder | (4.2, 2.7, 9.8) | pieces 3
+fadecat | Shack_37_108 (2) | tall_occluder | (10.1, 5.1, 8.6) | pieces 1
+fadecat | @Node3D@4579 (26) | low_blocker | (2.0, 1.3, 3.8) | pieces 0
+fadecat | crop_carrot2/crop_carrot | low_blocker | (1.1, 1.5, 1.1) | pieces 0
+fadecat | SwapStall (2) | tall_occluder | (5.4, 3.6, 3.7) | pieces 1
+fadecat | stone_tallA2/stone_tallA | tall_occluder | (2.6, 2.6, 1.8) | pieces 1
+fadecat | rock_tallB2/rock_tallB | tall_occluder | (2.7, 2.3, 2.7) | pieces 1
+fadecat | @Node3D@4582/stone_tallA | tall_occluder | (2.8, 2.6, 3.1) | pieces 1
+fadecat | @Node3D@4583/rock_tallB | tall_occluder | (2.0, 2.3, 2.0) | pieces 1
+fadecat | @Node3D@4584/stone_tallA | tall_occluder | (2.8, 2.6, 3.1) | pieces 1
+fadecat | @Node3D@4585/rock_tallB | tall_occluder | (2.7, 2.3, 2.7) | pieces 1
+fadecat | @Node3D@4609 (16) | tall_occluder | (4.2, 2.9, 3.2) | pieces 2
+fadecat | root (5) | tall_occluder | (2.1, 2.0, 2.3) | pieces 1
+fadecat | LanternPost/Body | small_prop | (1.2, 4.1, 0.5) | pieces 0
+fadecat | @Node3D@4610/Body | tall_occluder | (1.2, 4.1, 0.5) | pieces 1
+fadecat | ApplianceGrove (6) | tall_occluder | (8.0, 2.3, 8.1) | pieces 1
+fadecat | @Node3D@4671 (6) | small_prop | (1.1, 2.6, 0.7) | pieces 0
+fadecat | @Node3D@4686 (18) | tall_occluder | (3.3, 1.7, 4.2) | pieces 7
+fadecat | debris-tire2/debris-tire | tall_occluder | (2.7, 2.4, 2.3) | pieces 1
+fadecat | debris-door2/debris-door | tall_occluder | (3.7, 1.9, 3.8) | pieces 1
+fadecat | debris-plate-a2/debris-plate-a | low_blocker | (4.2, 1.2, 4.2) | pieces 0
+fadecat | @Node3D@4672/debris-tire | tall_occluder | (2.4, 2.6, 1.8) | pieces 1
+fadecat | @Node3D@4673/debris-door | tall_occluder | (3.6, 3.8, 1.3) | pieces 1
+fadecat | @Node3D@4674/debris-plate-a | tall_occluder | (4.2, 4.2, 1.3) | pieces 1
+fadecat | @Node3D@4675/debris-tire | tall_occluder | (3.0, 2.0, 3.0) | pieces 1
+fadecat | @Node3D@4697 (16) | tall_occluder | (3.2, 2.9, 4.2) | pieces 2
+fadecat | root (5) | tall_occluder | (2.3, 2.0, 2.1) | pieces 1
+fadecat | @Node3D@4702 (4) | small_prop | (1.4, 1.6, 1.8) | pieces 0
+fadecat | @Node3D@4712 (12) | tall_occluder | (5.6, 4.3, 2.7) | pieces 2
+fadecat | @Node3D@4743 (19) | small_prop | (1.7, 3.1, 2.0) | pieces 0
+fadecat | van (5) | tall_occluder | (4.5, 2.3, 5.9) | pieces 1
+fadecat | Shack_74_13 (2) | tall_occluder | (7.7, 4.6, 5.5) | pieces 1
+fadecat | truck (5) | tall_occluder | (4.6, 2.2, 6.2) | pieces 1
+fadecat | Barricade_gate (24) | low_blocker | (4.2, 1.2, 1.4) | pieces 0
+fadecat | debris-tire2/debris-tire | tall_occluder | (2.8, 2.6, 2.2) | pieces 1
+fadecat | debris-door2/debris-door | tall_occluder | (1.9, 4.4, 4.3) | pieces 1
+fadecat | debris-plate-b2/debris-plate-b | tall_occluder | (3.1, 4.1, 3.8) | pieces 1
+fadecat | @Node3D@4819/debris-tire | tall_occluder | (2.5, 2.9, 2.8) | pieces 1
+fadecat | @Node3D@4820/debris-door | tall_occluder | (1.0, 3.6, 3.8) | pieces 1
+fadecat | @Node3D@4821/debris-plate-b | tall_occluder | (4.4, 2.8, 4.6) | pieces 1
+fadecat | @Node3D@4822/debris-tire | tall_occluder | (2.5, 3.3, 3.2) | pieces 1
+fadecat | @Node3D@4823/debris-door | tall_occluder | (4.3, 3.1, 3.9) | pieces 1
+fadecat | @Node3D@4824/debris-plate-b | tall_occluder | (2.3, 3.6, 3.6) | pieces 1
+fadecat | ScrapBoard (2) | small_prop | (0.9, 1.7, 0.1) | pieces 0
+fadecat | @Node3D@4838 (2) | small_prop | (0.8, 1.5, 0.2) | pieces 0
+fadecat | @Node3D@4839 (2) | small_prop | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4840 (2) | small_prop | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4841 (2) | small_prop | (0.8, 1.5, 0.3) | pieces 0
+fadecat | @Node3D@4842 (2) | small_prop | (0.8, 1.5, 0.3) | pieces 0
+fadecat | @Node3D@4843 (2) | small_prop | (0.8, 1.5, 0.2) | pieces 0
+fadecat | @Node3D@4844 (2) | low_blocker | (0.7, 1.5, 0.2) | pieces 0
+fadecat | @Node3D@4845 (2) | small_prop | (0.8, 1.5, 0.3) | pieces 0
+fadecat | @Node3D@4846 (2) | small_prop | (0.8, 1.6, 0.3) | pieces 0
+fadecat | @Node3D@4847 (2) | low_blocker | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4848 (2) | small_prop | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4849 (2) | small_prop | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4850 (2) | small_prop | (0.7, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@4851 (2) | small_prop | (0.8, 1.5, 0.3) | pieces 0
+fadecat | @Node3D@4852 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@4853 (2) | small_prop | (0.8, 1.6, 0.2) | pieces 0
+fadecat | @Node3D@4854 (2) | small_prop | (0.8, 1.5, 0.2) | pieces 0
+fadecat | @Node3D@4855 (2) | small_prop | (0.8, 1.6, 0.2) | pieces 0
+fadecat | @Node3D@4856 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@4857 (2) | small_prop | (1.1, 1.9, 0.1) | pieces 0
+fadecat | @Node3D@4858 (2) | small_prop | (0.8, 1.5, 0.2) | pieces 0
+fadecat | @Node3D@4859 (2) | small_prop | (0.8, 1.6, 0.2) | pieces 0
+fadecat | HeapZone/@MeshInstance3D@4925 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
+fadecat | HeapZone/@MeshInstance3D@4928 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | HeapZone/@MeshInstance3D@4931 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | root (5) | tall_occluder | (2.5, 2.3, 1.8) | pieces 1
+fadecat | root (7) | tall_occluder | (2.2, 1.8, 1.9) | pieces 1
+fadecat | body (2) | low_blocker | (0.7, 1.1, 0.5) | pieces 0
+fadecat | @Node3D@5037 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | HeapZone/@MeshInstance3D@5063 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
+fadecat | root (7) | low_blocker | (1.5, 1.3, 1.6) | pieces 0
+fadecat | root (5) | low_blocker | (1.1, 1.0, 1.1) | pieces 0
+fadecat | root (7) | low_blocker | (1.4, 1.1, 1.4) | pieces 0
+fadecat | root (6) | low_blocker | (1.4, 1.1, 1.4) | pieces 0
+fadecat | RulerStatue (3) | tall_occluder | (1.7, 3.3, 0.0) | pieces 1
+fadecat | RulerBanner (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+fadecat | @Node3D@5237 (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+> fadescan scan_dump 0
+fadescan scan_dump: 45 things can fade { "tall_occluder": 45 }
+fadescan row | Landmark_DUMP-HERO-COMMONS-GREENHOUSE (3) | tall_occluder | (11.7, 6.9, 8.3) | 309 cells | cams [0, 3]
+fadescan row | Landmark_DUMP-HERO-WINDMILL (2) | tall_occluder | (7.2, 12.2, 6.8) | 250 cells | cams [0, 3]
+fadescan row | Shack_37_108 (2) | tall_occluder | (10.1, 5.1, 8.6) | 88 cells | cams [0, 3]
+fadescan row | @Node3D@4566 (3) | tall_occluder | (4.1, 2.3, 9.7) | 84 cells | cams [0, 3]
+fadescan row | @Node3D@4543 (3) | tall_occluder | (5.0, 1.9, 2.1) | 69 cells | cams [0, 3]
+fadescan row | @Node3D@4538 (4) | tall_occluder | (4.7, 1.9, 2.6) | 66 cells | cams [0, 3]
+fadescan row | @Node3D@4557 (3) | tall_occluder | (2.6, 2.3, 6.6) | 63 cells | cams [0, 3]
+fadescan row | @Node3D@4552 (4) | tall_occluder | (4.5, 2.3, 5.2) | 48 cells | cams [0, 3]
+fadescan row | @Node3D@4547 (4) | tall_occluder | (4.8, 1.9, 1.6) | 48 cells | cams [0, 3]
+fadescan row | @Node3D@4712 (12) | tall_occluder | (5.1, 2.6, 0.1) | 44 cells | cams [0, 3]
+fadescan row | ApplianceGrove (6) | tall_occluder | (8.0, 2.3, 8.1) | 35 cells | cams [0, 3]
+fadescan row | @Node3D@4561 (4) | tall_occluder | (3.6, 2.3, 7.7) | 33 cells | cams [0, 3]
+fadescan row | SwapStall (2) | tall_occluder | (5.4, 3.6, 3.7) | 32 cells | cams [0, 3]
+fadescan row | RootGate (2) | tall_occluder | (16.0, 8.900001, 8.5) | 28 cells | cams [0, 3]
+fadescan row | @Node3D@4609 (16) | tall_occluder | (4.2, 2.9, 3.2) | 24 cells | cams [0, 3]
+fadescan row | Shack_74_13 (2) | tall_occluder | (7.7, 4.6, 5.5) | 20 cells | cams [0, 3]
+fadescan row | @Node3D@4697 (16) | tall_occluder | (3.2, 2.9, 4.2) | 16 cells | cams [0, 3]
+fadescan row | @Node3D@4686 (18) | tall_occluder | (3.3, 1.7, 4.2) | 14 cells | cams [0, 3]
+fadescan row | van (5) | tall_occluder | (4.5, 2.3, 5.9) | 12 cells | cams [0, 3]
+fadescan row | @Node3D@4673/debris-door | tall_occluder | (3.6, 3.8, 1.3) | 11 cells | cams [0, 3]
+fadescan row | @Node3D@4823/debris-door | tall_occluder | (4.3, 3.1, 3.9) | 11 cells | cams [0, 3]
+fadescan row | @Node3D@4584/stone_tallA | tall_occluder | (2.8, 2.6, 3.1) | 10 cells | cams [0, 3]
+fadescan row | debris-door2/debris-door | tall_occluder | (3.7, 1.9, 3.8) | 9 cells | cams [0, 3]
+fadescan row | root (5) | tall_occluder | (2.2, 2.1, 2.3) | 9 cells | cams [0, 3]
+fadescan row | @Node3D@4582/stone_tallA | tall_occluder | (2.8, 2.6, 3.1) | 8 cells | cams [0, 3]
+fadescan row | stone_tallA2/stone_tallA | tall_occluder | (2.6, 2.6, 1.8) | 8 cells | cams [0, 3]
+fadescan row | HeapZone/@MeshInstance3D@5063 | tall_occluder | (1.2, 6.0, 1.2) | 8 cells | cams [0, 3]
+fadescan row | HeapZone/@MeshInstance3D@4925 | tall_occluder | (1.2, 4.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | @Node3D@4610/Body | tall_occluder | (1.2, 4.1, 0.5) | 7 cells | cams [0, 3]
+fadescan row | debris-plate-b2/debris-plate-b | tall_occluder | (3.1, 4.1, 3.8) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@4819/debris-tire | tall_occluder | (2.5, 2.9, 2.8) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@4674/debris-plate-a | tall_occluder | (4.2, 4.2, 1.3) | 6 cells | cams [0, 3]
+fadescan row | HeapZone/@MeshInstance3D@4931 | tall_occluder | (1.2, 5.0, 1.2) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@4585/rock_tallB | tall_occluder | (2.7, 2.3, 2.7) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@4821/debris-plate-b | tall_occluder | (4.4, 2.8, 4.6) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@4820/debris-door | tall_occluder | (1.0, 3.6, 3.8) | 4 cells | cams [0, 3]
+fadescan row | RulerStatue (3) | tall_occluder | (1.7, 3.3, 0.0) | 4 cells | cams [0, 3]
+fadescan row | HeapZone/@MeshInstance3D@4928 | tall_occluder | (1.2, 5.0, 1.2) | 4 cells | cams [0, 3]
+fadescan row | rock_tallB2/rock_tallB | tall_occluder | (2.7, 2.3, 2.7) | 3 cells | cams [0, 3]
+fadescan row | @Node3D@4822/debris-tire | tall_occluder | (2.5, 3.3, 3.2) | 2 cells | cams [0, 3]
+fadescan row | debris-tire2/debris-tire | tall_occluder | (2.8, 2.6, 2.2) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@4824/debris-plate-b | tall_occluder | (2.3, 3.6, 3.6) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@4583/rock_tallB | tall_occluder | (2.0, 2.3, 2.0) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@4675/debris-tire | tall_occluder | (3.0, 2.0, 3.0) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@5037 (24) | tall_occluder | (2.3, 2.5, 0.0) | 1 cells | cams [3]
+> fadecat
+fadecat | Counter/Body | low_blocker | (7.2, 1.1, 0.9) | pieces 0
+fadecat | @Node3D@5602/SignIcon | sign | (1.1, 1.1, 0.0) | pieces 0
+fadecat | WaterCooler/Body | low_blocker | (0.5, 1.2, 0.5) | pieces 0
+fadecat | Television/Body | small_prop | (0.5, 1.6, 0.7) | pieces 0
+fadecat | Counter/Body | low_blocker | (7.2, 1.1, 0.9) | pieces 0
+fadecat | WaterCooler/Body | low_blocker | (0.5, 1.2, 0.5) | pieces 0
+fadecat | HealCouch (2) | tall_occluder | (4.8, 2.0, 2.4) | pieces 1
+fadecat | Chunk_2_5 (6) | sign | (0.5, 1.5, 0.4) | pieces 0
+fadecat | Console/Body | low_blocker | (3.1, 1.4, 0.9) | pieces 0
+fadecat | WaterCooler/Body | low_blocker | (0.5, 1.2, 0.5) | pieces 0
+fadecat | WaterCooler/Body | low_blocker | (0.5, 1.2, 0.5) | pieces 0
+fadecat | TimeClock/Body | small_prop | (0.8, 2.3, 0.6) | pieces 0
+fadecat | EntranceGate/Body | tall_occluder | (7.2, 5.9, 3.2) | pieces 1
+fadecat | StampShrine/Body | tall_occluder | (2.2, 3.0, 2.2) | pieces 1
+fadecat | StreetRow_0/Body | tall_occluder | (7.6, 23.4, 20.3) | pieces 1
+fadecat | StreetRow_1/Body | tall_occluder | (8.6, 21.2, 23.3) | pieces 1
+fadecat | StreetRow_4/Body | tall_occluder | (31.3, 24.6, 8.7) | pieces 1
+fadecat | StreetRow_5/Body | tall_occluder | (34.3, 21.8, 7.5) | pieces 1
+fadecat | DnaZone/@MeshInstance3D@5672 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
+fadecat | DnaZone/@MeshInstance3D@5679 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | DnaZone/@MeshInstance3D@5682 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | @Node3D@5699 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | DnaZone/@MeshInstance3D@5725 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
+fadecat | RulerStatue (3) | tall_occluder | (1.2, 3.3, 0.0) | pieces 1
+fadecat | RulerBanner (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+fadecat | @Node3D@5833 (8) | small_prop | (1.5, 5.0, 0.2) | pieces 0
+> fadescan scan_dna 0
+fadescan scan_dna: 7 things can fade { "tall_occluder": 7 }
+fadescan row | EntranceGate/Body | tall_occluder | (7.2, 5.9, 3.2) | 39 cells | cams [0, 3]
+fadescan row | DnaZone/@MeshInstance3D@5679 | tall_occluder | (1.2, 5.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | DnaZone/@MeshInstance3D@5725 | tall_occluder | (1.2, 6.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | RulerStatue (3) | tall_occluder | (1.2, 3.3, 0.0) | 5 cells | cams [0, 3]
+fadescan row | StampShrine/Body | tall_occluder | (2.2, 3.0, 2.2) | 5 cells | cams [0, 3]
+fadescan row | HealCouch (2) | tall_occluder | (4.8, 2.0, 2.4) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@5699 (24) | tall_occluder | (2.3, 2.5, 0.0) | 1 cells | cams [3]
+> fadecat
+fadecat | @Node3D@6080/Body | tall_occluder | (48.0, 9.0, 4.0) | pieces 1
+fadecat | @Node3D@6081/Body | tall_occluder | (48.0, 9.0, 4.0) | pieces 1
+fadecat | @Node3D@6083/Body | tall_occluder | (6.1, 21.0, 6.1) | pieces 1
+fadecat | @Node3D@6084/Body | tall_occluder | (6.1, 21.0, 6.1) | pieces 1
+fadecat | DistrictHouse_refusemancer (2) | tall_occluder | (8.2, 13.9, 5.4) | pieces 2
+fadecat | DistrictHouse_refusemancer (2) | tall_occluder | (4.5, 11.2, 5.4) | pieces 2
+fadecat | DistrictHouse_refusemancer (2) | tall_occluder | (7.1, 13.9, 5.4) | pieces 2
+fadecat | TramShed/Body | tall_occluder | (11.9, 8.900001, 7.5) | pieces 1
+fadecat | TramShed/Body | tall_occluder | (11.4, 8.900001, 5.5) | pieces 1
+fadecat | Ward_side_w/Body | tall_occluder | (1.2, 5.7, 11.3) | pieces 1
+fadecat | Ward_north/Body | tall_occluder | (28.2, 18.2, 6.3) | pieces 1
+fadecat | Ward_side_e/Body | tall_occluder | (1.2, 5.7, 11.3) | pieces 1
+fadecat | Ward_south_w/Body | tall_occluder | (12.0, 11.1, 3.0) | pieces 1
+fadecat | Ward_south_e/Body | tall_occluder | (12.0, 11.1, 3.0) | pieces 1
+fadecat | Townhouse_4 (2) | tall_occluder | (4.2, 13.9, 4.9) | pieces 2
+fadecat | Townhouse_5 (2) | tall_occluder | (4.2, 13.6, 4.9) | pieces 2
+fadecat | Townhouse_6 (2) | tall_occluder | (4.6, 14.0, 5.1) | pieces 2
+fadecat | Townhouse_7 (2) | tall_occluder | (4.2, 13.9, 4.9) | pieces 2
+fadecat | Townhouse_8 (2) | tall_occluder | (4.2, 13.9, 4.9) | pieces 2
+fadecat | Townhouse_9 (2) | tall_occluder | (4.2, 13.6, 4.9) | pieces 2
+fadecat | Townhouse_10 (2) | tall_occluder | (4.6, 14.0, 5.1) | pieces 2
+fadecat | Townhouse_11 (2) | tall_occluder | (4.2, 13.9, 4.9) | pieces 2
+fadecat | @Node3D@6102/Body | tall_occluder | (47.2, 12.2, 4.3) | pieces 1
+fadecat | @Node3D@6104/Body | tall_occluder | (46.1, 12.2, 4.3) | pieces 1
+fadecat | @Node3D@6109/Body | tall_occluder | (1.8, 9.0, 72.0) | pieces 1
+fadecat | CornerTower/Body | tall_occluder | (4.7, 16.5, 4.7) | pieces 1
+fadecat | @Node3D@6110/Body | tall_occluder | (4.7, 16.5, 4.7) | pieces 1
+fadecat | Watchtower (5) | tall_occluder | (10.3, 14.9, 7.4) | pieces 1
+fadecat | ServiceManhole/Body | low_blocker | (1.8, 1.4, 1.8) | pieces 0
+fadecat | GateArch/Body | tall_occluder | (10.4, 14.8, 4.7) | pieces 1
+fadecat | booth_(71_0, 0_0, 63_0)/Body | tall_occluder | (1.7, 3.5, 1.9) | pieces 1
+fadecat | complaint_box_(49_0, 0_0, 63_0) (2) | small_prop | (0.7, 2.1, 0.7) | pieces 0
+fadecat | portrait_(54_6, 0_0, 21_5) (4) | tall_occluder | (0.0, 3.3, 1.8) | pieces 1
+fadecat | portrait_(65_4, 0_0, 35_5) (4) | tall_occluder | (0.0, 3.3, 1.8) | pieces 1
+fadecat | portrait_(54_6, 0_0, 42_0) (4) | tall_occluder | (0.0, 3.3, 1.8) | pieces 1
+fadecat | portrait_(54_6, 0_0, 35_5) (4) | tall_occluder | (0.2, 3.3, 1.8) | pieces 1
+fadecat | portrait_(65_4, 0_0, 21_5) (4) | tall_occluder | (0.2, 3.3, 1.8) | pieces 1
+fadecat | loudspeaker_(54_6, 0_0, 28_5)/Body | tall_occluder | (0.8, 3.4, 1.6) | pieces 1
+fadecat | loudspeaker_(65_4, 0_0, 28_5)/Body | tall_occluder | (0.8, 3.4, 1.6) | pieces 1
+fadecat | loudspeaker_(65_4, 0_0, 42_0)/Body | tall_occluder | (0.8, 3.4, 1.6) | pieces 1
+fadecat | complaint_box_(65_4, 0_0, 45_5) (2) | small_prop | (0.7, 2.1, 0.7) | pieces 0
+fadecat | portrait_(45_0, 0_0, 10_5) (4) | tall_occluder | (1.8, 3.3, 0.0) | pieces 1
+fadecat | portrait_(75_0, 0_0, 11_0) (4) | tall_occluder | (1.8, 3.3, 0.0) | pieces 1
+fadecat | portrait_(53_0, 0_0, 12_4) (4) | tall_occluder | (1.8, 3.3, 0.0) | pieces 1
+fadecat | portrait_(67_0, 0_0, 12_4) (4) | tall_occluder | (1.8, 3.3, 0.2) | pieces 1
+fadecat | compost_heap_(4_5, 0_0, 40_5)/Body | small_prop | (2.4, 1.9, 2.4) | pieces 0
+fadecat | compost_heap_(31_0, 0_0, 67_5)/Body | small_prop | (2.4, 1.9, 2.4) | pieces 0
+fadecat | compost_heap_(12_5, 0_0, 69_5)/Body | small_prop | (2.4, 1.9, 2.4) | pieces 0
+fadecat | stall_shack_(30_5, 0_0, 44_5) (2) | tall_occluder | (2.1, 3.0, 2.9) | pieces 1
+fadecat | junk_pile_(32_5, 0_0, 48_5)/Body | tall_occluder | (3.8, 1.8, 3.5) | pieces 1
+fadecat | junk_pile_(25_0, 0_0, 40_5)/Body | tall_occluder | (2.7, 1.8, 3.5) | pieces 1
+fadecat | grave_(14_4, 0_0, 9_5) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 9_5)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(14_4, 0_0, 11_7)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(23_6, 0_0, 11_7) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 13_9) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 13_9) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 16_1) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 16_1)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(14_4, 0_0, 18_3)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(23_6, 0_0, 18_3) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 20_5) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 20_5) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 22_7) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 22_7)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(14_4, 0_0, 24_9)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | grave_(23_6, 0_0, 24_9) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 27_1) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 27_1) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(14_4, 0_0, 29_3) (2) | low_blocker | (0.9, 1.2, 1.0) | pieces 0
+fadecat | grave_(23_6, 0_0, 29_3)/Body | low_blocker | (0.9, 1.2, 0.9) | pieces 0
+fadecat | parlor_(32_0, 0_0, 25_0) (2) | tall_occluder | (3.0, 3.6, 3.6) | pieces 1
+fadecat | permit_office_(8_0, 0_0, 23_1) (2) | tall_occluder | (3.3, 3.5, 2.8) | pieces 1
+fadecat | notary_booth_(3_8, 0_0, 13_0)/Body | tall_occluder | (1.7, 3.5, 1.9) | pieces 1
+fadecat | Off/Body | low_blocker | (2.1, 1.0, 2.3) | pieces 0
+fadecat | energy_wheel_(88_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | pieces 2
+fadecat | Spin/Wheel | tall_occluder | (3.4, 3.4, 0.4) | pieces 1
+fadecat | energy_wheel_(100_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | pieces 2
+fadecat | Spin/Wheel | tall_occluder | (3.4, 3.4, 0.4) | pieces 1
+fadecat | energy_wheel_(112_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | pieces 2
+fadecat | Spin/Wheel | tall_occluder | (3.4, 3.4, 0.4) | pieces 1
+fadecat | crate_stack_(109_5, 0_0, 63_5)/Body | small_prop | (1.9, 1.5, 1.0) | pieces 0
+fadecat | pylon_(84_0, 0_0, 66_0)/Body | tall_occluder | (2.4, 5.5, 0.2) | pieces 1
+fadecat | pylon_(108_4, 0_0, 66_0)/Body | tall_occluder | (2.4, 5.5, 0.2) | pieces 1
+fadecat | paste_dispenser_(105_5, 0_0, 38_5) (2) | tall_occluder | (1.5, 3.9, 1.9) | pieces 1
+fadecat | kitchen_cart_(94_5, 0_0, 30_4)/Body | low_blocker | (2.4, 1.3, 1.4) | pieces 0
+fadecat | bed_(99_0, 0_0, 6_0)/Body | low_blocker | (1.1, 1.2, 2.0) | pieces 0
+fadecat | bed_(102_0, 0_0, 6_0)/Body | low_blocker | (1.1, 1.2, 2.0) | pieces 0
+fadecat | bed_(105_0, 0_0, 6_0)/Body | low_blocker | (1.1, 1.2, 2.0) | pieces 0
+fadecat | bed_(108_0, 0_0, 6_0)/Body | low_blocker | (1.1, 1.2, 2.0) | pieces 0
+fadecat | bed_(111_0, 0_0, 6_0)/Body | low_blocker | (1.1, 1.2, 2.0) | pieces 0
+fadecat | loudspeaker_(96_0, 0_0, 5_5)/Body | tall_occluder | (1.6, 3.4, 0.8) | pieces 1
+fadecat | window_booth_(103_0, 0_0, 12_2)/Body | tall_occluder | (1.9, 3.5, 1.7) | pieces 1
+fadecat | queue_post_(54_4, 0_0, 90_0)/Body | low_blocker | (0.4, 1.1, 2.1) | pieces 0
+fadecat | queue_post_(54_4, 0_0, 92_0)/Body | low_blocker | (0.4, 1.1, 2.1) | pieces 0
+fadecat | queue_post_(54_4, 0_0, 94_0)/Body | low_blocker | (0.4, 1.1, 2.1) | pieces 0
+fadecat | queue_post_(54_4, 0_0, 96_0)/Body | low_blocker | (0.4, 1.1, 2.1) | pieces 0
+fadecat | queue_post_(54_4, 0_0, 98_0)/Body | low_blocker | (0.4, 1.1, 2.1) | pieces 0
+fadecat | queue_post_(54_4, 0_0, 100_0)/Body | low_blocker | (0.4, 1.1, 0.4) | pieces 0
+fadecat | height_post_(48_5, 0_0, 76_8)/Body | small_prop | (0.5, 2.7, 0.5) | pieces 0
+fadecat | lamp_street_(54_6, 0_0, 92_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | lamp_street_(65_4, 0_0, 92_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | lamp_street_(54_6, 0_0, 102_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | lamp_street_(65_4, 0_0, 102_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | lamp_street_(54_6, 0_0, 112_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | lamp_street_(65_4, 0_0, 112_0)/Body | small_prop | (1.1, 4.0, 0.5) | pieces 0
+fadecat | crate_stack_(24_0, 0_0, 112_5)/Body | small_prop | (2.1, 1.5, 1.5) | pieces 0
+fadecat | stall_shack_(49_6, 0_0, 16_4) (2) | tall_occluder | (2.1, 3.0, 2.9) | pieces 1
+fadecat | booth_(15_5, 0_0, 95_0)/Body | tall_occluder | (2.3, 3.2, 2.2) | pieces 1
+fadecat | rift_crystals_(40_0, 0_0, 89_5)/Body | tall_occluder | (4.3, 4.2, 4.2) | pieces 1
+fadecat | rift_crystals_(21_0, 0_0, 99_0)/Body | tall_occluder | (4.3, 4.2, 4.2) | pieces 1
+fadecat | toppled_statue_(5_0, 0_0, 93_0)/Body | tall_occluder | (2.9, 2.2, 4.7) | pieces 1
+fadecat | booth_(97_0, 0_0, 112_5)/Body | tall_occluder | (2.2, 3.2, 2.3) | pieces 1
+fadecat | tunnel_arch_(40_55, 0_0, 148_0) (8) | tall_occluder | (0.1, 2.9, 2.3) | pieces 1
+fadecat | shaft_hatch_(9_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | shaft_hatch_(14_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | shaft_hatch_(19_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | shaft_hatch_(24_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | shaft_hatch_(29_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | shaft_hatch_(34_0, 0_0, 153_0) (4) | low_blocker | (0.1, 1.0, 0.1) | pieces 0
+fadecat | @Node3D@6349 (2) | small_prop | (1.0, 1.9, 0.1) | pieces 0
+fadecat | @Node3D@6366 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6367 (2) | tall_occluder | (1.1, 2.6, 0.1) | pieces 1
+fadecat | @Node3D@6368 (2) | tall_occluder | (1.1, 2.6, 0.1) | pieces 1
+fadecat | @Node3D@6369 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6370 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6371 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6372 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6373 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6374 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6375 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6376 (2) | low_blocker | (0.6, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@6377 (3) | small_prop | (1.0, 2.0, 0.1) | pieces 0
+fadecat | @Node3D@6379 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6380 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6381 (2) | low_blocker | (0.6, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@6383 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6384 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6385 (2) | low_blocker | (0.6, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@6386 (2) | small_prop | (0.8, 1.7, 0.1) | pieces 0
+fadecat | @Node3D@6387 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6388 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6389 (2) | low_blocker | (0.6, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@6390 (2) | small_prop | (1.0, 2.0, 0.1) | pieces 0
+fadecat | @Node3D@6391 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6392 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6393 (2) | low_blocker | (0.6, 1.5, 0.1) | pieces 0
+fadecat | @Node3D@6395 (2) | small_prop | (0.7, 1.6, 0.1) | pieces 0
+fadecat | @Node3D@6396 (2) | tall_occluder | (1.0, 2.5, 0.1) | pieces 1
+fadecat | @Node3D@6446 (2) | tall_occluder | (1.1, 2.6, 0.1) | pieces 1
+fadecat | @Node3D@6447 (3) | small_prop | (0.8, 1.6, 0.1) | pieces 0
+fadecat | Rift_out_a (5) | tall_occluder | (8.7, 1.9, 9.2) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (4.4, 3.9, 4.5) | pieces 1
+fadecat | Rift_out_b (5) | tall_occluder | (8.8, 1.6, 9.0) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (3.2, 3.0, 3.9) | pieces 1
+fadecat | Rift_reek (5) | tall_occluder | (8.6, 1.7, 8.8) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (4.2, 3.6, 4.3) | pieces 1
+fadecat | Rift_grave (5) | low_blocker | (7.6, 1.3, 7.3) | pieces 0
+fadecat | Orbit/Shards | tall_occluder | (3.2, 3.2, 3.7) | pieces 1
+fadecat | Rift_transit (5) | tall_occluder | (10.0, 2.6, 9.900001) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (6.3, 5.5, 6.9) | pieces 1
+fadecat | Rift_hungry (5) | tall_occluder | (8.7, 1.7, 8.7) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (3.6, 3.3, 3.7) | pieces 1
+fadecat | Rift_approach_w (5) | tall_occluder | (12.2, 2.0, 11.4) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (4.5, 3.7, 5.0) | pieces 1
+fadecat | Rift_approach_e (5) | tall_occluder | (7.5, 1.8, 8.0) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (4.2, 2.9, 4.1) | pieces 1
+fadecat | Rift_ward (5) | tall_occluder | (8.6, 1.7, 8.400001) | pieces 3
+fadecat | Orbit/Shards | tall_occluder | (4.7, 3.4, 4.7) | pieces 1
+fadecat | CapitalZone/@MeshInstance3D@6563 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
+fadecat | CapitalZone/@MeshInstance3D@6568 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | CapitalZone/@MeshInstance3D@6697 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
+fadecat | @Node3D@6700 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
+fadecat | @Node3D@6730 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6742 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6766 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6778 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6802 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6806 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6822 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@6838 (3) | small_prop | (1.6, 1.6, 1.6) | pieces 0
+fadecat | @Node3D@7082/Body | tall_occluder | (2.6, 1.8, 4.5) | pieces 1
+fadecat | @Node3D@7083/Body | tall_occluder | (3.8, 2.4, 2.5) | pieces 1
+fadecat | @Node3D@7087/Body | tall_occluder | (5.0, 2.1, 2.9) | pieces 1
+fadecat | @Node3D@7092/Body | tall_occluder | (2.7, 2.7, 5.2) | pieces 1
+fadecat | @Node3D@7099/Body | tall_occluder | (4.6, 1.6, 2.5) | pieces 1
+fadecat | @Node3D@7103/Body | tall_occluder | (4.4, 2.5, 2.4) | pieces 1
+fadecat | @Node3D@7108/Body | tall_occluder | (4.4, 1.6, 2.5) | pieces 1
+fadecat | @Node3D@7113/Body | tall_occluder | (2.2, 2.2, 4.3) | pieces 1
+fadecat | @Node3D@7118/Body | tall_occluder | (3.5, 1.8, 2.4) | pieces 1
+fadecat | @Node3D@7123/Body | tall_occluder | (3.6, 1.8, 2.7) | pieces 1
+fadecat | @Node3D@7128/Body | tall_occluder | (5.4, 1.5, 2.8) | pieces 1
+> fadescan scan_capital 0
+fadescan scan_capital: 74 things can fade { "tall_occluder": 74 }
+fadescan row | DistrictHouse_refusemancer (2) | tall_occluder | (8.1, 12.9, 4.3) | 376 cells | cams [0, 3]
+fadescan row | @Node3D@6080/Body | tall_occluder | (48.0, 9.0, 4.0) | 294 cells | cams [0, 3]
+fadescan row | @Node3D@6081/Body | tall_occluder | (48.0, 9.0, 4.0) | 280 cells | cams [0, 3]
+fadescan row | TramShed/Body | tall_occluder | (11.4, 8.900001, 5.5) | 196 cells | cams [0, 3]
+fadescan row | Orbit/Shards | tall_occluder | (3.8, 3.6, 3.6) | 183 cells | cams [0, 3]
+fadescan row | Rift_approach_w (5) | tall_occluder | (12.2, 2.0, 11.4) | 174 cells | cams [0, 3]
+fadescan row | Rift_transit (5) | tall_occluder | (10.0, 2.6, 9.900001) | 168 cells | cams [0, 3]
+fadescan row | Rift_out_a (5) | tall_occluder | (8.7, 1.9, 9.2) | 144 cells | cams [0, 3]
+fadescan row | Rift_hungry (5) | tall_occluder | (8.7, 1.7, 8.7) | 132 cells | cams [0, 3]
+fadescan row | Watchtower (5) | tall_occluder | (10.3, 14.9, 7.4) | 129 cells | cams [0, 3]
+fadescan row | Rift_approach_e (5) | tall_occluder | (7.5, 1.8, 8.0) | 120 cells | cams [0, 3]
+fadescan row | Rift_ward (5) | tall_occluder | (8.6, 1.7, 8.400001) | 120 cells | cams [0, 3]
+fadescan row | Rift_out_b (5) | tall_occluder | (8.8, 1.6, 9.0) | 114 cells | cams [0, 3]
+fadescan row | Rift_reek (5) | tall_occluder | (8.6, 1.7, 8.8) | 105 cells | cams [0, 3]
+fadescan row | GateArch/Body | tall_occluder | (10.4, 14.8, 4.7) | 90 cells | cams [0, 3]
+fadescan row | Ward_south_w/Body | tall_occluder | (12.0, 11.1, 3.0) | 88 cells | cams [0, 3]
+fadescan row | Ward_south_e/Body | tall_occluder | (12.0, 11.1, 3.0) | 84 cells | cams [0, 3]
+fadescan row | @Node3D@6084/Body | tall_occluder | (6.1, 21.0, 6.1) | 70 cells | cams [0, 3]
+fadescan row | Townhouse_9 (2) | tall_occluder | (4.1, 12.5, 4.8) | 56 cells | cams [0, 3]
+fadescan row | Townhouse_6 (2) | tall_occluder | (4.4, 12.8, 5.0) | 56 cells | cams [0, 3]
+fadescan row | Ward_north/Body | tall_occluder | (28.2, 18.2, 6.3) | 54 cells | cams [0, 3]
+fadescan row | Townhouse_10 (2) | tall_occluder | (4.4, 12.8, 5.0) | 54 cells | cams [0, 3]
+fadescan row | @Node3D@6083/Body | tall_occluder | (6.1, 21.0, 6.1) | 46 cells | cams [0, 3]
+fadescan row | @Node3D@6104/Body | tall_occluder | (46.1, 12.2, 4.3) | 44 cells | cams [0, 3]
+fadescan row | Townhouse_8 (2) | tall_occluder | (4.1, 12.9, 4.8) | 44 cells | cams [0, 3]
+fadescan row | @Node3D@6102/Body | tall_occluder | (47.2, 12.2, 4.3) | 38 cells | cams [0, 3]
+fadescan row | Townhouse_11 (2) | tall_occluder | (4.1, 12.9, 4.8) | 36 cells | cams [0, 3]
+fadescan row | Spin/Wheel | tall_occluder | (4.1, 4.1, 0.4) | 32 cells | cams [0, 3]
+fadescan row | Townhouse_5 (2) | tall_occluder | (4.1, 12.5, 4.8) | 32 cells | cams [0, 3]
+fadescan row | CornerTower/Body | tall_occluder | (4.7, 16.5, 4.7) | 26 cells | cams [0, 3]
+fadescan row | Townhouse_4 (2) | tall_occluder | (4.1, 12.9, 4.8) | 24 cells | cams [0, 3]
+fadescan row | Townhouse_7 (2) | tall_occluder | (4.1, 12.9, 4.8) | 24 cells | cams [0, 3]
+fadescan row | rift_crystals_(21_0, 0_0, 99_0)/Body | tall_occluder | (4.3, 4.2, 4.2) | 16 cells | cams [0, 3]
+fadescan row | rift_crystals_(40_0, 0_0, 89_5)/Body | tall_occluder | (4.3, 4.2, 4.2) | 14 cells | cams [0, 3]
+fadescan row | @Node3D@7092/Body | tall_occluder | (2.7, 2.7, 5.2) | 14 cells | cams [0, 3]
+fadescan row | parlor_(32_0, 0_0, 25_0) (2) | tall_occluder | (3.0, 3.6, 3.6) | 12 cells | cams [0, 3]
+fadescan row | junk_pile_(32_5, 0_0, 48_5)/Body | tall_occluder | (3.8, 1.8, 3.5) | 12 cells | cams [0, 3]
+fadescan row | energy_wheel_(112_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | 12 cells | cams [0, 3]
+fadescan row | permit_office_(8_0, 0_0, 23_1) (2) | tall_occluder | (3.3, 3.5, 2.8) | 12 cells | cams [0, 3]
+fadescan row | energy_wheel_(88_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | 12 cells | cams [0, 3]
+fadescan row | energy_wheel_(100_0, 0_0, 67_0) (3) | tall_occluder | (3.4, 2.0, 1.2) | 12 cells | cams [0, 3]
+fadescan row | @Node3D@7087/Body | tall_occluder | (5.0, 2.1, 2.9) | 11 cells | cams [0, 3]
+fadescan row | booth_(15_5, 0_0, 95_0)/Body | tall_occluder | (2.3, 3.2, 2.2) | 10 cells | cams [0, 3]
+fadescan row | pylon_(84_0, 0_0, 66_0)/Body | tall_occluder | (2.4, 5.5, 0.2) | 10 cells | cams [0, 3]
+fadescan row | pylon_(108_4, 0_0, 66_0)/Body | tall_occluder | (2.4, 5.5, 0.2) | 9 cells | cams [0, 3]
+fadescan row | toppled_statue_(5_0, 0_0, 93_0)/Body | tall_occluder | (2.9, 2.2, 4.7) | 8 cells | cams [0, 3]
+fadescan row | stall_shack_(49_6, 0_0, 16_4) (2) | tall_occluder | (2.1, 3.0, 2.9) | 8 cells | cams [0, 3]
+fadescan row | window_booth_(103_0, 0_0, 12_2)/Body | tall_occluder | (1.9, 3.5, 1.7) | 7 cells | cams [0, 3]
+fadescan row | portrait_(54_6, 0_0, 21_5) (4) | tall_occluder | (0.0, 3.3, 1.8) | 7 cells | cams [0, 3]
+fadescan row | CapitalZone/@MeshInstance3D@6563 | tall_occluder | (1.2, 4.0, 1.2) | 7 cells | cams [0, 3]
+fadescan row | @Node3D@6110/Body | tall_occluder | (4.7, 16.5, 4.7) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@7113/Body | tall_occluder | (2.2, 2.2, 4.3) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@7082/Body | tall_occluder | (2.6, 1.8, 4.5) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@7083/Body | tall_occluder | (3.8, 2.4, 2.5) | 6 cells | cams [0, 3]
+fadescan row | @Node3D@7103/Body | tall_occluder | (4.4, 2.5, 2.4) | 6 cells | cams [0, 3]
+fadescan row | booth_(71_0, 0_0, 63_0)/Body | tall_occluder | (1.7, 3.5, 1.9) | 5 cells | cams [0, 3]
+fadescan row | portrait_(54_6, 0_0, 35_5) (4) | tall_occluder | (0.2, 3.3, 1.8) | 5 cells | cams [0, 3]
+fadescan row | notary_booth_(3_8, 0_0, 13_0)/Body | tall_occluder | (1.7, 3.5, 1.9) | 5 cells | cams [0, 3]
+fadescan row | booth_(97_0, 0_0, 112_5)/Body | tall_occluder | (2.2, 3.2, 2.3) | 5 cells | cams [0, 3]
+fadescan row | stall_shack_(30_5, 0_0, 44_5) (2) | tall_occluder | (2.1, 3.0, 2.9) | 5 cells | cams [0, 3]
+fadescan row | @Node3D@6368 (2) | tall_occluder | (1.1, 2.6, 0.1) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@7099/Body | tall_occluder | (4.6, 1.6, 2.5) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@6367 (2) | tall_occluder | (1.1, 2.6, 0.1) | 4 cells | cams [0, 3]
+fadescan row | @Node3D@7118/Body | tall_occluder | (3.5, 1.8, 2.4) | 4 cells | cams [0, 3]
+fadescan row | loudspeaker_(96_0, 0_0, 5_5)/Body | tall_occluder | (1.6, 3.4, 0.8) | 4 cells | cams [0, 3]
+fadescan row | junk_pile_(25_0, 0_0, 40_5)/Body | tall_occluder | (2.7, 1.8, 3.5) | 3 cells | cams [0, 3]
+fadescan row | portrait_(75_0, 0_0, 11_0) (4) | tall_occluder | (1.8, 3.3, 0.0) | 3 cells | cams [0, 3]
+fadescan row | portrait_(45_0, 0_0, 10_5) (4) | tall_occluder | (1.8, 3.3, 0.0) | 3 cells | cams [0, 3]
+fadescan row | portrait_(54_6, 0_0, 42_0) (4) | tall_occluder | (0.0, 3.3, 1.8) | 3 cells | cams [0, 3]
+fadescan row | loudspeaker_(54_6, 0_0, 28_5)/Body | tall_occluder | (0.8, 3.4, 1.6) | 3 cells | cams [0, 3]
+fadescan row | Ward_side_w/Body | tall_occluder | (1.2, 5.7, 11.3) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@6446 (2) | tall_occluder | (1.1, 2.6, 0.1) | 2 cells | cams [0, 3]
+fadescan row | CapitalZone/@MeshInstance3D@6697 | tall_occluder | (1.2, 5.0, 1.2) | 2 cells | cams [0, 3]
+fadescan row | @Node3D@6700 (24) | tall_occluder | (2.3, 2.5, 0.0) | 1 cells | cams [3]

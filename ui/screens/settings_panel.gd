@@ -167,7 +167,7 @@ func _build_display() -> void:
 	# Fable Nov 20 (Part 1.2): the camera test options stay available so the playtesters can choose (every place).
 	var tilt_options: OptionButton = _options(CameraRig.TILT_NAMES, Settings.camera_tilt, _on_camera_tilt)
 	tilt_options.name = "CameraTiltOptions"
-	_body.add_child(_row("Camera angle (how far it looks down)", tilt_options))
+	_body.add_child(_row("Camera angle: how far it looks down (V cycles the five)", tilt_options))
 	var distance_options: OptionButton = _options(CameraRig.DISTANCE_NAMES, Settings.camera_distance, _on_camera_distance)
 	distance_options.name = "CameraDistanceOptions"
 	_body.add_child(_row("Camera distance", distance_options))

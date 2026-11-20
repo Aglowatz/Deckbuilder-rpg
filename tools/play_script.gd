@@ -201,6 +201,11 @@ func _run_line(line: String) -> void:
 			# `cam N`: the Settings camera angle (0 Cinematic, the default; 3 Low), never saved in a play run
 			Settings.set_camera_angle(int(rest))
 			await driver.seconds(0.6)
+		"tilt":
+			# Fable Nov 21 (Part 6): `tilt N` - the look-down preset (0 = +6, the default ... 4 = +14), never saved in a play run
+			Settings.set_camera_tilt(int(rest))
+			_say("  tilt: %s" % CameraRig.tilt_toast(Settings.camera_tilt))
+			await driver.seconds(0.6)
 		"calm":
 			# `calm`: the zone's roamers leave the hero alone for ten minutes (shots near a road guard)
 			var zone_now: Node = get_tree().current_scene

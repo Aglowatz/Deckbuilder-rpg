@@ -1,0 +1,63 @@
+# Fable Nov 21, Part 6: the five camera presets (+6 to +14) in Crosspath, the D.N.A. and the Buffet
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev travel town
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+tilt 0
+fadeshot p6_cam_crosspath_1_plus6 25 17
+tilt 1
+fadeshot p6_cam_crosspath_2_plus8 25 17
+tilt 2
+fadeshot p6_cam_crosspath_3_plus10 25 17
+tilt 3
+fadeshot p6_cam_crosspath_4_plus12 25 17
+tilt 4
+fadeshot p6_cam_crosspath_5_plus14 25 17
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+tilt 0
+fadeshot p6_cam_dna_1_plus6 45.5 52
+tilt 1
+fadeshot p6_cam_dna_2_plus8 45.5 52
+tilt 2
+fadeshot p6_cam_dna_3_plus10 45.5 52
+tilt 3
+fadeshot p6_cam_dna_4_plus12 45.5 52
+tilt 4
+fadeshot p6_cam_dna_5_plus14 45.5 52
+dev travel zone gourmand
+wait 20
+skip_dialogue
+hud off
+calm
+wait 3
+cam 0
+tilt 0
+fadeshot p6_cam_buffet_1_plus6 46.5 50.5
+tilt 1
+fadeshot p6_cam_buffet_2_plus8 46.5 50.5
+tilt 2
+fadeshot p6_cam_buffet_3_plus10 46.5 50.5
+tilt 3
+fadeshot p6_cam_buffet_4_plus12 46.5 50.5
+tilt 4
+fadeshot p6_cam_buffet_5_plus14 46.5 50.5
+tilt 1
+hud on
+wait 1
+key V
+wait 0.6
+shot p6_cam_v_toast

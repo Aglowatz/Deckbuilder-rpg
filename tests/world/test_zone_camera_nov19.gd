@@ -20,19 +20,20 @@ func after_each() -> void:
 	ZoneCamera.clear()
 
 
-func test_every_place_is_listed_at_plus_four() -> void:
+## Fable Nov 21 (Part 6): +6 everywhere (it was +4).
+func test_every_place_is_listed_at_plus_six() -> void:
 	ZoneCamera.reload()
 	for place: String in ["crosspath", "forest", "beefcake", "gourmand", "refusemancer", "necrocrat", "final", "crease"]:
 		assert_true(ZoneCamera.places().has(place), place)
 		assert_almost_eq(ZoneCamera.distance(place), 1.0, 0.001, "%s: the distance is unchanged" % place)
-		assert_almost_eq(ZoneCamera.pitch_bonus(place), 4.0, 0.001, "%s: +4 degrees" % place)
+		assert_almost_eq(ZoneCamera.pitch_bonus(place), 6.0, 0.001, "%s: +6 degrees" % place)
 	assert_almost_eq(ZoneCamera.pitch_bonus("somewhere else"), 0.0, 0.001)
 	assert_almost_eq(ZoneCamera.distance("somewhere else"), 1.0, 0.001)
 
 
 func test_apply_sets_the_rig_and_clear_puts_it_back() -> void:
 	ZoneCamera.apply("necrocrat")
-	assert_almost_eq(CameraRig.zone_pitch_bonus, 4.0, 0.001)
+	assert_almost_eq(CameraRig.zone_pitch_bonus, 6.0, 0.001)
 	assert_almost_eq(CameraRig.zone_distance, 1.0, 0.001)
 	assert_eq(ZoneCamera.current, "necrocrat")
 	ZoneCamera.clear()
@@ -51,25 +52,25 @@ func test_the_distance_moves_the_camera_in_and_out() -> void:
 
 func test_an_eased_change_glides() -> void:
 	ZoneCamera.apply("final")
-	CameraRig.zone_pitch_target = 6.0
+	CameraRig.zone_pitch_target = 10.0
 	CameraRig.tick(0.1)
-	assert_between(CameraRig.zone_pitch_bonus, 0.1, 5.9, "on its way, not there at once")
+	assert_between(CameraRig.zone_pitch_bonus, 6.1, 9.9, "on its way, not there at once")
 	for _step: int in range(40):
 		CameraRig.tick(0.1)
-	assert_almost_eq(CameraRig.zone_pitch_bonus, 6.0, 0.001)
+	assert_almost_eq(CameraRig.zone_pitch_bonus, 10.0, 0.001)
 
 
 func _pitch_of(offset: Vector3) -> float:
 	return rad_to_deg(atan2(offset.y, Vector2(offset.x, offset.z).length()))
 
 
-func test_a_new_player_starts_on_plus_four_and_default_distance() -> void:
+func test_a_new_player_starts_on_plus_six_and_default_distance() -> void:
 	var fresh: Node = (load("res://app/settings.gd") as GDScript).new() as Node
 	assert_eq(int(fresh.get("camera_tilt")), CameraRig.TILT_DEFAULT)
 	assert_eq(int(fresh.get("camera_distance")), CameraRig.DISTANCE_DEFAULT)
 	fresh.free()
-	assert_eq(CameraRig.TILT_NAMES[CameraRig.TILT_DEFAULT], "+4 (default)")
-	assert_eq(CameraRig.TILT_NAMES.size(), 4)
+	assert_eq(CameraRig.TILT_NAMES[CameraRig.TILT_DEFAULT], "+6 (default)")
+	assert_eq(CameraRig.TILT_NAMES.size(), 5, "five presets since Nov 21")
 	assert_eq(CameraRig.DISTANCE_NAMES, ["Closer", "Default", "Further"] as Array[String])
 
 
@@ -81,7 +82,7 @@ func test_the_players_tilt_choice_applies_in_every_place() -> void:
 		for choice: int in range(1, CameraRig.TILT_NAMES.size()):
 			Settings.camera_tilt = choice
 			var pitch: float = _pitch_of(CameraRig.shape(WorldLookRig.base_offset()))
-			assert_almost_eq(pitch - standard, CameraRig.TILT_DEGREES[choice], 0.05, "%s at %s" % [place, CameraRig.TILT_NAMES[choice]])
+			assert_almost_eq(pitch - standard, CameraRig.TILT_DEGREES[choice] - CameraRig.TILT_DEGREES[0], 0.05, "%s at %s" % [place, CameraRig.TILT_NAMES[choice]])
 	ZoneCamera.clear()
 	Settings.camera_tilt = 3
 	assert_almost_eq(CameraRig.pitch_bonus(), 0.0, 0.001, "nothing is added outside a place")
@@ -106,5 +107,5 @@ func test_settings_offers_both_choices() -> void:
 		pending("the Display tab is built on demand")
 		return
 	assert_eq(found.size(), 2, "Camera angle and Camera distance are in Settings")
-	assert_eq((found[0] as OptionButton).item_count, 4)
+	assert_eq((found[0] as OptionButton).item_count, 5, "five look-down presets since Nov 21")
 	assert_eq((found[1] as OptionButton).item_count, 3)
