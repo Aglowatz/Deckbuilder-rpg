@@ -23,7 +23,9 @@ func test_the_page_has_a_stage_two_grids_and_the_dyes_at_the_bottom() -> void:
 	var dyes: Control = screen.find_child("DyesPanel", true, false) as Control
 	var cloaks: Control = screen.find_child("CloaksPanel", true, false) as Control
 	assert_gt(dyes.position.y, cloaks.position.y, "the dyes sit below the cloaks, at the bottom")
-	assert_not_null(screen.find_child("HeroPreview", true, false), "the hero on the stage")
+	# Fable Nov 21 (Part 5.3): the stage shows one item by itself (the turning hero is gone)
+	assert_null(screen.find_child("HeroPreview", true, false), "no hero on the stage any more")
+	assert_not_null(screen.find_child("ItemPreview", true, false), "the item by itself")
 	assert_not_null(screen.find_child("Tile_hat_none", true, false), "a No hat tile")
 	assert_not_null(screen.find_child("Tile_cloak_none", true, false), "the Plain Cloak tile")
 

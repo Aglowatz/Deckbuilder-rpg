@@ -224,9 +224,10 @@ func _refresh() -> void:
 		if strip != null:
 			strip.visible = shown > 0
 	_header_count.text = "%d unopened  ·  Foil Fenwick sells more on the square" % total
-	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more plain packs, "Open all" opens them in one go with one summary;
-	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.
-	var plain: int = plain_pack_count()
+	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more packs, "Open all" opens them in one go with one summary.
+	# Fable Nov 21 (Part 5.4, the owner): the gilded packs are opened by it too (they used to be left on the shelf for their own ceremony;
+	# a single Open on the shelf still gives one its ceremony).
+	var plain: int = all_pack_count()
 	if plain >= 2:
 		var all_button: FancyButton = FancyButton.make("Open all (%d packs)" % plain, &"PrimaryButton", Vector2(320, 56))
 		all_button.name = "OpenAll"
@@ -236,12 +237,11 @@ func _refresh() -> void:
 			last_openings = openings
 			_show_open_all(openings))
 		_action_row.add_child(all_button)
-		# Fix pass Nov 7 (item 8, C3 F4): say what Open all leaves out.
 		if gilded_pack_count() > 0:
-			var skipped: Label = UIKit.label("Gilded packs (%d, a sure Epic or Legendary) open one at a time on the shelf." % gilded_pack_count(), &"MutedLabel", 20)
-			skipped.name = "OpenAllSkips"
-			skipped.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			_action_row.add_child(skipped)
+			var included: Label = UIKit.label("Gilded packs included (%d, each a sure Epic or Legendary)." % gilded_pack_count(), &"MutedLabel", 20)
+			included.name = "OpenAllIncludes"
+			included.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			_action_row.add_child(included)
 	else:
 		var hint: Label = UIKit.label("Open a pack from the shelf: its cards join your collection at once." if shown > 0 else "Packs come from dungeons, quests, chests and Foil Fenwick's stall.", &"MutedLabel", 22)
 		hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -378,12 +378,16 @@ static func gilded_pack_count() -> int:
 	return total
 
 
-## Opens every plain pack in the inventory (cards join the collection as with one pack at a time) and returns the openings.
+## Every unopened pack, plain and gilded.
+static func all_pack_count() -> int:
+	return plain_pack_count() + gilded_pack_count()
+
+
+## Opens every pack in the inventory, the gilded ones too since Fable Nov 21 (cards join the collection as with one pack at a time)
+## and returns the openings.
 static func open_all() -> Array[PackOpening]:
 	var openings: Array[PackOpening] = []
 	for pack: PackData in PackCatalog.all():
-		if pack.guarantee_epic_or_legendary:
-			continue
 		while Session.profile.pack_count(pack.id) > 0:
 			var opening: PackOpening = Session.open_pack(pack.id)
 			if opening == null:

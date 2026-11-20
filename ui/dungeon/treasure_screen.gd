@@ -56,6 +56,11 @@ func _on_button() -> void:
 	for entry: Array in loot_rows(granted):
 		var row: HFlowContainer = card.effect([[str(entry[0]), str(entry[1])]])
 		row.name = "Loot"
+		# Fable Nov 21 (Part 5.5): hover an item, a card or a piece of gear in the list for its full info
+		var thing: Variant = RewardLookup.find(Session.content, str(entry[1]).get_slice(": ", 1)) if str(entry[1]).contains(": ") else null
+		if thing != null:
+			row.set_meta(&"full_info", RewardLookup.full_info(thing))
+			HoverTip.attach(row, RewardLookup.name_of(thing), RewardLookup.full_info(thing), UIStyle.GOLD)
 	if granted.has("gold"):
 		Audio.sfx(&"coins")
 	_button.text = "Continue"

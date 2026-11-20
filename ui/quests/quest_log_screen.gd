@@ -6,6 +6,10 @@ extends OverlayScreen
 
 enum Tab { MAIN, SIDE, COMPLETED }
 ## Import Nov 8: room kept clear at the right end of the tab row for the painted quill (UI-BG-QUESTLOG).
+## Fable Nov 21 (Part 5.8): the same contrast fix the quest box got on Nov 19. Steps still to come and the unknown-steps line were
+## parchment at 40 to 60 % on dark wood (small grey text); they are near-solid now, as in `QuestTracker` (0.82 / 0.78).
+const LATER_STEP_ALPHA: float = 0.82
+const UNKNOWN_STEP_ALPHA: float = 0.78
 const QUILL_GAP: float = 230.0
 const TAB_NAMES: Array[String] = ["Main", "Side", "Completed"]
 
@@ -236,13 +240,13 @@ func _show_detail(state: UnlockState) -> void:
 		if done:
 			row.add_child(IconArt.rect("ICON-CHECK", 26.0))
 		else:
-			var mark: Label = UIKit.label("»" if is_current else "○", &"", 22, UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, 0.5))
+			var mark: Label = UIKit.label("»" if is_current else "○", &"", 22, UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, LATER_STEP_ALPHA))
 			mark.custom_minimum_size = Vector2(26, 0)
 			row.add_child(mark)
 		var text: String = objective.text
 		if progress.y > 1:
 			text += "   %d/%d" % [progress.y if done_quest else progress.x, progress.y]
-		var color: Color = UIStyle.GOOD if done else (UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, 0.6))
+		var color: Color = UIStyle.GOOD if done else (UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, LATER_STEP_ALPHA))
 		var line: Label = UIKit.label(text, &"", 22, color)
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.custom_minimum_size = Vector2(560, 0)
@@ -254,10 +258,13 @@ func _show_detail(state: UnlockState) -> void:
 		_detail.add_child(row)
 	if qlog.hidden_steps(quest, state) > 0:
 		var hidden_row: HBoxContainer = UIKit.hbox(8)
-		var hidden_mark: Label = UIKit.label("○", &"", 22, Color(UIStyle.PARCHMENT, 0.4))
+		var hidden_mark: Label = UIKit.label("○", &"", 22, Color(UIStyle.PARCHMENT, UNKNOWN_STEP_ALPHA))
 		hidden_mark.custom_minimum_size = Vector2(26, 0)
 		hidden_row.add_child(hidden_mark)
-		hidden_row.add_child(UIKit.label(QuestLog.HIDDEN_STEPS_TEXT, &"", 22, Color(UIStyle.PARCHMENT, 0.45)))
+		var hidden_text: Label = UIKit.label(QuestLog.HIDDEN_STEPS_TEXT, &"", 22, Color(UIStyle.PARCHMENT, UNKNOWN_STEP_ALPHA))
+		hidden_text.name = "HiddenStepsText"
+		hidden_text.add_theme_font_override("font", UIStyle.font_italic())  # told apart by its slant, not by fading it
+		hidden_row.add_child(hidden_text)
 		hidden_row.name = "HiddenSteps"
 		_detail.add_child(hidden_row)
 	if not done_quest:

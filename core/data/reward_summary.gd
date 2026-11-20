@@ -7,6 +7,8 @@ extends RefCounted
 enum Kind { CHEST, QUEST, QUEST_STEP }
 
 var kind: Kind = Kind.CHEST
+## Fable Nov 21 (Part 5.5): the box's own header for a reward that is neither a chest nor a quest ("REWARD", "A GIFT"); "" = by kind.
+var header: String = ""
 ## The quest's name, or the chest's label ("Hidden chest").
 var title: String = ""
 ## A line under the header ("You found a hidden chest!").

@@ -237,6 +237,7 @@ func set_status(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 func face(card: CardData, card_scale: float) -> Control:
 	var view: Control = CardView.wrapped(card, card_scale)
 	view.name = "Face"
+	CardHoverZoom.watch(view)  # Fable Nov 21 (Part 5.6): every face-up card of a card game grows under the pointer (never while dragging)
 	return view
 
 

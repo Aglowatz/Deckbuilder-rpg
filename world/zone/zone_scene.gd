@@ -755,7 +755,8 @@ func _open_reward_chest(spot: ZoneSpot) -> void:
 	ChestKit.open_animated(reward_chest_node)
 	var piece: EquipmentData = Session.content.equipment_piece(def.puzzle_equipment_id)
 	if piece != null and Session.grant_equipment(piece):
-		hud.toast("%s joins your gear." % piece.source_name, UIStyle.GOLD)
+		# Fable Nov 21 (Part 5.5): the reward box, which waits for a click (it was a line that faded: the Head Chef's Ladle "only flashed")
+		Session.queue_reward_box(spot.title, "The chest holds a piece of gear.", 0, 0, [piece.id] as Array[String], "NEW GEAR!")
 	else:
 		hud.toast("The chest is empty.", UIStyle.PARCHMENT)
 	spot.prompt = "Look in the chest"
@@ -1703,7 +1704,7 @@ func _open_puzzle(spot: ZoneSpot) -> void:
 		Session.set_flag(def.flag_puzzle_solved)
 		var piece: EquipmentData = Session.content.equipment_piece(def.puzzle_equipment_id)
 		if piece != null and Session.grant_equipment(piece):
-			hud.toast("Puzzle solved! %s joins your gear." % piece.source_name, UIStyle.GOLD)
+			Session.queue_reward_box("Puzzle solved!", "Your prize:", 0, 0, [piece.id] as Array[String], "NEW GEAR!")  # Fable Nov 21 (Part 5.5)
 		Session.refresh_quests()
 		Session.save_game())
 

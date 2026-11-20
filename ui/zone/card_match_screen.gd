@@ -191,6 +191,7 @@ func _refresh() -> void:
 		if up and card_at(index) != null:
 			var view: Control = CardView.wrapped(card_at(index), CARD_SCALE)
 			view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			CardHoverZoom.watch(view)  # Fable Nov 21 (Part 5.6): a turned-up card grows under the pointer
 			if game.matched[index]:
 				view.modulate = Color(1.0, 0.95, 0.75)
 			slot.add_child(view)

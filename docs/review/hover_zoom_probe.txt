@@ -1,0 +1,26 @@
+# Hover-zoom probe (Fable Nov 21, Part 5.6): every script that shows a card, and how its cards grow under the pointer.
+# Written by tests/ui/test_card_hover_zoom_probe_nov21.gd.
+
+OK   | ui/battle/battle_board.gd | exempt: the battle board: BattleScreen shows the hovered card large in the HUD (BattleHud.show_preview)
+OK   | ui/battle/battle_hud.gd | exempt: it IS the battle's large preview card
+OK   | ui/battle/choice_panel.gd | grows in place (a card that ignores the mouse)
+OK   | ui/battle/peek_panel.gd | grows in place (mouse and focus)
+OK   | ui/battle/refuse_pile_viewer.gd | the screen's own large card
+OK   | ui/battle/refuse_pile_widget.gd | grows in place (a card that ignores the mouse)
+OK   | ui/card/card_gallery.gd | exempt: a developer scene (card frames side by side), not in the game
+OK   | ui/card/hover_preview.gd | exempt: it IS the large preview
+OK   | ui/dungeon/challenge_screen.gd | grows in place (mouse and focus)
+OK   | ui/dungeon/element_choice_screen.gd | grows in place (mouse and focus)
+OK   | ui/dungeon/rewards_screen.gd | grows in place (mouse and focus)
+OK   | ui/packs/pack_opening_screen.gd | grows in place (mouse and focus)
+OK   | ui/screens/reward_popup.gd | grows in place (mouse and focus)
+OK   | ui/town/alchemist_screen.gd | grows in place (mouse and focus)
+OK   | ui/town/codex_screen.gd | the large preview beside it (HoverPreview)
+OK   | ui/town/deckbuilder_screen.gd | grows in place (a card that ignores the mouse)
+OK   | ui/town/packs_screen.gd | the large preview beside it (HoverPreview)
+OK   | ui/town/vendor_screen.gd | the large preview beside it (HoverPreview)
+OK   | ui/ui_art_warmup.gd | exempt: the loading warm-up: cards drawn off screen once
+OK   | ui/zone/card_games/card_game_screen.gd | grows in place (a card that ignores the mouse)
+OK   | ui/zone/card_match_screen.gd | grows in place (a card that ignores the mouse)
+
+21 scripts, 0 without a hover zoom

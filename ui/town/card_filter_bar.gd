@@ -4,6 +4,8 @@ extends VBoxContainer
 ## Overnight Oct 30-31, Part 7: rarity, and "New" (cards that joined the collection since the station was last closed) when `show_extra`.
 
 signal changed
+## Fable Nov 21 (Part 5.1): the player tried to switch on one Path more than the deck may walk (`max_paths`); the screen shows a pop-up.
+signal path_refused(limit: int)
 
 const COST_LABELS: Array[String] = ["Any cost", "0-1", "2", "3", "4+"]
 const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder", "Tool"]
@@ -18,12 +20,34 @@ var rarity_filter: int = -1
 var new_filter: int = 0
 ## The Deck Station sets it before the bar enters the tree (the dungeon deck editor keeps the three rows).
 var show_extra: bool = false
+## Fable Nov 21 (Part 5.1, the Deck Station): the Path row is a set of TOGGLES instead of one choice. Up to `max_paths` Paths may be on
+## at once (as many as the deck may walk). None on = every card. With one or more on, only the cards a deck of exactly those Paths
+## could hold are shown: every Path of the card must be switched on. Pathless cards show only while the Pathless toggle is on.
+var multi_path: bool = false
+var max_paths: int = 4
+var selected_paths: Array[int] = []
+var pathless_selected: bool = false
+## Fable Nov 21 (Part 5.2): a search box (names, card text, keywords such as Reinstate, Swat, Hustle, Toxic; also the type and the Path).
+var show_search: bool = false
+var search_text: String = ""
+var search_box: LineEdit
 var _groups: Array[Array] = [[], [], [], [], []]
 
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 6)
-	var affinities: Array[Dictionary] = [{"label": "All colors", "value": -1}]
+	if show_search:
+		search_box = LineEdit.new()
+		search_box.name = "SearchBox"
+		search_box.placeholder_text = "Search: a name, card text or a keyword (Hustle, Swat, Toxic, Reinstate...)"
+		search_box.clear_button_enabled = true
+		search_box.custom_minimum_size = Vector2(560, 40)
+		search_box.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		search_box.add_theme_font_size_override("font_size", 20)
+		search_box.focus_mode = Control.FOCUS_CLICK  # typed with a keyboard; the controller's cursor skips it
+		search_box.text_changed.connect(func(typed: String) -> void: set_search(typed))
+		add_child(search_box)
+	var affinities: Array[Dictionary] = [{"label": "All Paths" if multi_path else "All colors", "value": -1}]
 	for type: Affinity.Type in [Affinity.Type.NEUTRAL, Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]:
 		affinities.append({"label": UIStyle.affinity_name(type), "value": int(type), "color": UIStyle.affinity_color(type), "icon": IconArt.energy_id(type)})
 	add_child(_row(0, affinities))
@@ -106,9 +130,93 @@ func _chip_style(fill: Color, border: Color) -> StyleBoxFlat:
 	return style
 
 
+## The search words as typed; the list updates at once.
+func set_search(typed: String) -> void:
+	var cleaned: String = typed.strip_edges().to_lower()
+	if cleaned == search_text:
+		return
+	search_text = cleaned
+	if search_box != null and search_box.text.strip_edges().to_lower() != cleaned:
+		search_box.text = typed
+	changed.emit()
+
+
+## Everything of a card the search looks through, lower case: its name, its text, its keywords, its type, its rarity and its Paths.
+static func search_haystack(card: CardData) -> String:
+	var parts: PackedStringArray = [card.display_name, card.rules_text, str(CardEnums.CardType.keys()[int(card.type)]).replace("_", " ")]
+	for keyword: CardEnums.Keyword in card.keywords:
+		parts.append(str(CardEnums.Keyword.keys()[int(keyword)]).replace("_", " "))
+		parts.append(str(CardEnums.Keyword.keys()[int(keyword)]).replace("_", "-"))
+	for path: Affinity.Type in card.paths():
+		parts.append(Affinity.display_name(path))
+	if card.paths().is_empty():
+		parts.append("Pathless")
+	if card.is_infrastructure():
+		parts.append("Infrastructure")
+	return " ".join(parts).to_lower()
+
+
+## Every typed word must be found (so "toxic unit" finds Toxic units).
+func matches_search(card: CardData) -> bool:
+	if search_text.is_empty():
+		return true
+	var haystack: String = search_haystack(card)
+	for word: String in search_text.split(" ", false):
+		if not haystack.contains(word):
+			return false
+	return true
+
+
+## Fable Nov 21 (Part 5.1): the toggle rule. No toggle on: every card. Otherwise a Pathless card needs the Pathless toggle, and a card
+## with Paths needs every one of its Paths switched on.
+func matches_paths(card: CardData) -> bool:
+	if selected_paths.is_empty() and not pathless_selected:
+		return true
+	var paths: Array[Affinity.Type] = card.paths()
+	if paths.is_empty():
+		return pathless_selected
+	if selected_paths.is_empty():
+		return false
+	for path: Affinity.Type in paths:
+		if not selected_paths.has(int(path)):
+			return false
+	return true
+
+
+## Switches a Path toggle (or Pathless: `Affinity.Type.NEUTRAL`; -1 clears them all). False when the Path was refused (over the limit).
+func toggle_path(value: int) -> bool:
+	if value == -1:
+		selected_paths.clear()
+		pathless_selected = false
+	elif value == int(Affinity.Type.NEUTRAL):
+		pathless_selected = not pathless_selected
+	elif selected_paths.has(value):
+		selected_paths.erase(value)
+	elif selected_paths.size() >= max_paths:
+		_sync_path_chips()
+		Audio.sfx(&"ui_error", -4.0)
+		path_refused.emit(max_paths)
+		return false
+	else:
+		selected_paths.append(value)
+	_sync_path_chips()
+	Audio.sfx(&"ui_tick")
+	changed.emit()
+	return true
+
+
+func _sync_path_chips() -> void:
+	for entry: Dictionary in _groups[0]:
+		(entry["button"] as Button).set_pressed_no_signal(_is_active(0, int(entry["value"])))
+
+
 func _is_active(group: int, value: int) -> bool:
 	match group:
 		0:
+			if multi_path:
+				if value == -1:
+					return selected_paths.is_empty() and not pathless_selected
+				return pathless_selected if value == int(Affinity.Type.NEUTRAL) else selected_paths.has(value)
 			return value == affinity_filter
 		1:
 			return value == type_filter
@@ -120,6 +228,9 @@ func _is_active(group: int, value: int) -> bool:
 
 
 func _select(group: int, value: int) -> void:
+	if group == 0 and multi_path:
+		toggle_path(value)
+		return
 	match group:
 		0:
 			affinity_filter = value
@@ -138,7 +249,12 @@ func _select(group: int, value: int) -> void:
 
 
 func matches(card: CardData) -> bool:
-	if affinity_filter != -1 and not card.is_on_path(affinity_filter as Affinity.Type) and int(card.color) != affinity_filter:
+	if multi_path:
+		if not matches_paths(card):
+			return false
+	elif affinity_filter != -1 and not card.is_on_path(affinity_filter as Affinity.Type) and int(card.color) != affinity_filter:
+		return false
+	if not matches_search(card):
 		return false
 	if type_filter != -1 and int(card.type) != type_filter:
 		return false

@@ -149,6 +149,22 @@ func _run_line(line: String) -> void:
 				_say("  clickcard: %s at %s" % [rest, card_at])
 				await driver.click(card_at)
 				await driver.frames(4)
+		"scriptevent":
+			# Fable Nov 21: `scriptevent <n>` shows the nth scripted mid-fight event of the current fight as its pop-up (waiting for a click)
+			var event_battle: BattleScreen = _find_battle()
+			if event_battle == null:
+				_say("  scriptevent: no battle")
+			else:
+				var event_list: Array[EncounterScripts.Trigger] = EncounterScripts.triggers_for_entry(event_battle.context.enemy_name)
+				if event_list.is_empty():
+					event_list = EncounterScripts.triggers(event_battle.context.enemy_name)
+				if event_list.is_empty():
+					_say("  scriptevent: %s has no scripted events" % event_battle.context.enemy_name)
+				else:
+					var event_index: int = clampi(int(parts[1]) if parts.size() > 1 else 0, 0, event_list.size() - 1)
+					event_battle.script_banner.show_event(event_list[event_index], event_battle.context.enemy_name, 1.0, true)
+					_say("  scriptevent: %s (%d of %d)" % [event_list[event_index].name, event_index + 1, event_list.size()])
+					await driver.seconds(0.8)
 		"clickportrait":
 			# Fable Nov 21: `clickportrait <0|1>` - a real mouse click on the middle of the player's (0) or the opponent's (1) plate as drawn
 			var plate_battle: BattleScreen = _find_battle()

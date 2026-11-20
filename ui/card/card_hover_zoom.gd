@@ -136,3 +136,69 @@ static func _tween(target: Control, scale: Vector2, position: Vector2) -> void:
 	if move:
 		tween.tween_property(target, "position", position, DURATION)
 	target.set_meta(&"zoom_tween", tween)
+
+
+## Fable Nov 21 (Part 5.6): the same zoom for a card that IGNORES the mouse (a static card inside a button, a reward box or a minigame,
+## where clicks must reach whatever it sits on). A small watcher under the card looks at the pointer each frame: over the card's own
+## rect (its size before it grew) the card grows; on the controller it grows while the focus is on the card or on the button that holds
+## it. One card at a time; nothing while the left mouse button is held (a drag) or while another screen lies on top.
+static func watch(target: Control, enabled: Callable = Callable()) -> void:
+	if target == null or target.has_meta(&"hover_zoom"):
+		return
+	target.set_meta(&"hover_zoom", true)
+	var watcher: Watcher = Watcher.new()
+	watcher.name = "HoverZoomWatcher"
+	watcher.target = target
+	watcher.enabled = enabled
+	target.add_child(watcher)
+
+
+## True when `target` has either kind of hover zoom.
+static func has_zoom(target: Control) -> bool:
+	return target != null and target.has_meta(&"hover_zoom")
+
+
+class Watcher:
+	extends Node
+	## The card that is grown by a watcher now (one at a time).
+	static var active: Control = null
+	## Tests: a canvas point used instead of the mouse (null = the real pointer).
+	static var test_mouse: Variant = null
+
+	var target: Control
+	var enabled: Callable
+	var _base: Rect2
+
+	func _process(_delta: float) -> void:
+		if target == null or not is_instance_valid(target) or not target.is_visible_in_tree():
+			_leave()
+			return
+		var zoomed: bool = CardHoverZoom.is_zoomed(target)
+		if not zoomed:
+			_base = target.get_global_rect()
+		var want: bool = false
+		if InputDevice.using_pad() and test_mouse == null:
+			var focus: Control = target.get_viewport().gui_get_focus_owner()
+			want = focus != null and (focus == target or (focus is BaseButton and focus.is_ancestor_of(target)))
+		else:
+			var pointer: Vector2 = test_mouse as Vector2 if test_mouse != null else target.get_global_mouse_position()
+			want = _base.has_point(pointer) and (test_mouse != null or not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT))
+		if want:
+			var top: Control = PadFocus.top_root(get_tree())
+			if top != null and top != target and not top.is_ancestor_of(target):
+				want = false
+		if want and (active == null or active == target or not is_instance_valid(active) or not CardHoverZoom.is_zoomed(active)):
+			active = target
+			CardHoverZoom.zoom_in(target, enabled)
+		elif not want:
+			_leave()
+
+	func _leave() -> void:
+		if active == target:
+			active = null
+		if target != null and is_instance_valid(target) and CardHoverZoom.is_zoomed(target):
+			CardHoverZoom.zoom_out(target)
+
+	func _exit_tree() -> void:
+		if active == target:
+			active = null

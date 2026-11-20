@@ -2265,17 +2265,16 @@ func _show_npc_result() -> void:
 	# Fable Nov 12c (A2): the portrait by id after the fight too (a title like "Corrupted Druid" never resolved to its NPC)
 	dialogue.start(Gatekeepers.full_title(id), lines, str(NPC_IDS.get("npc_%s" % id, "")))
 	if bool(result.get("first_win", false)):
-		var reward_text: String = "+%d gold, +%d XP" % [CorruptedNpcs.reward_gold(), CorruptedNpcs.reward_xp()]
 		var item_name: String = str(result.get("item_name", ""))
-		if not item_name.is_empty():
-			reward_text += ", %s" % item_name
 		var levels_gained: Array[LevelData] = []
 		for level_data: Variant in (result.get("levels_gained", []) as Array):
 			levels_gained.append(level_data as LevelData)
 		# New brief, Part A: same level-up popup regardless of source - a corrupted NPC's first
 		# win can grant levels just like a dungeon battle can.
+		# Fable Nov 21 (Part 5.5): the reward in the reward box, which waits for a click (it was a short line)
+		var gate_title: String = Gatekeepers.full_title(id)
 		dialogue.finished.connect(func() -> void:
-			hud.toast(reward_text, UIStyle.GOLD)
+			Session.queue_reward_box(gate_title, "Beaten for the first time.", CorruptedNpcs.reward_gold(), CorruptedNpcs.reward_xp(), ([item_name] as Array[String]) if not item_name.is_empty() else ([] as Array[String]), "VICTORY")
 			# Fixes Oct 27, Part 1: queued, not opened here - opening it closed the card pick box that was up (the pick was lost); the
 			# frame update shows the pick first, then the level-up.
 			Session.pending_level_ups.append_array(levels_gained), CONNECT_ONE_SHOT)
@@ -2333,15 +2332,13 @@ func _show_graveyard_result() -> void:
 		lines = StoryText._filled(story.graveyard_victory_lines if won else story.graveyard_defeat_lines)
 	dialogue.start("The Restless Cairn", lines)
 	if bool(result.get("first_win", false)):
-		var reward_text: String = "+%d gold, +%d XP" % [GraveyardBoss.REWARD_GOLD, GraveyardBoss.REWARD_XP]
 		var equipment_name: String = str(result.get("equipment_name", ""))
-		if not equipment_name.is_empty():
-			reward_text += ", %s" % equipment_name
 		var levels_gained: Array[LevelData] = []
 		for level_data: Variant in (result.get("levels_gained", []) as Array):
 			levels_gained.append(level_data as LevelData)
 		dialogue.finished.connect(func() -> void:
-			hud.toast(reward_text, UIStyle.GOLD)
+			# Fable Nov 21 (Part 5.5): the reward box, which waits for a click
+			Session.queue_reward_box("The Restless Cairn", "The dead rest. What they guarded is yours.", GraveyardBoss.REWARD_GOLD, GraveyardBoss.REWARD_XP, ([equipment_name] as Array[String]) if not equipment_name.is_empty() else ([] as Array[String]), "VICTORY")
 			# Fixes Oct 27, Part 1: queued, not opened here - opening it closed the card pick box that was up (the pick was lost); the
 			# frame update shows the pick first, then the level-up.
 			Session.pending_level_ups.append_array(levels_gained), CONNECT_ONE_SHOT)
@@ -2982,7 +2979,11 @@ func _open_vault() -> void:
 		Session.add_cards([reward] as Array[CardData])
 	Audio.sfx(&"card_draw")
 	Audio.sfx(&"ui_confirm")
-	hud.toast("The vault opens. %s joins your collection." % (reward.display_name if reward != null else "A card"), UIStyle.GOLD)
+	# Fable Nov 21 (Part 5.5): the card itself in the reward box (hover it to read it), which waits for a click
+	if reward != null:
+		Session.queue_reward_box("The Sealed Vault", "The vault opens.", 0, 0, [reward.id] as Array[String], "VAULT OPENED")
+	else:
+		hud.toast("The vault opens, and it is empty.", UIStyle.MUTED)
 	Session.save_game()
 
 
@@ -3128,7 +3129,8 @@ func _talk_item_vendor() -> void:
 		if Session.give_tilly_gift():
 			lines.append_array(StoryText.shared().get_lines("town.item_vendor.gift"))
 			# Nov 3-4 (critic): the toast after her lines, never behind the dialogue box
-			dialogue.finished.connect(func() -> void: hud.queue_toast("Received: Power Wraps (1 charge). Press C to equip it.", UIStyle.GOLD), CONNECT_ONE_SHOT)
+			# Fable Nov 21 (Part 5.5): her gift in the reward box, which waits for a click (it was a short line after her words)
+			dialogue.finished.connect(func() -> void: Session.queue_reward_box("A gift from Tilly", "Press C to equip it.", 0, 0, [Session.TILLY_GIFT_ITEM] as Array[String], "A GIFT"), CONNECT_ONE_SHOT)
 		else:
 			lines = StoryText.shared().get_lines("town.item_vendor.gift_waiting")
 		dialogue.start("Tilly Tonic", lines)

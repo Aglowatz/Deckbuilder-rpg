@@ -103,6 +103,8 @@ func _rebuild_stack(top: CardInstance) -> void:
 		under.add_theme_stylebox_override("panel", UIStyle.box(Color(0.82, 0.78, 0.7).darkened(0.1 * float(layer)), Color(0.25, 0.18, 0.12), 1, 5))
 		_stack.add_child(under)
 	var face: Control = CardView.wrapped(top.data, CARD_SCALE, CardView.Mode.FULL)
+	face.name = "TopCard"
+	CardHoverZoom.watch(face)  # Fable Nov 21 (Part 5.6): the pile's top card grows under the pointer
 	_stack.add_child(face)
 
 

@@ -11,7 +11,12 @@ var _panel: PanelContainer
 var _icon_slot: Control
 var _title: Label
 var _body: Label
-var _line: Label
+## Fable Nov 21 (Part 5.7): one layout in every fight - the event's name, a blank line, the complete effect, a blank line, then the
+## dialogue with the speaker's name in bold (a RichTextLabel for the bold). `layout_text` is the same thing as plain text.
+var _line: RichTextLabel
+var _gap_after_name: Control
+var _gap_after_effect: Control
+const BLANK_LINE: float = 26.0
 var _warning: Label
 
 
@@ -46,15 +51,33 @@ func _ready() -> void:
 	row.add_child(column)
 	_title = UIKit.label("", &"", 30, AMBER)
 	_title.add_theme_font_override("font", UIStyle.font_bold())
+	_title.name = "EventName"
 	column.add_child(_title)
-	_body = UIKit.label("", &"", 19, UIStyle.PARCHMENT)
+	_gap_after_name = UIKit.spacer(int(BLANK_LINE))
+	_gap_after_name.name = "BlankAfterName"
+	column.add_child(_gap_after_name)
+	_body = UIKit.label("", &"", 21, UIStyle.PARCHMENT)
+	_body.name = "EventEffect"
 	_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_body.custom_minimum_size = Vector2(700, 0)
 	column.add_child(_body)
-	_line = UIKit.label("", &"MutedLabel", 19)
+	_gap_after_effect = UIKit.spacer(int(BLANK_LINE))
+	_gap_after_effect.name = "BlankAfterEffect"
+	column.add_child(_gap_after_effect)
+	_line = RichTextLabel.new()
+	_line.name = "EventDialogue"
+	_line.bbcode_enabled = true
+	_line.fit_content = true
+	_line.scroll_active = false
 	_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_line.custom_minimum_size = Vector2(700, 0)
 	_line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_line.add_theme_font_override("normal_font", UIStyle.font_italic())
+	_line.add_theme_font_override("bold_font", UIStyle.font_bold())
+	_line.add_theme_font_size_override("normal_font_size", 22)
+	_line.add_theme_font_size_override("bold_font_size", 22)
+	_line.add_theme_color_override("default_color", UIStyle.PARCHMENT)
 	_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.add_child(_line)
 	_warning = UIKit.label("", &"", 22, AMBER, HORIZONTAL_ALIGNMENT_CENTER)
@@ -108,9 +131,10 @@ func show_event(trigger: EncounterScripts.Trigger, foe_name: String, speed: floa
 			_icon_slot.add_child(glyph)
 	_title.text = trigger.name
 	_body.text = describe(trigger, foe_name)
-	_line.text = "%s: \"%s\"" % [foe_name, trigger.line] if not trigger.line.is_empty() else ""
+	_line.text = dialogue_bbcode(trigger, foe_name)
 	_line.visible = not trigger.line.is_empty()
-	_line.add_theme_font_size_override("font_size", 22)
+	_gap_after_effect.visible = not trigger.line.is_empty()
+	_gap_after_name.visible = not _body.text.is_empty()
 	if _hint == null:
 		_hint = UIKit.label("", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 		_hint.name = "CloseHint"
@@ -153,6 +177,26 @@ func show_event(trigger: EncounterScripts.Trigger, foe_name: String, speed: floa
 	await out.finished
 
 
+## The dialogue line with the speaker's name in bold: [b]Chancellor Clench:[/b] "..." ("" when the foe says nothing).
+static func dialogue_bbcode(trigger: EncounterScripts.Trigger, foe_name: String) -> String:
+	if trigger == null or trigger.line.is_empty():
+		return ""
+	return "[b]%s:[/b] \"%s\"" % [foe_name, trigger.line]
+
+
+## The whole pop-up as plain text, in its one layout: the name, a blank line, the complete effect, a blank line, the dialogue.
+static func layout_text(trigger: EncounterScripts.Trigger, foe_name: String) -> String:
+	var parts: PackedStringArray = [trigger.name]
+	var effect: String = describe(trigger, foe_name)
+	if not effect.is_empty():
+		parts.append(effect)
+	if not trigger.line.is_empty():
+		parts.append("%s: \"%s\"" % [foe_name, trigger.line])
+	return "
+
+".join(parts)
+
+
 ## What the event does, in plain words: the banner line ("Vellum gains a Contract.") and, when it says more, the rule text without its
 ## "At half health" lead-in.
 static func describe(trigger: EncounterScripts.Trigger, _foe_name: String = "") -> String:
@@ -168,7 +212,46 @@ static func describe(trigger: EncounterScripts.Trigger, _foe_name: String = "") 
 		return rule
 	if rule.is_empty() or rule.to_lower().trim_suffix(".") == what.to_lower().trim_suffix("."):
 		return what
+	# Fable Nov 21 (Part 5.7): the complete effect, said once. When one sentence already holds everything the other says it stands
+	# alone (the two used to be stacked, and often said the same thing twice); when each adds something, both are shown.
+	if _covers(what, rule, 0.85):
+		return what
+	if _covers(rule, what, 0.7):
+		return rule
 	return "%s\n%s" % [what, rule]
+
+
+## True when at least `share` of the telling words of `other` (words of four letters or more, and every number) are also in `text`.
+static func _covers(text: String, other: String, share: float) -> bool:
+	var have: Dictionary = {}
+	for word: String in _telling_words(text):
+		have[word] = true
+	var wanted: PackedStringArray = _telling_words(other)
+	if wanted.is_empty():
+		return true
+	var found: int = 0
+	for word: String in wanted:
+		if have.has(word):
+			found += 1
+		elif _has_digit(word):
+			return false  # a number the other sentence gives and this one does not: it is not covered
+	return float(found) / float(wanted.size()) >= share
+
+
+static func _has_digit(word: String) -> bool:
+	for index: int in range(word.length()):
+		if word[index] >= "0" and word[index] <= "9":
+			return true
+	return false
+
+
+static func _telling_words(text: String) -> PackedStringArray:
+	var result: PackedStringArray = []
+	for raw: String in text.to_lower().split(" ", false):
+		var word: String = raw.strip_edges().trim_prefix("(").trim_suffix(".").trim_suffix(",").trim_suffix(":").trim_suffix(")").trim_suffix(".")
+		if _has_digit(word) or word.length() >= 4:
+			result.append(word)
+	return result
 
 
 func is_waiting() -> bool:

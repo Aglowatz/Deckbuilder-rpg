@@ -76,7 +76,9 @@ func _option(i: int) -> Control:
 	var column: VBoxContainer = UIKit.vbox(6)
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
 	if data != null and not on_board:
-		column.add_child(CardView.wrapped(data, CARD_SCALE))
+		var shown: Control = CardView.wrapped(data, CARD_SCALE)
+		CardHoverZoom.watch(shown)  # Fable Nov 21 (Part 5.6)
+		column.add_child(shown)
 	var button: FancyButton = FancyButton.make(text, &"PrimaryButton" if i == 0 else &"", Vector2(maxf(150.0, 13.0 * text.length()), 50))
 	button.name = "Option%d" % i
 	button.pressed.connect(func() -> void: chosen.emit(option))

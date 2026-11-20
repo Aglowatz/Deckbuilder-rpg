@@ -960,9 +960,14 @@ func _apply_pending_result() -> void:
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_say("Wren", story.get_lines("ending.return"))
 		hud.toast(story.text("fx.ending_return"), UIStyle.GOOD)
-		for pack_text: String in Session.pending_ending_packs:
-			hud.toast(StoryText.shared().text("pack.reward.primm") % pack_text, UIStyle.GOLD)
+		# Fable Nov 21 (Part 5.5): the packs for toppling him in the reward box, which waits for a click (they were a line that faded)
+		if not Session.pending_ending_pack_ids.is_empty():
+			Session.queue_reward_box("The Minister has fallen", "The kingdom's thanks.", 0, 0, Session.pending_ending_pack_ids.duplicate(), "REWARD")
+		else:
+			for pack_text: String in Session.pending_ending_packs:
+				hud.toast(StoryText.shared().text("pack.reward.primm") % pack_text, UIStyle.GOLD)
 		Session.pending_ending_packs = []
+		Session.pending_ending_pack_ids = [] as Array[String]
 		return
 	if bool(result.get("secret_way", false)) and not bool(result.get("woke_at_hub", false)):
 		# Cleared the Old Service Tunnels: the secret way into the Capital comes out in the Crease.

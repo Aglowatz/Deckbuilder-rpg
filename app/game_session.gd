@@ -512,6 +512,31 @@ func take_multi_path_tip() -> bool:
 	return false
 
 
+## Fable Nov 21 (Part 5.5): a reward that was already handed over outside a chest or a quest (a boss's first win, the vault's card, a
+## gift, a prize chest's gear) goes into the same reward box, which waits for a click. `names` are the display names or ids of the cards,
+## items and pieces of equipment that were given (`RewardLookup.find`); the box is queued for the world scene that is open.
+func queue_reward_box(title: String, subtitle: String, gold_amount: int = 0, xp_amount: int = 0, names: Array[String] = [] as Array[String], header: String = "REWARD") -> RewardSummary:
+	var summary: RewardSummary = RewardSummary.new()
+	summary.kind = RewardSummary.Kind.CHEST
+	summary.header = header
+	summary.title = title
+	summary.subtitle = subtitle
+	summary.gold = maxi(gold_amount, 0)
+	summary.xp = maxi(xp_amount, 0)
+	for entry: String in names:
+		var thing: Variant = RewardLookup.find(content, entry)
+		if thing is EquipmentData:
+			summary.equipment.append(thing as EquipmentData)
+		elif thing is ItemData:
+			summary.items.append(thing as ItemData)
+		elif thing is CardData:
+			summary.cards.append(thing as CardData)
+		elif PackCatalog.find(entry) != null:
+			summary.add_pack(entry, PackCatalog.find(entry).display_name)
+	pending_popups.append(summary)
+	return summary
+
+
 ## Whether a card is available to this player right now (`CardAvailability.allowed`): GENERAL always, REWARD-LOCKED once earned,
 ## ENEMY-ONLY never (except as a grandfathered copy already in the collection).
 func card_available(card: CardData) -> bool:
@@ -2957,6 +2982,8 @@ var pending_zone_result: Dictionary = {}
 var zone_log: Array[String] = []
 ## Pack rewards from beating Primm, announced once when the hero is back in the Capital after the ending.
 var pending_ending_packs: Array[String] = []
+## Fable Nov 21 (Part 5.5): the same packs by id (one entry per pack), for the reward box the Capital shows after the ending.
+var pending_ending_pack_ids: Array[String] = []
 
 
 func in_zone() -> bool:
@@ -3687,6 +3714,9 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			if plan.id == ShatteredGallery.DUNGEON_ID:
 				_grant_gallery_first_clear(result)
 			_grant_dungeon_gear(plan.id, result)
+			# Fable Nov 21 (Part 5.5): the first clear's gear in a reward box of its own (it was only named in a line that faded)
+			if result.has("equipment"):
+				queue_reward_box(plan.dungeon_name, "Cleared for the first time.", 0, 0, [str(result["equipment"])] as Array[String], "NEW GEAR!")
 		else:
 			var gold_reward: int = DungeonBuilder.SIDE_REPEAT_GOLD
 			add_gold(gold_reward)
@@ -3878,6 +3908,10 @@ func _grant_dungeon_packs(zone_id: String, first_clear: bool, result: Dictionary
 			add_pack(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)
 			result["packs"] = [PackRewards.entry(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)]
 			pending_ending_packs = [PackRewards.labels(result["packs"] as Array)]
+			pending_ending_pack_ids.clear()
+			for pack_entry: Variant in result["packs"] as Array:
+				for copy: int in range(int((pack_entry as Dictionary).get("count", 1))):
+					pending_ending_pack_ids.append(str((pack_entry as Dictionary).get("id", "")))
 		return
 	var path_pack: PackData = PackCatalog.path_pack(path)
 	if path_pack == null:

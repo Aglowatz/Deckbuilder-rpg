@@ -30,8 +30,10 @@ func _build() -> void:
 	var header: String = "QUEST COMPLETE" if summary.kind == RewardSummary.Kind.QUEST else ("STEP REWARD" if is_quest else "CHEST OPENED")
 	if not summary.card_choices.is_empty():
 		header = "VICTORY"
+	if not summary.header.is_empty():
+		header = summary.header  # Fable Nov 21 (Part 5.5): a reward that is neither a chest nor a quest
 	# Overnight Oct 17, Part 7: a chest that held gear says so.
-	if not is_quest and not summary.equipment.is_empty():
+	if not is_quest and not summary.equipment.is_empty() and summary.header.is_empty():
 		header = "NEW GEAR!"
 	frame = PopupFrame.make(header, "ICON-CHECK" if is_quest else "ICON-GOLD", UIStyle.GOLD if is_quest else Color("f2c14e"))
 	frame.set_heading(summary.title, summary.subtitle)
@@ -73,20 +75,27 @@ func _fill_body() -> void:
 	things.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)
 	for card: CardData in summary.cards:
 		var tile: Control = _card_tile(card)
+		tile.name = "WonCard_%s" % card.id
+		CardHoverZoom.watch(tile)  # Fable Nov 21 (Part 5.6): a won card grows under the pointer (Toro Toro's reward card stayed small)
 		if int(card.rarity) >= int(CardEnums.Rarity.EPIC):
 			tile.set_meta(&"highlight", CardView.RARITY_COLORS[int(card.rarity)])
 		things.add_child(tile)
 	for item: ItemData in summary.items:
-		things.add_child(_icon_tile(IconArt.item_texture(item, 74.0), item.display_name, "Item", item.description, IconArt.has_item_icon(item)))
+		var item_tile: Control = _icon_tile(IconArt.item_texture(item, 74.0), item.display_name, "Item", item.description, IconArt.has_item_icon(item))
+		_add_info(item_tile, item)
+		things.add_child(item_tile)
 	for piece: EquipmentData in summary.equipment:
 		var rarity: int = clampi(int(piece.rarity), 0, 3)
 		var gear: Control = _icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "%s %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], piece.description, IconArt.has_equipment_icon(piece))
 		# New gear glows in its rarity's colour (the same colours as cards).
 		(gear as PanelContainer).add_theme_stylebox_override("panel", UIStyle.box(Color(UIStyle.INK.r, UIStyle.INK.g, UIStyle.INK.b, 0.8), CardView.RARITY_COLORS[rarity], 3, 10))
 		gear.set_meta(&"highlight", CardView.RARITY_COLORS[rarity])
+		_add_info(gear, piece)
 		things.add_child(gear)
 	for entry: Dictionary in summary.packs:
-		things.add_child(_pack_tile(entry))
+		var pack_tile: Control = _pack_tile(entry)
+		_add_info(pack_tile, PackCatalog.find(str(entry["id"])))
+		things.add_child(pack_tile)
 	for cosmetic: String in summary.cosmetics:
 		var shop_icon: Texture2D = IconArt.cosmetic_texture(_cosmetic_named(cosmetic), 74.0)  # Oct 19 night: ICON-COS-* once imported
 		things.add_child(_icon_tile(shop_icon if shop_icon != null else CardIcons.ui("level_badge"), cosmetic, "Wardrobe", "Open the wardrobe with T.", shop_icon != null))
@@ -113,6 +122,20 @@ func _fill_body() -> void:
 	if not summary.levels_reached.is_empty():
 		var last: int = summary.levels_reached[summary.levels_reached.size() - 1]
 		body.add_child(UIKit.label("You reach level %d!" % last, &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+
+
+## Fable Nov 21 (Part 5.5): every item, piece of gear and pack in the box can be hovered (or focused with the controller) for its full
+## info: what it is, what it does, its drawback and where it went. The box itself waits for a click as before.
+func _add_info(tile: Control, thing: Variant) -> void:
+	if thing == null:
+		return
+	tile.set_meta(&"full_info", RewardLookup.full_info(thing))
+	tile.set_meta(&"info_title", RewardLookup.name_of(thing))
+	tile.name = "Reward_%s" % RewardLookup.name_of(thing).validate_node_name()
+	HoverTip.attach(tile, RewardLookup.name_of(thing), RewardLookup.full_info(thing), UIStyle.GOLD)
+	tile.focus_mode = Control.FOCUS_ALL
+	tile.focus_entered.connect(func() -> void: tile.mouse_entered.emit())
+	tile.focus_exited.connect(func() -> void: tile.mouse_exited.emit())
 
 
 func _counter(icon_id: String, fallback: String, text: String, color: Color) -> HBoxContainer:

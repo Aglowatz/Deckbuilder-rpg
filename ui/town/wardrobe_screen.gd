@@ -19,7 +19,15 @@ const CLOAKS_RECT: Rect2 = Rect2(710, 498, 1170, 372)
 const DYES_RECT: Rect2 = Rect2(710, 886, 1170, 154)
 
 var _look: CosmeticState
-var _preview: HeroPreview
+## Fable Nov 21 (Part 5.3): "Your Look" shows ONE ITEM by itself, large, as Pip Threadwell's shop does (the turning hero with the hat on
+## is gone: his body hid what the piece looked like). The piece under the pointer or the focus is shown; otherwise the last one put on.
+const PREVIEW_SIZE: float = 430.0
+var _item_icon: TextureRect
+var _item_name: Label
+var _item_kind: Label
+var _item_swatch: Panel
+## "hat|<id>" / "cloak|<id>" of the piece on the stage.
+var shown_key: String = ""
 var _item_tiles: Dictionary = {}  # "hat|<id>" / "cloak|<id>" -> Button
 var _dye_buttons: Dictionary = {}
 var _hat_detail: Label
@@ -60,6 +68,7 @@ func _build() -> void:
 	_build_grid(CosmeticData.Slot.CLOAK, CLOAKS_RECT, "CLOAKS", "ICON-UI-CHARACTER")
 	_build_dyes()
 	_refresh()
+	show_item(worn_key())
 
 
 ## The room behind the page: UI-BG-WARDROBE once it is painted, else the Character page's room, dimmed; a plain shade without either.
@@ -114,18 +123,77 @@ func _build_stage() -> void:
 	wash.size = Vector2(STAGE_RECT.size.x - 44, 760)
 	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(wash)
-	_preview = HeroPreview.new()
-	_preview.name = "HeroPreview"
-	_preview.look = _look
-	_preview.position = Vector2(0, 84)
-	_preview.custom_minimum_size = Vector2(STAGE_RECT.size.x, 760)
-	_preview.size = Vector2(STAGE_RECT.size.x, 760)
-	stage.add_child(_preview)
+	_item_icon = _icon_rect(Vector2((STAGE_RECT.size.x - PREVIEW_SIZE) * 0.5, 150), Vector2(PREVIEW_SIZE, PREVIEW_SIZE))
+	_item_icon.name = "ItemPreview"
+	stage.add_child(_item_icon)
+	_item_swatch = Panel.new()
+	_item_swatch.name = "DyeSwatch"
+	_item_swatch.position = Vector2(STAGE_RECT.size.x * 0.5 + 120, 500)
+	_item_swatch.size = Vector2(84, 84)
+	_item_swatch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_item_swatch.visible = false
+	stage.add_child(_item_swatch)
+	_item_name = _heading("", Vector2(24, 630), 38)
+	_item_name.name = "ItemName"
+	_item_name.size = Vector2(STAGE_RECT.size.x - 48, 50)
+	_item_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stage.add_child(_item_name)
+	_item_kind = _text("", 22, UIStyle.MUTED, Vector2(24, 686), STAGE_RECT.size.x - 48, HORIZONTAL_ALIGNMENT_CENTER)
+	_item_kind.name = "ItemKind"
+	_item_kind.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_item_kind.size = Vector2(STAGE_RECT.size.x - 48, 96)
+	stage.add_child(_item_kind)
+	_divider(stage, 806, STAGE_RECT.size.x)
+	stage.add_child(_text("YOU ARE WEARING", 18, UIStyle.MUTED, Vector2(24, 822), STAGE_RECT.size.x - 48, HORIZONTAL_ALIGNMENT_CENTER))
 	_stage_caption = _text("", 24, UIStyle.PARCHMENT, Vector2(24, 852), STAGE_RECT.size.x - 48, HORIZONTAL_ALIGNMENT_CENTER)
 	_stage_caption.name = "StageCaption"
 	stage.add_child(_stage_caption)
-	_status = _text("Drag the hero to turn them round.", 18, UIStyle.MUTED, Vector2(24, 888), STAGE_RECT.size.x - 48, HORIZONTAL_ALIGNMENT_CENTER)
+	_status = _text("Point at a piece to see it up close. Click it to put it on.", 18, UIStyle.MUTED, Vector2(24, 888), STAGE_RECT.size.x - 48, HORIZONTAL_ALIGNMENT_CENTER)
 	stage.add_child(_status)
+
+
+## Puts one piece on the stage by itself: its picture, its name and what it is. A piece with no picture of its own (no hat, the Plain
+## Cloak) shows the same stand-in mark as its tile; the Plain Cloak's mark is tinted with the chosen dye and a swatch names the colour.
+func show_item(key: String) -> void:
+	var tile: Button = _item_tiles.get(key) as Button
+	if tile == null or _item_icon == null:
+		return
+	shown_key = key
+	var is_hat: bool = key.begins_with("hat|")
+	var item_id: String = key.get_slice("|", 1)
+	var icon: TextureRect = tile.get_node_or_null("Icon") as TextureRect
+	_item_icon.texture = icon.texture if icon != null else null
+	_item_icon.modulate = Color(1, 1, 1, 1)
+	_item_swatch.visible = false
+	var item: CosmeticData = CosmeticCatalog.find(item_id) if not item_id.is_empty() else null
+	var usable: bool = bool(tile.get_meta("usable", false))
+	if item != null:
+		_item_name.text = item.display_name
+		_item_kind.text = ("%s. %s" % [item.slot_name(), item.description]) if usable else "%s. Not in your wardrobe yet: Pip Threadwell sells it in Crosspath." % item.slot_name()
+		if not usable:
+			_item_icon.modulate = Color(0.6, 0.58, 0.66, 0.9)
+	elif is_hat:
+		_item_name.text = "No hat"
+		_item_kind.text = "Nothing on your head. The wind approves."
+		_item_icon.modulate = Color(1, 1, 1, 0.5)
+	else:
+		var dyed: bool = _look.cloak_dye != Dye.NATURAL and _look.cloak_id.is_empty()
+		_item_name.text = "%s%s" % [TailorScreen.PLAIN_CLOAK, " (%s)" % Dye.dye_name(_look.cloak_dye) if dyed else ""]
+		_item_kind.text = "Cloak. The cloak you woke up in, and the only one the dyes colour."
+		_item_icon.modulate = Dye.primary(_look.cloak_dye).lightened(0.25) if dyed else Color(1, 1, 1, 0.7)
+		if dyed:
+			var box: StyleBoxFlat = StyleBoxFlat.new()
+			box.bg_color = Dye.primary(_look.cloak_dye)
+			box.set_corner_radius_all(42)
+			box.set_border_width_all(4)
+			box.border_color = UIStyle.GOLD
+			_item_swatch.add_theme_stylebox_override("panel", box)
+			_item_swatch.visible = true
+
+
+## The piece the stage opens on and returns to: the hat that is worn, else the cloak that is worn.
+func worn_key() -> String:
+	return "hat|%s" % _look.hat_id if not _look.hat_id.is_empty() else "cloak|%s" % _look.cloak_id
 
 
 # ---- Hats and cloaks ------------------------------------------------------------------------------------------------------------------
@@ -217,9 +285,14 @@ func _tile(slot: CosmeticData.Slot, item_id: String, title: String, art: Texture
 			_equip(slot, item_id)
 		else:
 			Audio.sfx(&"ui_error", -6.0)
-		_show_detail(slot, tile))
-	tile.mouse_entered.connect(func() -> void: _show_detail(slot, tile))
-	tile.focus_entered.connect(func() -> void: _show_detail(slot, tile))
+		_show_detail(slot, tile)
+		show_item("%s|%s" % [key, item_id]))
+	tile.mouse_entered.connect(func() -> void:
+		_show_detail(slot, tile)
+		show_item("%s|%s" % [key, item_id]))
+	tile.focus_entered.connect(func() -> void:
+		_show_detail(slot, tile)
+		show_item("%s|%s" % [key, item_id]))
 	_item_tiles["%s|%s" % [key, item_id]] = tile
 	return tile
 
@@ -266,10 +339,10 @@ func _equip(slot: CosmeticData.Slot, item_id: String) -> void:
 func _dye(index: int) -> void:
 	_look.set_dye(CosmeticData.Slot.CLOAK, index)
 	_apply()
+	show_item("cloak|")  # the Plain Cloak in its new colour
 
 
 func _apply() -> void:
-	_preview.set_look(_look)
 	Session.apply_look(_look)
 	Audio.sfx(&"ui_tick")
 	_refresh()

@@ -7,6 +7,8 @@ extends Control
 ## click / Enter / Space / E reveals everything at once, the next one moves on; Esc skips the remaining levels. Rewards come from the
 ## reward track (`ProgressionTable.reward_lines`). Callers call `setup()` then add this as a child, and wait for `finished`.
 
+const XP_LINE_SIZE: int = 20
+const XP_LINE_COLOR: Color = Color(0.953, 0.914, 0.824, 0.86)
 signal finished
 
 const REVEAL_STEP: float = 0.16
@@ -238,7 +240,10 @@ func _add_xp_bar(row: LevelData) -> void:
 		UiSkin.skin_bar(bar, "xp", 44.0, UIStyle.GOLD)
 	_rows.add_child(UIKit.spacer(6))
 	_rows.add_child(bar)
-	_rows.add_child(UIKit.label("XP toward level %d: %d / %d" % [row.level + 1, int(bar.value), int(bar.max_value)], &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	# Fable Nov 21 (Part 5.8): the quest box's contrast fix - parchment at 20 px (it was the muted violet-grey at 18 px)
+	var toward: Label = UIKit.label("XP toward level %d: %d / %d" % [row.level + 1, int(bar.value), int(bar.max_value)], &"", XP_LINE_SIZE, XP_LINE_COLOR, HORIZONTAL_ALIGNMENT_CENTER)
+	toward.name = "XpTowardNext"
+	_rows.add_child(toward)
 
 
 ## Continue: finish the reveal first, then the next level, then done.

@@ -1,0 +1,53 @@
+# Fable Nov 21, Part 5.7: the mid-fight event pop-up in three fights (one layout)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 18
+dev encounters clench
+dev encounters doppel
+dev encounters mortimer
+dev encounter clench
+wait 9
+skip_dialogue
+button Keep
+wait 5
+skip_dialogue
+wait 2
+scriptevent 0
+shot p5_event_popup_1_clench
+key Space
+wait 1
+dev win
+wait 4
+skip_dialogue
+key Space
+wait 6
+skip_dialogue
+dev encounter doppel
+wait 9
+skip_dialogue
+button Keep
+wait 5
+skip_dialogue
+wait 2
+scriptevent 0
+shot p5_event_popup_2_doppelganger
+key Space
+wait 1
+dev win
+wait 4
+skip_dialogue
+key Space
+wait 6
+skip_dialogue
+dev encounter mortimer
+wait 9
+skip_dialogue
+button Keep
+wait 5
+skip_dialogue
+wait 2
+scriptevent 1
+shot p5_event_popup_3_mortimer
+key Space

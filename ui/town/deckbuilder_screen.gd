@@ -131,6 +131,11 @@ func _build() -> void:
 	split.add_child(left)
 	_filter = CardFilterBar.new()
 	_filter.show_extra = _uses_deck_box()
+	# Fable Nov 21 (Part 5.1 and 5.2): Path toggles (as many as this deck may walk) and a search box
+	_filter.multi_path = true
+	_filter.max_paths = DeckValidator.max_colors(Session.profile, _active_modifiers())
+	_filter.show_search = true
+	_filter.path_refused.connect(_on_path_refused)
 	_filter.changed.connect(_apply_filter)
 	left.add_child(_filter)
 	_grid_scroll = ScrollContainer.new()
@@ -638,6 +643,7 @@ func _box_cover() -> void:
 		pick.add_child(view)
 		CardView.fit(view, 0.42)
 		view.position += Vector2(4, 4)
+		CardHoverZoom.watch(view)  # Fable Nov 21 (Part 5.6): the cover picker's cards grow under the pointer too
 		for child: Node in view.find_children("*", "Control", true, false):
 			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 		if id == current:
@@ -892,6 +898,14 @@ func _add(card: CardData) -> void:
 	Audio.sfx(&"deck_add")
 	_refresh()
 	_show_plus_one(card)
+
+
+## Fable Nov 21 (Part 5.1): one Path too many in the filter - a pop-up says how many Paths this deck may walk, and why.
+func _on_path_refused(limit: int) -> void:
+	if _refusal != null and is_instance_valid(_refusal):
+		return
+	var count: String = "one Path" if limit == 1 else "%d Paths" % limit
+	_refusal = ConfirmDialog.notice(self, "Too many Paths", "Your deck can walk %s, so the filter shows %s at a time. Switch one off first.\n\n%s" % [count, count, DeckValidator.path_limit_hint(Session.profile, _active_modifiers())])
 
 
 ## The pop-up of a refused card: its name as the title, the reason, one OK button (mouse, keyboard and controller).
