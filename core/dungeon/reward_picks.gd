@@ -164,6 +164,8 @@ static func _candidates(content: ContentSet, owned: Dictionary = {}) -> Array[Ca
 	for id: Variant in owned.keys():
 		if int(owned[id]) > 0:
 			earned[str(id)] = true
+	if owned.has(MultiPathLock.UNLOCK_KEY):
+		earned[MultiPathLock.UNLOCK_KEY] = true  # Fable Nov 21 (Part 3): Primm is defeated, three- and four-Path cards are open
 	for source: Dictionary in [content.cards, content.multipath_cards]:
 		var ids: Array = source.keys()
 		ids.sort()

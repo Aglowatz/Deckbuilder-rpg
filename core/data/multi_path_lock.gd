@@ -54,7 +54,7 @@ static func kind_name(card: CardData) -> String:
 
 ## Why `card` cannot be added to a deck yet (the pop-up's body).
 static func reason(card: CardData) -> String:
-	return Villain.fill("%s is a %s card. Cards of three or four Paths are sealed until {villain} is defeated, so it cannot go in a deck yet. It stays in your collection until then." % [card.display_name, kind_name(card).to_lower()])
+	return Villain.fill("%s is a %s card. Cards of three or four Paths are sealed until {villain} is defeated, so it cannot go in a deck yet. It stays in your collection until then." % [card.display_name, "four-Path" if card.paths().size() >= 4 else "three-Path"])
 
 
 static func rule_text() -> String:

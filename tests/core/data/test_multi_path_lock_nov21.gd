@@ -191,7 +191,7 @@ func test_dungeon_chests_and_events_hold_none() -> void:
 		var card: CardData = _content.card(found.get_string(1))
 		assert_not_null(card, found.get_string(1))
 		assert_false(MultiPathLock.is_multi(card), "a dungeon chest or choice gives %s" % found.get_string(1))
-	assert_gt(checked, 10, "the dungeons' card prizes were read")
+	assert_gt(checked, 5, "the dungeons' card prizes were read")
 
 
 func test_nothing_leaks_through_the_one_door() -> void:

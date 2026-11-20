@@ -482,7 +482,34 @@ func earned_cards_map() -> Dictionary:
 	if profile != null:
 		for card: CardData in profile.owned_cards:
 			result[card.id] = true
+	# Fable Nov 21 (Part 3): three- and four-Path cards are sealed until Primm is defeated (`MultiPathLock`, read by `CardAvailability`)
+	if flag(MultiPathLock.FLAG_UNLOCKED):
+		result[MultiPathLock.UNLOCK_KEY] = true
 	return result
+
+
+## Fable Nov 21 (Part 3): the ids of sealed three- and four-Path cards that reached the collection before Primm's defeat. No source
+## should produce one; the tests open every pack type and read this (never saved).
+var locked_multi_path_grants: Array[String] = []
+
+
+## The "three- and four-Path cards are open" notice: true exactly once, the first time it is asked after Primm's defeat.
+func take_multi_path_notice() -> bool:
+	if not flag(MultiPathLock.FLAG_UNLOCKED) or flag(MultiPathLock.FLAG_NOTICE_SHOWN):
+		return false
+	set_flag(MultiPathLock.FLAG_NOTICE_SHOWN)
+	return true
+
+
+## The Deck Station's once-ever explanation of the seal: true the first time it is asked while a sealed card is in the collection.
+func take_multi_path_tip() -> bool:
+	if profile == null or flag(MultiPathLock.FLAG_UNLOCKED) or flag(&"tip_multi_path_locked"):
+		return false
+	for card: CardData in profile.owned_cards:
+		if MultiPathLock.is_multi(card):
+			set_flag(&"tip_multi_path_locked")
+			return true
+	return false
 
 
 ## Whether a card is available to this player right now (`CardAvailability.allowed`): GENERAL always, REWARD-LOCKED once earned,
@@ -619,6 +646,8 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 	if profile == null:
 		return notices
 	for card: CardData in cards:
+		if MultiPathLock.is_multi(card) and not flag(MultiPathLock.FLAG_UNLOCKED):
+			locked_multi_path_grants.append(card.id)  # Fable Nov 21 (Part 3): it is kept (never taken away), and counted for the tests
 		if CardAvailability.is_reward_locked(card):
 			earned_cards[card.id] = true  # Cards Oct 27: earned from its source - the shelves and packs may offer it from now on
 		if card.is_unlimited() or profile.owned_copies(card.id) < copy_cap(card):
@@ -4293,6 +4322,8 @@ func reward_pick(context: BattleContext, boss: bool, count_the_win: bool = true)
 	for id: Variant in earned_cards.keys():
 		if int(owned.get(id, 0)) <= 0:
 			owned[id] = 1
+	if flag(MultiPathLock.FLAG_UNLOCKED):
+		owned[MultiPathLock.UNLOCK_KEY] = 1  # Fable Nov 21 (Part 3): after Primm the picks may hold three- and four-Path cards
 	return RewardPicks.choose(content, rng, RewardPicks.deck_paths(foe_deck_of(context.game)), profile.primary_affinity, profile.level, boss, repeat, owned, caps, gatekeeper_pick_path(context))
 
 

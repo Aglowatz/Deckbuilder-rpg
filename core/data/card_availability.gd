@@ -49,6 +49,9 @@ static func is_reward_locked(card: CardData) -> bool:
 ## Whether a generator (packs, shelves, picks, the Alchemist...) may produce `card` for a player who has earned the cards in `earned`
 ## (card id -> anything truthy; `Session.earned_cards_map()` builds it from the collection and the save). ENEMY_ONLY: never.
 static func allowed(card: CardData, earned: Dictionary = {}) -> bool:
+	# Fable Nov 21 (Part 3): a three- or four-Path card waits for Primm's defeat (`MultiPathLock`; the Session's earned map carries the key)
+	if MultiPathLock.blocks(card, earned):
+		return false
 	match kind_of(card):
 		Kind.ENEMY_ONLY:
 			return false

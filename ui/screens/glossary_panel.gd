@@ -133,6 +133,10 @@ static func entries(index: int) -> Array[Array]:
 				result.append([str(term), str(KeywordInfo.GLOSSARY[term]), ""])
 			# Fable Nov 12c (A3): the deck's copy rule, with the caps at the player's level
 			result.append(["Copies of a card", CopyCaps.rule_text(Session.profile.level if Session.profile != null else 1), ""])
+			# Fable Nov 21: the two words the owner renamed or added
+			result.append(["Pathless", "A card that walks no Path (it used to be called Colorless). Any deck may hold it, and its cost can be paid with energy of any Path.", ""])
+			var open: bool = Session.flag(MultiPathLock.FLAG_UNLOCKED)
+			result.append([MultiPathLock.RULE_TITLE, MultiPathLock.unlocked_text() if open else MultiPathLock.rule_text(), ""])
 	return result
 
 

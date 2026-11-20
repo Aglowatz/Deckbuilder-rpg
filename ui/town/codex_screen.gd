@@ -474,6 +474,9 @@ func inspect(card: CardData) -> void:
 			where = "%s's own card: never in packs, shops or rewards." % CardAvailability.hint(card)
 			if Session.grandfathered_cards.has(card.id):
 				where += " Yours from an earlier save (grandfathered)."
+	# Fable Nov 21 (Part 3): a three- or four-Path card says that it is sealed until Primm's defeat
+	if MultiPathLock.is_multi(card) and not Session.flag(MultiPathLock.FLAG_UNLOCKED):
+		where = (where + " " if not where.is_empty() else "") + MultiPathLock.rule_text()
 	if not where.is_empty():
 		var source_line: Label = UIKit.label(where, &"MutedLabel", 18, UIStyle.MUTED)
 		source_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

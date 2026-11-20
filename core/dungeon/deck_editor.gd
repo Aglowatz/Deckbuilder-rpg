@@ -46,24 +46,55 @@ func cap_text(card: CardData) -> String:
 	return CopyCaps.ratio_text(count(card), card, profile.level)
 
 
-## Empty string when `card` may be added, otherwise the reason it cannot.
-func why_not_add(card: CardData) -> String:
+## Fable Nov 21 (Part 3): the kinds of refusal. A Path refusal (the card's Path does not fit the deck, or the card is a sealed three- or
+## four-Path card) is shown as a pop-up the player confirms; the others stay a short line.
+const REFUSED_TOKEN: String = "token"
+const REFUSED_COPIES: String = "copies"
+const REFUSED_NOT_OWNED: String = "not_owned"
+const REFUSED_LOCKED: String = "locked"
+const REFUSED_PATHS: String = "paths"
+
+
+static func needs_popup(kind: String) -> bool:
+	return kind == REFUSED_LOCKED or kind == REFUSED_PATHS
+
+
+## "" when `card` may be added, otherwise which rule refuses it (one of the REFUSED_ constants).
+func why_not_kind(card: CardData) -> String:
 	if card.is_token:
-		return "Tokens cannot be put in a deck."
+		return REFUSED_TOKEN
+	if MultiPathLock.locked_for(card, profile):
+		return REFUSED_LOCKED
 	if not card.is_unlimited():
 		if count(card) >= cap(card):
-			return CopyCaps.reason(card, profile.level)
+			return REFUSED_COPIES
 		if count(card) >= owned(card):
-			return "You do not own another copy."
+			return REFUSED_NOT_OWNED
 	var resulting: Array[Affinity.Type] = deck.colors()
 	for path: Affinity.Type in card.paths():
 		if not resulting.has(path):
 			resulting.append(path)
 	if resulting.size() > DeckValidator.max_colors(profile, modifiers) and resulting.size() > deck.colors().size():
-		var hint: String = DeckValidator.path_limit_hint(profile, modifiers)
-		if card.is_multipath():
-			return "%s needs two Paths. %s" % [card.display_name, hint]
-		return hint
+		return REFUSED_PATHS
+	return ""
+
+
+## Empty string when `card` may be added, otherwise the reason it cannot.
+func why_not_add(card: CardData) -> String:
+	match why_not_kind(card):
+		REFUSED_TOKEN:
+			return "Tokens cannot be put in a deck."
+		REFUSED_LOCKED:
+			return MultiPathLock.reason(card)
+		REFUSED_COPIES:
+			return CopyCaps.reason(card, profile.level)
+		REFUSED_NOT_OWNED:
+			return "You do not own another copy."
+		REFUSED_PATHS:
+			var hint: String = DeckValidator.path_limit_hint(profile, modifiers)
+			if card.is_multipath():
+				return "%s needs %s. %s" % [card.display_name, "two Paths" if card.paths().size() == 2 else "%d Paths" % card.paths().size(), hint]
+			return "%s is a %s card. %s" % [card.display_name, Affinity.display_name(card.color), hint]
 	return ""
 
 

@@ -23,6 +23,21 @@ static func ask(parent: Node, title: String, message: String, confirm_text: Stri
 	return dialog
 
 
+## Fable Nov 21: a notice the player must confirm - one button ("OK"), answered by a click, Enter / Space / E, Esc, or the pad's A or B.
+## Emits `confirmed` however it is closed.
+static func notice(parent: Node, title: String, message: String, ok_text: String = "OK") -> ConfirmDialog:
+	var dialog: ConfirmDialog = ConfirmDialog.new()
+	dialog.name = "NoticeDialog"
+	dialog.set_meta("title", title)
+	dialog.set_meta("message", message)
+	dialog.set_meta("confirm_text", ok_text)
+	dialog.set_meta("cancel_text", "")
+	dialog.set_meta("danger", false)
+	dialog.set_meta("check_text", "")
+	parent.add_child(dialog)
+	return dialog
+
+
 ## A three-way question: `confirmed` (the first, primary button), `alternative` (the middle one) or `cancelled` (the last one, focused).
 static func ask_three(parent: Node, title: String, message: String, confirm_text: String, alternative_text: String, cancel_text: String = "Cancel") -> ConfirmDialog:
 	var dialog: ConfirmDialog = ConfirmDialog.new()
@@ -84,11 +99,16 @@ func _ready() -> void:
 			queue_free())
 		row.add_child(middle)
 		middle.focus_mode = Control.FOCUS_ALL
+	var one_button: bool = str(get_meta("cancel_text")) == ""
 	var no: FancyButton = FancyButton.make(str(get_meta("cancel_text")), &"", Vector2(200, 56))
 	no.pressed.connect(func() -> void:
 		cancelled.emit()
 		queue_free())
-	row.add_child(no)
+	if one_button:
+		no.queue_free()  # a notice: only OK, and Esc / B press it too
+		no = yes
+	else:
+		row.add_child(no)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open", -4.0)
 	# Overnight Oct 17, Part 13: keyboard / pad: both buttons focusable, the safe choice focused for a dangerous action.

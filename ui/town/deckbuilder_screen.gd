@@ -96,6 +96,9 @@ func music_cue() -> String:
 
 func _build() -> void:
 	_editing = Session.deck_box.active
+	# Fable Nov 21 (Part 3.3): the first time the collection holds a sealed three- or four-Path card, the station says why it is sealed
+	if Session.take_multi_path_tip():
+		ConfirmDialog.notice.call_deferred(self, MultiPathLock.RULE_TITLE, MultiPathLock.rule_text())
 	var infrastructure: Array[CardData] = []
 	for color: Affinity.Type in Affinity.colored_types():
 		infrastructure.append(Session.content.infrastructure[int(color)] as CardData)
@@ -877,13 +880,30 @@ func _add(card: CardData) -> void:
 	var reason: String = editor.why_not_add(card)
 	if reason != "":
 		Audio.sfx(&"ui_error", -4.0)
-		_say(reason, Color("ff8a85"))
+		# Fable Nov 21 (Part 3.4): a Path refusal (the wrong Path for this deck, or a sealed three- / four-Path card) is a pop-up with the
+		# card's name and the reason, closed with OK; it was a red line at the bottom that faded in two seconds
+		if DeckEditor.needs_popup(editor.why_not_kind(card)):
+			show_refusal(card, reason)
+		else:
+			_say(reason, Color("ff8a85"))
 		return
 	editor.add(card)
 	_dirty = true
 	Audio.sfx(&"deck_add")
 	_refresh()
 	_show_plus_one(card)
+
+
+## The pop-up of a refused card: its name as the title, the reason, one OK button (mouse, keyboard and controller).
+func show_refusal(card: CardData, reason: String) -> ConfirmDialog:
+	if _refusal != null and is_instance_valid(_refusal):
+		return _refusal
+	_preview.hide_preview()
+	_refusal = ConfirmDialog.notice(self, card.display_name, reason)
+	return _refusal
+
+
+var _refusal: ConfirmDialog
 
 
 ## Fix pass Nov 7 (item 3, C2b F4): every add shows a "+1" rising from the card's tile (the count in the list moves too), so a click that
@@ -939,6 +959,10 @@ func _refresh() -> void:
 			# Cards Oct 27, Part 3: "NEW" until the station is next closed (Session.new_cards: the cards that joined the collection since).
 			label.text = ("NEW  %s · Own %d" if Session.new_cards.has(str(id)) else "Deck %s · Own %d") % [editor.cap_text(card), editor.owned(card)]  # Nov 16b: the NEW line fits the narrower tile
 			label.add_theme_color_override("font_color", UIStyle.GOLD if Session.new_cards.has(str(id)) else UIStyle.PARCHMENT)
+			# Fable Nov 21 (Part 3.3): a sealed three- or four-Path card says so on its tile
+			if MultiPathLock.locked_for(card, editor.profile):
+				label.text = "Sealed · Own %d" % editor.owned(card)
+				label.add_theme_color_override("font_color", Color("ffb38a"))
 			# Nov 18 evening (Part 2.4): copies owned past the deck limit say when they become usable
 			var later: String = CopyCaps.more_usable_note(card, editor.profile.level, editor.owned(card))
 			label.tooltip_text = (later[0].to_upper() + later.substr(1)) if not later.is_empty() else ""

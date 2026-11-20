@@ -13,7 +13,7 @@ const START_MAX_COLORS: int = 1
 const BASE_MAX_COLORS: int = 2
 const POSTGAME_MAX_COLORS: int = 4
 
-enum Problem { TOO_FEW_CARDS, TOO_MANY_COPIES, TOO_MANY_COLORS, NOT_OWNED }
+enum Problem { TOO_FEW_CARDS, TOO_MANY_COPIES, TOO_MANY_COLORS, NOT_OWNED, LOCKED_MULTI_PATH }
 
 
 class Issue:
@@ -86,6 +86,13 @@ static func validate(
 		var limit: int = CopyCaps.for_card(card, level)
 		if int(counts[id]) > limit:
 			issues.append(_issue(Problem.TOO_MANY_COPIES, id, "%d copies of %s; the cap is %d. %s" % [int(counts[id]), card.display_name, limit, CopyCaps.reason(card, level)]))
+	# Fable Nov 21 (Part 3): a three- or four-Path card cannot be in a deck until Primm is defeated
+	var sealed: PackedStringArray = []
+	for card_id: Variant in counts.keys():
+		if MultiPathLock.locked_for(by_id[str(card_id)] as CardData, profile):
+			sealed.append((by_id[str(card_id)] as CardData).display_name)
+	if not sealed.is_empty():
+		issues.append(_issue(Problem.LOCKED_MULTI_PATH, "", "%s: %s" % [", ".join(sealed), MultiPathLock.rule_text()]))
 	var colors: int = deck.colors().size()
 	var limit: int = max_colors(profile, modifiers)
 	if colors > limit:

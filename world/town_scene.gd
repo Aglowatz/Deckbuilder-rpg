@@ -3466,6 +3466,9 @@ func _announce_new_unlocks() -> void:
 	# Overnight Nov 19 (Part 2.3): shop and unlock news waits for a click.
 	for notice: String in notices:
 		queue_notice("Now open", notice)
+	# Fable Nov 21 (Part 3): after Primm's defeat, once: three- and four-Path cards are no longer sealed
+	if Session.take_multi_path_notice():
+		queue_notice(MultiPathLock.UNLOCKED_TITLE, MultiPathLock.unlocked_text())
 
 
 ## After an arena fight the town reopens the Arena screen with what happened.
