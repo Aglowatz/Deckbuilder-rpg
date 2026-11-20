@@ -1,0 +1,16 @@
+[
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_town.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "I always thought the key was lost, but it wasn't. Somebody hid it in the big chest out east, dearie, on the little spit of land where the lane past the Rift Express stop meets the water. Fetch it and we'll see what that door is for.",
+		"after": "I always thought the key was lost, but it never went far. It's in the little chest beside the well itself, dearie, and I've walked past it for forty years. My knees don't bend that far now. Fetch it and we'll see what that door is for."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_town.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "The key's in the big chest out east, dearie. Go past the Rift Express stop until the lane meets the water, and it's on the little spit of land there. It's marked on your map, so even I could find it.",
+		"after": "The key's in the little chest beside the Old Well, dearie, on the other side from the iron hatch. It's marked on your map, so even I could find it."
+	}
+]

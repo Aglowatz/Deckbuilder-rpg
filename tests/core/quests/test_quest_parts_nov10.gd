@@ -88,10 +88,10 @@ func test_roaming_enemy_steps_mark_the_roamers_and_stash_steps_the_stashes() -> 
 	var audit: QuestData = QuestCatalog.find(ZoneQuestDefinitions.AUDIT)
 	assert_eq(audit.objectives[1].targets(Session.unlock_state())[0]["spot"], QuestMarkers.SPOT_CHESTS)
 	var well: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_TOWN)
-	assert_eq(well.objectives[0].targets(Session.unlock_state())[0]["spot"], QuestMarkers.SPOT_HARBOR_CHEST)
-	# and that quest completes on the giant chest's own secret id (the old "harbor_chest" id was set by nothing any more)
+	assert_eq(well.objectives[0].targets(Session.unlock_state())[0]["spot"], ZoneQuestDefinitions.WELL_KEY_SPOT)
+	# Fable Nov 21: that quest completes on the small chest beside the well (the key left Shiro Swindle's giant chest)
 	Session.start_quest(ZoneQuestDefinitions.SIDE_TOWN)
-	Session.discover_secret(NinjaBoss.secret_id(NinjaBoss.ORIGINAL_CHEST))
+	Session.discover_secret(ZoneQuestDefinitions.WELL_KEY_SECRET)
 	assert_true(Session.quest_log.objective_met(well, 0, Session.unlock_state()))
 
 

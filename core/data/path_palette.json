@@ -7,8 +7,9 @@
 		"necrocrat": {"main": "9A5FC7", "accent": "72E55B", "text": "C39BE6", "ink": "64358F", "frame": "5F9A62"},
 		"colorless": {"main": "B8A98A", "accent": "4C4441", "text": "CFC3A8", "ink": "5A5046", "frame": "9A9590"}
 	},
+	"_alternatives_note": "Not chosen. The owner decided on Nov 20 that the lighter Gourmand blue 5AAAF2 stays; the entries below are a record only and nothing reads them.",
 	"alternatives": {
-		"Gourmand as the exact old blue (closer to the violet for red-green colour-blind players: 9 against 14)": {"gourmand": {"main": "4A8FE0", "text": "8DBBF2", "ink": "22559C"}},
-		"Nov 19 icon palette (Gourmand cream, Necrocrat ghost green)": {"gourmand": {"main": "F0C494", "accent": "C06A3A", "text": "F5D3AC", "ink": "8A4A22"}, "necrocrat": {"main": "72E55B", "accent": "55606A", "text": "9BEF88", "ink": "2C5E55"}}
+		"NOT CHOSEN - Gourmand as the exact old blue (closer to the violet for red-green colour-blind players: 9 against 14)": {"gourmand": {"main": "4A8FE0", "text": "8DBBF2", "ink": "22559C"}},
+		"NOT CHOSEN - Nov 19 icon palette (Gourmand cream, Necrocrat ghost green)": {"gourmand": {"main": "F0C494", "accent": "C06A3A", "text": "F5D3AC", "ink": "8A4A22"}, "necrocrat": {"main": "72E55B", "accent": "55606A", "text": "9BEF88", "ink": "2C5E55"}}
 	}
 }

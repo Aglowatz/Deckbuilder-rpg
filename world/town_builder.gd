@@ -368,6 +368,7 @@ func _build_props() -> void:
 	for circle: Vector3 in FourSealVault.SOLID:
 		obstacles.append(Vector3(vault4_mountain.x + circle.x, vault4_mountain.z + 1.5 + circle.y, circle.z))
 	_build_hidden_chests()
+	_build_well_key_chest()
 	expansion = TownExpansion.build(root, self)
 	_build_dev_shrine()
 	_build_graveyard()
@@ -627,6 +628,23 @@ var expansion: Dictionary = {}
 ## Vertical slice: the BuildingKit buildings of the centre (anchor key, or "row_n" for the fillers) and their warm lights, registered with the style rig by the scene.
 var kit_buildings: Dictionary = {}
 var kit_lights: Array[OmniLight3D] = []
+
+
+## Fable Nov 21 (Part 1.5): the key of "The Door Under the Well" has a small chest of its own beside the Old Well (it lay in Shiro
+## Swindle's prank chest, which cost 50 gold and started his questline). The offset is from the well's anchor: the hatch is on the other side.
+const WELL_KEY_CHEST_OFFSET: Vector3 = Vector3(0.7, 0.0, 2.5)
+const WELL_KEY_CHEST_SCALE: float = ChestKit.SCALE * 1.25
+var well_key_chest_node: Node3D
+
+
+func _build_well_key_chest() -> void:
+	if not anchors.has("well"):
+		return
+	var pos: Vector3 = (anchors["well"] as Vector3) + WELL_KEY_CHEST_OFFSET
+	well_key_chest_node = ModelKit.dungeon_prop("chest_gold")
+	ModelKit.place(root, well_key_chest_node, pos, 200.0, WELL_KEY_CHEST_SCALE)
+	obstacles.append(Vector3(pos.x, pos.z, ChestKit.FOOTPRINT * 1.25))
+	anchors["well_key_chest"] = pos
 
 
 func _build_hidden_chests() -> void:

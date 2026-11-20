@@ -962,6 +962,11 @@ func _build_spots() -> void:
 	_add_spot("well", "The Old Well", town.anchors["well"] as Vector3, 1.7)
 	_add_spot("well_door", "The Iron Hatch", (town.anchors["well"] as Vector3) + Vector3(-2.2, 0.0, 0.6), 1.3)
 	_build_vault_hatch()
+	if town.anchors.has("well_key_chest"):
+		_add_spot(ZoneQuestDefinitions.WELL_KEY_SPOT, "A Small Chest", town.anchors["well_key_chest"] as Vector3, ChestKit.REACH)
+		ChestKit.set_open(town.well_key_chest_node, Session.found_secret(ZoneQuestDefinitions.WELL_KEY_SECRET))
+		if not Session.found_secret(ZoneQuestDefinitions.WELL_KEY_SECRET):
+			ChestSparkle.attach(town.well_key_chest_node)
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, VENDOR_REACH)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors.get("cave", town.anchors["gate"]) as Vector3, 1.7)  # Overnight Nov 19 (Part 8.2)
@@ -1392,6 +1397,8 @@ func _prompt_text(spot: Spot) -> String:
 	if spot.id in NPC_SPOT_IDS:
 		return talk_prompt(spot.id)
 	match spot.id:
+		ZoneQuestDefinitions.WELL_KEY_SPOT:
+			return "Look in the small chest" if Session.found_secret(ZoneQuestDefinitions.WELL_KEY_SECRET) else "Open the small chest"
 		"well_door":
 			return "Open the iron hatch" if Session.side_unlocked("S-TOWN") else "Try the iron hatch"
 		"well":
@@ -1614,6 +1621,8 @@ func _interact(spot: Spot) -> void:
 			_use_well()
 		"well_door":
 			_use_well_door()
+		ZoneQuestDefinitions.WELL_KEY_SPOT:
+			_open_well_key_chest()
 		"vendor":
 			_talk_vendor()
 		"deck":
@@ -2521,6 +2530,24 @@ You are fully healed on entry. Lose a duel and you are carried back to town." % 
 			Audio.sfx(&"dungeon_enter")
 			Session.enter_town_side_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
+## Fable Nov 21 (Part 1.5): the small chest beside the Old Well holds the old iron key (and nothing else: no gold is taken, nobody jumps out).
+const WELL_KEY_TOAST: String = "Inside lies an old iron key, its bow carved with four small signs in a ring."
+const WELL_KEY_TOAST_QUEST: String = "Inside lies an old iron key. Bring it to Elder Maren."
+const WELL_KEY_EMPTY: String = "The small chest is empty. The key is with you."
+
+
+func _open_well_key_chest() -> void:
+	player.face(town.anchors["well_key_chest"] as Vector3)
+	if Session.found_secret(ZoneQuestDefinitions.WELL_KEY_SECRET):
+		hud.toast(WELL_KEY_EMPTY, UIStyle.MUTED)
+		return
+	Audio.sfx(&"chest_open", -4.0)
+	ChestKit.open_animated(town.well_key_chest_node)
+	var on_quest: bool = Session.quest_log != null and Session.quest_log.is_active(ZoneQuestDefinitions.SIDE_TOWN)
+	Session.discover_secret(ZoneQuestDefinitions.WELL_KEY_SECRET)
+	hud.toast(WELL_KEY_TOAST_QUEST if on_quest else WELL_KEY_TOAST, UIStyle.GOLD, 5.0)
 
 
 ## A low iron hatch with a gold rim next to the well (visual only; the spot above does the work).
@@ -3808,7 +3835,7 @@ func _open_packs() -> void:
 ## Hidden things and vendors whose stock is not open yet carry no name plate and no map icon: a locked shop does not announce itself.
 func _spot_is_named(id: String) -> bool:
 	match id:
-		"chest", "chest_back", "lever", "vault4":
+		"chest", "chest_back", "lever", "vault4", ZoneQuestDefinitions.WELL_KEY_SPOT:
 			return false
 		"alchemist":
 			return Session.alchemist_unlocked()

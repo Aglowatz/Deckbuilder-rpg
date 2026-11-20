@@ -1,0 +1,64 @@
+# Fable Nov 21, Part 1.5: The Door Under the Well with the key in its own small chest
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate refusemancer
+dev travel town
+wait 20
+skip_dialogue
+calm
+cam 0
+dev quest side_s_town 0
+wait 1
+dev goto elder
+wait 1
+key E
+wait 2
+shot p1_well_1_maren_reminder
+skip_dialogue
+key M
+wait 2
+shot p1_well_2_map_marker
+key M
+wait 1
+dev goto well_key_chest
+wait 1
+shot p1_well_3_small_chest_prompt
+scene
+key E
+wait 1.5
+shot p1_well_4_key_toast
+scene
+wait 4
+dev goto elder
+wait 1
+key E
+wait 2
+shot p1_well_5_maren_takes_key
+skip_dialogue
+wait 2
+skip_dialogue
+shot p1_well_6_way_in_tracked
+dev goto well_door
+wait 1
+shot p1_well_7_hatch_prompt
+key E
+wait 2
+shot p1_well_8_hatch_confirm
+key Escape
+wait 1
+log --- Shiro's chest: 50 gold, no key
+dev goto chest
+wait 1
+key E
+wait 4
+skip_dialogue
+wait 5
+shot p1_well_9_shiro_chest_no_key
+scene

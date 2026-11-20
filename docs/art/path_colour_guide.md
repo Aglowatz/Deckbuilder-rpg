@@ -43,8 +43,9 @@ apart at a glance):
 - For normal vision the four are further apart than ever (49).
 - The close pair for red-green colour-blind players is **Gourmand blue against Necrocrat violet** (14 for deuteranopia): violet loses
   its red and reads as a darker blue. That is why the blue is a step **lighter** than the old one (`#5AAAF2` against `#4A8FE0`): the two
-  then differ by brightness (14 against 9 with the exact old blue). The violet is the old one, unchanged. The exact old blue is kept
-  under `"alternatives"` in the JSON file, as is the Nov 19 palette.
+  then differ by brightness (14 against 9 with the exact old blue). The violet is the old one, unchanged. **The owner confirmed the
+  lighter blue on Nov 20: it stays.** The exact old blue and the Nov 19 palette are still listed under `"alternatives"` in the JSON
+  file, marked "not chosen" (a record only).
 - Beefcake red against Refusemancer moss is 21 to 22 for red-green colour-blind players, as on Nov 19.
 - Colour is never the only signal: the Path icon is always beside it.
 - Readable on both backgrounds: each main is at least 3.9:1 on the dark panel (`#1C1722`), each ink at least 4.6:1 on parchment

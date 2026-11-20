@@ -29,50 +29,71 @@ func before_each() -> void:
 # ---- 4.1 The Door Under the Well -------------------------------------------------------------------------------------------------
 
 
+# Fable Nov 21 (Part 1.5): the key moved to a small chest of its own beside the well; Shiro Swindle's chest is only his again.
 func test_the_wells_chest_step_is_said_in_words_and_marked() -> void:
 	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_TOWN)
 	assert_not_null(quest)
 	var step: QuestObjective = quest.objectives[0]
-	assert_string_contains(step.text, "east of the Rift Express stop")
+	assert_string_contains(step.text, "small chest beside the Old Well")
 	assert_true(step.has_marker(), "the chest step has a marker")
 	assert_eq(step.target_area, "town")
-	assert_eq(step.target_id, QuestMarkers.SPOT_HARBOR_CHEST, "the marker is the chest itself")
-	assert_string_contains(step.hint, "spit of land")
-	assert_string_contains(quest.summary, "east edge of town")
-	assert_false(quest.summary.contains("somewhere in Crosspath"), "no more 'somewhere'")
+	assert_eq(step.target_id, ZoneQuestDefinitions.WELL_KEY_SPOT, "the marker is the small chest itself")
+	assert_string_contains(step.hint, "iron hatch")
+	assert_string_contains(quest.summary, "small chest beside the well")
+	assert_false(quest.summary.contains("spit of land"), "not Shiro Swindle's chest any more")
 	var offer: Array[String] = DungeonCatalog.text_lines("quest.side_s_town.offer")
 	var active: Array[String] = DungeonCatalog.text_lines("quest.side_s_town.active")
-	assert_string_contains(" ".join(offer), "Rift Express stop", "Maren says where, when she gives the quest")
-	assert_string_contains(" ".join(active), "Rift Express stop", "and when asked again")
+	assert_string_contains(" ".join(offer), "little chest beside the well", "Maren says where, when she gives the quest")
+	assert_string_contains(" ".join(active), "little chest beside the Old Well", "and when asked again")
 	assert_string_contains(" ".join(active), "map")
+	assert_false((" ".join(offer) + " ".join(active)).contains("Rift Express"), "no line still sends the player east")
 
 
 func test_the_wells_chest_can_be_walked_to_from_maren() -> void:
-	var chest: Vector3 = _town.anchors["chest"] as Vector3
+	var chest: Vector3 = _town.anchors["well_key_chest"] as Vector3
+	var well: Vector3 = _town.anchors["well"] as Vector3
 	var maren: Vector3 = _town.anchors["npc_elder"] as Vector3
 	var walkable: Callable = func(at: Vector3) -> bool: return _town.is_walkable(at)
-	assert_true(_town.is_walkable(chest), "the hero can stand at the chest's front")
-	var route: PackedVector3Array = WalkPlanner.route(walkable, _town.map_bounds(), maren, chest, 0.5, 1.0)
-	assert_gt(route.size(), 1, "a walking route leads from Elder Maren to the chest")
-	var back: PackedVector3Array = WalkPlanner.route(walkable, _town.map_bounds(), chest, _town.anchors["well"] as Vector3, 0.5, 2.5)
-	assert_gt(back.size(), 1, "and on from the chest to the Old Well")
+	assert_lt(chest.distance_to(well), 4.0, "the small chest is beside the well")
+	assert_gt(chest.distance_to(well + Vector3(-2.2, 0.0, 0.6)), 2.5, "and not on the iron hatch")
+	assert_false(_town.is_walkable(chest), "the chest itself is solid")
+	var route: PackedVector3Array = WalkPlanner.route(walkable, _town.map_bounds(), maren, chest, 0.5, ChestKit.REACH - 0.3)
+	assert_gt(route.size(), 1, "a walking route leads from Elder Maren to within reach of the chest")
+	var back: PackedVector3Array = WalkPlanner.route(walkable, _town.map_bounds(), route[route.size() - 1], well + Vector3(-2.2, 0.0, 0.6), 0.5, 1.2)
+	assert_gt(back.size(), 1, "and on from the chest to the iron hatch")
 
 
-func test_opening_the_chest_finishes_the_step_and_maren_takes_the_key() -> void:
+func test_opening_the_small_chest_finishes_the_step_and_maren_takes_the_key() -> void:
 	Session.set_flag(&"trial_cleared")
 	DevActions.set_quest_step(ZoneQuestDefinitions.SIDE_TOWN, 0)
 	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_TOWN)
 	assert_true(Session.quest_log.is_active(quest.id))
 	assert_false(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()))
 	assert_false(Session.side_unlocked("S-TOWN"), "the hatch is sealed")
-	Session.open_giant_chest(NinjaBoss.ORIGINAL_CHEST)
-	assert_true(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()), "opening the chest is the step")
+	var gold_before: int = Session.gold
+	Session.discover_secret(ZoneQuestDefinitions.WELL_KEY_SECRET)
+	assert_eq(Session.gold, gold_before, "the small chest takes no gold")
+	assert_false(Session.quest_log.is_active(NinjaBoss.QUEST_ID), "and does not start Shiro Swindle's questline")
+	assert_true(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()), "opening the small chest is the step")
 	assert_eq(quest.turn_in_npc, QuestDefinitions.MAREN)
 	assert_true(Session.turn_in_quest(quest.id))
 	assert_true(Session.side_unlocked("S-TOWN"), "the hatch beside the well is open")
 	Session.offer_auto_quests()
 	assert_true(Session.quest_log.is_active(ZoneQuestDefinitions.way_in_id("S-TOWN")), "and the way down is the next tracked step")
-	assert_string_contains(GiantChestEvent.KEY_FOUND_TOAST, "Elder Maren")
+	assert_string_contains(TownScene.WELL_KEY_TOAST_QUEST, "Elder Maren")
+
+
+func test_shiro_swindles_chest_no_longer_holds_the_key() -> void:
+	Session.set_flag(&"trial_cleared")
+	DevActions.set_quest_step(ZoneQuestDefinitions.SIDE_TOWN, 0)
+	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_TOWN)
+	Session.gold = 120
+	var result: Dictionary = Session.open_giant_chest(NinjaBoss.ORIGINAL_CHEST)
+	assert_eq(int(result.get("stolen", 0)), 50, "his chest still takes 50 gold")
+	assert_true(Session.quest_log.is_active(NinjaBoss.QUEST_ID), "and starts his questline")
+	assert_false(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()), "but it is not the well quest's step")
+	var source: String = FileAccess.get_file_as_string("res://world/ninja/giant_chest_event.gd")
+	assert_false(source.contains("iron key"), "no key toast at his chest")
 
 
 # ---- 4.2 hand-ins ------------------------------------------------------------------------------------------------------------------

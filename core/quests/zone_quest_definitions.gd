@@ -59,8 +59,8 @@ const TARGETS: Dictionary = {
 		[QuestObjective.TargetKind.SPOT, "necrocrat", "mini_dungeon", "Down the lit elevator in the Elevator Bank"]],
 	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the junk heaps"]],
 	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
-	# Fable Nov 20 (Part 4.1): the chest is marked and said in words (it had no marker and "somewhere in Crosspath" for a hint)
-	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The big chest on the little spit of land at the east edge of town: follow the lane east past the Rift Express stop until it meets the water"]],
+	# Fable Nov 21 (Part 1.5): the key has a small chest of its own beside the Old Well (Nov 20 had it in Shiro Swindle's prank chest)
+	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", WELL_KEY_SPOT, "The small chest beside the Old Well, west of the market square: on the other side of the well from the iron hatch"]],
 	"cracks_in_the_glass": [[QuestObjective.TargetKind.SPOT, "final", "gallery_mirror", "The cracked mirror beside the castle door"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
@@ -125,7 +125,7 @@ static func _add_parts(quest: QuestData) -> void:
 		SIDE_GOUR:
 			quest.objectives[0].part(kind_spot, BuffetZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
 		SIDE_TOWN:
-			quest.objectives[0].part(kind_spot, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The big chest on the spit of land (east edge of town)")
+			quest.objectives[0].part(kind_spot, "town", WELL_KEY_SPOT, "The small chest beside the Old Well")
 		CapitalZone.QUEST_WHEELS:
 			for number: int in range(1, 4):
 				quest.objectives[0].part(kind_spot, CapitalZone.ID, "wheel_%d" % number, "Energy Wheel %d" % number, Condition.secret_found(CapitalZone.secret_id("wheel", str(number))))
@@ -569,6 +569,9 @@ const SIDE_NECRO: String = "side_s_necro"
 const SIDE_REF: String = "side_s_ref"
 const SIDE_CAP: String = "side_s_cap"
 const SIDE_TOWN: String = "side_s_town"
+## Fable Nov 21 (Part 1.5): the secret found by opening the small chest beside the Old Well, and that chest's spot in Crosspath.
+const WELL_KEY_SECRET: String = "well_key"
+const WELL_KEY_SPOT: String = "well_key_chest"
 const SIDE_GALLERY: String = ShatteredGallery.QUEST_ID
 ## Dungeon ID -> quest id.
 const SIDE_QUESTS: Dictionary = {
@@ -588,10 +591,10 @@ static func side_quests() -> Array[QuestData]:
 			[QuestObjective.make("Drive off scavengers in the Dump", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
 		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel only shows her older way into the city to friends of Wren's. Get through the gate, knock at the manhole and ask Wren in the Crease about the old tunnels.",
 			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
-		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in the big chest on the spit of land at the east edge of town, past the Rift Express stop. Open the chest, then bring her the key.",
-			# Oct 20: after the armory quest. Fable pass Nov 10: the chest is the original giant chest by the harbour (brief 16 renamed its secret
-			# to NinjaBoss.secret_id("town"); the old "harbor_chest" id still counts for saves from before that).
-			[QuestObjective.make("Open the big chest by the water, east of the Rift Express stop", Condition.any_of([Condition.secret_found("harbor_chest"), Condition.secret_found(NinjaBoss.secret_id(NinjaBoss.ORIGINAL_CHEST))] as Array[Condition]))], QuestDefinitions.story_gate()),
+		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in the small chest beside the well itself. Open the chest, then bring her the key.",
+			# Oct 20: after the armory quest. Fable Nov 21 (Part 1.5): the key lies in a small chest of its own beside the well; Shiro Swindle's
+			# giant chest is only his again (a save that had the quest active and his chest open simply opens the small chest too).
+			[QuestObjective.make("Open the small chest beside the Old Well", Condition.secret_found(WELL_KEY_SECRET))], QuestDefinitions.story_gate()),
 		_gallery_quest(),
 		_gallery_line(),
 	] as Array[QuestData] + way_in_quests()
