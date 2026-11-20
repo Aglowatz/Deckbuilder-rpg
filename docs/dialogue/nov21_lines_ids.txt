@@ -1,3 +1,8 @@
 # Fable Nov 21: lines changed tonight. Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21_lines.csv --revert=docs/dialogue/nov21_lines_ids.txt
+# The castle gate scene (pc_capture) was rewritten whole: python tools/nov21_lines.py --revert-scenes
 data/dungeons/dungeon_content.json::quest.side_s_town.offer::1
 data/dungeons/dungeon_content.json::quest.side_s_town.active::0
+data/story/intro_story.tres::memory.4.after::3
+data/dungeons/dungeon_content.json::quest.side_s_gour.done::0
+data/story/gourmand_story.tres::sign.mini_dungeon::0
+data/story/gourmand_story.tres::sign.mini_dungeon::1

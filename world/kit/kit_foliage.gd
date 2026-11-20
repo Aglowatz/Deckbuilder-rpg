@@ -111,6 +111,7 @@ static func card(id: String, size: Vector2, shadow: bool = true, still: bool = f
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
 	instance.set_meta(&"no_occlusion_fade", true)  # the card shader fades itself (hero-aware, per card)
+	instance.set_meta(OcclusionFader.META_CARD, true)  # Fable Nov 21: the fader draws the hero's outline behind it
 	return instance
 
 
@@ -237,5 +238,12 @@ static func tree_field(parent: Node3D, tree_kind: String, entries: Array[Diction
 	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
 	instance.set_meta(&"no_occlusion_fade", true)  # each card fades itself in the shader
 	instance.set_meta("points", entries)
+	# Fable Nov 21 (Part 7.2): where each tree stands (x, z, half width, top), so the fader can draw the hero's outline behind them
+	var pieces: PackedFloat32Array = PackedFloat32Array()
+	for entry: Dictionary in entries:
+		var at: Vector3 = entry["pos"] as Vector3
+		var tree_scale: float = float(entry.get("scale", 1.0))
+		pieces.append_array(PackedFloat32Array([at.x, at.z, size.x * tree_scale * 0.5, at.y + size.y * tree_scale]))
+	instance.set_meta(OcclusionFader.META_PIECES, pieces)
 	parent.add_child(instance)
 	return instance

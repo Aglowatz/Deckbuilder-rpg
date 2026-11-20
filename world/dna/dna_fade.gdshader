@@ -6,6 +6,7 @@ render_mode depth_prepass_alpha, cull_back, diffuse_lambert, specular_disabled;
 // hero and tall enough to cross the sight line, fades to a smooth ghost. Plain alpha, never a dither. `hero_pos` is set every frame by DnaScene (y -1000 = off).
 // Lit by the scene's lights (plain lambert plus the ambient, like the kit materials); textured with a kit surface tiled in metres (the UVs come in metres from DnaFadeMesh).
 
+#include "res://assets/shaders/style_occlusion.gdshaderinc"
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec4 albedo : source_color = vec4(1.0);
 uniform bool use_texture = true;
@@ -39,6 +40,9 @@ uniform float emission_strength = 0.0;
 global uniform float style_desaturate;
 
 varying float v_fade;
+// Fable Nov 21 (Part 7.2): a cabinet or partition in the way (not a full wall: those keep the room cut) opens the same round window
+// round the hero as a building does (style_occlusion), instead of turning into a ghost as a whole piece.
+varying vec3 v_world_pos;
 varying float v_world_y;
 varying float v_floor_piece;
 
@@ -140,7 +144,8 @@ void vertex() {
 		// Overnight Nov 18 (the grand hall): a wall at the lens also cuts away (an 11 m hall wall a few metres in front of the camera filled the view)
 		v_fade = max(cut, at_lens) * enabled * fade_strength;
 	}
-	v_world_y = (MODEL_MATRIX * vec4(VERTEX, 1.0)).y;
+	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	v_world_y = v_world_pos.y;
 	v_floor_piece = 1.0 - step(0.05, bottom);
 	v_tint = COLOR.rgb;
 	v_disc = CUSTOM1.yzw;
@@ -166,5 +171,11 @@ void fragment() {
 	}
 	EMISSION = c * emission_strength * soft;
 	float fade_here = v_fade * mix(1.0, smoothstep(hero_pos.y + foot * 0.6, hero_pos.y + foot, v_world_y), v_floor_piece);
+	if (!room_cut && near_reach <= 0.0) {
+		if (occlusion_window_cut(clamp(v_fade / max(fade_strength, 0.001), 0.0, 1.0), VERTEX, v_world_pos, VIEW_MATRIX, FRAGCOORD.xy)) {
+			discard;
+		}
+		fade_here = 0.0;
+	}
 	ALPHA = base_alpha * (1.0 - fade_here) * soft * (use_tex_alpha ? smoothstep(0.35, 0.7, tex_a) : 1.0);
 }

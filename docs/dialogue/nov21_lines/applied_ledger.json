@@ -12,5 +12,33 @@
 		"speaker": "Elder Maren",
 		"before": "The key's in the big chest out east, dearie. Go past the Rift Express stop until the lane meets the water, and it's on the little spit of land there. It's marked on your map, so even I could find it.",
 		"after": "The key's in the little chest beside the Old Well, dearie, on the other side from the iron hatch. It's marked on your map, so even I could find it."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Four signs in a ring, the same as the ones carved on this stick of mine. The Queen gave it to me the day I began teaching you, and I have leaned on it for ten years and never told a soul why.",
+		"after": "Four signs in a ring, the same as the ones carved on this staff of mine. I have leaned on it for as long as I can remember, and my fingers have known those four signs longer than my head has."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "The sliding door to Omakase is open now, so you just... you leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef.",
+		"after": "The Raw Deal is open to you now. It's out east, past Colonel Casserole's gate, and you go in through the freezer. You leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.mini_dungeon::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sign",
+		"before": "THE WALK-IN FREEZER",
+		"after": "THE RAW DEAL"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.mini_dungeon::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sign",
+		"before": "Three courses. Mandatory. No leftovers.",
+		"after": "Sushi. Seating: 1. Courses: 3. Enter through the walk-in freezer."
 	}
 ]

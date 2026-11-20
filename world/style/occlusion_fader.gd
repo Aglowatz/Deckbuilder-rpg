@@ -22,6 +22,12 @@ extends Node
 ## along an edge). Pure geometry: the sight lines are tested against each candidate's world box, cached at a scan every few seconds.
 
 const SCAN_INTERVAL: float = 4.0
+## Fable Nov 21 (Part 7.2): batched pieces open the round window in their own shaders (a field of tree cards in one MultiMesh, the
+## D.N.A.'s cabinets in one merged mesh, a single tree card). The fader cannot fade them one by one, but it draws the hero's outline
+## behind them as behind a building: their builders leave where each piece stands on the node, as (x, z, half width, top y) in the
+## node's own space (`META_PIECES`), or mark a single card whose transform is the piece (`META_CARD`).
+const META_PIECES: StringName = &"fade_pieces"
+const META_CARD: StringName = &"fade_card"
 ## Kept for the scenes that still set them (the quest door, the person in reach): the window round the hero covers the person in
 ## reach; a far door is shown by its marker, and no longer hollows out the house in front of it.
 static var focus_points: Array[Vector3] = []
@@ -115,6 +121,9 @@ var _footprints: Dictionary = {}
 var _silhouette_on: bool = false
 ## A tall thing crosses at least one sight line: the hero's outline shows through it even before (or without) a window.
 var _touched: bool = false
+## World (x, z, half width, top) of every batched piece found by the last scan, and whether one of them hides the hero now.
+var _pieces: PackedFloat32Array = PackedFloat32Array()
+var piece_cover: bool = false
 
 static var _footprint_shader: Shader
 
@@ -192,7 +201,7 @@ func _show_silhouette(shown: bool) -> void:
 	if sprite != null:
 		# inside an open window the figure itself shows through the gaps, so the outline only fills them in lightly
 		sprite.set("outline_tint", outline_color)
-		sprite.call("set_hidden_outline", (hero_hidden * (OUTLINE_IN_WINDOW if not _blocking.is_empty() else 1.0)) if shown else 0.0)
+		sprite.call("set_hidden_outline", (hero_hidden * (OUTLINE_IN_WINDOW if not _blocking.is_empty() or piece_cover else 1.0)) if shown else 0.0)
 
 
 ## The painted card of a hero node (TownPlayer.model is a SpriteActor with `sprite`), or null for the 3D fallback.
@@ -349,8 +358,65 @@ func _scan() -> void:
 	outline_color = Color(1.0, 0.96, 0.86) if path == Affinity.Type.NEUTRAL else PathPalette.main(path).lightened(0.45)
 	_pending = root.find_children("*", "MeshInstance3D", true, false)
 	_pending_index = 0
+	_collect_pieces()
 	_next = {"candidates": [] as Array[MeshInstance3D], "members": {}, "type": {}, "tall_box": {}, "any_box": {}, "name": {}, "proxies": {}, "boxes": [] as Array[AABB], "keys": [] as Array[int], "groups": [] as Array[int]}
 	_scan_step()
+
+
+## Fable Nov 21 (Part 7.2): gathers every batched piece of the scene into `_pieces` (world space).
+func _collect_pieces() -> void:
+	var found: PackedFloat32Array = PackedFloat32Array()
+	for node: Node in root.find_children("*", "GeometryInstance3D", true, false):
+		var instance: GeometryInstance3D = node as GeometryInstance3D
+		if not instance.is_visible_in_tree():
+			continue
+		if instance.has_meta(META_PIECES):
+			var local: PackedFloat32Array = instance.get_meta(META_PIECES) as PackedFloat32Array
+			var shift: Vector3 = instance.global_position
+			for index: int in range(0, local.size() - 3, 4):
+				found.append_array(PackedFloat32Array([local[index] + shift.x, local[index + 1] + shift.z, local[index + 2], local[index + 3] + shift.y]))
+		elif instance.has_meta(META_CARD):
+			var at: Vector3 = instance.global_position
+			var card_scale: Vector3 = instance.global_transform.basis.get_scale()
+			found.append_array(PackedFloat32Array([at.x, at.z, card_scale.x * 0.5, at.y + card_scale.y]))
+	_pieces = found
+
+
+## How many batched pieces the last scan found (tests, the probe).
+func piece_count() -> int:
+	return _pieces.size() / 4
+
+
+## True when a batched piece stands on the line from the lens to the hero, in front of him and taller than his shoulder: the same
+## test its shader makes for the window (kit_card.gdshader, dna_fade.gdshader).
+func pieces_cover(from: Vector3, feet: Vector3) -> bool:
+	if _pieces.is_empty():
+		return false
+	var chest: Vector3 = feet + Vector3(0.0, 0.9, 0.0)
+	var ab: Vector2 = Vector2(chest.x - from.x, chest.z - from.z)
+	var length_squared: float = maxf(ab.length_squared(), 0.0001)
+	var low_x: float = minf(from.x, chest.x) - 4.0
+	var high_x: float = maxf(from.x, chest.x) + 4.0
+	var low_z: float = minf(from.z, chest.z) - 4.0
+	var high_z: float = maxf(from.z, chest.z) + 4.0
+	for index: int in range(0, _pieces.size() - 3, 4):
+		var x: float = _pieces[index]
+		var z: float = _pieces[index + 1]
+		if x < low_x or x > high_x or z < low_z or z > high_z:
+			continue
+		var top: float = _pieces[index + 3]
+		if top < feet.y + SHOULDER + 0.3:
+			continue
+		var t: float = clampf(((x - from.x) * ab.x + (z - from.z) * ab.y) / length_squared, 0.0, 1.0)
+		if t < 0.03 or t > 0.93:
+			continue
+		var side: float = Vector2(x - (from.x + ab.x * t), z - (from.z + ab.y * t)).length()
+		if side > _pieces[index + 2] * 0.75 + 0.2:
+			continue
+		if top < lerpf(from.y, chest.y, t):
+			continue
+		return true
+	return false
 
 
 ## The whole scan at once (tests, the probe).
@@ -508,7 +574,8 @@ func _dithers(mesh_instance: MeshInstance3D) -> bool:
 	var result: bool = false
 	if material is ShaderMaterial:
 		var shader: Shader = (material as ShaderMaterial).shader
-		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted_triplanar"))
+		# Fable Nov 21 (Part 7.2): the terrain shader carries the window too (the Iron Cave's crag is drawn with it)
+		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted_triplanar") or shader.resource_path.contains("style_painted_terrain"))
 	_dither_cache[key] = result
 	return result
 
@@ -580,7 +647,8 @@ func _run_tests(elapsed: float = TEST_INTERVAL) -> void:
 				_clear_for.erase(key)
 	_blocking = blocking_groups
 	_cut = cut_groups
-	_touched = touched
+	piece_cover = pieces_cover(from, feet)
+	_touched = touched or piece_cover
 	if OS.get_environment("OCCLUSION_DEBUG") != "" and Engine.get_process_frames() % 120 == 0:
 		print("occlusion: ", debug_summary())
 		print("occlusion blockers: ", "; ".join(debug_blockers()))

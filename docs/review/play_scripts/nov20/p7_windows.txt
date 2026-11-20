@@ -1,0 +1,27 @@
+# Fable Nov 21, Part 7.2: the round window and the hero's outline behind a tree (the Dump), a cabinet (the D.N.A.) and the Iron Cave's crag
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev travel zone refusemancer
+wait 20
+skip_dialogue
+calm
+hud off
+cam 0
+covershot p7_window_tree_dump 0
+covershot p7_window_tree_dump_2 3
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+calm
+hud off
+covershot p7_window_cabinet_dna 0
+covershot p7_window_cabinet_dna_2 4
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+hud off
+fadeshot p7_window_crag_gainlands 63 27

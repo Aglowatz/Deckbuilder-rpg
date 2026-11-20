@@ -9,6 +9,10 @@ extends RefCounted
 var _tools: Dictionary = {}
 var _materials: Dictionary = {}
 var _triangles: int = 0
+## Fable Nov 21 (Part 7.2): the pieces that open the round window (cabinets and partitions: slots with no lens cut-away), as
+## (x, z, half width, top) each, for the fader's outline of the hero.
+var _window_pieces: Dictionary = {}
+var _wall_slots: Dictionary = {}
 
 static var _shader: Shader
 
@@ -36,6 +40,7 @@ func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE, alpha
 	# Fixes Oct 27: walls fade by the room cut (the walls between the camera and the hero's room or corridor, eased between rooms: DnaRoomCut), not by the
 	# hero's depth (cut_front made every wall nearer the camera than the hero vanish anywhere in the zone, and walls popped as the hero walked past them).
 	if near_reach > 0.0:
+		_wall_slots[slot] = true
 		material.set_shader_parameter("fade_strength", WALL_FADE_STRENGTH)
 		material.set_shader_parameter("room_cut", true)
 	material.set_meta(PaintedClasses.META_NO_PAINT, true)
@@ -67,6 +72,8 @@ func _tool(slot: String) -> SurfaceTool:
 ## checks whether the piece's span covers the sight line).
 func box(slot: String, piece: Vector4, center: Vector3, size: Vector3, tint: Color = Color.WHITE, ao: float = 1.0, bottom: float = 0.0) -> void:
 	var tool: SurfaceTool = _tool(slot)
+	if not _wall_slots.has(slot) and bottom < 0.05:
+		_window_pieces[piece] = true
 	var half: Vector3 = size * 0.5
 	for axis: int in range(3):
 		for sign_value: int in [-1, 1]:
@@ -168,4 +175,10 @@ func instance(node_name: String = "FadeMesh") -> MeshInstance3D:
 	mesh_instance.set_meta(PaintedClasses.META_NO_PAINT, true)
 	mesh_instance.set_meta(StyleToon.META_NO_TOON, true)
 	mesh_instance.set_meta(&"no_occlusion_fade", true)  # each piece fades itself in the shader
+	var pieces: PackedFloat32Array = PackedFloat32Array()
+	for piece: Variant in _window_pieces.keys():
+		var entry: Vector4 = piece as Vector4
+		pieces.append_array(PackedFloat32Array([entry.x, entry.y, entry.z, entry.w]))
+	if not pieces.is_empty():
+		mesh_instance.set_meta(OcclusionFader.META_PIECES, pieces)
 	return mesh_instance

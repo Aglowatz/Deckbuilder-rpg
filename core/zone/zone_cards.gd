@@ -16,7 +16,7 @@ const GAINLANDS_MINI_REWARD_ID: String = "B-30"
 
 ## The Endless Buffet (Gourmand): sold by Madame Mirepoix at the Grand Pantry.
 const BUFFET_VENDOR_IDS: Array[String] = ["G-01", "G-02", "G-05", "G-06", "G-07", "G-10", "G-16", "G-18", "G-20", "G-21"]
-## Omakase (S-GOUR)'s one-time unique reward: Toro Toro.
+## The Raw Deal (S-GOUR)'s one-time unique reward: Toro Toro.
 const BUFFET_MINI_REWARD_ID: String = "G-27"
 
 ## The Verdant Dump (Refusemancer): sold by Granny Gristle at the Compost Grange.

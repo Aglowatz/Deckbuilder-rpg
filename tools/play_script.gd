@@ -258,6 +258,38 @@ func _run_line(line: String) -> void:
 						_say("    state: " + state_line)
 				await _shot("%s_%s" % [parts[1], "default" if angle == 0 else "low"])
 			Settings.set_camera_angle(0)
+		"covershot":
+			# Fable Nov 21 (Part 7.2): `covershot <name> [nth]` - stands the hero right behind the nth nearest tall batched piece (a tree
+			# card, a cabinet) as the camera sees it, and shoots: the round window and the hero's outline should show
+			var cover_fader: Node = FadeScan.find_fader(get_tree().current_scene)
+			if cover_fader == null:
+				_say("  covershot: no fader")
+			else:
+				cover_fader.call("scan_now")
+				var all_pieces: PackedFloat32Array = cover_fader.get("_pieces") as PackedFloat32Array
+				var hero_now: Node3D = cover_fader.get("hero") as Node3D
+				var camera_now: Camera3D = cover_fader.get("camera") as Camera3D
+				var ranked: Array[Array] = []
+				for piece_index: int in range(0, all_pieces.size() - 3, 4):
+					if all_pieces[piece_index + 3] - hero_now.global_position.y < 3.0:
+						continue
+					ranked.append([Vector2(all_pieces[piece_index] - hero_now.global_position.x, all_pieces[piece_index + 1] - hero_now.global_position.z).length(), piece_index])
+				ranked.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))
+				_say("  covershot: %d pieces, %d tall" % [all_pieces.size() / 4, ranked.size()])
+				var nth: int = int(parts[2]) if parts.size() > 2 else 0
+				if nth < ranked.size():
+					var at_index: int = int(ranked[nth][1])
+					var away: Vector3 = hero_now.global_position - camera_now.global_position
+					var behind: Vector2 = Vector2(away.x, away.z).normalized() * 3.0
+					_teleport(str(all_pieces[at_index] + behind.x), str(all_pieces[at_index + 1] + behind.y))
+					await driver.seconds(1.5)
+					# the camera has moved with the hero: once more, straight behind the piece from the new lens
+					away = hero_now.global_position - camera_now.global_position
+					behind = Vector2(away.x, away.z).normalized() * 3.0
+					_teleport(str(all_pieces[at_index] + behind.x), str(all_pieces[at_index + 1] + behind.y))
+					await driver.seconds(1.5)
+					_say("  covershot %s: piece at (%.1f, %.1f) top %.1f; piece_cover %s, hero_hidden %.2f" % [parts[1], all_pieces[at_index], all_pieces[at_index + 1], all_pieces[at_index + 3], str(cover_fader.get("piece_cover")), float(cover_fader.get("hero_hidden"))])
+					await _shot(parts[1])
 		"camgrid":
 			# Fable Nov 19 (Part 2): `camgrid <prefix> <x> <z> <pitches> <dists>` - the hero near (x, z) ("here here" = where he stands), a shot
 			# for every pitch bonus x distance (comma lists, e.g. 0,4,6,8 and 0.9,1,1.1): <prefix>_p<pitch>_d<dist>. The place's own default

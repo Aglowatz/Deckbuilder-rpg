@@ -1,0 +1,84 @@
+{
+	"pc_capture": {
+		"before (tag pre-fable-nov21)": [
+			[
+				"",
+				"The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here."
+			],
+			[
+				"@set",
+				"rescuer_named"
+			],
+			[
+				"NPC-ELOWEN",
+				"Don't look so surprised. Somebody had to watch the door while you knocked it down. {rescuer}. It's {rescuer}. I promised."
+			],
+			[
+				"NPC-PLUME",
+				"Great news, citizens! The traitor has been located! Please hold your applause until she has been removed."
+			],
+			[
+				"",
+				"Guards in polished armour pour from the gatehouse, and they are not coming for you. They are coming for her."
+			],
+			[
+				"NPC-PLUME",
+				"Miss {rescuer_full}, I presume! Former junior Path-ologist, absent without leave, who removed one item of laboratory property that has been walking about ever since."
+			],
+			[
+				"NPC-PLUME",
+				"Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round."
+			],
+			[
+				"NPC-ELOWEN",
+				"Don't follow me, {wanderer}! Get to the top of that castle. It's the only way any of this ends."
+			],
+			[
+				"",
+				"They are through a side door before you can reach it, and on this side the door has no handle at all."
+			],
+			[
+				"NPC-PLAYER",
+				"{rescuer}. She told me her name with the guards already running at her, because she had promised me it would come first."
+			]
+		],
+		"after (Fable Nov 21)": [
+			[
+				"",
+				"The castle gate is white and gold and perfectly symmetrical. You are still a street away when guards in polished armour pour out of the gatehouse. They are not coming for you. They already have the hooded woman who pulled you out of the woods."
+			],
+			[
+				"NPC-PLUME",
+				"Great news, citizens! The traitor has been located! Please hold your applause until she has been removed."
+			],
+			[
+				"NPC-PLUME",
+				"Miss {rescuer_full}! Former junior Path-ologist. The charges: absent without leave, and the removal of one item of laboratory property, which has been walking about ever since."
+			],
+			[
+				"@set",
+				"rescuer_named"
+			],
+			[
+				"NPC-PLUME",
+				"Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round."
+			],
+			[
+				"",
+				"You start to run. She finds you across the whole width of the square, over the guards' shoulders, and shakes her head once."
+			],
+			[
+				"NPC-ELOWEN",
+				"Don't follow me, {wanderer}! Stay out of sight and get to the top of that castle. Stop {villain}! It's the only way any of this ends."
+			],
+			[
+				"",
+				"They have her through a side door before you are halfway there, and on this side the door has no handle at all. Nobody at the gate has looked your way yet."
+			],
+			[
+				"NPC-PLAYER",
+				"{rescuer}. I had to learn her name from a list of charges. She said not to follow her, and to stop him. So I'll keep out of sight, and I'll go up."
+			]
+		]
+	}
+}

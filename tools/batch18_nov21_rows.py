@@ -35,6 +35,34 @@ ROWS = [
      "removed smiling face in one hand like a limp mask. Her head is a smooth, blank porcelain-white oval, a thin seam of violet light "
      "at the hairline. Sad, not a monster. " + DOPPEL_WHO + " " + DOPPEL_ROOM + " No text.",
      'assets/art/keyart/STORY-REVEAL-KITCHEN.webp (the room, the counter, the light); assets/art/portraits/CUT-DOPPEL.webp (her outfit)'],
+    # Part 7.1: the Buffet's sushi side dungeon, "The Raw Deal" (built today from existing pieces: the pavilion model with its noren,
+    # lanterns and counter, the freezer door in its base, a plain board for the sign)
+    ['BUFF-HERO-RAWDEAL-FRONT', 'The Raw Deal: a painted sushi front (the side dungeon\'s entrance)',
+     DRIVE + 'Approved_ZoneKits/Buffet/BUFF-HERO-RAWDEAL-FRONT.png', '1536x1024 PNG, transparent',
+     'The front of the sushi spot in the Endless Buffet\'s east district, behind Colonel Casserole\'s gate (BuffetLayout.OMAKASE_PAVILION)',
+     'The modelled pavilion BUFF-HERO-OMAKASE-PAVILION as seen from the front (a 3D stand-in)', 'To make (Batch 18)',
+     "Painted storybook building front, seen straight on, transparent background: a small Japanese sushi counter shop on a white stone "
+     "base. A red tiled roof with curled eaves, a short green noren curtain across the top of the opening, a row of round paper lanterns, "
+     "a pale wooden counter with four stools and small plates of sushi, a bonsai in a pot, stone steps at the right. In the stone base at "
+     "the left: a heavy steel walk-in freezer door with a round window and frost at its edges. Warm evening light. No text, no people.",
+     'docs/overnight_shots/nov20/p7_raw_deal_front.jpg (today\'s stand-in, same layout); assets/art/vendors/VS-BELLOWS.webp (painting style only)'],
+    ['BUFF-SIGN-RAWDEAL', 'The Raw Deal: its hanging sign',
+     DRIVE + 'Approved_ZoneKits/Buffet/BUFF-SIGN-RAWDEAL.png', '1024x1024 PNG, transparent',
+     'The sign beside the freezer door of the Raw Deal (sign.mini_dungeon)', 'A plain board with the freezer icon', 'To make (Batch 18)',
+     "Painted storybook shop sign, transparent background: a dark wooden plaque hanging from a wrought-iron bracket, a cream paper panel "
+     "in its middle with one picture and no lettering: a fish skeleton crossed with a pair of chopsticks, and a small snowflake in one "
+     "corner (the way in is through a freezer). A red paper lantern hangs under the plaque. Warm colours, bold readable silhouette at "
+     "small size. No text.",
+     'assets/art/icons/ICON-ENERGY-G.webp (the Gourmand colours); docs/overnight_shots/nov20/p7_raw_deal_front.jpg (where it hangs)'],
+    # Part 5.3: the one Wardrobe piece with no picture of its own (hats and the other cloaks all have ICON-COS-*)
+    ['ICON-COS-PLAINCLOAK', 'The Plain Cloak by itself (the Wardrobe\'s Your Look)',
+     DRIVE + 'Approved_Icons/ICON-COS-PLAINCLOAK.png', '1024x1024 PNG, transparent',
+     'The Wardrobe and Pip Threadwell\'s shop when the Plain Cloak (or a dye for it) is shown', 'A generic character icon, tinted with the dye',
+     'To make (Batch 18)',
+     "A single game icon, transparent background, same style and framing as the attached cloak icon: a plain hooded travelling cloak by "
+     "itself, hung as if on an invisible stand, three-quarter view, simple brass clasp at the neck, a worn hem. Painted in LIGHT NEUTRAL "
+     "GREY-CREAM cloth with clear shading and folds and no pattern, because the game tints it to each dye colour. No text, no figure.",
+     'assets/art/icons/ICON-COS-REDCAPE.webp (style and framing); assets/art/icons/ICON-COS-TATTERED.webp (a hooded cloak)'],
 ]
 
 

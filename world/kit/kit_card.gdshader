@@ -8,6 +8,7 @@ render_mode unshaded, cull_disabled, depth_prepass_alpha;
 // smooth ghost instead of filling the screen with canopy. The test is per card, so it works for the MultiMesh tree fields too: the card's trunk point is projected on the
 // camera -> hero line; cards near that line, in front of the hero and tall enough to reach the sight line, fade by `fade_strength`. Plain alpha, never a dither.
 
+#include "res://assets/shaders/style_occlusion.gdshaderinc"
 global uniform float style_wind;
 uniform sampler2D card_tex : source_color, filter_linear_mipmap, repeat_disable;
 uniform vec3 light_color : source_color = vec3(1.0, 0.92, 0.78);
@@ -23,6 +24,10 @@ uniform float fade_strength : hint_range(0.0, 1.0) = 0.6;
 uniform float fade_reach = 1.6;
 
 varying float v_fade;
+// Fable Nov 21 (Part 7.2): a tree in the way opens the same round window round the hero as a building does (style_occlusion), instead
+// of going see-through as a whole card. The card is built in vertex() from POSITION, so its own world and view positions are passed on.
+varying vec3 v_world;
+varying vec3 v_view;
 
 void vertex() {
 	vec3 origin = MODEL_MATRIX[3].xyz;
@@ -55,7 +60,9 @@ void vertex() {
 	// Fable Nov 19 (rule 1): nothing lower than the hero's shoulder ever fades (bushes, saplings, ferns)
 	tall_enough *= smoothstep(hero_pos.y + 1.5, hero_pos.y + 2.1, top);
 	float enabled = step(-999.0, hero_pos.y);  // the default hero_pos (y -1000) disables the fade
-	v_fade = corridor * in_front * tall_enough * enabled * fade_strength;
+	v_fade = corridor * in_front * tall_enough * enabled * step(0.001, fade_strength);
+	v_world = world;
+	v_view = (VIEW_MATRIX * vec4(world, 1.0)).xyz;
 }
 
 void fragment() {
@@ -66,7 +73,10 @@ void fragment() {
 	float base = smoothstep(1.0, 0.7, UV.y);
 	vec3 lit = ambient_color * 0.55 + light_color * 0.62;
 	ALBEDO = c.rgb * mood_tint * lit * mix(base_dark, 1.0, base);
-	ALPHA = 1.0 - v_fade;
+	if (occlusion_window_cut(v_fade, v_view, v_world, VIEW_MATRIX, FRAGCOORD.xy)) {
+		discard;
+	}
+	ALPHA = 1.0;
 	// Graphics Tier 1: the alpha scissor makes the shadow pass cut the leaves out too (a blended card otherwise casts its whole rectangle).
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
 }

@@ -6,7 +6,7 @@ extends RefCounted
 ##
 ## | Mini dungeon | Signature card |
 ## | The Waiting Room of Eternity (D.N.A.) | Betty Bones, Surly Secretary (N-30) |
-## | Omakase (Buffet) | Toro Toro (G-27) |
+## | The Raw Deal (Buffet; called Omakase before Nov 21) | Toro Toro (G-27) |
 ## | The Trash Panda Throne (Dump) | Raccoon (R-27) |
 ## | The Ascent of Mount Swolympus (Gainlands) | Barbell of the Ancients (B-30) |
 ## | The Iron Cave (Gainlands) | Baron Quadzilla, Lord of Leg Day (B-37) |

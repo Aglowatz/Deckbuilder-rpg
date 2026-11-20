@@ -1,0 +1,25 @@
+# Fable Nov 21, Part 7.1: The Raw Deal behind Colonel Casserole's gate
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 14
+dev flag trial_cleared
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+cam 0
+fadeshot p7_raw_deal_gate_colonel 78 33
+dev goto mini_dungeon
+wait 2
+shot p7_raw_deal_front
+key E
+wait 2
+shot p7_raw_deal_sealed_message
+hold S 1.2
+wait 1
+shot p7_raw_deal_from_the_path
+key M
+wait 2
+shot p7_raw_deal_on_the_map

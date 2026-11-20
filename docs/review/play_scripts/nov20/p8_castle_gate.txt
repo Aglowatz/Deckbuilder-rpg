@@ -1,0 +1,32 @@
+# Fable Nov 21, Part 8.2: the castle gate scene (pc_capture), step by step
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 22
+dev flag trial_cleared
+dev travel dungeon D-PC
+wait 8
+dump
+shot p8_castle_gate_1
+key E
+wait 1.2
+shot p8_castle_gate_2
+key E
+wait 1.2
+shot p8_castle_gate_3
+key E
+wait 1.2
+shot p8_castle_gate_4
+key E
+wait 1.2
+shot p8_castle_gate_5
+key E
+wait 1.2
+shot p8_castle_gate_6
+key E
+wait 1.2
+shot p8_castle_gate_7
+key E
+wait 1.2
+shot p8_castle_gate_8

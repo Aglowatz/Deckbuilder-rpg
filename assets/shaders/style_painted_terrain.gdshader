@@ -75,6 +75,8 @@ float tfbm(vec2 p) {
 	return tnoise(p) * 0.6 + tnoise(p * 2.13 + 7.0) * 0.4;
 }
 
+#include "res://assets/shaders/style_occlusion.gdshaderinc"
+instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
 varying vec3 v_world;
 varying float v_up;
 
@@ -137,6 +139,10 @@ float layer_weight(int i, vec3 vc, vec2 p, float splat_value) {
 }
 
 void fragment() {
+	// Fable Nov 21 (Part 7.2): a rock that the fader names a tall occluder (the Iron Cave's crag) opens the round window round the hero
+	if (occlusion_window_cut(occlusion_fade, VERTEX, v_world, VIEW_MATRIX, FRAGCOORD.xy)) {
+		discard;
+	}
 	vec2 p = v_world.xz;
 	vec2 dpx = dFdx(p);
 	vec2 dpy = dFdy(p);

@@ -74,7 +74,7 @@
 		{"name": "The Ancient Spotter", "kind": "boss", "where": "Mount Swolympus", "icon": "delapouite/mammoth", "blurb": "A stone colossus who has spotted the same barbell for a thousand years. 'Two more reps.'"},
 		{"name": "Apprentice Itamae", "kind": "foe", "where": "The Walk-In Freezer", "icon": "delapouite/fork-knife-spoon", "blurb": "Has been washing rice for nine years. Allowed to touch fish next spring."},
 		{"name": "Conveyor Belt Sushi Chef", "kind": "foe", "where": "The Walk-In Freezer", "icon": "delapouite/fork-knife-spoon", "blurb": "Never stops. Never looks up. Plates arrive whether you ordered or not."},
-		{"name": "The Itamae Supreme", "kind": "boss", "where": "The Walk-In Freezer", "icon": "delapouite/charging-bull", "blurb": "Master of the blade and his masterpiece. Omakase means you get what he serves. You get hurt."},
+		{"name": "The Itamae Supreme", "kind": "boss", "where": "The Raw Deal", "icon": "delapouite/charging-bull", "blurb": "Master of the blade and his masterpiece. Omakase means you get what he serves. You get hurt."},
 		{"name": "Receptionist of Number One", "kind": "foe", "where": "Sub-Basement 3", "icon": "delapouite/files", "blurb": "Calls number one. Has been calling number one since before numbers."},
 		{"name": "The Eternal Queue", "kind": "foe", "where": "Sub-Basement 3", "icon": "delapouite/files", "blurb": "Not a person. A line. A line that fights. You are at the back."},
 		{"name": "Betty Bones, Surly Secretary", "kind": "boss", "where": "Sub-Basement 3", "icon": "delapouite/files", "blurb": "Runs the whole department from one chair. You may not sit in the chair."},

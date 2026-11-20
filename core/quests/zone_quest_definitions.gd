@@ -606,7 +606,7 @@ static func side_quests() -> Array[QuestData]:
 ## quest's own (`SIDE_QUESTS`), so the message always points at the quest that opens the door.
 const SEALED_PLACES: Dictionary = {
 	"S-REF": ["The landfill", "the stream in the Verdant Dump"],
-	"S-GOUR": ["The freezer", "the Grand Pantry"],
+	"S-GOUR": ["The Raw Deal's freezer door", "the Grand Pantry"],
 	"S-NECRO": ["The Waiting Room's elevator", "the breakroom coffee bar"],
 	"S-BEEF": ["The trail up Mount Swolympus", "the Swole Station"],
 	"S-CAP": ["The tunnel mouth", "the road outside the Capital's gate"],
@@ -633,8 +633,8 @@ const WAY_IN: Dictionary = {
 		"Go down the iron hatch beside the Old Well and clear what is under it", "town", "well_door", "The iron hatch beside the Old Well, west of the market square"],
 	"S-REF": ["Little Paw Prints", "The trail of paw prints and crumbs of compost ends at the landfill, and its way down is open now.",
 		"Climb into the landfill and find who ate the compost", "refusemancer", "mini_dungeon", "The landfill's mouth in the Verdant Dump (marked on the map)"],
-	"S-GOUR": ["Seating: 1", "The golden reservation card opens the walk-in freezer's door. Seating: 1. Courses: 3. Survival: optional.",
-		"Open the freezer door and keep your reservation", "gourmand", "mini_dungeon", "The walk-in freezer's door in the Endless Buffet (marked on the map)"],
+	"S-GOUR": ["Seating: 1", "The golden reservation card opens the Raw Deal, the sushi spot you enter through a walk-in freezer. Seating: 1. Courses: 3. Survival: optional.",
+		"Open the Raw Deal's freezer door and keep your reservation", "gourmand", "mini_dungeon", "The Raw Deal: on the east side of the Endless Buffet, behind Colonel Casserole's gate (marked on the map)"],
 	"S-CAP": ["The Older Way In", "Kestrel has shown you the mouth of the old service tunnels: an older way into the city that nobody remembers.",
 		"Go through the Old Service Tunnels", "final", "old_tunnels", "The tunnel mouth outside the Capital's wall (marked on the map)"],
 	"S-BEEF": ["Only the Worthy Climb", "Old Man Mountain has opened the gate. The trail up Mount Swolympus starts at the far end of the ridge.",

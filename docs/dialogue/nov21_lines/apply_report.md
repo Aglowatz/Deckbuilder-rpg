@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 2
-- Applied: 2
-- Skipped (blank new line, unchanged, or applied before): 0
+- Rows: 6
+- Applied: 4
+- Skipped (blank new line, unchanged, or applied before): 2
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,14 +24,17 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Crosspath | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
+| Crosspath | 3 | 1 | 2 | 0 | 0 | 0 | 0 |
+| The Endless Buffet | 3 | 3 | 0 | 0 | 0 | 0 | 0 |
 
-## Applied (2)
+## Applied (4)
 
 | id | Before | After |
 |---|---|---|
-| `data/dungeons/dungeon_content.json::quest.side_s_town.offer::1` | I always thought the key was lost, but it wasn't. Somebody hid it in the big chest out east, dearie, on the little spit of land where the lane past the Rift Express stop meets the water. Fetch it and we'll see what that door is for. | I always thought the key was lost, but it never went far. It's in the little chest beside the well itself, dearie, and I've walked past it for forty years. My knees don't bend that far now. Fetch it and we'll see what that door is for. |
-| `data/dungeons/dungeon_content.json::quest.side_s_town.active::0` | The key's in the big chest out east, dearie. Go past the Rift Express stop until the lane meets the water, and it's on the little spit of land there. It's marked on your map, so even I could find it. | The key's in the little chest beside the Old Well, dearie, on the other side from the iron hatch. It's marked on your map, so even I could find it. |
+| `data/story/intro_story.tres::memory.4.after::3` | Four signs in a ring, the same as the ones carved on this stick of mine. The Queen gave it to me the day I began teaching you, and I have leaned on it for ten years and never told a soul why. | Four signs in a ring, the same as the ones carved on this staff of mine. I have leaned on it for as long as I can remember, and my fingers have known those four signs longer than my head has. |
+| `data/dungeons/dungeon_content.json::quest.side_s_gour.done::0` | The sliding door to Omakase is open now, so you just... you leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef. | The Raw Deal is open to you now. It's out east, past Colonel Casserole's gate, and you go in through the freezer. You leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef. |
+| `data/story/gourmand_story.tres::sign.mini_dungeon::0` | THE WALK-IN FREEZER | THE RAW DEAL |
+| `data/story/gourmand_story.tres::sign.mini_dungeon::1` | Three courses. Mandatory. No leftovers. | Sushi. Seating: 1. Courses: 3. Enter through the walk-in freezer. |
 
 ## Conflicts (0)
 

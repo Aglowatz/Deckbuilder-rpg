@@ -90,7 +90,7 @@ lines = {
 "sign.cheddar": ["THE CHEDDAR CLIFFS", "Sharp cheese ahead. Please do not lean on the walls, and please, please do not lick them."],
 "sign.cake_town": ["LAYER-CAKE TOWN", "Population: a lot of crumbs.", "Please do not bite the buildings. The mayor's house is down to two layers, and he knows it was a visitor."],
 "sign.pancake": ["THE PANCAKE PLATEAU", "Syrup flows downhill. So do tourists."],
-"sign.mini_dungeon": ["THE WALK-IN FREEZER", "Three courses. Mandatory. No leftovers.", "Please do not lock yourself in. (Somebody already has.)"],
+"sign.mini_dungeon": ["THE RAW DEAL", "Sushi. Seating: 1. Courses: 3. Enter through the walk-in freezer.", "Please do not lock yourself in. (Somebody already has.)"],
 "sign.main_dungeon": ["THE TEST KITCHEN", "Research & Development. Staff only.", "Please do not ask what the cannon is for. The cannon is for dinner."],
 "sign.inspection_note": ["NOTE FROM THE INSPECTOR", "Found: a lab where there was a kitchen, a cannon where there was a stove, and a Grand Chef who never tastes anything.", "Back at lunch. If I am not back, check the compost."],
 "sign.stew": ["THE STEW COOK'S CHEST", "The Mystery Stew is off the menu. The pot went back to the kitchen.", "The cook left the seasoning in the chest, for whoever climbs this far."],

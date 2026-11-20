@@ -16,6 +16,7 @@ TAG = 'pre-fable-nov21'
 CONTENT = 'data/dungeons/dungeon_content.json'
 SCENES = 'data/story/story_scenes.json'
 INTRO = 'data/story/intro_story.tres'
+GOURMAND = 'data/story/gourmand_story.tres'
 ROWS = [
     # Part 1.5: "The Door Under the Well" - the key has a small chest of its own beside the well
     (CONTENT + '::quest.side_s_town.offer::1', 'Crosspath', 'Elder Maren', 'The Door Under the Well: offer',
@@ -25,6 +26,11 @@ ROWS = [
     # Part 8.1: Maren after the fourth zone - her staff: she has leaned on it for as long as she can remember ("never told a soul why" goes)
     (INTRO + '::memory.4.after::3', 'Crosspath', 'Elder Maren', 'After the fourth memory fragment',
      "Four signs in a ring, the same as the ones carved on this staff of mine. I have leaned on it for as long as I can remember, and my fingers have known those four signs longer than my head has."),
+    # Part 7.1: the Buffet's sushi side dungeon is "The Raw Deal" (it was Omakase) and stands behind Colonel Casserole's gate
+    (CONTENT + '::quest.side_s_gour.done::0', 'The Endless Buffet', 'Basil', 'The Golden Reservation: done',
+     "The Raw Deal is open to you now. It's out east, past Colonel Casserole's gate, and you go in through the freezer. You leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef."),
+    (GOURMAND + '::sign.mini_dungeon::0', 'The Endless Buffet', 'Sign', 'The board at the sushi spot', "THE RAW DEAL"),
+    (GOURMAND + '::sign.mini_dungeon::1', 'The Endless Buffet', 'Sign', 'The board at the sushi spot', "Sushi. Seating: 1. Courses: 3. Enter through the walk-in freezer."),
 ]
 
 # Part 8.2: Primm's Castle entry. Elowen is being arrested as the Wanderer arrives: he sees her but never reaches her; Plume reads out

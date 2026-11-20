@@ -68,16 +68,18 @@ const CAKE_CATHEDRAL: Vector2 = Vector2(36.0, 22.0)
 const CAKE_CATHEDRAL_SIZE: Vector3 = Vector3(10.0, 20.0, 10.0)
 const BROCCOLI_GIANT: Vector2 = Vector2(6.8, 64.0)
 const BROCCOLI_GIANT_SIZE: Vector3 = Vector3(16.0, 18.0, 16.0)
-const OMAKASE_PAVILION: Vector2 = Vector2(48.5, 6.0)
+## Fable Nov 21 (Part 7.1): the sushi spot ("The Raw Deal") moved from beside the Test Kitchen to the east district, which is sealed by
+## the dividers and entered only through Colonel Casserole's gate (x 78): he must be beaten to reach it.
+const OMAKASE_PAVILION: Vector2 = Vector2(72.0, 6.0)
 const OMAKASE_PAVILION_SIZE: Vector3 = Vector3(8.0, 7.0, 5.0)
 ## Where each region paint-over was painted from (the camera looks north): `bash tools/shot.sh res://scenes/buffet_zone.tscn <name> --at=po_<region>`.
 ## Not anchors: they are neither destinations of the walkability probe nor kept-clear ground.
 const PO_CAMERAS: Dictionary = {"po_hub": Vector2(50.0, 70.5), "po_hills": Vector2(34.0, 52.0), "po_forest": Vector2(19.0, 73.0), "po_bakery": Vector2(44.5, 33.0), "po_omakase": Vector2(46.0, 14.5)}
 ## Flat, kept-clear ground under the region landmarks: (x, z, radius).
-const LANDMARK_SPOTS: Array[Vector3] = [Vector3(36.0, 22.0, 7.0), Vector3(48.5, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
+const LANDMARK_SPOTS: Array[Vector3] = [Vector3(36.0, 22.0, 7.0), Vector3(72.0, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
 ## What the region landmarks block, as layout data (x, z, radius), so a layout-only reader (the walkability probe, the chest scan) sees them too: the Cathedral's
 ## plinth, the Pavilion's stone base in three circles, the Giant's trunk. The builder adds the models' own circles on top.
-const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(36.0, 22.0, 6.6), Vector3(46.5, 6.0, 2.15), Vector3(48.5, 6.0, 2.25), Vector3(50.5, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
+const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(36.0, 22.0, 6.6), Vector3(70.0, 6.0, 2.15), Vector3(72.0, 6.0, 2.25), Vector3(74.0, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
 
 enum Surface { VOID, GROUND, MESA, CLIFF, SOUP, BRIDGE }
 
@@ -519,7 +521,7 @@ func _anchors() -> void:
 	_at("land_cheddar", 13.5, 15.5)
 	_at("land_cheddar_down", 22.0, 24.5)
 	# Layer-Cake Town (north-centre).
-	_at("mini_dungeon", 44.0, 10.0)
+	_at("mini_dungeon", 67.5, 10.0)
 	_at("main_dungeon", 57.0, 10.0)
 	# Pancake Plateau (north-east).
 	_at("puzzle", 82.0, 13.5)
@@ -606,7 +608,7 @@ func _paths() -> void:
 		{"line": PackedVector2Array([Vector2(50.0, cz - 4.0), Vector2(50.0, 34.0)]), "width": MAIN_PATH_WIDTH},
 		{"line": PackedVector2Array([Vector2(22.0, 34.0), Vector2(22.0, 22.0), Vector2(23.0, 20.0)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([Vector2(50.0, 34.0), Vector2(50.0, 16.0), Vector2(57.0, 12.0), Vector2(57.0, 9.0)]), "width": MAIN_PATH_WIDTH},
-		{"line": PackedVector2Array([Vector2(50.0, 16.0), Vector2(46.0, 12.5)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(78.0, 28.0), Vector2(70.5, 27.0), Vector2(68.0, 20.0), Vector2(68.0, 12.5)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([Vector2(78.0, 34.0), Vector2(78.0, 24.0), Vector2(73.0, 22.0)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([hub, Vector2(56.0, 60.0), Vector2(61.0, 58.5)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([hub, Vector2(58.0, 68.0), Vector2(65.0, 67.5)]), "width": SIDE_PATH_WIDTH},
@@ -683,9 +685,9 @@ func _features() -> void:
 	_prop("cheese_wheel", 8.5, 24.0, 10.0, 1.2, 3.0, 2)
 	_prop("cheese_wheel", 31.0, 16.5, 0.0, 0.9, 2.3, 1)
 	# Pancake Plateau: stacks of pancakes and the mystery stew pot on the summit.
-	_prop("pancake_stack", 70.0, 10.0, 0.0, 1.0, 2.4, 0)
+	_prop("pancake_stack", 80.5, 6.0, 0.0, 1.0, 2.4, 0)
 	_prop("pancake_stack", 85.0, 27.5, 0.0, 0.9, 2.1, 1)
-	_prop("pancake_stack", 68.0, 26.0, 0.0, 0.8, 1.9, 2)
+	_prop("pancake_stack", 88.0, 7.5, 0.0, 0.8, 1.9, 2)
 	# The susan's central pillar (a giant pepper mill).
 	_prop("mill_pillar", 50.0, river_z(50.0), 0.0, 1.0, SUSAN_PILLAR)
 
@@ -733,7 +735,7 @@ func _signs() -> void:
 	_sign("sign.exit", 53.4, 73.0, 180.0)
 	_sign("sign.fountain", 47.6, 67.0, 175.0)
 	_sign("sign.main_dungeon", 52.4, 8.6, 180.0, 1.5)
-	_sign("sign.mini_dungeon", 40.8, 10.6, 180.0)
+	_sign("sign.mini_dungeon", 71.6, 10.8, 180.0)
 	_sign("sign.gate_ingredient", 26.0, 33.0, 170.0)
 	_sign("sign.gate_quest", 54.0, 33.0, 190.0)
 	_sign("sign.gate_battle", 74.0, 33.0, 170.0)

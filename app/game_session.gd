@@ -1413,6 +1413,11 @@ func from_dict(data: Dictionary) -> bool:
 	dungeon_map = null
 	gold_spent_total = int(data.get("gold_spent_total", 0))
 	cleared_dungeons.assign(data.get("cleared_dungeons", []) as Array)
+	# Fable Nov 21 (Part 7.1): the Buffet's side dungeon was renamed; a save that cleared it under its old name keeps the clear
+	if cleared_dungeons.has("Omakase"):
+		cleared_dungeons.erase("Omakase")
+		if not cleared_dungeons.has("The Raw Deal"):
+			cleared_dungeons.append("The Raw Deal")
 	seen_cards = {}
 	for id: Variant in data.get("seen_cards", []) as Array:
 		seen_cards[str(id)] = true
@@ -2689,6 +2694,11 @@ func offer_auto_quests() -> void:
 		# Overnight Nov 4-5, Part 1: the postgame's main line takes the tracker when it arrives (an old save reaching town after Primm).
 		if started.has(QuestDefinitions.UNDER_THE_FOREST):
 			quest_log.track(QuestDefinitions.UNDER_THE_FOREST)
+		# Fable Nov 21 (Part 7.3): a quest that starts on its own (the follow-up "Under the Old Well" after Maren takes the key) becomes
+		# the tracked quest, with a short toast: the tracker used to stay on whatever was tracked, which read as "nothing happened".
+		if started.size() == 1 and started[0] != QuestDefinitions.FREE_ZONES and quest_log.is_active(started[0]) and quest_log.tracked_id() != started[0]:
+			quest_log.track(started[0])
+			EventBus.quest_notice.emit("Now tracking: %s" % QuestCatalog.find(started[0]).title, true)
 		EventBus.quest_changed.emit()
 		# Fixes Oct 25, Part 7: one banner for the batch - the tracked quest, and how many more joined the log
 		var more: String = "" if started.size() == 1 else "+%d more in your Quest Log (%s)" % [started.size() - 1, Keybinds.first_key(&"open_quests")]
