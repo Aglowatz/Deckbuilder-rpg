@@ -125,8 +125,11 @@ func test_the_buffets_edge_is_never_under_the_gravy() -> void:
 			var height: float = layout.ground_height(p.x, p.y)
 			checked += 1
 			lowest = minf(lowest, height)
-			if inward <= 6.0:
-				assert_gt(height, water + 0.04, "the ground at %s (%.1f m from the edge) lies %.2f over the gravy" % [str(p.snapped(Vector2(0.1, 0.1))), inward, height - water])
+			if inward >= 0.9 and inward <= 6.0:
+				assert_gt(height, water + 0.01, "the ground at %s (%.1f m from the edge) lies %.2f over the gravy" % [str(p.snapped(Vector2(0.1, 0.1))), inward, height - water])
+			elif inward < 0.9:
+				# the last step before the edge: a low beach whose water line wanders (little bays a finger deep, never a drop)
+				assert_between(height - water, -0.12, 0.45, "the beach at %s" % str(p.snapped(Vector2(0.1, 0.1))))
 	assert_gt(checked, 1000)
 	assert_gt(lowest, water - 1.0, "9 to 12 m in the hills are as they were (dry land: the gravy only lies outside the table)")
 	# the owner's place: the west side at the north end, past the river
@@ -134,7 +137,7 @@ func test_the_buffets_edge_is_never_under_the_gravy() -> void:
 		var edge_x: float = BuffetLayout.MIN_CORNER.x
 		while BuffetLayout.edge_distance(edge_x, z) < 0.05:
 			edge_x += 0.1
-		assert_gt(layout.ground_height(edge_x + 0.9, z), water + 0.1, "the gravy's inner edge (0.9 m in) is hidden under the beach at z %.0f" % z)
+		assert_gt(layout.ground_height(edge_x + 1.0, z), water + 0.01, "the gravy's inner edge (0.9 m in) is hidden under the beach at z %.0f" % z)
 		assert_lt(layout.ground_height(edge_x, z) - water, 0.35, "a low beach at the edge, no step, at z %.0f" % z)
 		assert_almost_eq(layout.ground_height(edge_x + 3.0, z), maxf(layout.ground_height(edge_x + 3.0, z), BuffetLayout.SHORE_LEVEL), 0.001, "level with the zone three metres in")
 
@@ -162,3 +165,23 @@ func test_the_harvest_meal_is_out_of_billies_reach() -> void:
 	var stand: Vector3 = meal + Vector3(0, 0, 1.6)
 	assert_gt(stand.distance_to(billie), 1.7 * StorybookScale.INTERACT_FACTOR + 0.5, "in front of the meal the prompt is the meal's")
 	assert_lt((layout.anchors["wren"] as Vector3).distance_to(Vector3(38.5, 0, 123.5)), 3.5, "she only moved a few steps")
+
+
+func test_the_buffets_water_line_is_not_a_straight_cut() -> void:
+	var layout: BuffetLayout = BuffetLayout.new()
+	layout.build()
+	var above: int = 0
+	var below: int = 0
+	var z: float = 8.0
+	while z < 40.0:
+		var edge_x: float = BuffetLayout.MIN_CORNER.x
+		while BuffetLayout.edge_distance(edge_x, z) < 0.02:
+			edge_x += 0.05
+		if layout.soup_depth(edge_x, z) < -2.2:
+			if layout.ground_height(edge_x + 0.1, z) > BuffetShore.WATER_Y:
+				above += 1
+			else:
+				below += 1
+		z += 0.4
+	assert_gt(above, 8, "the beach shows over the gravy in places")
+	assert_gt(below, 8, "and the gravy laps over it in others: the line where they meet wanders")

@@ -22,7 +22,8 @@ const RIVER_HALF_WIDTH: float = 3.4
 const SOUP_LEVEL: float = -0.35
 ## Fable Nov 20: the beach at the table's edge - its height over the gravy at the edge, the level it reaches SHORE_BEACH metres in, and
 ## how far in the "never under the gravy" floor holds (fully to SHORE_HOLD, fading out by SHORE_FADE).
-const SHORE_RISE: float = 0.10
+const SHORE_RISE: float = 0.12
+const SHORE_DIP: float = 0.08
 const SHORE_LEVEL: float = -0.05
 const SHORE_BEACH: float = 2.6
 const SHORE_HOLD: float = 5.0
@@ -306,7 +307,10 @@ func _base_height(x: float, z: float) -> float:
 	# slab. Now the last metres rise to a low beach a hand's breadth over the gravy at the very edge (the shore mesh carries it on
 	# under the water line), level with the rest of the zone a few steps in; further in the hills are as they were.
 	var from_edge: float = maxf(edge_distance(x, z), 0.0)
-	var beach: float = lerpf(SOUP_LEVEL + SHORE_RISE, SHORE_LEVEL, smoothstep(0.0, SHORE_BEACH, from_edge))
+	# the water line wanders: at the very edge the beach lies a hand over the gravy in one place and a finger under it in the next
+	# (little bays, never more than a step deep; the gravy's sheet starts 0.9 m inside the edge and is covered from there on)
+	var wander: float = 0.5 + 0.3 * sin(x * 0.83 + z * 1.27) + 0.2 * sin(x * 2.1 - z * 1.7 + 1.3)
+	var beach: float = lerpf(SOUP_LEVEL - 0.03 + lerpf(-SHORE_DIP, SHORE_RISE, wander), SHORE_LEVEL, smoothstep(0.0, SHORE_BEACH, from_edge))
 	var hold: float = 1.0 - smoothstep(SHORE_HOLD, SHORE_FADE, from_edge)
 	land = lerpf(land, maxf(land, beach), hold)
 	var depth: float = soup_depth(x, z)

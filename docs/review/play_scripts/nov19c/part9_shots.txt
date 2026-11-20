@@ -1,0 +1,137 @@
+# Fable Nov 20, Part 9: the screenshots the brief asks for
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev freed beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev gear thorned_loincloth
+dev gear big_brain_beret
+dev essence Beefcake 18
+dev essence Necrocrat 18
+dev travel town
+wait 20
+skip_dialogue
+skip_dialogue
+calm
+cam 0
+log --- Alembic's brew
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 2
+press EssenceRow1
+press EssenceRow4
+wait 1
+shot p9_alembic_1_two_chosen
+press CraftButton
+wait 4
+shot p9_alembic_2_brewed_card
+move 1010 420
+wait 2
+shot p9_alembic_3_hover
+move 300 800
+press CraftButton
+wait 4
+shot p9_alembic_4_second_brew
+key Escape
+wait 2
+skip_dialogue
+log --- equipment
+dev textsize 1
+key C
+wait 3
+dump
+press EquipSlot_armor
+wait 2
+press Gear_thorned_loincloth
+wait 2
+shot p9_equipment_loincloth_large_text
+key Escape
+wait 1
+press EquipSlot_helm
+wait 2
+press Gear_big_brain_beret
+wait 2
+shot p9_equipment_longest_large_text
+key Escape
+wait 1
+key Escape
+wait 1
+dev textsize 0
+log --- camera settings
+key Escape
+wait 2
+button Settings
+wait 2
+button Display
+wait 2
+dump
+shot p9_camera_settings
+key Escape
+wait 1
+key Escape
+wait 1
+log --- the hatch at its own door
+dev goto well_door
+wait 1
+key E
+wait 2
+shot p9_sealed_hatch_town
+skip_dialogue
+log --- a sealed dungeon and an entry prompt
+dev travel zone refusemancer
+wait 20
+skip_dialogue
+calm
+dev goto mini_dungeon
+wait 2
+shot p9_dump_entry_prompt
+key E
+wait 1
+shot p9_dump_sealed_message
+wait 4
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+dev goto mini_dungeon
+wait 2
+key E
+wait 1
+shot p9_buffet_sealed_message
+wait 3
+fadeshot p9_buffet_dex_area 19.9 64.5
+fadeshot p9_buffet_dex_path 27.0 66.0
+fadeshot p9_buffet_west_shore_north 8.0 20.0
+fadeshot p9_buffet_west_shore_mid 7.0 34.0
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+calm
+fadeshot p9_dna_desk 45.5 39.5
+fadeshot p9_dna_gate 45.5 63.0
+dev quest gain_power 2
+dev quest gain_spot_me 0
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+cam 0
+dev goto gus
+wait 2
+shot p9_gain_marker_gus
+dev goto spot_me
+wait 2
+shot p9_gain_marker_gary
+fadeshot p9_gain_crag_north 64.5 26.0

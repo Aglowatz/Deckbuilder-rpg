@@ -215,6 +215,27 @@ func _run_line(line: String) -> void:
 			# for every pitch bonus x distance (comma lists, e.g. 0,4,6,8 and 0.9,1,1.1): <prefix>_p<pitch>_d<dist>. The place's own default
 			# comes back afterwards.
 			await _cam_grid(parts)
+		"press":
+			# Fable Nov 20: `press <node name>` presses the first visible button with that node name (buttons that carry no text)
+			var pressed_one: bool = false
+			for node: Node in get_tree().root.find_children(parts[1] if parts.size() > 1 else "", "BaseButton", true, false):
+				if (node as BaseButton).is_visible_in_tree() and not (node as BaseButton).disabled:
+					(node as BaseButton).pressed.emit()
+					pressed_one = true
+					break
+			_say("  press %s: %s" % [parts[1] if parts.size() > 1 else "?", "ok" if pressed_one else "no such button"])
+			await driver.seconds(0.4)
+		"scrollto":
+			# Fable Nov 20: `scrollto <node name>` scrolls the list that holds that control until it shows
+			for node: Node in get_tree().root.find_children(parts[1] if parts.size() > 1 else "", "Control", true, false):
+				var holder: Node = node.get_parent()
+				while holder != null and not (holder is ScrollContainer):
+					holder = holder.get_parent()
+				if holder != null and (node as Control).is_visible_in_tree():
+					(holder as ScrollContainer).ensure_control_visible(node as Control)
+					(holder as ScrollContainer).scroll_vertical += 120
+					break
+			await driver.seconds(0.4)
 		"handins":
 			# Fable Nov 20 (Part 4.2): `handins [area]` - the quest hand-in probe (tools/run_quest_handin_probe.sh)
 			await _handins(parts[1] if parts.size() > 1 else "")

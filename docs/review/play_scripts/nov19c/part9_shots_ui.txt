@@ -1,0 +1,124 @@
+# Fable Nov 20, Part 9: the screenshots the brief asks for
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev freed beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev gear thorned_loincloth
+dev gear big_brain_beret
+dev essence Beefcake 18
+dev essence Necrocrat 18
+dev travel town
+wait 20
+skip_dialogue
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 2
+skip_dialogue
+wait 2
+key E
+wait 1
+key E
+wait 2
+skip_dialogue
+calm
+cam 0
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+skip_dialogue
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+button Continue
+wait 1
+log --- Alembic's brew
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 2
+press EssenceRow1
+press EssenceRow4
+wait 1
+shot p9_alembic_1_two_chosen
+press CraftButton
+wait 4
+shot p9_alembic_2_brewed_card
+move 1010 420
+wait 2
+shot p9_alembic_3_hover
+move 300 800
+press CraftButton
+wait 4
+shot p9_alembic_4_second_brew
+key Escape
+wait 2
+skip_dialogue
+log --- equipment
+dev textsize 1
+key C
+wait 3
+press EquipSlot_armor
+wait 2
+press Gear_thorned_loincloth
+wait 2
+shot p9_equipment_loincloth_large_text
+key Escape
+wait 1
+press EquipSlot_helm
+wait 2
+press Gear_big_brain_beret
+wait 2
+shot p9_equipment_longest_large_text
+key Escape
+wait 1
+key Escape
+wait 1
+dev textsize 0
+log --- the hatch at its own door
+dev goto well_door
+wait 1
+key E
+wait 2
+shot p9_sealed_hatch_town
+skip_dialogue

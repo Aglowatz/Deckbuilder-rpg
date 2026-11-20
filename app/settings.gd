@@ -421,6 +421,10 @@ func flash_scale() -> float:
 
 
 func save_settings(path: String = PATH) -> void:
+	# Fable Nov 20: a scripted run (`--no-save` / `--scene=`: the play-script driver, the shot tools) never writes the player's own
+	# settings file. Opening and closing the Settings panel in a play script saved the run's camera preset over the player's.
+	if _window_locked and path == PATH:
+		return
 	var config: ConfigFile = ConfigFile.new()
 	config.set_value("audio", "master", master_volume)
 	config.set_value("audio", "music", music_volume)

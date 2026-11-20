@@ -14,7 +14,7 @@ var _cost_label: Label
 var _hint_label: Label
 var _craft_button: FancyButton
 ## Fable Nov 20: the brewed card's size in "The brew" panel (of CardView.SIZE).
-const RESULT_CARD_SCALE: float = 0.95
+const RESULT_CARD_SCALE: float = 1.1
 var _stage: Control
 var _cauldron: TextureRect
 ## Import Nov 8: the painted cauldron (Batch 13); the vector glyph stands in without it.

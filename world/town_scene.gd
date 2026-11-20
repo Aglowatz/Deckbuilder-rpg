@@ -2513,7 +2513,7 @@ func _use_well_door() -> void:
 		Audio.sfx(&"ui_error")
 		return
 	_locked = true
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, SpoilerFree.dungeon_name(plan.id, plan.dungeon_name), "%s
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, "%s
 
 You are fully healed on entry. Lose a duel and you are carried back to town." % plan.story, "Descend", "Not yet").with_level_hint(plan.id)  # Day pass Nov 9
 	dialog.confirmed.connect(func() -> void:
