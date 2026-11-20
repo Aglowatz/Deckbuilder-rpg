@@ -1,3 +1,284 @@
+# Fable Nov 20 - report: your playtest list, the Arena puzzles rebuilt, colours back, cameras
+
+Brief: `docs/prompts/fable_nov19_night.md`. Start tag `pre-fable-nov20`. Questions: `docs/overnight_inbox.md`, "Fable Nov 20"
+(6 items). Shots: `docs/overnight_shots/nov19c/` (`ref_*` are yours). **Nothing was uploaded.** Commits: `d6465eba` (Parts 1 to 3),
+`67ea12e7` (Parts 4 and 6), `656852b5` (Part 5), `065dc572` (Part 7), `62b96b75` (Part 9), then the Part 10 commit.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Your decisions | yes | Gourmand blue, Necrocrat violet; +4 degrees everywhere with two new Settings rows; a shot per zone |
+| 2 Cards and encounters | yes | Rusty Grave Shovel, Hortensia's Topiaries and garden rule, the Rotheart's blood choice |
+| 3 Alembic, equipment | yes | brewed card large and centred with hover; essences stay chosen; no tier; long text wraps |
+| 4 Quests and entrances | yes | The Door Under the Well reworked and walked; Brannoch's hand-in; a hand-in probe; sealed messages; a tracked step into every side dungeon |
+| 5 The world | yes | the D.N.A. line-up, quest marks, the crag, the Buffet's clearing and shore, the mount on the slide, the Dump's smoke |
+| 6 Elowen | yes | the cave-mouth scene after the third zone rewritten; bible and registry agree |
+| 7 Arena puzzles | yes | four puzzles rebuilt, a solver, one test per puzzle; table below |
+| 8 Batch 18 rows | yes | three rows removed, colour rows redone, two Arena rows added; Rip confirmed |
+| 9 Flow check | yes | both quests walked; Hortensia's numbers; all the shots asked for |
+| 10 Tests, build, report | yes | every test shard green; seven walk smokes and three probes pass; 1.0.0 exported (764 MB zip), exported smoke and three exported play checks clean |
+
+---
+
+## Part 7 - the Arena puzzles (the main job)
+
+All four puzzles (one per tier, the same four ids, tiers and prizes as before, so nobody's cleared flags or rewards move) are new.
+Each is "win THIS turn" on a set board with the whole position visible: both HP totals, both fields, your hand, your energy, your
+resources and your Refuse Pile. The Arena's battles are untouched.
+
+### How they were proven
+
+`core/arena/puzzle_solver.gd` is a full search on the real rules engine: from the puzzle's start it tries every legal play with
+every target, every ability, every resource use, every choice of what to pay a cost with, every set of attackers, and then **every
+way the opponent can block**. A line only counts as winning when it wins against every block. Two lines that make the same plays in
+another order, or that add a spare harmless play, are counted as one **solution**.
+
+For each puzzle the tests (`tests/core/arena/test_arena_puzzles_nov20.gd`, one test per puzzle) require: it can be won; it has
+**exactly one solution**; that solution is the intended one; no decoy card is in it; every naive line written in the design notes
+fails (after it, no win is left); and the solver's line, replayed action by action on a fresh game, ends with the opponent at 0 HP.
+Report tool: `bash tools/arena_puzzle_lab.sh` (prints all of this; `--file=` solves a draft file, so a new puzzle can be tried
+before it goes in). The puzzles are data now: `data/arena/arena_puzzles.json`.
+
+What the solver does **not** cover: it plays the engine, not the screen. I looked at the four starting boards in the running game
+(`p7_board_bronze.jpg`, `_silver`, `_gold`, `_diamond`: the title and rule, the hand, the field, the Refuse Pile's count and both HP totals are on screen) but did not click a solution through by hand, so please play-check each one; the table gives the line.
+
+### The table
+
+| Tier | Title (id) | Paths | What it teaches | Board |
+|---|---|---|---|---|
+| Bronze | **Back from the Dead, Back to the Gym** (`arena_lethal_lunch`) | Necrocrat + Beefcake | Reinstating the right unit: Vigor Mortis brings a Beefcake heavy hitter back with Hustle, and its 5 attack switches Flex on 'Em from 2 damage to 4 | You: 7 energy (4 B, 3 N), Gym Bro 1/1. Hand: Vigor Mortis, Flex on 'Em, Dry Scoop, Pink Slip. Refuse Pile: Beefy Bouncer, Leg Day Survivor, Skeleton Clerk. Opponent: 8 HP, Village Militia 2/2 |
+| Silver | **Mise en Place** (`arena_hold_the_line`) | Gourmand + Beefcake | Ingredients as ammunition, and their order: the Ingredient must exist before Sir Loin enters | You: 8 energy (4 G, 4 B), 1 Ingredient, Gym Bro 1/1. Hand: Shaker Bottle, Sir Loin, A Feast for the Eyes. Opponent: 9 HP, Tavern Regular 3/4 |
+| Gold | **The Chairman Needs a Quorum** (`arena_zero_to_hero`) | Refusemancer + Necrocrat | The Refuse Pile as a resource: fill it, turn it into Rats, cash the Rats in, and get paid for every death | You: 6 energy (3 N, 3 R), Necro Rat 4/4, Rat King Bureaucrat 2/3, Skeleton Clerk 1/2, The Breakroom. Hand: Plague of Rats, Become Useful at Work, Sewer Rat Courier, Rusty Grave Shovel. Refuse Pile: four unit cards. Opponent: 17 HP, Old Kingdom Automaton 4/6 |
+| Diamond | **The Heaviest Paperwork** (`arena_final_bell`) | Gourmand + Beefcake + Necrocrat | One unit's attack counted three times, and the unusual part: your own trap, set this turn, sprung by your own sacrifice | You: 9 energy (5 B, 3 N, 1 G), Un-Deadlifter 3/2, Millstone Pusher 1/2. Hand: GLP-100, Death Grip, Dead Weight, Flex on 'Em, Yeet, Vigor Mortis. Opponent: 30 HP, Old Kingdom Automaton 4/6 |
+
+**Solutions, step by step**
+
+- **Bronze (2 steps and the attack).** 1) Vigor Mortis on Beefy Bouncer in the Refuse Pile: a 5/4 with Bulldoze and Hustle. 2) Flex
+  on 'Em: 4 damage because you control a 5-attack unit (8 -> 4). 3) Attack with the Bouncer and Gym Bro: if the Militia blocks the
+  Bouncer, Bulldoze carries 3 over and Gym Bro adds 1; if it blocks Gym Bro, the Bouncer deals 5. (Flex may also come after the attack.)
+- **Silver (3 steps and the attack).** 1) Play Shaker Bottle. 2) Destroy it on Gym Bro: +2/+2 and a second Ingredient. 3) Play Sir
+  Loin and aim his entrance at the Tavern Regular: two Ingredients, 4 damage, the blocker is gone. 4) Attack with Sir Loin (6) and
+  Gym Bro (3) = 9.
+- **Gold (4 steps, an ordering trap and a choice trap).** 1) Become Useful at Work, destroying **Skeleton Clerk**: The Breakroom
+  takes 1 HP and the Refuse Pile now holds five unit cards. 2) Plague of Rats: five Rats. 3) Necro Rat's ability: the five Rats die,
+  the Automaton is destroyed, the opponent loses 5 HP and The Breakroom takes 5 more (17 -> 6). 4) Attack with Necro Rat (4) and Rat
+  King Bureaucrat (2). The sacrifice must come before the Plague (four unit cards make four Rats, and the Chairman needs five),
+  and it must be the Clerk (the Rat King is the 2 damage that finishes it).
+- **Diamond (6 actions, an ordering trap).** 1) Overexert Millstone Pusher for (B)(B): 11 energy. 2) Play GLP-100 and 3) destroy it
+  on Un-Deadlifter: 13/1. 4) Flex on 'Em **now**, while a 5-attack unit stands: 4 (30 -> 26). 5) Set Death Grip. 6) Dead Weight,
+  destroying Un-Deadlifter: 13 to the opponent, and Death Grip springs on that death for 13 more. Flex on 'Em after the throw deals
+  only 2 (28 of 30).
+
+**Decoys, and why each fails**
+
+| Puzzle | Decoy | Why it leads nowhere |
+|---|---|---|
+| Bronze | Leg Day Survivor (in the Refuse Pile) | Hustle is printed on it, so Vigor Mortis looks made for it; with 4 attack Flex on 'Em deals 2 and the Militia blocks it: 3 of 8 |
+| Bronze | Pink Slip | removes the blocker, but with Vigor Mortis there is no energy left for Flex on 'Em: 6 of 8 |
+| Bronze | Dry Scoop | +1 attack is never the missing damage |
+| Silver | A Feast for the Eyes | a 5/5 with Hustle and three Ingredients, but then Sir Loin cannot be afforded and nothing else spends Ingredients: 3 of 9 at most |
+| Gold | Sewer Rat Courier | a fifth Rat with no sacrifice, but it costs 2 and Plague of Rats takes 5 of the 6 energy |
+| Gold | Rusty Grave Shovel | Toxic only kills the Automaton if it blocks the carrier, and gets nothing through by itself |
+| Gold | Rat King Bureaucrat as the sacrifice | three Zombie Temps instead of two, but then the Clerk attacks for 1 where the Rat King attacks for 2: 16 of 17 |
+| Diamond | Yeet | the same 13 as Dead Weight for one energy more: with GLP-100, Death Grip and Flex on 'Em you are exactly one short; with Dead Weight as well, the second throw has only the Pusher (27 of 30) |
+| Diamond | Vigor Mortis | Un-Deadlifter comes back as a 3/2: GLP-100 and Death Grip are spent, and the Automaton blocks it |
+
+**The solver's results**
+
+| Puzzle | Can be won | Solutions | Winning lines (orderings) | Positions searched | Naive lines tried, all failing |
+|---|---|---|---|---|---|
+| Bronze | yes | 1 | 2 | 397 | just attack; Vigor Mortis on Leg Day Survivor; Pink Slip on the Militia first; Flex on 'Em first |
+| Silver | yes | 1 | 1 | 242 | just attack; Sir Loin first with one Ingredient; A Feast for the Eyes |
+| Gold | yes | 1 | 1 | 2,456 | just attack; Plague of Rats at once; sacrificing the Rat King; Sewer Rat Courier for the fifth Rat |
+| Diamond | yes | 1 | 112 | 112,286 | just attack; pump and attack; Dead Weight before Flex on 'Em; Yeet instead of Dead Weight |
+
+Each puzzle's title and one-line brief hint at the synergy without naming the play, and after a win the result screen and the
+Arena's prize pop-up say **"What you just did: ..."** (the `lesson` text in the puzzle file).
+
+Things to know:
+- **Silver was "Hold the Line" (survive three turns).** Every puzzle is "win this turn" now. Its id and prize are unchanged, so a save
+  that had cleared it keeps the flag.
+- **Diamond's opponent has one blocker, not three.** With three, the search could not finish (every pump and removal card had five
+  targets); with one it finishes in about four minutes and the puzzle is the same, since no attack gets through either way.
+- **Diamond's test takes about four minutes** (the full search). It is one test in one file.
+
+---
+
+## Part 1 - your decisions
+
+**Palette.** `core/data/path_palette.json`: Gourmand `#5AAAF2` (blue, cream accent), Necrocrat `#9A5FC7` (the old violet exactly,
+ghost-green accent); Beefcake and Refusemancer as they were. The guide (`docs/art/path_colour_guide.md`) and the swatch sheet are
+updated. Do the four read apart: for normal vision better than ever (49, was 38 to 40). For red-green colour-blind players the
+close pair is blue against violet. With the exact old blue `#4A8FE0` that pair scored 9 (hard to tell apart); I made the blue one
+step lighter so the two differ by brightness, which lifts it to 14. The exact old blue is kept in the file under `"alternatives"`
+(inbox 1). The Path icon is always beside the colour.
+
+Batch 18 colour rows re-checked under this palette: `UI-CARDBACK-N` and `UI-PACK-N` stay (their green field still reads as the
+Refusemancer's; the descriptions now ask for violet, the green-flame medallion unchanged); `V-ALEMBIC` is removed (her red, blue,
+green and violet are all Path colours again); `VS-ALEMBIC` shrinks to one change (the orange jar becomes violet), low priority.
+
+**Cameras.** Every place is +4 degrees in `data/camera/zone_camera.json` (the D.N.A. came down from +6), distances unchanged.
+Settings > Display now has **Camera preset** (the four existing presets; the row used to be called "Camera angle"), **Camera
+angle (how far it looks down)**: Standard / +4 (default) / +6 / +8, and **Camera distance**: Closer / Default / Further. Both
+apply in every place. Shot: `p9_camera_settings.jpg`.
+
+How +4 reads, a shot per zone at the Cinematic and the Low preset (`p1_camera_plus4_all_zones.jpg`, singles `p1_cam_<zone>_*.jpg`):
+
+| Zone | At +4 |
+|---|---|
+| Opening Forest | the clearing and both figures read clearly; the near tree on the right still frames the Low shot |
+| Crosspath | the square is open; the two near roofs at the screen edges are a little lower in frame than before |
+| Gainlands | the hall and the road read well; the big wheel beside the arrival spot still crosses the Low shot |
+| Buffet | the plaza and the castle front are clear at both presets |
+| Dump | the Commons reads well; the bunting line sits across the lower third at Low |
+| D.N.A. | at +4 (was +6) slightly more of the far partitions overlap, the lobby and its desk still read |
+| Capital | the gate wall fills the frame as before; the ground in front shows a little more |
+
+**Buildings in the way:** kept as built. **Info screens:** not touched. **Castle numbers:** not touched.
+
+## Part 2 - cards and encounters
+
+- **Rusty Grave Shovel:** "Exhaust: attach to target unit you control. Attached unit gets Toxic and Swat." Cost (N)(R) unchanged, no
+  stat bonus (inbox 2). Card list, script, card file and a test.
+- **Hortensia Clipwell.** Why the Topiaries entered as 3/4: a 1/1 token, +1/+1 from Royal Groundskeeper (all her units), +1/+1 from
+  Prize Topiary (her tokens), then Wild Growth on top. Now a Topiary's printed size is **1/2** and it enters as that: Prize Topiary
+  is gone and Royal Groundskeeper no longer applies to tokens. Her own units keep +1/+1.
+- **The garden rule (Wild Growth), new:** "At the start of each player's own turn, one random unit that player controls gets
+  +1/+1." Once per turn, only on that player's turn. The three-buffs-per-unit cap is gone with the old rule (inbox 3).
+- **Where else that rule applied:** I searched the dungeon rules, the encounter modifiers and scripts, the arena, the zone effects
+  and every card script. It existed in exactly one place, the Rotheart dungeon's rule (which is the rule in Hortensia's fight: she
+  is that dungeon's lieutenant), so that one change covers every fight of the dungeon, the Rotheart's included. Texts updated: the
+  rule badge, the dungeon list (`dungeons.json`, `dungeon_list.csv`). The Echo of Hortensia Clipwell (the Shattered Gallery)
+  had the same stacked token buff: her Topiaries are printed 1/2 as well and the +1/+1 on tokens is gone there too.
+- **Hortensia's fight, the battle bot, 10 games each (Beefcake deck):** before: 8 wins, 12.3 turns on average (10 to 16); after:
+  9 wins, 12.6 turns (10 to 16).
+- **The choice before the Rotheart:** "Give blood to distract the Rotheart (-5 HP; you take the first turn in the fight)" and "Walk
+  on". One set of brackets per option: a choice can now carry its own bracket text, and everywhere else a boon is written without
+  inner brackets ("boon: Lucky Towel, +2 max HP"). "You take the first turn" is real: tested over 20 seeds with the coin flip the
+  dungeon fights use. The old option (sever the roots: the Rotheart starts with 6 less HP) is gone from the node (inbox 4).
+
+## Part 3 - Alembic, equipment
+
+- The brewed card stands **centred in "The brew" panel at 1.1 of a card's size** (it was 0.55 and off to one side), the "joins your
+  collection" line under it, wrapped, never over it. Hovering magnifies it like a reward card. Shots: `p9_alembic_2_brewed_card.jpg`,
+  `p9_alembic_3_hover.jpg`.
+- After a brew the chosen essences stay chosen and Craft stays enabled while there is enough essence and gold
+  (`p9_alembic_4_second_brew_at_once.jpg`); when something runs out the button says what.
+- **No tier** on any equipment visual (it was printed in one place, the character page's detail). **Long descriptions wrap** and
+  stay left of the Equip button; the cause was that the label's width was set before wrapping was switched on. Checked with the two
+  longest descriptions (Big Brain Beret, Thorned Loincloth) at Normal and Large text: `p9_equipment_*`. The shop and reward screens
+  already wrapped; they print no tier.
+
+## Part 4 - quests and dungeon entrances
+
+- **"The Door Under the Well".** The chest was always there and reachable (a test now walks a route from Maren to it); what was
+  missing was any way to find it: the step said "somewhere in Crosspath" and had no marker. Now Maren says where when she gives the
+  quest and when asked again ("the big chest out east... where the lane past the Rift Express stop meets the water"), the step is
+  "Open the big chest by the water, east of the Rift Express stop" with a marker on the chest (world, minimap, map, route line),
+  and after Shiro's scene a line says "At the bottom of the chest lies an old iron key. Bring it to Elder Maren." Handing it in
+  opens the hatch and starts a one-step quest, "Under the Old Well", that marks the hatch. Walked in the running game, nine shots:
+  `p9_well_1` to `p9_well_9`. (Opening that chest still costs 50 gold to Shiro: inbox 5.)
+- **"Outskirts Watch".** Brannoch only knew how to give the Capital's quest and talk about it; he never looked for a quest of his
+  that was ready. He now takes a finished quest first, offers a quest other than the Capital's in that quest's own words, and
+  gives its reminder. Shots `p9_watch_1` to `_4`.
+- **The hand-in probe** (`bash tools/run_quest_handin_probe.sh`, about 10 minutes, windowed): for each of the 32 quests that are
+  handed in to somebody, a fresh game, every step forced done, the hero on that NPC's spot in the hand-in area, talk, and the quest
+  must be completed. Result: **32 passed, 0 failed** (`docs/quests/handin_probe.txt`). I wrote the probe after fixing Brannoch, so I have no run of it failing on him; his talk simply had no hand-in branch. Kept as a tool (it needs the running game) with a static test beside it
+  (`test_fable_nov20_part4.gd`: every hand-in names an area and a spot, and that spot is that person).
+- **Entrances:** no level counts ("[E] Climb into the landfill", "[E] Open the freezer door"); a test checks every dungeon prompt.
+  **A sealed dungeon names itself and who to ask:** "The landfill is sealed. Talk to Brother Bramble at the stream in the Verdant
+  Dump; they may know more." (`p9_dump_sealed_message.jpg`, `p9_buffet_sealed_message.jpg`), built from the side quest's own
+  giver, for the landfill, the freezer, the Waiting Room, Mount Swolympus, the Old Service Tunnels, the hatch and the Gallery.
+- **Every side dungeon has its quest, and is a tracked step once open.** All of them already had a quest that opens them. What was
+  missing: once it was handed in, nothing sent the player to the door. Five one-step quests now start by themselves at that moment
+  with the entrance marked (Under the Old Well, Little Paw Prints, Seating: 1, The Older Way In, Only the Worthy Climb); the
+  Waiting Room, the Paste Works and the Gallery already had such a step.
+
+## Part 5 - the world
+
+- **D.N.A.:** the red runner and the Hall stand on x = 45.5; the gate stood a metre east of that line and the routing desk a metre
+  west. Gate, causeway, arrival spot and desk are on the line now (`p9_dna_desk_default.jpg`, `p9_dna_gate_default.jpg`).
+- **Quest marks too high:** a real bug, not a height setting. A spot's marker added the ground's height to a position that already
+  stood on the ground, so on the Gainlands' plateau (4 m up) every mark made before the hero came near floated 4 m and more over
+  its head. Fixed at the source; it applies to every zone (the others are near sea level, which is why only the Gainlands showed
+  it). `p9_gain_marker_gus.jpg`, `p9_gain_marker_gary.jpg`. Gary and his bench are unchanged.
+- **The Iron Cave's rocks:** they were treated as land (their walls run far below the sea), so they never took part in the fade.
+  They are tall occluders now: the hero's outline shows through them (`p9_gain_crag_north_default.jpg`). The round see-through
+  window does not open in this rock's material, only the outline (inbox 6).
+- **Buffet, Dex and Professor Pate:** no tree stands in the clearing in front of them or along the south side of their path; the
+  forest's west half, the trees behind them and the east side stay (`p9_buffet_dex_area_default.jpg`, `_low.jpg`).
+- **Buffet, the west side:** near the table's edge the ground can no longer lie under the gravy. The last metres rise to a low
+  beach with a darker wet band of uneven width, and the water line wanders (small bays a finger deep) instead of running straight
+  (`p9_buffet_west_shore_*`). This is the rule all round the table, not only in the west.
+- **Dump:** the mount comes down the slide with you and you are still riding at the bottom. The walk smoke's failure was real play
+  too (in front of the Harvest Meal the prompt was Billie Muckfoot's): she stands a few steps west now.
+
+## Part 6 - Elowen
+
+The scene at the cave mouth after the third zone (`cave_mouth_3`) had her say she was "starting to think" he might be her lost
+friend. Rewritten: she sees his memories coming back ("It's coming back, isn't it? A room, a voice, the taste of frosting."), says
+why she held his name back ("A past that someone hands you is only one more thing they've told you to be."), keeps the dumbbell and
+frosting callback the bible's thread table points at, and closes with "You know who you are. Now go free the last zone Primm
+holds, and prove it." Her other scenes (cave mouth 1, 2 and 4, the castle gate) were checked and already agree. The NPC registry's
+note said "believes he's the lost prince but isn't sure": corrected there and in the story bible.
+
+**Dialogue revert** (seven lines: Maren's two for the well quest, Elowen's five):
+`node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov20_lines.csv --revert=docs/dialogue/nov20_lines_ids.txt`
+
+## Part 8 - Batch 18
+
+Removed NPC-PLAYER, STORY-MEMORY-4, TOWN-PROP-CELLAR-FOURSEALS-CLOSED (and V-ALEMBIC, see Part 1). Added **ARENA-MENU-BG**
+(1672x941, the menu screen) and **BB-ARENA** (1536x864, the battle board): a low-key underground cave ring, lantern light, chalk
+and rope on a stone floor, crates and benches, rough rock, a few banners; each description is self-contained and under 600
+characters. **Rip:** he has front, side and back idles and a front talk pose, the same set as every standing NPC; the two
+three-quarter idles in SPR-RIP-FRONTSIDE_IDLE are all that is missing for his turning. No other row needed. 29 rows.
+
+## Part 10 - tests and build
+
+- **Tests:** `bash tools/run_tests.sh --min-free=900`, all 44 shards in one run: **3,415 of 3,417 passed, 0 failing, 2 pending** (the same two as
+  before). Real saves untouched (19 files checked). New test files: `test_fable_nov20_part2.gd` (cards, Hortensia, the Rotheart
+  choice), `test_fable_nov20_part3.gd` (Alembic, equipment), `test_fable_nov20_part4.gd` (quests, entrances, Elowen),
+  `test_fable_nov20_part5.gd` (the world), `test_arena_puzzles_nov20.gd` (the solver, one test per puzzle); the camera and palette
+  tests were updated. Tests that described the old behaviour were rewritten to the new one: Wild Growth's two, the boon wording in three
+  places, the D.N.A. doorway list. The seven tests of the old puzzles' solutions (in `test_arena.gd` and
+  `test_arena_tiers_nov19.gd`) were replaced by three about the preset board and by the new solver tests.
+- **Walk smokes, all seven pass:** Crosspath, the Opening Forest, the Gainlands, the Buffet, **the Dump (it failed before tonight)**,
+  the D.N.A., the Capital.
+- **Probes:** NPC visibility 150 checks, 0 failed; fade probe 7 places, nothing but tall occluders can fade, 0 script errors;
+  quest hand-in probe 32 of 32; the puzzle solver tests are part of the suite above.
+- **Build:** 2.7 GB of RAM was free, so the normal export ran: `bash tools/export_windows.sh 1.0.0` -> EXPORT OK.
+  **`builds/TheWaywardPath-v1.0.0-windows.zip`, 764 MB on disk (800,946,732 bytes; the same size as Nov 19).** The script still
+  warns that the payload is over its 750 MB budget, as it did on Nov 19.
+- **The exported build:** `run_release_smoke_exported.sh` PASSED (1.0.0). The three `play_exported.sh` checks (`exported_rc1_a`,
+  `_b`, `_c`) each ran to "done" with 0 SCRIPT ERROR in all six logs. They run on the test pack
+  (`builds/_testpack/TheWaywardPath_test.pck`), and that pack was dated Nov 17, so I rebuilt it from tonight's code
+  (`bash tools/export_test_pack.sh`) and ran the three again; the numbers above are from the fresh pack. Yesterday's three checks
+  must have run on the Nov 17 pack: the export script does not rebuild it.
+- **Not verified:** nobody clicked a puzzle solution through in the battle screen (the engine replay and the four board shots are
+  what I have); the Buffet's shore and the D.N.A. gate were judged from screenshots at two cameras, not walked all the way round.
+
+## Decisions needed from you (details in the inbox, "Fable Nov 20")
+
+| # | Question | Recommendation |
+|---|---|---|
+| 1 | Gourmand's blue is one step lighter than the old blue, so colour-blind players can tell it from the violet | keep the lighter blue |
+| 2 | The Rusty Grave Shovel gives Toxic and Swat and no stats | playtest; +0/+1 if it feels thin |
+| 3 | Wild Growth has no "three per unit" cap any more | keep your wording; bring the cap back if one unit runs away |
+| 4 | The Heart Roots node lost "sever the roots" | keep your two options |
+| 5 | The well quest's key is in Shiro's prank chest (50 gold) | fine for now; a chest of its own later |
+| 6 | The four new puzzles, and Diamond's single blocker | play-check all four |
+
+## One thing I changed outside the game
+
+Your settings file (`%APPDATA%/Deckbuilder-RPG/settings.cfg`) was rewritten during one of tonight's play-script runs: a script that
+opens Settings and closes it saved the run's values, and the run had set the camera preset to Cinematic. Yesterday's notes say you
+play on the **Low** preset, so I set `camera_angle` back to 3 (Low) by hand. If your preset was something else, or any other
+setting looks off, that is why; everything else in the file read as defaults. The cause is fixed: a scripted run can no longer
+write the player's settings file (`Settings.save_settings`), which is in tonight's build.
+
+---
+
 # Fable Nov 19 - report: what fades and what doesn't, a camera test per zone, the Path colours, a design for the info screens
 
 Brief: `docs/prompts/fable_nov19_fade_camera_colour.md`. Start tag `pre-fable-nov19`. Questions: `docs/overnight_inbox.md`, "Fable Nov 19"
