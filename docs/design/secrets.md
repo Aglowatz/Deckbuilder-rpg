@@ -234,7 +234,7 @@ None of these is sold by the tailor (Pip Threadwell hints at all three once the 
 | **Tattered Cloak** (cloak) | Gainlands, the hidden chest `chest_ground_0` (`GainlandsZone.CHEST_REWARDS`) | one-time hidden chest; also pays 40 gold |
 | **Royal Mantle** (cloak) | beating Primm for the first time | `Session._grant_dungeon_packs` (Capital first clear); announced as a town notice |
 
-The tailor's regular stock (zones and levels): Tricorn (level 5), Top Hat (1 zone), Cat-Ear Band (level 8), Mushroom Cap (2 zones), Patchwork Cloak (level 4), Leaf Cloak (1 zone), Starfall Cloak (3 zones).
+The tailor's regular stock (zones and levels): Tricorn (level 5), Top Hat (1 zone), Cat-Ear Band (level 8), Mushroom Cap (2 zones), Pathwork Cloak (level 4), Leaf Cloak (1 zone), Starfall Cloak (3 zones).
 
 ## Polish round: 37 more hidden chests (4 in town, 3 in the starting area, 6 in each of the five zones)
 

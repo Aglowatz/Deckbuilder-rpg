@@ -43,7 +43,7 @@ static func affinity_ink(type: Affinity.Type) -> Color:
 
 
 static func affinity_name(type: Affinity.Type) -> String:
-	return str(AFFINITY_NAMES.get(type, "Colorless"))
+	return str(AFFINITY_NAMES.get(type, "Pathless"))
 
 
 ## Fonts: Cinzel for titles, Alegreya Sans for body text.

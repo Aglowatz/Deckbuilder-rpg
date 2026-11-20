@@ -54,6 +54,8 @@ static func apply(options: GameOptions, deck: Deck, hand_size: int = 5) -> void:
 static func apply_flood_guard(options: GameOptions) -> void:
 	options.flood_guard = CAVE_FLOOD_GUARD
 	options.flood_guard_seat = 0
+	# Fable Nov 21 (Part 2.6): the tutorial cave is the exception to "the AI opens with at least two Infrastructure"
+	options.foe_opening_infrastructure_floor = 0
 
 
 static func _cheaper(a: CardData, b: CardData) -> bool:

@@ -43,7 +43,7 @@ rack (L13) and the late zones, **4** = the Capital and the postgame.
 | Cosmetics | Price |
 |---|---:|
 | From the start: Wide-Brim 100, Chef's Toque 120, Bowler 150 | |
-| Level 4-5: Patchwork Cloak 250, Tricorn 250 | |
+| Level 4-5: Pathwork Cloak 250, Tricorn 250 | |
 | One zone freed: Wizard Hat 300, Red Cape 300 | |
 | Two zones freed: Tattered Cloak 350, Crown of Leaves 400 | |
 | After Primm: Royal Mantle 1,000 | |
@@ -65,7 +65,7 @@ The vendor discount of the level track (10 % at L11, 20 % at L21) still applies 
 | Arena replay | 15 | 25 | one roamer's worth |
 | Level track gold | L2-5 180, L6-10 320, L11-20 1,020, L21-30 1,550 | L2-5 240, L6-10 520, L11-20 1,230, L21-30 1,100 | front-loaded to the levels where the armory and the first zone pinch; the postgame band paid during the main game under the current XP curve |
 | Essence per duplicate | 1 / 2 / 4 / 8 | 2 / 4 / 8 / 16 | packs pay essence worth having; the Alchemist (min 6 per Path) is reachable from the second zone |
-| Gold per Colorless duplicate | 15 / 30 / 60 / 120 | 15 / 30 / 75 / 150 | half the shelf price |
+| Gold per Pathless duplicate | 15 / 30 / 60 / 120 | 15 / 30 / 75 / 150 | half the shelf price |
 | Quests, chests, feats, gatekeepers, graveyard, minigames | unchanged | | quests are frozen with the dialogue; chests and feats are already tiered |
 
 **Added in Phase 2**: a card pick (a gatekeeper, a zone elite, a town boss, the arena's upper tiers, every dungeon node's pick) can be rerolled once for

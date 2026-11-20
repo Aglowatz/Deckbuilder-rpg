@@ -88,7 +88,7 @@ static func _build() -> void:
 		CosmeticData.make("hat_tricorn", "Tricorn", hat, "Three corners, zero regrets. Arr, mostly.", 250, "TRICORN").unlocked_by(Condition.player_level(5)),
 		CosmeticData.make("hat_wizard", "Wizard Hat", hat, "Pointy, wide and slightly too big. Comes with a feeling of competence.", 300, "WIZARD").unlocked_by(Condition.zones_completed(1)),
 		CosmeticData.make("hat_leaf_crown", "Crown of Leaves", hat, "Grown, not forged. Smells like a very good morning.", 400, "LEAFCROWN").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Verdant Dump"),
-		CosmeticData.make("cloak_patchwork", "Patchwork Cloak", cloak, "Every patch has a story. Most of them involve a goat.", 250, "PATCHWORK").unlocked_by(Condition.player_level(4)),
+		CosmeticData.make("cloak_patchwork", "Pathwork Cloak", cloak, "Every patch has a story. Most of them involve a goat.", 250, "PATCHWORK").unlocked_by(Condition.player_level(4)),
 		CosmeticData.make("cloak_red_cape", "Red Cape", cloak, "Flaps heroically. Does nothing else, heroically.", 300, "REDCAPE").unlocked_by(Condition.zones_completed(1)),
 		CosmeticData.make("cloak_tattered", "Tattered Cloak", cloak, "Survived things. Would survive more.", 350, "TATTERED").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Gainlands"),
 		CosmeticData.make("cloak_royal", "Royal Mantle", cloak, "Fur trim, gold clasp and a quiet sense of entitlement.", 1000, "ROYAL").unlocked_by(Condition.postgame()).found_at("A reward for beating Primm"),

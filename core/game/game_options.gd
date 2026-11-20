@@ -18,6 +18,10 @@ var scripted_hand_player: int = 0
 ## infrastructure cards - a hidden soft mulligan that swaps non-infrastructure cards for infrastructure from the deck. 0 = off.
 var opening_infrastructure_floor: int = 2
 var opening_infrastructure_seat: int = 0
+## Fable Nov 21 (Part 2.6, the owner: Captain Spotless got stuck with none): the OTHER seat (the AI) gets the same floor, by the same
+## hidden soft mulligan on the game's own seeded RNG, after its draw and after its mulligan. 0 = off: the tutorial fights of the Forgotten
+## Cave switch it off (`FirstDuel.apply_flood_guard`), so the first foes can still stumble.
+var foe_opening_infrastructure_floor: int = 2
 ## Overnight Nov 9-10 (RC1 critic #2, the first fights drag): the Forgotten Cave's FLOOD GUARD. While seat `flood_guard_seat` already
 ## holds this many infrastructure (in play + in hand), an infrastructure it draws is swapped for the next non-infrastructure card down its
 ## deck (deterministic, no RNG). 0 = off (every other fight).
@@ -39,6 +43,7 @@ func clone() -> GameOptions:
 	copy.smoother_tolerance = smoother_tolerance
 	copy.free_mulligan = free_mulligan
 	copy.opening_infrastructure_floor = opening_infrastructure_floor
+	copy.foe_opening_infrastructure_floor = foe_opening_infrastructure_floor
 	copy.opening_infrastructure_seat = opening_infrastructure_seat
 	copy.flood_guard = flood_guard
 	copy.flood_guard_seat = flood_guard_seat

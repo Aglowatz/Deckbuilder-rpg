@@ -16,7 +16,7 @@ Every level grants something; **bold** levels are the big unlocks (the level-up 
 | **7** | 880 | **Two more deck slots** | Deck Station: 4 to 6 deck slots. General Pack. |
 | 8 | 1220 | A bigger opening hand | Opening hand size +1 (6). 130 gold. +1 starting HP (19). |
 | 9 | 1600 | Uncommons up to 3 copies | Uncommon cards: up to 3 copies. Beefcake Pack. |
-| **10** | 2025 | **A little pocket money** | Patchwork Cloak (cosmetic). 130 gold. +1 starting HP (20). |
+| **10** | 2025 | **A little pocket money** | Pathwork Cloak (cosmetic). 130 gold. +1 starting HP (20). |
 | 11 | 2460 | Regular customer | Permanent vendor discount +10%. 130 gold. |
 | **12** | 2905 | **A fourth item slot, and Epics up to 2 copies** | Epic cards: up to 2 copies. +1 item slot (4). Beefcake Pack. +1 starting HP (21). |
 | 13 | 3360 | Bertram's advanced rack | Unlocks Bertram's advanced equipment rack. 170 gold. |

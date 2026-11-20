@@ -59,8 +59,8 @@ static func add_all(result: Dictionary) -> void:
 	# -- Four powerful pieces with real drawbacks (tier 3).
 	_add(result, "glass_jaw_gauntlets", "Glass Jaw Gauntlets", S.WEAPON, R.RARE, 3, "Your units get +2 attack.", "Max HP -3.",
 		"Hits like a truck. Takes a punch like a soufflé.", [_mod(K.STAT_CHANGE, 2, Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -3)])  # Oct 29: max HP, so the cost counts inside dungeons too
-	_add(result, "overdue_library_book", "Overdue Library Book", S.RELIC, R.RARE, 3, "Draw 2 extra cards each turn.", "Then discard a random card at the start of your turn.",
-		"Due back in 1987. The fines are now sentient.", [_mod(K.EXTRA_DRAWS, 2), _eff(K.START_OF_TURN_EFFECT, O.TOSS, 1, G.CONTROLLER)])
+	_add(result, "overdue_library_book", "Overdue Library Book", S.RELIC, R.RARE, 3, "Draw 1 extra card each turn.", "Then discard 1 card at random.",
+		"Due back in 1987. The fines are now sentient.", [_mod(K.EXTRA_DRAWS, 1), _eff(K.START_OF_TURN_EFFECT, O.TOSS, 1, G.CONTROLLER)])
 	_add(result, "elastic_waistband", "Elastic Waistband of Victory", S.ARMOR, R.RARE, 3, "Your units get +1/+1.", "You can play only 2 non-infrastructure cards per turn.",
 		"Built for the Endless Buffet. Stretches to fit any ambition.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 2)])
 	_add(result, "hubris_crown", "Crown of Mild Hubris", S.HELM, R.LEGENDARY, 3, "You always go first, draw an extra card on your first turn, and your units get +1 attack.", "Max HP -4.",

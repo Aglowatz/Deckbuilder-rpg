@@ -36,7 +36,7 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 | Doggy Bag (`doggy_bag`) | Armor | Uncommon / 2 | At the end of your turn, create 1 Ingredient. | - | Leftovers are just tomorrow's lunch with better self-esteem. | Main quest Key Ingredients (midpoint) |
 | Dumpster Diving Gloves (`dumpster_gloves`) | Weapon | Uncommon / 2 | Whenever one of your units dies, create 2 Garbage. | - | One person's trash is another person's starting hand. | Main quest Root Cause (midpoint) |
 | Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | Weapon | Epic / 3 | Your units get +2 attack. | Max HP -3. | Hits like a truck. Takes a punch like a soufflé. | The House of Gains (first clear) |
-| Overdue Library Book (`overdue_library_book`) | Relic | Epic / 3 | Draw 2 extra cards each turn. | Then discard a random card at the start of your turn. | Due back in 1987. The fines are now sentient. | The Hall of Final Approvals (first clear) |
+| Overdue Library Book (`overdue_library_book`) | Relic | Epic / 3 | Draw 1 extra card each turn. | Then discard 1 card at random. | Due back in 1987. The fines are now sentient. | The Hall of Final Approvals (first clear) |
 | Elastic Waistband of Victory (`elastic_waistband`) | Armor | Epic / 3 | Your units get +1/+1. | You can play only 2 non-infrastructure cards per turn. | Built for the Endless Buffet. Stretches to fit any ambition. | The Test Kitchen (first clear) |
 | Crown of Mild Hubris (`hubris_crown`) | Helm | Legendary / 3 | You always go first, draw an extra card on your first turn, and your units get +1 attack. | Max HP -4. | Heavy is the head that wears the crown. Mostly because it's very heavy. | The Old Service Tunnels (first clear) |
 | Protein Shaker Bandolier (`protein_bandolier`) | Armor | Uncommon / 2 | Your Beefcake units get +1/+1. | - | Six shakers, one for every meal, and a seventh for emotional support. | Benchley's Protein & Pasteboard, once the Gainlands are free |
@@ -55,7 +55,7 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 ## Overnight Oct 29, Part 3: the power budget
 
 Every piece and item was reviewed against a power budget by rarity and tier (`docs/design/equipment_budget_oct29.md`: the points per effect, the
-budget, the verdict for every piece, the slot progression per zone). Changes: the Wicked Dagger and the Solid Plate buff Colorless units only
+budget, the verdict for every piece, the slot progression per zone). Changes: the Wicked Dagger and the Solid Plate buff Pathless units only
 (a board-wide +1 is never sold at level 5); the **Blade of Earned Reputation** (Epic, Bertram's advanced rack, 450) carries the any-colour
 +1 attack; the Spotter's Barbell and the Gainsmith's Lifting Belt are Beefcake-only (the Belt Uncommon); the Glass Jaw Gauntlets' cost is
 max HP; the Sucker Punch Mitts are an Uncommon with a max-HP cost; the Galoshes are Common, the Laurels Uncommon, the Gladiator's Net Epic;

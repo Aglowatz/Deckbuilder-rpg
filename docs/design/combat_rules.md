@@ -225,7 +225,12 @@ floods and screws but does not make every hand ideal.
 **Infrastructure floor (Fix pass Nov 7, owner decision D6).** After the draw (and after a mulligan's redraw), the
 **player's** opening hand always holds at least **two infrastructure cards**: while it has fewer, a random
 non-infrastructure card goes back into the deck for a random infrastructure card from it (a hidden soft mulligan;
-`GameOptions.opening_infrastructure_floor` = 2 for seat 0). Foes never get it. Every fight, not only the tutorial.
+`GameOptions.opening_infrastructure_floor` = 2 for seat 0). Every fight, not only the tutorial.
+
+**The foe's floor (Fable Nov 21, owner decision).** The AI's opening hand gets the same floor of **two infrastructure cards**, by the
+same hidden swap on the game's own seeded RNG, after its draw and after its mulligan
+(`GameOptions.foe_opening_infrastructure_floor` = 2). The exception is the tutorial: the Forgotten Cave's fights switch it off
+(`FirstDuel.apply_flood_guard`), so the first foes can still stumble. (The Opening Forest has no fights.) Before Nov 21 foes never got it.
 
 ## Mulligan
 

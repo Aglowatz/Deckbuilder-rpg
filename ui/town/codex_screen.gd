@@ -19,7 +19,7 @@ const GEAR_ICON_PX: float = 72.0
 const TABS: Array[String] = ["Cards", "Bestiary", "Gear"]
 const PATH_ROWS: Array[Dictionary] = [
 	{"key": "all", "label": "All Paths"},
-	{"key": "neutral", "label": "Colorless"},
+	{"key": "neutral", "label": "Pathless"},
 	{"key": "beefcake", "label": "Beefcake", "path": Affinity.Type.BEEFCAKE},
 	{"key": "gourmand", "label": "Gourmand", "path": Affinity.Type.GOURMAND},
 	{"key": "refusemancer", "label": "Refusemancer", "path": Affinity.Type.REFUSEMANCER},
@@ -464,7 +464,7 @@ func inspect(card: CardData) -> void:
 	var paths: PackedStringArray = []
 	for path: Affinity.Type in card.paths():
 		paths.append(UIStyle.affinity_name(path))
-	info.add_child(UIKit.label("Path: %s" % (" / ".join(paths) if not paths.is_empty() else "Colorless"), &"", 22, UIStyle.PARCHMENT))
+	info.add_child(UIKit.label("Path: %s" % (" / ".join(paths) if not paths.is_empty() else "Pathless"), &"", 22, UIStyle.PARCHMENT))
 	# Cards Oct 27: where a locked card is earned; whose an enemy-only card is.
 	var where: String = ""
 	match CardAvailability.kind_of(card):

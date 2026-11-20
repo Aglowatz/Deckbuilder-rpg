@@ -1488,7 +1488,7 @@
 		"theme": "An ancient vault beneath the main town from the Old Kingdom: mossy stone halls, four faded faction banners, clockwork guardians, and a glowing four-colored core.",
 		"story": "Beneath the town lies a vault from the days when the four Paths marched as one. Its clockwork guardians still keep watch, waiting for someone worthy of the Old Kingdom's banner.",
 		"boss": "The Old Kingdom Automaton (Vault Guardian)",
-		"buffs": "Old Kingdom: colorless units get +1/+1.",
+		"buffs": "Old Kingdom: Pathless units get +1/+1.",
 		"reward_first": "Old Kingdom Banner (C-21).",
 		"reward_repeat": "Small gold and a General Pack.",
 		"hook": "An elder in the main town: \"There's a door under the old well that's been locked since before I was born.\"",

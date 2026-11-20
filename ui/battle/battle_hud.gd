@@ -553,7 +553,8 @@ func deck_center(player_index: int) -> Vector2:
 
 
 func portrait_rect(player_index: int) -> Rect2:
-	return Rect2(_portraits[player_index].position, _portraits[player_index].size)
+	# Fable Nov 21: the plate as drawn (its UI-scale shrink included), so the click area is the picture
+	return _portraits[player_index].get_global_rect()
 
 
 func refresh_infrastructure() -> void:
@@ -562,7 +563,7 @@ func refresh_infrastructure() -> void:
 
 
 func portrait_center(player_index: int) -> Vector2:
-	return _portraits[player_index].position + _portraits[player_index].size * 0.5
+	return _portraits[player_index].get_global_rect().get_center()
 
 
 var _low_hp_warned: bool = false

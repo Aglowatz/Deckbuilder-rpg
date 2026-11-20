@@ -213,7 +213,7 @@ All 328 imported images in `assets/art/cards/` are real art. These **11** entrie
 | Traveler's Cloak | Cloak | Long, plain and made for roads. |
 | Poncho | Cloak | Stripes, a hole for your head, and zero stress. |
 | Hooded Cloak | Cloak | The hood stays down. For now. |
-| Patchwork Cloak | Cloak | Every patch has a story. Most of them involve a goat. |
+| Pathwork Cloak | Cloak | Every patch has a story. Most of them involve a goat. |
 | Tattered Cloak | Cloak | Survived things. Would survive more. |
 | Royal Mantle | Cloak | Fur trim, gold clasp and a quiet sense of entitlement. |
 | Leaf Cloak | Cloak | Overlapping leaves that rustle when you walk. |

@@ -20,7 +20,7 @@ of Nov 19 was too neutral for Gourmand; the Necrocrat's Path icon keeps its gree
 | **Gourmand** | `#5AAAF2` | `#F0C494` | `#96C8F7` | `#1F5596` | clear blue, cream accent (the white chef's hat) |
 | **Refusemancer** | `#58933B` | `#B5552D` | `#86BE64` | `#3F6B26` | deep moss green, rust accent (the leaf in rust arrows) |
 | **Necrocrat** | `#9A5FC7` | `#72E55B` | `#C39BE6` | `#64358F` | the old violet, ghost-green accent (the flame round the skull) |
-| *Colorless* | `#B8A98A` | `#4C4441` | `#CFC3A8` | `#5A5046` | stone (unchanged) |
+| *Pathless* (no Path; called Colorless before Nov 21) | `#B8A98A` | `#4C4441` | `#CFC3A8` | `#5A5046` | stone (unchanged) |
 
 Roles:
 - **main**: bars (the essence tracker), borders, glows, map and quest markers, battle effects, filter chips, the hero's outline behind a wall.

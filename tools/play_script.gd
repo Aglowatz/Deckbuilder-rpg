@@ -133,6 +133,33 @@ func _run_line(line: String) -> void:
 			_say("  button %s: %s" % [rest, "clicked" if found else "NOT FOUND"])
 		"shot":
 			await _shot(rest if not rest.is_empty() else "shot")
+		"clickcard":
+			# Fable Nov 21: `clickcard <card id>` - a real mouse click on that card in the player's hand or on either field (battle only)
+			var click_battle: BattleScreen = _find_battle()
+			var click_uid: int = 0
+			if click_battle != null:
+				for seat: int in range(2):
+					for candidate: CardInstance in click_battle.game.players[seat].hand + click_battle.game.players[seat].field:
+						if candidate.data.id == rest or candidate.data.display_name == rest or str(candidate.uid) == rest:
+							click_uid = candidate.uid
+			if click_uid == 0:
+				_say("  clickcard: %s not found" % rest)
+			else:
+				var card_at: Vector2 = click_battle.board.center_of(click_uid)
+				_say("  clickcard: %s at %s" % [rest, card_at])
+				await driver.click(card_at)
+				await driver.frames(4)
+		"clickportrait":
+			# Fable Nov 21: `clickportrait <0|1>` - a real mouse click on the middle of the player's (0) or the opponent's (1) plate as drawn
+			var plate_battle: BattleScreen = _find_battle()
+			if plate_battle == null:
+				_say("  clickportrait: no battle")
+			else:
+				var plate_rect: Rect2 = plate_battle.hud.plate_rect(int(parts[1]) if parts.size() > 1 else 1)
+				_say("  clickportrait: drawn at %s, hit rect %s, mode %d, hp %d / %d" % [plate_rect, plate_battle.hud.portrait_rect(int(parts[1]) if parts.size() > 1 else 1), plate_battle.mode, plate_battle.game.players[0].hp, plate_battle.game.players[1].hp])
+				await driver.click(plate_rect.get_center())
+				await driver.frames(6)
+				_say("  clickportrait: after, mode %d, hp %d / %d" % [plate_battle.mode, plate_battle.game.players[0].hp, plate_battle.game.players[1].hp])
 		"dump":
 			_dump()
 		"scene":
@@ -554,6 +581,34 @@ func _dev(parts: PackedStringArray) -> void:
 			Settings.apply_performance()
 			Settings.graphics_changed.emit()
 			result = "Low-end %s" % ("on" if Settings.low_end else "off (Medium)")
+		"hand":
+			# Fable Nov 21: `dev hand <card id>` puts that card in the player's hand in the running battle, with energy of every Path to play it
+			if battle == null or CardSet.card(arg) == null:
+				result = "hand: no battle or unknown card %s" % arg
+			else:
+				if battle.game.players[0].infrastructure.size() < 8:
+					for path: Affinity.Type in Affinity.colored_types():
+						for copy: int in range(3):
+							battle.game.players[0].infrastructure.append(battle.game.create_instance(CardBuilder.infra(path), 0))
+				var added: CardInstance = battle.game.create_instance(CardSet.card(arg), 0)
+				battle.game.players[0].hand.append(added)
+				battle.board.sync_state(false)
+				battle.call("_refresh_ui")
+				result = "hand: %s (uid %d)" % [added.data.display_name, added.uid]
+		"field":
+			# Fable Nov 21: `dev field <attack> <defense> [0|1]` puts a plain ready unit on the field of the player (0) or the opponent (1)
+			if battle == null:
+				result = "field: no battle"
+			else:
+				var seat: int = int(parts[4]) if parts.size() > 4 else 0
+				var plain: CardData = CardBuilder.unit("vanilla_%d_%d" % [int(arg), int(arg2)], "Test unit %d/%d" % [int(arg), int(arg2)], Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type], int(arg), int(arg2), [] as Array[CardEnums.Keyword])
+				var unit: CardInstance = battle.game.create_instance(plain, seat)
+				battle.game.players[seat].field.append(unit)
+				unit.just_arrived = false
+				unit.exhausted = false
+				battle.board.sync_state(false)
+				battle.call("_refresh_ui")
+				result = "field: %d/%d for seat %d (uid %d)" % [int(arg), int(arg2), seat, unit.uid]
 		"level":
 			result = DevActions.set_level(int(arg), true)
 		"gold":

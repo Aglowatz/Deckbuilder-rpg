@@ -127,6 +127,8 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 	options.record_events = false
 	if encounter.scripted_hand:
 		FirstDuel.apply(options, deck)
+	if encounter.group == "tutorial":
+		options.foe_opening_infrastructure_floor = 0  # Fable Nov 21 (Part 2.6): as in the game, the cave's foes get no floor
 	var game: GameState = GameState.new(options)
 	game.add_player(setup)
 	game.add_player(enemy)

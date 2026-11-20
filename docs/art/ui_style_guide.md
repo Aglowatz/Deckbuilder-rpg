@@ -115,3 +115,67 @@ Eleven rows in `docs/art/batch18_nov18.csv` (ids `UI-INFO-PAGE`, `UI-INFO-RIBBON
 `UI-INFO-BTN-STATES`, `UI-INFO-SCROLLBAR`, `UI-QUESTBOX`, `UI-QUEST-MARKS`, `UI-INFO-TOOLTIP`, `UI-MAP-FRAME`), each with its exact
 size, its 9-slice margins and a self-contained description. Until they arrive every screen can be built with the stand-ins the
 mock-ups use; the new pieces then drop in by id.
+
+---
+
+# Nov 21: two new directions, with the four Paths' colours (design only)
+
+The owner turned down the Nov 19 look above (too brown): he wants **more colour, from the four Paths** (Beefcake red `#E0321F`,
+Gourmand blue `#5AAAF2`, Refusemancer moss green `#58933B`, Necrocrat violet `#9A5FC7`), still painted and storybook. Two directions
+follow, each drawn as the same five screens. **Nothing is built and no art is asked for until one is picked.** The 11 info-screen
+rows of Batch 18 are on hold. Mock-ups: `docs/overnight_shots/nov20/ui_mockups_v2/` (made by `python tools/ui_mockups_nov21.py`; the
+drawn surfaces are flat stand-ins for painted ones).
+
+| Screen | Direction A "Patchwork" | Direction B "Stained glass" |
+|---|---|---|
+| The quest box | `a_quest_box.jpg` | `b_quest_box.jpg` |
+| The pause / main menu | `a_main_menu.jpg` | `b_main_menu.jpg` |
+| The quest log | `a_quest_log.jpg` | `b_quest_log.jpg` |
+| A tooltip and a pop-up | `a_tooltip.jpg` | `b_tooltip.jpg` |
+| A settings page | `a_settings.jpg` | `b_settings.jpg` |
+
+Both share three rules, so either can be built the same way:
+- **Colour means a Path, wherever a Path is meant.** A quest wears its zone's colour, a keyword its Path's, a rule's pop-up its
+  rule's. The Path icon always sits beside the colour (colour is never the only signal).
+- **One gold thing per screen:** the action you most likely want.
+- **No pale grey text.** Secondary lines are a darker or lighter tint of the page's own colour; unknown quest steps are italic, not dim.
+
+## Direction A: Patchwork (a linen page in a quilt border)
+
+The kingdom's name made into the frame. Reading happens in **dark ink on cream linen**. The border is four cloths, one per Path
+(red on top, blue right, green below, violet left), joined by a visible cream running stitch, a gold button sewn on every corner.
+Titles ride a cloth banner; tabs, tags, keywords and rewards are **sewn patches** in their Path's cloth; a selected row gets a thick
+border in its colour and a gold-thread tab. A screen that belongs to one Path (a zone's quest box, a rule's pop-up) is bound in that
+one cloth all round.
+- For it: the warmest and the closest to the story ("a patchwork is strongest at the seams"); dark text on a light page is the most
+  readable at Large text; the colours are strong but only at the edges, so long reading stays calm; it sits well beside the painted
+  world's warm light.
+- Against it: it is the gentler change, and the cream page is kin to the parchment he turned down; cloth can read as cosy rather
+  than grand next to the gold-framed battle board.
+- New art it would need (about 12 pieces): the quilt page (9-slice), four cloth swatches for tabs, tags and rows (one per Path, plus
+  a plain one), the banner, a stitched divider, two cloth buttons with their states, a scroll bar, the corner button.
+
+## Direction B: Stained glass (a night page in a leaded gold frame)
+
+The four Paths as glass. The page is **deep night blue with pale lettering**, framed in lead and gold. Along the top runs a strip of
+eight small panes in the four colours (or one colour for a one-Path screen). Tabs, tags, keywords, rows and buttons are **panes of
+coloured glass**: dull when idle, lit from behind when chosen or hovered. The pause menu carries a small rose window of the four
+Path icons. Sliders and switches fill with lit glass.
+- For it: by far the more colourful, and the colours glow; it is the bigger break from the brown look; it matches the dark
+  tooltips, the dialogue box and the battle HUD the game already has, so fewer surfaces disagree; "lit means chosen" is a clear rule
+  for controller focus.
+- Against it: pale text on dark is a little harder to read in long lists (the quest log's descriptions, the glossary); it leans
+  towards a cathedral, and the Capital already owns that mood; glow must be held back or every screen shouts.
+- New art it would need (about 12 pieces): the night page with its leaded frame (9-slice), the top strip, a glass pane in two
+  states (9-slice, tinted in code to any Path colour), the rose window, a divider, two glass buttons with their states, a scroll bar.
+
+## What to look at when choosing
+
+- The quest log (`a_quest_log.jpg` against `b_quest_log.jpg`) shows the real difference: ink on linen against light on night.
+- The quest box is on screen for the whole game: which one do you want in the corner for twenty hours?
+- In both pause menus the buttons carry a Path colour and icon only as decoration (the Quest Log is not "the Gourmand page"). If
+  that misleads, the buttons become plain (cloth-brown in A, slate in B) and colour stays where it means a Path.
+
+**Recommendation:** B for the menus that float over the game (pause menu, quest box, tooltips, pop-ups), because it is the colourful
+change that was asked for and agrees with the dark HUD; if long reading on dark worries you after seeing it, a mix is possible (B's
+frame and panes round A's linen page for the quest log and the glossary). Say A, B or the mix.

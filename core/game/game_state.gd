@@ -201,6 +201,9 @@ func _deal_opening_hand(player: PlayerState) -> void:
 		)
 	if player.index == options.opening_infrastructure_seat and options.opening_infrastructure_floor > 0:
 		HandSmoother.ensure_infrastructure(hand, player.deck, options.opening_infrastructure_floor, rng)
+	elif player.index != options.opening_infrastructure_seat and options.foe_opening_infrastructure_floor > 0:
+		# Fable Nov 21 (Part 2.6): the foe's opening hand holds at least two Infrastructure too (off in the tutorial cave)
+		HandSmoother.ensure_infrastructure(hand, player.deck, options.foe_opening_infrastructure_floor, rng)
 	for card: CardInstance in hand:
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")

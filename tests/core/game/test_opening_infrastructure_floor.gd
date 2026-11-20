@@ -1,6 +1,6 @@
 extends GutTest
 ## Fix pass Nov 7 (owner decision D6): the player's opening hand always holds at least two infrastructure cards
-## (a hidden soft mulligan); the foe's hand is never touched.
+## (a hidden soft mulligan). Since Fable Nov 21 the foe's hand has the same floor.
 
 
 func test_player_hand_has_two_infrastructure_in_every_seed() -> void:
@@ -12,13 +12,22 @@ func test_player_hand_has_two_infrastructure_in_every_seed() -> void:
 		assert_eq(game.players[0].hand.size() + game.players[0].deck.size(), 45, "no card created or lost")
 
 
-func test_foe_hand_is_not_floored() -> void:
+## Fable Nov 21 (Part 2.6): the foe's hand gets the same floor now (it was never touched before); with its own switch off it keeps
+## its natural draw. The full rule and its exceptions: tests/core/game/test_foe_opening_hand_nov21.gd.
+func test_foe_hand_is_floored_too_since_nov21() -> void:
 	var below_floor: int = 0
+	var below_when_off: int = 0
 	for seed_value: int in range(1, 121):
 		var game: GameState = GameFactory.new_game(seed_value, GameFactory.make_deck(null, 8, 45), GameFactory.make_deck(null, 8, 45))
 		if HandSmoother.count_infrastructure(game.players[1].hand) < 2:
 			below_floor += 1
-	assert_gt(below_floor, 0, "the foe's opening hand keeps its natural draw")
+		var opts: GameOptions = GameOptions.new()
+		opts.foe_opening_infrastructure_floor = 0
+		var plain: GameState = GameFactory.new_game(seed_value, GameFactory.make_deck(null, 8, 45), GameFactory.make_deck(null, 8, 45), opts)
+		if HandSmoother.count_infrastructure(plain.players[1].hand) < 2:
+			below_when_off += 1
+	assert_eq(below_floor, 0, "the foe's opening hand holds two infrastructure in every seed")
+	assert_gt(below_when_off, 0, "and keeps its natural draw when the foe's floor is off")
 
 
 func test_floor_can_be_turned_off() -> void:

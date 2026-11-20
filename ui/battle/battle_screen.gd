@@ -1465,7 +1465,11 @@ func _input(event: InputEvent) -> void:
 		if mode == Mode.MAIN and (not was_dragging or drop_y < PLAY_LINE_Y):
 			_try_play(uid)
 	elif button.button_index == MOUSE_BUTTON_LEFT and button.pressed and mode == Mode.TARGETING and not busy:
-		_click_portrait_target(get_global_mouse_position())
+		# Fable Nov 21 (Part 2.1): the click's own position (not the cursor's, which can differ for injected or touch input), and a click
+		# that chose a portrait is used up, so it cannot also land on whatever lies under the portrait
+		var local_click: InputEventMouseButton = make_input_local(button) as InputEventMouseButton
+		if _click_portrait_target(get_global_transform() * local_click.position):
+			get_viewport().set_input_as_handled()
 	elif button.button_index == MOUSE_BUTTON_RIGHT and button.pressed and mode == Mode.TARGETING:
 		_cancel_targeting()
 
@@ -1505,30 +1509,67 @@ func _try_play(uid: int) -> void:
 	)
 
 
-## The choices the player makes when playing a card: its declared targets, then the units/tokens it destroys or uses as an
-## additional cost.
+## The choices the player makes when playing a card. Fable Nov 21 (Part 2.1): the units it destroys or the tokens it uses as an additional
+## cost come FIRST, then its declared targets. (Dead Weight asked "Choose a target" first: the player clicked the unit they meant to
+## sacrifice, which made that unit the target of the damage, and never got to aim at the opponent.) A unit destroyed as the cost is not
+## offered as a target afterwards.
 func _play_steps(card: CardInstance) -> Array[Dictionary]:
 	var steps: Array[Dictionary] = []
-	var ability: CardAbility = game.play_ability_of(card.data)
-	if ability != null:
-		for index: int in range(ability.targets.size()):
-			var decl: CardAbility.TargetDecl = ability.targets[index]
-			var options: Array[int] = game.legal_play_targets(0, card.uid, index)
-			if options.is_empty():
-				continue
-			steps.append(_target_step(decl, options))
 	var ctx: AbilityContext = game.play_context(0, card)
+	var forced: Array[int] = []
 	for cost: CardAbility.Cost in game.play_costs_of(card.data):
 		var pick_step: Dictionary = _cost_pick_step(ctx, cost)
 		if not pick_step.is_empty():
 			steps.append(pick_step)
+		else:
+			forced.append_array(_forced_cost_picks(ctx, cost))
+	var ability: CardAbility = game.play_ability_of(card.data)
+	if ability != null:
+		for index: int in range(ability.targets.size()):
+			var decl: CardAbility.TargetDecl = ability.targets[index]
+			var options: Array[int] = _without(game.legal_play_targets(0, card.uid, index), forced)
+			if options.is_empty():
+				continue
+			steps.append(_target_step(decl, options))
 	return steps
+
+
+## The units a "destroy a unit you control" cost takes with no choice left to the player (as many candidates as the cost needs, or fewer).
+func _forced_cost_picks(ctx: AbilityContext, cost: CardAbility.Cost) -> Array[int]:
+	var result: Array[int] = []
+	if cost.kind != "destroy":
+		return result
+	var options: Array[CardInstance] = AbilityRunner.destroy_cost_options(ctx, cost)
+	if options.size() <= cost.count:
+		for card: CardInstance in options:
+			result.append(card.uid)
+	return result
+
+
+static func _without(options: Array[int], taken: Array[int]) -> Array[int]:
+	var result: Array[int] = []
+	for ref: int in options:
+		if not taken.has(ref):
+			result.append(ref)
+	return result
 
 
 func _target_step(decl: CardAbility.TargetDecl, options: Array[int]) -> Dictionary:
 	var many: bool = decl.max_count > 1
 	var text: String = "Choose up to %d targets" % decl.max_count if many else "Choose a target"
-	return {"role": "target", "kind": "multi" if many else "ref", "options": options, "max": decl.max_count, "prompt": ("[b]%s[/b]\n" % text) + _how("Click a highlighted target. Right-click to cancel.", "Pick a highlighted target with {confirm}. {back} cancels."), "picked": [] as Array[int]}
+	# Fable Nov 21 (Part 2.1): the prompt says what is being chosen - one of your own units, or a unit / the opponent
+	var own_only: bool = decl.spec != null and decl.spec.side == "mine" and not decl.spec.includes_players()
+	var opponent_too: bool = options.has(Targets.player(1))
+	if not many and own_only:
+		text = "Choose one of your units"
+	elif not many and opponent_too:
+		text = "Choose a target: a unit or the opponent"
+	var mouse_words: String = "Click a highlighted target. Right-click to cancel."
+	var pad_words: String = "Pick a highlighted target with {confirm}. {back} cancels."
+	if opponent_too:
+		mouse_words = "Click a unit or the opponent's portrait. Right-click cancels."
+		pad_words = "Pick a unit or the opponent's portrait with {confirm}. {back} cancels."
+	return {"role": "target", "kind": "multi" if many else "ref", "options": options, "max": decl.max_count, "prompt": ("[b]%s[/b]\n" % text) + _how(mouse_words, pad_words), "picked": [] as Array[int]}
 
 
 ## A "destroy a unit you control" / "use a token" cost: the player chooses which.
@@ -1544,7 +1585,9 @@ func _cost_pick_step(ctx: AbilityContext, cost: CardAbility.Cost) -> Dictionary:
 	if options.is_empty() or (options.size() <= cost.count and cost.kind == "destroy"):
 		return {}
 	var wording: String = "Choose the unit to destroy" if cost.kind == "destroy" else "Choose the token to use"
-	return {"role": "pick", "kind": "multi" if cost.count > 1 else "ref", "options": options, "max": cost.count, "prompt": ("[b]%s[/b]\nThis is part of the cost. " % wording) + _how("Right-click to cancel.", "{back} cancels."), "picked": [] as Array[int]}
+	if cost.kind == "destroy" and cost.count > 1:
+		wording = "Choose %d units to destroy" % cost.count
+	return {"role": "pick", "kind": "multi" if cost.count > 1 else "ref", "options": options, "max": cost.count, "prompt": ("[b]%s[/b]\nThis is the cost, paid first. " % wording) + _how("Right-click to cancel.", "{back} cancels."), "picked": [] as Array[int]}
 
 
 func _why_not_castable(card: CardInstance) -> String:
@@ -1588,7 +1631,18 @@ func _chain_enter_step() -> void:
 	if str(step["kind"]) == "x":
 		_show_x_dialog(step)
 		return
-	_begin_targeting(_chain_source, step["options"] as Array[int], GameAction.Type.PLAY, 0)
+	var options: Array[int] = step["options"] as Array[int]
+	if str(step["role"]) == "target":
+		# Fable Nov 21 (Part 2.1): whatever an earlier step chose to destroy as the cost is no target any more
+		var taken: Array[int] = []
+		for earlier: int in range(_chain_pos):
+			if str(_chain_steps[earlier]["role"]) == "pick":
+				taken.append_array(_chain_steps[earlier]["picked"] as Array[int])
+		options = _without(options, taken)
+		if options.is_empty():
+			_chain_advance()
+			return
+	_begin_targeting(_chain_source, options, GameAction.Type.PLAY, 0)
 	_chain_active = true
 
 
@@ -1749,10 +1803,8 @@ func _begin_ability(card: CardInstance, index: int) -> void:
 	var ability: CardAbility = card.data.abilities()[index]
 	var ctx: AbilityContext = game.activation_context(0, card, ability)
 	var steps: Array[Dictionary] = []
-	for decl: CardAbility.TargetDecl in ability.targets:
-		var options: Array[int] = TargetResolver.legal_targets(decl, ctx)
-		if not options.is_empty():
-			steps.append(_target_step(decl, options))
+	# Fable Nov 21 (Part 2.1): the cost (what is destroyed or used) first, then the targets, as when a card is played
+	var forced: Array[int] = []
 	for cost: CardAbility.Cost in ability.costs:
 		if cost.x_count:
 			var most: int = 1
@@ -1764,6 +1816,12 @@ func _begin_ability(card: CardInstance, index: int) -> void:
 			var pick_step: Dictionary = _cost_pick_step(ctx, cost)
 			if not pick_step.is_empty():
 				steps.append(pick_step)
+			else:
+				forced.append_array(_forced_cost_picks(ctx, cost))
+	for decl: CardAbility.TargetDecl in ability.targets:
+		var options: Array[int] = _without(TargetResolver.legal_targets(decl, ctx), forced)
+		if not options.is_empty():
+			steps.append(_target_step(decl, options))
 	var finish: Callable = func(result: Dictionary) -> void:
 		var chosen: Array[int] = result["targets"] as Array[int]
 		var x_value: int = int(result["x"]) if int(result["x"]) > 0 else _default_x(ability)
@@ -2169,11 +2227,13 @@ func _cancel_targeting() -> void:
 	_refresh_ui()
 
 
-func _click_portrait_target(pos: Vector2) -> void:
+## True when the click chose a player's portrait as the target.
+func _click_portrait_target(pos: Vector2) -> bool:
 	for index: int in range(2):
 		if hud.portrait_rect(index).has_point(pos) and _target_options.has(Targets.player(index)):
 			_finish_targeting(Targets.player(index))
-			return
+			return true
+	return false
 
 
 func _finish_targeting(ref: int) -> void:

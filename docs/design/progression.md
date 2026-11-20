@@ -35,7 +35,7 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 | 7 | 880 | 18 | 5 | 10 | 3 | Deck Station: 4 to 6 deck slots. General Pack. |
 | 8 | 1220 | 19 | 6 | 10 | 3 | Opening hand size +1 (6). 130 gold. +1 starting HP (19). |
 | 9 | 1600 | 19 | 6 | 10 | 3 | Uncommon cards: up to 3 copies. Beefcake Pack. |
-| 10 | 2025 | 20 | 6 | 10 | 3 | Patchwork Cloak (cosmetic). 130 gold. +1 starting HP (20). |
+| 10 | 2025 | 20 | 6 | 10 | 3 | Pathwork Cloak (cosmetic). 130 gold. +1 starting HP (20). |
 | 11 | 2460 | 20 | 6 | 10 | 3 | Permanent vendor discount +10%. 130 gold. |
 | 12 | 2905 | 21 | 6 | 10 | 4 | Epic cards: up to 2 copies. +1 item slot (4). Beefcake Pack. +1 starting HP (21). |
 | 13 | 3360 | 21 | 6 | 10 | 4 | Unlocks Bertram's advanced equipment rack. 170 gold. |

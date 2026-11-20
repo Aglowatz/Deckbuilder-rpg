@@ -13,10 +13,10 @@ color2 = 4
 generic_cost = 2
 colored_pips = Array[int]([2, 4])
 defense = 0
-rules_text = "Destroy target unit with defense 3 or less. Create two Ingredients."
+rules_text = "Destroy target unit. Create two Ingredients."
 rarity = 1
 flavor_text = "The dessert was to die for. So the dessert did it."
 paths_all = Array[int]([2, 4])
-script_text = "play t=unit.def<=3 => destroy(t); create(ingredient,2)"
-rules_hash = "1dbaebd23d41"
+script_text = "play t=unit => destroy(t); create(ingredient,2)"
+rules_hash = "7a649af483dc"
 image_description = "A decadent chocolate cake with a sinister grin, a fallen creature collapsed in bliss beside a fork, a ghostly chef smiling in the background."

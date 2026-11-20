@@ -10,7 +10,6 @@ display_name = "Soul Food Kitchen"
 type = 4
 color = 2
 color2 = 4
-generic_cost = 2
 colored_pips = Array[int]([2, 4])
 defense = 0
 rules_text = "Whenever a unit you control dies, create an Ingredient."

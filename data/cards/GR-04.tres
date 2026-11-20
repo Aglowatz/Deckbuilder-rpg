@@ -10,7 +10,6 @@ display_name = "Food Fight"
 type = 3
 color = 2
 color2 = 3
-generic_cost = 1
 colored_pips = Array[int]([2, 3])
 defense = 0
 rules_text = "When an opposing unit attacks, create a 3/3 Compost Golem token."

@@ -7,7 +7,7 @@ extends RefCounted
 enum Type { NEUTRAL, BEEFCAKE, GOURMAND, REFUSEMANCER, NECROCRAT }
 
 const DISPLAY_NAMES: Dictionary = {
-	Type.NEUTRAL: "Colorless",
+	Type.NEUTRAL: "Pathless",
 	Type.BEEFCAKE: "Beefcake",
 	Type.GOURMAND: "Gourmand",
 	Type.REFUSEMANCER: "Refusemancer",

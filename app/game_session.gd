@@ -1850,6 +1850,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 		node = map.node(1)
 	var options: GameOptions = GameOptions.new()
 	options.first_player = first_player
+	options.foe_opening_infrastructure_floor = 0  # Fable Nov 21 (Part 2.6): a Forgotten Cave foe (the tutorial exception)
 	var game: GameState = GameState.new(options)
 	var player: PlayerSetup = PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You")
 	game.add_player(player)

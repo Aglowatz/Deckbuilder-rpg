@@ -17,7 +17,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    all interact - watch for the on-screen "[E] ..." prompt. Walking into the treeline makes the Wanderer
    talk themselves back to the cave (all story text is in `data/story/intro_story.tres`).
 4. **The Forgotten Cave**: the cave gate starts the tutorial dungeon with your 42-card starter deck
-   (23 cards: colorless spells plus eight of your Path's own Resource cards, and 19 basic
+   (23 cards: Pathless spells plus eight of your Path's own Resource cards, and 19 basic
    Infrastructure) - a node map with two battles, a deck challenge, a healing shrine (a full heal, right
    before the boss) and a boss, the Hollow Warden. The cave has no Beefcake or Necrocrat enemies or
    Resources. Life carries from node to node. The first battle is a guided tutorial. Losing sends you back

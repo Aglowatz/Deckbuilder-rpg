@@ -7,7 +7,7 @@ func test_affinity_has_four_colors_plus_neutral() -> void:
 	assert_eq(Affinity.colored_types().size(), 4)
 	assert_eq(Affinity.Type.size(), 5)
 	assert_eq(Affinity.display_name(Affinity.Type.BEEFCAKE), "Beefcake")
-	assert_eq(Affinity.display_name(Affinity.Type.NEUTRAL), "Colorless")
+	assert_eq(Affinity.display_name(Affinity.Type.NEUTRAL), "Pathless")
 
 
 func test_card_energy_value_and_helpers() -> void:

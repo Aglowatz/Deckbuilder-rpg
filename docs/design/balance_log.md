@@ -1591,3 +1591,18 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 | Side dungeon first clear | 100 gold -> **80**; XP 0.15 of a level step -> **0.12** | same | same |
 | Primm's Castle, the Lab, the Shattered Gallery first clears | 400 XP -> **320**; 400 / 400 -> **320 / 320**; 1500 gold -> **1200** | "every dungeon's completion reward" (the brief: apply it to all, not only the final dungeon) | same |
 | Repeat clears | unchanged (300 main / 200 side) | not a completion bonus | - |
+
+
+## Fable Nov 21 - the owner's card changes (his numbers, applied as given; no sim tuning)
+
+| What | Old -> New | Why |
+|---|---|---|
+| Overdue Library Book (equipment) | "Draw 2 extra cards each turn. Then discard a random card at the start of your turn." -> **"Draw 1 extra card each turn. Then discard 1 card at random."** | The owner's playtest: two extra cards a turn was too much. |
+| GN-06 Soul Food Kitchen | 2(G)(N) -> **(G)(N)** (2 total) | Owner. |
+| GR-04 Food Fight | 1(G)(R) -> **(G)(R)** (2 total) | Owner. |
+| GR-07 Community Garden | 2(G)(R) -> **1(G)(R)** | Owner: one less Pathless. |
+| NB-02 Un-Deadlifter | 2(N)(B) -> **1(N)(B)** (still 3/2) | Owner: one less Pathless. |
+| GN-09 To Die For | "Destroy target unit with defense 3 or less. Create two Ingredients." -> **"Destroy target unit. Create two Ingredients."** | Owner: the limit goes. |
+| The foe's opening hand | no floor -> **at least two Infrastructure** (seeded soft mulligan), except in the Forgotten Cave | Owner: Captain Spotless opened with none. Foes stall less, so every fight outside the cave is a little harder; not re-simulated tonight. |
+| Dead Weight, Yeet (battle screen only) | the target was asked before the sacrifice -> **the sacrifice first, then the target**; the destroyed unit is no target | The owner could not aim them at the opponent. No rules change. |
+| "Colorless" | -> **"Pathless"** in every shown text | Owner. Ids and the sheet's section header keep the old word. |

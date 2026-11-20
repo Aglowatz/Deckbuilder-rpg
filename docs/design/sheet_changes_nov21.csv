@@ -1,0 +1,11 @@
+Tab,Card,Field,Old,New,Why,Card ID
+Card List,Soul Food Kitchen,Casting Cost,2(G)(N),(G)(N),owner Nov 20,GN-06
+Card List,Food Fight,Casting Cost,1(G)(R),(G)(R),owner Nov 20,GR-04
+Card List,Community Garden,Casting Cost,2(G)(R),1(G)(R),owner Nov 20,GR-07
+Card List,Un-Deadlifter,Casting Cost,2(N)(B),1(N)(B),owner Nov 20,NB-02
+Card List,To Die For,Card Text/Effect,Destroy target unit with defense 3 or less. Create two Ingredients.,Destroy target unit. Create two Ingredients.,owner Nov 20,GN-09
+Equipment,Overdue Library Book,Effect,Draw 2 extra cards each turn. Then discard a random card at the start of your turn.,Draw 1 extra card each turn. Then discard 1 card at random.,owner Nov 20,overdue_library_book
+Equipment,Wicked Dagger,Effect,Your Colorless units get +1 attack.,Your Pathless units get +1 attack.,rename,wicked_dagger
+Equipment,Solid Plate,Effect,Your Colorless units get +1 defense.,Your Pathless units get +1 defense.,rename,solid_plate
+Cosmetics,Patchwork Cloak,Name,Patchwork Cloak,Pathwork Cloak,rename,cloak_patchwork
+Card List,(section header),Header,Colorless:,Pathless: (optional: the importer reads either),rename,-

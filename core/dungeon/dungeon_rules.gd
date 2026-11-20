@@ -150,7 +150,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 				_rule("Enhanced Specimens", "Enemy units enter with +1/+1.", "enemy", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier]),
 			]
 		"S-TOWN":
-			return [_rule("Old Kingdom", "Colorless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]
+			return [_rule("Old Kingdom", "Pathless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]
 	return []
 
 

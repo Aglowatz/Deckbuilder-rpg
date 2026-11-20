@@ -15,7 +15,7 @@ Two slots, **hat** and **cloak**; data in `core/cosmetics/` (`CosmeticCatalog`, 
 | Tricorn | `hat_tricorn` | TRICORN | 250 | level 5 |
 | Wizard Hat | `hat_wizard` | WIZARD | 300 | one zone freed |
 | Crown of Leaves | `hat_leaf_crown` | LEAFCROWN | 400 | two zones freed (also the Verdant Dump hidden chest) |
-| Patchwork Cloak | `cloak_patchwork` | PATCHWORK | 250 | level 4 |
+| Pathwork Cloak | `cloak_patchwork` | PATCHWORK | 250 | level 4 |
 | Red Cape | `cloak_red_cape` | REDCAPE | 300 | one zone freed (also the Four-Seal Vault's reward) |
 | Tattered Cloak | `cloak_tattered` | TATTERED | 350 | two zones freed (also the Gainlands hidden chest) |
 | Royal Mantle | `cloak_royal` | ROYAL | 1000 | after Primm (also his drop) |
@@ -63,7 +63,7 @@ frame of the default `PLAYER` set (5 directions, idle + 4 walk frames = 25 frame
   three-colour ramp. Patterns are laid out in **body-relative coordinates** (from the head anchor's centre line and the crown), so a patch, a tear or the fur
   sits on the same part of the cloak in every frame of a direction: no jitter.
   - **Red Cape**: crimson to bright red, darker red lining, gold clasps at the throat joined by a short chain (front, 3/4 and side views).
-  - **Patchwork Cloak**: jittered-grid patches (9 painted colours, some striped or checked) with dark seams and light stitches.
+  - **Pathwork Cloak**: jittered-grid patches (9 painted colours, some striped or checked) with dark seams and light stitches.
   - **Tattered Cloak**: worn grey-green with bleached patches and a dirtier hem; the hem is cut into frayed points and V-tears (alpha), only where open air is
     below (never a hole over the legs), the lower sides are nibbled, the edge above a cut is darker.
   - **Royal Mantle**: deep royal blue, ivory lining, white fur along the hem (with tufts) and the front edges/collar, gold clasps and a sagging chain.

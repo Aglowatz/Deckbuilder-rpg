@@ -87,7 +87,7 @@ func host_name() -> String:
 
 func how_lines() -> Array[String]:
 	return [
-		"Four questions about real cards: this zone's Path and the colourless cards.",
+		"Four questions about real cards: this zone's Path and the Pathless cards.",
 		"A piece of a card's art: which card is it? Or a card's art and name: what is its COST or POWER?",
 		"Three right answers pass. A first pass pays the big reward; after that every attempt pays a little.",
 	]

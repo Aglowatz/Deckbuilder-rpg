@@ -80,8 +80,8 @@ act once | use(ingredient,2) => create(T-19)
 == GN-08 @617c8dee2a14  # Staff Appreciation Dinner
 aura(token.mine) => stat(1,0)
 
-== GN-09 @1dbaebd23d41  # To Die For
-play t=unit.def<=3 => destroy(t); create(ingredient,2)
+== GN-09 @7a649af483dc  # To Die For
+play t=unit => destroy(t); create(ingredient,2)
 
 == GN-10 @47c0d8608d22  # Final Meal Request
 playcost | destroy(token.mine)
