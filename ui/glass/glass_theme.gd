@@ -78,6 +78,8 @@ const SCROLL_WIDTH: float = 18.0
 enum Mark { OPEN, DONE, NEXT }
 
 static var _theme: Theme = null
+## The menu text factor the theme's font sizes were built at (MenuText, Fable Nov 21 review).
+static var _theme_scale: float = 1.0
 static var _cache: Dictionary = {}
 
 
@@ -90,6 +92,7 @@ static func available() -> bool:
 static func apply(root: Control) -> void:
 	if root != null and available():
 		root.theme = theme()
+		MenuText.follow(root)  # Fable Nov 21 review: the Text size setting reaches every glass screen
 
 
 static func reset() -> void:
@@ -164,11 +167,12 @@ static func focus_ring(radius: int = 16) -> StyleBoxFlat:
 
 
 static func theme() -> Theme:
-	if _theme != null:
+	if _theme != null and is_equal_approx(_theme_scale, MenuText.scale()):
 		return _theme
+	_theme_scale = MenuText.scale()
 	var t: Theme = Theme.new()
 	t.default_font = UIStyle.font_body()
-	t.default_font_size = 22
+	t.default_font_size = MenuText.size(22)
 	_labels(t)
 	_panels(t)
 	_buttons(t)
@@ -188,11 +192,11 @@ static func _labels(t: Theme) -> void:
 	t.set_font("font", "Label", UIStyle.font_body())
 	t.set_type_variation("TitleLabel", "Label")
 	t.set_font("font", "TitleLabel", UIStyle.font_title())
-	t.set_font_size("font_size", "TitleLabel", 40)
+	t.set_font_size("font_size", "TitleLabel", MenuText.size(40))
 	t.set_color("font_color", "TitleLabel", TITLE)
 	t.set_type_variation("HeadingLabel", "Label")
 	t.set_font("font", "HeadingLabel", UIStyle.font_title())
-	t.set_font_size("font_size", "HeadingLabel", 28)
+	t.set_font_size("font_size", "HeadingLabel", MenuText.size(28))
 	t.set_color("font_color", "HeadingLabel", TITLE)
 	t.set_color("font_outline_color", "HeadingLabel", Color(0.04, 0.03, 0.1, 0.8))
 	t.set_constant("outline_size", "HeadingLabel", 3)
@@ -207,9 +211,9 @@ static func _labels(t: Theme) -> void:
 	t.set_font("italics_font", "RichTextLabel", UIStyle.font_italic())
 	t.set_font("bold_italics_font", "RichTextLabel", UIStyle.font_bold_italic())
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
-		t.set_font_size(key, "RichTextLabel", 22)
+		t.set_font_size(key, "RichTextLabel", MenuText.size(22))
 	t.set_color("font_color", "TooltipLabel", TEXT)
-	t.set_font_size("font_size", "TooltipLabel", 20)
+	t.set_font_size("font_size", "TooltipLabel", MenuText.size(20))
 
 
 static func _panels(t: Theme) -> void:
@@ -257,7 +261,7 @@ static func _set_button(t: Theme, type_name: String, boxes: Dictionary, font: Co
 
 static func _buttons(t: Theme) -> void:
 	t.set_font("font", "Button", UIStyle.font_bold())
-	t.set_font_size("font_size", "Button", 24)
+	t.set_font_size("font_size", "Button", MenuText.size(24))
 	_set_button(t, "Button", button_boxes(SLATE), TEXT, Color.WHITE)
 	t.set_type_variation("PrimaryButton", "Button")
 	_set_button(t, "PrimaryButton", button_boxes(Color.WHITE, AMBER_ART), AMBER_INK, AMBER_INK)
@@ -295,7 +299,7 @@ static func _buttons(t: Theme) -> void:
 	t.set_stylebox("disabled", "OptionButton", pane(SLATE.darkened(0.5), false, Vector4(18, 6, 14, 6)))
 	t.set_stylebox("focus", "OptionButton", focus_ring(12))
 	t.set_font("font", "OptionButton", UIStyle.font_bold())
-	t.set_font_size("font_size", "OptionButton", 21)
+	t.set_font_size("font_size", "OptionButton", MenuText.size(21))
 	for key: String in ["font_color", "font_pressed_color"]:
 		t.set_color(key, "OptionButton", TEXT)
 	for key: String in ["font_hover_color", "font_focus_color", "font_hover_pressed_color"]:
@@ -310,7 +314,7 @@ static func _buttons(t: Theme) -> void:
 	t.set_color("font_color", "PopupMenu", TEXT)
 	t.set_color("font_hover_color", "PopupMenu", Color.WHITE)
 	t.set_font("font", "PopupMenu", UIStyle.font_bold())
-	t.set_font_size("font_size", "PopupMenu", 20)
+	t.set_font_size("font_size", "PopupMenu", MenuText.size(20))
 	t.set_constant("v_separation", "PopupMenu", 8)
 
 

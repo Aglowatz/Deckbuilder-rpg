@@ -1,0 +1,63 @@
+# Fable Nov 21 review, Part 1.7: the zone maps on the full map screen (M), to judge their sharpness in the exported build
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev travel zone gourmand
+wait 22
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot map_buffet
+key Escape
+wait 1
+dev travel zone necrocrat
+wait 22
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot map_dna
+key Escape
+wait 1
+dev travel zone beefcake
+wait 22
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot map_gainlands
+key Escape
+wait 1
+dev travel zone refusemancer
+wait 22
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot map_dump
+key Escape
+wait 1
+dev travel capital
+wait 25
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot map_capital
+key Escape
+wait 1

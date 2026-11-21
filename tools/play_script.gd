@@ -626,6 +626,8 @@ func _dev(parts: PackedStringArray) -> void:
 		"textsize":
 			# Nov 13: `dev textsize 0|1|2` - the Text size switch (Normal, Large, Larger) for this run (never saved: --no-save).
 			Settings.set_text_master(int(arg))
+			Settings.text_changed.emit()
+			Settings.apply_tooltip_theme()
 			result = "Text size %s" % arg
 		"lowend":
 			# Fixes Nov 8: `dev lowend on|off` - the Low-end preset (or Medium) for this run, as the Settings row sets it (never saved: --no-save).

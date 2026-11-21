@@ -14,6 +14,7 @@ const DRIFT_PIXELS: float = 26.0
 const LOGO_WIDTH: float = 760.0
 
 var _menu_column: VBoxContainer
+const ROSE_PX: int = 128
 var _overlay: CenterContainer
 var _art: TextureRect
 var _glow: TextureRect
@@ -98,12 +99,18 @@ func _build_menu() -> void:
 	if _art != null:
 		# Over the key art: the wordmark carries the title, the menu stands on the calmer right side.
 		margin.add_theme_constant_override("margin_right", 120)
-		margin.add_theme_constant_override("margin_top", 400)
+		# Fable Nov 21 review (Part 1.4): the rose window of the four Paths tops the menu, as on the pause menu; the column starts higher by
+		# the rose's height so the buttons stay where they were.
+		margin.add_theme_constant_override("margin_top", 400 - ROSE_PX - 16)
 		margin.add_theme_constant_override("margin_bottom", 70)
 		var row: HBoxContainer = UIKit.hbox(0)
 		row.add_child(UIKit.filler())
 		row.add_child(_menu_column)
 		margin.add_child(row)
+		if UiArt.has(GlassTheme.ROSE_ART):
+			_menu_column.add_child(GlassTheme.rose(float(ROSE_PX)))
+		else:
+			_menu_column.add_child(UIKit.spacer(ROSE_PX))
 	else:
 		margin.add_theme_constant_override("margin_left", 140)
 		margin.add_theme_constant_override("margin_top", 120)

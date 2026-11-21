@@ -4,7 +4,14 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
-## Fable Nov 21 night - yours to decide (the safest choice was taken)
+## Fable Nov 21 review - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov21_launch_review.md`. Tag `pre-fable-nov21-review`. Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov21r/`.
+
+1. **The five zone maps were already 1536 px in the project, not only in the export.** The Nov 20 import stored `MAP-WORLD-*` at 1536 px (the Capital's too; Crosspath's is 1400 x 1300), so a 2048 px rule in `tools/art_import_rules.json` would change nothing by itself: the 2048 px originals would have to be imported again from the Drive. I looked at all five on the map screen in the exported game (`p1/exported_map_*.jpg`, 1600 x 900): the map is drawn about 760 px tall, half the stored size, and is sharp; at 1920 x 1080 it is about 900 px tall, still well under 1536. **I added no rule.** A re-import at 2048 px would cost about 0.5 MB per map (2.5 MB in all) and would only show on a 4K screen. Recommendation: **leave it.**
+2. **The menus follow the "Tooltip and menu text size" row** (the Text size switch sets it with the others). The factor is milder than the tooltip's own: Large is 1.15 and Larger 1.3 (tooltips: 1.2 and 1.4), because a page's panes are a fixed size and must still hold their text; Small leaves the menus at Normal. If you would rather have a row of its own for the menus, it is a small change (`ui/glass/menu_text.gd`). Recommendation: **keep one row.**
+
+## Fable Nov 21 night - answered Nov 21 (1: the new brief is the Nov 21 review; 2: the maps were looked at, see the review's item 1)
 
 Brief: `docs/prompts/fable_nov21_night_launch.md`. Tag `pre-fable-nov21-night`.
 
@@ -14,7 +21,7 @@ Brief: `docs/prompts/fable_nov21_night_launch.md`. Tag `pre-fable-nov21-night`.
 
 Done tonight: all 46 test shards green, seven walk smokes, the probes, **1.0.0 exported** (`builds/TheWaywardPath-v1.0.0-windows.zip`, 768 MB, the first zip with the Nov 20 day pass in it), the exported smoke and three exported play checks clean. Report: top of `docs/overnight_report.md`.
 
-## Fable Nov 20 day - yours to decide (the safest choice was taken)
+## Fable Nov 20 day - answered Nov 21 (the brief of the Nov 21 review, Part 1: 1 Buffet row stays, D.N.A. row optional; 2 flat front stays, checked at +12 / +14; 3 stays; 4 stays, rose window added to the title menu; 5 stays; 6 built)
 
 Brief: `docs/prompts/fable_nov20_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov20-day`. Shots: `docs/overnight_shots/nov20b/`.
 

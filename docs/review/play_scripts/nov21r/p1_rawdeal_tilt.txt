@@ -1,0 +1,33 @@
+# Fable Nov 21 review, Part 1.2: the Raw Deal's flat painted front at each camera preset (+6, +12, +14 degrees), from the door and from the side
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate gourmand
+dev travel zone gourmand
+wait 22
+skip_dialogue
+calm
+dev goto mini_dungeon
+wait 2
+tilt 0
+shot rawdeal_tilt06_door
+tilt 3
+shot rawdeal_tilt12_door
+tilt 4
+shot rawdeal_tilt14_door
+dev tp 62 14
+wait 2
+shot rawdeal_tilt14_west
+tilt 3
+shot rawdeal_tilt12_west
+dev tp 78 15
+wait 2
+shot rawdeal_tilt12_east
+tilt 4
+shot rawdeal_tilt14_east
+tilt 0

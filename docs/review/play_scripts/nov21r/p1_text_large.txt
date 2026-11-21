@@ -1,0 +1,113 @@
+# Fable Nov 21 review, Part 1.6: every info screen at the Text size "Large" (dev textsize 1) - nothing may overflow or clip
+wait 3
+dev textsize 1
+wait 1
+button Credits
+wait 2
+shot large_01_credits
+key Escape
+wait 1
+button Settings
+wait 1
+shot large_02_title_settings
+key Escape
+wait 1
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 800
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate gourmand
+dev quest main_gourmand 2
+dev quest main_beefcake 1
+dev quest main_refusemancer 1
+dev quest main_necrocrat 1
+dev quest side_s_gour 0
+dev travel zone gourmand
+wait 22
+skip_dialogue
+calm
+dev textsize 1
+wait 1
+shot large_03_quest_box
+key Escape
+wait 1
+shot large_04_pause_menu
+button Settings
+wait 1
+shot large_05_settings_display
+button Text
+wait 1
+shot large_06_settings_text
+button Accessibility
+wait 1
+shot large_07_settings_accessibility
+button Controls
+wait 1
+shot large_08_settings_controls
+button Audio
+wait 1
+shot large_09_settings_audio
+button Display
+wait 1
+shot large_10_settings_graphics
+button Done
+wait 1
+button Glossary
+wait 1
+shot large_11_glossary
+key Escape
+wait 1
+button Feats
+wait 1
+shot large_12_feats
+key Escape
+wait 1
+button Save Game
+wait 1
+shot large_13_save
+key Escape
+wait 1
+button Load Game
+wait 1
+shot large_14_load
+key Escape
+wait 1
+button Quit Game
+wait 1
+shot large_15_confirm_popup
+button Keep playing
+wait 1
+key Escape
+wait 1
+key J
+wait 2
+shot large_16_quest_log
+key Down
+wait 1
+shot large_17_quest_log_next
+key Escape
+wait 1
+dev reveal
+key M
+wait 2
+shot large_18_map
+key Escape
+wait 1
+dev travel town
+wait 22
+skip_dialogue 80
+button Continue
+wait 1
+skip_dialogue
+calm
+dev goto codex
+wait 1
+key E
+wait 3
+shot large_19_collection_book
+key Escape
+wait 1

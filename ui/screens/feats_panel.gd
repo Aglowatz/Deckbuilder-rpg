@@ -8,6 +8,7 @@ signal closed
 ## The menu icon before the page heading (ICON-UI-FEATS here, ICON-UI-GLOSSARY on the Glossary page): a little taller than the 36 px heading.
 const HEADING_ICON_PX: float = 44.0
 
+const LIST_WIDTH: float = 892.0
 var _list: VBoxContainer
 var _title: Label
 
@@ -50,7 +51,7 @@ func _build() -> void:
 	GlassTheme.style_scroll(scroll)
 	column.add_child(scroll)
 	_list = UIKit.vbox(8)
-	_list.custom_minimum_size = Vector2(910, 0)
+	_list.custom_minimum_size = Vector2(LIST_WIDTH, 0)  # Fable Nov 21 review: "Earned here" stops short of the scroll bar (was 910 of 940, under the bar)
 	scroll.add_child(_list)
 	refresh()
 

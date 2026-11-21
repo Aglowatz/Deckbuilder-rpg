@@ -252,7 +252,7 @@ func _build_text() -> void:
 	_text_master = _options(master_names, _master_index(), _on_text_master)
 	_text_master.name = "TextSizeOptions"
 	_text_master.set_item_disabled(master_names.size() - 1, true)
-	_body.add_child(_row("Text size (dialogue, cards, tooltips)", _text_master))
+	_body.add_child(_row("Text size (dialogue, cards, tooltips, menus)", _text_master))
 	var cards: OptionButton = _options(texts, Settings.text_cards, _on_text_cards)
 	cards.name = "CardTextOptions"
 	_text_kinds = []
@@ -262,7 +262,7 @@ func _build_text() -> void:
 	_body.add_child(_row("Dialogue text size", dialogue))
 	var tooltips: OptionButton = _options(texts, Settings.text_tooltips, _on_text_tooltips)
 	tooltips.name = "TooltipTextOptions"
-	_body.add_child(_row("Tooltip text size", tooltips))
+	_body.add_child(_row("Tooltip and menu text size", tooltips))
 	_text_kinds = [cards, dialogue, tooltips]
 	var speed_names: Array[String] = []
 	for name: String in Settings.DIALOGUE_SPEED_NAMES:
@@ -283,11 +283,12 @@ func _build_text() -> void:
 	_body.add_child(_check("Tutorial tips (first-time hints in duels and on new screens)", Settings.tutorial_tips, _on_tutorial_tips, "TutorialTipsCheck"))
 	_sample = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
 	_sample.name = "DialogueSample"
+	MenuText.skip(_sample)  # the sample shows the dialogue size, not the menu size
 	_sample.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sample.custom_minimum_size = Vector2(PAGE_SIZE.x - 40.0, 90)
 	_body.add_child(_sample)
 	_refresh_sample()
-	_body.add_child(_note("Card text size changes the rules text, type line and keyword chips (the text still has to fit its panel). Tooltips are the keyword and resource explanations."))
+	_body.add_child(_note("Card text size changes the rules text, type line and keyword chips (the text still has to fit its panel). Tooltips are the keyword and resource explanations; the menus (this page, the quest log, the glossary, feats, pop-ups) follow the same size."))
 
 
 func _build_accessibility() -> void:

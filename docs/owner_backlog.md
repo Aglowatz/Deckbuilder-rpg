@@ -35,6 +35,6 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 
 ## Added by Fable Nov 20 day (deferred, for the owner to schedule)
 - **The gold-framed screens beside the glass ones:** the shops, the Deck Station, the Character screen and the dialogue box keep their walnut-and-gold look (the brief); the glass pop-ups open over them. If the two looks should meet, it is its own pass (inbox, "Fable Nov 20 day").
-- **The title screen's own menu** (Continue, New Game ...) keeps its gold buttons; the pages it opens are glass. The rose window could top it too.
+- **The title screen's own menu** (Continue, New Game ...) keeps its gold buttons; the pages it opens are glass. (The rose window tops it since the Nov 21 review.)
 - **Glossary keywords in their Path's colour:** the data gives a keyword no Path; it would need one column in the keyword table.
-- **The D.N.A.'s painted map shows a sunny village** (red and blue roofs, green lawns) where the zone is a haunted office at dusk; it fits the walk grid, the mood is the painter's. A repaint in the zone's palette would be a Batch 19 row if wanted.
+- **The D.N.A.'s painted map shows a sunny village** (red and blue roofs, green lawns) where the zone is a haunted office at dusk; it fits the walk grid, the mood is the painter's. A repaint in the zone's palette would be a Batch 19 row if wanted (Nov 21: optional, not wanted for now; the row is marked so in `docs/art/batch19.csv`).
