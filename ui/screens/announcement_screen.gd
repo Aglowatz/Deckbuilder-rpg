@@ -38,11 +38,14 @@ func _ready() -> void:
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	add_child(center)
-	_panel = UIKit.panel()
+	GlassTheme.apply(self)  # Fable Nov 20 day: an announcement ("Now open", "Someone is waiting") is a glass pop-up like the others
+	_panel = UIKit.panel(&"GlassPopup" if GlassTheme.available() else &"")
 	_panel.custom_minimum_size = Vector2(900, 0)
 	center.add_child(_panel)
 	var column: VBoxContainer = UIKit.vbox(16)
 	_panel.add_child(column)
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip([], 14.0))
 	var heading: Label = UIKit.label(title, &"TitleLabel", 62, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	heading.name = "AnnouncementTitle"
 	heading.add_theme_color_override("font_color", accent)

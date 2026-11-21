@@ -1,0 +1,171 @@
+# Fable Nov 20 day, Part 5: the flow from a mid-game state - the Arena (menu, a battle, a puzzle), Alembic's shop, the Necrocrat pack in
+# the shop and opened, then the zones: the Raw Deal, the D.N.A.'s tower and couch, Rip in two zones, the map in all five zones
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev essence Beefcake 18
+dev essence Necrocrat 18
+dev packs path_necrocrat 2
+dev travel town
+wait 20
+skip_dialogue 80
+button Continue
+wait 1
+button Continue
+wait 1
+skip_dialogue
+calm
+dev goto arena
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 1
+shot p5_01_arena_menu
+button Fight
+wait 12
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot p5_02_arena_battle
+pilot 25
+shot p5_03_arena_battle_later
+dev win
+wait 8
+skip_dialogue
+button Continue
+wait 2
+skip_dialogue
+shot p5_04_arena_after_the_fight
+key Escape
+wait 1
+dev arena arena_lethal_lunch
+wait 12
+skip_dialogue
+shot p5_05_arena_puzzle
+dev lose
+wait 8
+skip_dialogue
+key Escape
+wait 1
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+shot p5_06_alembic_shop
+key Escape
+wait 1
+dev goto pack_vendor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot p5_07_pack_shop
+key Escape
+wait 1
+key P
+wait 2
+shot p5_08_card_packs
+button Open
+wait 6
+shot p5_09_pack_opened
+key Escape
+wait 1
+key Escape
+wait 1
+dev reveal
+key M
+wait 2
+shot p5_10_map_crosspath
+key Escape
+wait 1
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot p5_11_map_buffet
+key Escape
+wait 1
+dev goto mini_dungeon
+wait 2
+shot p5_12_raw_deal_front
+dev goto rift_station
+wait 2
+skip_dialogue
+shot p5_13_rip_buffet
+dev travel zone necrocrat
+wait 20
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot p5_14_map_dna
+key Escape
+wait 1
+dev goto main_dungeon
+wait 2
+shot p5_15_dna_clock_tower
+dev goto heal
+wait 2
+shot p5_16_dna_couch
+key E
+wait 2
+shot p5_17_dna_couch_rested
+skip_dialogue
+dev goto rift_station
+wait 2
+skip_dialogue
+shot p5_18_rip_dna
+dev travel zone beefcake
+wait 20
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot p5_19_map_gainlands
+key Escape
+wait 1
+dev travel zone refusemancer
+wait 22
+skip_dialogue
+calm
+dev reveal
+key M
+wait 2
+shot p5_20_map_dump
+key Escape
+wait 1
+dev travel capital
+wait 22
+skip_dialogue
+button Got it
+wait 1
+calm
+dev reveal
+key M
+wait 2
+shot p5_21_map_capital
+key Escape
+wait 1
+dev goto old_tunnels
+wait 2
+shot p5_22_capital_manhole
