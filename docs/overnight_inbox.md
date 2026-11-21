@@ -4,6 +4,12 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 21 night - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov21_night_launch.md`. Tag `pre-fable-nov21-night`.
+
+1. **The launch file is the brief I already carried out.** `fable_nov21_night_launch.md` is byte-for-byte the same file as `fable_nov20_night.md` (the night of Nov 20-21: your playtest list, cards, dungeons, the Deck Station, the castle scene, five cameras). All eleven parts of it are in the game (commits `c274ee70` to `86095732`, report section "Fable Nov 21"), and the Nov 20 day pass was built on top of it (Batch 18 imported, the stained-glass screens, the Lab's break room). Doing it again from the top would have meant undoing later work (holding rows for pictures that are now in the game, drawing mock-ups for a look you have since chosen, rewriting a scene that is already rewritten). The safest choice: **I did not redo it. I checked every item of the brief against today's game, fixed what no longer held, and ran its Part 11 in full (tests, smokes, probes, the 1.0.0 export, which the day pass had skipped).** If you meant a different brief tonight, it did not reach `docs/prompts/`; save it there and launch again.
+
 ## Fable Nov 20 day - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov20_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov20-day`. Shots: `docs/overnight_shots/nov20b/`.
