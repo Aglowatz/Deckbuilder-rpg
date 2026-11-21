@@ -1,3 +1,52 @@
+# Fable Nov 21 night - report: the launch file was last night's brief; checked, tested and exported
+
+Brief: `docs/prompts/fable_nov21_night_launch.md`. Start tag `pre-fable-nov21-night`. Questions: `docs/overnight_inbox.md`,
+"Fable Nov 21 night" (2 items). **1.0.0 exported, nothing uploaded.** Pushed.
+
+**What happened.** The launch file is byte-for-byte the same file as `docs/prompts/fable_nov20_night.md`, the brief of the night
+of Nov 20-21. All eleven parts of that brief are already in the game (commits `c274ee70` to `86095732`; the full report is the
+section "Fable Nov 21" further down), and the Nov 20 day pass was built on top of it. Carrying it out again would have undone
+later work (rows on hold for pictures that are now imported, mock-ups for a look you have since chosen and had built, a scene
+rewritten twice), so I did not. **No game code, data or dialogue changed tonight.** What I did instead:
+
+| Part of the brief | Tonight |
+|---|---|
+| 1 to 10 | not redone; each item checked against today's game (spot checks by search, and each has its test in the suite, which is green). Nothing had slipped. |
+| 11 Tests, build, report | **done in full**, see below. This is the first build that holds the Nov 20 day pass (Batch 18's 39 pictures, the stained-glass info screens, the Lab's break room as a choice room). |
+
+**Spot checks that still hold:** Gourmand `#5AAAF2` with the alternatives marked "not chosen"; "Colorless" and "Patchwork Cloak"
+appear only in save-safe ids and one art source sheet, never in shown text; the choice-room table regenerates (74 rows,
+`python tools/choice_nodes_nov21.py`); five camera presets 6 to 14 degrees; "Omakase" only in internal asset and music names and
+in the Itamae's Bestiary joke; Maren's "never told a soul" line is gone.
+
+## Part 11 - tests and the build
+
+- **GUT, all 46 shards** (`tools/run_tests.sh --min-free=900`, 32 minutes): **3572 of 3574 passed, 0 failing**, 2 pending. Real
+  saves untouched (20 files checked).
+- **Walk smokes, all seven:** Buffet, D.N.A., Capital, Crosspath, Gainlands, Verdant Dump, the hub: all OK.
+- **Probes:** NPC visibility 150 checks, 0 failed; fade probe 7 places, nothing but tall occluders can fade, 0 script errors; quest
+  hand-in 32 passed, 0 failed. The hover-zoom probe and the Arena puzzle solver tests are in the suite (green).
+- **Build:** 2.7 GB of RAM was free, so the normal export ran: `bash tools/export_windows.sh 1.0.0` -> EXPORT OK.
+  **`builds/TheWaywardPath-v1.0.0-windows.zip`, 768 MB on disk (804,813,956 bytes; 764 MB last night).** It replaces last
+  night's zip.
+- **The exported build:** `run_release_smoke_exported.sh` PASSED (1.0.0). A fresh test pack, then the three `play_exported.sh`
+  checks (`n21n_a`, `_b`, `_c`, the `exported_rc1_*` scripts) each ran to "done" with **0 SCRIPT ERROR**.
+- **One side effect of the export:** its size rules were applied to the five new zone maps for the first time (longest side 1536
+  px in the packed game, WebP quality 0.80, as for every other map; the full-size files stay in the project). Inbox 2.
+- **Not verified:** nobody looked at the five maps at 1536 px on the map screen in the exported game; the day pass's shots were
+  taken at full size. The open items of the two earlier reports are unchanged.
+
+## Your decisions (2)
+
+1. **Which brief did you mean?** If tonight was meant to be a new list, it never reached `docs/prompts/`. Recommendation:
+   **save the new brief there and launch again; nothing of tonight's stands in its way.**
+2. **The five zone maps are packed at 1536 px.** Recommendation: **keep it unless they look soft on the full map screen (M); if
+   they do, a rule for `MAP-WORLD-*` at 2048 px in `tools/art_import_rules.json` costs a few MB.**
+
+Dialogue revert: nothing to revert tonight (last night's command is in "Fable Nov 21" below).
+
+---
+
 # Fable Nov 20 day - report: Batch 18 in the game, the stained-glass info screens, your answers
 
 Brief: `docs/prompts/fable_nov20_day.md`. Start tag `pre-fable-nov20-day`. Questions: `docs/overnight_inbox.md`, "Fable Nov 20 day"

@@ -10,6 +10,10 @@ Brief: `docs/prompts/fable_nov21_night_launch.md`. Tag `pre-fable-nov21-night`.
 
 1. **The launch file is the brief I already carried out.** `fable_nov21_night_launch.md` is byte-for-byte the same file as `fable_nov20_night.md` (the night of Nov 20-21: your playtest list, cards, dungeons, the Deck Station, the castle scene, five cameras). All eleven parts of it are in the game (commits `c274ee70` to `86095732`, report section "Fable Nov 21"), and the Nov 20 day pass was built on top of it (Batch 18 imported, the stained-glass screens, the Lab's break room). Doing it again from the top would have meant undoing later work (holding rows for pictures that are now in the game, drawing mock-ups for a look you have since chosen, rewriting a scene that is already rewritten). The safest choice: **I did not redo it. I checked every item of the brief against today's game, fixed what no longer held, and ran its Part 11 in full (tests, smokes, probes, the 1.0.0 export, which the day pass had skipped).** If you meant a different brief tonight, it did not reach `docs/prompts/`; save it there and launch again.
 
+2. **The five zone maps are packed at 1536 px in the exported game.** Tonight's export applied the build-size rules to the Batch 18 zone maps for the first time (longest side 1536 px, WebP 0.80, as for every other map; the full-size files stay in the project). I did not look at them on the map screen in the exported game. Recommendation: **keep it unless they look soft on M; a `MAP-WORLD-*` rule at 2048 px in `tools/art_import_rules.json` costs a few MB.**
+
+Done tonight: all 46 test shards green, seven walk smokes, the probes, **1.0.0 exported** (`builds/TheWaywardPath-v1.0.0-windows.zip`, 768 MB, the first zip with the Nov 20 day pass in it), the exported smoke and three exported play checks clean. Report: top of `docs/overnight_report.md`.
+
 ## Fable Nov 20 day - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov20_day.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov20-day`. Shots: `docs/overnight_shots/nov20b/`.
