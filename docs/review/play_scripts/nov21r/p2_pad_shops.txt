@@ -1,0 +1,84 @@
+# Fable Nov 21 review, Part 2 (controller): each Crosspath shop opened with the pad's A from its own spot and left with B
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 6
+dev gold 900
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev travel town
+wait 24
+skip_dialogue 80
+button Continue
+wait 1
+skip_dialogue
+calm
+dev goto tailor
+wait 1
+pad a
+wait 2
+pad a
+wait 1
+pad a
+wait 2
+scene
+shot pad_tailor
+dump
+pad b
+wait 1
+pad b
+wait 1
+dev goto item_vendor
+wait 1
+pad a
+wait 2
+pad a
+wait 1
+pad a
+wait 2
+shot pad_tilly
+pad b
+wait 1
+pad b
+wait 1
+dev goto pack_vendor
+wait 1
+pad a
+wait 2
+pad a
+wait 1
+pad a
+wait 2
+shot pad_fenwick
+pad b
+wait 1
+pad b
+wait 1
+dev goto alchemist
+wait 1
+pad a
+wait 2
+pad a
+wait 1
+pad a
+wait 2
+shot pad_alembic
+pad b
+wait 1
+pad b
+wait 1
+dev goto equipment_vendor
+wait 1
+pad a
+wait 2
+pad a
+wait 1
+pad a
+wait 2
+shot pad_bertram
+pad b
+wait 1
+pad b
+wait 1

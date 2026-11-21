@@ -1,0 +1,100 @@
+[
+	{
+		"id": "data/story/intro_story.tres::still.wake::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "A faint glow of four colors is fading from your hand, like a thought you almost had.",
+		"after": "A faint glow of four colours is fading from your hand, like a thought you almost had."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.arena_neutral_mile.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "The Marshal's favorite warm-down: no Paths, no tricks, no excuses. Everyone fights with a borrowed gladiator's kit.",
+		"after": "The Marshal's favourite warm-down: no Paths, no tricks, no excuses. Everyone fights with a borrowed gladiator's kit."
+	},
+	{
+		"id": "ui/town/deckbuilder_screen.gd::_build::2",
+		"file": "ui/town/deckbuilder_screen.gd",
+		"speaker": "(tutorial hint)",
+		"before": "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom.",
+		"after": "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d Path%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::dungeon.rh_treant.blurb::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The oldest tree in the Dump, grown into the Rotheart. It doesn't recognize you, or anything else, any more. (Elite)",
+		"after": "The oldest tree in the Dump, grown into the Rotheart. It doesn't recognise you, or anything else, any more. (Elite)"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::dungeon.rh_roots.before::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Every tendril in the Dump runs to this one place. At its center, wrapped in roots and humming, hangs a seed the size of a fist.",
+		"after": "Every tendril in the Dump runs to this one place. At its centre, wrapped in roots and humming, hangs a seed the size of a fist."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::dungeon.rh_boss.blurb::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Compostella, the Rotheart, and Archdruid Compostella",
+		"before": "The corrupted core of the Verdant Dump: a vast, throbbing knot of root and rot, and, at its center, a figure that was once the Archdruid.",
+		"after": "The corrupted core of the Verdant Dump: a vast, throbbing knot of root and rot, and, at its centre, a figure that was once the Archdruid."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "There is light, four colors of it, as warm as bathwater, spilling across a ceiling I can't quite see.",
+		"after": "There is light, four colours of it, as warm as bathwater, spilling across a ceiling I can't quite see."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A throne room at night, with the candles guttering under banners that have four colors woven into one.",
+		"after": "A throne room at night, with the candles guttering under banners that have four colours woven into one."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/challenges/6/text::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "Four nozzles hiss in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
+		"after": "Four nozzles hiss in four colours. A sensor asks whether your deck can carry more than one Path at a time."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/body::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done.",
+		"after": "A round chamber, glass on every side, a chair at the centre with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/lab_cell4/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "A white room, three paces by four. Ten years of tally marks on the wall in rows of five, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colors.",
+		"after": "A white room, three paces by four. Ten years of tally marks on the wall in rows of five, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colours."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::event.lab_cell4.body::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "Your old cell: ten years of tally marks, a child's drawing in four colors, and {rescuer} under it with her hands bound.",
+		"after": "Your old cell: ten years of tally marks, a child's drawing in four colours, and {rescuer} under it with her hands bound."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/lab_siphon_after/steps/4::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone.",
+		"after": "The four colours rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/lab_siphon_after_alone/steps/7::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone.",
+		"after": "The four colours rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+	}
+]

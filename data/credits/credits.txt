@@ -30,9 +30,13 @@ Kenney 3D kits (kenney.nl) - CC0
 Icons from game-icons.net by Lorc, Delapouite, Sbed, Skoll, Carl Olsen, Cathelineau and Faithtoken - CC BY 3.0
 
 # Tools
-GUT (Godot Unit Test) by Butch Wesley - MIT License
+Godot Engine 4 - the game engine (MIT License, above)
+ChatGPT image generation (OpenAI) - the paintings: cards, characters, places, story pictures and interface art
+Claude and Claude Code (Anthropic) - programming, the music's score code, writing assistance and testing
+FluidSynth with the FluidR3_GM soundfont - rendering the music
+GUT (Godot Unit Test) by Butch Wesley - MIT License (testing; not part of the game you downloaded)
 
 # About the art, music and writing
-The Wayward Path was made by one person with AI tools. The paintings (cards, characters, places, story pictures and interface art) were generated with an image model from the developer's own descriptions, then chosen, edited and fitted into the game by hand. The music was written as code with AI assistance and rendered with a free soundfont. The story and dialogue were written with the help of AI and edited by the developer. All game design, rules and balance are the developer's own.
+The Wayward Path was made by one person with AI tools. The art and the music were made with AI tools, directed and curated by the creator: every painting was generated with an image model from the creator's own descriptions, then chosen, edited and fitted into the game by hand, and the music was written as code with AI assistance and rendered with a free soundfont. The game's design and writing are the creator's, with AI assistance: the rules, the cards, the balance and the story are the creator's own, and the dialogue was drafted and edited with AI help. The game's code was written with an AI coding assistant under the creator's direction.
 
 # Thank you for playing

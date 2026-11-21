@@ -47,7 +47,7 @@ func _ready() -> void:
 		search_box.focus_mode = Control.FOCUS_CLICK  # typed with a keyboard; the controller's cursor skips it
 		search_box.text_changed.connect(func(typed: String) -> void: set_search(typed))
 		add_child(search_box)
-	var affinities: Array[Dictionary] = [{"label": "All Paths" if multi_path else "All colors", "value": -1}]
+	var affinities: Array[Dictionary] = [{"label": "All Paths", "value": -1}]
 	for type: Affinity.Type in [Affinity.Type.NEUTRAL, Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]:
 		affinities.append({"label": UIStyle.affinity_name(type), "value": int(type), "color": UIStyle.affinity_color(type), "icon": IconArt.energy_id(type)})
 	add_child(_row(0, affinities))

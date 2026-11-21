@@ -43,6 +43,13 @@ func _process(delta: float) -> bool:
 		var settings: Node = root.get_node("Settings")
 		settings.set("graphics_quality", int(_args.get("quality", 1)))
 		settings.set("depth_of_field", not _args.has("nodof"))
+		if _args.has("lowend"):
+			# Fable Nov 21 review (Part 5): the Low-end preset as the Settings row sets it (75 % render scale, dynamic resolution, no fog /
+			# bloom / depth of field); its 30 fps cap is lifted below so the headroom shows
+			settings.set("low_end", true)
+			settings.call("apply_quality_preset")
+			settings.call("apply_performance")
+			settings.emit_signal("graphics_changed")
 		settings.set("vsync", false)
 		settings.set("max_fps", 0)
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)

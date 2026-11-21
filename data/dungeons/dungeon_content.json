@@ -1561,7 +1561,7 @@
 				},
 				"7": {
 					"title": "The Draining Chamber",
-					"body": "A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done.",
+					"body": "A round chamber, glass on every side, a chair at the centre with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done.",
 					"choices": [
 						[
 							"Put your hand on the glass",
@@ -1607,7 +1607,7 @@
 			"challenges": {
 				"6": {
 					"title": "Decontamination",
-					"text": "Four nozzles hiss in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
+					"text": "Four nozzles hiss in four colours. A sensor asks whether your deck can carry more than one Path at a time.",
 					"kind": "infra",
 					"reveal": 6,
 					"threshold": 3,
@@ -2181,7 +2181,7 @@
 			"Cell 4"
 		],
 		"event.lab_cell4.body": [
-			"Your old cell: ten years of tally marks, a child's drawing in four colors, and {rescuer} under it with her hands bound."
+			"Your old cell: ten years of tally marks, a child's drawing in four colours, and {rescuer} under it with her hands bound."
 		],
 		"event.lab_cell4.choice.0": [
 			"Break the lock"

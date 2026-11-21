@@ -137,7 +137,10 @@ func auto_completable(catalog: Array[QuestData], state: UnlockState) -> Array[St
 
 
 func to_dict() -> Dictionary:
-	return {"active": active, "completed": completed, "baselines": baselines, "tracked": tracked, "milestones_paid": milestones_paid, "progress_seen": progress_seen, "version": version}
+	# Fable Nov 21 review: copies, not the live lists (a dictionary kept in memory was emptied by the next reset(); every save path
+	# wrote it to disk at once, so no save was ever affected)
+	return {"active": active.duplicate(), "completed": completed.duplicate(), "baselines": baselines.duplicate(), "tracked": tracked,
+		"milestones_paid": milestones_paid.duplicate(), "progress_seen": progress_seen.duplicate(), "version": version}
 
 
 func from_dict(data: Dictionary) -> void:

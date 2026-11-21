@@ -179,7 +179,7 @@ func _build() -> void:
 	_relayout()
 	_relayout.call_deferred()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), "" if DeckValidator.max_colors(Session.profile, _active_modifiers()) == 1 else "s", min_size], Vector2(minf(1000.0, deck_column_rect(size, _uses_deck_box()).position.x - 830.0) if size.x > 100.0 else 600.0, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast; Nov 16b: and of the deck column
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d Path%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), "" if DeckValidator.max_colors(Session.profile, _active_modifiers()) == 1 else "s", min_size], Vector2(minf(1000.0, deck_column_rect(size, _uses_deck_box()).position.x - 830.0) if size.x > 100.0 else 600.0, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast; Nov 16b: and of the deck column
 
 
 ## How many collection columns fit in `width` pixels (at least 2).
@@ -314,7 +314,7 @@ func _build_deck_panel() -> Control:
 		save_new.name = "SaveAsNewSlot"
 		buttons.add_child(save_new)
 	buttons.add_child(_foot_button("Reset", &"", "Go back to the saved deck.", _reset))
-	buttons.add_child(_foot_button("Fill Infrastructure", &"", "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size.", _autofill))
+	buttons.add_child(_foot_button("Fill Infrastructure", &"", "Adds basic infrastructure of your deck's Paths until the deck reaches the minimum size.", _autofill))
 	if _uses_deck_box():
 		var suggest: FancyButton = _foot_button("Suggest a deck", &"", "Builds a deck from your collection for the Path(s) you choose: a cost curve, units first, the best cards you own within the copy caps. Review it, then Save Deck.", open_suggest)
 		suggest.name = "SuggestDeck"

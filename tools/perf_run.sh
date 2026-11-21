@@ -22,10 +22,13 @@ run() {
 	for q in $qualities; do
 		taskkill //F //IM Godot_v4.7.2-stable_win64.exe >/dev/null 2>&1
 		local text line
-		text=$(timeout 300 /c/Tools/Godot/Godot_v4.7.2-stable_win64.exe --path . -s res://tools/perf_probe.gd -- --scene="res://scenes/$scene.tscn" --quality="$q" --area="$area" "$@" 2>&1)
+		# Fable Nov 21 review: quality "L" = the Low-end preset (quality 0 plus --lowend), shown as "Low-end"
+		local qn="$q" extra="" label
+		if [ "$q" = L ]; then qn=0; extra="--lowend=1"; label="Low-end"; else label="${names[$q]}"; fi
+		text=$(timeout 300 /c/Tools/Godot/Godot_v4.7.2-stable_win64.exe --path . -s res://tools/perf_probe.gd -- --scene="res://scenes/$scene.tscn" --quality="$qn" $extra --area="$area" "$@" 2>&1)
 		line=$(echo "$text" | grep "^perf_probe:" | tail -1)
 		echo "$line" >> "$raw"
-		echo "| $area | ${names[$q]} | $(val "$line" avg_fps) | $(val "$line" low1_fps) | $(val "$line" avg_ms) | $(val "$line" cpu_ms) | $(val "$line" gpu_ms) | $(val "$line" draw_calls) | $(val "$line" objects) | $(val "$line" nodes) | $(val "$line" load_ms) | $(val "$line" worst_ms) | $(val "$line" ram_mb) | $(val "$line" peak_mb) | $(val "$line" vram_mb) | $(val "$line" tex_mb) |" | tee -a "$out"
+		echo "| $area | $label | $(val "$line" avg_fps) | $(val "$line" low1_fps) | $(val "$line" avg_ms) | $(val "$line" cpu_ms) | $(val "$line" gpu_ms) | $(val "$line" draw_calls) | $(val "$line" objects) | $(val "$line" nodes) | $(val "$line" load_ms) | $(val "$line" worst_ms) | $(val "$line" ram_mb) | $(val "$line" peak_mb) | $(val "$line" vram_mb) | $(val "$line" tex_mb) |" | tee -a "$out"
 	done
 }
 

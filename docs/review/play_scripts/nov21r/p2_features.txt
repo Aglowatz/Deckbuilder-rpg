@@ -1,0 +1,323 @@
+# Fable Nov 21 review, Part 2: the features the story bot does not touch - every pack type opened, Auntie Alembic's brew, the four
+# shops with a purchase, the tailor and the Wardrobe, the Deck Station, the Collection Book, the Character page, Feats, and every
+# Arena bout and puzzle started from a mid-game state. Run at 1280x720 (the small size) to see clipped text.
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 18
+dev gold 6000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev essence Beefcake 18
+dev essence Necrocrat 18
+dev essence Gourmand 12
+dev essence Refusemancer 12
+dev packs general_1 1
+dev packs general_2 1
+dev packs path_beefcake 1
+dev packs path_gourmand 1
+dev packs path_necrocrat 1
+dev packs path_refusemancer 1
+dev packs gilded_beefcake 1
+dev packs gilded_gourmand 1
+dev packs gilded_necrocrat 1
+dev packs gilded_refusemancer 1
+dev packs gilded_general 1
+dev packs prismatic 1
+dev travel town
+wait 24
+skip_dialogue 80
+button Continue
+wait 1
+button Continue
+wait 1
+skip_dialogue
+calm
+scene
+# ---- the packs: the shelf, one opened by hand, then Open all
+key P
+wait 2
+shot f01_packs_shelf
+dump
+button Open all
+wait 10
+shot f02_packs_open_all
+skip_dialogue 60
+wait 2
+shot f03_packs_after
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+scene
+# ---- Auntie Alembic
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 1
+shot f04_alembic
+dump
+button Brew
+wait 4
+shot f05_alembic_brewed
+skip_dialogue 10
+key Escape
+wait 1
+key Escape
+wait 1
+# ---- the card vendor
+dev goto vendor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot f06_sable
+dump
+key Escape
+wait 1
+# ---- items
+dev goto item_vendor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot f07_tilly
+key Escape
+wait 1
+# ---- gear
+dev goto equipment_vendor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot f08_bertram
+key Escape
+wait 1
+# ---- packs for sale
+dev goto pack_vendor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot f09_fenwick
+key Escape
+wait 1
+# ---- the tailor
+dev goto tailor
+wait 1
+key E
+wait 3
+skip_dialogue
+shot f10_threadwell
+key Escape
+wait 1
+# ---- the hero's own pages
+key T
+wait 2
+shot f11_wardrobe
+key Escape
+wait 1
+key B
+wait 3
+shot f12_deck_station
+dump
+key Escape
+wait 1
+key C
+wait 2
+shot f13_character
+key Escape
+wait 1
+dev goto codex
+wait 1
+key E
+wait 3
+shot f14_collection_book
+key Escape
+wait 1
+dev goto notice_board
+wait 1
+key E
+wait 2
+shot f15_notice_board
+skip_dialogue 10
+key Escape
+wait 1
+key Escape
+wait 1
+shot f16_pause
+button Feats
+wait 1
+shot f17_feats
+key Escape
+wait 1
+key Escape
+wait 1
+# ---- the Arena: its menu, then each bout and puzzle started and won
+dev travel arena
+wait 15
+skip_dialogue 40
+calm
+dev goto arena
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 1
+shot f20_arena_menu
+dump
+key Escape
+wait 1
+dev arena arena_warmup
+wait 12
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f21_arena_warmup
+dev win
+wait 8
+shot f21b_arena_warmup_reward
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_lethal_lunch
+wait 10
+skip_dialogue
+button Got it
+wait 2
+shot f22_puzzle_lethal_lunch
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_neutral_mile
+wait 10
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f23_arena_neutral_mile
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_hold_the_line
+wait 10
+skip_dialogue
+button Got it
+wait 2
+shot f24_puzzle_hold_the_line
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_spells_only
+wait 10
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f25_arena_spells_only
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_four_fists
+wait 10
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f26_arena_four_fists
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_zero_to_hero
+wait 10
+skip_dialogue
+button Got it
+wait 2
+shot f27_puzzle_zero_to_hero
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_marshal
+wait 10
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f28_arena_marshal
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_final_bell
+wait 10
+skip_dialogue
+button Got it
+wait 2
+shot f29_puzzle_final_bell
+dev win
+wait 8
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+dev arena arena_four_fists_unbound
+wait 10
+skip_dialogue
+button Got it
+wait 1
+button Keep
+wait 3
+shot f30_arena_unbound
+dev win
+wait 8
+shot f30b_arena_unbound_reward
+skip_dialogue 20
+button Continue
+wait 2
+skip_dialogue
+scene
+dev goto arena
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 1
+shot f31_arena_menu_all_done
+dump

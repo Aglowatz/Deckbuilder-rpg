@@ -146,15 +146,27 @@ func run() -> void:
 	await _close_overlays(town)
 	_check(town._overlay == null, "B leaves the shop")
 	await _talk(town, "item_vendor")
+	# Fable Nov 21 review: Tilly's gift arrives in a reward box that waits for a press (Fable Nov 21, Part 5.5). The smoke left it open,
+	# so the A meant for Pip closed the box and Pip was never met ("Maren takes Meet the Merchants back" failed).
+	await pad.seconds(0.6)
+	await _dismiss_popups()
 	await _close_overlays(town)
+	await _dismiss_popups()
 	# Fix pass Nov 7: Meet the Merchants has had an "equip Tilly's Power Wraps" step since Nov 3-4 (the Character page by pad is checked
 	# later in this smoke); the wraps are equipped through the session here.
 	Session.set_flag(&"tilly_item_equipped")
 	Session.refresh_quests()
 	await _talk(town, "tailor")
 	await _close_overlays(town)
+	# Fable Nov 21 review: say which step is open when the hand-in fails (the quest has five steps since Nov 18)
+	print("%s: info  merchants before Maren: item_vendor_seen=%s tilly_item_equipped=%s vendor_seen=%s cards_bought=%d tailor_seen=%s active=%s" % [TAG,
+		str(Session.flag(&"item_vendor_seen")), str(Session.flag(&"tilly_item_equipped")), str(Session.flag(&"vendor_seen")),
+		int(Session.counter("cards_bought")) if Session.has_method("counter") else -1, str(Session.flag(&"tailor_seen")),
+		str(Session.quest_log.is_active(QuestDefinitions.MERCHANTS))])
 	await _talk(town, "elder")
 	await _dismiss_popups()
+	print("%s: info  after Maren: completed=%s dialogue=%s locked=%s overlay=%s top=%s" % [TAG, str(Session.quest_log.is_completed(QuestDefinitions.MERCHANTS)),
+		str(town.dialogue.active), str(town._locked), str(town._overlay), str(PadFocus.top_root(get_tree()))])
 	_check(Session.quest_log.is_completed(QuestDefinitions.MERCHANTS), "Maren takes Meet the Merchants back")
 	# 5. The pack step: D-pad Up opens the HUD menu focused; Packs; open the pack; A through it.
 	await pad.seconds(0.6)

@@ -95,7 +95,7 @@ enter => send_back(all(unit.other))
 static => flag(double_ingredients)
 
 == G-31 @8d7ff8bcf1f7  # Recipe for Wonder
-act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))
+act | pay(1G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))
 
 == G-32 @be3ed568014c  # The Eternal Banquet
 sot => create(ingredient,2)

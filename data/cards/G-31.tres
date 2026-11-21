@@ -17,6 +17,6 @@ flavor_text = "Step one: believe. Step two: whisk."
 availability = 1
 availability_source = "The Capital quest The Recipe Box"
 paths_all = Array[int]([2])
-script_text = "act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))"
+script_text = "act | pay(1G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))"
 rules_hash = "8d7ff8bcf1f7"
 image_description = "A glowing handwritten recipe card hovering above a mixing bowl, swirling ingredients forming the shape of a tiny magical building."

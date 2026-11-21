@@ -1,0 +1,15 @@
+# Fable Nov 21 review: single-line spelling fixes (British spelling, as the rest of the dialogue). Revert: node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21n_lines.csv --revert=docs/dialogue/nov21n_lines_ids.txt
+data/story/intro_story.tres::still.wake::1
+data/story/intro_story.tres::arena.arena_neutral_mile.blurb::0
+ui/town/deckbuilder_screen.gd::_build::2
+data/story/refusemancer_story.tres::dungeon.rh_treant.blurb::0
+data/story/refusemancer_story.tres::dungeon.rh_roots.before::0
+data/story/refusemancer_story.tres::dungeon.rh_boss.blurb::0
+data/story/intro_story.tres::memory.1.fragment::0
+data/story/intro_story.tres::memory.3.fragment::0
+data/dungeons/dungeon_content.json::dungeons/D-LAB/challenges/6/text::0
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/body::0
+data/story/story_scenes.json::scenes/lab_cell4/steps/0::1
+data/dungeons/dungeon_content.json::event.lab_cell4.body::0
+data/story/story_scenes.json::scenes/lab_siphon_after/steps/4::1
+data/story/story_scenes.json::scenes/lab_siphon_after_alone/steps/7::1

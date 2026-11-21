@@ -144,7 +144,21 @@ static func entries(index: int) -> Array[Array]:
 			result.append(["Pathless", "A card that walks no Path (it used to be called Colorless). Any deck may hold it, and its cost can be paid with energy of any Path.", ""])
 			var open: bool = Session.flag(MultiPathLock.FLAG_UNLOCKED)
 			result.append([MultiPathLock.RULE_TITLE, MultiPathLock.unlocked_text() if open else MultiPathLock.rule_text(), ""])
+			# Fable Nov 21 review (Part 4.3): the two rules added since Nov 17 that the glossary did not name
+			result.append(["Essence", essence_text(), ""])
+			result.append(["Resting places", resting_text(), ""])
 	return result
+
+
+## What becomes of a copy beyond the three you may own, and what Auntie Alembic does with it (the numbers are the rules' own).
+static func essence_text() -> String:
+	return "A copy of a card beyond the %d you can own is not kept: it becomes essence of its Path (a Pathless card becomes gold), and a notice says so. Each Path holds at most %d essence. Auntie Alembic in Crosspath brews one random two-Path card from %d essence of each of the two Paths and %d gold." % [
+		CopyCaps.absolute_max(), Alchemy.ESSENCE_CAP_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.GOLD_COST]
+
+
+## The dungeons' heal rooms since Nov 21: a choice with a price, never a full heal (the cave and the castle keep theirs).
+static func resting_text() -> String:
+	return "Your HP is not restored between the fights of a dungeon. A dungeon's resting place offers a choice: heal 5 HP for a price (gold, a card out of your deck for this run, or a drawback in your next fight), or walk on. Only the Forgotten Cave and Primm's Castle still have a room that heals you in full."
 
 
 func _row(title: String, text: String, icon_id: String) -> HBoxContainer:
