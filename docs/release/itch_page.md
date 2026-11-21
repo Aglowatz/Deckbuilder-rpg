@@ -54,7 +54,7 @@ welcome and never needed.**
   tooltips and menus, Path symbols for colour-blind players (on by default), Reduce motion, Reduce screen shake, Reduce flashing,
   five camera presets, autosave with a visible mark, three campaigns with five save slots each, and a Low-end preset that weak PCs
   choose by themselves.
-- **No difficulty setting, no timers, no microtransactions, no online account.** Family friendly.
+- **No microtransactions, no online account, nothing to unlock with money.** Family friendly.
 
 ## Controls
 
@@ -78,7 +78,10 @@ Every key can be changed in Settings > Controls.
 ## System requirements
 
 Measured Nov 21 on the development PC (Windows 11, AMD Ryzen 5 4500U with its integrated Radeon graphics, 7.4 GB RAM, 1600 x 900):
-PERF_SUMMARY_LINE
+60 frames a second or more everywhere on the Medium preset (63 to 83 in the zones and the Capital, 74 in the town, about 350 in
+a battle); the Low-end preset, which a weak PC picks by itself, is capped at 30 and has room to spare. The game uses about 0.8 GB of
+RAM in menus and battles and 1.3 to 1.7 GB in the open world, plus 0.6 to 0.9 GB of video memory (shared with RAM on integrated
+graphics). A zone loads in 4 to 6 seconds behind a loading screen. No leak over eight zone round trips.
 
 - **OS:** Windows 10 or 11, 64-bit.
 - **Minimum:** integrated graphics with DirectX 12 or Vulkan (Intel UHD 620 class or newer), **4 GB RAM**, a dual-core CPU from 2015

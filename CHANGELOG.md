@@ -2,6 +2,36 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 21 (the launch review): the menus follow the Text size setting (the pause menu, settings, quest log, glossary, feats,
+  credits, save and load, the map's legend, the quest box, pop-ups: Large 1.15, Larger 1.3); the rose window tops the title menu;
+  Recipe for Wonder costs 1(G) to use, as its text says (it charged only (G)); pack descriptions and two lines say "Pathless cards"
+  where they said "neutral cards"; the Deck Station says "Paths" where it said "colors"; 16 single lines of dialogue brought to the
+  spelling of the rest ("four colours"); the glossary explains essence and the dungeons' resting places; the credits name the
+  tools; the Card Packs shelf's Open buttons line up; the Deck Station's search box can be read; the Feats list stops short of its
+  scroll bar; a drop-down choice ticks; the map opens a little faster. (The changelog had no entries for Nov 18 evening to Nov 20;
+  the four below were written from those passes' reports on Nov 21.)
+- Nov 20 (day): Batch 18's 39 pictures (the Arena's cave menu and board, the Raw Deal's painted front and sign, the Plain Cloak, the
+  violet Necrocrat card back and packs, the D.N.A.'s clock tower, plaque and couch, Rip turning through eight directions, the cave
+  mouth, the manhole, Auntie Alembic's shop, five painted zone maps on the map screen); the stained-glass info screens (pause menu,
+  settings, glossary, feats, save and load, credits, the quest box, the quest log, the map, tooltips, pop-ups); the Path-ology Lab's
+  break room is a "heal 5 for a price" room.
+- Nov 19 (night): cards that sacrifice a unit for damage can be aimed at the opponent; Overdue Library Book draws 1 and discards 1;
+  Soul Food Kitchen and Food Fight cost 2, Community Garden and Un-Deadlifter one less; To Die For destroys any unit; "Colorless" is
+  "Pathless"; foes open with at least two Infrastructure (not in the Forgotten Cave); three- and four-Path cards wait for Primm (no
+  pack, shop, reward or brew gives one before, none goes in a deck, owned copies stay); the four zone dungeons' full heal is a choice
+  room (heal 5 for gold, a card or a drawback, or walk on) with six new drawbacks; the Deck Station's Path filter is toggles, with a
+  search box; "Open all" opens the gilded packs too; rewards arrive in a box that waits for a click; V cycles five camera presets;
+  the well's key has a small chest of its own; the Buffet's sushi side dungeon is The Raw Deal, in the east district; the round window opens in trees, cabinets and rock; the
+  castle gate scene rewritten.
+- Nov 19 (day): what looks solid stays visible (a see-through window round the hero instead of whole things fading, the hero's
+  outline behind walls); one colour per Path everywhere; a camera default per place; The Door Under the Well can be found; every opened side dungeon gets a one-step quest with its entrance marked; four new Arena puzzles,
+  each with one proven solution; Alembic's brewed card shown large; the Rusty Grave Shovel gives Toxic and Swat.
+- Nov 18 (evening and night): you can own three copies of every card (deck limits unchanged); a defeat-three quest in each zone,
+  the Capital and Crosspath; your own choices in a fight wait for you (edicts, targets, picks); a boss's scripted event is a pop-up
+  with its portrait that waits for a click; opponent spells and traps wait to be read (a setting); back in Crosspath after freeing
+  a zone the hero arrives at Elder Maren and her scene plays; signature cards for every mini dungeon; the Arena has four tiers
+  opened in order, with tier prizes; every dungeon choice is a boon with a drawback; Rip turns to the hero; the Forgotten Cave
+  comes out at a cave mouth near Maren; the Old Service Tunnels open from a manhole.
 - Nov 18 (day): a stolen unit (Unconscionable Contract, Squatter's Rights, Hostile Takeover) moves to your side of the board; keywords
   from Tools, spells and auras show on the unit with where they came from; special Infrastructure is collected and capped like other
   cards (saves keep what their decks use); no banner when the computer acts; stacked cards fan so each name shows; every field card shows

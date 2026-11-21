@@ -73,6 +73,8 @@ func run() -> bool:
 		var routes: Array[Array] = [["fewest fights", shortest]]
 		if _fight_count(longest) > _fight_count(shortest):
 			routes.append(["most fights", longest])
+		if args.has("short_only"):
+			routes = [routes[0]]  # --short_only: the way with the fewest fights only (the later dungeons' fights are long)
 		for route: Array in routes:
 			var walk: Array = route[1] as Array
 			var fights: Array[EncounterSpec] = []

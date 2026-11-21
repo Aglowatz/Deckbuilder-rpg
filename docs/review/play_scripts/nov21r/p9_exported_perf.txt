@@ -1,0 +1,74 @@
+# Fable Nov 21 review, Parts 5 and 9: the exported game's own memory and frame rate (the editor's numbers run higher), on Medium and
+# on the Low-end preset, in the title, Crosspath, two zones, the Capital and a battle; and the time each place takes to load
+wait 5
+perf
+dev newgame
+wait 10
+skip_dialogue
+perf
+dev level 16
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev travel town
+wait 26
+skip_dialogue 80
+button Continue
+wait 1
+skip_dialogue
+calm
+wait 3
+log crosspath medium
+perf
+dev travel zone gourmand
+wait 22
+skip_dialogue
+calm
+wait 3
+log buffet medium
+perf
+dev travel zone refusemancer
+wait 22
+skip_dialogue
+calm
+wait 3
+log dump medium
+perf
+dev travel capital
+wait 28
+skip_dialogue
+calm
+wait 3
+log capital medium
+perf
+dev lowend on
+wait 4
+log capital lowend
+perf
+dev travel zone necrocrat
+wait 22
+skip_dialogue
+calm
+wait 3
+log dna lowend
+perf
+dev travel town
+wait 22
+skip_dialogue 20
+calm
+wait 3
+log crosspath lowend
+perf
+dev encounter gourmand
+wait 8
+skip_dialogue 4
+button Got it
+wait 2
+log battle lowend
+perf
+dev win
+wait 5

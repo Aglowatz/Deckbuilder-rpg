@@ -35,8 +35,31 @@ var image: Image
 var floor_cells: PackedByteArray = PackedByteArray()
 
 
+## Fable Nov 21 review (Part 5): the picture a live map of the same area already keeps (the HUD's minimap, which paints every newly
+## revealed cell on it), or a new one. Opening the full map built its own copy every time: one GDScript call per cell, 18,000 cells in
+## Crosspath and 33,000 in the Capital, 80 to 120 ms of the pause when M is pressed. The two pictures were the same picture.
+static func shared_or_build(map: WalkableArea, fog_of_war: FogOfWar, outline: bool = false) -> MapRaster:
+	var ref: WeakRef = _live.get(_share_key(map, fog_of_war, outline)) as WeakRef
+	var live: MapRaster = ref.get_ref() as MapRaster if ref != null else null
+	if live != null and live.fog == fog_of_war and live._map == map and live.outline == outline and live.texture != null:
+		shared_hits += 1
+		return live
+	return build(map, fog_of_war, outline)
+
+
+static func _share_key(map: WalkableArea, fog_of_war: FogOfWar, outline: bool) -> String:
+	return "%d|%d|%s" % [map.get_instance_id(), fog_of_war.get_instance_id(), str(outline)]
+
+
+## The newest picture built per (area, fog, outline), held weakly: it lives as long as its map does.
+static var _live: Dictionary = {}
+## How often a picture was shared instead of built (for the tests and the perf notes).
+static var shared_hits: int = 0
+
+
 static func build(map: WalkableArea, fog_of_war: FogOfWar, outline: bool = false) -> MapRaster:
 	var raster: MapRaster = MapRaster.new()
+	_live[_share_key(map, fog_of_war, outline)] = weakref(raster)
 	raster.fog = fog_of_war
 	raster.outline = outline
 	raster._map = map

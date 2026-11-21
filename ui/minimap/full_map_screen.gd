@@ -48,7 +48,8 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 
 func _build() -> void:
 	_fog = Session.fog_for(_area_id, _map.map_bounds())
-	_raster = MapRaster.build(_map, _fog, MapRaster.shows_outline(_area_id))
+	# Fable Nov 21 review (Part 5): the minimap's own picture when there is one (it is this same picture, kept up to date)
+	_raster = MapRaster.shared_or_build(_map, _fog, MapRaster.shows_outline(_area_id))
 	# finish sorting the cells quickly while the map is open (the minimap usually has already)
 	set_process(true)
 	var row: HBoxContainer = UIKit.hbox(24)

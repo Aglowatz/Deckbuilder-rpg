@@ -3,12 +3,12 @@
 Kept by the owner's assistant. Claude Code: read this, but don't start these items unless a brief asks for them. Add new owner-requested "later" items here.
 
 ## Next scheduled
-- (nothing scheduled; Batch 18 and the stained-glass info screens were done Nov 20: `docs/overnight_report.md`, "Fable Nov 20 day")
+- **The two weeks to 1.0:** `docs/release/two_week_plan.md` (written by the Nov 21 review) orders everything below by what a player would feel, with who does it and a day. Start there.
 
 ## Art (the next ChatGPT batch, run from a sheet tab)
 - **Batch 19** (`docs/art/batch19.csv`): a redo of the Endless Buffet's world map from a fresh plan (the painted sushi shop stands in the Raw Deal's old place), and the other rows listed there.
 - Rip: walking art, if he should ever follow the player (he turns through eight directions on the spot since Nov 20).
-- Elowen's walk, if it's missing.
+- (Elowen's walk is not missing: she and her disguise both have full walk sets in the game. Closed by the Nov 21 review.)
 
 ## Design and balance passes
 - **Camera per zone:** since Nov 21: +6 degrees everywhere (`data/camera/zone_camera.json`) and five presets on V (+6 to +14); "Camera angle" and "Camera distance" stay in Settings. Open: which preset a new player starts on.
@@ -30,7 +30,7 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 
 ## Added by Fable Nov 21 (deferred, for the owner to schedule)
 - **A full-heal room is left in Primm's Castle** (the Resistance Safe Room; the owner's rule: the castle rooms are unchanged). The Path-ology Lab's became a "heal 5 for a cost" room on Nov 20.
-- **Balance after Nov 21:** foes open with two Infrastructure (confirmed Nov 20), the zone dungeons have no full heal, five cards changed: no sim pass was run.
+- **Balance after Nov 21:** simulated by the Nov 21 review (`docs/balance_report_nov21.md`): the changes moved little; the heal rooms cost HP, not clears. Open decisions from it: the Arena table, the House of Gains (Vivienne Quota), Mortimer for Beefcake, the economy.
 - **The Deck Station's search and controllers** (decided Nov 20: later): the controller's cursor skips the search box because there is no on-screen keyboard; the Path toggles and the other filters work with a controller.
 
 ## Added by Fable Nov 20 day (deferred, for the owner to schedule)
@@ -38,3 +38,12 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **The title screen's own menu** (Continue, New Game ...) keeps its gold buttons; the pages it opens are glass. (The rose window tops it since the Nov 21 review.)
 - **Glossary keywords in their Path's colour:** the data gives a keyword no Path; it would need one column in the keyword table.
 - **The D.N.A.'s painted map shows a sunny village** (red and blue roofs, green lawns) where the zone is a haunted office at dusk; it fits the walk grid, the mood is the painter's. A repaint in the zone's palette would be a Batch 19 row if wanted (Nov 21: optional, not wanted for now; the row is marked so in `docs/art/batch19.csv`).
+
+## Added by the Nov 21 review (deferred, for the owner to schedule)
+- **The Arena's proposed rows** (`docs/balance_report_nov21.md`, section 2): one simulated row per battle, to tick and have applied. Diamond Sand has no player level in `ProgressionModel.LEVELS` (the sim assumes 25; the prize multiplier reads the same table).
+- **Two "freed" lines for the Gainlands** (Gary under his barbell, the rep-game host's banned show): the owner writes them.
+- **Batch 19 has a second row:** the locked Necrocrat pack as a sealed parcel like the other three.
+- **Card sheet wording** (names and flavour the importer owns): "Stock The Pantry", "The Recycling Center", "honor" / "favor" in three flavour lines, "Draw 2 cards" on N-18 and N-20.
+- **The player read-me in the zip** (`docs/release/player_readme.txt`): the export still writes the playtest read-me; switch it for the public build.
+- **The memory smoke's object count** grows by about 15 objects a zone round trip (static and video memory are flat); chase it only if a long session ever shows it.
+- **A real-fight bot run per Path** (`bash tools/run_full_real.sh <path>`): the fight pilots can finish scripted-event fights again since the Nov 21 review; none has been run since Nov 17.

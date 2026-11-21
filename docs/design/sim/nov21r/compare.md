@@ -66,6 +66,37 @@ Made by `python tools/balance_compare_nov21.py` from `docs/design/sim/nov21r/` (
 | Rot Tunnel - Rot Tunnel Horror | Normal | 17 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (after2_dungeon_D-ROT) | +0 | 4.6 | 19.6 | above 95 % |
 | The Rotheart - Compostella, the Rotheart | Boss | 17 | 40-60% | 13% | 75% | 100% | 75% | **66%** | 59% (after2_dungeon_D-ROT) | +7 | 6.5 | 16.2 | one Path below 35 % |
 
+## dungeon: D-PC
+
+| Encounter | Kind | L | Target | Beefcake | Necrocrat | Gourmand | Refusemancer | All now | Last | Change | Turns | HP left | Flag |
+|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| Courtyard of Perfect Hedges - Hedge Trimmer Guard | Normal | 21 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_D-PC) | +0 | 5.6 | 22.9 | above 95 % |
+| Portrait Gallery - Gallery Curator | Normal | 21 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_D-PC) | +0 | 5.7 | 23.0 | above 95 % |
+| Hall of Mirrors - Mirror Knight | Elite | 21 | 60-75% | 50% | 88% | 75% | 75% | **72%** | 88% (oct30_D-PC) | -16 | 6.1 | 14.3 |  |
+| Ministry of Correction - Ministry Clerk | Normal | 21 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_D-PC) | +0 | 5.5 | 22.1 | above 95 % |
+| Royal Stair - Royal Staircase Guard | Elite | 21 | 60-75% | 88% | 88% | 88% | 100% | **91%** | 88% (oct30_D-PC) | +3 | 8.3 | 15.5 |  |
+| Primm - phase 1 (standardization) | Boss | 22 | 40-60% | 100% | 100% | 88% | 100% | **97%** | 83% (tune3_s7100_D-PC) | +14 | 6.9 | 22.1 | above 95 % |
+| Primm - phase 2 (reflection) | Boss | 22 | 40-60% | 88% | 100% | 100% | 100% | **97%** | 100% (tune3_s7100_D-PC) | -3 | 7.2 | 24.0 | above 95 % |
+| Primm - phase 3 (unraveling) | Boss | 22 | 40-60% | 38% | 100% | 50% | 63% | **63%** | 67% (tune3_s7100_D-PC) | -4 | 7.1 | 18.1 |  |
+| Beefcake Wing: Coup Orders Barracks - Coup Barracks Sergeant | Normal | 21 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_D-PC) | +0 | 4.8 | 22.0 | above 95 % |
+| Necrocrat Wing: Notarized Archives - Percival Plume, Deputy Minister of Good News | Elite | 21 | 60-75% | 75% | 88% | 100% | 100% | **91%** | 91% (oct30_D-PC) | +0 | 5.8 | 17.6 |  |
+| Refusemancer Wing: the Corrupted Seed Vault - Seed Vault Gardener | Normal | 21 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_D-PC) | +0 | 5.1 | 22.5 | above 95 % |
+| Clocktower Balcony - Clocktower Sentinel | Elite | 21 | 60-75% | 100% | 88% | 100% | 100% | **97%** | 91% (oct30_D-PC) | +6 | 7.5 | 18.9 | above 95 % |
+
+## postgame: D-LAB
+
+| Encounter | Kind | L | Target | Beefcake | Necrocrat | Gourmand | Refusemancer | All now | Last | Change | Turns | HP left | Flag |
+|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| Intake Corridor - Intake Orderly | Normal | 25 | 80-100% | 100% | 100% | 100% | 100% | **100%** | - | - | 6.1 | 13.1 | above 95 % |
+| Specimen Storage - Escaped Specimen | Normal | 25 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_lab) | +0 | 5.9 | 12.4 | above 95 % |
+| Failed Experiments Ward - The Failed Experiment | Elite | 25 | 60-75% | 75% | 88% | 100% | 63% | **81%** | 75% (oct30_lab) | +6 | 6.3 | 13.3 |  |
+| Hall of Hybrids - Hybrid Specimen | Normal | 25 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_lab) | +0 | 5.7 | 14.5 | above 95 % |
+| Cell Block - Siphon's Research Assistant | Normal | 25 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 100% (oct30_lab) | +0 | 6.0 | 14.5 | above 95 % |
+| Containment Breach - The Drain Warden | Elite | 25 | 60-75% | 63% | 100% | 100% | 88% | **88%** | 75% (oct30_lab) | +13 | 6.1 | 8.5 |  |
+| The Antechamber - Antechamber Sentry | Normal | 25 | 80-100% | 100% | 100% | 100% | 100% | **100%** | 92% (oct30_lab) | +8 | 5.9 | 12.5 | above 95 % |
+| The Extraction Theater - Dr. Ambrose Siphon, Chief Path-ologist | Boss | 25 | 40-60% | 13% | 75% | 75% | 63% | **56%** | 50% (tune3_s7100_D-LAB) | +6 | 7.6 | 8.0 | one Path below 35 % |
+| The Extraction Theater - Dr. Ambrose Siphon, Chief Path-ologist (with Elowen) | Boss | 25 | 40-60% | 100% | 88% | 88% | 88% | **91%** | 100% (tune3_s7100_D-LAB) | -9 | 6.2 | 8.3 |  |
+
 ## arena
 
 | Encounter | Kind | L | Target | Beefcake | Necrocrat | Gourmand | Refusemancer | All now | Last | Change | Turns | HP left | Flag |
@@ -77,7 +108,7 @@ Made by `python tools/balance_compare_nov21.py` from `docs/design/sim/nov21r/` (
 | Arena tier 3 - Announcer Grand Bellows | Boss | 22 | 40-60% | 80% | 85% | 95% | 90% | **88%** | 100% (tune3_s7100_arena) | -12 | 6.4 | 9.8 |  |
 | Arena tier 4 - Champion of the Four Fists | Boss | 1 | 40-60% | 25% | 20% | 35% | 25% | **26%** | - | - | 10.3 | 9.8 | below 35 % |
 
-## Flagged (25)
+## Flagged (39)
 
 - town: Pantry Hound (100%; 100% / 100% / 100% / 100%)
 - town: Lost Junior Clerk (100%; 100% / 100% / 100% / 100%)
@@ -101,6 +132,20 @@ Made by `python tools/balance_compare_nov21.py` from `docs/design/sim/nov21r/` (
 - dungeon_D-ROT: Thorn Maze - Thorn Maze Stalker (97%; 88% / 100% / 100% / 100%)
 - dungeon_D-ROT: Rot Tunnel - Rot Tunnel Horror (100%; 100% / 100% / 100% / 100%)
 - dungeon_D-ROT: The Rotheart - Compostella, the Rotheart (66%; 13% / 75% / 100% / 75%)
+- dungeon_D-PC: Courtyard of Perfect Hedges - Hedge Trimmer Guard (100%; 100% / 100% / 100% / 100%)
+- dungeon_D-PC: Portrait Gallery - Gallery Curator (100%; 100% / 100% / 100% / 100%)
+- dungeon_D-PC: Ministry of Correction - Ministry Clerk (100%; 100% / 100% / 100% / 100%)
+- dungeon_D-PC: Primm - phase 1 (standardization) (97%; 100% / 100% / 88% / 100%)
+- dungeon_D-PC: Primm - phase 2 (reflection) (97%; 88% / 100% / 100% / 100%)
+- dungeon_D-PC: Beefcake Wing: Coup Orders Barracks - Coup Barracks Sergeant (100%; 100% / 100% / 100% / 100%)
+- dungeon_D-PC: Refusemancer Wing: the Corrupted Seed Vault - Seed Vault Gardener (100%; 100% / 100% / 100% / 100%)
+- dungeon_D-PC: Clocktower Balcony - Clocktower Sentinel (97%; 100% / 88% / 100% / 100%)
+- postgame_D-LAB: Intake Corridor - Intake Orderly (100%; 100% / 100% / 100% / 100%)
+- postgame_D-LAB: Specimen Storage - Escaped Specimen (100%; 100% / 100% / 100% / 100%)
+- postgame_D-LAB: Hall of Hybrids - Hybrid Specimen (100%; 100% / 100% / 100% / 100%)
+- postgame_D-LAB: Cell Block - Siphon's Research Assistant (100%; 100% / 100% / 100% / 100%)
+- postgame_D-LAB: The Antechamber - Antechamber Sentry (100%; 100% / 100% / 100% / 100%)
+- postgame_D-LAB: The Extraction Theater - Dr. Ambrose Siphon, Chief Path-ologist (56%; 13% / 75% / 75% / 63%)
 - arena: Arena tier 1 - Gladiator Rookie (98%; 95% / 100% / 100% / 95%)
 - arena: Arena tier 1 - Sandbag Sentinel (100%; 100% / 100% / 100% / 100%)
 - arena: Arena tier 4 - Champion of the Four Fists (26%; 25% / 20% / 35% / 25%)

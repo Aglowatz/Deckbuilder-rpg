@@ -291,6 +291,7 @@ func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
 				last_openings = [PackOpeningScreen.last_opening] as Array[PackOpening]
 			_refresh()))
 	slot.add_child(open)
+	slot.add_child(UIKit.spacer(12))  # the shelf's scroll bar lies under the row: keep it off the buttons' lower edge
 	return slot
 
 

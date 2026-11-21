@@ -11,7 +11,7 @@ const DIALOGUE_FILES: Array[String] = [
 ]
 ## American spellings the dialogue does not use (names and game terms keep theirs: Defense, the Armor slot, the Honor Guard, the
 ## Extraction Theater).
-const AMERICAN: String = "\b(colors|colored|favorite|favor|center|recognize|recognized|apologize|gray|neighbor|rumor|rumors|traveler|mustache)\b"
+const AMERICAN: String = "\\b(colors|colored|favorite|favor|center|recognize|recognized|apologize|gray|neighbor|rumor|rumors|traveler|mustache)\\b"
 
 
 func test_the_dialogue_keeps_to_british_spelling() -> void:

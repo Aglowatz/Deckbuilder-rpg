@@ -1,0 +1,43 @@
+# Fable Nov 21 review, Part 7.2: a battle screenshot with a full board and no pop-up over it (several moments, the best is kept)
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev load bot_beefcake_town_after_refusemancer
+wait 18
+skip_dialogue 30
+button Continue
+wait 1
+skip_dialogue 10
+calm
+dev encounter gourmand
+wait 8
+skip_dialogue 4
+button Got it
+wait 1
+button Keep
+wait 3
+pilot 30
+key Space
+wait 2
+shot b1
+pilot 8
+key Space
+wait 2
+shot b2
+pilot 8
+key Space
+wait 2
+shot b3
+pilot 8
+key Space
+wait 2
+shot b4
+pilot 8
+key Space
+wait 2
+shot b5
+pilot 8
+key Space
+wait 2
+shot b6

@@ -58,7 +58,7 @@ func test_the_story_nodes_have_their_scenes() -> void:
 	assert_eq(cell.talk_before, "lab_cell4")
 	var cell_text: String = "\n".join(StoryScenes.all_lines("lab_cell4"))
 	assert_true(cell_text.contains("tally marks"), "ten years of tally marks")
-	assert_true(cell_text.contains("four colors"), "the child's drawing of four colors")
+	assert_true(cell_text.contains("four colours"), "the child's drawing of four colours")  # Nov 21 review: the dialogue's spelling
 	assert_true(cell_text.contains("Took you long enough, Tess."), "the sheet's line")
 	assert_not_null(MainDungeons.def(PathologyLab.DUNGEON_ID).event(cell.event_id), "Cell 4's rescue event")
 	assert_eq(map.boss().talk_before, "lab_siphon")

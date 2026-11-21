@@ -86,6 +86,17 @@ const ROUND3: Dictionary = {
 	],
 }
 
+## Round 4: Diamond Sand once more. The Four Fists list does not get hard on numbers alone (75 % at +3/+3 and 80 HP, and a hand of
+## Legendaries made it easier: 92 %), so two rows try the Marshal's own list under the Champion's name ("__base" = the bout whose deck
+## is borrowed), which reached the band in Gold Sand.
+const ROUND4: Dictionary = {
+	"arena_four_fists_unbound": [
+		["J", "HP 54 -> 80, \"Unbound\" +4/+4, one more opening card, 3 Old Kingdom Crossroads", 80, {"INF-11": 3}, "", "", "Unbound|foe_atk=4,foe_def=4,foe_draw=1"],
+		["K", "the Marshal's deck (the Gold Sand list) in place of the Four Fists list, HP 54 -> 80, \"Unbound\" +2/+2, one more opening card", 80, {"__base": "arena_marshal"}, "", "", "Unbound|foe_atk=2,foe_def=2,foe_draw=1"],
+		["L", "the Marshal's deck, HP 54 -> 80, \"Unbound\" +3/+2, one more opening card", 80, {"__base": "arena_marshal"}, "", "", "Unbound|foe_atk=3,foe_def=2,foe_draw=1"],
+	],
+}
+
 var args: Dictionary = {}
 
 
@@ -116,14 +127,20 @@ func run() -> bool:
 		var base_ai: String = spec.enemy_ai_name
 		var base_kind: EncounterSpec.Kind = spec.kind
 		var base_sources: Array[ModifierSource] = spec.enemy_sources.duplicate()
-		var table: Dictionary = ROUND3 if str(args.get("round", "1")) == "3" else (ROUND2 if str(args.get("round", "1")) == "2" else VARIANTS)
+		var table: Dictionary = {"1": VARIANTS, "2": ROUND2, "3": ROUND3, "4": ROUND4}.get(str(args.get("round", "1")), VARIANTS) as Dictionary
 		if not table.has(arena_id):
 			continue
 		var rows: Array = [["now", "as it is today (HP %d, %s)" % [base_hp, base_ai], 0, {}, ""]]
 		rows.append_array(table.get(arena_id, []) as Array)
 		for row: Array in rows:
 			spec.enemy_hp = int(row[2]) if int(row[2]) > 0 else base_hp
-			spec.enemy_recipe = EnemyDecks.with_cards(base_recipe, row[3] as Dictionary)
+			var added: Dictionary = (row[3] as Dictionary).duplicate()
+			var row_recipe: Dictionary = base_recipe
+			if added.has("__base"):
+				var lender: ArenaEncounter = ArenaDefs.find(str(added["__base"]))
+				row_recipe = lender.enemy_recipe if lender != null else base_recipe
+				added.erase("__base")
+			spec.enemy_recipe = EnemyDecks.with_cards(row_recipe, added)
 			spec.enemy_ai_name = str(row[4]) if not str(row[4]).is_empty() else base_ai
 			spec.kind = base_kind
 			if row.size() > 5 and str(row[5]) == "ELITE":
