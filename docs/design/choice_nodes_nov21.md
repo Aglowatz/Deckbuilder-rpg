@@ -60,6 +60,9 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Path-ology Lab | 7: The Draining Chamber | Put your hand on the glass | heal 6 | 'Drained': -1 max HP | rest of the dungeon |
 | The Path-ology Lab | 7: The Draining Chamber | Read the dials | 'Know the Machine': your units get +1 attack | 'Feedback': the enemy starts with +3 HP | rest of the dungeon |
 | The Path-ology Lab | 7: The Draining Chamber | Tear out the straps | 'Never Again': +3 max HP | lose 3 HP | rest of the dungeon |
+| The Path-ology Lab | 9: Night Shift Break Room | Feed the vending machine | heal 5 | pay 80 gold | at once |
+| The Path-ology Lab | 9: Night Shift Break Room | Drink the night shift's coffee | heal 5 | 'Night-Shift Jitters': the first card you play each turn costs 1 more | next fight |
+| The Path-ology Lab | 9: Night Shift Break Room | Leave the room as you found it | nothing | nothing | at once |
 | The Path-ology Lab | 11 (story event "lab_cell4", built in code) |  |  |  |  |
 | The Path-ology Lab | 12: The Mentor's Study | Take the journal for Wren's true record | 'The True Record': +2 max HP | 'Alarm Raised': the enemy starts with a unit on the field | next fight |
 | The Path-ology Lab | 12: The Mentor's Study | Leave it on the desk | nothing | nothing | at once |

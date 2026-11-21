@@ -1512,6 +1512,29 @@
 				"16": "Dr. Ambrose Siphon, Chief Path-ologist"
 			},
 			"events": {
+				"9": {
+					"title": "Night Shift Break Room",
+					"body": "A kettle, a row of lockers and a vending machine that hums to itself. Somebody has left a pot of night-shift coffee on the hot plate, and a note: DO NOT. The note doesn't say who it is for.",
+					"choices": [
+						[
+							"Feed the vending machine",
+							"Eighty coins rattle down, and a hot meal in a tin slides out. It is better than it has any right to be.",
+							"heal:5",
+							"pay:80"
+						],
+						[
+							"Drink the night shift's coffee",
+							"It is strong enough to stand a spoon in. You feel wonderful, and your hands won't stop shaking: in the next fight the first card you play each turn costs 1 more.",
+							"heal:5",
+							"curse:Night-Shift Jitters|first_cost=1,next=1"
+						],
+						[
+							"Leave the room as you found it",
+							"You touch nothing. The vending machine hums a little sadly as you go.",
+							"nothing"
+						]
+					]
+				},
 				"4": {
 					"title": "The Observation Deck",
 					"body": "A glass gallery looks down on the cells: a kettle, a cracked mug, and a corkboard of notes about one subject. The newest notes are only a count of days.",

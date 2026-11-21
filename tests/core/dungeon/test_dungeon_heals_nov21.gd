@@ -141,12 +141,13 @@ func test_the_lose_token_is_read_now() -> void:
 		assert_has(kinds, int(DungeonEvent.OutcomeKind.LOSE_CARD), "%s node %d: the written cost is real" % [spot[1], spot[2]])
 
 
-func test_the_full_heals_that_stay_are_the_cave_the_castle_and_the_lab() -> void:
+func test_the_full_heals_that_stay_are_the_cave_and_the_castle() -> void:
 	var left: Array[String] = []
 	for room: Array in DungeonBuilder.full_heal_rooms():
 		left.append(str(room[0]))
 	left.sort()
-	assert_eq(left, ["D-LAB", "D-PC", "D-TUT"] as Array[String], "reported, not changed: the tutorial cave, Primm's Castle, the Path-ology Lab")
+	# Fable Nov 20 day (Part 3.1): the Path-ology Lab's Night Shift Break Room is a "heal 5 for a cost" room now (the owner's answer)
+	assert_eq(left, ["D-PC", "D-TUT"] as Array[String], "the full heals that stay: the tutorial cave and Primm's Castle (its rooms are unchanged)")
 
 
 # ---- 4.3: the new drawbacks, one by one -------------------------------------------------------------------------------------------------
