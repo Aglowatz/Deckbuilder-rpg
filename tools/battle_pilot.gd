@@ -32,6 +32,18 @@ func _view_center(uid: int) -> Vector2:
 	return driver.center_of_control(screen.board.view_for(uid))
 
 
+## Fable Nov 21 review: a boss's scripted event has been a pop-up that waits for a click or Space since Nov 19 (ScriptEventBanner). The
+## battle is "busy" while it waits, and every driver's loop only waited on "busy" - so no pilot answered it and each fight with a
+## scripted event sat there until the driver's time ran out (the dungeons smoke's "stuck after 6000 steps", the critics' unfinished boss
+## fights). A driver calls this while the battle is busy; true when a pop-up was answered.
+static func answer_event(ui_driver: UiDriver, battle: BattleScreen) -> bool:
+	if battle == null or not is_instance_valid(battle) or battle.script_banner == null or not battle.script_banner.is_waiting():
+		return false
+	await ui_driver.tap_key(KEY_SPACE)
+	await ui_driver.frames(6)
+	return true
+
+
 ## Performs one decision for the current human mode.
 func act() -> void:
 	var game: GameState = screen.game

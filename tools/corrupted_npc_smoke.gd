@@ -59,6 +59,8 @@ func run() -> void:
 		if battle.mode == BattleScreen.Mode.OVER and battle._result_panel != null:
 			break
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = battle.game.events.size()

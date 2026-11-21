@@ -183,6 +183,23 @@ func _run_line(line: String) -> void:
 			_scene_info()
 		"perf":
 			_perf_info()
+		"hitch":
+			# Fable Nov 21 review (Part 5): `hitch <Key> [seconds]` - taps the key and logs the longest frame of the next seconds (default
+			# 1.5): what opening a screen costs the first time and the second time
+			var hitch_code: Key = _keycode(parts[1] if parts.size() > 1 else "M")
+			var hitch_window: float = float(parts[2]) if parts.size() > 2 else 1.5
+			await driver.frames(3)
+			var hitch_started: int = Time.get_ticks_usec()
+			var hitch_last: int = hitch_started
+			var hitch_worst: int = 0
+			await driver.key(hitch_code, true)
+			await driver.key(hitch_code, false)
+			while Time.get_ticks_usec() - hitch_started < int(hitch_window * 1000000.0):
+				await get_tree().process_frame
+				var hitch_now: int = Time.get_ticks_usec()
+				hitch_worst = maxi(hitch_worst, hitch_now - hitch_last)
+				hitch_last = hitch_now
+			_say("  hitch %s: worst frame %.0f ms in %.1f s" % [parts[1] if parts.size() > 1 else "M", float(hitch_worst) / 1000.0, hitch_window])
 		"pilot":
 			await _pilot(float(parts[1]) if parts.size() > 1 else 60.0)
 		"skip_dialogue":
@@ -544,6 +561,8 @@ func _pilot(seconds: float) -> void:
 	var stuck: int = 0
 	while is_instance_valid(battle) and battle.mode != BattleScreen.Mode.OVER and float(Time.get_ticks_msec() - started) / 1000.0 < seconds:
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.seconds(0.2)
 			continue
 		# A tutorial tip reads like a player would, then presses Got it; a tip that holds the duel (the tutorial waits for a click the

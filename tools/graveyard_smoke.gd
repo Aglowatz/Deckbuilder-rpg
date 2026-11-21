@@ -65,6 +65,8 @@ func run() -> void:
 		if battle.game.players[1].field.size() > 0:
 			saw_a_summon = true
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = battle.game.events.size()

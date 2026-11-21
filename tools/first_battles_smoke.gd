@@ -88,6 +88,8 @@ func _gatekeeper() -> void:
 	while steps < 2000 and screen.mode != BattleScreen.Mode.OVER and screen.game.turn <= GATEKEEPER_TURNS:
 		steps += 1
 		if screen.busy or screen.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, screen):
+				continue
 			await driver.frames(2)
 			continue
 		await _act()
@@ -147,6 +149,8 @@ func _play_battle(number: int) -> String:
 			await driver.seconds(1.0)
 			return "won" if screen.game.winner == 0 else ("draw" if screen.game.is_draw else "lost")
 		if screen.busy or screen.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, screen):
+				continue
 			await driver.frames(2)
 			continue
 		var before: int = screen.game.events.size()

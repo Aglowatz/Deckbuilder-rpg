@@ -1,0 +1,78 @@
+# Fable Nov 21 review, Part 5: what opening the map (M) costs in each place, the first time and the second time
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 16
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev travel town
+wait 24
+skip_dialogue 80
+button Continue
+wait 1
+skip_dialogue
+calm
+log town
+hitch M 1.5
+key Escape
+wait 1
+hitch M 1.5
+key Escape
+wait 1
+dev travel zone gourmand
+wait 22
+skip_dialogue
+calm
+log buffet
+hitch M 1.5
+key Escape
+wait 1
+hitch M 1.5
+key Escape
+wait 1
+dev travel zone necrocrat
+wait 22
+skip_dialogue
+calm
+log dna
+hitch M 1.5
+key Escape
+wait 1
+hitch M 1.5
+key Escape
+wait 1
+dev travel capital
+wait 26
+skip_dialogue
+calm
+log capital
+hitch M 1.5
+key Escape
+wait 1
+hitch M 1.5
+key Escape
+wait 1
+hitch J 1.5
+key Escape
+wait 1
+hitch J 1.5
+key Escape
+wait 1
+hitch B 2
+key Escape
+wait 1
+hitch B 2
+key Escape
+wait 1
+hitch C 1.5
+key Escape
+wait 1
+hitch C 1.5
+key Escape
+wait 1

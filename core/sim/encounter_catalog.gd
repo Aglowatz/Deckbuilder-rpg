@@ -372,6 +372,9 @@ static func _kind_of(kind: DungeonMap.Kind) -> EncounterSpec.Kind:
 # ---- The arena's battles (puzzles are hand-made boards, not balance) ----------------------------------------------------------
 
 
+const ARENA_SIM_FALLBACK_LEVEL: int = 25
+
+
 static func arena() -> Array[EncounterSpec]:
 	var result: Array[EncounterSpec] = []
 	for encounter: ArenaEncounter in ArenaDefs.all():
@@ -382,7 +385,10 @@ static func arena() -> Array[EncounterSpec]:
 		spec.title = "Arena tier %d - %s" % [encounter.tier, encounter.enemy_name]
 		spec.group = "arena"
 		spec.kind = EncounterSpec.Kind.BOSS if encounter.tier >= 3 else (EncounterSpec.Kind.ELITE if encounter.tier == 2 else EncounterSpec.Kind.NORMAL)
-		spec.expected_level = ProgressionModel.level_for("arena:%d" % encounter.tier)
+		# Fable Nov 21 review: Diamond Sand (tier 4, added Nov 19) has no level in ProgressionModel.LEVELS, so the sim played it at
+		# level 1. The table also sets the game's prize multiplier (ArenaScenario.prize_factor), so the tier's level is assumed here,
+		# for the sim only: the Lab's level, the postgame.
+		spec.expected_level = ProgressionModel.level_for("arena:%d" % encounter.tier, ARENA_SIM_FALLBACK_LEVEL)
 		spec.enemy_name = encounter.enemy_name
 		spec.enemy_hp = encounter.enemy_hp
 		spec.enemy_ai_name = encounter.enemy_ai

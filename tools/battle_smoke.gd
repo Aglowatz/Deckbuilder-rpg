@@ -44,6 +44,8 @@ func _run() -> void:
 			_finish(true)
 			return
 		if screen.busy or screen.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, screen):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = screen.game.events.size()

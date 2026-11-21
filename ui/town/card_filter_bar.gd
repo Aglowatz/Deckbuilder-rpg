@@ -31,6 +31,10 @@ var pathless_selected: bool = false
 var show_search: bool = false
 var search_text: String = ""
 var search_box: LineEdit
+## The search box's own colours (Fable Nov 21 review): a dark walnut field, a gold hairline, a hint that reads at 5:1 or better.
+const SEARCH_FILL: Color = Color(0.11, 0.075, 0.05, 0.94)
+const SEARCH_BORDER: Color = Color(0.83, 0.66, 0.32, 0.7)
+const SEARCH_HINT: Color = Color(0.82, 0.76, 0.64)
 var _groups: Array[Array] = [[], [], [], [], []]
 
 
@@ -44,6 +48,18 @@ func _ready() -> void:
 		search_box.custom_minimum_size = Vector2(560, 40)
 		search_box.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		search_box.add_theme_font_size_override("font_size", 20)
+		# Fable Nov 21 review (polish): a field you can see and a hint you can read - the box was a faint grey veil on the wood and its
+		# hint a darker grey on top of it (contrast about 2:1); now dark walnut with a gold hairline, the hint in parchment
+		var field: StyleBoxFlat = UIStyle.box(SEARCH_FILL, SEARCH_BORDER, 1, 8)
+		field.content_margin_left = 12.0
+		field.content_margin_right = 8.0
+		search_box.add_theme_stylebox_override("normal", field)
+		var lit: StyleBoxFlat = field.duplicate() as StyleBoxFlat
+		lit.border_color = UIStyle.GOLD
+		lit.set_border_width_all(2)
+		search_box.add_theme_stylebox_override("focus", lit)
+		search_box.add_theme_color_override("font_placeholder_color", SEARCH_HINT)
+		search_box.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 		search_box.focus_mode = Control.FOCUS_CLICK  # typed with a keyboard; the controller's cursor skips it
 		search_box.text_changed.connect(func(typed: String) -> void: set_search(typed))
 		add_child(search_box)

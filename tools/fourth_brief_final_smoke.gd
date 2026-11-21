@@ -159,6 +159,8 @@ func _verify_equipment_effect_in_battle(piece: EquipmentData) -> void:
 					verified = true
 					break
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = battle.game.events.size()
@@ -230,6 +232,8 @@ func _attempt_the_graveyard(town: TownScene) -> void:
 			_shot(battle, "final2_09_graveyard_battle_escalating_summon")
 			shot_taken = true
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = battle.game.events.size()

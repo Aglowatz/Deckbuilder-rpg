@@ -59,7 +59,9 @@ func run() -> void:
 		for objective: QuestObjective in quest.objectives:
 			if objective.has_marker():
 				markers += 1
-	_check(markers == 0, "no objective has a world marker (%d)" % markers)
+	# Fable Nov 21 review: every objective has had a marker target since the quest audit of Nov 8-9 (a secret quest too, once it is
+	# found); the old check expected none.
+	_check(quest != null and markers == quest.objectives.size(), "every objective has its marker target (%d)" % markers)
 	_check(not town._locked, "the vision and its sting leave the hero free to move (town._locked false)")
 	_check(not town.dialogue.active, "the vision's dialogue is closed")
 	await _settle(town.dialogue)
@@ -122,7 +124,9 @@ func run() -> void:
 	for badge: RuleBadges.Badge in brief.badges:
 		names.append(badge.name)
 	_check(names.has(RULE_NAME), "the brief lists %s (%s)" % [RULE_NAME, ", ".join(names)])
-	_check(brief.find_child("RuleIconRow", true, false) != null, "the brief has the rule icons")
+	# Fable Nov 21 review: the brief is the illustrated card of Nov 12c; its rules are the rows under "RuleRows"
+	var rule_rows: Node = brief.find_child("RuleRows", true, false)
+	_check(rule_rows != null and rule_rows.get_child_count() >= 1, "the brief has its rule rows")
 	await driver.seconds(0.4)
 	await _shot("03_brief")
 	_check(await driver.click_button("Continue"), "the brief's Continue is clickable")
@@ -156,7 +160,22 @@ func run() -> void:
 	_check(Session.owned_equipment_ids().count(OldWellQuest.REWARD_EQUIPMENT_ID) == 1, "the Phial of First Water is owned once (%d)" % Session.owned_equipment_ids().count(OldWellQuest.REWARD_EQUIPMENT_ID))
 	_check(Session.old_well_stage() == OldWellQuest.Stage.DONE, "the stage is DONE")
 	_check(Session.pending_old_well_result.is_empty(), "the result is shown once")
-	_check(not town._locked, "the hero is free to move after the reveal")
+	# Fable Nov 21 review: the relic arrives in a reward box that waits for a press (Fable Nov 21, Part 5.5); the hero is free once it
+	# is answered. A box that could not be answered would still fail here.
+	# (the smoke's level-1 hero gains four levels from the quest's XP: the level-up pages take a press per row)
+	for _guard: int in range(60):
+		if not town._locked:
+			break
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.4)
+	if town._locked:
+		# say what holds the hero (a pop-up, an overlay, a talk, an arrival step)
+		var top: Control = PadFocus.top_root(get_tree())
+		print("%s: info  still locked: dialogue=%s overlay=%s top=%s arrival_active=%s popups=%d" % [TAG, str(town.dialogue.active), str(town._overlay),
+			(str(top) + " " + str(top.get_script().get_global_name() if top != null and top.get_script() != null else "")) if top != null else "none",
+			str(town.arrival_active), Session.pending_popups.size()])
+		await _shot("06_still_locked")
+	_check(not town._locked, "the hero is free to move after the reveal and its reward box")
 	_finish("")
 
 

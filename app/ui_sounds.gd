@@ -9,6 +9,8 @@ var _armed: bool = false
 ## `Audio.play_serial` as this frame began: a press taps only when no sound at all was asked for in its frame (whichever runs first, the screen's
 ## own handler or this hook).
 var _frame_serial: int = 0
+## How many drop-down choices have ticked (for the tests).
+var option_ticks: int = 0
 
 
 ## Overnight Nov 9, Part 2.2: a menu panel opened from the pause menu or the title (Settings, Glossary, Feats, Credits, save slots) opens
@@ -42,6 +44,10 @@ func _on_node_added(node: Node) -> void:
 		var button: BaseButton = node as BaseButton
 		button.mouse_entered.connect(_on_hover.bind(button))
 		button.pressed.connect(_on_pressed.bind(button))
+		# Fable Nov 21 review (polish): choosing a line of a drop-down list was silent (the press that opens the list tapped, the choice
+		# did not); it ticks like a slider notch now. A list set by its screen as it opens makes no sound: only the player's own choice.
+		if node is OptionButton:
+			(node as OptionButton).item_selected.connect(func(_index: int) -> void: _on_option_chosen(node as OptionButton))
 	elif node is TabBar:
 		(node as TabBar).tab_clicked.connect(func(_tab: int) -> void: Audio.sfx(&"ui_tab"))
 	elif node is TabContainer:
@@ -71,6 +77,13 @@ func _on_pressed(button: BaseButton) -> void:
 func _tap_unless_handled(frame_serial: int) -> void:
 	if Audio.play_serial == frame_serial:
 		Audio.sfx(&"ui_click")
+
+
+func _on_option_chosen(options: OptionButton) -> void:
+	if options.has_meta(&"no_ui_sound") or not options.is_visible_in_tree():
+		return
+	option_ticks += 1
+	Audio.sfx(&"ui_slider")
 
 
 func _on_slider(slider: Slider) -> void:

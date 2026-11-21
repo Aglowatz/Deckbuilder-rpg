@@ -57,9 +57,9 @@ static func describe(pack: PackData) -> String:
 	var parts: PackedStringArray = []
 	match pack.kind:
 		PackData.Kind.PATH:
-			parts.append("%d cards: %s cards and neutral cards." % [pack.card_count, Affinity.display_name(pack.path)])
+			parts.append("%d cards: %s cards and Pathless cards." % [pack.card_count, Affinity.display_name(pack.path)])
 		PackData.Kind.GILDED:
-			parts.append("%d cards: %s cards and neutral cards. An Epic or Legendary is guaranteed." % [pack.card_count, Affinity.display_name(pack.path)])
+			parts.append("%d cards: %s cards and Pathless cards. An Epic or Legendary is guaranteed." % [pack.card_count, Affinity.display_name(pack.path)])
 		PackData.Kind.PRISMATIC:
 			parts.append("%d cards from any Path, multi-Path cards included. One multi-Path card is guaranteed." % pack.card_count)
 		PackData.Kind.GENERAL:

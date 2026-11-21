@@ -814,6 +814,8 @@ func _pilot_fight(battle: BattleScreen) -> String:
 	var stuck: int = 0
 	while is_instance_valid(battle) and battle.mode != BattleScreen.Mode.OVER and float(Time.get_ticks_msec() - started) / 1000.0 < 420.0:
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.seconds(0.2)
 			continue
 		var got_it: Button = driver.find_button("Got it")
@@ -1516,6 +1518,7 @@ func _ai_fight(battle: BattleScreen) -> String:
 			var tip: Button = driver.find_button(text)
 			if tip != null:
 				await driver.click(driver.button_center(tip))
+		await BattlePilot.answer_event(driver, battle)  # Fable Nov 21 review: a boss's scripted event waits for a press since Nov 19
 		if battle.game != null and battle.game.turn != last_turn:
 			last_turn = battle.game.turn
 			last_change = Time.get_ticks_msec()

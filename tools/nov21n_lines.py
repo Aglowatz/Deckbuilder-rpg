@@ -5,7 +5,7 @@
    node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21n_lines.csv --apply
    node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21n_lines.csv --revert=docs/dialogue/nov21n_lines_ids.txt
 The dialogue is written in British spelling (colour 21 times, favour 20, grey 11, moustache, rumour, neighbour ...); these are the lines
-that were not. Game terms keep their own spelling (Defense, the Armor slot) and so do names (the Honor Guard, the Extraction Theater,
+that were not, and the two lines that still said "neutral cards" for Pathless cards. Game terms keep their own spelling (Defense, the Armor slot) and so do names (the Honor Guard, the Extraction Theater,
 Culinary Defense). Nothing else in a line changes."""
 import csv, os, re
 
@@ -24,6 +24,9 @@ WORDS = {
 HAND = [
     # the Deck Station's help line: the game's word is "Path" (the validator already says "Deck uses 3 Paths; limit is 2")
     ('ui/town/deckbuilder_screen.gd::_build::2', 'color%s', 'Path%s'),
+    # "neutral" was the word before "Colorless", which became "Pathless" on Nov 21: the two lines that still said it
+    ('data/story/intro_story.tres::town.vendor.first::1', 'half plain neutral cards', 'half plain Pathless cards'),
+    ('data/story/intro_story.tres::arena.arena_neutral_mile.rules::0', "(neutral cards)", "(Pathless cards)"),
 ]
 SKIP_ID_PARTS = ['::STEPS::']  # the battle tutorial's lines carry [color=...] tags and no prose in question
 

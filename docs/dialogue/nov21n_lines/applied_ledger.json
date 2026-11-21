@@ -96,5 +96,19 @@
 		"speaker": "(narration)",
 		"before": "The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone.",
 		"after": "The four colours rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.vendor.first::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "That starter deck of yours is half plain neutral cards, darling: honest, dependable and a little dull. The power is in the Paths, all four of them, so buy a few and put them to work at the Deck Station.",
+		"after": "That starter deck of yours is half plain Pathless cards, darling: honest, dependable and a little dull. The power is in the Paths, all four of them, so buy a few and put them to work at the Deck Station."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.arena_neutral_mile.rules::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "RESTRICTED DECK: you fight with the Gladiator's Kit (neutral cards), not your own deck.",
+		"after": "RESTRICTED DECK: you fight with the Gladiator's Kit (Pathless cards), not your own deck."
 	}
 ]

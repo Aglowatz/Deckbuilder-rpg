@@ -97,3 +97,15 @@ func test_the_credits_name_the_creator_and_the_tools() -> void:
 	assert_true(all_text.contains("made with AI tools, directed and curated by the creator"), "the art and music line")
 	assert_true(all_text.contains("design and writing are the creator's, with AI assistance"), "the design and writing line")
 	assert_true(all_text.contains("code was written with an AI coding assistant"), "the code line")
+
+
+## "neutral" was the word before "Colorless", which is "Pathless" since Nov 21: the pack descriptions, Sable's first talk and the
+## Neutral Mile's rule line still said "neutral cards" (the bout keeps its name).
+func test_no_shown_text_calls_pathless_cards_neutral() -> void:
+	for pack: PackData in PackCatalog.all():
+		assert_false(PackShop.describe(pack).to_lower().contains("neutral"), "%s: %s" % [pack.id, PackShop.describe(pack)])
+	var path_pack: PackData = PackCatalog.find("path_beefcake")
+	assert_true(PackShop.describe(path_pack).contains("Beefcake cards and Pathless cards"), PackShop.describe(path_pack))
+	for path: String in DIALOGUE_FILES:
+		if FileAccess.file_exists(path):
+			assert_false(FileAccess.get_file_as_string(path).contains("neutral cards"), "%s still says 'neutral cards'" % path.get_file())

@@ -277,6 +277,9 @@ func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
 	var what: Label = UIKit.label(PackShop.describe(pack), &"MutedLabel", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	what.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	what.custom_minimum_size = Vector2(SLOT_WIDTH, 44)
+	# Fable Nov 21 review (polish): the description takes the slack, so every Open button sits on one line along the bottom of the shelf
+	# (a pack with a two-line name or a three-line description pushed its own button lower than its neighbours')
+	what.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	slot.add_child(what)
 	var open: FancyButton = FancyButton.make("Open", &"PrimaryButton", Vector2(170, 46))
 	open.name = "Open_%s" % pack.id

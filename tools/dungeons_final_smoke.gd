@@ -63,6 +63,21 @@ func _tutorial() -> void:
 			break
 		# Lost: the run was abandoned and the starting area is up; try the Trial again.
 		await driver.seconds(2.0)
+	# Fable Nov 21 review: the Warden's last words and the cave's reward box come between the boss and "Step outside" now and each
+	# waits for a press; the smoke's reward handler knew neither, so the two checks below ran too early (the town still opened).
+	var settle: int = 0
+	while not Session.profile.intro_dungeon_cleared and not (get_tree().current_scene is TownScene) and settle < 60:
+		settle += 1
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.4)
+		var scene_now: Node = get_tree().current_scene
+		if scene_now is RewardsScreen:
+			for text: String in ["Take", "Continue", "Step outside", "Enter town"]:
+				var button: Button = driver.find_button(text, scene_now)
+				if button != null:
+					await driver.click(driver.button_center(button))
+					await driver.seconds(0.4)
+					break
 	_check(cleared and Session.profile.intro_dungeon_cleared, "beating the Heart of the Hollow cleared the trial")
 	# First clear: "Step outside" goes straight to Crosspath beside Elder Maren (Playtest v0.4.0 Part C), whose welcome plays as the town appears.
 	_check(Session.flag(&"trial_cleared"), "'Step outside' with the trial cleared")
@@ -421,6 +436,8 @@ func _play_battle(battle: BattleScreen) -> void:
 		if battle.mode == BattleScreen.Mode.OVER and battle._result_panel != null:
 			break
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			if await BattlePilot.answer_event(driver, battle):
+				continue
 			await driver.frames(4)
 			continue
 		var before: int = battle.game.events.size()

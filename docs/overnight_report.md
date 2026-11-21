@@ -1,3 +1,66 @@
+# Fable Nov 21 review - report: the launch readiness review
+
+Brief: `docs/prompts/fable_nov21_launch_review.md`. Start tag `pre-fable-nov21-review`. Questions: `docs/overnight_inbox.md`,
+"Fable Nov 21 review". Shots: `docs/overnight_shots/nov21r/`. **Nothing was uploaded.** One commit per part, all pushed.
+
+<!-- NOV21R-STATUS -->
+
+## Part 1 - your answers to "Fable Nov 20 day"
+
+| # | Your answer | Done |
+|---|---|---|
+| 1 | The Buffet's map redo stays in Batch 19; the D.N.A. row optional, not wanted for now | `docs/art/batch19.csv`: the Buffet row "confirmed", the D.N.A. row "Optional - not wanted for now; do not make" |
+| 2 | The Raw Deal's flat front stays; check it at +12 and +14 degrees | Checked at +6, +12 and +14 from the door and from both sides (`p1/rawdeal_tilt*.jpg`). The painting carries its own roof in perspective and the camera never turns, so it reads as a building at every preset. **Nothing changed**; the modelled roof stays hidden. |
+| 3 | The manhole stays | nothing to do |
+| 4 | Glass and gold stay side by side; add the rose window above the title menu if it fits | The rose window tops the title menu (`p1/title_rose.jpg`, before: `p1/title_before.jpg`). The buttons stay where they were; it sits in the free sky to their upper right and crowds nothing. |
+| 5 | The slate Quit / Delete and "Done" stay | nothing to do |
+| 6 | The info screens follow the Text size setting | Built: `ui/glass/menu_text.gd` (MenuText). Every glass screen (pause menu, settings, quest log, glossary, feats, credits, save and load, the map's legend, the quest box, pop-ups and notices) grows with the row now named "Tooltip and menu text size"; the Text size switch sets it with the others. Large is 1.15, Larger 1.3 (milder than the tooltips' 1.2 / 1.4, because a page's panes must still hold their text). Cards keep their own row. Shot at Large (1600 x 900) and at Larger (1280 x 720), 19 screens each: `p1/large_*.jpg`, `p1/larger_*.jpg`. **Nothing overflows or clips.** On the way: the feats list ran under its scroll bar ("Earned here"); fixed. |
+| 7 | Look at the five zone maps in the exported game; add a 2048 px rule if they look soft | Looked at all five on M in the exported build (`p1/exported_map_*.jpg`). They are sharp: the map is drawn about 760 px tall at 1600 x 900 and about 900 px at 1080p, and the stored picture is 1536 px. **No rule added.** One correction to last night's note: the project's own files are already 1536 px (the Nov 20 import stored them at that size), so a 2048 px rule alone would change nothing; the 2048 px originals would have to be imported again (about 0.5 MB per map, 2.5 MB in all, and only a 4K screen would show it). Inbox 1. |
+
+## Part 2 - the playthrough audit
+
+**What was played.**
+
+| Run | What it covers | Result |
+|---|---|---|
+| The story bot, once per Path (`bash tools/run_story_bot_nov21r.sh <path>`) | A new game to the postgame: the forest and the cave, the gatekeeper duel, each zone's road, favour, side dungeon and main dungeon to its boss, Maren's four memories, the cave-mouth scenes, the Undercroft, the Capital, the castle gate, Primm, the ending, the funeral, Isla, the Lab, Elowen's rescue, the Shattered Gallery, Mount Swolympus; **a save and a load at every zone change and in the middle of a dungeon**. Each Path plays its own zone first, so the four runs are four zone orders. The fights are won by decree in these runs (the bot checks the flow, not the balance). | **119 checks each, 0 failed, 0 script errors** (8 minutes a run). The only warnings in the four logs are the engine's own leak lines at exit. |
+| The opening-hour smoke (keyboard) | Maren's early chain really played: Meet the Merchants with a card bought, Tilly's gift equipped, Make It Yours with a pack opened, the store room ghosts, level 5, Bertram's quest (the story bot decrees this chain) | OK |
+| The controller smoke | The same hour with a controller only: the Path choice, the gate, Maren, Sable's shop, a pack, the Deck Station, a ghost duel turn, level 5, Bertram, the menus, the pause menu | OK, **after the smoke was brought up to date** (finding 8) |
+| The quest audit (`bash tools/quest_audit.sh`) | Every quest can be finished on paper: prerequisites, steps, markers, hand-ins, reward ids | 56 quests, 0 errors, 0 warnings |
+| The quest hand-in probe | Every quest that is handed in to somebody, in the game: the hero on that NPC's spot, E, the quest completes | 32 of 32 |
+| The tour bot at 1280 x 720 | Every area, every spot (287: NPCs, shops, signs, chests), nine menus, one battle per zone | 0 errors, 0 warnings |
+| The layout check | 13 screens (the Deck Station, the five shops, the tailor, the alchemist, the Wardrobe, the Character page, the Collection Book, the bestiary, the quest log, the maps) at 1280 x 720 and 1920 x 1080 | 0 overflowing, 0 clipped |
+| A features script (`play_scripts/nov21r/p2_features.txt`, 1280 x 720) | All 12 pack types on the shelf and "Open all"; the tailor, the Wardrobe, the Deck Station, the Character page, the Collection Book, Feats; **all six Arena battles and all four puzzles** started from the Undercroft and won, the tier prize paid | 0 script errors (`p2/f*.jpg`) |
+| Each Crosspath shop with the controller (`p2_pad_shops.txt`) | A opens the talk and then the shop, B leaves | works (`p2/pad_*.jpg`) |
+| Old saves (`tests/core/data/test_old_saves_nov21.gd`) | Four real bot saves from **Nov 9 and Nov 16** (before the three-copies rule, the three-Path lock, the heal rooms, the renames): a mid-dungeon save, two zones freed, the postgame, and "ready for the Capital" | All four load. Level, XP, every card (up to the cap of three), gold, quests, gear, items, unopened packs, cosmetics, flags and cleared dungeons are kept; the active deck is a legal 45 cards at once; a second save and load changes nothing. |
+| Every choice room of every dungeon (`tests/core/dungeon/test_event_rooms_never_trap_nov21.gd`) | The new heal rooms and the older events: a hero with no gold and 1 HP | Always a choice that costs nothing and does not end the run; every choice resolves; a choice one gold short is refused with a reason and changes nothing |
+
+**Findings.**
+
+| # | Severity | What | State |
+|---|---|---|---|
+| 1 | bad | **Recipe for Wonder (G-31) cost less than its text says.** The card reads "Pay 1(G), use three Ingredients, destroy this Tool"; the script charged only (G). A new test now compares every card's printed energy costs and printed keywords with its script: this was the only card of 358 that differed. | **fixed** (the script charges 1(G); `tests/core/data/test_card_text_matches_script_nov21.gd`) |
+| 2 | minor | **"neutral cards" for Pathless cards** in three places: every Path Pack's and Gilded Pack's description, Sable's first talk, and the Neutral Mile's rule line ("neutral" was the word before "Colorless"). The bout keeps its name. | **fixed** |
+| 3 | minor | **"colors" for Paths** in the Deck Station: the tip ("at most 2 colors"), the filter's first entry in shops ("All colors"), the Fill Infrastructure tooltip | **fixed** |
+| 4 | minor | **Fourteen dialogue lines in American spelling** where the rest of the dialogue is British ("four colors" in the wake-up still and two memories, "center", "favorite", "recognize"). No real typo was found in 15,900 strings; names agree with the registry. | **fixed**, single lines, revertible (Part 4) |
+| 5 | minor | **The feats list ran under its scroll bar** ("Earned here" lay under the bar) | **fixed** |
+| 6 | minor | **The glossary did not name two rules added since Nov 17:** essence (what becomes of a fourth copy, the 18 cap, the Alembic's 6 essence and 100 gold) and the dungeons' resting places | **fixed** (two entries under Terms) |
+| 7 | minor | **The quest log handed out its live lists when saving.** Every save path writes to disk at once, so no save was ever affected; a dictionary kept in memory would have been emptied by the next reset. | **fixed** (it hands out copies) |
+| 8 | minor | **Three smokes had gone out of date** and failed without a fault in the game. The controller smoke: Tilly's gift is a reward box since Nov 21 and waits for a press; the smoke's next A closed the box instead of greeting Pip. The Old Well smoke: its level-1 hero gains four levels from the quest's XP and the smoke did not press through the level-up pages (it also expected the old brief layout and no markers on the quest's steps). The dungeons smoke: it checked the cave's clear before the Warden's closing words and the reward box were answered. | all three **brought up to date and green** (controller: OK; Old Well: 48 checks; dungeons: 0 failures) |
+| 8b | bad (for the tools, not the player) | **No automated fight pilot could finish a fight with a scripted event since Nov 19.** A boss's or elite's scripted event is a pop-up that waits for a click or Space ("Master...?", `p2/pilot_stuck_at_event.jpg`). The battle counts as busy while it waits, and every driver only waited on "busy": the dungeons smoke's "stuck after 6000 steps", the play driver's `pilot`, the story bot's real fights and the critics' sittings all sat at the pop-up until their time ran out. It closes for a player with a click, Space, Enter, or the controller's A or X. | **fixed**: `BattlePilot.answer_event`, called by ten driver loops. The next real-fight bot run or critic sitting can finish boss fights again. |
+| 9 | minor | **Two people in the Gainlands have no "freed" lines:** Gary still lies under "the last barbell they didn't confiscate" although Brenda now says he is "lifting with a proper spotter at last", and the rep-game host still says "the regime banned my show". Quiz masters and minigame hosts in the other zones have no freed lines either, but say nothing that dates. | **open** (new lines are yours to write; two would do) |
+| 10 | minor | **The locked Necrocrat pack in Foil Fenwick's shop is not a sealed parcel** like the other three (Batch 18's picture is a violet pack with a small padlock), so it reads as an open pack in a row of sealed ones (`p2/f09_fenwick.jpg`) | **open**: a row in `docs/art/batch19.csv` |
+| 11 | note | **An old save's essence above 18 per Path is trimmed on loading** (the Alembic's cap of Nov 19, as designed; the four fixtures hold less, so the tests could not show it). Copies above three become essence or gold, as designed. | by design |
+| 12 | note | **"Own 4/3" in the Collection Book** appears only in a state made by the developer shortcut (`Session.ensure_game` adds the Path's three showcase cards past the cap); a played game cannot reach it (every grant goes through `add_cards`, which converts a fourth copy). | not a player issue |
+
+**Checked and found clean:** softlocks and dead ends (the dungeon maps are walked by a completionist and by random walkers in `test_map_never_strands.gd`; the choice rooms above; the story bots); quest markers and hand-ins (the audit and the probe); duplicate or missing rewards (a quest's gear is never in a shop or a chest roll: `ChestLoot.TIER_GEAR` leaves quest and dungeon pieces out, and a chest whose piece is owned holds its stand-in); cards that can be lost (a "lose a card" room takes it from the run's deck only); pop-ups (a notice closes with a click, Enter, Space, E, Esc, A or B); the renames (Colorless and Patchwork Cloak only in save-safe ids, Omakase only in asset names and the Itamae's own word).
+
+**Controller.** Every screen the smokes and scripts reached is usable with a controller. The known gap stays: the Deck Station's search box cannot be typed into (deferred by you).
+
+**Not covered by a machine:** real fights from start to finish (the last full real-fight runs were Nov 9 and Nov 17; Part 3's sims play every fight, but not through the screens), and the walk between places by hand (the walk smokes of Part 9 cover reachability).
+
+---
+
 # Fable Nov 21 night - report: the launch file was last night's brief; checked, tested and exported
 
 Brief: `docs/prompts/fable_nov21_night_launch.md`. Start tag `pre-fable-nov21-night`. Questions: `docs/overnight_inbox.md`,

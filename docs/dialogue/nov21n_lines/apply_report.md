@@ -12,8 +12,8 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 14
-- Applied: 14
+- Rows: 16
+- Applied: 16
 - Skipped (blank new line, unchanged, or applied before): 0
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
@@ -25,17 +25,19 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Prologue (Opening Forest) | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
-| Crosspath (first visit) | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 4 | 4 | 0 | 0 | 0 | 0 | 0 |
 | Verdant Dump | 3 | 3 | 0 | 0 | 0 | 0 | 0 |
 | Crosspath (between zones) | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
 | Postgame | 6 | 6 | 0 | 0 | 0 | 0 | 0 |
 
-## Applied (14)
+## Applied (16)
 
 | id | Before | After |
 |---|---|---|
 | `data/story/intro_story.tres::still.wake::1` | A faint glow of four colors is fading from your hand, like a thought you almost had. | A faint glow of four colours is fading from your hand, like a thought you almost had. |
+| `data/story/intro_story.tres::town.vendor.first::1` | That starter deck of yours is half plain neutral cards, darling: honest, dependable and a little dull. The power is in the Paths, all four of them, so buy a few and put them to work at the Deck Station. | That starter deck of yours is half plain Pathless cards, darling: honest, dependable and a little dull. The power is in the Paths, all four of them, so buy a few and put them to work at the Deck Station. |
 | `data/story/intro_story.tres::arena.arena_neutral_mile.blurb::0` | The Marshal's favorite warm-down: no Paths, no tricks, no excuses. Everyone fights with a borrowed gladiator's kit. | The Marshal's favourite warm-down: no Paths, no tricks, no excuses. Everyone fights with a borrowed gladiator's kit. |
+| `data/story/intro_story.tres::arena.arena_neutral_mile.rules::0` | RESTRICTED DECK: you fight with the Gladiator's Kit (neutral cards), not your own deck. | RESTRICTED DECK: you fight with the Gladiator's Kit (Pathless cards), not your own deck. |
 | `ui/town/deckbuilder_screen.gd::_build::2` | Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom. | Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d Path%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom. |
 | `data/story/refusemancer_story.tres::dungeon.rh_treant.blurb::0` | The oldest tree in the Dump, grown into the Rotheart. It doesn't recognize you, or anything else, any more. (Elite) | The oldest tree in the Dump, grown into the Rotheart. It doesn't recognise you, or anything else, any more. (Elite) |
 | `data/story/refusemancer_story.tres::dungeon.rh_roots.before::0` | Every tendril in the Dump runs to this one place. At its center, wrapped in roots and humming, hangs a seed the size of a fist. | Every tendril in the Dump runs to this one place. At its centre, wrapped in roots and humming, hangs a seed the size of a fist. |
