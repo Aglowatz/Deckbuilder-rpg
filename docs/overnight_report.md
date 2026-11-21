@@ -3,7 +3,27 @@
 Brief: `docs/prompts/fable_nov21_launch_review.md`. Start tag `pre-fable-nov21-review`. Questions: `docs/overnight_inbox.md`,
 "Fable Nov 21 review". Shots: `docs/overnight_shots/nov21r/`. **Nothing was uploaded.** One commit per part, all pushed.
 
-<!-- NOV21R-STATUS -->
+**In one paragraph.** The game holds together. Four automated playthroughs (one per Path, a new game to the postgame, a save
+and a load at every zone change) pass all 119 checks each with no script error; old saves from Nov 9 and Nov 16 load and keep
+everything; no quest, choice room or dungeon map can strand a player; nothing clips at 720p or 1080p or at the Larger text
+size. One rules bug was found and fixed (a card that cost less than its text says). The balance is where the last pass left
+it, except that the Arena is far too easy, as you said, and now has a table of simulated proposals waiting for your ticks.
+What is left before 1.0 is mostly yours: play the exported game with real fights, tick the Arena table, edit the page. **Part 9
+is not finished:** the Godot editor has been open on this project since 11:50 and holds the PC's memory, so the full test run stopped at shard 12 of 46 and 1.0.0 was not exported (Part 9 below has the block that finishes it).
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Your answers | yes | all seven; the rose window on the title; the menus follow the Text size setting; the maps are sharp, no rule added |
+| 2 The playthrough audit | yes | 14 findings: 1 bad (fixed), 1 bad for the tools only (fixed), 8 minor fixed, 2 minor open (yours), 2 notes. No blocker. |
+| 3 The balance report | yes | `docs/balance_report_nov21.md`; no number changed. The Lab's and half the Hall's whole-run rows were cut for time. |
+| 4 Text polish | yes | no misspelling in 15,928 strings; 16 lines to the dialogue's own spelling (revertible); 1 card fixed; 2 glossary entries |
+| 5 Performance and size | yes | 60 fps or more everywhere on Medium; no leak; one safe win (the map opens faster); nothing unused worth cutting |
+| 6 Small polish | yes | 8 items with tests and shots |
+| 7 Release preparation | yes | drafts in `docs/release/`: page text, 8 screenshots and a cover, known issues, player read-me, checklist; credits fixed |
+| 8 The two-week plan | yes | `docs/release/two_week_plan.md` |
+| 9 Tests, build, report | **no** | suite: shards 1 to 12 of 46 only; walk smokes, probes and the export not run; the zip in `builds/` is last night's |
 
 ## Part 1 - your answers to "Fable Nov 20 day"
 
@@ -60,6 +80,299 @@ Brief: `docs/prompts/fable_nov21_launch_review.md`. Start tag `pre-fable-nov21-r
 **Not covered by a machine:** real fights from start to finish (the last full real-fight runs were Nov 9 and Nov 17; Part 3's sims play every fight, but not through the screens), and the walk between places by hand (the walk smokes of Part 9 cover reachability).
 
 ---
+
+## Part 3 - the balance report (measured; no number changed)
+
+**The report: `docs/balance_report_nov21.md`.** Raw tables: `docs/design/sim/nov21r/`. New tools: `tools/sims_nov21r.sh` (the
+groups at the last pass's seed and size), `tools/balance_compare_nov21.py` (today beside the last pass), `tools/dungeon_runs_nov21.gd`
+(whole dungeon runs along the maps' own routes, the heal room four ways) and `tools/arena_proposals_nov21.gd` (the Arena as it is
+and 41 proposed rows). 60 fights at 8 games a Path, the Arena at 12 to 20, 286 whole dungeon runs.
+
+The headlines:
+
+1. **The Nov 21 changes moved little.** 47 of the 55 fights that have an earlier number are within 10 points of it. The foe's
+   two-Infrastructure opening hand did not make ordinary fights harder (the gatekeepers: 66 to 81 %, as before). The three-Path lock
+   moves nothing before the postgame.
+2. **The heal rooms cost HP, not clears.** The same run continued four ways from the heal room: the old full heal and today's
+   "5 HP for gold" differ by 0 to 3 points of first-try clear rate in every dungeon and by 0 to 4 HP after the boss; the free
+   choice with its drawback costs up to 5 points in the House of Gains only. **Raising the heal from 5 to 7 would change almost
+   nothing.**
+3. **Whole dungeons as runs (never measured before):** first-try clears by an on-level hero, all Paths: **the House of Gains
+   23 %**, the Hall of Final Approvals 38 %, the Rotheart 50 %, the Test Kitchen 65 %. In the House of Gains half of all runs end
+   before the heal room, a third of them at Vivienne Quota. This is not a Nov 21 effect.
+4. **Far off** (a fair deck below 35 %): no fight for all Paths together, but five single cells: **Beefcake against Mortimer 0 %**
+   (0 of 8 fights and 0 of 10 runs), Refusemancer against Clench 0 %, Beefcake against Compostella 13 % and against Siphon 13 %
+   (100 % with Elowen rescued), Gourmand against the optional Warden of the Four Seals 13 %. **Above 95 %:** the ordinary rooms
+   (by design), Primm's first two phases taken alone (97 %; his three phases on one HP pool are the number that matters),
+   the Cannon-Blender Gunner and the Clocktower Sentinel (elites at 97 %).
+5. **The Arena, as you said: far too easy.** Rookie 98 %, Sentinel 100 %, Four Fists 91 %, Grand Bellows 88 %, the Unbound
+   champion of Diamond Sand 98 %. More HP alone does almost nothing. **A table of one proposed row per battle, each simulated into
+   its band, is in section 2 of the report** (Bellows: 64 HP and "+1/+1 to his units" -> 54 %; Unbound: 80 HP, Crossroads, one
+   more card and "+4/+4" -> 50 %). Nothing was changed. The sim cannot judge the spells-only bout. Diamond Sand had no player
+   level in the sim's table (it was played at level 1); the sim now assumes 25, and the game's table, which also sets the prize
+   multiplier, is untouched.
+6. **The economy:** a no-grind run earns **23,131 gold against the 21.2k target (+9 %)**. By the game's own prices "three copies
+   of every card plus every multi-Path card brewed" costs about 75,800 gold today (56,600 on Nov 8; a brew is 6 essence a Path
+   again), of which a no-grind run's leftover covers about a sixth.
+
+## Part 4 - text polish
+
+**4.1 Spelling and grammar.** Every player-facing string was gathered into one table (`python tools/text_audit_nov21.py`: 15,928
+strings: the dialogue export, card names, rules and flavour, quests, every string in the data files, and every sentence-like literal
+in the game's scripts). No dictionary could be installed on this PC, so I read the 3,283 words that occur only once or twice myself,
+and ran mechanical checks over all of it (double spaces, a space before punctuation, doubled words, missing apostrophes, a lower-case
+start after a full stop).
+
+- **No misspelt word was found.** The mechanical hits are all meant (Kyle's lower-case speech, layout spaces in HUD hints).
+- **Names agree with the registry:** every capitalised word one letter away from an NPC's name was checked (Plumb is Gideon Plumb,
+  not Plume, and so on); none is a slip.
+- **One consistency fix, 16 single lines:** the dialogue is written in British spelling (colour 21 times, favour 20, grey 11,
+  moustache, rumour, neighbour) and fourteen lines were not ("four colors" in the wake-up still, two memories and the Lab scenes;
+  "center" three times; "favorite"; "recognize"); two more still said "neutral cards" for Pathless cards. Game terms keep their own
+  spelling (Defense, the Armor slot) and so do names (the Honor Guard, the Extraction Theater, Culinary Defense, the Neutral Mile).
+  The lines: `docs/dialogue/nov21n_lines.csv`. **Revert:**
+  `node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21n_lines.csv --revert=docs/dialogue/nov21n_lines_ids.txt`
+  (tried once: 14 of 14 lines went back, then the 16 were applied again).
+- **Interface strings fixed in place** (not dialogue): "at most N colors" -> "Paths" in the Deck Station's tip, "All colors" ->
+  "All Paths" in the shops' filter, "your deck's colors" -> "Paths" in the Fill Infrastructure tooltip, "neutral cards" ->
+  "Pathless cards" in every pack's description, "Oooh, that's my favorite!" (Tilly) and the level 19 headline "Seasoned traveler".
+- **Left for your sheet** (card names and flavour come from the card sheet, and an import would put them back): "Stock The Pantry"
+  (G-25: a capital The inside a title; "Sent Back to the Kitchen" has it small), "The Recycling Center" (R-26), "honor" in two
+  flavour lines (G-23, T-23), "favor" in one (NR-16), and "Draw 2 cards" on N-18 and N-20 where C-14 and GN-10 say "Draw two cards".
+
+**4.2 Card text against card rules.** A new test (`tests/core/data/test_card_text_matches_script_nov21.gd`) reads all 358 cards and
+tokens and compares, for each: the energy every ability asks for in its text ("Pay 1(G)" is one of any Path plus one Gourmand)
+with what its script charges, and the keywords printed as the card's own with the keywords its script gives it. I also read
+every card's text beside its script once, line by line.
+
+| Card | What differed | Fixed |
+|---|---|---|
+| **G-31 Recipe for Wonder** | Text: "Pay 1(G), use three Ingredients, destroy this Tool: put a random Wonder from your deck onto the field." Script: `pay(G)` - one energy too cheap. | the script: `pay(1G)` (`data/scripts/cards_gourmand.txt` and the card file). The text is the sheet's and stays. |
+
+Every other card's text and script agree: 357 of 358.
+
+**4.3 The glossary and the tutorial.** The rules added since Nov 17, and where a player reads them now:
+
+| Rule | Where |
+|---|---|
+| You can own three copies of a card | Glossary > Terms > "Copies of a card" (it was there); the Deck Station's tip; the pack tip |
+| The three-Path lock until Primm | Glossary > Terms > "Three- and four-Path cards" (it was there); the Deck Station's pop-up; the Collection Book |
+| The copy notice, essence, and the Alembic's 6 and 18 | **new:** Glossary > Terms > "Essence": a copy beyond three becomes essence of its Path (or gold if Pathless) and a notice says so; a Path holds at most 18; Auntie Alembic brews a two-Path card from 6 of each and 100 gold. The numbers are read from the rules, so they cannot drift. |
+| The heal rooms | **new:** Glossary > Terms > "Resting places": HP is not restored between a dungeon's fights; a resting place heals 5 HP for a price or lets you walk on; only the cave and the castle heal in full (a test fails if that stops being true). |
+| Pathless | Glossary > Terms > "Pathless" (it was there) |
+
+The battle tutorial itself teaches none of these (they are not battle rules) and was not changed.
+
+## Part 5 - performance and size
+
+Measured on the development PC (Ryzen 5 4500U, integrated Radeon graphics, 7.4 GB RAM) in a 1600 x 900 window, vsync off, one
+Godot at a time: `bash tools/perf_run.sh n21r "L 1"` (the table: `docs/perf/runs/n21r.md`). "Before" is the last full run,
+Nov 19 (`nov19b_fade_before.md`), which had no Low-end column; the probe can now run the Low-end preset (`"L"`).
+
+| Place | Medium fps (Nov 19 -> Nov 21) | 1% low | Low-end preset fps (cap lifted) | 1% low | Load (s) | RAM (MB) | Video memory (MB) |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Title screen | 289 | 270 | 294 | 240 | 0.3 | 765 | 124 |
+| Crosspath | 77.3 -> 74.5 | 41.8 | 77.3 | 33.3 | 5.3 | 1673 | 878 |
+| The opening forest | 94.4 | 85.7 | 97.4 | 93.4 | 2.0 | 884 | 256 |
+| The Gainlands | 83.0 -> 83.2 | 49.2 | 84.8 | 29.3 | 3.9 | 1430 | 702 |
+| The Endless Buffet | 82.5 -> 78.4 | 52.4 | 82.5 | 60.0 | 3.7 | 1361 | 624 |
+| The D.N.A. | 81.6 -> 75.1 | 50.0 | 77.5 | 53.7 | 4.3 | 1360 | 641 |
+| The Verdant Dump | 75.6 -> 72.7 | 55.4 | 76.9 | 48.9 | 4.8 | 1441 | 732 |
+| The Capital, outside the wall | 63.3 | 60.0 | 62.0 | 27.7 | 6.0 | 1665 | 869 |
+| The Capital, inside | 67.7 -> 66.5 | 60.0 | 67.9 | 56.8 | 6.0 | 1678 | 874 |
+| A battle | 350 | 300 | 355 | 330 | 0.4 | 801 | 169 |
+| A dungeon map | 470 | 420 | 425 | 360 | 0.9 | 777 | 124 |
+| The Deck Station | 116 | 58.6 | 114 | 32.3 | 5.3 | 1628 | 850 |
+| The Collection Book | 144 | 110 | 146 | 105 | 4.8 | 1561 | 800 |
+| A shop | 166 | 110 | 164 | 117 | 4.8 | 1625 | 813 |
+
+How to read it:
+
+- **Every place holds 60 frames a second on Medium.** The zones are 2 to 8 % slower than on Nov 19 (the glass screens, Batch 18's
+  pictures, the round window in three more shaders); this laptop drifts by about 10 % with heat, so most of that is inside the
+  noise. The Capital is the tightest (63 to 66).
+- **The Low-end preset is not faster here when its cap is lifted,** because its dynamic resolution raises the picture back up as
+  soon as there is headroom. In the game it runs at its 30 fps cap with a wide margin on this PC; on a weaker one the resolution
+  drops first. On that preset the "1% low" dips to 28 to 33 in three places (Crosspath, the Gainlands, outside the Capital's
+  wall); the likely cause is the resolution changing step during the six-second sample, which I did not confirm.
+- **Loading:** the title is up 0.3 s after its scene starts; a battle opens in 0.4 s; a zone takes 3.7 to 4.8 s; Crosspath
+  5.3 s; the Capital 6.0 s. These are the editor's numbers; the exported game's own are in Part 9.
+- **Memory:** the process holds 0.8 GB at the title and in battles, 1.3 to 1.7 GB in the open places (the editor run; the
+  exported game is lower), video memory 0.6 to 0.9 GB. The numbers are level with Nov 19 (Crosspath 1665 -> 1673 MB, 865 -> 878 MB).
+- **No leak:** eight round trips Crosspath -> a zone -> Crosspath (`bash tools/run_memory_roundtrip_smoke.sh --trips=8`): static
+  memory +2.2 MB, video memory +4.5 MB over the eight. The smoke's third check (the object count, +379) is over its own limit; 259
+  of those arrive on one trip (the Buffet's first full visit after the warm-up lap) and the rest are about 15 objects a trip,
+  under 0.3 MB. I left it; if you want it chased, it is a half-day job with the object-snapshot tool.
+
+**Safe wins taken (nothing looks different):**
+
+| What | Before | After |
+|---|---|---|
+| **Opening the map (M)** built a second copy of the picture the minimap already keeps: one script call per cell, 18,000 cells in Crosspath, 33,000 in the Capital. The full map now uses the minimap's picture (`MapRaster.shared_or_build`). Longest frame after pressing M (`play_scripts/nov21r/p5_map_hitch.txt`): | Crosspath 401 ms the first time, 169 after; the Buffet 157 / 141; the D.N.A. 203 / 167; the Capital 182 / 172 | Crosspath 318 / 110; the Buffet 140 / 124; the D.N.A. 129 / 121; the Capital 162 / 147 |
+
+Looked at and left alone:
+
+- **Unused files in the pack:** `node tools/reference_graph.js --list` finds 113 unreferenced files, 0.7 MB of an 867 MB pack
+  (old icon sizes, a few game-icons). Not worth a rule.
+- **The largest files** are the music (3 to 6 MB a track at Vorbis q6, your choice of Nov 3). No big texture is unused.
+- **Shaders compiled at a bad moment:** the tour bot's worst frames (editor run, nothing baked) are the arrival in Crosspath
+  (403 ms) and in the Capital (433 ms). The export bakes the D3D12 shaders, which is what keeps a player's first sight of a
+  place from compiling them; I found nothing in the game's code to move.
+- **The other screens' opening pause** (the quest log 70 to 80 ms, the Character page 75 to 80 ms, the Deck Station 140 to 170 ms):
+  building the page's controls; within a blink, and a rewrite would not be a "safe win".
+- **The remaining 110 to 160 ms of the map's opening** is the legend, the icons and the glass frame being built; the same kind.
+
+**Download size:** see Part 9 for the zip made today. The pack was 888 MB and the zip 768 MB last night; nothing in this pass
+adds more than a few hundred KB (eight screenshots and a cover live in `docs/`, which is not packed).
+
+## Part 6 - small polish a player would notice
+
+Eight things, no new art, no design change, each with a test. Shots: `docs/overnight_shots/nov21r/p6/` (1280 x 720).
+
+| # | What | Before | After |
+|---|---|---|---|
+| 1 | **The Card Packs shelf: the Open buttons stand in one line.** A pack with a two-line name or a three-line description pushed its own button lower than its neighbours', so the row of buttons zigzagged. The description takes the slack now, and the buttons keep clear of the shelf's scroll bar. | `packs_before.jpg` | `packs_after.jpg` |
+| 2 | **Pack descriptions say "Pathless cards".** Every Path Pack and Gilded Pack said "Beefcake cards and neutral cards" (the word before "Colorless", which became "Pathless" on Nov 21). | `packs_before.jpg` | `packs_after.jpg` |
+| 3 | **The Deck Station's search box can be read.** It was a faint grey veil on the wood with a darker grey hint in it (about 2 : 1). Now a dark walnut field with a gold hairline and the hint in parchment (over 5 : 1); the border lights when you type. | `search_before.jpg` | `search_after.jpg` |
+| 4 | **The Deck Station says "Paths".** The tip read "at most 2 colors", the shops' filter began with "All colors", the Fill Infrastructure tooltip said "your deck's colors". | text only | `search_after.jpg` (the tip reads "at most 1 Path") |
+| 5 | **The Feats list stops short of its scroll bar.** "Earned here" on each row ran under the bar. | `feats_before.jpg` | `feats_after.jpg` |
+| 6 | **Choosing a line of a drop-down list ticks.** In Settings (window mode, graphics quality, text size, ...) the press that opened the list made a sound and the choice made none. | - (a sound) | - |
+| 7 | **The map opens a little faster** (Part 5): the pause after pressing M is 15 to 75 ms shorter, most in the D.N.A. | 157 to 203 ms | 121 to 162 ms |
+| 8 | **The rose window tops the title menu** (your answer 4, Part 1). | `../p1/title_before.jpg` | `../p1/title_rose.jpg` |
+
+Two more that belong here by kind and are listed where they were found: the glossary's two new entries (Part 4.3) and the
+menus following the Text size setting (Part 1.6).
+
+Looked for and not found: a button without a sound (every button, tab and slider gets its sounds from one place,
+`app/ui_sounds.gd`; the drop-down's choice was the one gap), a prompt that names the wrong key with a controller (the mid-fight
+pop-up's "Click or press Space" becomes the pad's button), a toast lying over a button (none in the hundred or so shots of
+this pass; I did not hunt for one beyond that).
+
+## Part 7 - release preparation (drafts; nothing uploaded)
+
+Everything is in `docs/release/`. These are drafts for you to edit; no page was created and no file was sent anywhere.
+
+| File | What it is |
+|---|---|
+| `itch_page.md` | The page's text: a one-line pitch (with two alternatives), the longer description, the features (the four Paths, the duels, the zones, the dungeons, crafting and collecting, the Deck Station, the Arena, the postgame, gear and hats, comfort options), the controls for keyboard and controller, the system requirements from today's measurements, the download size, a donation line, the AI disclosure and the ten tags. It replaces `itch_page/page.md` of Nov 9. |
+| `screenshots/` | Eight pictures of today's build at 1920 x 1080, no debug text: Crosspath, a battle, the Endless Buffet, Sable's stall, the wake-up still, the Gainlands map, the Arena, a dungeon map; `README.md` says what each shows and why; seven more in `extra/`. **`cover_630x500.png`**: a cover candidate composed from the title key art and the wordmark (no new painting). |
+| `known_issues.md` | What is still open, in players' words, with a short section for people loading a save from a test version. |
+| `player_readme.txt` | For the zip: how to start, the controls, where the saves are and how to back them up, the five start files, how to report a bug (F8), the AI note. The export still writes the playtest read-me; switching it is a two-line change in `tools/export_windows.sh` and waits for your word (two-week plan, item 14). |
+| `release_checklist.md` | 33 steps from "before the final build" to "after the release", each marked yours or Claude's. The `setx` memory step and removing the old Codex folder are steps 1 and 2, marked as yours. Step 30, the flip to Public, is marked "only you". |
+| `two_week_plan.md` | Part 8. |
+
+**7.5 The credits.** The in-game credits (title menu > Credits, `data/credits/credits.txt`) already named you: "A game by Alex
+Glowatz" and "Game design, direction and production: Alex Glowatz", and the end credits carry the same name. What was thin was
+the list of tools: it named GUT and nothing else, and the AI paragraph said "an image model" and "AI assistance" without names,
+and did not mention the code at all. Changed:
+
+- **Tools** now lists Godot Engine 4, ChatGPT image generation (OpenAI) for the paintings, Claude and Claude Code (Anthropic)
+  for programming, the music's score code, writing assistance and testing, FluidSynth with the FluidR3_GM soundfont for
+  rendering the music, and GUT.
+- **About the art, music and writing** now says, in the brief's words: the art and the music were made with AI tools, directed
+  and curated by the creator; the game's design and writing are the creator's, with AI assistance; and one sentence more: the
+  game's code was written with an AI coding assistant under the creator's direction.
+
+That last sentence is true and was missing, so I added it; it is your credits page, so it is also inbox item 4 (the same
+question decides whether you tick "Code" in itch.io's AI disclosure form; the Nov 9 kit said not to). A test keeps the names
+and the three sentences in the credits.
+
+## Part 8 - the two-week plan
+
+`docs/release/two_week_plan.md`: 21 items ranked by what a player would feel, each with who does it (you, a Claude Code run,
+or an art batch), a size and a day, release day Saturday Dec 5; the balance decisions in one place; what to cut and in which
+order if time runs short; a day-by-day table.
+
+The three things I would not cut: **your own playthrough of the exported game with real fights** (no machine has played real
+fights through the real screens since Nov 17), **the Arena table** (the one place the game is plainly unfinished), and **the
+20-minute check of the real .exe** on the final build. One item came off the backlog: Elowen's walk is not missing (she and
+her disguise both have full walk sets in the game).
+
+## Part 9 - tests, build, report
+
+**Not finished, and why.** The Godot editor was opened on this project at 11:50 (with a game window from it at 11:51) while the
+run was going, and it was still open when I stopped. It holds about 5 GB; the PC had 0.4 to 0.6 GB free from then on. The test
+runner waits for 900 MB before each shard and skips a shard it cannot start, and the export starts an editor of its own on the
+same project, which I would not do beside an open one (two editors writing the same `.godot/` folder and the same build). I did
+not close your editor, lower the memory guard or export around it. Everything else in this report was finished first.
+
+What ran before the memory went:
+
+| Check | Result |
+|---|---|
+| The four story bots (Part 2) | 119 of 119 checks each, 0 script errors |
+| The opening-hour smoke, the controller smoke, the Old Well smoke, the dungeons smoke | OK (the last three after being brought up to date) |
+| The quest audit and the quest hand-in probe | 56 quests, 0 errors; 32 of 32 hand-ins |
+| The tour bot, the layout check | 287 spots, 0 errors; 13 screens at two sizes, 0 problems |
+| The new and changed tests of this pass, run by themselves | 15 test files, all green when last run: the title, the menu text size, feats, the glass theme, the text size switch, the release basics, card text against script, old saves, choice rooms, text polish, polish, the Arena sim level, the map picture, packs, menus. Changed after their last run and not run again: a 12 px spacer under the pack shelf's buttons, and the two test fixes described below. |
+| **The whole suite** (`bash tools/run_tests.sh --min-free=900`) | **shards 1 to 12 of 46 ran: 2 failures, both understood (below); shard 13 was skipped for memory and I stopped the run there** |
+| The seven walk smokes, the NPC visibility probe, the fade probe, the hover-zoom probe, the puzzle solver tests | **not run today** (the last two are in the suite's later shards). All were green last night, and nothing in this pass touches the world's geometry, the fader or the puzzles. |
+| The export of 1.0.0, the exported smoke, the three `play_exported.sh` checks | **not run.** `builds/TheWaywardPath-v1.0.0-windows.zip` is still last night's (768 MB, without today's changes). |
+
+The two failures in shards 1 to 12:
+
+- `tests/core/dungeon/test_pathology_lab.gd` expected the words "four colors" in Cell 4's scene; the line reads "four colours"
+  since this pass. **The test was changed to the new spelling; not yet re-run.**
+- `tests/core/ai/test_ai_planner.gd`, "decisions finish well under a second on a busy board": 1,447 ms against a limit of
+  1,000. It is a stopwatch test and it ran while the editor and its game window were using the processor; nothing in this pass
+  touches the planner. **Not re-run; expect it to pass on a quiet PC.**
+
+One more thing I owe you plainly: a test I wrote today (`tests/ui/test_text_polish_nov21.gd`, the British-spelling check) had
+its pattern mangled by my own shell when the file was written, so it passed without checking anything. I found that at 13:10,
+fixed the pattern, and checked the same pattern over the same twelve files with a script (no hits), but the fixed test itself
+has **not been run in Godot yet.**
+
+**To finish Part 9** (close the Godot editor first; about 80 minutes, one Godot at a time):
+
+```
+bash tools/run_tests.sh --min-free=900                      # all 46 shards; expect 0 failing
+bash tools/gut_one.sh tests/core/ai/test_ai_planner.gd      # only if its stopwatch test fails again
+for s in buffet dna capital crosspath gainlands heap hub; do bash tools/run_${s}_walk_smoke.sh; done
+bash tools/run_npc_visibility_probe.sh; bash tools/run_fade_probe.sh; bash tools/run_quest_handin_probe.sh
+bash tools/export_windows.sh 1.0.0                          # EXPORT_LOW_MEMORY_OK=1 in front if under 2.2 GB is free after 10 minutes
+bash tools/run_release_smoke_exported.sh
+bash tools/export_test_pack.sh
+for x in a b c; do bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_$x.txt n21r_$x 480; done
+bash tools/play_exported.sh docs/review/play_scripts/nov21r/p9_exported_perf.txt n21r_perf 400   # the exported game's own memory and fps
+```
+
+Or start a Claude Code session with: "Finish Part 9 of docs/prompts/fable_nov21_launch_review.md (the section 'To finish
+Part 9' at the top of docs/overnight_report.md), then update the report."
+
+**The zip:** `builds/TheWaywardPath-v1.0.0-windows.zip`, 768 MB (804,813,956 bytes), built Nov 20 at 22:27: **last night's build,
+without anything from this review.** Do not send it to playtesters as "the review build".
+
+**The dialogue revert command** (16 single lines, all spelling or the word "Pathless"):
+`node tools/apply_dialogue_pass.js --csv=docs/dialogue/nov21n_lines.csv --revert=docs/dialogue/nov21n_lines_ids.txt`
+
+Two things about the run itself that you should know:
+
+- **I ran two Godot processes at once, once,** against the house rule: at 11:42 I started the second pass of the screenshots in
+  the foreground while the Arena's third round of sims was still running in the background (my own bookkeeping slip, about four
+  minutes of overlap; both finished cleanly, 2.2 GB was free).
+- **My fullscreen screenshot runs (11:31 to 11:52) and the test shards after 12:48 overlapped with your editor session** from
+  11:50 on. If a fullscreen game window jumped in front of you around 11:50, that was the last screenshot pass.
+
+## Your decisions (6)
+
+All twelve open points are in `docs/overnight_inbox.md` under "Fable Nov 21 review". The six that matter most:
+
+1. **The Arena table** (`docs/balance_report_nov21.md`, section 2). Recommendation: **tick the bold row of each battle and have
+   them applied in one run** (Rookie 98 % -> 81 %, Sentinel 100 % -> 90 %, Four Fists 91 % -> 63 %, Grand Bellows 88 % -> 54 %,
+   the Unbound champion 98 % -> 50 %); play the spells-only bout once by hand, the sim cannot.
+2. **The heal rooms and the House of Gains.** Recommendation: **leave the heal at 5 HP** (7 would change almost nothing), and
+   when you play the House of Gains watch **Vivienne Quota**: she ends a third of all runs, and the dungeon is cleared at the
+   first try by one on-level hero in four.
+3. **Mortimer for Beefcake** (0 wins in 18 tries). Recommendation: **one step off him** (30 HP to 28, or one of his four added
+   rare cards out) after you have met him as Beefcake; leave the other one-Path walls.
+4. **The economy.** Recommendation: **leave the income** (23,131 against 21.2k), and decide what a full collection should
+   cost: it is about 75,800 gold today, 13 hours of repeat clears after the story, because a brew costs 6 essence a Path again.
+5. **The credits and the AI disclosure.** Recommendation: **keep the new sentence about the code and tick "Code" on itch.io**;
+   check the wording of the tools list, it is your name beside it.
+6. **Finishing Part 9.** Recommendation: **close the Godot editor and run the block in Part 9** (or one Claude Code session);
+   until then the zip in `builds/` is last night's. With it, two release chores only you can do: paste the `setx` command into
+   step 1 of `docs/release/release_checklist.md` (it is written down nowhere in the repo), and say whether the zip should carry
+   the player read-me instead of the playtest one.
 
 # Fable Nov 21 night - report: the launch file was last night's brief; checked, tested and exported
 

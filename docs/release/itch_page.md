@@ -90,7 +90,7 @@ graphics). A zone loads in 4 to 6 seconds behind a loading screen. No leak over 
 - **Recommended:** **8 GB RAM** and any dedicated graphics card from the last eight years (an estimate: only the integrated-graphics
   PC was measured).
 - **Disk:** about 950 MB unpacked.
-- **Download:** DOWNLOAD_SIZE_LINE
+- **Download:** about 770 MB zipped (last build: 768 MB; fill in the exact size after the final export)
 
 ## Support the game (the donation line)
 
