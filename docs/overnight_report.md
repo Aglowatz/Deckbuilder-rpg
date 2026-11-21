@@ -1,3 +1,256 @@
+# Fable Nov 20 day - report: Batch 18 in the game, the stained-glass info screens, your answers
+
+Brief: `docs/prompts/fable_nov20_day.md`. Start tag `pre-fable-nov20-day`. Questions: `docs/overnight_inbox.md`, "Fable Nov 20 day"
+(6 items). Shots: `docs/overnight_shots/nov20b/`. **No export, nothing uploaded.** One commit per part, all pushed.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Import Batch 18 | yes | 39 of 39 in the game; one map needs a redo row (the Buffet), one sprite was mirrored on import |
+| 2 Stained-glass info screens | yes | one theme file, every screen on the list, the rules checked by tests |
+| 3 Your answers | yes | the Lab's break room is a choice room; the rest recorded |
+| 4 Loose ends | yes | stand-ins removed (list below), backlog updated, three small things fixed on the way |
+| 5 The flow | yes | played in the real game, 25 shots in `p5/` |
+| 6 Tests and report | yes | every test shard green after three older tests were brought in line; seven walk smokes and four probes pass; no export | |
+
+---
+
+## Part 1 - the 39 pictures
+
+**Drive:** each file was copied from `Pending Review/Batch 18/` into its Approved folder (the Pending copies stay). Seven of them
+replace an older picture of the same name; the seven older files are kept in `Superseded/Batch 18 replaced/`.
+
+| Picture | Where it is now | Shot (`nov20b/`) |
+|---|---|---|
+| B-37 Baron Quadzilla, C-36 Announcer Grand Bellows | the cards' own art everywhere a card is drawn (the card, the Collection Book, shops, reward screens all read one picture per card); the borrowed Bestiary square and portrait are gone | (the cards' art is the same file in every place) |
+| ARENA-MENU-BG | behind the Arena menu; Bellows and the ring on the left, the list on the calm right side | `p1_arena_menu.jpg`, `p5/p5_01_arena_menu.jpg` |
+| BB-ARENA | the board of every Arena battle and puzzle | `p1_arena_board_battle.jpg`, `p1_arena_board_puzzle.jpg`, `p5/p5_02_arena_battle.jpg` |
+| STORY-REVEAL-KITCHEN, STORY-DOPPEL | the Test Kitchen's last room: beats 1 to 4, then beat 5 | `p1_doppel_01.jpg` to `_14.jpg` |
+| BUFF-HERO-RAWDEAL-FRONT, BUFF-SIGN-RAWDEAL | the front of the Raw Deal and its hanging sign beside the freezer door | `p1_raw_deal_front.jpg`, `p5/p5_12_raw_deal_front.jpg` |
+| ICON-COS-PLAINCLOAK | the Plain Cloak in the Wardrobe (tile and "Your Look") and in Pip's shop (the Plain Cloak tile and every dye tile), in the dye's colour | `p1_wardrobe.jpg`, `p1_pip_cloaks.jpg` |
+| UI-CARDBACK-N, UI-PACK-N, UI-PACK-LOCKED-N | the Necrocrat card back, pack and locked pack, violet, wherever the green ones showed (same ids) | `p1_pack_shop.jpg`, `p1_packs_page.jpg`, `p5/p5_08_card_packs.jpg` |
+| DNA-HERO-CLOCK-TOWER | the clock tower north-west of the Hall's stair | `p1_dna_clock_tower.jpg`, `p1_dna_hourglass_sign.jpg` (top left) |
+| DNA-SIGN-HOURGLASS | over the lit elevator to the Waiting Room of Eternity | `p1_dna_hourglass_sign.jpg` |
+| DNA-PROP-HEAL-COUCH | the breakroom couch; the heal, its prompt and its glow work as before | `p1_dna_couch.jpg`, `p5/p5_16_dna_couch.jpg`, `p5_17_dna_couch_rested.jpg` |
+| SPR-RIP-FRONTSIDE_IDLE, SPR-RIP-BACKSIDE_IDLE | Rip's two three-quarter views, with normal maps; he shows eight different pictures round the circle (five drawn, three mirrored) | `p1_rip_gainlands_1_from_the_front.jpg`, `p5/p5_13_rip_buffet.jpg`, `p5_18_rip_dna.jpg` |
+| TOWN-PROP-CAVE-MOUTH-BRUSH | the Forgotten Cave's mouth on Crosspath's north edge | `p1_cave_mouth_brush.jpg` |
+| CAP-PROP-SERVICE-MANHOLE | the way into the Old Service Tunnels | `p1_capital_manhole.jpg`, `p5/p5_22_capital_manhole.jpg` |
+| MAP-WORLD-GAIN / BUFF / DUMP / DNA / CAP | the full map screen (M) of each zone | `p1_map_*.jpg`, `p5/p5_11`, `_14`, `_19`, `_20`, `_21` |
+| VS-ALEMBIC | behind Auntie Alembic's shop (same id) | `p1_alembic_shop.jpg` |
+| The 14 UI pieces | Part 2 | `ui_after/` |
+
+**What did not drop straight in, and what I did:**
+- **Rip's three-quarter back view faces right; the game's sprites all face left** (the right-hand views are mirrors). I mirrored the
+  copy that goes into the game; the Drive file is untouched. His two new frames came at the game's own size (320x504), so they were
+  placed as delivered beside his four older frames, which were not re-cut.
+- **The Raw Deal's front is a flat picture standing on the pavilion's front edge.** The modelled pavilion stays as an unseen body
+  (its blocking and its lantern lights); its meshes are hidden. The way in moved 2.4 m east so the hero stands at the painted
+  freezer door; a roaming meatball moved 3 m further away from it (the 10 m rule). Inbox 2.
+- **The manhole was painted as seen from the game's camera**, so it lies flat on the ground and is stretched away from the camera
+  until it looks as painted. Its old spot is tucked against the foot of the wall, where the wall's plinth covered most of the
+  picture; it now lies just in front of the spot the hero stands on (the interaction point did not move). Inbox 3.
+- **The clock tower** is a camera-facing picture 17.5 m tall on the old tower's spot; its lit face is at 14 m, where the old clock
+  was, so it shows over the building fronts from the Hall's stair and the elevator bank. From the south gate the tower is outside
+  the frame, as the old one was.
+- **Two captions under STORY-DOPPEL described the old picture** ("a shifting shadow", "the unfinished war machines"). They now say
+  what is shown: "Beneath it there is no face at all, only smooth white porcelain above a spotless white coat." / "She holds the
+  smile in one hand, and behind her the copper vat goes on breathing its green fumes." The line "I wore her face for so long that I
+  forgot my own" matches beat 5 (`p1_doppel_14.jpg`). Revert: `docs/dialogue/nov20b_lines_ids.txt`.
+
+### The five maps
+
+Tool: `python tools/art/world_map_fit.py`. It takes a fresh top-down plan of each zone (the same `--top=auto` capture as Nov 17,
+whose world square is known), registers the painting against it (a stretch and a shift per axis, found by correlating the two
+pictures) and writes the world rectangle the whole painting covers (`data/maps/world_map_fit.json`). The map screen draws the
+painting in that rectangle with the same transform as its pins. Check sheets (the painting's outlines over the plan):
+`p1_mapfit_MAP-WORLD-*.jpg`.
+
+| Map | Fit | Painting covers (x, z, width, depth in metres) | Markers | Verdict |
+|---|---|---|---|---|
+| Gainlands | score 0.73 | -29.0, -43.2, 170.2 x 172.8 | bridge, hall, stations and yards on their painted places (`p1_map_gainlands.jpg`) | good |
+| Endless Buffet | 0.19 (the plan is very dark; the outlines agree: river, turntable, bridge, paths) | 0.2, -2.6, 99.0 x 103.4 | all on their places **except the Raw Deal**: its icon sits in the east district where it now is, on painted lawn; the painted red-roofed shop still stands at the top centre | **redo row in Batch 19** |
+| Verdant Dump | 0.53 | -24.6, -1.8, 148.5 x 161.4 | terraces, pools, bridge, grove (`p1_map_dump.jpg`) | good; the map screen shows the ravine's own strip of it |
+| D.N.A. | 0.25 (dark plan; the plaza's outline, the carpet and the gate agree) | -2.6, -11.9, 95.2 x 94.8 | gate, carpet, elevators, Hall (`p1_map_dna.jpg`) | fits; the painting shows a sunny village, not the zone's mood (optional Batch 19 row) |
+| Capital | 0.64 | -34.4, -13.8, 181.7 x 184.2 | wall, gate, plazas, castle; the Crease stays its own inset (`p1_map_capital.jpg`) | good |
+
+No warp was needed: the painter kept each plan's framing to within a few per cent. `docs/art/batch19.csv` has the Buffet's redo row
+(today's plan is on the Drive: `Batch 19 Refs/plan-buffet.jpg`) and the D.N.A.'s optional one.
+
+### Checks
+
+- A shot of every picture in place: above.
+- Walk smokes of the areas touched (Buffet, D.N.A., Capital, Crosspath): all OK. All seven again in Part 6.
+- NPC visibility probe: 150 checks, 0 failed.
+- **FPS** (windowed, the zone's spawn, 6 s):
+
+| Zone | Medium before | Medium after | Low-end before | Low-end after |
+|---|---|---|---|---|
+| D.N.A. | 79.2 | 78.8 | 89.4 | 90.4 |
+| Endless Buffet | 80.9 | 81.7 | 92.5 | 99.9 |
+
+- **Download size:** not measured (no export today). The art in the repo grew by 8.0 MB in Part 1 (40 new files 8.1 MB, eight
+  replaced files 2.2 -> 2.1 MB) and shrank by 1.4 MB in Part 4 (four retired pictures): **about +6.6 MB**, so the zip should come
+  out near 771 MB against today's 764.
+
+---
+
+## Part 2 - the stained-glass info screens
+
+**The theme file:** `ui/glass/glass_theme.gd` (`GlassTheme`). One Godot Theme built once from the Batch 18 pieces; a screen takes
+the look with one line (`GlassTheme.apply(root)`, or `glass = true` for a whole-screen page). The 9-slice margins, the colours and
+the sizes are constants at the top of that file and nowhere else; Path colours come from `core/data/path_palette.json`. Written up
+in `docs/art/ui_style_guide.md` ("Nov 20: direction B is built").
+
+**Before / after** (`ui_before/` and `ui_after/`, same file names; the window is 1886x1061 on this monitor at the 1920x1080
+setting; `ui_after_1280x720/` is the smallest supported window; `ui_pad_large/` is the controller and the Larger text size):
+
+| Screen | File | What changed besides the glass |
+|---|---|---|
+| Pause menu | `ui_03_pause_menu.jpg` | the rose window on top, where you are under the title, Resume the amber button, a divider before the two ways out; it floats over the dimmed game (the parchment sheet is gone) |
+| Quest box | `ui_02_quest_box.jpg` | UI-QUESTBOX, a thin strip in the quest's zone colour, the painted step marks; an unknown step is italic |
+| Quest log | `ui_14_quest_log.jpg` | each quest a pane in its zone's Path colour with the Path's icon; the chosen one lit; the painted marks; Track is the amber button |
+| Settings, five tabs | `ui_04` to `ui_08` | each setting on a plate of glass; tabs are panes, the chosen one lit; switches and sliders in glass; "Back" is "Done", the amber button |
+| Glossary | `ui_09_glossary.jpg` | the chosen tab is lit (the others used to be faded to 60 %); body text one size up with more line spacing |
+| Feats | `ui_10_feats.jpg` | a feat not yet earned is italic in the secondary tint (the row used to be faded to 62 %) |
+| Save and load | `ui_11_save.jpg`, `ui_12_load.jpg` | one amber button: the newest save to load, the first free slot to save into |
+| Credits | `ui_01_credits.jpg` | - |
+| Map screen | `ui_15_map.jpg` | the map in UI-MAP-FRAME; "Point me to..." is the amber button |
+| Collection Book | `ui_16_collection_book.jpg` | its page, tabs and filter chips; the cards keep their own look |
+| Tooltip | `ui_20_tooltip.jpg` | every hover tooltip of the game |
+| Confirm pop-ups and notices | `ui_13_confirm_popup.jpg`, `ui_21_notice_popup.jpg`, `ui_22_question_popup.jpg`, `p3_sealed_card_popup.jpg`, `p5_deck_filter_too_many_paths.jpg` | for a dangerous question the amber button is the safe answer |
+| Reward box | `ui_23_reward_box.jpg` | - |
+| Announcements ("Now open") | - | found in Part 5 and made glass too |
+
+**The rules, and how each is kept** (tests: `tests/ui/test_glass_theme_nov20.gd`):
+- **Colour means a Path:** a quest wears its zone's colour and icon (quest log, quest box strip); everything that stands for no
+  Path is slate. The mock-up's coloured Settings tabs are slate for that reason. A dangerous button (Quit Game, Delete) is slate
+  with a warm label: a red pane would say "Beefcake".
+- **One amber button per screen:** tested on the pause menu, every settings tab, save, load and a dangerous question.
+- **No pale grey text:** secondary lines are `#BDB9EC`, a lighter tint of the page; a test fails if an info screen paints text
+  with the old grey.
+- **Lit glass = chosen or focused:** tabs are toggles (UI-GLASS-PANE-LIT when chosen); hover lights a button; the keyboard or
+  controller focus adds a gold ring (`ui_pad_large/pad_01...jpg`, `pad_02...jpg`).
+- **Glow held back:** only the lit pane itself is bright; no outer glow was added.
+
+**Contrast** (measured on the real art, tinted as the game tints it; `docs/review/glass_contrast.txt`):
+
+| Pair | Ratio |
+|---|---|
+| body text on the page | 12.9 : 1 |
+| secondary text on the page | 8.2 : 1 |
+| headings on the page | 10.1 : 1 |
+| body text on a pop-up or tooltip / in the quest box | 14.6 / 14.2 : 1 |
+| body text on a row plate | 12.1 : 1 |
+| a slate button's label | 5.8 : 1 |
+| ink on a lit tab / on the amber button | 11.3 / 7.9 : 1 |
+| ink on a lit Path pane (red, blue, green, violet) | 5.2 / 8.4 / 6.5 / 5.8 : 1 |
+| text on a Path pane at rest | 9.7 to 12.6 : 1 |
+| the warm label on a dangerous button (large bold, needs 3.0) | 4.0 : 1 |
+
+Two lit Path panes (red and violet) measured 3.8 with dark ink at the Paths' own colours, so lit Path glass is drawn a step
+brighter than the Path colour (`GlassTheme.lit`).
+
+**Large text:** the Text size setting scales cards, dialogue and tooltips, as before; it never scaled the menus, and it still does
+not (`ui_pad_large/large_*.jpg`). Menu body text is 18 to 23 px at 1080p. If the menus should follow the setting, it is a small
+follow-up.
+
+**Checks:** before / after at both window sizes; mouse and controller; the hover-zoom probe 6 of 6; the UI walk
+(`docs/review/play_scripts/nov20b/ui_walk.txt`: every screen from the pause menu, a setting changed and changed back, a quest
+tracked, the glossary read). One thing the walk found and I fixed: on the long Controls page the controller could not reach
+"Done" (the rows scrolled out of sight lie below it on the screen); the last row now leads to it.
+
+**Left alone:** the battle board and HUD, the shops' and the Deck Station's gold-framed screens, the Character screen, the dialogue
+box, the title screen's own menu. None of them clashes badly enough to stop; the glass pop-ups do open over the gold screens
+(inbox 4). The 11 old info-screen rows in `docs/art/batch18_nov18.csv` are marked "Superseded by the stained-glass set (Nov 20)".
+
+---
+
+## Part 3 - your answers
+
+1. **The Path-ology Lab's Night Shift Break Room** is a choice room now (tests: `tests/core/dungeon/test_lab_heal_room_nov20.gd`):
+
+| Option | You get | It costs |
+|---|---|---|
+| Feed the vending machine | heal 5 | 80 gold |
+| Drink the night shift's coffee | heal 5 | "Night-Shift Jitters": in the next fight the first card you play each turn costs 1 more |
+| Leave the room as you found it | nothing | nothing |
+
+   The zone dungeons' prices are 30, 40, a card and 50; the postgame room asks 80, and its drawback is one of the stronger ones
+   already in the game. Primm's Castle's Resistance Safe Room is still a full heal. Table: `docs/design/choice_nodes_nov21.md`.
+2. The AI's opening hand: two Infrastructure, as built. Recorded (`docs/design/balance_log.md`).
+3. The Raw Deal keeps its name. Recorded.
+4. The new heal rooms and drawbacks stay as they are until you have played them. Recorded.
+5. The Deck Station's search and controllers: in the backlog as "later".
+6. Stained glass: Part 2.
+
+---
+
+## Part 4 - loose ends
+
+**Stand-ins removed:**
+- code: the two cards' borrowed pictures (`CardArt.STAND_INS`); the kit-built D.N.A. clock tower and its turning clock card; the
+  couch built from flat colours; the built iron manhole cover; the cave mouth assembled from the forest's mouth, brambles, hedges
+  and a lantern; the parchment backdrop of the pause menu;
+- pictures taken out of the game (their Drive files stay; their importers now skip them): `VS-BELLOWS` (the colosseum behind the
+  Arena menu), `UI-BG-MENU`, `UI-BG-WORLDMAP`, `UI-BG-QUESTLOG` (the three parchment backgrounds of the old info screens): 1.4 MB.
+- **Kept on purpose:** the modelled sushi pavilion (it is the Raw Deal's blocking and lights behind the painted front);
+  `UI-PANEL-TOOLTIP` and the old button and panel art (the shops and the battle still use them); the Bestiary square and the
+  portrait the two cards had borrowed (they are the Bestiary's and the dialogue's own).
+
+**Backlog:** `docs/owner_backlog.md` is up to date (done items out; four new "later" items from today).
+
+**Found and fixed on the way:**
+- Fenwick's shop showed "(missing text: pack.hint.gilded_general)" under the locked Gilded General Pack. It now says "Stocked once
+  all four zones are free."
+- The two STORY-DOPPEL captions (Part 1).
+- The controller could not reach "Done" on the Controls page (Part 2).
+
+---
+
+## Part 5 - the flow
+
+Played in the real game from a mid-game state made with the dev commands (level 16, the four gates open, one zone free for the
+Arena). Scripts: `docs/review/play_scripts/nov20b/p5_*.txt`. Shots in `p5/`:
+`p5_01_arena_menu`, `p5_02_arena_battle`, `p5_03_arena_battle_later`, `p5_04_arena_after_the_fight`, `p5_05_arena_puzzle`,
+`p1_alembic_shop` (the shop's backdrop), `p5_07_pack_shop` (the locked Necrocrat pack), `p5_08_card_packs` (the Necrocrat pack on
+the shelf), `p5_09b_necrocrat_pack_opened` (a pack opening; see the note), `p5_10_map_crosspath`, `p5_11_map_buffet`,
+`p5_12_raw_deal_front`, `p5_13_rip_buffet`, `p5_14_map_dna`, `p5_15_dna_clock_tower`, `p5_16_dna_couch`,
+`p5_17_dna_couch_rested`, `p5_18_rip_dna`, `p5_19_map_gainlands`, `p5_20_map_dump`, `p5_21_map_capital`,
+`p5_22_capital_manhole`; the cutscene is `p1_doppel_01` to `_14`.
+
+Everything opened and worked. **Not captured as asked:** the pack I opened in the run was not the Necrocrat one (my click landed on
+another pack's button); the Necrocrat pack is shown sealed on the shelf and in the shop, and the opening screen is the same for
+every pack. A few older shots with stale names are still in `p5/` (`p5_09_pack_opened.jpg` and others from the first try): a
+clean-up command was refused by a safety check, so I left them; they are harmless.
+
+---
+
+## Part 6 - tests
+
+- **GUT, all 46 shards** (`tools/run_tests.sh --min-free=900`, 33 minutes): **3569 of 3574 passed**, 2 pending, 3 failing. The three
+  were older tests pinned to things today changed on purpose, and were brought in line and re-run green: the cosmetic icon count
+  (+ the Plain Cloak's own), the Wardrobe's dye swatch (the painted cloak shows the dye itself now), the Raw Deal's door (it is the
+  painted freezer door). The save guard reports the real saves untouched (20 files checked).
+- **Walk smokes, all seven:** Buffet, D.N.A., Capital, Crosspath, Gainlands, Verdant Dump, the hub: all OK.
+- **NPC visibility probe:** 150 checks, 0 failed. **Fade probe:** 7 places, nothing but tall occluders can fade, 0 script errors.
+  **Quest hand-in probe:** 32 passed, 0 failed. **Hover-zoom probe:** 6 of 6 (in the suite). **Arena puzzle solver tests:** green
+  (in the suite).
+- New tests today: `tests/test_batch18_import.gd` (12), `tests/ui/test_glass_theme_nov20.gd` (9),
+  `tests/core/dungeon/test_lab_heal_room_nov20.gd` (6).
+- **No export** (the brief). The last zip in `builds/` is still last night's 1.0.0 (764 MB), without today's work.
+
+---
+
+## Your decisions (6)
+
+They are in `docs/overnight_inbox.md` under "Fable Nov 20 day", each with a recommendation:
+1. the Buffet map's redo (Batch 19); 2. the Raw Deal as a flat front with the way in moved to its painted door; 3. the manhole in
+front of the standing spot; 4. the gold-framed screens beside the glass ones; 5. dangerous buttons in slate, and "Done" for "Back";
+6. whether the menus should follow the Text size setting.
+
+---
+
 # Fable Nov 21 - report: your playtest list, cards, dungeons, the Deck Station, the castle scene, five cameras
 
 Brief: `docs/prompts/fable_nov20_night.md`. Start tag `pre-fable-nov21`. Questions: `docs/overnight_inbox.md`, "Fable Nov 21"

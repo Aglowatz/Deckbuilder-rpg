@@ -77,7 +77,7 @@ func test_every_gear_item_and_cosmetic_has_one_expected_icon_id() -> void:
 			items += 1
 	assert_eq(IconArt.game_ids_with_prefix(IconArt.GEAR_PREFIX).size(), pieces - ART_LIST_IDS.size(), "one gear icon per piece, no two pieces share an ID")
 	assert_eq(IconArt.game_ids_with_prefix(IconArt.ITEM_PREFIX).size(), items, "one item icon per consumable")
-	assert_eq(IconArt.game_ids_with_prefix(IconArt.COSMETIC_PREFIX).size(), CosmeticCatalog.all().size(), "one shop icon per hat / cloak")
+	assert_eq(IconArt.game_ids_with_prefix(IconArt.COSMETIC_PREFIX).size(), CosmeticCatalog.all().size() + 1, "one shop icon per hat / cloak, and the Plain Cloak's own (Batch 18)")
 	for id: String in ["ICON-GEAR-LUCKYSOCK", "ICON-GEAR-WICKEDDAGGER", "ICON-ITEM-HEALINGDRAUGHT", "ICON-COS-WIDEBRIM", "ICON-COS-ROYAL"]:
 		assert_true(game.has(id), id)
 

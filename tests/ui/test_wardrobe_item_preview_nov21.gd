@@ -87,5 +87,10 @@ func test_the_plain_cloak_shows_its_dye() -> void:
 	assert_false(swatch.visible, "undyed: no swatch")
 	screen._dye(0)
 	assert_eq(screen.shown_key, "cloak|")
-	assert_true(swatch.visible, "the dye's colour is shown beside the cloak")
+	# Batch 18 (Nov 20): the Plain Cloak has its own picture, drawn in the dye's colour; the round swatch beside the old stand-in is not needed
+	assert_false(swatch.visible, "no swatch beside the painted cloak")
+	var shown: TextureRect = screen.find_child("ItemIcon", true, false) as TextureRect
+	if shown != null:
+		assert_eq(shown.texture, IconArt.plain_cloak_texture(WardrobeScreen.ICON_SIZE), "the Plain Cloak's own picture")
+	assert_eq(screen._item_icon.modulate, IconArt.plain_cloak_tint(0), "the cloak is shown in the dye's colour")
 	assert_string_contains((screen.find_child("ItemName", true, false) as Label).text, Dye.dye_name(0))

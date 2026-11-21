@@ -38,7 +38,9 @@ func test_the_entrance_is_on_the_east_side_behind_the_colonel() -> void:
 	assert_lt(door.z, BuffetLayout.FENCE_Z, "north of the fork fence")
 	assert_almost_eq(gate.x, 78.0, 0.01, "Colonel Casserole's gate is that district's gate")
 	assert_gt(absf(door.x - (_layout.anchors["main_dungeon"] as Vector3).x), 8.0, "no longer next to the main dungeon")
-	assert_almost_eq(BuffetLayout.OMAKASE_PAVILION.x - door.x, 4.5, 0.01, "the pavilion stands over its door as before")
+	# Batch 18 (Nov 20): the way in stands at the painted freezer door, left of the front's middle (it was 4.5 m west of the pavilion's centre)
+	assert_almost_eq(door.x, BuffetLayout.RAWDEAL_DOOR.x, 0.01, "the way in is the painted freezer door")
+	assert_between(BuffetLayout.OMAKASE_PAVILION.x - door.x, 1.0, BuffetLayout.OMAKASE_PAVILION_SIZE.x * 0.5, "at the left of the building's base")
 
 
 func test_it_can_only_be_reached_through_his_gate() -> void:
