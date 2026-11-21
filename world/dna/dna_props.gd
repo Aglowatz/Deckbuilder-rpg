@@ -229,42 +229,10 @@ static func heal_couch() -> Node3D:
 			holder.set_meta(&"painted_couch", true)
 			return holder
 		holder.free()
-	var mesh: KitMesh = _mesh()
-	mesh.alias("velvet", "flat", Color("7a3a34").srgb_to_linear())
-	mesh.alias("velvet_dark", "flat", Color("5a2a26").srgb_to_linear())
-	mesh.alias("rug", "flat", Color("8a5a3a").srgb_to_linear())
-	mesh.alias("rug_border", "flat", Color("c9a46a").srgb_to_linear())
-	var length: float = COUCH_LENGTH
-	# the rug under it, a little in front
-	mesh.box("rug_border", Vector3(0, 0.012, 0.55), Vector3(length + 1.6, 0.02, 2.4), Basis.IDENTITY, 0.0)
-	mesh.box("rug", Vector3(0, 0.018, 0.55), Vector3(length + 1.3, 0.02, 2.1), Basis.IDENTITY, 0.0)
-	# the sofa: base, three seat cushions, the high back, the rolled arms, brass feet
-	mesh.box("velvet_dark", Vector3(0, 0.24, 0), Vector3(length, 0.3, 0.95), Basis.IDENTITY, 0.04, 0.85)
-	for i: int in range(3):
-		var x: float = (float(i) - 1.0) * (length - 0.5) / 3.0
-		mesh.box("velvet", Vector3(x, 0.47, 0.05), Vector3((length - 0.5) / 3.0 - 0.04, 0.18, 0.8), Basis.IDENTITY, 0.06)
-		mesh.box("velvet", Vector3(x, 0.82, -0.36), Vector3((length - 0.5) / 3.0 - 0.04, 0.6, 0.24), Basis(Vector3(1, 0, 0), -0.12), 0.06)
-	mesh.box("velvet_dark", Vector3(0, 0.75, -0.44), Vector3(length, 0.9, 0.12), Basis.IDENTITY, 0.03)
-	mesh.box("brass", Vector3(0, 1.21, -0.44), Vector3(length + 0.04, 0.04, 0.14), Basis.IDENTITY, 0.0)
-	for side: float in [-1.0, 1.0]:
-		mesh.box("velvet_dark", Vector3(side * (length * 0.5 - 0.12), 0.55, 0.0), Vector3(0.26, 0.42, 0.95), Basis.IDENTITY, 0.08)
-		mesh.lathe("brass", Vector3(side * (length * 0.5 - 0.12), 0.0, 0.36), [Vector2(0.05, 0.0), Vector2(0.035, 0.09)], 6, 1.0, false, true)
-		mesh.lathe("brass", Vector3(side * (length * 0.5 - 0.12), 0.0, -0.36), [Vector2(0.05, 0.0), Vector2(0.035, 0.09)], 6, 1.0, false, true)
-	# a cushion and a folded blanket
-	mesh.box("parchment", Vector3(-length * 0.32, 0.66, -0.12), Vector3(0.42, 0.34, 0.14), Basis(Vector3(0, 0, 1), 0.25), 0.06)
-	mesh.box("rug_border", Vector3(length * 0.28, 0.58, 0.12), Vector3(0.6, 0.06, 0.4), Basis.IDENTITY, 0.02)
-	# the side table at the near arm, with a cup and a saucer
-	var table: Vector3 = Vector3(length * 0.5 + 0.55, 0.0, 0.1)
-	mesh.lathe("brass", table, [Vector2(0.18, 0.0), Vector2(0.04, 0.06), Vector2(0.04, 0.56)], 8, 0.9, true, true)
-	mesh.lathe("marble", table + Vector3(0, 0.56, 0), [Vector2(0.3, 0.0), Vector2(0.3, 0.05)], 12, 1.0, true, true)
-	mesh.lathe("parchment", table + Vector3(0.05, 0.61, 0.0), [Vector2(0.09, 0.0), Vector2(0.09, 0.012)], 10, 1.0, false, true)
-	mesh.lathe("parchment", table + Vector3(0.05, 0.62, 0.0), [Vector2(0.04, 0.0), Vector2(0.05, 0.08)], 8, 1.0, true, false)
-	mesh.lathe("dark", table + Vector3(0.05, 0.69, 0.0), [Vector2(0.045, 0.0), Vector2(0.045, 0.004)], 8, 1.0, false, true)
-	# the standard lamp behind the far arm: brass pole, a warm glowing shade
-	var lamp: Vector3 = Vector3(-length * 0.5 - 0.5, 0.0, -0.3)
-	mesh.lathe("brass", lamp, [Vector2(0.2, 0.0), Vector2(0.04, 0.05), Vector2(0.03, 1.75)], 8, 0.9, true, true)
-	mesh.lathe("warm", lamp + Vector3(0, 1.62, 0), [Vector2(0.3, 0.0), Vector2(0.18, 0.36)], 10, 1.0, true, true)
-	return _finish(mesh, "HealCouch")
+	# (the couch built from flat colours, Nov 18, is removed: without the painted piece the spot is bare)
+	var empty: Node3D = Node3D.new()
+	empty.name = "HealCouch"
+	return empty
 
 
 ## The suggestion box: a paneled box with a brass slot and a red ribbon seal.

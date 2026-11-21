@@ -25,7 +25,8 @@ func test_the_sheet_lists_the_twelve_vendors() -> void:
 
 func test_every_vendor_has_a_background_a_portrait_and_lines() -> void:
 	for id: String in IDS:
-		var texture: Texture2D = KeyArt.texture(id)
+		# Batch 18 (Nov 20): the Arena's backdrop is the cave ARENA-MENU-BG; VS-BELLOWS names the vendor only
+		var texture: Texture2D = KeyArt.texture(VendorStage.backdrop_for(id))
 		assert_not_null(texture, "%s background" % id)
 		if texture != null:
 			assert_almost_eq(float(texture.get_width()) / float(texture.get_height()), 16.0 / 9.0, 0.01, "%s is cropped to 16:9" % id)

@@ -564,7 +564,7 @@ func _enemies() -> void:
 		# - and the hub-side meatball (40, 34), 6 m from Sir Loin's gate.
 		{"type": "loaf", "home": Vector3(29.5, 0.0, 19.5), "patrol": 3.5},  # (was 32, 22: the Cake Cathedral stands there now, BF-20)
 		{"type": "jelly", "home": Vector3(36.0, 0.0, 32.0), "patrol": 3.0},
-		{"type": "meatball", "home": Vector3(81.0, 0.0, 17.0), "patrol": 4.0},  # Fable Nov 21: it stood 2 m from the Raw Deal's new door
+		{"type": "meatball", "home": Vector3(84.0, 0.0, 17.0), "patrol": 4.0},  # Nov 21: it stood 2 m from the Raw Deal's door; Nov 20 day: 3 m further east, the way in moved to the painted door
 		{"type": "meatball", "home": Vector3(36.0, 0.0, 40.0), "patrol": 4.0},
 	]
 

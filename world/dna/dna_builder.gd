@@ -978,25 +978,20 @@ func _build_grand_hall() -> void:
 	_build_elevator_walls()
 
 
-## Nov 18 day (Part 6.4): the D.N.A.'s landmark - a clock tower that rises over the building fronts, north-west of the Hall's stair, seen from
-## the arrival and from most of the plaza (the lobby clock on the Hall's drum stood far above the camera's view). Built from the zone kit: a
-## DNA-WALL-EXTERIOR body on a grey plinth, brass bands (DNA-TRIM-BRASS), a lighter clock stage carrying DNA-PROP-LOBBY-CLOCK scaled up, a
-## warm glow behind the clock and a green ghost lantern under a slate spire. Its heights keep the clock inside the frame at every camera
-## preset from the plaza (the face at about 14 m).
+## The D.N.A.'s landmark: a clock tower that rises over the building fronts, north-west of the Hall's stair, seen from the arrival and
+## from most of the plaza. Since Batch 18 (Nov 20) it is the painted tower (DNA-HERO-CLOCK-TOWER), a camera-facing card tall enough
+## that its lit clock face (four fifths of the way up) stands over the fronts; the kit-built tower it replaced is removed.
 const CLOCK_TOWER: Vector3 = Vector3(36.0, 0.0, -2.5)
-const CLOCK_TOWER_W: float = 6.0
-const CLOCK_BODY_H: float = 9.0
-const CLOCK_STAGE_H: float = 6.0
 var clock_tower: Node3D
 
 
-## Batch 18 (Nov 20): the painted tower (DNA-HERO-CLOCK-TOWER) replaces the kit-built one - a camera-facing card on the same spot, tall
-## enough that its lit clock face (four fifths of the way up) stands over the building fronts from the plaza. The two lights stay.
 const CLOCK_TOWER_ART: String = "DNA-HERO-CLOCK-TOWER"
 const CLOCK_TOWER_ART_H: float = 17.5
 
 
-func _build_painted_clock_tower() -> void:
+func _build_clock_tower() -> void:
+	if not EnvKit.has(CLOCK_TOWER_ART) or not EnvKit.has_art(CLOCK_TOWER_ART):
+		return
 	var height: float = CLOCK_TOWER_ART_H
 	var card: MeshInstance3D = hanging_card(CLOCK_TOWER_ART, Vector2(height * _kit_aspect(CLOCK_TOWER_ART, 0.31), height), false)
 	card.name = "ClockTower"
@@ -1010,60 +1005,6 @@ func _build_painted_clock_tower() -> void:
 	card.position = CLOCK_TOWER
 	clock_tower = card
 	for entry: Array in [[Vector3(0, height * 0.8, 1.6), WARM_LIGHT], [Vector3(0, height * 0.93, 0.6), Color(0.55, 1.0, 0.65)]]:
-		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
-		light.pos = CLOCK_TOWER + (entry[0] as Vector3)
-		light.color = entry[1] as Color
-		layout.lights.append(light)
-
-
-func _build_clock_tower() -> void:
-	if EnvKit.has(CLOCK_TOWER_ART) and EnvKit.has_art(CLOCK_TOWER_ART):
-		_build_painted_clock_tower()
-		return
-	var mesh: KitMesh = KitMesh.new()
-	DnaLandmarks._materials(mesh)
-	mesh.set_material("exterior", DnaLandmarks._surface("DNA-WALL-EXTERIOR", DnaLandmarks.GREY))
-	var w: float = CLOCK_TOWER_W
-	var body_h: float = CLOCK_BODY_H
-	mesh.box("grey_dark", Vector3(0, 0.7, 0), Vector3(w + 1.4, 1.4, w + 1.4), Basis.IDENTITY, 0.06, 0.9)
-	mesh.box("exterior", Vector3(0, body_h * 0.5, 0), Vector3(w, body_h, w), Basis.IDENTITY, 0.08, 0.9)
-	for y: float in [1.45, body_h * 0.55, body_h]:
-		mesh.box("brass", Vector3(0, y, 0), Vector3(w + 0.3, 0.26, w + 0.3), Basis.IDENTITY, 0.0)
-	var stage_w: float = w - 0.6
-	var stage_y0: float = body_h + 0.13
-	var stage_h: float = CLOCK_STAGE_H
-	mesh.box("grey_light", Vector3(0, stage_y0 + stage_h * 0.5, 0), Vector3(stage_w, stage_h, stage_w), Basis.IDENTITY, 0.06, 0.9)
-	mesh.box("brass", Vector3(0, stage_y0 + stage_h, 0), Vector3(stage_w + 0.5, 0.35, stage_w + 0.5), Basis.IDENTITY, 0.0)
-	# the slate spire with a gold finial and the green ghost lantern under it
-	var spire_y: float = stage_y0 + stage_h + 0.18
-	mesh.box("grey", Vector3(0, spire_y + 0.9, 0), Vector3(stage_w * 0.5, 1.8, stage_w * 0.5), Basis.IDENTITY, 0.04)
-	mesh.box("glow", Vector3(0, spire_y + 0.9, 0), Vector3(stage_w * 0.34, 1.0, stage_w * 0.52), Basis.IDENTITY, 0.0)
-	mesh.lathe("slate", Vector3(0, spire_y + 1.8, 0), [Vector2(stage_w * 0.62, 0.0), Vector2(0.0, stage_w * 0.9)], 4, 1.0, false, true)
-	mesh.blob("gold", Vector3(0, spire_y + 1.8 + stage_w * 0.95, 0), Vector3.ONE * 0.35, 3, 6, 1.0)
-	# lit windows down the body's front, and the warm glow behind the clock face
-	for x: float in [-1.4, 1.4]:
-		if EnvKit.has("DNA-SHEET-WINDOWS-02"):
-			DnaLandmarks._card(mesh, "DNA-SHEET-WINDOWS-02", Vector3(x, 3.2, w * 0.5 + 0.05), 4.4, Vector3(0, 0, 1))
-	var face_y: float = stage_y0 + stage_h * 0.62
-	# Nov 18 evening: no flat glow panel behind the clock any more - from the sides it stood out as a pale slab beside the turning clock card
-	# (the warm light below still lights the face)
-	clock_tower = mesh.instance("ClockTower")
-	clock_tower.position = CLOCK_TOWER
-	for piece: Node in [clock_tower] + clock_tower.find_children("*", "MeshInstance3D", true, false):
-		piece.set_meta(&"no_range_cull", true)
-		piece.set_meta(&"no_occlusion_fade", true)
-	root.add_child(clock_tower)
-	if EnvKit.has("DNA-PROP-LOBBY-CLOCK"):
-		var clock_h: float = stage_h + 2.2
-		var clock: MeshInstance3D = hanging_card("DNA-PROP-LOBBY-CLOCK", Vector2(clock_h * _kit_aspect("DNA-PROP-LOBBY-CLOCK", 0.38), clock_h), false)
-		clock.name = "LobbyClock"
-		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_near", 0.0)
-		(clock.material_override as ShaderMaterial).set_shader_parameter("fade_far", 0.01)
-		(clock.material_override as ShaderMaterial).set_shader_parameter("emission", 1.1)
-		root.add_child(clock)
-		clock.global_position = CLOCK_TOWER + Vector3(0, stage_y0 - 1.6, stage_w * 0.5 + 0.12)
-		clock.set_meta(&"no_range_cull", true)
-	for entry: Array in [[Vector3(0, face_y, stage_w * 0.5 + 1.2), WARM_LIGHT], [Vector3(0, spire_y + 0.9, stage_w * 0.5), Color(0.55, 1.0, 0.65)]]:
 		var light: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
 		light.pos = CLOCK_TOWER + (entry[0] as Vector3)
 		light.color = entry[1] as Color

@@ -1606,3 +1606,13 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 | The foe's opening hand | no floor -> **at least two Infrastructure** (seeded soft mulligan), except in the Forgotten Cave | Owner: Captain Spotless opened with none. Foes stall less, so every fight outside the cave is a little harder; not re-simulated tonight. |
 | Dead Weight, Yeet (battle screen only) | the target was asked before the sacrifice -> **the sacrifice first, then the target**; the destroyed unit is no target | The owner could not aim them at the opponent. No rules change. |
 | "Colorless" | -> **"Pathless"** in every shown text | Owner. Ids and the sheet's section header keep the old word. |
+
+## Fable Nov 20 day (the owner's answers to "Fable Nov 21")
+
+| What | Change | Why |
+|---|---|---|
+| The Path-ology Lab, room 9 "Night Shift Break Room" | full heal -> **a choice room**: heal 5 for 80 gold; or heal 5 and the first card you play each turn costs 1 more in the next fight ("Night-Shift Jitters"); or nothing | Owner: the same rule as the four zone dungeons, scaled for a postgame dungeon (the zone prices are 30, 40, a card, 50). |
+| Primm's Castle, the Resistance Safe Room | **stays a full heal** | Owner: the castle rooms are unchanged. |
+| The foe's opening hand | **stays at two Infrastructure** (as built Nov 21) | Owner confirmed the reading. |
+| The new heal rooms and the six drawbacks of Nov 21 | **stay as they are for now** | The owner will playtest them. |
+| The sushi side dungeon | **keeps the name "The Raw Deal"** | Owner. |

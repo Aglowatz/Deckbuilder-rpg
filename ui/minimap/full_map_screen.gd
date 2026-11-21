@@ -43,7 +43,6 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 	screen_title = "Map - %s" % area_name
 	title_icon_id = "ICON-UI-MAP"
 	close_text = "Close ({open_map})"
-	background_id = "UI-BG-WORLDMAP"
 	glass = true  # Fable Nov 20 day (Part 2): a glass page; the map sits in UI-MAP-FRAME
 
 

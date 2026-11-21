@@ -187,6 +187,7 @@ texts = {
 "pack.hint.gilded_gourmand": ["Fig can only get these once the Endless Buffet is free."],
 "pack.hint.gilded_refusemancer": ["Fig can only get these once the Verdant Dump is free."],
 "pack.hint.gilded_necrocrat": ["Fig can only get these once the D.N.A. is free."],
+"pack.hint.gilded_general": ["Stocked once all four zones are free."],
 "pack.hint.general_2": ["The back crates open at level 10, or once two zones are free, whichever comes first."],
 "pack.hint.prismatic": ["Unlocks after the final victory."],
 "pack.card_vendor.title": ["Sable's Sealed Surprises"],

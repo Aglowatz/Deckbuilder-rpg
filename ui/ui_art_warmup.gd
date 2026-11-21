@@ -6,7 +6,7 @@ extends Node
 ## Opening a screen before a picture has arrived still works: `load()` waits for the thread's copy.
 
 ## The full-screen backgrounds of the screens opened from anywhere (Character, Deck Station and Collection Book, Quest Log, map, packs).
-const UI_BACKGROUNDS: Array[String] = ["UI-BG-CHARACTER", "UI-BG-DECKBUILDER", "UI-BG-QUESTLOG", "UI-BG-WORLDMAP", "UI-BG-PACKOPEN"]
+const UI_BACKGROUNDS: Array[String] = ["UI-BG-CHARACTER", "UI-BG-DECKBUILDER", "UI-BG-PACKOPEN"]
 ## Card thumbnails warmed: the owned cards the Deck Station and the Collection Book show first (Phase 2 cycle 20).
 const THUMBS: int = 32
 ## Seconds after the area appears (its own loading comes first).

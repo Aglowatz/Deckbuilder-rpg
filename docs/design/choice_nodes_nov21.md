@@ -79,4 +79,4 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Shattered Gallery | 12: Your Reflection | Turn your back on it | nothing | lose 3 HP | at once |
 | The Shattered Gallery | 12: Your Reflection | Smash it | 'Shattered Pride': your units get +1 defense | lose 6 HP | rest of the dungeon |
 
-**Full heals that stay** (not changed; the castle rooms are untouched by the owner's rule): the Forgotten Cave's Whispering Shrine (the tutorial), Primm's Castle's Resistance Safe Room, the Path-ology Lab's Night Shift Break Room.
+**Full heals that stay** (not changed; the castle rooms are untouched by the owner's rule): the Forgotten Cave's Whispering Shrine (the tutorial) and Primm's Castle's Resistance Safe Room. Since Nov 20 (the owner's answer) the Path-ology Lab's Night Shift Break Room is a "heal 5 for a cost" room like the four zone dungeons': 80 gold, or the first card you play each turn costs 1 more in the next fight.

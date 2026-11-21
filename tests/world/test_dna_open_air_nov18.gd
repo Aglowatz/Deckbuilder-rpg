@@ -67,8 +67,9 @@ func test_the_dna_camera_looks_down_a_little_more() -> void:
 
 
 func test_the_landmarks_and_walls() -> void:
-	assert_gt(DnaBuilder.CLOCK_BODY_H, DnaHall.PARTITION_H * 4.0, "the tower rises far above the partitions")
-	assert_gt(DnaBuilder.CLOCK_BODY_H + DnaBuilder.CLOCK_STAGE_H, DnaHall.HALL_H, "and its clock stage above the building fronts")
+	# Batch 18 (Nov 20): the painted tower; its clock face is four fifths of the way up
+	assert_gt(DnaBuilder.CLOCK_TOWER_ART_H, DnaHall.PARTITION_H * 4.0, "the tower rises far above the partitions")
+	assert_gt(DnaBuilder.CLOCK_TOWER_ART_H * 0.8, DnaHall.HALL_H, "and its clock face above the building fronts")
 	assert_lt(DnaBuilder.CLOCK_TOWER.z, 0.0, "outside the plaza, beyond the north side")
 	assert_gt(DnaBuilder.ELEVATOR_WALL_H, 1.82 + 0.3, "the elevator doors (1.82 m) sit inside the wall")
 	assert_gte(DnaLayout.ELEVATOR_WALL_Z - 14.0, 2.0, "deep enough for a shaft")

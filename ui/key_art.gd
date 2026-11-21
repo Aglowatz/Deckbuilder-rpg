@@ -50,6 +50,9 @@ class Result extends RefCounted:
 
 ## Batch 18 (Nov 20): backdrops filed with the vendor screens that are no "VS-" row of the NPC sheet (the Arena menu's cave).
 const EXTRA_VENDOR_IDS: Array[String] = ["ARENA-MENU-BG"]
+## Pictures the game no longer shows (their Drive files stay): never imported again. VS-BELLOWS, the colosseum behind the Arena menu,
+## gave way to ARENA-MENU-BG (the row VS-BELLOWS still names the vendor: his lines and his music).
+const RETIRED_IDS: Array[String] = ["VS-BELLOWS"]
 
 
 static func kind_of(id: String) -> Kind:
@@ -212,6 +215,8 @@ static func import_from_source(vendor_src: String, key_src: String) -> Result:
 			if not ["png", "webp", "jpg", "jpeg"].has(file_name.get_extension().to_lower()):
 				continue
 			var id: String = file_name.get_basename()
+			if RETIRED_IDS.has(id):
+				continue
 			if not known.has(id):
 				if kind_of(id) == Kind.STORE:
 					result.skipped_store.append(file_name)
@@ -250,7 +255,7 @@ static func import_from_source(vendor_src: String, key_src: String) -> Result:
 	for id: Variant in ids:
 		if FileAccess.file_exists(_real(path_for(str(id)))):
 			result.have.append(str(id))
-		else:
+		elif not RETIRED_IDS.has(str(id)):
 			result.missing.append(str(id))
 	reset()
 	return result

@@ -25,7 +25,6 @@ func _init() -> void:
 	screen_title = "Quest Log"
 	title_icon_id = "ICON-UI-QUESTS"
 	close_text = "Close ({open_quests})"
-	background_id = "UI-BG-QUESTLOG"
 	glass = true  # Fable Nov 20 day (Part 2): a glass page; each quest is a pane in its zone's Path colour
 
 

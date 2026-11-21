@@ -171,7 +171,7 @@ static func known_ids() -> Dictionary:
 		var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 		while not file.eof_reached():
 			var row: PackedStringArray = file.get_csv_line()
-			if row.size() >= 2 and (row[0].begins_with("UI-") or row[0].begins_with("MG-")):  # Import Nov 8: MG-BG-* minigame backgrounds
+			if row.size() >= 2 and (row[0].begins_with("UI-") or row[0].begins_with("MG-")) and not RETIRED_IDS.has(row[0].strip_edges()):  # Import Nov 8: MG-BG-* minigame backgrounds
 				known[row[0].strip_edges()] = row[1].strip_edges()
 		break
 	return known
@@ -180,6 +180,9 @@ static func known_ids() -> Dictionary:
 ## Batch 18 (Nov 20): the stained-glass info-screen set. The quest marks are three cells on one strip and the map frame's middle is
 ## empty on purpose: both keep their canvas. The page and the map frame are drawn large, so they keep 1536 px.
 const KEEP_CANVAS_IDS: Array[String] = ["UI-QUEST-MARKS", "UI-MAP-FRAME"]
+## Pictures the game no longer shows since the info screens are stained glass (their Drive files stay): never imported again. The
+## parchment sheet behind the pause menu, the parchment map sheet and the painted quest book.
+const RETIRED_IDS: Array[String] = ["UI-BG-MENU", "UI-BG-WORLDMAP", "UI-BG-QUESTLOG"]
 const LARGE_IDS: Array[String] = ["UI-INFO-PAGE", "UI-MAP-FRAME", "UI-GLASS-STRIP"]
 
 

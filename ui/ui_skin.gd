@@ -369,12 +369,9 @@ static func _slot_without_lock(scaled: Texture2D, px: float) -> Texture2D:
 	return result
 
 
-## The backdrop of the pause menu, settings and save/load screens: UI-BG-MENU, or a flat dim of `fallback` when the image is missing.
+## The backdrop of the pause menu and the save / load screens: the game dimmed by `fallback` (a glass page floats over the dimmed game;
+## the parchment sheet UI-BG-MENU of the old look is retired).
 static func menu_backdrop(fallback: Color) -> Control:
-	# Fable Nov 20 day (Part 2): a glass page floats over the dimmed game, not over the parchment sheet (UI-BG-MENU, the old look)
-	var art: Control = screen_background("UI-BG-MENU", 0.0) if not GlassTheme.available() else null
-	if art != null:
-		return art
 	var dim: ColorRect = ColorRect.new()
 	dim.color = fallback
 	UIKit.full_rect(dim)

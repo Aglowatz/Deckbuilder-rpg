@@ -85,5 +85,7 @@ with open(out, 'w', encoding='utf-8', newline='\n') as handle:
     for row in rows:
         handle.write('| ' + ' | '.join(row) + ' |\n')
     handle.write('\n**Full heals that stay** (not changed; the castle rooms are untouched by the owner\'s rule): the Forgotten Cave\'s Whispering '
-                 'Shrine (the tutorial), Primm\'s Castle\'s Resistance Safe Room, the Path-ology Lab\'s Night Shift Break Room.\n')
+                 'Shrine (the tutorial) and Primm\'s Castle\'s Resistance Safe Room. Since Nov 20 (the owner\'s answer) the Path-ology Lab\'s '
+                 'Night Shift Break Room is a "heal 5 for a cost" room like the four zone dungeons\': 80 gold, or the first card you play '
+                 'each turn costs 1 more in the next fight.\n')
 print('%d rows -> %s' % (len(rows), os.path.relpath(out, ROOT)))

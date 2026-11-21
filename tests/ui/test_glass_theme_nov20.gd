@@ -11,6 +11,7 @@ const INFO_SCREEN_FILES: Array[String] = [
 
 
 func before_each() -> void:
+	GlassTheme.reset()  # another test may have emptied the art cache the theme's textures came from
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(1)
