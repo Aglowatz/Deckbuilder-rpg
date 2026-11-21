@@ -13,7 +13,7 @@ A cozy deckbuilding RPG: wake with no name, walk four strange lands, and win bac
 
 **You wake in a forest with no memory, a deck of cards, and soldiers looking for you.**
 
-The kingdom of Patchwork once ran on four Paths that argued constantly and needed each other anyway: the Beefcakes kept the lights on with
+The kingdom of Pathwork once ran on four Paths that argued constantly and needed each other anyway: the Beefcakes kept the lights on with
 giant hamster wheels, the Gourmands fed everyone, the Necrocrats kept the records of the dead, and the Refusemancers turned rubbish into
 harvests. Then Primm, the Royal Minister of Improvements, took the throne and "perfected" them all - and each land became its own flaw turned
 into law.

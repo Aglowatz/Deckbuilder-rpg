@@ -47,6 +47,8 @@ const TOAST_LAYER: int = 26
 const BANNER_LAYER: int = 27
 ## Overnight Nov 7-8, Part 1.1: a choice the player must answer (the Peek) sits above everything on the table, tips and banners included.
 const MODAL_LAYER: int = 29
+## Fable Nov 21 castle (Part 1.1): the battle's own choice prompts (ability menu, Choose X, the Path question): above the banner, under the modals.
+const PROMPT_LAYER: int = 28
 var _banner_layer: CanvasLayer
 const TIP_WIDTH: float = 330.0
 const TIP_GAP: float = 14.0

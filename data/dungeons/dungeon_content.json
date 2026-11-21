@@ -517,7 +517,7 @@
 							"Shred a spare appeal",
 							"The shredder pays well for a spare appeal. It also takes the tips of your fingers, and they don't grow back in here.",
 							"gold:70",
-							"curse:Paper Cuts|max_hp=-2"
+							"curse:Paper Cuts|max_hp=-4"
 						],
 						[
 							"Shred your own number",
@@ -881,13 +881,13 @@
 							"Study the portrait",
 							"The smile never changes, and neither, you realise, does anything else in this place. It is strangely restful, and that frightens you more than the guards do. You leave rested, and you keep checking over your shoulder.",
 							"heal:6",
-							"curse:His Eyes Follow|max_hp=-1"
+							"curse:His Eyes Follow|max_hp=-6"
 						],
 						[
 							"Pocket a gilded candlestick",
 							"It is heavier than it looks and worth more than it should be, and now it is covered in your fingerprints, in a building that remembers fingerprints.",
 							"gold:80",
-							"curse:Fingerprints Everywhere|max_hp=-2"
+							"curse:Fingerprints Everywhere|max_hp=-7"
 						],
 						[
 							"Count the reflections",
@@ -941,7 +941,7 @@
 							"Pick a handful of the rest",
 							"They wilt in your hand and leave behind a few coins, which is more than they should have been able to do.",
 							"gold:90",
-							"curse:Uniform Pollen|max_hp=-2"
+							"curse:Uniform Pollen|max_hp=-7"
 						],
 						[
 							"Plant something crooked",
@@ -1567,7 +1567,7 @@
 							"Put your hand on the glass",
 							"You put your hand on the glass and the machine gives some of it back. It keeps a little of you, too.",
 							"heal:6",
-							"curse:Drained|max_hp=-1"
+							"curse:Drained|max_hp=-6"
 						],
 						[
 							"Read the dials",
@@ -1814,7 +1814,7 @@
 						[
 							"Leave it on the rack",
 							"You walk past. For the rest of the gallery, every reflection you pass is lifting it for you, slightly better.",
-							"curse:Second Thoughts|max_hp=-2"
+							"curse:Second Thoughts|max_hp=-6"
 						],
 						[
 							"Break it for the silver",
@@ -1878,7 +1878,7 @@
 							"Look it in the eye",
 							"It looks back, and for a second you can't tell which of you blinked. You take some of its certainty with you, and it takes some of your strength.",
 							"boon:Know Yourself|atk=1",
-							"curse:Seen Through|max_hp=-3"
+							"curse:Seen Through|max_hp=-8"
 						],
 						[
 							"Turn your back on it",

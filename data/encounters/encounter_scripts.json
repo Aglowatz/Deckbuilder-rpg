@@ -1081,7 +1081,9 @@
 					"kind": "summon",
 					"token": "T-16",
 					"count": 1,
-					"token_name": "Reflection"
+					"token_name": "Reflection",
+					"token_art": "res://assets/art/bestiary/BST-MIRROR-KNIGHT.webp",
+					"token_tint": "c3d3ea"
 				}
 			],
 			"banner": "A Reflection steps out of the glass."

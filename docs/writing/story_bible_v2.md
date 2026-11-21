@@ -48,7 +48,7 @@ itself taken out, by people who thought they were helping:
 In the Capital all four losses arrive in one city: Blackout, Famine, Restless Dead, Clutter. A perfect street, and behind it people who have
 forgotten their names.
 
-**What Patchwork means.** The kingdom's name is the theme. A patchwork is made from pieces that do not match, and its strength is in the
+**What Pathwork means.** The kingdom's name is the theme: a patchwork of Paths (Primm styles himself "the protector of Pathwork"). A patchwork is made from pieces that do not match, and its strength is in the
 seams. The four Paths argue "like family", and the old Queen "used to say that was the point" (`scenes/royal_funeral/steps/4`). The royal
 gift was never the power to rule the Paths. It was the power to hold four different things at once without making them one. The Old Well
 says it plainly: "It does not run for one shape. It runs for many, held together." Primm wanted a kingdom without seams. The ending is a
@@ -284,7 +284,7 @@ Her language tracks it: long, grumbling, sideways sentences at the start; plaine
 she means. "Dearie" is armour. When she drops it and uses his name, it should be felt.
 
 ### The hero and Pip Threadwell
-Pip is the tailor of a town called Crosspath in a kingdom called Patchwork, and he is the one shopkeeper whose trade is the theme. He
+Pip is the tailor of a town called Crosspath in a kingdom called Pathwork, and he is the one shopkeeper whose trade is the theme. He
 measures the hero before he has a name ("your left shoulder is a size braver than your right"), and treats what he wears as a serious
 question when nothing else about him is settled. Across visits: the delighted first fitting; pride as freed zones send their fabrics;
 gossip about hidden pieces; and, about the Capital's mantle, "The mantle, frankly, is rooting for you." Pip never learns to be less than

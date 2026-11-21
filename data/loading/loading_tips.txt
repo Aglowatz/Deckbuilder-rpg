@@ -2,7 +2,7 @@
 # One tip per line:  kind | text      kinds: hint (gameplay), keyword (what a keyword means), lore (the game's voice)
 # Blank lines and lines starting with # are ignored. Keep each tip to one or two short sentences. A random tip is shown each time.
 # Optional: put "@zone-id" before the kind to show a tip only on one loading screen, e.g.  @LOAD-DUNGEON hint | text   (ids: LOAD-TOWN, LOAD-GAINLANDS, LOAD-DNA, LOAD-BUFFET, LOAD-DUMP, LOAD-CAPITAL, LOAD-DUNGEON)
-# Nov 13 rewrite: hints say the rule plainly; the lore tips sound like someone in Patchwork telling you about the place.
+# Nov 13 rewrite: hints say the rule plainly; the lore tips sound like someone in Pathwork telling you about the place.
 
 hint | You activate an Infrastructure to gain one energy of its Path. Playing a card exhausts the Infrastructure that paid for it.
 hint | You may play one Infrastructure per turn, so it pays to decide early which Paths your deck leans on.
@@ -33,7 +33,7 @@ keyword | Wallflower: cannot attack. It makes its point by staying exactly where
 keyword | Peek X: look at the top X cards of your deck and put any of them on the bottom.
 keyword | Shred removes a card from the game for good. Toss is a discard. Bury X sends the top X cards of a deck to the Refuse Pile.
 
-lore | Patchwork has four Paths and one crossroads, and people say the kingdom was never stronger than when all four met there to argue.
+lore | Pathwork has four Paths and one crossroads, and people say the kingdom was never stronger than when all four met there to argue.
 lore | Beefcakes know the value of a rest. Grandmaster Flex says a rest is a rep, and he has never been wrong about a rep.
 lore | Necrocrats file everything in triplicate, so that nobody who has died is ever lost track of.
 lore | A Gourmand will tell you that most problems look smaller after a proper dinner. They are right more often than not.
@@ -44,7 +44,7 @@ lore | Gatekeeper Brannoch writes every traveller's name in his notebook. The ga
 lore | Old Hob the Gravedigger is the most cheerful man in Crosspath. He says there is no rush in his line of work.
 lore | In the Capital, complaints about the Complaints Department may be filed with the Complaints Department.
 lore | Tilly Tonic tests every potion on herself first, which is why she is rarely the same colour two days running.
-lore | The four Paths of Patchwork once governed together. It was noisy, and it worked.
+lore | The four Paths of Pathwork once governed together. It was noisy, and it worked.
 lore | In the Endless Buffet nobody leaves hungry. It is the oldest rule the Gourmands have.
 lore | The raccoons of the Verdant Dump have a king. Nobody elected him, and he is quite sure of himself.
 @LOAD-DUNGEON hint | HP carries between dungeon encounters, so check the dungeon's entry and healing rules before you go in.

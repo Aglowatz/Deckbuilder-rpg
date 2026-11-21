@@ -61,8 +61,8 @@ static func _events(def: MainDungeonDef) -> void:
 	# Fable Nov 19 (Part 5.1): no purely good option in the castle either (the owner's yes): the deepest dungeon, so strong boons with
 	# lasting drawbacks. The rooms and the fights are untouched.
 	corrected.choice([DungeonEvent.boon(MainDungeonDef.boon_source("They Were Heard", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 4)] as Array[Modifier])), DungeonEvent.damage(3)] as Array[DungeonEvent.Outcome])
-	corrected.choice([DungeonEvent.heal(8), DungeonEvent.boon(DungeonBuilder.boon_from("Their Voices Stay|max_hp=-1"))] as Array[DungeonEvent.Outcome])
-	corrected.choice([DungeonEvent.gold(90), DungeonEvent.boon(DungeonBuilder.boon_from("Robbed the Corrected|max_hp=-2"))] as Array[DungeonEvent.Outcome])
+	corrected.choice([DungeonEvent.heal(8), DungeonEvent.boon(DungeonBuilder.boon_from("Their Voices Stay|max_hp=-6"))] as Array[DungeonEvent.Outcome])
+	corrected.choice([DungeonEvent.gold(90), DungeonEvent.boon(DungeonBuilder.boon_from("Robbed the Corrected|max_hp=-8"))] as Array[DungeonEvent.Outcome])
 	def.add_event(corrected)
 	var wings: DungeonEvent = DungeonEvent.make("pc_four_wings")
 	wings.choice([DungeonEvent.heal(2)] as Array[DungeonEvent.Outcome])
@@ -75,7 +75,7 @@ static func _events(def: MainDungeonDef) -> void:
 	def.add_event(staircase)
 	var journals: DungeonEvent = DungeonEvent.make("pc_early_journals")
 	journals.choice([DungeonEvent.boon(MainDungeonDef.boon_source("A Good Man's Plans", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2), CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)] as Array[Modifier])), DungeonEvent.damage(3)] as Array[DungeonEvent.Outcome])
-	journals.choice([DungeonEvent.heal(7), DungeonEvent.boon(DungeonBuilder.boon_from("Sympathy for Him|max_hp=-1"))] as Array[DungeonEvent.Outcome])
+	journals.choice([DungeonEvent.heal(7), DungeonEvent.boon(DungeonBuilder.boon_from("Sympathy for Him|max_hp=-6"))] as Array[DungeonEvent.Outcome])
 	def.add_event(journals)
 	var last: DungeonEvent = DungeonEvent.make("pc_last_journal")
 	last.choice([DungeonEvent.boon(MainDungeonDef.boon_source("Understanding", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])

@@ -591,6 +591,7 @@ func _box_copy() -> void:
 	if created < 0:
 		_say("No free slot to copy into.", Color("ff8a85"))
 		return
+	_fresh_decks.clear()  # indexes may have moved
 	_say("Deck copied into slot %d." % (Session.deck_box.decks[created].slot + 1), UIStyle.GOOD)
 	_refresh_rack()
 
@@ -704,6 +705,10 @@ func _on_save_slot(slot: int) -> void:
 	save_to_slot(slot)
 
 
+## Decks created on this visit that have not been legal at a save yet (saved-deck indexes): the first legal save puts one in use.
+var _fresh_decks: Array[int] = []
+
+
 ## Saves the edited deck into `slot` (tests and smokes call this directly).
 func save_to_slot(slot: int) -> bool:
 	var saved: DeckBox.SavedDeck = _editing_deck()
@@ -716,7 +721,17 @@ func save_to_slot(slot: int) -> bool:
 	_editing = index
 	_dirty = false
 	Audio.sfx(&"ui_confirm")
-	if editor.is_valid():
+	# Fable Nov 21 castle (Part 1.7): a newly created deck becomes the battle deck by itself - at the first save at which it is legal
+	# (an unfinished deck is never put in use: the fights would refuse it).
+	if saved == null:
+		_fresh_decks.append(index)
+	var equipped: bool = false
+	if editor.is_valid() and _fresh_decks.has(index):
+		_fresh_decks.erase(index)
+		equipped = index != Session.deck_box.active and Session.use_deck(index)
+	if equipped:
+		_say("Deck saved in slot %d. It is now your battle deck." % (slot + 1), UIStyle.GOOD)
+	elif editor.is_valid():
 		_say("Deck saved in slot %d. It is ready for the dungeon." % (slot + 1), UIStyle.GOOD)
 	else:
 		_say("Deck saved in slot %d, but it is not legal yet: %s" % [slot + 1, editor.issues()[0].message], Color("ffcf70"))

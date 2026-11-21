@@ -14,7 +14,7 @@ extends Resource
 ## Her name once Percival Plume has said it at the castle gate (`{rescuer}` after the flag `rescuer_named`), and in full (`{rescuer_full}`).
 @export var rescuer_true_name: String = "Elowen"
 @export var rescuer_full_name: String = "Elowen Vey"
-@export var kingdom: String = "Patchwork"
+@export var kingdom: String = "Pathwork"
 @export var town: String = "Crosspath"
 ## The Capital before and after Primm falls.
 @export var capital: String = "Primm's Perfection"

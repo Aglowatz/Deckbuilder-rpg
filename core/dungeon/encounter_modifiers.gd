@@ -340,8 +340,12 @@ static func _token_of(spec: Dictionary, key: String) -> CardData:
 	# Oct 20: a rule may rename a token and set its keywords ("token_name", "token_keywords": [] = none) - the store room's plain 1/1 Ghost is
 	# the Hungry Ghost (its art) without Flying. The copy keeps the token's id, so its art and its bestiary entry still match.
 	# Fable Nov 20: "token_stats": [attack, defense] sets the token's printed size (Clipwell's Topiary is a 1/2).
-	if spec.has("token_name") or spec.has("token_keywords") or spec.get("token_stats") is Array:
+	if spec.has("token_name") or spec.has("token_keywords") or spec.get("token_stats") is Array or spec.has("token_art"):
 		token = token.duplicate() as CardData
+		# Fable Nov 21 castle (Part 1.9): "token_art" (a res:// picture) and "token_tint" (a colour over it) dress the copy
+		if spec.has("token_art"):
+			token.art_override = str(spec["token_art"])
+			token.art_tint = Color(str(spec.get("token_tint", "ffffff")))
 		if spec.get("token_stats") is Array and (spec["token_stats"] as Array).size() == 2:
 			token.attack = int((spec["token_stats"] as Array)[0])
 			token.defense = int((spec["token_stats"] as Array)[1])

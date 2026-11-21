@@ -139,6 +139,20 @@ static func crop_region(texture_size: Vector2, window: Vector2, focus: float, zo
 
 ## `card_id`'s art cut for a window of `window` pixels (the thumbnail copy when `small`), with the card's focus and `zoom` times
 ## its own zoom; null when the card has no art.
+## Fable Nov 21 castle (Part 1.9): the picture at `path` (a card's `art_override`) cut for `window` like a card's own painting; null when
+## the file is missing (the card then falls back to its own art).
+static func cropped_override(path: String, window: Vector2, zoom: float = 1.0) -> Texture2D:
+	if path.is_empty() or not ResourceLoader.exists(path):
+		return null
+	var full: Texture2D = ArtCache.fetch(CACHE_GROUP, path, func() -> Texture2D: return load(path) as Texture2D)
+	if full == null:
+		return null
+	var atlas: AtlasTexture = AtlasTexture.new()
+	atlas.atlas = full
+	atlas.region = crop_region(Vector2(full.get_width(), full.get_height()), window, 0.5, zoom)
+	return atlas
+
+
 static func cropped(card_id: String, window: Vector2, zoom: float = 1.0, small: bool = false) -> Texture2D:
 	var full: Texture2D = thumb(card_id) if small else texture(card_id)
 	if full == null:

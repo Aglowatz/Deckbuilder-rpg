@@ -63,8 +63,8 @@ static func add_all(result: Dictionary) -> void:
 		"Due back in 1987. The fines are now sentient.", [_mod(K.EXTRA_DRAWS, 1), _eff(K.START_OF_TURN_EFFECT, O.TOSS, 1, G.CONTROLLER)])
 	_add(result, "elastic_waistband", "Elastic Waistband of Victory", S.ARMOR, R.RARE, 3, "Your units get +1/+1.", "You can play only 2 non-infrastructure cards per turn.",
 		"Built for the Endless Buffet. Stretches to fit any ambition.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 2)])
-	_add(result, "hubris_crown", "Crown of Mild Hubris", S.HELM, R.LEGENDARY, 3, "You always go first, draw an extra card on your first turn, and your units get +1 attack.", "Max HP -4.",
-		"Heavy is the head that wears the crown. Mostly because it's very heavy.", [_mod(K.ALWAYS_FIRST, 1), _mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -4)])  # Oct 29: a Legendary's worth
+	_add(result, "hubris_crown", "Crown of Mild Hubris", S.HELM, R.LEGENDARY, 3, "You always go first, draw an extra card on your first turn, and your units get +1 attack.", "Max HP -10.",
+		"Heavy is the head that wears the crown. Mostly because it's very heavy.", [_mod(K.ALWAYS_FIRST, 1), _mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -10)])  # Fable Nov 21 castle (Part 1.3): -4 -> -10, the owner's number
 	# -- One buff per Path (tier 2).
 	_add(result, "protein_bandolier", "Protein Shaker Bandolier", S.ARMOR, R.UNCOMMON, 2, "Your Beefcake units get +1/+1.", "",
 		"Six shakers, one for every meal, and a seventh for emotional support.", [_mod(K.STAT_CHANGE, 1, B, 1)])

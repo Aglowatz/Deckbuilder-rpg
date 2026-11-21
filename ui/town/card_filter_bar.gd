@@ -8,7 +8,8 @@ signal changed
 signal path_refused(limit: int)
 
 const COST_LABELS: Array[String] = ["Any cost", "0-1", "2", "3", "4+"]
-const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder", "Tool"]
+## Fable Nov 21 castle (Part 1.7): Infrastructure is a type of its own in the selector (index 6).
+const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder", "Tool", "Infrastructure"]
 const RARITY_LABELS: Array[String] = ["Any rarity", "Common", "Uncommon", "Epic", "Legendary"]
 
 var affinity_filter: int = -1
@@ -99,6 +100,8 @@ func _card_type_for(index: int) -> int:
 			return int(CardEnums.CardType.TRAP)
 		5:
 			return int(CardEnums.CardType.TOOL)
+		6:
+			return int(CardEnums.CardType.INFRASTRUCTURE)
 	return int(CardEnums.CardType.WONDER)
 
 

@@ -47,3 +47,6 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **The player read-me in the zip** (`docs/release/player_readme.txt`): the export still writes the playtest read-me; switch it for the public build.
 - **The memory smoke's object count** grows by about 15 objects a zone round trip (static and video memory are flat); chase it only if a long session ever shows it.
 - **A real-fight bot run per Path** (`bash tools/run_full_real.sh <path>`): the fight pilots can finish scripted-event fights again since the Nov 21 review; none has been run since Nov 17.
+
+## Added by Fable Nov 21 castle (deferred, for the owner to schedule)
+- **The Extra Pocket** (the equipment that lets each equipped item be used twice per battle) stays as it is for now (the owner, Nov 21): revisit with testing. The item strength table in `docs/balance_report_nov21.md` (section 5) has its number.

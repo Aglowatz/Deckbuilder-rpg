@@ -46,6 +46,11 @@ extends Resource
 ## Art-pipeline metadata from the card sheet (never shown in game).
 @export_multiline var image_description: String = ""
 @export var is_signature: bool = false
+## Fable Nov 21 castle (Part 1.9): a picture drawn in place of the card's own art (a res:// texture path; "" = assets/art/cards/<id>) and a
+## tint over it. Set on a copy of a token by an encounter rule ("token_art" / "token_tint": the Mirror Knight's Reflection wears the
+## Knight's own picture, silvered), never on a card of the sheet.
+@export var art_override: String = ""
+@export var art_tint: Color = Color.WHITE
 
 
 ## The parsed card script (cached per card; re-parsed if `script_text` changes).

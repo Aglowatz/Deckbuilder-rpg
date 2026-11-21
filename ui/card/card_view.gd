@@ -467,6 +467,10 @@ func _art_window(rect: Rect2, below: float) -> Rect2:
 func _cropped_art(window: Vector2) -> Texture2D:
 	if data.id == "":
 		return null
+	if not data.art_override.is_empty():
+		var borrowed: Texture2D = CardArt.cropped_override(data.art_override, window, COMPACT_ZOOM if mode == Mode.COMPACT else 1.0)
+		if borrowed != null:
+			return borrowed
 	return CardArt.cropped(data.id, window, COMPACT_ZOOM if mode == Mode.COMPACT else 1.0, thumb_art)
 
 
@@ -484,6 +488,9 @@ func _build_art() -> void:
 		picture.position = window.position
 		picture.size = window.size
 		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		picture.name = "ArtPicture"
+		if not data.art_override.is_empty():
+			picture.modulate = data.art_tint  # the Mirror Knight's Reflection: his own picture, silvered
 		add_child(picture)
 	else:
 		_build_placeholder_art(rect)

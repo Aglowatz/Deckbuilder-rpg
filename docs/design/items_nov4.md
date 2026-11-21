@@ -30,9 +30,9 @@
 | Energy Draught | +1 energy of a deck Path this turn | regular | 45 (Healing Draught, 3 uses) | **100** |
 | Firebrand Charm | 2 damage to an enemy unit | regular | 45 (2 uses) | **100** |
 | Binding Chains | return an enemy unit to hand | high shelf (L17) | 90 (2 uses) | **150** |
-| Silence Powder | opponent tosses 2 random cards | high shelf (L17) | 60 (2 uses) | **150** |
+| Silence Powder | opponent tosses 1 random card (Nov 21: was 2) | high shelf (L17) | 60 (2 uses) | **150** |
 | Grave Dust | opponent buries 6 | high shelf (L17) | 45 (2 uses) | **150** |
-| Summoning Charm | three 1/1 Militia | high shelf (L17) | 90 (1 use) | **150** |
+| Summoning Charm | two 1/1 Militia (Nov 21: was three) | high shelf (L17) | 90 (1 use) | **150** |
 | Ward Sigil | a unit gains Untouchable this turn | high shelf (L17) | 60 (2 uses) | **150** |
 
 The spread on the regular shelf follows the Nov 2 sim (docs/design/items_nov2.md: Draw 1 and the Stone and the Firebrand are the strongest

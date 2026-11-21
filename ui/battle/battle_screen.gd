@@ -1696,7 +1696,7 @@ func _show_x_dialog(step: Dictionary) -> void:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	panel.name = "XDialog"
 	panel.position = Vector2(760, 420)
-	_overlay_layer.add_child(panel)
+	prompt_layer().add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Choose X", &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
@@ -1845,8 +1845,7 @@ func _default_x(ability: CardAbility) -> int:
 func _show_ability_menu(card: CardInstance, usable: Array[int]) -> void:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	panel.name = "AbilityMenu"
-	panel.position = board.center_of(card.uid) + Vector2(-140, -40)
-	_overlay_layer.add_child(panel)
+	prompt_layer().add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
 	column.add_child(UIKit.label(card.data.display_name, &"HeadingLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
@@ -1863,7 +1862,35 @@ func _show_ability_menu(card: CardInstance, usable: Array[int]) -> void:
 	close.pressed.connect(func() -> void: panel.queue_free())
 	column.add_child(close)
 	panel.set_meta(BattlePad.META_CANCEL, close)
+	panel.reset_size()
+	panel.position = prompt_spot(board.center_of(card.uid), panel.get_combined_minimum_size())
 	PadFocus.register(panel)
+
+
+## Fable Nov 21 castle (Part 1.1): every choice prompt of a battle (a card's ability menu with its "Never mind", "Choose X", the Energy
+## Draught's Path question) is drawn in its own canvas layer above the board, the played cards, the hand and the tooltips; the engine's
+## own choices (`ChoicePanel`) and Peek already sit one layer higher. Before, the ability menu was a child of the overlay layer at z 0 and
+## a card on the table (z up to 80) covered its buttons.
+var _prompt_layer: CanvasLayer = null
+
+
+func prompt_layer() -> CanvasLayer:
+	if _prompt_layer == null or not is_instance_valid(_prompt_layer):
+		_prompt_layer = CanvasLayer.new()
+		_prompt_layer.name = "PromptLayer"
+		_prompt_layer.layer = BattleHud.PROMPT_LAYER
+		add_child(_prompt_layer)
+	return _prompt_layer
+
+
+## Where a prompt of `size` goes for the card at `center`: beside the card (right, or left when there is no room), never over it and
+## never off the 1920 x 1080 screen.
+static func prompt_spot(center: Vector2, size: Vector2) -> Vector2:
+	var gap: float = CardView.SIZE.x * 0.28 + 16.0  # half a card on the table (scale 0.56) and a margin
+	var x: float = center.x + gap
+	if x + size.x > 1900.0:
+		x = center.x - gap - size.x
+	return Vector2(clampf(x, 20.0, maxf(20.0, 1900.0 - size.x)), clampf(center.y - size.y * 0.5, 20.0, maxf(20.0, 1060.0 - size.y)))
 
 
 ## New brief, Part F: using an equipped item from the item bar. Items are not cards - no energy, no
@@ -1904,8 +1931,7 @@ func _choose_energy_path(item: ItemData) -> void:
 	path_chooser.name = "PathChooser"
 	UIKit.full_rect(path_chooser)
 	path_chooser.mouse_filter = Control.MOUSE_FILTER_STOP
-	path_chooser.z_index = 150
-	add_child(path_chooser)
+	prompt_layer().add_child(path_chooser)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.6)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE

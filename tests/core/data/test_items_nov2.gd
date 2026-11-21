@@ -83,9 +83,9 @@ func test_the_high_shelf_opens_at_level_17_with_retuned_items() -> void:
 	assert_eq(int(prices["energy_draught"]), 100)
 	assert_eq(int(prices["firebrand_charm"]), 100)
 	assert_eq(content.item("binding_chains").uses, 1)
-	assert_eq(content.item("silence_powder").effect.amount, 2)
+	assert_eq(content.item("silence_powder").effect.amount, 1)  # Fable Nov 21 castle: 2 -> 1
 	assert_eq(content.item("grave_dust").effect.amount, 6)
-	assert_eq(content.item("summoning_charm").effect.amount, 3)
+	assert_eq(content.item("summoning_charm").effect.amount, 2)  # Fable Nov 21 castle: 3 -> 2
 
 
 func test_a_bandaged_unit_keeps_its_toughness_next_turn() -> void:
