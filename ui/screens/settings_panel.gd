@@ -29,9 +29,14 @@ var autosave: bool = true
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(PAGE_SIZE.x + 40.0, 0)
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2): stained glass, wherever the page is opened from (the pause menu, the title)
 	var column: VBoxContainer = UIKit.vbox(12)
 	add_child(column)
-	column.add_child(UIKit.label("Settings", &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip())
+		column.add_child(GlassTheme.title("Settings"))
+	else:
+		column.add_child(UIKit.label("Settings", &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var tab_row: HBoxContainer = UIKit.hbox(8)
 	tab_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	for index: int in range(PAGES.size()):
@@ -64,11 +69,15 @@ func _ready() -> void:
 	_scroll = scroll
 	var bar: VScrollBar = scroll.get_v_scroll_bar()
 	bar.custom_minimum_size = Vector2(16, 0)
-	bar.add_theme_stylebox_override("scroll", UIStyle.box(Color(0.0, 0.0, 0.0, 0.45), UIStyle.GOLD_DIM, 1, 8))
-	bar.add_theme_stylebox_override("grabber", UIStyle.box(UIStyle.GOLD_DIM, Color(0, 0, 0, 0), 0, 8))
-	bar.add_theme_stylebox_override("grabber_highlight", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
-	bar.add_theme_stylebox_override("grabber_pressed", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
-	var back: FancyButton = FancyButton.make("Back", &"PrimaryButton", Vector2(200, 52))
+	if GlassTheme.available():
+		GlassTheme.style_scroll(scroll)  # the painted rail and its amber grip
+	else:
+		bar.add_theme_stylebox_override("scroll", UIStyle.box(Color(0.0, 0.0, 0.0, 0.45), UIStyle.GOLD_DIM, 1, 8))
+		bar.add_theme_stylebox_override("grabber", UIStyle.box(UIStyle.GOLD_DIM, Color(0, 0, 0, 0), 0, 8))
+		bar.add_theme_stylebox_override("grabber_highlight", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
+		bar.add_theme_stylebox_override("grabber_pressed", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
+	var back: FancyButton = FancyButton.make("Done", &"PrimaryButton", Vector2(200, 52))
+	back.name = "SettingsBack"
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	back.pressed.connect(_on_back)
 	column.add_child(back)
@@ -97,6 +106,54 @@ func show_page(index: int) -> void:
 			_build_controls()
 		_:
 			_build_audio()
+	_plate_rows()
+	_link_done()
+
+
+## The last control of a page leads down to Done and Done leads back up to it: on a long page (Controls) the rows that are scrolled out
+## of sight lie below the button on the screen, so the pad's "nearest control below" never found it.
+func _link_done() -> void:
+	var done: Control = find_child("SettingsBack", true, false) as Control
+	if done == null or _body == null:
+		return
+	var last: Control = null
+	for node: Node in _body.find_children("*", "Control", true, false):
+		if node.is_queued_for_deletion() or (node.get_parent() != null and node.get_parent().is_queued_for_deletion()):
+			continue
+		if (node is BaseButton or node is Range) and not (node is ScrollBar):
+			last = node as Control
+	if last == null:
+		return
+	last.focus_neighbor_bottom = last.get_path_to(done)
+	done.focus_neighbor_top = done.get_path_to(last)
+
+
+## Fable Nov 20 day (Part 2): every setting sits on its own plate of glass (the notes and headings between them stay bare), so a
+## label and its control read as one row.
+func _plate_rows() -> void:
+	if not GlassTheme.available():
+		return
+	for child: Node in _body.get_children():
+		if child.is_queued_for_deletion() or child is Label or child is RichTextLabel or child is PanelContainer or not (child is Control):
+			continue
+		if child is HBoxContainer and (child as HBoxContainer).get_child_count() > 0 and _only_buttons(child):
+			continue  # a row of plain buttons (Open log folder, Copy log) needs no plate
+		var index: int = child.get_index()
+		var plate: PanelContainer = PanelContainer.new()
+		plate.name = "Row_%s" % str(child.name)
+		plate.theme_type_variation = &"GlassRow"
+		plate.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_body.remove_child(child)
+		plate.add_child(child)
+		_body.add_child(plate)
+		_body.move_child(plate, index)
+
+
+static func _only_buttons(row: Node) -> bool:
+	for piece: Node in row.get_children():
+		if not (piece is Button) or piece is OptionButton or piece is CheckButton:
+			return false
+	return true
 
 
 # ---- Pages ----------------------------------------------------------------------------------
@@ -348,10 +405,19 @@ func _options(items: Array[String], selected: int, callback: Callable) -> Option
 ## Fix pass Nov 7 (Part 5, C7 F6, C9 F12): an OptionButton's list in the game's look (it opened as the stock grey Godot popup).
 static func theme_popup(options: OptionButton) -> void:
 	var popup: PopupMenu = options.get_popup()
-	popup.add_theme_stylebox_override("panel", UIStyle.box(Color("1f1626"), UIStyle.GOLD_DIM, 2, 8))
-	popup.add_theme_stylebox_override("hover", UIStyle.box(Color("3a2a1c"), UIStyle.GOLD, 1, 6))
-	popup.add_theme_color_override("font_color", UIStyle.PARCHMENT)
-	popup.add_theme_color_override("font_hover_color", UIStyle.GOLD)
+	if GlassTheme.available():
+		# the list is a pane of the night page; the row under the pointer or the pad is lit slate
+		var menu: StyleBoxFlat = UIStyle.box(GlassTheme.PAGE_DEEP, GlassTheme.GOLD_LINE, 2, 8, 10)
+		menu.set_content_margin_all(8)
+		popup.add_theme_stylebox_override("panel", menu)
+		popup.add_theme_stylebox_override("hover", UIStyle.box(GlassTheme.SLATE.lightened(0.1), Color(0, 0, 0, 0), 0, 6))
+		popup.add_theme_color_override("font_color", GlassTheme.TEXT)
+		popup.add_theme_color_override("font_hover_color", Color.WHITE)
+	else:
+		popup.add_theme_stylebox_override("panel", UIStyle.box(Color("1f1626"), UIStyle.GOLD_DIM, 2, 8))
+		popup.add_theme_stylebox_override("hover", UIStyle.box(Color("3a2a1c"), UIStyle.GOLD, 1, 6))
+		popup.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+		popup.add_theme_color_override("font_hover_color", UIStyle.GOLD)
 	popup.add_theme_font_override("font", UIStyle.font_bold())
 	popup.add_theme_font_size_override("font_size", 20)
 

@@ -27,6 +27,7 @@ var _age: float = 0.0
 var _enabled: bool = true
 ## UI art kit: the reward panel (UI-PANEL-POPUP) has a red ribbon banner across its top; the title sits on the ribbon.
 var _art: bool = false
+var _glass: bool = false
 ## Overnight Oct 17, Part 7: the body's rows come in one by one (`reveal_body`); a confirm press while they do shows them all first.
 var _reveal_tween: Tween
 var _revealing: bool = false
@@ -62,24 +63,31 @@ func _build(header_text: String, icon: String) -> void:
 	UIKit.full_rect(center)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
-	_art = UiArt.has("UI-PANEL-POPUP-DARK")
-	_panel = UIKit.panel(&"RewardPanel" if _art else &"")
+	# Fable Nov 20 day (Part 2): the reward box is a glass pop-up (the dark panel with the hairline gold border, the strip of panes,
+	# the gold divider); the ribbon panel is the fallback
+	_glass = GlassTheme.available()
+	if _glass:
+		GlassTheme.apply(self)
+	_art = UiArt.has("UI-PANEL-POPUP-DARK") and not _glass
+	_panel = UIKit.panel(&"GlassPopup" if _glass else (&"RewardPanel" if _art else &""))
 	_panel.custom_minimum_size = Vector2(PANEL_WIDTH + (60.0 if _art else 0.0), 0)
 	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	center.add_child(_panel)
 	_column = UIKit.vbox(12)
 	_panel.add_child(UIKit.margin(_column, 14))
+	if _glass:
+		_column.add_child(GlassTheme.strip([], 14.0))
 	_header_row = UIKit.hbox(16)
 	_header_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_column.add_child(_header_row)
 	_badge = IconArt.glyph_for(icon, UIStyle.PARCHMENT if _art else accent, 44.0 if _art else 60.0)
 	_header_row.add_child(_badge)
-	_header = UIKit.label(header_text, &"TitleLabel", 38 if _art else 54, Color("fff3d6") if _art else accent, HORIZONTAL_ALIGNMENT_CENTER)
+	_header = UIKit.label(header_text, &"TitleLabel", 38 if _art else (44 if _glass else 54), Color("fff3d6") if _art else (GlassTheme.TITLE if _glass else accent), HORIZONTAL_ALIGNMENT_CENTER)
 	if _art:
 		_header.add_theme_color_override("font_outline_color", Color("5a1010"))
 		_header.add_theme_constant_override("outline_size", 6)
 	_header_row.add_child(_header)
-	_column.add_child(_divider())
+	_column.add_child(GlassTheme.divider() if _glass else _divider())
 	_heading = UIKit.label("", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_heading.custom_minimum_size = Vector2(PANEL_WIDTH - 80.0, 0)

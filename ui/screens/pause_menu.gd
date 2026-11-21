@@ -16,6 +16,7 @@ func _ready() -> void:
 	_root = UIKit.layer_host(self)
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP
 	UiScale.fit(_root)
+	GlassTheme.apply(_root)  # Fable Nov 20 day (Part 2): the stained-glass look for the menu and every page it opens
 	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.04, 0.72))
 	_root.add_child(dim)
 	var center: CenterContainer = CenterContainer.new()
@@ -32,9 +33,17 @@ func _ready() -> void:
 func _build_menu() -> void:
 	for child: Node in _menu.get_children():
 		child.queue_free()
-	var column: VBoxContainer = UIKit.vbox(14)
+	var column: VBoxContainer = UIKit.vbox(12)
 	_menu.add_child(column)
-	var emblem: Texture2D = KeyArt.texture("LOGO-EMBLEM")
+	var glass: bool = GlassTheme.available()
+	if glass:
+		# the strip of Path panes along the top of the page, then the rose window of the four Paths
+		column.add_child(GlassTheme.strip())
+		var rose: TextureRect = GlassTheme.rose(150.0)
+		rose.name = "Emblem"
+		rose.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		column.add_child(rose)
+	var emblem: Texture2D = KeyArt.texture("LOGO-EMBLEM") if not glass else null
 	if emblem != null:
 		# The small logo (the four Paths meeting at the crossroads stone) tops the pause menu.
 		var badge: TextureRect = TextureRect.new()
@@ -45,8 +54,18 @@ func _build_menu() -> void:
 		badge.custom_minimum_size = Vector2(112, 112)
 		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		column.add_child(badge)
-	column.add_child(UIKit.label("Paused", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	column.add_child(UIKit.spacer(6))
+	if glass:
+		column.add_child(GlassTheme.title("Paused", 36))
+		var where: String = Areas.banner_name(SceneManager.current_area) if not str(SceneManager.current_area).is_empty() else ""
+		if not where.is_empty():
+			# the first line says where you are (a lighter tint of the page, never grey)
+			var place: Label = UIKit.label(where, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+			place.name = "WhereLabel"
+			place.add_theme_font_override("font", UIStyle.font_italic())
+			column.add_child(place)
+	else:
+		column.add_child(UIKit.label("Paused", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.spacer(4))
 	var resume: FancyButton = FancyButton.make("Resume", &"PrimaryButton", Vector2(0, 54))
 	resume.pressed.connect(toggle)
 	column.add_child(resume)
@@ -88,6 +107,8 @@ func _build_menu() -> void:
 	folder.name = "OpenFeedbackFolderButton"
 	folder.pressed.connect(FeedbackReport.open_folder)
 	column.add_child(folder)
+	if glass:
+		column.add_child(GlassTheme.divider())  # leaving the game stands apart from everything else
 	var title: FancyButton = FancyButton.make("Quit to Title", &"", Vector2(0, 54))
 	title.pressed.connect(_to_title)
 	column.add_child(title)

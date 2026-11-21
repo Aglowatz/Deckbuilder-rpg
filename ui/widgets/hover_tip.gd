@@ -46,6 +46,10 @@ static func _show(target: Control, title: String, body: String, accent: Color, i
 	var panel: PanelContainer = PanelContainer.new()
 	panel.name = "HoverTip"
 	panel.theme_type_variation = &"DarkPanel"
+	if GlassTheme.available():
+		# Fable Nov 20 day (Part 2): the near-black glass panel with the hairline gold border
+		panel.theme = GlassTheme.theme()
+		panel.theme_type_variation = &"GlassTooltip"
 	panel.top_level = true
 	panel.z_index = 400
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE

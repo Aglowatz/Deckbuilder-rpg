@@ -74,8 +74,11 @@ static func paragraphs() -> Array[Array]:
 
 
 func _build() -> void:
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2)
 	var column: VBoxContainer = UIKit.vbox(12)
 	add_child(column)
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip())
 	var head: HBoxContainer = UIKit.hbox(12)
 	var title: Label = UIKit.label("Credits", &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_LEFT)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -91,6 +94,7 @@ func _build() -> void:
 	_scroll = ScrollContainer.new()
 	_scroll.custom_minimum_size = Vector2(1060, 720)
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	GlassTheme.style_scroll(_scroll)
 	column.add_child(_scroll)
 	var body: VBoxContainer = UIKit.vbox(8)
 	body.custom_minimum_size = Vector2(1030, 0)
@@ -126,7 +130,7 @@ func _line(kind: String, text: String) -> Label:
 			colour = UIStyle.GOLD
 		"small":
 			size = 15
-			colour = UIStyle.MUTED
+			colour = GlassTheme.SECONDARY if GlassTheme.available() else UIStyle.MUTED
 	var label: Label = UIKit.label(text, &"", size, colour, HORIZONTAL_ALIGNMENT_CENTER if kind == "h1" else HORIZONTAL_ALIGNMENT_LEFT)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.custom_minimum_size = Vector2(1020, 0)

@@ -31,6 +31,7 @@ func _ready() -> void:
 	UiScale.fit(self)
 	z_index = 150
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2)
 	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.05, 0.85))
 	add_child(dim)
 	var center: CenterContainer = CenterContainer.new()
@@ -41,7 +42,11 @@ func _ready() -> void:
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Save Game" if mode == Mode.SAVE else "Load Game", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip())
+		column.add_child(GlassTheme.title("Save Game" if mode == Mode.SAVE else "Load Game", 36))
+	else:
+		column.add_child(UIKit.label("Save Game" if mode == Mode.SAVE else "Load Game", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	_list = UIKit.vbox(8)
 	column.add_child(_list)
 	_status = UIKit.label("", &"MutedLabel", 21, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
@@ -73,9 +78,33 @@ func _rebuild() -> void:
 		_list.add_child(_row(slot))
 
 
+## Fable Nov 20 day (Part 2): one amber button per screen - the slot you most likely want (the newest save to load; the first free
+## slot, else the first slot, to save into). The other rows' buttons are slate glass.
+func _main_button(slot: int) -> StringName:
+	if not GlassTheme.available():
+		return &"PrimaryButton"
+	return &"PrimaryButton" if slot == _likely_slot() else &""
+
+
+func _likely_slot() -> int:
+	var best: int = -1
+	if mode == Mode.LOAD:
+		var newest: int = -1
+		for slot: int in range(0, SaveSlots.SLOT_COUNT + 1):
+			var info: Dictionary = SaveSlots.info(slot)
+			if not info.is_empty() and bool(info.get("compatible", true)) and int(info.get("saved_at", 0)) > newest:
+				newest = int(info.get("saved_at", 0))
+				best = slot
+		return best
+	for slot: int in range(1, SaveSlots.SLOT_COUNT + 1):
+		if SaveSlots.info(slot).is_empty():
+			return slot
+	return 1
+
+
 func _row(slot: int) -> Control:
 	var info: Dictionary = SaveSlots.info(slot)
-	var row_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	var row_panel: PanelContainer = UIKit.panel(&"GlassRow" if GlassTheme.available() else &"DarkPanel")
 	row_panel.name = "Slot%d" % slot
 	var row: HBoxContainer = UIKit.hbox(16)
 	row_panel.add_child(row)
@@ -94,7 +123,7 @@ func _row(slot: int) -> Control:
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(text)
 	if info.is_empty():
-		text.add_child(UIKit.label("%s - empty" % SaveSlots.slot_label(slot), &"", 28, UIStyle.MUTED))
+		text.add_child(UIKit.label("%s - empty" % SaveSlots.slot_label(slot), &"MutedLabel", 28))
 		if mode == Mode.SAVE and slot > 0:
 			text.add_child(_name_edit(slot, "Save %d" % slot))
 	else:
@@ -113,13 +142,13 @@ func _row(slot: int) -> Control:
 	row.add_child(buttons)
 	if mode == Mode.SAVE:
 		if slot > 0:
-			var save: FancyButton = FancyButton.make("Save here", &"PrimaryButton", Vector2(190, 46))
+			var save: FancyButton = FancyButton.make("Save here", _main_button(slot), Vector2(190, 46))
 			save.name = "SaveButton"
 			save.disabled = not Session.can_save_now()
 			save.pressed.connect(func() -> void: _on_save(slot, not info.is_empty()))
 			buttons.add_child(save)
 	else:
-		var load_button: FancyButton = FancyButton.make("Load", &"PrimaryButton", Vector2(190, 46))
+		var load_button: FancyButton = FancyButton.make("Load", _main_button(slot), Vector2(190, 46))
 		load_button.name = "LoadButton"
 		load_button.disabled = info.is_empty() or not bool(info["compatible"])
 		load_button.pressed.connect(func() -> void: _on_load(slot))

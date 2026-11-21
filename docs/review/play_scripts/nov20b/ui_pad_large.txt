@@ -1,0 +1,72 @@
+# Fable Nov 20 day, Part 2: the info screens with a controller (the lit pane is the focus) and at the Larger text size
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev flag trial_cleared
+dev gate gourmand
+dev quest main_gourmand 2
+dev quest main_beefcake 1
+dev quest main_refusemancer 1
+dev travel zone gourmand
+wait 20
+skip_dialogue
+calm
+pad start
+wait 1
+pad down
+pad down
+pad down
+wait 1
+shot pad_01_pause_focus_on_settings
+pad a
+wait 1
+pad down
+pad down
+wait 1
+shot pad_02_settings_focus_on_a_row
+pad b
+wait 1
+pad down
+wait 1
+pad a
+wait 1
+shot pad_03_glossary
+pad b
+wait 1
+pad b
+wait 1
+pad left
+wait 2
+shot pad_04_quest_log
+pad down
+wait 1
+shot pad_05_quest_log_next_quest
+pad b
+wait 1
+pad back
+wait 2
+shot pad_06_map
+pad b
+wait 1
+dev textsize 2
+wait 1
+shot large_01_quest_box
+key J
+wait 2
+shot large_02_quest_log
+key Escape
+wait 1
+key Escape
+wait 1
+button Glossary
+wait 1
+shot large_03_glossary
+key Escape
+wait 1
+button Settings
+wait 1
+button Text
+wait 1
+shot large_04_settings_text

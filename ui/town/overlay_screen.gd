@@ -32,6 +32,17 @@ var warming: bool = false
 ## Performance pass Oct 25: the screen hides the whole 3D world (a painting or a 94% shade), so the world pauses its rendering behind it
 ## (WorldCover). A screen that shows the live world through itself sets this false before it is added.
 var covers_world: bool = true
+## Fable Nov 20 day (Part 2): an INFORMATION screen (the quest log, the map, the Collection Book) is a stained-glass page - the night-blue
+## page in its leaded gold frame over a dimmed backdrop, the strip of Path panes along its top - and everything in it reads GlassTheme.
+## The shops, the Deck Station and the other gold-framed screens leave this false.
+var glass: bool = false
+## The gap between the screen edge and the glass page, and between the page's frame and its content.
+const GLASS_GAP: int = 18
+const GLASS_PAD: int = 46
+
+
+func is_glass() -> bool:
+	return glass and stage == null and GlassTheme.available()
 
 
 func _ready() -> void:
@@ -43,8 +54,22 @@ func _ready() -> void:
 	if not vendor_screen_id.is_empty() and KeyArt.has(VendorStage.backdrop_for(vendor_screen_id)):
 		stage = VendorStage.make(vendor_screen_id, vendor_inset)
 		add_child(stage)
-	var backdrop: Control = UiSkin.screen_background(background_id) if stage == null else null
-	if backdrop != null:
+	var backdrop: Control = UiSkin.screen_background(background_id) if stage == null and not is_glass() else null
+	if is_glass():
+		GlassTheme.apply(self)
+		var night: ColorRect = ColorRect.new()
+		night.name = "GlassDim"
+		night.color = Color(0.02, 0.015, 0.06, 0.9)
+		UIKit.full_rect(night)
+		night.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(night)
+		var page: Panel = Panel.new()
+		page.name = "GlassPage"
+		page.theme_type_variation = &"GlassPage"
+		page.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, GLASS_GAP)
+		add_child(page)
+	elif backdrop != null:
 		add_child(backdrop)
 	elif stage == null:
 		var shade: ColorRect = ColorRect.new()
@@ -54,13 +79,15 @@ func _ready() -> void:
 		var glow: ColorRect = UIKit.gradient_background()
 		glow.modulate.a = 0.35
 		add_child(glow)
-	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), SCREEN_MARGIN)
+	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), SCREEN_MARGIN if not is_glass() else GLASS_GAP + GLASS_PAD)
 	if stage != null:
 		margin.add_theme_constant_override("margin_left", SCREEN_MARGIN + int(vendor_inset))
 	UIKit.full_rect(margin)
 	add_child(margin)
 	var root: VBoxContainer = margin.get_child(0) as VBoxContainer
 	root.add_theme_constant_override("separation", 14)
+	if is_glass():
+		root.add_child(GlassTheme.strip())
 	var header: HBoxContainer = UIKit.hbox(16)
 	root.add_child(header)
 

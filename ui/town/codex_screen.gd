@@ -54,6 +54,7 @@ func _ready() -> void:
 	title_icon_id = "ICON-UI-COLLECTION"
 	close_text = "Close (Esc)"
 	background_id = "UI-BG-DECKBUILDER"
+	glass = true  # Fable Nov 20 day (Part 2): the book is a glass page (its frame, its tabs and chips); the cards keep their own look
 	super._ready()
 
 
@@ -206,7 +207,7 @@ func _build_cards_page() -> void:
 	_cards_page.add_child(main)
 	var filters: HBoxContainer = UIKit.hbox(8)
 	main.add_child(filters)
-	filters.add_child(UIKit.label("Rarity", &"MutedLabel", 18, UIStyle.MUTED))
+	filters.add_child(UIKit.label("Rarity", &"MutedLabel", 18, GlassTheme.SECONDARY))
 	for rarity: int in range(-1, CardEnums.Rarity.size()):
 		var label: String = "All" if rarity < 0 else CardView.RARITY_NAMES[rarity]
 		var chip: FancyButton = FancyButton.make(label, &"GhostButton", Vector2(0, 40))
@@ -313,7 +314,7 @@ func _refresh_grid() -> void:
 				_pending.append([grid, card])
 	_add_enemy_only_section()
 	if _grid_box.get_child_count() == 0:
-		_grid_box.add_child(UIKit.label("Nothing here yet.", &"MutedLabel", 22, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+		_grid_box.add_child(UIKit.label("Nothing here yet.", &"MutedLabel", 22, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER))
 
 
 ## Cards Oct 27, Part 2: the bosses' own cards (ENEMY-ONLY) in their own section, outside the 100%: a silhouette until met in battle,
@@ -334,7 +335,7 @@ func _add_enemy_only_section() -> void:
 	for card: CardData in cards:
 		if Session.has_seen(card.id):
 			seen += 1
-	var heading: Label = UIKit.label("Seen in battle  -  %d / %d  (the bosses' own cards; not part of the collection)" % [seen, cards.size()], &"", 24, UIStyle.MUTED)
+	var heading: Label = UIKit.label("Seen in battle  -  %d / %d  (the bosses' own cards; not part of the collection)" % [seen, cards.size()], &"", 24, GlassTheme.SECONDARY)
 	heading.name = "SeenInBattle"
 	_outline(heading)
 	heading.add_theme_font_override("font", UIStyle.font_title())
@@ -398,7 +399,7 @@ func _card_tile(card: CardData) -> Button:
 	if seen:
 		var owned: int = Session.owned_count(card.id)
 		line.text = "Infrastructure" if card.is_unlimited() else "Own %s" % CopyCaps.own_ratio_text(owned, card)
-		line.add_theme_color_override("font_color", UIStyle.GOOD if owned > 0 or card.is_unlimited() else UIStyle.MUTED)
+		line.add_theme_color_override("font_color", UIStyle.GOOD if owned > 0 or card.is_unlimited() else GlassTheme.SECONDARY)
 		tile.tooltip_text = card.display_name
 		if kind == CardAvailability.Kind.ENEMY_ONLY:
 			line.text = "Grandfathered" if owned > 0 else "Enemy's own"
@@ -412,7 +413,7 @@ func _card_tile(card: CardData) -> Button:
 	else:
 		view.modulate = Color(0.45, 0.45, 0.52)
 		line.text = "???"
-		line.add_theme_color_override("font_color", UIStyle.MUTED)
+		line.add_theme_color_override("font_color", GlassTheme.SECONDARY)
 		tile.tooltip_text = "Not found yet."
 		# Fable Nov 19 (Part 5.3): a card not found yet magnifies too, as its card back
 		tile.mouse_entered.connect(func() -> void: _preview.show_back_for(tile, card))
@@ -478,7 +479,7 @@ func inspect(card: CardData) -> void:
 	if MultiPathLock.is_multi(card) and not Session.flag(MultiPathLock.FLAG_UNLOCKED):
 		where = (where + " " if not where.is_empty() else "") + MultiPathLock.rule_text()
 	if not where.is_empty():
-		var source_line: Label = UIKit.label(where, &"MutedLabel", 18, UIStyle.MUTED)
+		var source_line: Label = UIKit.label(where, &"MutedLabel", 18, GlassTheme.SECONDARY)
 		source_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		source_line.custom_minimum_size = Vector2(540, 0)
 		info.add_child(source_line)
@@ -488,7 +489,7 @@ func inspect(card: CardData) -> void:
 		var cap: int = CopyCaps.for_card(card, Session.profile.level)
 		if cap < CopyCaps.ABSOLUTE_MAX:
 			var deck_line: String = "In a deck: %d for now. %s" % [cap, CopyCaps.future_text(card, Session.profile.level)]
-			var hint: Label = UIKit.label(deck_line.strip_edges(), &"MutedLabel", 18, UIStyle.MUTED)
+			var hint: Label = UIKit.label(deck_line.strip_edges(), &"MutedLabel", 18, GlassTheme.SECONDARY)
 			hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			hint.custom_minimum_size = Vector2(540, 0)
 			info.add_child(hint)
@@ -540,7 +541,7 @@ func _build_beasts_page() -> void:
 	for milestone: Dictionary in Bestiary.MILESTONES:
 		var reached: bool = Session.flag(StringName("bestiary_%d" % int(milestone["percent"])))
 		var reward: String = "%d gold" % int(milestone["gold"]) if milestone.has("gold") else ("a Gilded Pack" if str(milestone.get("pack", "")) == "gilded" else "a Path Pack")
-		var chip: Label = UIKit.label("%d%%: %s%s" % [int(milestone["percent"]), reward, "  (done)" if reached else ""], &"", 17, UIStyle.GOOD if reached else UIStyle.MUTED)
+		var chip: Label = UIKit.label("%d%%: %s%s" % [int(milestone["percent"]), reward, "  (done)" if reached else ""], &"", 17, UIStyle.GOOD if reached else GlassTheme.SECONDARY)
 		chip.add_theme_stylebox_override("normal", UIStyle.box(Color(0, 0, 0, 0.35), UIStyle.GOOD if reached else Color(1, 1, 1, 0.15), 1, 8))
 		milestones.add_child(chip)
 	var scroll: ScrollContainer = ScrollContainer.new()
@@ -562,7 +563,7 @@ func _build_beasts_page() -> void:
 	_beasts_page.add_child(detail_panel)
 	_beast_detail = UIKit.vbox(12)
 	detail_panel.add_child(UIKit.margin(_beast_detail, 18))
-	_beast_detail.add_child(UIKit.label("Pick an entry.", &"MutedLabel", 22, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	_beast_detail.add_child(UIKit.label("Pick an entry.", &"MutedLabel", 22, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER))
 
 
 func _beast_tile(entry: Bestiary.Entry) -> Button:
@@ -576,7 +577,7 @@ func _beast_tile(entry: Bestiary.Entry) -> Button:
 	icon.position = Vector2(46, 14)
 	icon.size = Vector2(84, 84)
 	tile.add_child(icon)
-	var name_label: Label = UIKit.label(entry.name if known else "???", &"", 16, UIStyle.PARCHMENT if known else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	var name_label: Label = UIKit.label(entry.name if known else "???", &"", 16, UIStyle.PARCHMENT if known else GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER)
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	name_label.position = Vector2(6, 104)
@@ -628,8 +629,8 @@ func show_beast(entry: Bestiary.Entry) -> void:
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.custom_minimum_size = Vector2(480, 0)
 	_beast_detail.add_child(title)
-	_beast_detail.add_child(UIKit.label(("Boss" if entry.is_boss() else ("Roamer" if entry.kind == "roamer" else "Foe")) + "  -  " + entry.where, &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
-	var blurb: Label = UIKit.label(entry.blurb if known else "Not met yet. Somewhere out there, it is waiting. Probably doing push-ups.", &"", 22, UIStyle.PARCHMENT if known else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	_beast_detail.add_child(UIKit.label(("Boss" if entry.is_boss() else ("Roamer" if entry.kind == "roamer" else "Foe")) + "  -  " + entry.where, &"MutedLabel", 19, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER))
+	var blurb: Label = UIKit.label(entry.blurb if known else "Not met yet. Somewhere out there, it is waiting. Probably doing push-ups.", &"", 22, UIStyle.PARCHMENT if known else GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(480, 0)
 	_beast_detail.add_child(blurb)
@@ -717,7 +718,7 @@ func _gear_tile(piece: EquipmentData, owned: bool, hint: String) -> Button:
 	icon.position = Vector2((GEAR_TILE.x - GEAR_ICON_PX) * 0.5, 10)
 	icon.size = Vector2(GEAR_ICON_PX, GEAR_ICON_PX)
 	tile.add_child(icon)
-	var name_label: Label = UIKit.label(piece.source_name if owned else "???", &"", 16, UIStyle.PARCHMENT if owned else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	var name_label: Label = UIKit.label(piece.source_name if owned else "???", &"", 16, UIStyle.PARCHMENT if owned else GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER)
 	name_label.name = "GearName"
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.max_lines_visible = 2
@@ -743,7 +744,7 @@ func _gear_tile(piece: EquipmentData, owned: bool, hint: String) -> Button:
 		tile.add_child(effect)
 		tile.tooltip_text = piece.tooltip_text()
 	else:
-		var where: Label = UIKit.label(hint, &"", 14, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+		var where: Label = UIKit.label(hint, &"", 14, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER)
 		where.name = "GearHint"
 		where.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		where.max_lines_visible = 4

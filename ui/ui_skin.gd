@@ -54,6 +54,9 @@ static func popup_panel() -> StyleBoxTexture:
 
 
 static func tooltip_panel() -> StyleBoxTexture:
+	# Fable Nov 20 day (Part 2): every hover tooltip is the glass one (UI-INFO-TOOLTIP); the old panel is the fallback
+	if GlassTheme.available() and UiArt.has(GlassTheme.POPUP_ART):
+		return GlassTheme.tooltip_box()
 	return UiArt.nine("UI-PANEL-TOOLTIP", TOOLTIP_MARGIN, TOOLTIP_FACTOR, Vector4(24, 18, 24, 18))
 
 
@@ -368,7 +371,8 @@ static func _slot_without_lock(scaled: Texture2D, px: float) -> Texture2D:
 
 ## The backdrop of the pause menu, settings and save/load screens: UI-BG-MENU, or a flat dim of `fallback` when the image is missing.
 static func menu_backdrop(fallback: Color) -> Control:
-	var art: Control = screen_background("UI-BG-MENU", 0.0)
+	# Fable Nov 20 day (Part 2): a glass page floats over the dimmed game, not over the parchment sheet (UI-BG-MENU, the old look)
+	var art: Control = screen_background("UI-BG-MENU", 0.0) if not GlassTheme.available() else null
 	if art != null:
 		return art
 	var dim: ColorRect = ColorRect.new()

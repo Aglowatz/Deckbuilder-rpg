@@ -44,6 +44,7 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 	title_icon_id = "ICON-UI-MAP"
 	close_text = "Close ({open_map})"
 	background_id = "UI-BG-WORLDMAP"
+	glass = true  # Fable Nov 20 day (Part 2): a glass page; the map sits in UI-MAP-FRAME
 
 
 func _build() -> void:
@@ -65,7 +66,7 @@ func _build() -> void:
 
 
 func _legend() -> Control:
-	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	var panel: PanelContainer = UIKit.panel(&"GlassPopup" if is_glass() else &"DarkPanel")
 	panel.custom_minimum_size = Vector2(380, 0)
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
@@ -113,7 +114,7 @@ func _legend() -> Control:
 		# Fable pass Nov 10 (Part 1.4): a button opens the list as a panel over the map's right edge (a Window popup landed over the legend
 		# whatever it was told), so the legend stays readable while you choose; the list scrolls, closes on a pick or Escape, and takes
 		# keyboard and pad focus.
-		var where: FancyButton = FancyButton.make("Point me to...", &"", Vector2(300, 44))
+		var where: FancyButton = FancyButton.make("Point me to...", &"PrimaryButton" if is_glass() else &"", Vector2(300, 44))  # the map's one amber button
 		where.name = "WhereTo"
 		where.tooltip_text = "Pick a place: a white arrow leads you there after you close the map."
 		_where_places = places
@@ -239,7 +240,7 @@ func _toggle_where_list() -> void:
 		_hide_where_list()
 		return
 	if _where_panel == null:
-		_where_panel = UIKit.panel(&"DarkPanel")
+		_where_panel = UIKit.panel(&"GlassPopup" if is_glass() else &"DarkPanel")
 		_where_panel.name = "WhereToPanel"
 		var box: VBoxContainer = UIKit.vbox(8)
 		_where_panel.add_child(box)
@@ -371,6 +372,8 @@ func _draw_board(cells: Rect2, screen: Rect2) -> void:
 		var grow: float = 3.0 + float(step) * 6.0
 		_canvas.draw_rect(Rect2(screen.position - Vector2(grow, grow) + Vector2(0.0, 6.0), screen.size + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.12 - 0.02 * float(step)), false, 6.0)
 	var for_inset: bool = screen == _inset_screen and _inset_cells.size.x > 0.0
+	if not for_inset:
+		_place_map_frame(screen)
 	if not for_inset and _draw_painted(screen):
 		_canvas.draw_rect(screen, Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
 		return
@@ -388,6 +391,29 @@ func _draw_board(cells: Rect2, screen: Rect2) -> void:
 
 
 var _picture_layers: Array[ColorRect] = [null, null]
+
+## Fable Nov 20 day (Part 2): the painted frame round the map (UI-MAP-FRAME: lead and gold, the strip of Path panes along its top,
+## the compass in its corner). Its middle is empty; it is laid over the map's edge, FRAME_GROW pixels wider than the map on each side
+## (left, top, right, bottom) so its opening is the map.
+const MAP_FRAME_FACTOR: float = 0.5
+const MAP_FRAME_GROW: Vector4 = Vector4(54.0, 50.0, 54.0, 42.0)
+var _map_frame: Panel = null
+
+
+func _place_map_frame(screen: Rect2) -> void:
+	if not is_glass() or not UiArt.has(GlassTheme.MAP_FRAME_ART):
+		return
+	if _map_frame == null:
+		_map_frame = Panel.new()
+		_map_frame.name = "MapFrame"
+		_map_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var box: StyleBoxTexture = UiArt.nine(GlassTheme.MAP_FRAME_ART, GlassTheme.MAP_FRAME_MARGIN, MAP_FRAME_FACTOR)
+		if box != null:
+			box.draw_center = false
+			_map_frame.add_theme_stylebox_override("panel", box)
+		_canvas.add_child(_map_frame)
+	_map_frame.position = screen.position - Vector2(MAP_FRAME_GROW.x, MAP_FRAME_GROW.y)
+	_map_frame.size = screen.size + Vector2(MAP_FRAME_GROW.x + MAP_FRAME_GROW.z, MAP_FRAME_GROW.y + MAP_FRAME_GROW.w)
 
 ## Overnight Nov 18 (Batch 17, MAP-WORLD-TOWN): an area with a painted parchment map shows it instead of the walk-grid picture. The file
 ## is resampled onto a fixed world rectangle by tools/art/town_map_warp.py (keep WORLD_RECT in sync), so it is drawn with the same world ->

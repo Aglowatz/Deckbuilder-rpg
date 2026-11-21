@@ -62,7 +62,8 @@ func _ready() -> void:
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	add_child(center)
-	var panel: PanelContainer = UIKit.panel()
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2): every small pop-up is the dark glass panel with the hairline gold border
+	var panel: PanelContainer = UIKit.panel(&"GlassPopup" if GlassTheme.available() else &"")
 	panel.custom_minimum_size = Vector2(560, 0)
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(16)
@@ -109,6 +110,8 @@ func _ready() -> void:
 		no = yes
 	else:
 		row.add_child(no)
+		if bool(get_meta("danger")) and not three_way and GlassTheme.available():
+			no.theme_type_variation = &"PrimaryButton"  # one amber button: the safe answer is the one you most likely want
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open", -4.0)
 	# Overnight Oct 17, Part 13: keyboard / pad: both buttons focusable, the safe choice focused for a dangerous action.

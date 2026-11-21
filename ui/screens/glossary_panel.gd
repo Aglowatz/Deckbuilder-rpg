@@ -55,8 +55,11 @@ static func make() -> GlossaryPanel:
 
 
 func _build() -> void:
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2)
 	var column: VBoxContainer = UIKit.vbox(10)
 	add_child(column)
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip())
 	var head: HBoxContainer = UIKit.hbox(10)
 	column.add_child(head)
 	var title_icon: TextureRect = IconArt.rect("ICON-UI-GLOSSARY", FeatsPanel.HEADING_ICON_PX)  # art import Oct 31
@@ -75,12 +78,14 @@ func _build() -> void:
 		var tab: FancyButton = FancyButton.make(TABS[index], &"GhostButton", Vector2(0, 40))
 		tab.name = "Tab_%s" % TABS[index].replace(" ", "_")
 		tab.add_theme_font_size_override("font_size", 19)
+		tab.toggle_mode = true  # the chosen tab is the lit pane (it used to be the only one not faded)
 		var which: int = index
 		tab.pressed.connect(func() -> void: show_tab(which))
 		_tab_bar.add_child(tab)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(940, 620)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	GlassTheme.style_scroll(scroll)
 	column.add_child(scroll)
 	_list = UIKit.vbox(10)
 	_list.custom_minimum_size = Vector2(910, 0)
@@ -92,7 +97,9 @@ func show_tab(index: int) -> void:
 	_current = clampi(index, 0, TABS.size() - 1)
 	for i: int in range(_tab_bar.get_child_count()):
 		var tab: FancyButton = _tab_bar.get_child(i) as FancyButton
-		tab.modulate = Color(1, 1, 1, 1) if i == _current else Color(1, 1, 1, 0.6)
+		tab.button_pressed = i == _current
+		if not GlassTheme.available():
+			tab.modulate = Color(1, 1, 1, 1) if i == _current else Color(1, 1, 1, 0.6)
 	for child: Node in _list.get_children():
 		child.queue_free()
 	for entry: Array in entries(_current):
@@ -148,9 +155,10 @@ func _row(title: String, text: String, icon_id: String) -> HBoxContainer:
 	var head: Label = UIKit.label(title, &"", 22, UIStyle.GOLD)
 	head.add_theme_font_override("font", UIStyle.font_bold())
 	box.add_child(head)
-	var body: Label = UIKit.label(text, &"", 18, UIStyle.PARCHMENT)
+	var body: Label = UIKit.label(text, &"", 19, UIStyle.PARCHMENT)  # long reading on dark glass: a size up, and room between lines
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.custom_minimum_size = Vector2(840, 0)
+	body.add_theme_constant_override("line_spacing", 3)
+	body.custom_minimum_size = Vector2(820, 0)
 	box.add_child(body)
 	row.add_child(box)
 	return row

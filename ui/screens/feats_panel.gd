@@ -22,8 +22,11 @@ static func make() -> FeatsPanel:
 
 
 func _build() -> void:
+	GlassTheme.apply(self)  # Fable Nov 20 day (Part 2)
 	var column: VBoxContainer = UIKit.vbox(10)
 	add_child(column)
+	if GlassTheme.available():
+		column.add_child(GlassTheme.strip())
 	var head: HBoxContainer = UIKit.hbox(10)
 	column.add_child(head)
 	var title_icon: TextureRect = IconArt.rect("ICON-UI-FEATS", HEADING_ICON_PX)  # art import Oct 31
@@ -44,6 +47,7 @@ func _build() -> void:
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(940, 620)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	GlassTheme.style_scroll(scroll)
 	column.add_child(scroll)
 	_list = UIKit.vbox(8)
 	_list.custom_minimum_size = Vector2(910, 0)
@@ -128,5 +132,15 @@ func _row(def: FeatDefs.Def) -> HBoxContainer:
 	if earned and Session.feats != null and Session.feats.state.has(def.id):
 		mark.text = "Earned here"
 	row.add_child(mark)
-	row.modulate = Color(1, 1, 1, 1) if earned else Color(1, 1, 1, 0.62)
+	if GlassTheme.available():
+		# a feat not earned yet is written in the page's lighter tint, in italics: never faded out
+		if not earned:
+			head.add_theme_color_override("font_color", GlassTheme.SECONDARY)
+			head.add_theme_font_override("font", UIStyle.font_bold_italic())
+			body.add_theme_color_override("font_color", GlassTheme.SECONDARY)
+			body.add_theme_font_override("font", UIStyle.font_italic())
+			if row.get_child(0) is TextureRect:
+				(row.get_child(0) as TextureRect).modulate = Color(0.75, 0.75, 0.95, 0.8)
+	else:
+		row.modulate = Color(1, 1, 1, 1) if earned else Color(1, 1, 1, 0.62)
 	return row

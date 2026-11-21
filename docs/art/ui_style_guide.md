@@ -179,3 +179,47 @@ Path icons. Sliders and switches fill with lit glass.
 **Recommendation:** B for the menus that float over the game (pause menu, quest box, tooltips, pop-ups), because it is the colourful
 change that was asked for and agrees with the dark HUD; if long reading on dark worries you after seeing it, a mix is possible (B's
 frame and panes round A's linen page for the quest log and the glossary). Say A, B or the mix.
+
+---
+
+# Nov 20: direction B, "Stained glass", is built
+
+The owner chose B. Every information screen wears it since Fable Nov 20 day (Part 2), with the Batch 18 pieces.
+
+**One theme, one place:** `ui/glass/glass_theme.gd` (`GlassTheme`). `GlassTheme.theme()` is a Godot Theme built once from the art; a
+screen takes the look with `GlassTheme.apply(root)` (a whole-screen page sets `glass = true` on its `OverlayScreen`). The 9-slice
+margins, the colours and the sizes are constants at the top of that file and nowhere else; Path colours come from
+`core/data/path_palette.json`. A later change to the look is a change to that file.
+
+| Piece | Used for |
+|---|---|
+| `UI-INFO-PAGE` | the page of every info screen |
+| `UI-GLASS-STRIP` | the strip of Path panes along the top of a page (a quest's box shows eight lit panes in its zone's colour) |
+| `UI-GLASS-PANE`, `-LIT` | rows, tabs, tags, choice lists; lit = chosen (grey art, tinted in code) |
+| `UI-BTN-AMBER` | the one main action of a screen (`PrimaryButton`) |
+| `UI-BTN-GLASS` | every other button, slate (grey art, tinted in code) |
+| `UI-ROSE-WINDOW` | the top of the pause menu |
+| `UI-INFO-DIVIDER` | either side of a page title, and between sections |
+| `UI-QUESTBOX`, `UI-QUEST-MARKS` | the quest box in the corner; the step marks there and in the quest log |
+| `UI-INFO-TOOLTIP` | hover tooltips, confirm pop-ups, notices, the reward box |
+| `UI-MAP-FRAME` | round the map on the full map screen |
+| `UI-SCROLL-RAIL`, `-GRIP` | every scrolling list |
+
+**Screens:** the pause menu, settings (all five tabs), the glossary, feats, save and load, credits, the quest box, the quest log, the
+map screen, the Collection Book's page, tooltips, the confirm pop-ups and notices (the sealed-card and too-many-Paths pop-ups, the
+buy-anyway question), the reward box. **Left alone:** the battle board and its HUD, the shops' and the Deck Station's gold-framed
+screens, the dialogue box, the title screen's own menu.
+
+**Colours** (`GlassTheme`): page `#221E42`, body text `#F2ECDD`, secondary text `#BDB9EC` (a lighter tint of the page, never grey),
+headings `#F4CE78`, slate glass `#66739C`, lit slate `#C9D6FF`, ink on lit glass `#17132B`. Contrast, measured on the real art by
+`tests/ui/test_glass_theme_nov20.gd`: `docs/review/glass_contrast.txt` (body text 12.9:1 on the page; the lowest body pair is 5.2:1).
+
+**How the rules are kept:** a quest wears its zone's Path colour with the Path's icon beside it (`QuestLogScreen.quest_path`); a pane
+that stands for no Path is slate; a dangerous button (Quit Game, Delete) is slate glass with a warm label, because a red pane would
+say "Beefcake"; one amber button per screen (Resume, Done, Track, Point me to..., the newest save to load; for a dangerous question
+the safe answer); a step not yet known is italic, a feat not yet earned is italic in the secondary tint; tabs are toggles and the
+chosen one is the lit pane; the keyboard / controller focus is a gold ring round the lit piece.
+
+**Not coloured by Path yet:** the glossary's keywords (the data gives a keyword no Path) and the Settings tabs (they stand for no
+Path, so they are slate; the mock-up had coloured them as decoration). Before / after shots: `docs/overnight_shots/nov20b/ui_before/`
+and `ui_after/` (1280x720: `ui_after_1280x720/`; controller and Larger text: `ui_pad_large/`).

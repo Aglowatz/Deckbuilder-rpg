@@ -26,22 +26,25 @@ func _init() -> void:
 	title_icon_id = "ICON-UI-QUESTS"
 	close_text = "Close ({open_quests})"
 	background_id = "UI-BG-QUESTLOG"
+	glass = true  # Fable Nov 20 day (Part 2): a glass page; each quest is a pane in its zone's Path colour
 
 
 func _build() -> void:
 	var tabs: HBoxContainer = UIKit.hbox(10)
 	body.add_child(tabs)
 	for index: int in range(TAB_NAMES.size()):
-		var button: FancyButton = FancyButton.make(TAB_NAMES[index], &"", Vector2(190, 50))
+		var button: FancyButton = FancyButton.make(TAB_NAMES[index], &"GhostButton" if is_glass() else &"", Vector2(190, 50))
+		button.toggle_mode = is_glass()
 		button.name = "Tab%s" % TAB_NAMES[index]
 		var tab_index: int = index
 		button.pressed.connect(func() -> void: _set_tab(tab_index as Tab))
 		tabs.add_child(button)
 		_tab_buttons.append(button)
 	# Overnight Oct 17 (Phase 2, UI consistency): the key hint ran under the frame's right edge in pale grey on the brown page; shorter, readable, inset.
-	var hint: Label = UIKit.label("Left/Right: tabs  ·  Up/Down: choose", &"", 20, Color("3a2818"))
+	var hint: Label = UIKit.label("Left/Right: tabs  ·  Up/Down: choose", &"", 20, GlassTheme.SECONDARY if is_glass() else Color("3a2818"))
 	hint.name = "KeyHint"
-	hint.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+	if not is_glass():
+		hint.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -49,10 +52,11 @@ func _build() -> void:
 	# Import Nov 8 (Part 2, C7 F11): the hint ended under the quill in the page's top-right corner - it stops well short of it now.
 	var quill_gap: Control = Control.new()
 	quill_gap.name = "QuillGap"
-	quill_gap.custom_minimum_size = Vector2(QUILL_GAP, 0)
+	quill_gap.custom_minimum_size = Vector2(QUILL_GAP if not is_glass() else 0.0, 0)
 	quill_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tabs.add_child(quill_gap)
-	tabs.add_child(UIKit.spacer(0, 110))
+	if not is_glass():
+		tabs.add_child(UIKit.spacer(0, 110))
 	var split: HBoxContainer = UIKit.hbox(24)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(split)
@@ -60,6 +64,9 @@ func _build() -> void:
 	list_scroll.custom_minimum_size = Vector2(540, 0)
 	list_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	split.add_child(list_scroll)
+	if is_glass():
+		GlassTheme.style_scroll(list_scroll)
+		split.add_child(VSeparator.new())
 	_list = UIKit.vbox(8)
 	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list_scroll.add_child(_list)
@@ -157,7 +164,10 @@ func _track(quest_id: String) -> void:
 
 func _refresh() -> void:
 	for index: int in range(_tab_buttons.size()):
-		_tab_buttons[index].theme_type_variation = &"PrimaryButton" if index == _tab else &"GhostButton"
+		if is_glass():
+			_tab_buttons[index].button_pressed = index == _tab  # the chosen tab is the lit pane
+		else:
+			_tab_buttons[index].theme_type_variation = &"PrimaryButton" if index == _tab else &"GhostButton"
 	for child: Node in _list.get_children():
 		child.queue_free()
 	var ids: Array[String] = quest_ids(_tab)
@@ -179,6 +189,8 @@ func _refresh() -> void:
 		button.name = "Quest_%s" % quest_id
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.clip_text = true
+		if is_glass():
+			_glass_quest_row(button, quest, quest_id == _selected)
 		if _tab == Tab.COMPLETED:
 			IconArt.button_icon(button, "ICON-CHECK", 28.0)
 		elif Session.quest_log.is_ready_to_turn_in(quest, state):
@@ -202,6 +214,8 @@ func _show_detail(state: UnlockState) -> void:
 	var done_quest: bool = qlog.is_completed(quest.id)
 	var head: HBoxContainer = UIKit.hbox(10)
 	_detail.add_child(head)
+	if is_glass():
+		_glass_detail_head(quest, head)
 	var tag: Label = UIKit.label(quest.category_tag(), &"", 16, Color("1d1408"))
 	tag.add_theme_font_override("font", UIStyle.font_bold())
 	var tag_panel: PanelContainer = PanelContainer.new()
@@ -213,8 +227,11 @@ func _show_detail(state: UnlockState) -> void:
 	tag_panel.add_theme_stylebox_override("panel", tag_box)
 	tag_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	tag_panel.add_child(tag)
-	head.add_child(tag_panel)
-	head.add_child(UIKit.label(quest.title, &"HeadingLabel", 34))
+	if not is_glass():
+		head.add_child(tag_panel)
+		head.add_child(UIKit.label(quest.title, &"HeadingLabel", 34))
+	else:
+		tag_panel.free()
 	var summary: Label = UIKit.label(Villain.fill(quest.summary), &"", 23, UIStyle.PARCHMENT)
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	summary.custom_minimum_size = Vector2(700, 0)
@@ -237,7 +254,9 @@ func _show_detail(state: UnlockState) -> void:
 		var done: bool = done_quest or progress.x >= progress.y
 		var is_current: bool = not done_quest and index == current
 		var row: HBoxContainer = UIKit.hbox(8)
-		if done:
+		if is_glass():
+			row.add_child(GlassTheme.mark(GlassTheme.Mark.DONE if done else (GlassTheme.Mark.NEXT if is_current else GlassTheme.Mark.OPEN), 26.0))
+		elif done:
 			row.add_child(IconArt.rect("ICON-CHECK", 26.0))
 		else:
 			var mark: Label = UIKit.label("»" if is_current else "○", &"", 22, UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, LATER_STEP_ALPHA))
@@ -247,6 +266,9 @@ func _show_detail(state: UnlockState) -> void:
 		if progress.y > 1:
 			text += "   %d/%d" % [progress.y if done_quest else progress.x, progress.y]
 		var color: Color = UIStyle.GOOD if done else (UIStyle.GOLD if is_current else Color(UIStyle.PARCHMENT, LATER_STEP_ALPHA))
+		if is_glass():
+			# a step done is the page's lighter tint, the current one bright and bold, a later one plain: none is faded
+			color = GlassTheme.SECONDARY if done else (Color.WHITE if is_current else GlassTheme.TEXT)
 		var line: Label = UIKit.label(text, &"", 22, color)
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.custom_minimum_size = Vector2(560, 0)
@@ -260,8 +282,12 @@ func _show_detail(state: UnlockState) -> void:
 		var hidden_row: HBoxContainer = UIKit.hbox(8)
 		var hidden_mark: Label = UIKit.label("○", &"", 22, Color(UIStyle.PARCHMENT, UNKNOWN_STEP_ALPHA))
 		hidden_mark.custom_minimum_size = Vector2(26, 0)
-		hidden_row.add_child(hidden_mark)
-		var hidden_text: Label = UIKit.label(QuestLog.HIDDEN_STEPS_TEXT, &"", 22, Color(UIStyle.PARCHMENT, UNKNOWN_STEP_ALPHA))
+		if is_glass():
+			hidden_mark.free()
+			hidden_row.add_child(GlassTheme.mark(GlassTheme.Mark.OPEN, 26.0))
+		else:
+			hidden_row.add_child(hidden_mark)
+		var hidden_text: Label = UIKit.label(QuestLog.HIDDEN_STEPS_TEXT, &"", 22, GlassTheme.TEXT if is_glass() else Color(UIStyle.PARCHMENT, UNKNOWN_STEP_ALPHA))
 		hidden_text.name = "HiddenStepsText"
 		hidden_text.add_theme_font_override("font", UIStyle.font_italic())  # told apart by its slant, not by fading it
 		hidden_row.add_child(hidden_text)
@@ -292,6 +318,65 @@ func _show_detail(state: UnlockState) -> void:
 		insight = insight or flag_name.begins_with("capital_insight_")
 	if insight:
 		_detail.add_child(UIKit.label("+ Insight into %s" % Villain.display_name(), &"", 20, UIStyle.GOLD))
+
+
+## Fable Nov 20 day (Part 2): the Path a quest belongs to - its zone's (where it is given, else where its steps happen); NEUTRAL for a
+## quest of Crosspath, the Capital or nowhere in particular.
+static func quest_path(quest: QuestData) -> Affinity.Type:
+	if quest == null:
+		return Affinity.Type.NEUTRAL
+	var areas: Array[String] = [quest.giver_area, quest.turn_in_area]
+	for objective: QuestObjective in quest.objectives:
+		areas.append(objective.target_area)
+	# a main quest is named after its zone ("main_gourmand"); a side dungeon's quest after its dungeon
+	for path: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]:
+		if quest.id == "main_%s" % PackRules.zone_for_path(path):
+			return path
+	for area: String in areas:
+		var path: Affinity.Type = PackRules.path_for_zone(area)
+		if path != Affinity.Type.NEUTRAL:
+			return path
+	return Affinity.Type.NEUTRAL
+
+
+## The glass of a quest: its Path's colour, slate when it has none.
+static func quest_glass(quest: QuestData) -> Color:
+	var path: Affinity.Type = quest_path(quest)
+	return PathPalette.main(path) if path != Affinity.Type.NEUTRAL else GlassTheme.SLATE_LIT
+
+
+## A quest's row in the list: a pane in its zone's colour with the Path's icon on it; the chosen one is lit (dark ink on bright glass).
+func _glass_quest_row(button: FancyButton, quest: QuestData, chosen: bool) -> void:
+	var glass_colour: Color = quest_glass(quest)
+	var content: Vector4 = Vector4(16, 8, 16, 8)
+	var rest: StyleBoxTexture = GlassTheme.pane(glass_colour.darkened(0.45), false, content)
+	var hover: StyleBoxTexture = GlassTheme.pane(glass_colour.darkened(0.2), false, content)
+	var lit: StyleBoxTexture = GlassTheme.pane(GlassTheme.lit(glass_colour), true, content)
+	button.add_theme_stylebox_override("normal", lit if chosen else rest)
+	button.add_theme_stylebox_override("hover", lit if chosen else hover)
+	button.add_theme_stylebox_override("pressed", lit)
+	button.add_theme_stylebox_override("focus", GlassTheme.focus_ring(12))
+	for key: String in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color"]:
+		button.add_theme_color_override(key, GlassTheme.INK if chosen else GlassTheme.TEXT)
+	button.add_theme_constant_override("outline_size", 0)
+	button.set_meta(&"glass_path", int(quest_path(quest)))
+	var path: Affinity.Type = quest_path(quest)
+	if button.icon == null and path != Affinity.Type.NEUTRAL:
+		IconArt.button_icon(button, PathIcons.icon(path), 30.0)
+
+
+## The head of the detail side: the Path's tag (colour and icon) or the MAIN / SIDE tag, then the quest's name.
+func _glass_detail_head(quest: QuestData, head: HBoxContainer) -> void:
+	var path: Affinity.Type = quest_path(quest)
+	var kind: PanelContainer = GlassTheme.tag(quest.category_tag(), GlassTheme.TITLE if quest.is_main() else GlassTheme.SLATE_LIT, 19)
+	kind.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	head.add_child(kind)
+	if path != Affinity.Type.NEUTRAL:
+		var zone_tag: PanelContainer = GlassTheme.path_tag(path, Areas.banner_name(Areas.key_for_zone(PackRules.zone_for_path(path))), 19)
+		zone_tag.name = "ZoneTag"
+		zone_tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		head.add_child(zone_tag)
+	head.add_child(UIKit.label(quest.title, &"HeadingLabel", 34))
 
 
 ## The "where to go" line: the current objective's hint, else the turn-in NPC, else the quest's giver.

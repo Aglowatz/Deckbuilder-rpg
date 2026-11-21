@@ -300,6 +300,7 @@ func _show_overlay(builder: Callable) -> void:
 	_close_overlay()
 	_overlay = CenterContainer.new()
 	UIKit.full_rect(_overlay)
+	GlassTheme.apply(_overlay)  # Fable Nov 20 day (Part 2): the pages the title opens (settings, credits, its questions) are glass pages
 	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.04, 0.7))
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(dim)
