@@ -1,3 +1,227 @@
+# Fable Nov 21 castle - report: Primm's Castle rebuilt, the four allies, Primm rebalanced, your playtest list
+
+Brief: `docs/prompts/fable_nov21_castle_allies.md`. Start tag `pre-fable-nov21-castle`. Questions: `docs/overnight_inbox.md`,
+"Fable Nov 21 castle" (5 decisions, 1 note). Shots: `docs/overnight_shots/nov21c/`. **Nothing was uploaded.** One commit per part, all pushed.
+
+**The run stopped once.** On the night of Nov 21-22 the PC ran out of memory during Part 10, after commit `bb21d61` (Parts 1 to 6, 8
+and 9 done). It was picked up on Nov 22: the uncommitted work was checked (Primm's phase texts brought in line with his new numbers,
+the docs, two sim tables; all kept, tested and committed in `4efc94c`), then **Part 7 and Part 10 only**, as asked. The second
+session kept to one Godot at a time, ran the tests in groups with `--min-free=1200`, and ran the story bots one after another.
+
+**In one paragraph.** Primm's Castle is a map with routes now: twenty rooms in six rows, every link forward, routes that cross, and
+a run walks six of the twenty, so the player chooses between the allies, the heals and the treasure. The four zone leaders wait in
+ally rooms, each with a fight with a twist and a scene before and after, and their help replaces the old passive boons at Primm's
+door. Primm is about 33 % alone and 63 % with all four leaders (your targets: 30 and 65). Your card and item changes, Pathwork,
+the rules panel, Alembic's shop and your Arena rows are in. The item table waits for your ticks.
+
+## Status by part
+
+| Part | Done | Notes |
+|---|---|---|
+| 1 Quick fixes and card changes | yes | all ten; five choice prompts shot; Pathwork everywhere a player reads it |
+| 2 Primm's Castle, a map with routes | yes | 20 rooms, 6 rows, crossing routes; the exits test; the plan on the Drive and a Batch 19 row; the new layout drawn over the old painting |
+| 3 The four allies | yes | four ally rooms with a fight and a twist each; eight scenes; a fair reward when the zone is not freed |
+| 4 The Gilded Pantry | yes | the Pantry Mimic (36 HP), a Gilded Pack and one of three boons; the Grand Chef's recipe |
+| 5 The rules panel and the rules | yes | the panel and the "Run effects" line in every fight that lists rules; Perfect Order is one card of each type; Mirrors in two fights; Primm opens with 8 |
+| 6 Rebalance Primm and the castle | yes | 33 % alone, 63 % with all four (table below) |
+| 7 The item strength report | yes | `docs/balance_report_nov21.md`, section 5: every piece and item ranked, nine proposals; nothing changed beyond Part 1's four |
+| 8 Alembic's shop | yes | jars, the brew strip, the pool grid, the brewing moment; before/after shots |
+| 9 From the review | yes | your Arena rows applied and re-simulated; freed lines for Gary and Chet Thunderabs; the AI sentence kept; backlog and plan updated |
+| 10 Tests, build, report | yes | every shard green (after five stale tests were brought in line); seven walk smokes and three probes pass; four story bots 119/119; 1.0.0 exported (805 MB), exported smoke and three exported play checks clean |
+
+## Part 1 - quick fixes and card changes
+
+- **Choice prompts on top:** a card's ability menu, its Never mind, Choose X and the Energy Draught's Path question are drawn in
+  their own layer above the played cards, beside the card and on the screen. Shots: `p1_prompt1_peek.jpg`,
+  `p1_prompt2_choose_one.jpg`, `p1_prompt3_ability_menu.jpg`, `p1_prompt4_choose_x.jpg`.
+- **Wobble Weights:** costs 2 to equip, +3/+3 for a Necrocrat host, +1/+1 for Beefcake units. **Crown of Mild Hubris:** max HP -10 in
+  all (it already had -4; I read your "-10" as the total, not -14). **Silence Powder:** tosses 1 (the only "discard 2" effect in
+  the game is this item). **Summoning Charm:** two Militia. **Extra Pocket:** unchanged, on the backlog.
+- **Deck Station:** the type selector offers Infrastructure; a newly created deck becomes the battle deck at its first legal save.
+- **Pathwork:** every player-facing use (dialogue, story text, loading tips, the NPC list, the level track, the itch drafts, the
+  story bible). Left on purpose: the Patchwork Body token (a stitched-up body, not the kingdom; a card, a token, a boss rule), a
+  "patchwork" market stall in the Dump's kit notes (never shown), and old notes in `docs/` that describe past builds.
+- **The Mirror Knight's Reflection** wears the Knight's own picture with a silver tint.
+- **Max-HP curses by depth:** Paper Cuts -4 deep in the House of Gains; the castle, the Lab and the Shattered Gallery -6 to -8.
+
+## Part 2 - Primm's Castle: a map with routes
+
+The gate, six rows of rooms (2, 4, 3, 3, 4, 4: the twenty painted rooms re-linked) and the Model Room. Every link goes forward;
+the routes cross at the Hall of Mirrors and the Ministry of Correction; a run walks six rooms of twenty. The whole map is known
+from the gate: each room shows its kind while it is ahead, and a padlock only once the route has passed it.
+
+- **Room kinds:** fights (the elites pay better), three treasure rooms off the main roads, the Resistance Safe Room (the one full
+  heal, on some routes only), the Garden of Uniform Flowers (heal 6 for gold or a drawback), choice rooms with drawbacks, the four
+  ally rooms and the Gilded Pantry.
+- **The permanent stat boons** are down from about ten a run to three rooms (the Ward Cells, the Archive, the Mimic's hoard), at
+  most two on one route.
+- **All four allies on one run:** possible, by a route with one treasure room and no heal.
+- **Exits test:** every exit is checked against the layout (no impossible jumps).
+- **The painted map:** the plan is on the Drive (`Batch 19 Refs/plan-primm-castle.jpg`), with the current map beside it
+  (`now_MAP-PC.jpg`) and the Batch 19 row `MAP-PC`. Until it is painted, the new links are drawn over the current painting in the
+  "plan" style (every link).
+- **Shots:** the gate `p2_map_gate.jpg`; three routes `p2_route_a_all_allies.jpg`, `p2_route_b_middle_safe_room.jpg`,
+  `p2_route_c_south_treasure.jpg`; tooltips `p2_tip_flex_room.jpg`, `p2_tip_pantry.jpg`, `p2_tip_garden.jpg`,
+  `p2_tip_safe_room.jpg`; the plan `p2_plan_primm_castle.jpg`.
+
+## Part 3 - the four allies and their scenes
+
+| Leader | The room and the twist | The help against Primm |
+|---|---|---|
+| Grandmaster Flex | the Beefcake wing: hold the line with two captured trainees until the Sergeant's sixth turn | he joins on your turn 2 as a 3/5 |
+| The Grand Chef | the Gilded Pantry: beat the Mimic and win back her recipe book | +1 card each turn |
+| Agnes Overdue | the Necrocrat wing: reach Percival Plume's desk before his 12th turn (the filing deadline) | your non-unit cards cost 1 less |
+| Archdruid Compostella | the Refusemancer wing: knock down three Spotless Statues | your units get +1/+1 |
+
+Each has a scene before the fight and one after, in their own voice (`data/story/story_scenes.json`, `pc_ally_*`). One line from
+each: Flex, "Then we shall have learned how much we can carry, my boy, and that is worth knowing too. Breathe in. Hold."; the Chef,
+"That creature could copy every dish I ever made and it still couldn't cook, because it never had anybody to cook for."; Agnes,
+"Filed. Received. Accepted. I have never seen all three words on one page before."; Compostella, "He thought clean meant safe. I
+thought keeping meant loving, so I have no business scolding him." When a zone is not freed, its room holds the same fight with no
+leader, no scene and no help, and a fair reward instead. The help shows on the castle map's tooltips, on Primm's tooltip and in
+the fight's "Run effects" line. No new art was needed (two optional token pictures are Batch 19 rows).
+
+## Part 4 - the Pantry Mimic
+
+An optional fight in the Gilded Pantry: a Gourmand mimic that copies your first unit each turn (it ties to the Doppelganger
+story). 36 HP and Well Fed +1/+1 after Part 6 (at 28 HP it was won every time). Beating it gives a Gilded Pack and a choice of
+one of three boons for Primm's fight; with the Buffet freed, the Grand Chef's recipe is in its cupboard. It borrows the Echo of the
+Doppelganger's picture until its Batch 19 portrait. Shots: the hoard `p5_mimic_hoard.jpg` (and at 720p and 1080p).
+
+## Part 5 - the rules panel
+
+The fight's rules are listed in a panel that scrolls inside itself and ends above the battle log, the items and the player's plate.
+Allies, boons and curses fold into one line, "Run effects: 3 allies, 4 boons, 1 curse", which opens the full list on hover, click,
+controller focus or the Rules key. It is in every fight that lists rules. Shots at 1280x720 and 1920x1080: `p5_720_panel.jpg`,
+`p5_1080_panel.jpg`, the opened list `p5_*_panel_run_effects_open.jpg`, the brief `p5_*_brief.jpg`.
+**Perfect Order** is "one card of each type per turn" for both players (the AI follows it; the tooltip says which type is used
+up). **Mirrors** is in the Pantry and the Hall of Mirrors only, and its copy can be paid with any Path. **Primm opens with 8 cards.**
+
+## Part 6 - Primm's balance
+
+Changed: his phases 56 / 52 / 50 HP to **40 / 46 / 44**; Standing Army 3 Militia to **1**; He Already Knows draws **1** (was 2);
+Unraveling **+2/+2** (was +3/+3); and **A Plan for Everyone**: 8 more HP a phase for each leader at your side, a Militia to answer
+Flex and one more when all four came. Flex in the Model Room **3/5** (4/6 made him worth more than the other three together).
+Percival Plume's deadline at his **12th** turn with no Red Tape (at the 10th it ended 18 of 24 runs on the all-allies route). The
+Pantry Mimic 36 HP, +1/+1.
+
+The three phases on one HP pool, an endgame deck, gear and items, 16 runs per Path:
+
+| Leaders at your side | Beefcake | Gourmand | Refusemancer | Necrocrat | All | Target |
+|---|---:|---:|---:|---:|---:|---|
+| none | 6 % | 31 % | 44 % | 50 % | **33 %** | about 30 % |
+| one (Flex) | 25 % | 69 % | 63 % | 63 % | **55 %** | |
+| one (the Chef / Agnes / Compostella) | 0 to 6 % | 25 to 63 % | 31 to 44 % | 25 to 56 % | **30 to 33 %** | |
+| two (Flex and the Chef) | 13 % | 69 % | 69 % | 81 % | **58 %** | |
+| two (Agnes and Compostella) | 0 % | 56 % | 50 % | 50 % | **39 %** | |
+| three (Flex, the Chef, Agnes) | 44 % | 81 % | 69 % | 100 % | **74 %** | |
+| all four | 25 % | 75 % | 75 % | 75 % | **63 %** | about 65 % |
+
+On target at both ends. **Beefcake** is the weak Path against Primm at every count, and **Flex** is worth more than the other
+three (inbox 3 and 4). Whole castle runs on one HP pool, gate to the end of phase 3 (`docs/design/sim/nov21c/castle_runs.md`, 6 runs per Path and
+route, re-run on Nov 22): all four allies **13 %**, three allies 0 %, the middle road with the Safe Room 4 %, the quiet south 21 %,
+one ally and the Safe Room **42 %**. The Pantry Mimic ends 11 of 24 runs on both ally routes (inbox 5).
+
+## Part 7 - the item strength table
+
+Every piece and every item (one charge) carried alone into two castle fights at level 21, 48 games a row on shared seeds; bare
+46 %, the full kit 88 %. Full table and nine proposals: `docs/balance_report_nov21.md`, section 5.
+
+| Top | Lift | Proposed (tick in the report) |
+|---|---:|---|
+| Gladiator's Net | +23 | the first enemy unit each turn gets -1/-1 (not every one) |
+| Clipwell's Golden Shears | +22 | 1 damage to each attacker (was 2) |
+| Bloodsand Boots | +19 | draw at most once per turn |
+| Siphon's Lens | +19 | max HP -2 (was +2) |
+| Elastic Waistband, Dex's Matching Pair, Glass Jaw Gauntlets | +17 to +18 | leave / cards costing 3 or less / max HP -6 |
+| Firebrand Charm (best item) | +13 | leave |
+| Hover Boots (the only piece that loses fights) | -3 | your units can still block flyers |
+
+Nothing was changed beyond Part 1's four. On the way: the first long gear run stalled after 66 variants in one process (three
+hours, no output); no game hangs when replayed alone (`tools/sim_hang_hunt.gd`, `BalanceSim.trace`), so it is the tool, not the
+game. The rest ran in a fresh process.
+
+## Part 8 - Alembic before and after
+
+Her shop has the other vendors' frame, header and gold; four glass essence jars that fill to 18 with the number and light up when
+picked; a "pick two Paths, then brew" strip; the pool as a titled grid with hover zoom (unseen cards as card backs, owned counts);
+and a brewing moment (bubbles, a flash in the two Paths' colours, the card revealed and enlarged). Before: `p8_before_open.jpg`,
+`p8_before_two_paths.jpg`, `p8_before_brewing.jpg`, `p8_before_brewed.jpg`; after: `p8_after_open.jpg`, `p8_after_two_paths.jpg`,
+`p8_after_brewing.jpg`, `p8_after_brewed.jpg`.
+
+## Part 9 - the Arena re-simulated, and the rest
+
+Your bold rows, applied and re-simulated (12 games per Path; `docs/design/sim/nov21c/arena_after.md`):
+
+| Battle | Before | After | Meant to be |
+|---|---:|---:|---|
+| Gladiator Rookie | 98 % | 79 % | 80-100 % |
+| Sandbag Sentinel | 100 % | 85 % | 80-100 % |
+| Cardboard Colossus (10 HP) | 49 % | 31 % (the sim plays this kit badly) | 60-75 % |
+| Champion of the Four Fists | 91 % | 52 % | 60-75 % |
+| Announcer Grand Bellows | 88 % | **25 %** (proposed 54 %) | 40-60 % |
+| The Four Fists, Unbound | 98 % | 46 % | 40-60 % |
+
+Bellows is the outlier (inbox 2). Freed-zone lines for Gary (four) and Chet Thunderabs (six), revertible; on Nov 22 Gary's
+spotter lost the name Brenda, which the canon list retired on Oct 19. The credits and the itch draft keep the AI coding sentence and
+the advice to tick Code (the two older kits now point to the current text). The economy and the heal rooms are untouched; the
+backlog and the two-week plan say what this run did and what is left.
+
+## Batch 19 rows (all in `docs/art/batch19.csv`, refs in `G:/My Drive/Card Game Art/Batch 19 Refs/`, every ref under 1 MB)
+
+| Row | What | Refs | Status |
+|---|---|---|---|
+| MAP-WORLD-BUFF | the Endless Buffet world map, redone (the Raw Deal moved) | `plan-buffet.jpg`, `now_MAP-WORLD-BUFF.jpg` | to make (confirmed) |
+| MAP-WORLD-DNA | the D.N.A. world map in the zone's mood | - | optional, not wanted for now |
+| UI-PACK-LOCKED-N | the locked Necrocrat pack as a sealed parcel | `now_UI-PACK-LOCKED-N.png`, `UI-PACK-LOCKED-B.png`, `UI-PACK-LOCKED-R.png` | to make |
+| MAP-PC | Primm's Castle map, repainted for the new layout | `plan-primm-castle.jpg`, `now_MAP-PC.jpg` | to make (this run) |
+| BST-THE-PANTRY-MIMIC | the Pantry Mimic's portrait | `now_BST-ECHO-OF-THE-DOPPELGANGER.jpg` | to make (this run) |
+| UI-ALEMBIC-BREW | Auntie Alembic stirring a copper cauldron, four Path colours pouring in | `now_UI-CAULDRON.png`, `now_V-ALEMBIC.jpg`, `now_alembic_shop.jpg` | to make (this run) |
+| UI-ALEMBIC-JAR | an empty glass essence jar (the game fills and tints it) | `now_alembic_shop.jpg` | to make (this run) |
+| T-PC-TRAINEE | the Captured Trainee token | `now_BST-FLEXING-BRUTE.jpg` | optional (this run) |
+| T-PC-STATUE | the Spotless Statue token | `now_BST-CAPTAIN-SPOTLESS.jpg` | optional (this run) |
+
+`now_MAP-WORLD-BUFF.jpg` was 1.15 MB and is now 1536 px and 0.76 MB.
+
+## The dialogue revert
+
+`python tools/nov21c_lines.py --revert` puts every line of `docs/dialogue/nov21c_lines.csv` (82 lines: the eight ally scenes,
+Gary's and Chet Thunderabs's freed lines, Primm's three phase texts, two loading tips, the level-30 headline) back to its text at
+`pre-fable-nov21-castle`; `--only=<id prefix>` reverts one part. The castle's room texts belong to the new map: reverting them means
+reverting the Parts 2 to 4 commit.
+
+## Part 10 - tests, build
+
+Run on Nov 22 with nothing else using Godot (one process at a time; ChatGPT, Steam and other apps were open, about 1.4 to 2.3 GB free).
+
+- **Tests:** `bash tools/run_tests.sh --min-free=1200` in three groups (shards 1-8, 9-24, 25-47): **3,664 of 3,671 passed, 2 pending,
+  5 failing**, all five stale tests left behind by this run's own changes, not bugs: the castle map's new "plan" path style;
+  Unraveling +2/+2 (the test still said +3/+3); the Pantry Mimic's stand-in Bestiary picture until Batch 19; the Cardboard Colossus
+  at your 10 HP (the test played it with a level-1 hero and the old unplanned AI, which lost all 12 with the Colossus on 6 to 10 HP;
+  it now plays a level-13 hero at Elite skill, the bout's own level, and wins); and the retired name "Brenda" in Gary's new freed
+  lines (fixed in the lines: "my spotter"). The five scripts re-run green; **every shard green.** Before that, on resuming: the
+  Primm phase-text test brought in line with "He opens with 8 cards".
+- **Walk smokes, all seven pass:** the Buffet, the D.N.A., the Capital, Crosspath, the Gainlands, the Verdant Dump, the hub.
+- **Probes:** NPC visibility 150 checks, 0 failed; fade probe 7 places, nothing but tall occluders can fade, 0 script errors;
+  quest hand-in 32 passed, 0 failed; the hover-zoom probe and the Arena puzzle solver tests are in the suite (green).
+- **Story bots, one per Path, one after another, through the new castle to "Primm is defeated" and the postgame:** Beefcake,
+  Gourmand, Necrocrat, Refusemancer each **119 checks, 0 failed, 0 script errors** (about 8 minutes a run; the warnings are the
+  engine's own leak lines at exit).
+- **Build:** after the tests, 2,257 MB free, `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0` -> **EXPORT OK**.
+  **`builds/TheWaywardPath-v1.0.0-windows.zip`, 805 MB** (804,864,623 bytes; the last one was 778 to 801 MB).
+- **The exported build:** `run_release_smoke_exported.sh` **PASSED (1.0.0)**. A fresh test pack, then the three
+  `play_exported.sh` checks (`exported_rc1_a`, `_b`, `_c`): all three ran to "done" with **0 SCRIPT ERROR**.
+
+## Your decisions (inbox, "Fable Nov 21 castle")
+
+1. **The item table:** tick rows 1 to 4 (the Net, the Shears, the Boots, the Lens).
+2. **Grand Bellows at 25 %:** take "The Crowd Roars" off again, keep 64 HP; re-simulate that row first.
+3. **Beefcake against Primm** (6 % alone, 25 % with all four): play him once as Beefcake; if it holds, give Beefcake its own answer
+   rather than changing Primm.
+4. **Flex is worth more than the other three:** leave it.
+5. **The whole castle on one HP pool is harder than Primm alone:** play the all-allies route once; if it is a wall, add a "heal 6
+   for a cost" room to its fourth row.
+
 # Fable Nov 21 review - report: the launch readiness review
 
 Brief: `docs/prompts/fable_nov21_launch_review.md`. Start tag `pre-fable-nov21-review`. Questions: `docs/overnight_inbox.md`,

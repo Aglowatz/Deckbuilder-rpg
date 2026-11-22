@@ -466,5 +466,6 @@ The three phases on one HP pool, an endgame deck, gear and items, 16 runs per Pa
 
 On target at both ends. Two things to know: **Flex is worth more than the other three** (a body on the board from turn 2, at 3/5
 already, down from 4/6), and **Beefcake struggles against Primm** at every count. Both are in the inbox. The whole castle on one
-HP pool (`castle_runs.md`, 6 runs per Path and route, before the Mimic and Plume were retuned) is harder still: the all-allies route
-was cleared in 13 % of runs, the quiet south in 21 %, the one-ally route with the Safe Room in 42 %.
+HP pool (`castle_runs.md`, 6 runs per Path and route, final numbers) is harder still: the all-allies route
+was cleared in 13 % of runs, the three-ally route in 0 %, the middle road in 4 %, the quiet south in 21 %, the one-ally route with
+the Safe Room in 42 %. The Pantry Mimic ends 11 of 24 runs on both ally routes; it is optional, but the Grand Chef waits there.
