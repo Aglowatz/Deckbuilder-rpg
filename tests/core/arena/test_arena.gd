@@ -185,12 +185,19 @@ func test_spells_only_is_winnable_with_the_restricted_deck() -> void:
 	var kit: Deck = ArenaScenario.player_deck(Session.content, encounter, Session.deck)
 	assert_ne(kit, Session.deck, "the restricted kit replaces the player's deck")
 	var wins: int = 0
+	var ends: PackedStringArray = []
+	# Fable Nov 21 castle (Part 9): the Colossus has 10 HP (the owner's row; was 6), so the hero is the one the bout is meant for
+	# (level 13, the Silver tier's) at the balance sim's Elite skill (the sim wins about 3 in 10); a level-1 hero with the old
+	# unplanned AI lost all 12 with the Colossus on 6 to 10 HP.
+	var hero: PlayerProfile = Session.profile.duplicate(true) as PlayerProfile
+	hero.apply_level(ProgressionTable.row(13))
 	for seed_value: int in range(1, 13):
-		var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, seed_value)
-		_ai_plays(game, AIPlayer.new(AIPersonality.aggressive()), AIPlayer.new(AIPersonality.balanced()))
+		var game: GameState = ArenaScenario.build_game(Session.content, encounter, hero, Session.deck, seed_value)
+		_ai_plays(game, AIPlayer.for_foe(AIPersonality.aggressive(), AIPlayer.Skill.ELITE), AIPlayer.new(AIPersonality.balanced()))
 		if encounter.player_won(game):
 			wins += 1
-	assert_gt(wins, 0, "burning the Colossus down with spells alone works (%d of 12 seeds)" % wins)
+		ends.append("w%d t%d hp%d/%d" % [game.winner, game.turn, game.players[0].hp, game.players[1].hp])
+	assert_gt(wins, 0, "burning the Colossus down with spells alone works (%d of 12 seeds): %s" % [wins, ", ".join(ends)])
 
 
 func test_the_neutral_mile_uses_only_the_gladiators_kit() -> void:

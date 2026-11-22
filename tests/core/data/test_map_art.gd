@@ -99,7 +99,7 @@ func test_every_node_has_a_fitted_position_on_its_map() -> void:
 			assert_true(fitted.has(str(node.number)), "%s node %d has a fitted position" % [blueprint.id, node.number])
 			assert_between(node.position.x, 0.02, 0.98, "%s node %d x" % [blueprint.id, node.number])
 			assert_between(node.position.y, 0.02, 0.98, "%s node %d y" % [blueprint.id, node.number])
-		assert_true(["full", "subtle", "highlight", "none"].has(DungeonCatalog.path_style(blueprint.id)), "%s path style" % blueprint.id)
+		assert_true(["full", "subtle", "highlight", "none", "plan"].has(DungeonCatalog.path_style(blueprint.id)), "%s path style" % blueprint.id)
 
 
 func test_nodes_do_not_sit_on_top_of_each_other() -> void:
