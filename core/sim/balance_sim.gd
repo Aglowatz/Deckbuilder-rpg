@@ -7,6 +7,8 @@ extends RefCounted
 ## Quick mode is for iteration, full mode for the report: `QUICK_GAMES` / `FULL_GAMES` per (player, encounter).
 
 const MAX_STEPS_PER_GAME: int = 5000
+## Fable Nov 21 castle (Part 7): prints every action of the games played while set (tools/sim_hang_hunt.gd).
+static var trace: bool = false
 const TURN_LIMIT: int = 60
 const QUICK_GAMES: int = 12
 const FULL_GAMES: int = 100
@@ -164,6 +166,8 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 			var card: CardInstance = game.find_card(action.card_uid)
 			if card != null and action.type == GameAction.Type.PLAY:
 				played[card.data.id] = int(played.get(card.data.id, 0)) + 1
+		if trace:
+			print("  step %d turn %d seat %d: %s" % [steps, game.turn, who, action.describe() if action.has_method("describe") else str(action.type)])
 		if not game.apply_action(action):
 			result.illegal_actions += 1
 			if not game.apply_action(GameAction.pass_phase(who)):

@@ -1,4 +1,4 @@
-# Balance report, Nov 21 2026 (measured; nothing changed)
+# Balance report, Nov 21 2026 (measured; nothing changed. Sections 5 to 7 added by Fable Nov 21 castle)
 
 Fable Nov 21 review, Part 3. **No card, enemy or Arena number was changed.** One rules bug was fixed in Part 2 (Recipe for Wonder
 charged less energy than its text says). Everything below is measurement and proposal; the decisions are yours.
@@ -357,3 +357,114 @@ Options, cheapest first (nothing changed):
 5. **The mid-game elites that are not elite** (five at 91 to 97 %): leave them until the dungeons' run rates are where you want
    them; they are part of why the dungeons are passable.
 6. **The economy: leave the income; decide what "finish everything" should cost** (section 3).
+
+## 5. Items and equipment: how much each one is worth (Fable Nov 21 castle, Part 7)
+
+**Nothing beyond Part 1's four was changed** (Wobble Weights, the Crown of Mild Hubris, Silence Powder, the Summoning Charm; they
+are measured here as they are now). Tick the rows you want.
+
+How it was measured: every piece of equipment, and every item with one charge, carried alone by each Path's expected level-21
+player into two of Primm's Castle fights, the Ministry Clerk (a normal fight) and the Royal Staircase Guard (an elite), 6 games per
+Path and fight: **48 games a row, the same seeds in every row**, so a row differs from the bare row only by what the piece changes.
+Bare (no gear, no items) wins **46 %**: about 90 % of the normal fight and none of the elite. One game is 2 points; **read +/- 8 as
+noise.** Raw tables: `docs/design/sim/nov21c/gear_strength_l21.md` (equipment), `gear_strength_l21_items.md` (items); an earlier,
+coarser run against the Mirror Knight alone: `gear_late.md`.
+
+**The whole kit matters more than any one piece.** The level's model equipment takes the bare 46 % to 71 %, the model items to
+60 %, both together to **88 %**; against the Mirror Knight alone it is 6 % bare and 81 % equipped. The castle's elites are tuned
+for a hero with gear, which is what the game hands out, so the kit as a whole is not the problem, and no single piece carries it:
+the strongest is worth about half of the equipment's lift.
+
+### The ranking (equipment)
+
+| Rank | Piece | Rarity | What it does | Lift |
+|---:|---|---|---|---:|
+| 1 | Gladiator's Net (the Arena, Gold prize) | Epic | each enemy unit gets -1/-1 when it enters | **+23** |
+| 2 | Clipwell's Golden Shears (the Rotheart) | Epic | 2 damage to each attacker when the foe attacks | **+22** |
+| 3 | Bloodsand Boots (the Arena, Diamond prize) | Uncommon | draw a card whenever you are dealt damage | **+19** |
+| 3 | Siphon's Lens | Epic | +1 card each turn, max HP +2 | **+19** |
+| 5 | Elastic Waistband of Victory | Epic | units +1/+1; at most 2 non-Infrastructure cards a turn | +18 |
+| 6 | Dex's Matching Pair | Epic | the first non-Infrastructure card each turn draws a copy of itself | +17 |
+| 6 | Glass Jaw Gauntlets | Epic | units +2 attack; max HP -3 | +17 |
+| 8 | Big Brain Beret | Epic | +1 card each turn; one non-Infrastructure card a turn; max HP -2 | +13 |
+| 9 | Phial of First Water | Legendary | multi-Path cards cheaper, a little healing each turn | +11 |
+| 10 | Soul Courier's Lanyard, the Colonel's Ladle, the Head Chef's Ladle, Quota's Stopwatch | Uncommon to Epic | a first-turn card, or HP | +10 |
+| - | 26 pieces | all | small stat or one-Path bonuses | +2 to +8 (noise) |
+| - | 12 pieces: Wicked Dagger, Spotter's Barbell, A Very Pointy Stick, Overdue Library Book, Cheater's Dice, Bin Lid Helm, Head Chef's Toque, Extra Pocket, X-Ray Goggles, and three that act outside battle (Hall Pass Slippers, Gotta-Go Galoshes, Participation Trophy) | all | | +0 |
+| - | Velvet Rope, Saucepan Helmet, Hover Boots | Common, Uncommon | | -1 to -3 |
+
+Three readings. *A card a turn is worth about +19* (Siphon's Lens); the Overdue Library Book draws one and tosses one at random and
+nets zero, and the Beret pays for its card with a hard limit and lands at +13: the drawbacks work as meant. *The +0 pieces are not
+broken:* one-Path pieces do nothing for three Paths of four (Wicked Dagger, the Barbell, the Velvet Rope), the Extra Pocket needs an
+item, X-Ray Goggles show the foe's hand to a person, not to the sim, and three pieces act outside battle. *Hover Boots cost
+fights:* Flying for all, but nobody can block, and an elite punishes that.
+
+### Items (one charge each)
+
+| Item | Lift | Note |
+|---|---:|---|
+| Firebrand Charm | **+13** | the only item clearly above noise |
+| Healing Salve, Scroll of Insight | +6 | |
+| Grave Dust, Hearty Pie, Iron Ration, Reckless Tonic, Silence Powder (now 1 card), Summoning Charm (now 2 Militia), Vitality Charm | +4 | |
+| Blank Form, Power Wraps | +2 | |
+| Bag of Rubbish, Binding Chains, Energy Draught, Sharpening Stone, Spice Pouch, Ward Sigil | +0 | the sim's item pilot uses these badly or never (no rule for Binding Chains or the Ward Sigil; resources only from turn 3): not a verdict |
+
+One charge is small next to a piece of equipment that works every turn. With the Extra Pocket (two uses of each) an item's lift
+roughly doubles; the Pocket stays as it is (your note, Nov 21) and is on the backlog.
+
+### Proposals, one line each (nothing applied)
+
+| # | What | Today | Proposed | Why | Approve? |
+|---|---|---|---|---|---|
+| 1 | **Gladiator's Net** | every enemy unit -1/-1 as it enters | **the first enemy unit each turn** gets -1/-1 | it erases every 1-toughness token for good (Primm's Militia, the Mimic's copies, the Arena's fans) | [ ] |
+| 2 | **Clipwell's Golden Shears** | 2 damage to each attacker | **1 damage** to each attacker | at 2 the foe's small units cannot attack at all; at 1 the tokens still can't, the real units can | [ ] |
+| 3 | **Bloodsand Boots** | a card whenever you are dealt damage | **at most once per turn** | an Uncommon worth a Siphon's Lens; a wide board of small attackers draws you three cards a turn | [ ] |
+| 4 | **Siphon's Lens** | +1 card each turn, max HP +2 | **+1 card each turn, max HP -2** (the Beret's price) | an extra card a turn with no price at all; the HP is the wrong way round | [ ] |
+| 5 | **Glass Jaw Gauntlets** | units +2 attack, max HP -3 | units +2 attack, **max HP -6** | in line with your Crown (-10) and the castle's curses; the attack is the fun part, keep it | [ ] |
+| 6 | **Dex's Matching Pair** | a copy of the first non-Infrastructure card each turn | **only of a card that costs 3 or less** | copying a 6-drop every turn is the most card advantage in the game, for a minigame prize | [ ] |
+| 7 | Elastic Waistband of Victory | | **leave** | strong, but its two-card limit is a real price | [ ] |
+| 8 | Hover Boots | Flying for all, cannot block | **your units can still block units with Flying** | today the only piece that loses fights | [ ] |
+| 9 | Velvet Rope | Gourmand units +0/+3 | **+1/+2** | a defensive bonus wins nothing in the sim; a little attack would | [ ] |
+
+Rows 1 to 6 together would take the hero's kit down a few points, not tens. I would tick 1 to 4 first (the four at the top, all
+with no price), play, and leave 5 and 6 for the next look.
+
+## 6. The Arena after your rows (Fable Nov 21 castle, Part 9)
+
+Your bold row of every battle was applied as written. Re-simulated, 12 games per Path (`docs/design/sim/nov21c/arena_after.md`):
+
+| Battle | Before | The proposal's number | After (in the game now) | Meant to be |
+|---|---:|---:|---:|---|
+| Gladiator Rookie | 98 % | 81 % | **79 %** | 80-100 % |
+| Sandbag Sentinel | 100 % | 90 % | **85 %** | 80-100 % |
+| Cardboard Colossus (10 HP) | 49 % (the sim cannot play the kit) | - | 31 % (same caveat) | 60-75 % |
+| Champion of the Four Fists | 91 % | 63 % | **52 %** | 60-75 % |
+| Announcer Grand Bellows | 88 % | 54 % | **25 %** | 40-60 % |
+| The Four Fists, Unbound | 98 % | 50 % | **46 %** | 40-60 % |
+
+Four of six where you wanted them (the Rookie and the Four Fists within a game or two of the band, which a 12-game cell cannot
+tell apart). **Bellows came out far harder than his proposal** (25 % against 54 %; Beefcake 0 %, Necrocrat 8 %). The likely reason:
+the in-game encounter keeps his scripted events (a Rowdy Fan climbs in on his 3rd turn, the intermission), which the proposal
+tool's row did not play, and Part 1 weakened two items. Not changed; it is in the inbox with a softer row (64 HP without "The Crowd
+Roars", his old +2/+1 alone).
+
+## 7. Primm after the castle pass (Fable Nov 21 castle, Part 6)
+
+The three phases on one HP pool, an endgame deck, gear and items, 16 runs per Path (`docs/design/sim/nov21c/primm_final_*.md`):
+
+| Leaders at your side | Beefcake | Gourmand | Refusemancer | Necrocrat | All | Target |
+|---|---:|---:|---:|---:|---:|---|
+| none | 6 % | 31 % | 44 % | 50 % | **33 %** | about 30 % |
+| Flex | 25 % | 69 % | 63 % | 63 % | **55 %** | in between |
+| the Grand Chef | 6 % | 25 % | 44 % | 56 % | **33 %** | |
+| Agnes | 0 % | 63 % | 31 % | 25 % | **30 %** | |
+| Compostella | 0 % | 25 % | 44 % | 50 % | **30 %** | |
+| Flex and the Chef | 13 % | 69 % | 69 % | 81 % | **58 %** | |
+| Agnes and Compostella | 0 % | 56 % | 50 % | 50 % | **39 %** | |
+| three (Flex, the Chef, Agnes) | 44 % | 81 % | 69 % | 100 % | **74 %** | |
+| all four | 25 % | 75 % | 75 % | 75 % | **63 %** | about 65 % |
+
+On target at both ends. Two things to know: **Flex is worth more than the other three** (a body on the board from turn 2, at 3/5
+already, down from 4/6), and **Beefcake struggles against Primm** at every count. Both are in the inbox. The whole castle on one
+HP pool (`castle_runs.md`, 6 runs per Path and route, before the Mimic and Plume were retuned) is harder still: the all-allies route
+was cleared in 13 % of runs, the quiet south in 21 %, the one-ally route with the Safe Room in 42 %.
