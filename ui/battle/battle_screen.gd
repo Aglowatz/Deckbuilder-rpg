@@ -1593,6 +1593,9 @@ func _cost_pick_step(ctx: AbilityContext, cost: CardAbility.Cost) -> Dictionary:
 func _why_not_castable(card: CardInstance) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only play cards in your main phase"
+	# Fable Nov 21 castle (Part 5.2): Perfect Order says which type is used up
+	if game.type_played_this_turn(0, card.data):
+		return "Perfect Order: you have already played a %s this turn (one card of each type per turn)." % str(CardEnums.CardType.keys()[int(card.data.type)]).to_lower()
 	var pips: Array[Affinity.Type] = game.pips_for(0, card.data, card)
 	var generic: int = game.generic_cost_for(0, card.data, card)
 	if not game.can_pay_energy(0, generic, pips):

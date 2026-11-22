@@ -31,7 +31,7 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Hall of Final Approvals | 10: The Coffin Breakroom **(was a full heal)** | File one of your cards as Form 9-Z and lie down | heal 5 | a random card leaves your deck for this run | rest of the dungeon |
 | The Hall of Final Approvals | 10: The Coffin Breakroom **(was a full heal)** | Nap without an appointment | heal 5 | 'Overslept': you skip your first card draw | next fight |
 | The Hall of Final Approvals | 10: The Coffin Breakroom **(was a full heal)** | Keep walking | nothing | nothing | at once |
-| The Hall of Final Approvals | 12: The Shredding Room | Shred a spare appeal | +70 gold | 'Paper Cuts': -2 max HP | rest of the dungeon |
+| The Hall of Final Approvals | 12: The Shredding Room | Shred a spare appeal | +70 gold | 'Paper Cuts': -4 max HP | rest of the dungeon |
 | The Hall of Final Approvals | 12: The Shredding Room | Shred your own number | heal 4 | 'No Number': -1 card in the opening hand | rest of the dungeon |
 | The Hall of Final Approvals | 12: The Shredding Room | Reach in for what it ate | a card (N-17) | lose 3 HP | at once |
 | The Hall of Final Approvals | 12: The Shredding Room | Leave the shredder alone | nothing | nothing | at once |
@@ -43,21 +43,21 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Rotheart | 9: The Last Clean Spring **(was a full heal)** | Leave it clean | nothing | nothing | at once |
 | The Rotheart | 12: The Heart Roots | Give blood to distract the Rotheart | (-5 HP; you take the first turn in the fight); 'Blood for the Roots': you take the first turn | lose 5 HP | next fight |
 | The Rotheart | 12: The Heart Roots | Walk on | nothing | nothing | at once |
-| Primm's Castle | 3: Grand Foyer | Study the portrait | heal 6 | 'His Eyes Follow': -1 max HP | rest of the dungeon |
-| Primm's Castle | 3: Grand Foyer | Pocket a gilded candlestick | +80 gold | 'Fingerprints Everywhere': -2 max HP | rest of the dungeon |
-| Primm's Castle | 3: Grand Foyer | Count the reflections | 'Seen Him First': your units get +1 defense | 'One Reflection Too Many': the enemy starts with a unit on the field | next fight |
-| Primm's Castle | 8 (story event "pc_early_journals", built in code) |  |  |  |  |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Read the notes | 'Lab Notes': your units get +1 attack and +1 defense | 'Too Much Reading': -1 card in the opening hand | rest of the dungeon |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Take the samples | +80 gold | lose 3 HP | at once |
-| Primm's Castle | 12: The Doppelganger's Lab Notes | Practise the smile in the mirror | 'Perfect Smile': your units get +1 defense | lose 2 HP | rest of the dungeon |
-| Primm's Castle | 16 (story event "pc_corrected_citizens", built in code) |  |  |  |  |
-| Primm's Castle | 22: Garden of Uniform Flowers | Pick the odd one out | heal 8 | 'The Gardeners Noticed': the enemy's units get +1 attack | next fight |
-| Primm's Castle | 22: Garden of Uniform Flowers | Pick a handful of the rest | +90 gold | 'Uniform Pollen': -2 max HP | rest of the dungeon |
-| Primm's Castle | 22: Garden of Uniform Flowers | Plant something crooked | 'Crooked Little Hope': your units get +1 attack and +1 defense | lose 3 HP | rest of the dungeon |
+| Primm's Castle | 4: The Doppelganger's Lab Notes | Read the notes | 'Read Ahead': +1 card in the opening hand | lose 3 HP | next fight |
+| Primm's Castle | 4: The Doppelganger's Lab Notes | Take the samples | +80 gold | lose 3 HP | at once |
+| Primm's Castle | 4: The Doppelganger's Lab Notes | Practise the smile in the mirror | 'Perfect Smile': you take the first turn | 'Stuck Smile': the first unit you play gets -2 attack | next fight |
+| Primm's Castle | 6: Grand Foyer | Study the portrait | heal 6 | 'His Eyes Follow': -6 max HP | rest of the dungeon |
+| Primm's Castle | 6: Grand Foyer | Pocket a gilded candlestick | +80 gold | 'Fingerprints Everywhere': -7 max HP | rest of the dungeon |
+| Primm's Castle | 6: Grand Foyer | Count the reflections | 'Seen Him First': +1 card in the opening hand | 'One Reflection Too Many': the enemy starts with a unit on the field | next fight |
+| Primm's Castle | 7: Garden of Uniform Flowers | Leave the coins and eat the lunch | heal 6 | pay 60 gold | at once |
+| Primm's Castle | 7: Garden of Uniform Flowers | Pick the odd one out and eat it | heal 6 | 'The Gardeners Noticed': the enemy's units get +1 attack | next fight |
+| Primm's Castle | 7: Garden of Uniform Flowers | Leave the garden as it is | nothing | nothing | at once |
+| Primm's Castle | 10 (story event "pc_corrected_citizens", built in code) |  |  |  |  |
+| Primm's Castle | 15 (story event "pc_early_journals", built in code) |  |  |  |  |
 | The Path-ology Lab | 4: The Observation Deck | Read the notes on the Subject | 'Know Your Enemy': your units get +1 attack | lose 2 HP | next fight |
 | The Path-ology Lab | 4: The Observation Deck | Drink the Path-ologists' tea | heal 4 | 'Sedated': your first unit enters exhausted | next fight |
 | The Path-ology Lab | 4: The Observation Deck | Rifle the lockers | +80 gold | lose 3 HP | at once |
-| The Path-ology Lab | 7: The Draining Chamber | Put your hand on the glass | heal 6 | 'Drained': -1 max HP | rest of the dungeon |
+| The Path-ology Lab | 7: The Draining Chamber | Put your hand on the glass | heal 6 | 'Drained': -6 max HP | rest of the dungeon |
 | The Path-ology Lab | 7: The Draining Chamber | Read the dials | 'Know the Machine': your units get +1 attack | 'Feedback': the enemy starts with +3 HP | rest of the dungeon |
 | The Path-ology Lab | 7: The Draining Chamber | Tear out the straps | 'Never Again': +3 max HP | lose 3 HP | rest of the dungeon |
 | The Path-ology Lab | 9: Night Shift Break Room | Feed the vending machine | heal 5 | pay 80 gold | at once |
@@ -67,7 +67,7 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Path-ology Lab | 12: The Mentor's Study | Take the journal for Wren's true record | 'The True Record': +2 max HP | 'Alarm Raised': the enemy starts with a unit on the field | next fight |
 | The Path-ology Lab | 12: The Mentor's Study | Leave it on the desk | nothing | nothing | at once |
 | The Shattered Gallery | 3: The Weight of Glass | Lift it anyway | 'Unbroken Reflection': your units get +1 attack | lose 5 HP | rest of the dungeon |
-| The Shattered Gallery | 3: The Weight of Glass | Leave it on the rack | nothing | 'Second Thoughts': -2 max HP | rest of the dungeon |
+| The Shattered Gallery | 3: The Weight of Glass | Leave it on the rack | nothing | 'Second Thoughts': -6 max HP | rest of the dungeon |
 | The Shattered Gallery | 3: The Weight of Glass | Break it for the silver | +150 gold | a random card leaves your deck for this run | rest of the dungeon |
 | The Shattered Gallery | 6: The Valid Reflection | Sign it | 'Approved': +3 max HP | 'Filed Away': your units get -1 attack | rest of the dungeon |
 | The Shattered Gallery | 6: The Valid Reflection | Refuse to sign | nothing | lose 4 HP | at once |
@@ -75,7 +75,7 @@ Every option of every choice room, read from `data/dungeons/dungeon_content.json
 | The Shattered Gallery | 8: The Quiet Frame | Rest (pay 250 gold) | heal 12 | pay 250 gold | at once |
 | The Shattered Gallery | 8: The Quiet Frame | Rest, and leave a card as the fee | heal 8 | a random card leaves your deck for this run | rest of the dungeon |
 | The Shattered Gallery | 8: The Quiet Frame | Keep moving | +0 gold | nothing | at once |
-| The Shattered Gallery | 12: Your Reflection | Look it in the eye | 'Know Yourself': your units get +1 attack | 'Seen Through': -3 max HP | rest of the dungeon |
+| The Shattered Gallery | 12: Your Reflection | Look it in the eye | 'Know Yourself': your units get +1 attack | 'Seen Through': -8 max HP | rest of the dungeon |
 | The Shattered Gallery | 12: Your Reflection | Turn your back on it | nothing | lose 3 HP | at once |
 | The Shattered Gallery | 12: Your Reflection | Smash it | 'Shattered Pride': your units get +1 defense | lose 6 HP | rest of the dungeon |
 

@@ -50,6 +50,8 @@ var deck_paths: Array[int] = []
 var cards_played_this_turn: int = 0
 ## Spells played this turn (the dungeon rule Processing Time taxes the first one).
 var spells_played_this_turn: int = 0
+## Fable Nov 21 castle (Part 5.2): the card types (CardEnums.CardType as int) played from hand this turn (ONE_CARD_PER_TYPE_PER_TURN).
+var types_played_this_turn: Array[int] = []
 ## Dungeon rules: the Mirrors copy was made, and the Experimental keyword was handed out.
 var mirrored: bool = false
 var experiment_done: bool = false
@@ -170,6 +172,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.deck_paths = deck_paths.duplicate()
 	copy.cards_played_this_turn = cards_played_this_turn
 	copy.spells_played_this_turn = spells_played_this_turn
+	copy.types_played_this_turn = types_played_this_turn.duplicate()
 	copy.mirrored = mirrored
 	copy.experiment_done = experiment_done
 	copy.first_unit_bonus_done = first_unit_bonus_done

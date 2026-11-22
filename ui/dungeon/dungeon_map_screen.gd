@@ -240,12 +240,20 @@ func _note_fog() -> void:
 func node_known(node: DungeonMap.MapNode) -> bool:
 	if Session.node_revealed(fog_key(), node.id) or map.is_cleared(node.id) or node.id == map.current:
 		return true
+	# Fable Nov 21 castle (Part 2): the castle's whole map is known from the gate - working out the best route (the allies, the heals,
+	# the treasure, the hard fights) is the game there.
+	if fog_key() in ROUTE_PLANNING:
+		return true
 	# Fix pass Nov 7 (item 14, C4b F3): the castle's 20-odd rooms show their type once a neighbour is cleared (no more "???" all the way up).
 	# Fix pass Nov 7 (item 10, C4c F12): the castle's boss node is always shown as what it is (the Model Room), never "???".
 	if fog_key() in NEIGHBOUR_REVEAL and node.kind == DungeonMap.Kind.BOSS:
 		return true
 	# Fable Nov 12c (A10a): ... and one step further - the rooms behind the ones the party can walk into now
 	return fog_key() in NEIGHBOUR_REVEAL and map.known_one_step_ahead(node.id)
+
+
+## Fable Nov 21 castle: the dungeons whose every room is shown from the start.
+const ROUTE_PLANNING: Array[String] = ["D-PC"]
 
 
 ## Fix pass Nov 7 (item 14): the dungeons whose rooms show their type once a neighbouring room is cleared.
@@ -448,12 +456,17 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.SHRINE:
 			# Fresh eyes Oct 30: a full heal is written as such ("Restore 999 HP" read as a placeholder).
 			text += "\nRestore [b]all[/b] your HP." if node.heal_amount >= run.max_hp() else "\nRestore [b]%d[/b] HP." % node.heal_amount
+	# Fable Nov 21 castle (Part 3): an ally room says who waits there, the objective and the help against Primm
+	for ally_line: String in CastleAllies.room_lines(Session.flags, Session.run, Session.dungeon_key, node.number):
+		text += "\n[color=#ffd166]%s[/color]" % ally_line
 	if map.is_cleared(id):
 		text += "  [color=#6fbf73](cleared)[/color]"
+	elif fog_key() in ROUTE_PLANNING and not map.is_available(id) and id != map.current and not map.reachable_from(map.current).has(id):
+		text += "\n[color=#a89bb5]Behind you: this route no longer leads there.[/color]"
 	# Overnight Oct 31 - Nov 1 (wish list): an open node says how to go (the mid-game critic read the preview as the whole answer).
 	if map.is_available(id) and not _busy:
 		text += "\n" + node_go_hint()
-	elif not map.is_cleared(id) and id != map.current:
+	elif not map.is_cleared(id) and id != map.current and (not (fog_key() in ROUTE_PLANNING) or map.reachable_from(map.current).has(id)):
 		text += "\n[color=#a89bb5]Not reachable yet: clear a node next to it first.[/color]"  # Fix pass Nov 7 (Part 5, C4b F7)
 	_info_body.text = text
 	if _art != null:
@@ -545,6 +558,10 @@ const MET_VARIANTS: Dictionary = {"dungeon.ha_number.before": "dna_met_dolores"}
 ## The node's story lines (placeholder dialogue), then its cutscene if any, then `then`.
 func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
+	# Fable Nov 21 castle (Part 3): the leader who waits in an ally room speaks first (only when that zone is freed)
+	var ally_before: String = CastleAllies.scene_before(Session.flags, Session.dungeon_key, node.number)
+	if not ally_before.is_empty():
+		steps.append(_play_talk.bind(ally_before))
 	var talk_before: String = BossTalks.before_boss(node, Session.dungeon_key, Session.run)
 	if StoryScenes.should_play(talk_before, Session.flags):
 		steps.append(_play_talk.bind(talk_before))
@@ -594,7 +611,7 @@ func _show_reveal(done: Callable) -> void:
 		Session.set_flag(MemoryDefs.FLAG_REVEALED)
 		done.call(), CONNECT_ONE_SHOT)
 
-## The freed leaders join you before the final fight (each lends a boon: `PrimmBoss.leader_boon`).
+## Who stands with you before the final fight (the leaders won over in the castle: `CastleAllies.door_lines`).
 func _show_leaders(done: Callable) -> void:
 	var lines: Array[String] = Session.begin_primm_fight()
 	_dialogue.start("The Freed Leaders", lines)
@@ -671,16 +688,32 @@ func _play_pending_after_story() -> void:
 	if Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
 		return
 	var talk: bool = StoryScenes.should_play(node.talk_after, Session.flags) and node.kind != DungeonMap.Kind.BOSS
-	if not talk and (node.story_after.is_empty() or _main_def == null):
+	# Fable Nov 21 castle (Parts 3 and 4): a won ally room - the leader's scene (when that zone is freed), then the Mimic's hoard
+	var ally_after: String = CastleAllies.scene_after(Session.flags, Session.dungeon_key, node.number) if DungeonMap.is_battle_kind(node.kind) else ""
+	var spoils: DungeonEvent = _spoils_event(node)
+	if not talk and ally_after.is_empty() and spoils == null and (node.story_after.is_empty() or _main_def == null):
 		return
 	Session.dungeon_story_seen.append(node.id)
-	var story_after: Callable = func() -> void:
-		if not node.story_after.is_empty() and _main_def != null:
-			_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), NpcRegistry.story_speaker(node.story_after))
+	var steps: Array[Callable] = []
 	if talk:
-		StoryScenePlayer.play(_dialogue, node.talk_after, story_after)
-	else:
-		story_after.call()
+		steps.append(_play_talk.bind(node.talk_after))
+	if not ally_after.is_empty():
+		steps.append(_play_talk.bind(ally_after))
+	if not node.story_after.is_empty() and _main_def != null:
+		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), NpcRegistry.story_speaker(node.story_after)))
+	_run_steps(steps, func() -> void:
+		if spoils != null:
+			run.used_challenges.append(spoils.id)
+			_open_modal(EventScreen.make(spoils, Session.dungeon_key), node.id))
+
+
+## The Pantry Mimic's hoard: the pick of one boon after its fight is won, once per run (null for any other room).
+func _spoils_event(node: DungeonMap.MapNode) -> DungeonEvent:
+	if _main_def == null or run == null or Session.dungeon_key != CastleAllies.DUNGEON_KEY or node.number != CastleAllies.PANTRY_ROOM:
+		return null
+	if not DungeonMap.is_battle_kind(node.kind) or run.used_challenges.has(CastleAllies.SPOILS_EVENT):
+		return null
+	return _main_def.event(CastleAllies.SPOILS_EVENT)
 
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.

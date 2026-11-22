@@ -41,7 +41,9 @@ func test_the_crease_healer_is_named_and_is_a_full_heal() -> void:
 	assert_true(story.text("fx.heal_couch").contains("Hesper"), "the heal toast is in her voice")
 
 
-func test_primms_castle_has_a_full_heal_on_every_road_to_the_boss_near_the_middle() -> void:
+func test_primms_castle_keeps_one_full_heal_late_in_the_run_as_a_route_choice() -> void:
+	# Fable Nov 21 castle (the owner's new map): the Resistance Safe Room is still a full heal, but it is no longer on every road - where
+	# the heals are is part of choosing a route. It lies in the fifth of the six rows.
 	var map: DungeonMap = MainDungeons.build_map("final")
 	assert_not_null(map)
 	var shrines: Array[int] = []
@@ -51,24 +53,11 @@ func test_primms_castle_has_a_full_heal_on_every_road_to_the_boss_near_the_middl
 			assert_gte(node.heal_amount, PlayerProfile.ENDGAME_MAX_HP, "%s restores all HP" % node.title)
 	assert_eq(shrines.size(), 1, "one Safe Room")
 	var boss_id: int = map.boss().id
-	assert_false(_reaches(map, 0, boss_id, shrines), "every road from the gate to the boss passes the Safe Room")
-	assert_true(_reaches(map, 0, boss_id, [] as Array[int]), "the boss is reachable")
-	# The critical path (the shortest road from the gate to the boss): the heal sits in its middle stretch.
-	var path: Array[int] = _shortest_path(map, 0, boss_id)
-	var at: int = path.find(shrines[0])
-	assert_gt(at, 0)
-	var fraction: float = float(at) / float(path.size() - 1)
-	assert_between(fraction, 0.45, 0.75, "the Safe Room is %d of %d steps along the critical path" % [at, path.size() - 1])
-	var fights_before: int = 0
-	var fights_after: int = 0
-	for index: int in range(path.size()):
-		var kind: DungeonMap.Kind = map.node(path[index]).kind
-		if kind == DungeonMap.Kind.BATTLE or kind == DungeonMap.Kind.ELITE or kind == DungeonMap.Kind.BOSS:
-			if index < at:
-				fights_before += 1
-			else:
-				fights_after += 1
-	assert_between(fights_before - fights_after, -1, 2, "fights are split around the heal: %d before, %d after" % [fights_before, fights_after])
+	assert_true(_reaches(map, 0, boss_id, shrines), "a road to the boss can skip the Safe Room")
+	assert_true(_reaches(map, 0, shrines[0], [] as Array[int]), "and a road leads to it")
+	var path: Array[int] = _shortest_path(map, 0, shrines[0])
+	assert_eq(path.size() - 1, 5, "five steps from the gate: the fifth row of six")
+	assert_eq(_shortest_path(map, shrines[0], boss_id).size() - 1, 2, "one more room, then the Model Room")
 
 
 ## True when `goal` can be reached from `from` without stepping on any node in `avoid`.

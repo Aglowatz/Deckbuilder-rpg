@@ -31,7 +31,7 @@ func _tokens() -> Array[String]:
 func _code_boons() -> Array[ModifierSource]:
 	var result: Array[ModifierSource] = [HouseOfGainsDungeon.heartlift_boon(), PathologyLab.rescuer_boon(), RotheartDungeon.severed_boon()] as Array[ModifierSource]
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
-		result.append(PrimmBoss.leader_boon(zone_id))
+		result.append(CastleAllies.marker(zone_id))  # Fable Nov 21 castle: the leaders' help is earned in the castle
 	for key: String in MainDungeons.ids():
 		var def: MainDungeonDef = MainDungeons.def(key)
 		for event: Variant in def.events.values():

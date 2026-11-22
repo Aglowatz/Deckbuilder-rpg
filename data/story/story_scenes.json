@@ -1064,6 +1064,158 @@
 					"Notebook's full of her name, so I've started a new one. First page says yours. Spelled it right, this time."
 				]
 			]
+		},
+		"pc_ally_beefcake_before": {
+			"steps": [
+				[
+					"",
+					"The Beefcake wing is a barracks with the coup orders still pinned to the door, signed and countersigned. Behind the bars at the far end, a dozen young lifters sit in rows with their hands on their knees, as they have been told to."
+				],
+				[
+					"NPC-FLEX",
+					"There you are, son. Those are my trainees in there, the ones who would not sign. The Sergeant means to march them out in front of his line when the bell rings, so that anyone who comes for him has to go through them.",
+					"I got two of them out before he noticed me. I'm an old man who walked here from the Gainlands, and that was as much as I had in me today."
+				],
+				[
+					"NPC-FLEX",
+					"Stand with those two until his sixth turn begins, and the rest of that barracks will see that a line can hold. They've only ever been shown the other thing."
+				],
+				[
+					"NPC-PLAYER",
+					"And if it doesn't hold?"
+				],
+				[
+					"NPC-FLEX",
+					"Then we shall have learned how much we can carry, my boy, and that is worth knowing too. Breathe in. Hold."
+				]
+			]
+		},
+		"pc_ally_beefcake_after": {
+			"steps": [
+				[
+					"",
+					"The Sergeant's men put their shields down one at a time, the way people put down something heavy they were never sure they wanted. The cell doors open. Nobody cheers. A dozen young lifters stand up and stretch."
+				],
+				[
+					"NPC-FLEX",
+					"Well held, son. You kept your feet under you and you kept those two behind you, and that is the whole of the lesson. Most people take years over the second half.",
+					"I told myself I had come only for the children. Then I watched you stand there, and I find I have one more lift in me after all."
+				],
+				[
+					"NPC-FLEX",
+					"When you face him in the Model Room, give me a moment to get up the stairs. My knees spent ten years in a cell. I'll be beside you by your second turn, and I won't be leaving before you do."
+				]
+			]
+		},
+		"pc_ally_gourmand_before": {
+			"steps": [
+				[
+					"",
+					"The Gilded Pantry is gold from floor to ceiling, and every jar on every shelf is labelled in the same neat hand: PERFECTED. A woman in a flour-dusted apron stands in the doorway with a ladle, glaring at a cupboard."
+				],
+				[
+					"NPC-ESCOFFINA",
+					"Don't touch anything. Have you eaten? No, of course you haven't, and you won't in here, because nothing in this room is food.",
+					"My recipe book is in that cupboard. Forty years of dinners in my own hand, gravy stains and all. They took it when they took my kitchen, and they fed it to that thing so it could learn to cook like me."
+				],
+				[
+					"",
+					"The cupboard opens one door, like an eye. Something inside it wears your face for a moment, and then hers."
+				],
+				[
+					"NPC-ESCOFFINA",
+					"It copies whatever is put in front of it. It has never once made anything up. Go on, show it something it hasn't seen before, and fetch my book out while it's still chewing."
+				]
+			]
+		},
+		"pc_ally_gourmand_after": {
+			"steps": [
+				[
+					"",
+					"The Mimic folds up like a napkin and is only a cupboard again. On its bottom shelf lies a fat book held shut with butcher's string, a little chewed at one corner."
+				],
+				[
+					"NPC-ESCOFFINA",
+					"There you are, you silly old thing. Look at that, it's had the corner off the soup chapter. I never did like that chapter.",
+					"That creature could copy every dish I ever made and it still couldn't cook, because it never had anybody to cook for. You do. So you may have a page."
+				],
+				[
+					"NPC-ESCOFFINA",
+					"I'll be at your elbow in the Model Room, passing you the next thing before you know you want it. One more card in your hand every turn, and it will be hot."
+				]
+			]
+		},
+		"pc_ally_necrocrat_before": {
+			"steps": [
+				[
+					"",
+					"A ghost in a cardigan is standing at the archive's front counter with a form in each hand and a third held in her teeth. She takes it out to speak."
+				],
+				[
+					"NPC-AGNES",
+					"Oh, it's you, dear. Good. I have an appeal here against the whole of the last ten years: every correction, every transfer, every signature he made in the kingdom's name. It runs to forty thousand pages and I have checked the staples.",
+					"It only counts if it is stamped in this room before the filing day closes, and the Deputy Minister has the stamp. He also has the desk, the clock, and a great deal of red tape that he keeps putting in front of people."
+				],
+				[
+					"NPC-PLAYER",
+					"What do you need from me?"
+				],
+				[
+					"NPC-AGNES",
+					"Get me to that desk before his tenth turn, dear. After that the office is closed and they tell you to come back tomorrow. I have been told to come back tomorrow for forty years."
+				]
+			]
+		},
+		"pc_ally_necrocrat_after": {
+			"steps": [
+				[
+					"",
+					"Agnes floats through the wreck of the Deputy Minister's desk, picks the stamp out of the inkwell, breathes on it and brings it down once. The sound is small. Every drawer in the archive slides open an inch."
+				],
+				[
+					"NPC-AGNES",
+					"Filed. Received. Accepted. I have never seen all three words on one page before. I think I shall have to sit down, and I haven't needed to sit down since I died.",
+					"It doesn't undo what he did, dear. Paper never does. But from this minute nothing he signed is valid, and valid was the only thing he ever had."
+				],
+				[
+					"NPC-AGNES",
+					"I have found you a technicality for the Model Room as well. Anything of yours that isn't a unit is now filed as pre-approved, so it costs you one less. Don't thank me, dear. Sign here."
+				]
+			]
+		},
+		"pc_ally_refusemancer_before": {
+			"steps": [
+				[
+					"",
+					"The seed vault is the cleanest room you have ever seen. Every seed of the old kingdom lies in a glass drawer, polished, numbered and dead. An old woman with bark at her wrists is kneeling by a drain with her sleeves rolled up."
+				],
+				[
+					"NPC-COMPOSTELLA",
+					"Mind the floor, child, it's been waxed. Everything in here has been waxed. They polish the seeds every morning so that nothing can get in, and then nothing can get out either, and that is the end of a seed.",
+					"There are three of his statues in there holding the polish in. Tip them over and the damp comes back, and the damp is all a seed is ever waiting for."
+				],
+				[
+					"NPC-COMPOSTELLA",
+					"I would do it myself, but the last time I couldn't let a thing go, half the Dump went with me. Knock down all three and the Gardener will have nothing left to guard. I'll be right here, making a mess."
+				]
+			]
+		},
+		"pc_ally_refusemancer_after": {
+			"steps": [
+				[
+					"",
+					"The Gardener's wall is down, and what is left of the statues lies about the floor like broken plates. For a moment nothing happens. Then a drawer near the floor clicks, and a thread of green as thin as a hair comes out of it and has a look round."
+				],
+				[
+					"NPC-COMPOSTELLA",
+					"There. Did you hear that? No, you wouldn't, you're young. That was ten years of holding its breath.",
+					"He thought clean meant safe. I thought keeping meant loving, so I have no business scolding him. But nothing grows in a room where nothing is allowed to rot."
+				],
+				[
+					"NPC-COMPOSTELLA",
+					"I've put a pinch of this floor in your pocket, the good dirty part. Whatever you set down in front of him will stand a little taller for it, one more in the arm and one more in the roots. Even him, child. Especially him."
+				]
+			]
 		}
 	}
 }

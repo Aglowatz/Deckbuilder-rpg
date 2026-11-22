@@ -19,7 +19,7 @@ func _node(dungeon_key: String, number: int) -> DungeonMap.MapNode:
 
 
 func test_each_lieutenant_is_a_fight_with_a_rule_a_bestiary_entry_and_a_relic() -> void:
-	var where: Dictionary = {Lieutenants.QUOTA: ["beefcake", 6], Lieutenants.CLIPWELL: ["refusemancer", 6], Lieutenants.PLUME: ["final", 14], Lieutenants.CRUMB: ["S-PASTE", 3]}
+	var where: Dictionary = {Lieutenants.QUOTA: ["beefcake", 6], Lieutenants.CLIPWELL: ["refusemancer", 6], Lieutenants.PLUME: ["final", 11], Lieutenants.CRUMB: ["S-PASTE", 3]}
 	for id: String in Lieutenants.DEFS.keys():
 		var foe: String = Lieutenants.foe_name(id)
 		var node: DungeonMap.MapNode = _node(str(where[id][0]), int(where[id][1]))
@@ -27,8 +27,12 @@ func test_each_lieutenant_is_a_fight_with_a_rule_a_bestiary_entry_and_a_relic() 
 		assert_eq(node.enemy_name, foe, "%s fights at %s node %d" % [id, where[id][0], where[id][1]])
 		assert_true(node.kind == DungeonMap.Kind.ELITE or node.kind == DungeonMap.Kind.BOSS, "%s is an elite or a boss" % id)
 		assert_false(EncounterModifiers.rules(foe).is_empty(), "%s has a one-sided rule" % id)
+		var own_rules: int = 0
 		for rule: EncounterModifiers.Rule in EncounterModifiers.rules(foe):
-			assert_true(rule.is_enemy_side(), "%s's rule is the enemy's" % id)
+			own_rules += 1 if rule.is_enemy_side() else 0
+			# Fable Nov 21 castle: Plume's fight also binds the player (Red Tape, in Agnes's room)
+			assert_true(rule.is_enemy_side() or (id == Lieutenants.PLUME and rule.name == "Red Tape"), "%s's rule is the enemy's (%s)" % [id, rule.name])
+		assert_gt(own_rules, 0, "%s has a rule of their own" % id)
 		assert_not_null(Bestiary.find(foe), "%s is in the Bestiary" % id)
 		var relic: EquipmentData = Session.content.equipment_piece(Lieutenants.reward_id(id))
 		assert_not_null(relic, "%s pays %s" % [id, Lieutenants.reward_id(id)])
@@ -51,7 +55,7 @@ func test_the_scenes_play_where_the_sheet_puts_them() -> void:
 	assert_eq(_node("gourmand", 6).talk_before, "crumb_inspection", "Crumb inspects the Prototype Bay")
 	assert_eq(_node("refusemancer", 6).talk_before, "clipwell_mill")
 	assert_eq(_node("final", 1).talk_before, "pc_capture", "the castle gate's start node")
-	assert_eq(_node("final", 14).talk_before, "pc_plume_memo")
+	assert_eq(_node("final", 11).talk_before, "pc_plume_memo")
 	assert_eq(_node("S-PASTE", 3).talk_after, "crumb_paste_works_after")
 
 

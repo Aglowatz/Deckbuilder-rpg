@@ -174,6 +174,15 @@ enum Kind {
 	## Fable Nov 21 (Part 4.3, a dungeon drawback): the first Infrastructure the owner plays in a duel enters exhausted (one energy
 	## short on that turn). Presence. See `GameState.play_infrastructure` and `PlayerState.first_infrastructure_exhaust_done`.
 	FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED,
+	## Fable Nov 21 castle (Part 5.2, the castle's "Perfect Order"): the owner may play at most ONE card of each type a turn (one unit,
+	## one spell, one trap, one wonder, one tool; Infrastructure keeps its own one-a-turn rule). Presence. See `GameState.can_play_card`
+	## and `PlayerState.types_played_this_turn`.
+	ONE_CARD_PER_TYPE_PER_TURN,
+	## Fable Nov 21 castle (Part 3, Agnes's appeal): value = change to the generic cost of the owner's non-unit, non-Infrastructure cards.
+	NON_UNIT_COST_CHANGE,
+	## Fable Nov 21 castle (Part 3, Grandmaster Flex joins the fight): the token in `tokens[0]` enters the owner's field, ready, at the
+	## start of the owner's `value`-th own turn - once. See `GameState._fire_timed_summons`.
+	ARRIVING_UNIT,
 }
 
 ## `color` value meaning "matches every card".

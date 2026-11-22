@@ -15,7 +15,8 @@ func _tokens(dungeon: String, node: String, label: String) -> Array:
 
 
 func test_the_three_purely_good_castle_options_have_a_drawback() -> void:
-	for spec: Array in [["3", "Study the portrait"], ["12", "Read the notes"], ["22", "Pick the odd one out"], ["3", "Count the reflections"], ["12", "Take the samples"], ["22", "Pick a handful of the rest"]]:
+	# Fable Nov 21 castle: the rooms were renumbered with the new map (6 Grand Foyer, 4 the Lab Notes, 7 the Garden)
+	for spec: Array in [["6", "Study the portrait"], ["4", "Read the notes"], ["7", "Pick the odd one out and eat it"], ["6", "Count the reflections"], ["4", "Take the samples"], ["6", "Pocket a gilded candlestick"]]:
 		var tokens: Array = _tokens("D-PC", str(spec[0]), str(spec[1]))
 		assert_gte(tokens.size(), 2, "%s: a boon and a drawback" % str(spec[1]))
 		var bad: bool = false
@@ -91,4 +92,4 @@ func test_the_summon_is_used_in_three_choice_nodes() -> void:
 					if str(token).contains("foe_unit="):
 						uses.append("%s %s" % [dungeon, node])
 	assert_eq(uses.size(), 3, str(uses))
-	assert_true(uses.has("D-HFA 2") and uses.has("D-LAB 12") and uses.has("D-PC 3"))
+	assert_true(uses.has("D-HFA 2") and uses.has("D-LAB 12") and uses.has("D-PC 6"))

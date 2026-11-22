@@ -119,28 +119,25 @@ func test_house_of_gains_prison_branch_and_rescue() -> void:
 	assert_false(map.is_cleared(cell.id), "the rescue was skipped along with the prison")
 
 
-func test_primms_castle_dead_end_branches_return_to_their_branch_point() -> void:
+func test_primms_castle_is_a_layered_map_without_dead_ends() -> void:
+	# Fable Nov 21 castle: six rows between the gate and the Model Room, every link forward (its dead-end side branches are gone).
 	var map: DungeonMap = MainDungeons.build_map("final")
 	assert_eq(map.nodes.size(), 22)
-	var returns: Dictionary = {11: 2, 12: 4, 13: 4, 14: 6, 15: 6, 16: 5, 17: 5, 18: 7, 19: 8, 21: 9, 22: 3}
-	for number: int in returns.keys():
-		var node: DungeonMap.MapNode = _node_by_number(map, number)
-		assert_eq(node.return_to, _node_by_number(map, int(returns[number])).id, "node %d returns to node %d" % [number, int(returns[number])])
-	# Node 20 continues to 21 before returning; it does not return by itself.
-	var balcony: DungeonMap.MapNode = _node_by_number(map, 20)
-	assert_eq(balcony.return_to, -1)
-	assert_eq(balcony.next, [_node_by_number(map, 21).id] as Array[int])
-	assert_eq(_node_by_number(map, 10).kind, DungeonMap.Kind.BOSS)
+	assert_eq(map.dead_ends(), [] as Array[int])
+	for node: DungeonMap.MapNode in map.nodes:
+		assert_eq(node.return_to, -1, node.title)
+	assert_eq(_node_by_number(map, 22).kind, DungeonMap.Kind.BOSS)
+	assert_eq(_node_by_number(map, 22).title, "The Model Room")
+	assert_eq(_node_by_number(map, 1).next, [_node_by_number(map, 2).id, _node_by_number(map, 3).id] as Array[int], "the gate: the Gilded Pantry or the courtyard")
 
 
-func test_walking_a_dead_end_returns_to_the_branch_point() -> void:
+func test_walking_the_castle_moves_one_row_at_a_time() -> void:
 	var map: DungeonMap = MainDungeons.build_map("final")
-	for number: int in [1, 2]:
-		map.complete(_node_by_number(map, number).id)
-	assert_true(map.is_available(_node_by_number(map, 11).id))
-	map.complete(_node_by_number(map, 11).id)
-	assert_eq(map.current, _node_by_number(map, 2).id, "the gilded pantry is a dead end: the party is back at the courtyard")
-	assert_true(map.is_available(_node_by_number(map, 3).id), "the main road is still open")
+	assert_true(map.is_available(_node_by_number(map, 2).id))
+	map.complete(_node_by_number(map, 2).id)
+	assert_eq(map.current, _node_by_number(map, 2).id, "the party stands in the Gilded Pantry")
+	assert_false(map.is_available(_node_by_number(map, 3).id), "the courtyard is behind: the other first room cannot be visited any more")
+	assert_true(map.is_available(_node_by_number(map, 4).id) and map.is_available(_node_by_number(map, 5).id))
 
 
 func test_side_dungeons_start_on_their_first_battle_with_a_hidden_entrance() -> void:

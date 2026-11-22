@@ -118,18 +118,17 @@ static func travel_primm_phase(phase: int) -> String:
 	var result: String = travel_dungeon(PrimmsCastleDungeon.DUNGEON_ID, -2)
 	Session.boss_phase = clampi(phase - 1, 0, PrimmBoss.PHASES - 1)
 	Session.boss_phase_pending = Session.boss_phase > 0
-	# Fable Nov 12 (inbox 13, the dev fix): the four freed leaders' boons as a real run has them at this point - a checkpoint used to start
-	# Phase 2 or 3 without them (23 HP instead of 31, three rule icons instead of nine), which overstated the wall.
+	# Fable Nov 21 castle: the checkpoint stands at Primm's door with all four leaders won over (their castle rooms count as won), so the
+	# shortcut shows the fight at its best-prepared; `CastleAllies` adds their help in each phase.
 	var boons: int = 0
 	if Session.run != null and not Session.boss_boons_given:
 		Session.boss_boons_given = true
-		for zone_id: String in PrimmBoss.LEADERS.keys():
-			var boon: ModifierSource = PrimmBoss.leader_boon(zone_id)
-			if boon != null:
-				Session.run.add_dungeon_source(boon)
+		for zone_id: String in CastleAllies.ZONES:
+			if not CastleAllies.has_ally(Session.run, zone_id):
+				Session.run.add_dungeon_source(CastleAllies.marker(zone_id))
 				boons += 1
 		Session.run.hp = Session.run.max_hp()
-	return "%s - Primm's phase %d next (%d leader boons)" % [result, Session.boss_phase + 1, boons]
+	return "%s - Primm's phase %d next (%d allies)" % [result, Session.boss_phase + 1, boons]
 
 
 ## The map dungeon `dungeon_id` would be entered on (the same builder its real entry uses), for the node picker. Null if unknown.

@@ -11,8 +11,8 @@ extends RefCounted
 ##  3. UNRAVELING - his perfect rules break down: the arena cracks, his true selfishness shows. His units are stronger and he
 ##     draws more, but he loses 1 HP at the start of each of his turns as the rules he wrote stop working.
 ##
-## FREED LEADERS lend a boon: for every completed Path zone, that zone's freed leader (Grandmaster Flex, the Grand Chef, Agnes Overdue, Compostella) stands
-## beside you when the boss is entered and adds a dungeon-wide boon (`leader_boon`) for the fight.
+## THE LEADERS (Fable Nov 21 castle): a zone leader helps in all three phases when the player has won that leader's room in the castle
+## in this run (`CastleAllies`: Flex joins the fight, the Grand Chef draws a card, Agnes cuts costs, Compostella strengthens units).
 ## All text: `data/story/capital_story.tres` (`boss.*`, `boon.<zone>.*`, `cutscene.primm_*`, `dungeon.primm_boss.*`).
 
 const PHASES: int = 3
@@ -22,6 +22,8 @@ const SPELL_CAP: int = 2
 ## Fable pass Nov 1 (boss tempo): each phase's setup window in turns (`BossTempo`).
 const SETUP_TURNS: int = 2  # = BossTempo.DEFAULT_SETUP_TURNS (a const cannot reference another class here)
 const UNRAVEL_HP_LOSS: int = 1
+## Fable Nov 21 castle (Part 5.4): the cards in his opening hand, every phase (the normal hand is 5).
+const OPENING_HAND: int = 8
 ## The enemy name of the boss node (the battle screen's title is the phase title).
 const BOSS_FOE: String = "Primm"
 const PHASE_KEYS: Array[String] = ["standardization", "reflection", "unraveling"]
@@ -61,6 +63,7 @@ static func phase(index: int) -> Phase:
 	made.music = StringName("MUS-PRIMM-%02d" % (made.index + 1))
 	made.key = PHASE_KEYS[made.index]
 	EncounterModifiers.ensure_setup_rule(rules_key(made.index), SETUP_TURNS)
+	var hand: Modifier = _mod(Modifier.Kind.OPENING_HAND_SIZE, OPENING_HAND - PlayerProfile.new().base_opening_hand(), "A Full Desk")
 	match made.index:
 		0:
 			made.hp = 56  # Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
@@ -83,6 +86,8 @@ static func phase(index: int) -> Phase:
 				_mod(Modifier.Kind.EXTRA_DRAWS, 1, "Panic"),
 				_unraveling_effect(),
 			] as Array[Modifier]
+	if hand.value != 0:
+		made.enemy_modifiers.append(hand)  # Fable Nov 21 castle (Part 5.4): he opens every phase with 8 cards (was 5)
 	return made
 
 
@@ -129,59 +134,19 @@ static func player_rules(index: int) -> ModifierSource:
 	return CardBuilder.modifier_source("Primm: %s" % stage.key, ModifierSource.SourceKind.ZONE, stage.player_modifiers)
 
 
-# ---- The freed leaders' boons --------------------------------------------------------------------------------------------------
+# ---- The leaders ------------------------------------------------------------------------------------------------------------------
+# Fable Nov 21 castle (Part 3): the passive boons every freed leader lent at this door ("Grandmaster Flex's Heart", "The Grand Chef's
+# Feast", "Agnes's Appeal", "Compostella's Roots") are gone. A leader helps when the player has won that leader's room in the castle in
+# this run (`CastleAllies`): the help is added to the player's seat in each phase by `Session.make_dungeon_battle`.
 
 
-## Zone id -> the freed leader who lends the boon.
-const LEADERS: Dictionary = {
-	"beefcake": "Grandmaster Flex", "gourmand": "The Grand Chef", "necrocrat": "Agnes Overdue", "refusemancer": "Archdruid Compostella",
-}
+## Zone id -> the freed leader.
+const LEADERS: Dictionary = CastleAllies.LEADERS
 
 
-## The boon `zone_id`'s freed leader lends for the fight (null for an unknown zone).
-static func leader_boon(zone_id: String) -> ModifierSource:
-	var story: ZoneStoryText = ZoneStoryText.for_zone(ZONE_ID)
-	var name: String = story.text("boon.%s.name" % zone_id)
-	var path: int = int(ZoneEffects.path_of(zone_id))
-	var mods: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2)] as Array[Modifier]
-	match zone_id:
-		"beefcake":
-			mods.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, path, 0))
-		"gourmand":
-			mods.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, path, 1))
-			mods.append(CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, 1))
-		"necrocrat":
-			mods.append(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, path))
-		"refusemancer":
-			mods.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, path, 2))
-		_:
-			return null
-	return CardBuilder.modifier_source(name, ModifierSource.SourceKind.BOON, mods)
-
-
-## The boons of every completed Path zone.
-static func leader_boons(flags: Dictionary) -> Array[ModifierSource]:
-	var result: Array[ModifierSource] = []
-	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
-		if ZoneCompletion.is_completed(flags, zone_id):
-			var boon: ModifierSource = leader_boon(zone_id)
-			if boon != null:
-				result.append(boon)
-	return result
-
-
-## Story keys (in order) of what the freed leaders say as they join you.
-static func leader_lines(flags: Dictionary) -> Array[String]:
-	var result: Array[String] = []
-	var story: ZoneStoryText = ZoneStoryText.for_zone(ZONE_ID)
-	var count: int = 0
-	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
-		if ZoneCompletion.is_completed(flags, zone_id):
-			count += 1
-			result.append_array(story.get_lines("boon.%s.line" % zone_id))
-	if count == 0:
-		result.append_array(story.get_lines("boon.none.line"))
-	return result
+## What is said at the Model Room's door: who stands with you in this run.
+static func leader_lines(run: DungeonRun) -> Array[String]:
+	return CastleAllies.door_lines(run)
 
 
 ## Fable Nov 15 (Part 4): the phase's own rules as a badge (the fight itself is unchanged). The phase's rule line was only the gold panel

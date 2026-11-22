@@ -33,43 +33,12 @@ func test_the_castle_is_registered_and_sound() -> void:
 	assert_eq(_map.nodes.size(), 22, "the 22 nodes of the dungeon list")
 
 
-func test_heavy_branching_and_dead_end_side_branches() -> void:
-	# Overnight Nov 7-8, Part 4: the main line is six rooms (gate, courtyard, Hall of Mirrors, safe room, Archive, Model Room); the rest are side branches.
-	assert_gte(_map.branch_points().size(), 5, "real route choices")
-	assert_eq(_map.route_count(), 1, "one main road from the gate to the Model Room; everything else dead-ends")
-	assert_gte(_map.dead_ends().size(), 10, "the side branches")
-
-
-func test_dead_end_branches_double_back() -> void:
-	var dead_ends: Array[int] = _map.dead_ends()
-	assert_gte(dead_ends.size(), 6, "treasure, encounters, events and lore dead-end")
-	var kinds: Dictionary = {}
-	for id: int in dead_ends:
-		var node: DungeonMap.MapNode = _map.node(id)
-		assert_true(node.next.is_empty(), "%s leads nowhere forward" % node.title)
-		assert_lt(node.return_to, node.id)
-		assert_true(_map.reachable_from(node.return_to).has(id), "and hangs off %s" % _map.node(node.return_to).title)
-		kinds[node.kind] = true
-	assert_true(kinds.has(DungeonMap.Kind.TREASURE) and kinds.has(DungeonMap.Kind.EVENT) and kinds.has(DungeonMap.Kind.BATTLE), "dead ends of several kinds")
-
-
-func test_doubling_back_returns_to_the_branch_point_and_the_main_route_stays_open() -> void:
-	# Walk: gate -> courtyard -> foyer (a branch point) -> the garden (a dead end) -> back at the foyer.
-	_map.complete(_by_number(2).id)
-	var foyer: DungeonMap.MapNode = _by_number(3)
-	assert_true(_map.complete(foyer.id))
-	var garden: DungeonMap.MapNode = _by_number(22)
-	assert_eq(garden.return_to, foyer.id)
-	assert_true(_map.is_available(garden.id))
-	assert_true(_map.complete(garden.id))
-	assert_eq(_map.current, foyer.id, "the party doubled back")
-	assert_eq(_map.last_cleared, garden.id)
-	assert_true(_map.is_cleared(garden.id))
-	var choices: Array[int] = []
-	for node: DungeonMap.MapNode in _map.available():
-		choices.append(node.id)
-	assert_false(choices.has(garden.id), "the dead end is done")
-	assert_true(choices.has(_by_number(4).id), "the way forward is still open")
+func test_a_layered_map_with_many_crossing_routes() -> void:
+	# Fable Nov 21 castle (Part 2): the gate, six rows of rooms and the Model Room; every link goes forward, nothing doubles back.
+	assert_gte(_map.branch_points().size(), 12, "real route choices in every row")
+	assert_gte(_map.rejoin_points().size(), 12, "the routes cross and rejoin")
+	assert_gte(_map.route_count(), 40, "many ways from the gate to the Model Room (%d)" % _map.route_count())
+	assert_eq(_map.dead_ends(), [] as Array[int], "no dead-end side branches any more")
 
 
 func _by_number(number: int) -> DungeonMap.MapNode:
@@ -79,14 +48,13 @@ func _by_number(number: int) -> DungeonMap.MapNode:
 	return null
 
 
-func test_the_four_wings_are_dead_end_branches_one_per_path() -> void:
-	var wings: Array[int] = [12, 13, 14, 15]
-	for number: int in wings:
-		var wing: DungeonMap.MapNode = _by_number(number)
-		assert_true(wing.next.is_empty())
-		assert_gte(wing.return_to, 0, wing.title)
-	assert_eq(_by_number(12).section, "the Gourmand Wing")
-	assert_eq(_by_number(15).section, "the Refusemancer Wing")
+func test_the_four_wings_are_rooms_on_the_routes_one_per_path() -> void:
+	var wings: Dictionary = {4: "the Gourmand Wing", 8: "the Beefcake Wing", 11: "the Necrocrat Wing", 14: "the Refusemancer Wing"}
+	for number: Variant in wings.keys():
+		var wing: DungeonMap.MapNode = _by_number(int(number))
+		assert_eq(wing.section, str(wings[number]))
+		assert_false(wing.next.is_empty(), "%s leads on" % wing.title)
+		assert_eq(wing.return_to, -1, wing.title)
 
 
 func test_sections_and_node_kinds() -> void:
@@ -103,9 +71,9 @@ func test_sections_and_node_kinds() -> void:
 	for node: DungeonMap.MapNode in _map.nodes:
 		if node.kind == DungeonMap.Kind.CHALLENGE:
 			challenges += 1
-	assert_gte(challenges, 1, "the Mirror Maze (node 14 became Plume's elite in the Oct 21 sheet)")
-	assert_eq(_by_number(14).kind, DungeonMap.Kind.ELITE, "the Necrocrat wing: Percival Plume")
-	assert_eq(_by_number(14).enemy_name, Lieutenants.foe_name(Lieutenants.PLUME))
+	assert_gte(challenges, 1, "the Mirror Maze")
+	assert_eq(_by_number(11).kind, DungeonMap.Kind.ELITE, "the Necrocrat wing: Percival Plume")
+	assert_eq(_by_number(11).enemy_name, Lieutenants.foe_name(Lieutenants.PLUME))
 
 
 func test_the_final_chamber_and_the_boss() -> void:
@@ -256,24 +224,23 @@ func test_capital_debuffs_apply_to_castle_duels_too() -> void:
 	assert_eq(junk, CapitalDebuffs.JUNK_COUNT, "Clutter until the Dump is free")
 
 
-func test_freed_leaders_lend_a_boon_each() -> void:
-	assert_eq(PrimmBoss.leader_boons(Session.flags).size(), 0, "nobody stands beside you at first")
-	assert_true(PrimmBoss.leader_lines(Session.flags)[0].contains("Nobody stands beside you"))
+func test_the_leaders_help_only_when_their_castle_room_was_won() -> void:
+	# Fable Nov 21 castle (Part 3): freeing a zone no longer lends a boon at Primm's door; the leader's room in the castle must be won.
 	_start_castle_run()
-	var hp_before: int = Session.run.max_hp()
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
 		Session.complete_zone(zone_id)
-	var boons: Array[ModifierSource] = PrimmBoss.leader_boons(Session.flags)
-	assert_eq(boons.size(), 4)
-	for boon: ModifierSource in boons:
-		assert_eq(boon.source_kind, ModifierSource.SourceKind.BOON)
-		assert_false(boon.source_name.begins_with("[missing"))
+	var hp_before: int = Session.run.max_hp()
+	var sources_before: int = Session.run.dungeon_sources.size()
 	var lines: Array[String] = Session.begin_primm_fight()
-	assert_gte(lines.size(), 4, "each leader speaks")
-	assert_gt(Session.run.max_hp(), hp_before, "+2 max HP each")
-	var after: int = Session.run.max_hp()
-	Session.begin_primm_fight()
-	assert_eq(Session.run.max_hp(), after, "boons are given once per run")
+	assert_true(lines[0].contains("Nobody stands beside you"), "four freed zones, no room won: alone")
+	assert_eq(Session.run.max_hp(), hp_before, "nothing is handed out at the door")
+	assert_eq(Session.run.dungeon_sources.size(), sources_before)
+	assert_eq(CastleAllies.win_room(Session.run, Session.flags, Session.dungeon_key, 8), "beefcake")
+	assert_eq(CastleAllies.win_room(Session.run, Session.flags, Session.dungeon_key, 11), "necrocrat")
+	lines = Session.begin_primm_fight()
+	assert_eq(lines.size(), 2, "each leader won over is named")
+	assert_true(lines[0].contains("Grandmaster Flex") and lines[1].contains("Agnes Overdue"))
+	assert_eq(Session.run.max_hp(), hp_before, "the markers change no number")
 
 
 # ---- The flow of a boss run, ending, and the postgame ---------------------------------------------------------------------
@@ -364,7 +331,7 @@ func _complete_path_to(map: DungeonMap, target_id: int) -> void:
 			return
 		var pick: DungeonMap.MapNode = null
 		for option: DungeonMap.MapNode in options:
-			if option.return_to < 0 and map.reachable_from(option.id).has(target_id):
+			if map.reachable_from(option.id).has(target_id):
 				pick = option
 				break
 		if pick == null:
@@ -382,73 +349,66 @@ func _finish_battle(context: BattleContext) -> void:
 	Session.dungeon_map.complete(context.node_id)
 
 
-func test_every_castle_node_resolves_through_the_session_api_in_a_full_run() -> void:
-	# A headless run: the first forward route to the boss with a dead end taken on the way; every node kind is resolved by the same
-	# Session / resolver calls the map screens use (battles are won by decree).
+func test_every_castle_room_resolves_through_the_session_api() -> void:
+	# Headless runs along three different routes (always the first, the middle and the last open room): every room kind is resolved by the
+	# same Session / resolver calls the map screens use (battles are won by decree). Together they pass through most of the castle.
 	Session.profile.max_hp = PlayerProfile.ENDGAME_MAX_HP
-	_start_castle_run()
-	var map: DungeonMap = Session.dungeon_map
-	var dead_end_taken: bool = false
-	var guard: int = 0
-	while not map.is_complete() and guard < 80:
-		guard += 1
-		var options: Array[DungeonMap.MapNode] = map.available()
-		assert_false(options.is_empty(), "never stuck (current node %d)" % map.current)
-		if options.is_empty():
-			return
-		var node: DungeonMap.MapNode = options[0]
-		for option: DungeonMap.MapNode in options:
-			if option.return_to >= 0 and not dead_end_taken:
-				node = option
-				dead_end_taken = true
-				break
-			if option.return_to < 0 and (node.return_to >= 0 and dead_end_taken):
-				node = option
-		match node.kind:
-			DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE:
-				var context: BattleContext = Session.make_dungeon_battle(node)
-				context.game._end_game(0, false)
-				Session.run.finish_encounter(context.game)
-				assert_false(Session.run.failed)
-				map.complete(node.id)
-			DungeonMap.Kind.BOSS:
-				for phase_index: int in range(PrimmBoss.PHASES):
-					Session.boss_phase = phase_index
-					var boss_context: BattleContext = Session.make_dungeon_battle(node)
-					boss_context.game._end_game(0, false)
-					Session.run.finish_encounter(boss_context.game)
-				map.complete(node.id)
-			DungeonMap.Kind.EVENT:
-				var event: DungeonEvent = _def.event(node.event_id)
-				assert_not_null(event, node.event_id)
-				var result: EventResolver.Result = Session.resolve_dungeon_event(event, 0)
-				assert_true(result.ok, node.event_id)
-				map.complete(node.id)
-			DungeonMap.Kind.CHALLENGE:
-				var challenge: ChallengeData = _def.challenge(node.challenge_id)
-				assert_not_null(challenge, node.challenge_id)
-				ChallengeResolver.resolve(challenge, Session.run, Session.rng)
-				map.complete(node.id)
-			DungeonMap.Kind.SHRINE:
-				Session.run.heal(node.heal_amount)
-				map.complete(node.id)
-			DungeonMap.Kind.TREASURE:
-				var granted: Dictionary = Session.apply_treasure(node)
-				assert_false(granted.is_empty(), "the chest held something")
-				map.complete(node.id)
-			_:
-				map.complete(node.id)
-		Session.run.hp = maxi(Session.run.hp, 1)
-	assert_true(map.is_complete(), "reached and cleared the boss through %d steps" % guard)
-	assert_true(dead_end_taken)
+	var visited: Dictionary = {}
+	for lane: int in range(3):
+		_start_castle_run()
+		var map: DungeonMap = Session.dungeon_map
+		var guard: int = 0
+		while not map.is_complete() and guard < 20:
+			guard += 1
+			var options: Array[DungeonMap.MapNode] = map.available()
+			assert_false(options.is_empty(), "never stuck (current node %d)" % map.current)
+			if options.is_empty():
+				return
+			var node: DungeonMap.MapNode = options[[0, options.size() / 2, options.size() - 1][lane]]
+			visited[node.number] = true
+			match node.kind:
+				DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE:
+					var context: BattleContext = Session.make_dungeon_battle(node)
+					context.game._end_game(0, false)
+					Session.run.finish_encounter(context.game)
+					assert_false(Session.run.failed)
+					map.complete(node.id)
+				DungeonMap.Kind.BOSS:
+					for phase_index: int in range(PrimmBoss.PHASES):
+						Session.boss_phase = phase_index
+						var boss_context: BattleContext = Session.make_dungeon_battle(node)
+						boss_context.game._end_game(0, false)
+						Session.run.finish_encounter(boss_context.game)
+					map.complete(node.id)
+				DungeonMap.Kind.EVENT:
+					var event: DungeonEvent = _def.event(node.event_id)
+					assert_not_null(event, node.event_id)
+					var result: EventResolver.Result = Session.resolve_dungeon_event(event, event.choices.size() - 1)
+					assert_true(result.ok, node.event_id)
+					map.complete(node.id)
+				DungeonMap.Kind.CHALLENGE:
+					var challenge: ChallengeData = _def.challenge(node.challenge_id)
+					assert_not_null(challenge, node.challenge_id)
+					ChallengeResolver.resolve(challenge, Session.run, Session.rng)
+					map.complete(node.id)
+				DungeonMap.Kind.SHRINE:
+					Session.run.heal(node.heal_amount)
+					map.complete(node.id)
+				DungeonMap.Kind.TREASURE:
+					var granted: Dictionary = Session.apply_treasure(node)
+					assert_false(granted.is_empty(), "the chest held something")
+					map.complete(node.id)
+				_:
+					map.complete(node.id)
+			Session.run.hp = maxi(Session.run.hp, 1)
+		assert_true(map.is_complete(), "lane %d reached and cleared the boss" % lane)
+		assert_eq(guard, 7, "a run is six rooms and the Model Room")
+	assert_gte(visited.size(), 14, "three routes pass through most of the castle (%d rooms)" % visited.size())
 
 
-## Overnight Nov 7-8, Part 4 (approved): the castle's main line is about six rooms, with optional side rooms off it.
-func test_the_main_line_is_about_six_rooms() -> void:
-	var on_main: int = 0
+## Fable Nov 21 castle (Part 2): every room lies on a road to the Model Room, and a run walks one room of each of the six rows.
+func test_a_run_walks_six_of_the_twenty_rooms() -> void:
 	var boss: DungeonMap.MapNode = _map.boss()
 	for map_node: DungeonMap.MapNode in _map.nodes:
-		if map_node.id == boss.id or _map.reachable_from(map_node.id).has(boss.id):
-			on_main += 1  # a room on the road to the Model Room
-	assert_between(on_main, 5, 7, "main-line rooms")
-	assert_gte(_map.nodes.size() - on_main, 12, "with optional side rooms")
+		assert_true(map_node.id == boss.id or _map.reachable_from(map_node.id).has(boss.id), "%s leads to the Model Room" % map_node.title)
+	assert_eq(_map.nodes.size() - 2, 20, "twenty rooms between the gate and the Model Room")

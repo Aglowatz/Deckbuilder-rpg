@@ -54,11 +54,14 @@ func test_only_a_lost_fight_against_him_can_be_retried() -> void:
 	assert_false(Session.can_retry_primm(_lost(1)), "not outside a castle run")
 
 
-func test_fight_again_starts_phase_one_at_full_hp_with_the_leaders_boons() -> void:
-	# a normal arrival at his room: the four freed leaders each lend a boon
+func test_fight_again_starts_phase_one_at_full_hp_with_the_leaders_won_over() -> void:
+	# Fable Nov 21 castle: the leaders are won in the castle's rooms (two of them here), nothing is lent at the door
+	for zone_id: String in ["beefcake", "necrocrat"]:
+		Session.complete_zone(zone_id)
+		CastleAllies.win_room(Session.run, Session.flags, Session.dungeon_key, CastleAllies.room_of(zone_id))
 	Session.begin_primm_fight()
 	var boons: int = _boons()
-	assert_gt(boons, 0, "the freed leaders lent their boons")
+	assert_eq(boons, 2, "the two leaders' markers")
 	var full: int = Session.run.max_hp()
 	# two rooms of the castle were cleared on the way
 	var cleared: Array[int] = []
@@ -75,23 +78,23 @@ func test_fight_again_starts_phase_one_at_full_hp_with_the_leaders_boons() -> vo
 	assert_false(Session.boss_phase_pending)
 	assert_false(Session.run.failed, "the run goes on")
 	assert_eq(Session.run.hp, full, "full HP")
-	assert_eq(Session.run.max_hp(), full, "the boons' max HP is neither lost nor doubled")
-	assert_eq(_boons(), boons, "the leaders' boons as on a normal arrival: not given twice")
+	assert_eq(Session.run.max_hp(), full)
+	assert_eq(_boons(), boons, "the leaders won over are neither lost nor doubled")
+	assert_eq(CastleAllies.earned(Session.run), ["beefcake", "necrocrat"] as Array[String])
 	for id: int in cleared:
 		assert_true(Session.dungeon_map.is_cleared(id), "the castle's earlier rooms are not replayed")
 	var again: BattleContext = Session.make_dungeon_battle(Session.dungeon_map.boss())
 	assert_eq(again.boss_phase, 0, "the duel that starts is Phase 1")
 	assert_eq(again.game.players[0].hp, full, "and the hero walks in with full HP")
+	assert_true(again.game.players[0].modifiers.has(Modifier.Kind.ARRIVING_UNIT), "Flex is still coming")
 
 
-func test_fight_again_gives_the_boons_if_the_run_never_had_them() -> void:
-	# (a dev jump straight into a phase skips the leaders' scene)
+func test_fight_again_hands_out_nothing_new() -> void:
 	assert_eq(_boons(), 0)
 	assert_true(Session.prepare_primm_retry(_lost(1)))
-	assert_gt(_boons(), 0, "given now, once")
-	var boons: int = _boons()
+	assert_eq(_boons(), 0, "a retry lends no boon: the help is earned in the castle")
 	assert_true(Session.prepare_primm_retry(_lost(0)))
-	assert_eq(_boons(), boons, "a second retry does not stack them")
+	assert_eq(_boons(), 0)
 	assert_eq(Session.run.hp, Session.run.max_hp())
 
 

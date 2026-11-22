@@ -60,6 +60,8 @@ var entered_turn: int = 0
 var creator: int = -1
 ## Brief 14: Toxic damage was dealt to this unit (it is destroyed at the next check unless Unbreakable).
 var toxic_hit: bool = false
+## Fable Nov 21 castle (Part 5.3): a card the Mirrors rule copied into this hand - its Path pips may be paid with energy of any Path.
+var any_path_cost: bool = false
 
 
 func has_keyword(keyword: CardEnums.Keyword) -> bool:
@@ -161,6 +163,7 @@ func clone() -> CardInstance:
 	copy.real_owner = real_owner
 	copy.damage = damage
 	copy.exhausted = exhausted
+	copy.any_path_cost = any_path_cost
 	copy.just_arrived = just_arrived
 	copy.placed_before_duel = placed_before_duel
 	copy.face_down = face_down

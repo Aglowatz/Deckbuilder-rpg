@@ -578,6 +578,15 @@
 			"kind": "stat",
 			"atk": 1,
 			"def": 1
+		},
+		{
+			"name": "Red Tape",
+			"text": "The first card you play each turn costs 1 more.",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"harmful": true,
+			"kind": "first_card_cost",
+			"amount": 1
 		}
 	],
 	"capital:quota": [
@@ -706,7 +715,10 @@
 			"token": "T-22",
 			"token_name": "Topiary",
 			"token_keywords": [],
-			"token_stats": [1, 2],
+			"token_stats": [
+				1,
+				2
+			],
 			"every": 2,
 			"count": 1
 		}
@@ -743,6 +755,83 @@
 			"icon": "delapouite/shinto-shrine-mirror",
 			"kind": "extra_draws",
 			"count": 1
+		}
+	],
+	"The Pantry Mimic": [
+		{
+			"name": "Mimicry",
+			"text": "The first unit you play each turn is copied for the Mimic.",
+			"icon": "delapouite/chef-toque",
+			"side": "player",
+			"harmful": true,
+			"kind": "mirror_first_unit"
+		},
+		{
+			"name": "Never Its Own Idea",
+			"text": "The Mimic's own units get -1/-0. It has never once made anything up.",
+			"icon": "lorc/crossed-swords",
+			"kind": "stat",
+			"atk": -1,
+			"def": 0,
+			"non_tokens": true
+		}
+	],
+	"Coup Barracks Sergeant": [
+		{
+			"name": "Captured Trainees",
+			"text": "Two Captured Trainees (0/3) stand on your side from the start. Keep one alive until the Sergeant's 6th turn begins and the barracks gives up.",
+			"icon": "lorc/muscle-up",
+			"side": "player",
+			"kind": "starting_tokens",
+			"token": "T-16",
+			"count": 2,
+			"token_id": "PC-TRAINEE",
+			"token_name": "Captured Trainee",
+			"token_stats": [
+				0,
+				3
+			],
+			"token_keywords": [],
+			"token_text": "One of Flex's trainees, who would not sign. Keep one alive.",
+			"token_art": "res://assets/art/bestiary/BST-FLEXING-BRUTE.webp",
+			"token_tint": "f0dcc0"
+		},
+		{
+			"name": "Coup Orders",
+			"text": "The Sergeant's units get +2/+0. They were told to go through the line.",
+			"icon": "lorc/crossed-swords",
+			"kind": "stat",
+			"atk": 2,
+			"def": 0
+		}
+	],
+	"Seed Vault Gardener": [
+		{
+			"name": "Spotless",
+			"text": "Three Spotless Statues (0/4) stand on the Gardener's side from the start. Destroy all three and the vault is yours.",
+			"icon": "delapouite/plant-seed",
+			"kind": "starting_tokens",
+			"token": "T-16",
+			"count": 3,
+			"token_id": "PC-STATUE",
+			"token_name": "Spotless Statue",
+			"token_stats": [
+				0,
+				4
+			],
+			"token_keywords": [],
+			"token_text": "Polished every morning. It keeps the damp out.",
+			"token_art": "res://assets/art/bestiary/BST-CAPTAIN-SPOTLESS.webp",
+			"token_tint": "e2ecf6"
+		},
+		{
+			"name": "Waxed and Polished",
+			"text": "The Gardener's own units get +1/+1 (the statues do not).",
+			"icon": "lorc/crossed-swords",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1,
+			"non_tokens": true
 		}
 	]
 }

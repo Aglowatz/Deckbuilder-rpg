@@ -61,22 +61,53 @@ func test_overgrowth_buffs_one_unit_of_the_player_whose_turn_starts() -> void:
 	assert_eq(game.get_attack(theirs), before + 1, "and the enemy's did not grow again")
 
 
-func test_perfect_order_caps_a_unit_at_two_keywords() -> void:
+func test_perfect_order_allows_one_card_of_each_type_a_turn() -> void:
+	# Fable Nov 21 castle (Part 5.2): Perfect Order was a cap of two keywords on a unit; it is "one card of each type per turn" now.
 	var game: GameState = _game_in("final")
+	GameFactory.add_infrastructure_cards(game, 0, 8)
+	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
+	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 1))
+	var spell_data: CardData = CardBuilder.spell("po_spell", "Test Spell", Affinity.Type.BEEFCAKE, 1, NO_PIPS)
+	var spell: CardInstance = GameFactory.add_to_hand(game, 0, spell_data)
+	var spell_two: CardInstance = GameFactory.add_to_hand(game, 0, spell_data)
+	assert_true(game.can_play_card(0, first.uid))
+	assert_true(game.play_card(0, first.uid))
+	assert_false(game.can_play_card(0, second.uid), "a second unit in the same turn is refused")
+	assert_true(game.type_played_this_turn(0, second.data))
+	assert_true(game.can_play_card(0, spell.uid), "a spell is another type")
+	assert_true(game.play_card(0, spell.uid))
+	assert_false(game.can_play_card(0, spell_two.uid), "but not two spells")
+	GameFactory.pass_turn(game)
+	GameFactory.pass_turn(game)
+	assert_true(game.can_play_card(0, second.uid), "the next turn it can be played")
+	# a unit keeps all its keywords now
 	var busy: CardInstance = _unit(game, 0, 2, 2, [CardEnums.Keyword.FLYING, CardEnums.Keyword.SWAT, CardEnums.Keyword.HUSTLE] as Array[CardEnums.Keyword])
-	assert_true(game.unit_has_keyword(busy, CardEnums.Keyword.FLYING))
-	assert_true(game.unit_has_keyword(busy, CardEnums.Keyword.SWAT))
-	assert_false(game.unit_has_keyword(busy, CardEnums.Keyword.HUSTLE), "the third keyword does not count")
-	var plain: CardInstance = _unit(game, 0, 2, 2, [CardEnums.Keyword.FLYING, CardEnums.Keyword.SWAT] as Array[CardEnums.Keyword])
-	game.grant_keyword(plain, CardEnums.Keyword.ELUSIVE, false)
-	assert_false(game.unit_has_keyword(plain, CardEnums.Keyword.ELUSIVE), "a granted keyword is refused at the cap")
-	var open: CardInstance = _unit(game, 0, 2, 2, [CardEnums.Keyword.FLYING] as Array[CardEnums.Keyword])
-	game.grant_keyword(open, CardEnums.Keyword.ELUSIVE, false)
-	assert_true(game.unit_has_keyword(open, CardEnums.Keyword.ELUSIVE), "below the cap a keyword can still be granted")
+	assert_true(game.unit_has_keyword(busy, CardEnums.Keyword.HUSTLE), "the old cap of two keywords is gone")
+
+
+func test_perfect_order_binds_the_opponent_too() -> void:
+	var game: GameState = _game_in("final")
+	GameFactory.pass_turn(game)
+	GameFactory.add_infrastructure_cards(game, 1, 8)
+	var first: CardInstance = GameFactory.add_to_hand(game, 1, GameFactory.vanilla(1, 1, 1))
+	var second: CardInstance = GameFactory.add_to_hand(game, 1, GameFactory.vanilla(2, 2, 1))
+	assert_true(game.play_card(1, first.uid))
+	assert_false(game.can_play_card(1, second.uid))
+
+
+func test_mirrors_only_in_the_pantry_and_the_hall_of_mirrors() -> void:
+	# Fable Nov 21 castle (Part 5.3): two fights, not every one
+	for number: int in range(1, 23):
+		var source: ModifierSource = DungeonRules.shared_source("final", number)
+		var mirrors: bool = false
+		for modifier: Modifier in source.modifiers:
+			mirrors = mirrors or modifier.kind == Modifier.Kind.MIRRORS
+		assert_eq(mirrors, DungeonRules.MIRRORS_NODES.has(number), "room %d" % number)
+	assert_between(DungeonRules.MIRRORS_NODES.size(), 2, 3)
 
 
 func test_mirrors_copies_only_the_first_card_each_player_plays() -> void:
-	var game: GameState = _game_in("final")
+	var game: GameState = _game_in("final", 9)
 	GameFactory.add_infrastructure_cards(game, 0, 4)
 	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 1))
@@ -84,8 +115,31 @@ func test_mirrors_copies_only_the_first_card_each_player_plays() -> void:
 	assert_true(game.play_card(0, first.uid))
 	assert_eq(game.players[1].hand.size(), before + 1, "the opponent gets a copy of the first card")
 	assert_eq(game.players[1].hand[game.players[1].hand.size() - 1].data.id, first.data.id)
+	GameFactory.pass_turn(game)
+	GameFactory.pass_turn(game)
 	assert_true(game.play_card(0, second.uid))
-	assert_eq(game.players[1].hand.size(), before + 1, "but not of the second")
+	assert_eq(game.players[1].hand.size(), before + 1 + 1, "but not of the second (the opponent drew a card for its turn)")
+
+
+func test_a_mirrors_copy_can_be_paid_with_energy_of_any_path() -> void:
+	# The opponent plays a Beefcake unit; you hold only Necrocrat Infrastructure and can still pay for the copy.
+	var game: GameState = _game_in("final", 9)
+	GameFactory.pass_turn(game)
+	GameFactory.add_infrastructure_cards(game, 1, 4)
+	var pip_unit: CardData = CardBuilder.unit("mirror_pip_unit", "Pip Unit", Affinity.Type.BEEFCAKE, 1, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 2, 2)
+	var theirs: CardInstance = GameFactory.add_to_hand(game, 1, pip_unit)
+	assert_eq(theirs.data.colored_pips.size(), 1, "the test unit costs one Beefcake pip")
+	assert_true(game.play_card(1, theirs.uid))
+	var copy: CardInstance = game.players[0].hand[game.players[0].hand.size() - 1]
+	assert_eq(copy.data.id, theirs.data.id)
+	assert_true(copy.any_path_cost)
+	assert_eq(game.pips_for(0, copy.data, copy).size(), 0, "no Path pip to pay")
+	assert_eq(game.generic_cost_for(0, copy.data, copy), theirs.data.generic_cost + 1, "the pip is paid as generic energy")
+	GameFactory.pass_turn(game)
+	GameFactory.add_infrastructure_cards(game, 0, 4, Affinity.Type.NECROCRAT)
+	assert_true(game.can_play_card(0, copy.uid), "Necrocrat energy pays for the copied Beefcake card")
+	var own: CardInstance = GameFactory.add_to_hand(game, 0, pip_unit)
+	assert_false(game.can_play_card(0, own.uid), "a Beefcake card of your own still needs Beefcake energy")
 
 
 func test_processing_time_taxes_only_the_first_spell_each_turn() -> void:

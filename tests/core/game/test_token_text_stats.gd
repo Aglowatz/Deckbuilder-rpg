@@ -96,6 +96,6 @@ func test_the_event_and_the_timed_rules_use_the_stated_token() -> void:
 	var scripts: String = FileAccess.get_file_as_string("res://core/dungeon/encounter_scripts.gd")
 	assert_true(scripts.contains("state.create_stated_token(owner, token)"), "a boss event's summon")
 	var state: String = FileAccess.get_file_as_string("res://core/game/game_state.gd")
-	assert_eq(state.count("create_stated_token(player_index, modifier.tokens["), 2, "the timed and staged rule summons")
+	assert_eq(state.count("create_stated_token(player_index, modifier.tokens["), 3, "the timed and staged rule summons, and the ally who arrives (Fable Nov 21 castle)")
 	var events: String = FileAccess.get_file_as_string("res://data/encounters/encounter_scripts.json")
 	assert_true(events.contains("a 1/1 Snack joins his side"), "the text still says 1/1")

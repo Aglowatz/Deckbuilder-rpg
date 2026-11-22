@@ -14,6 +14,13 @@ const MARKERS: Dictionary = {
 }
 
 
+## The words of a marker boon ("" for any other): the dungeons' own, and the castle's allies (Fable Nov 21 castle).
+static func _marker(source_name: String) -> String:
+	if MARKERS.has(source_name):
+		return str(MARKERS[source_name])
+	return CastleAllies.marker_text(source_name)
+
+
 ## True for a curse (numbers that only take away).
 static func is_curse(source: ModifierSource) -> bool:
 	if source.for_enemy:
@@ -51,8 +58,8 @@ static func describe(source: ModifierSource) -> String:
 	var sentences: PackedStringArray = []
 	if not parts.is_empty():
 		sentences.append(_capital(_join(parts)) + " " + duration(source) + ".")
-	if MARKERS.has(source.source_name):
-		sentences.append(_capital(str(MARKERS[source.source_name])) + ".")
+	if not _marker(source.source_name).is_empty():
+		sentences.append(_capital(_marker(source.source_name)) + ".")
 	if sentences.is_empty():
 		return "A mark of what you did in this run: it changes no numbers."
 	return " ".join(sentences)
@@ -65,11 +72,11 @@ static func short(source: ModifierSource) -> String:
 		var part: String = modifier_text(modifier, source.for_enemy)
 		if not part.is_empty():
 			parts.append(part)
-	if MARKERS.has(source.source_name):
-		parts.append(str(MARKERS[source.source_name]))
+	if not _marker(source.source_name).is_empty():
+		parts.append(_marker(source.source_name))
 	if parts.is_empty():
 		return "no numbers change"
-	return _join(parts) + (" in the next fight" if source.fights_left == 1 else (" for the rest of the dungeon" if source.fights_left == 0 and not MARKERS.has(source.source_name) else ""))
+	return _join(parts) + (" in the next fight" if source.fights_left == 1 else (" for the rest of the dungeon" if source.fights_left == 0 and _marker(source.source_name).is_empty() else ""))
 
 
 ## Overnight Nov 19 (Part 5): how long it lasts.

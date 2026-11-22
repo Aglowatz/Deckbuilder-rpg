@@ -867,7 +867,7 @@
 		"theme": "A gleaming, perfectly symmetrical palace of white stone, gold trim, and mirrors everywhere, every surface reflecting Primm, while cracks, rifts, and corruption seep through behind the polish.",
 		"story": "The heart of Primm's rule. The first time the Wanderer enters, Percival Plume has Elowen seized and sent back to the Path-ology Lab; his memo in the Necrocrat wing gives it away, right before the player fights him there. Side wings show how Primm 'perfected' each faction; Path-ologist records reveal what was done to the prince; his Private Gallery holds the royal portrait with the king and queen painted over. The Archive of Good Intentions reveals the tragedy of a man who meant well and became a tyrant. The final chamber is the Model Room. If the Wanderer arrives before freeing all four zones, Primm reveals his identity.",
 		"boss": "Primm, \"His Perfection\" (multi-phase final boss)",
-		"buffs": "The Capital's broken-services debuffs (one per faction whose zone isn't freed yet). Perfect Order: units can't have more than 2 keywords. Mirrors: the first card each player plays each game is copied for the opponent.",
+		"buffs": "The Capital's broken-services debuffs (one per faction whose zone isn't freed yet). Perfect Order: each player may play only one card of each type per turn (one unit, one spell, one trap, one wonder, one tool). Mirrors (the Gilded Pantry and the Hall of Mirrors only): the first card each player plays each game is copied for the opponent; the copy can be paid with energy of any Path.",
 		"reward_first": "Reunion of the Paths (P4-02), bonus gold and XP, the ending, and the postgame unlock (all Paths can be combined).",
 		"reward_repeat": "Prismatic Pack + gold (postgame).",
 		"hook": "The resistance hideout: \"It ends where it began. The castle.\"",
@@ -879,67 +879,180 @@
 				"name": "Castle Gate",
 				"type": "start",
 				"note": "story: Elowen is seized on Plume's orders",
-				"x": 6,
-				"y": 85,
+				"x": 5,
+				"y": 77,
 				"next": [
-					2
+					2,
+					3
 				],
 				"side": false,
 				"return_to": 0
 			},
 			{
 				"n": 2,
-				"name": "Courtyard of Perfect Hedges",
-				"type": "battle",
-				"note": "",
-				"x": 16,
-				"y": 70,
+				"name": "Gilded Pantry",
+				"type": "elite",
+				"note": "the Pantry Mimic; the Grand Chef's recipe",
+				"x": 10,
+				"y": 35,
 				"next": [
-					5,
-					3,
-					11
+					4,
+					5
 				],
 				"side": false,
 				"return_to": 0
 			},
 			{
 				"n": 3,
-				"name": "Grand Foyer",
-				"type": "event",
+				"name": "Courtyard of Perfect Hedges",
+				"type": "battle",
 				"note": "",
-				"x": 26,
-				"y": 78,
+				"x": 15,
+				"y": 63,
 				"next": [
-					4,
-					22
+					5,
+					6,
+					7
 				],
-				"side": true,
-				"return_to": 2
+				"side": false,
+				"return_to": 0
 			},
 			{
 				"n": 4,
+				"name": "Gourmand Wing: the Doppelganger's Lab Notes",
+				"type": "event",
+				"note": "",
+				"x": 29,
+				"y": 33,
+				"next": [
+					8,
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
 				"name": "Portrait Gallery",
 				"type": "battle",
 				"note": "",
-				"x": 36,
-				"y": 62,
+				"x": 35,
+				"y": 52,
+				"next": [
+					8,
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Grand Foyer",
+				"type": "event",
+				"note": "",
+				"x": 25,
+				"y": 70,
+				"next": [
+					9,
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Garden of Uniform Flowers",
+				"type": "heal",
+				"note": "heal for a cost",
+				"x": 25,
+				"y": 85,
+				"next": [
+					9,
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Beefcake Wing: Coup Orders Barracks",
+				"type": "battle",
+				"note": "ally room: Grandmaster Flex",
+				"x": 40,
+				"y": 31,
+				"next": [
+					11,
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "Hall of Mirrors",
+				"type": "elite",
+				"note": "",
+				"x": 45,
+				"y": 60,
+				"next": [
+					11,
+					12,
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "Correction Ward Cells",
+				"type": "event",
+				"note": "free prisoners for a boon",
+				"x": 44,
+				"y": 83,
 				"next": [
 					12,
 					13
 				],
-				"side": true,
-				"return_to": 3
+				"side": false,
+				"return_to": 0
 			},
 			{
-				"n": 5,
-				"name": "Hall of Mirrors",
+				"n": 11,
+				"name": "Necrocrat Wing: Notarized Archives",
 				"type": "elite",
-				"note": "",
-				"x": 46,
-				"y": 70,
+				"note": "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture",
+				"x": 54,
+				"y": 28,
 				"next": [
-					7,
-					6,
+					14,
+					15
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "Ministry of Correction",
+				"type": "battle",
+				"note": "",
+				"x": 56,
+				"y": 48,
+				"next": [
+					14,
+					15,
+					16
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "Mirror Maze",
+				"type": "challenge",
+				"note": "",
+				"x": 56,
+				"y": 80,
+				"next": [
 					16,
 					17
 				],
@@ -947,205 +1060,123 @@
 				"return_to": 0
 			},
 			{
-				"n": 6,
-				"name": "Ministry of Correction",
+				"n": 14,
+				"name": "Refusemancer Wing: the Corrupted Seed Vault",
 				"type": "battle",
-				"note": "",
-				"x": 56,
-				"y": 55,
+				"note": "ally room: Archdruid Compostella",
+				"x": 63,
+				"y": 26,
 				"next": [
-					14,
-					15
-				],
-				"side": true,
-				"return_to": 5
-			},
-			{
-				"n": 7,
-				"name": "Resistance Safe Room",
-				"type": "heal",
-				"note": "",
-				"x": 66,
-				"y": 65,
-				"next": [
-					8,
-					18
-				],
-				"side": false,
-				"return_to": 0
-			},
-			{
-				"n": 8,
-				"name": "Archive of Good Intentions",
-				"type": "event",
-				"note": "Primm's journals; young Maren's letter",
-				"x": 74,
-				"y": 48,
-				"next": [
-					10,
-					9,
+					18,
 					19
 				],
 				"side": false,
 				"return_to": 0
 			},
 			{
-				"n": 9,
-				"name": "Royal Stair",
-				"type": "elite",
-				"note": "",
-				"x": 82,
-				"y": 60,
+				"n": 15,
+				"name": "Archive of Good Intentions",
+				"type": "event",
+				"note": "Primm's journals; young Maren's letter",
+				"x": 76,
+				"y": 42,
 				"next": [
+					19,
 					20
 				],
-				"side": true,
-				"return_to": 8
-			},
-			{
-				"n": 10,
-				"name": "The Model Room",
-				"type": "boss",
-				"note": "",
-				"x": 90,
-				"y": 30,
-				"next": [],
 				"side": false,
 				"return_to": 0
 			},
 			{
-				"n": 11,
-				"name": "Gilded Pantry",
-				"type": "treasure",
-				"note": "",
-				"x": 14,
-				"y": 48,
-				"next": [],
-				"side": true,
-				"return_to": 2
-			},
-			{
-				"n": 12,
-				"name": "Gourmand Wing: the Doppelganger's Lab Notes",
-				"type": "event",
-				"note": "",
-				"x": 30,
-				"y": 40,
-				"next": [],
-				"side": true,
-				"return_to": 4
-			},
-			{
-				"n": 13,
-				"name": "Beefcake Wing: Coup Orders Barracks",
-				"type": "battle",
-				"note": "",
-				"x": 40,
-				"y": 38,
-				"next": [],
-				"side": true,
-				"return_to": 4
-			},
-			{
-				"n": 14,
-				"name": "Necrocrat Wing: Notarized Archives",
-				"type": "elite",
-				"note": "Percival Plume; his memo reveals Elowen's capture",
-				"x": 52,
-				"y": 32,
-				"next": [],
-				"side": true,
-				"return_to": 6
-			},
-			{
-				"n": 15,
-				"name": "Refusemancer Wing: the Corrupted Seed Vault",
-				"type": "battle",
-				"note": "",
-				"x": 62,
-				"y": 30,
-				"next": [],
-				"side": true,
-				"return_to": 6
-			},
-			{
 				"n": 16,
-				"name": "Correction Ward Cells",
-				"type": "event",
-				"note": "free prisoners for a boon",
-				"x": 46,
-				"y": 90,
-				"next": [],
-				"side": true,
-				"return_to": 5
+				"name": "Resistance Safe Room",
+				"type": "heal",
+				"note": "",
+				"x": 67,
+				"y": 56,
+				"next": [
+					19,
+					20
+				],
+				"side": false,
+				"return_to": 0
 			},
 			{
 				"n": 17,
-				"name": "Mirror Maze",
-				"type": "challenge",
-				"note": "",
-				"x": 56,
-				"y": 85,
-				"next": [],
-				"side": true,
-				"return_to": 5
-			},
-			{
-				"n": 18,
 				"name": "Royal Kitchens",
 				"type": "treasure",
 				"note": "",
 				"x": 72,
-				"y": 82,
-				"next": [],
-				"side": true,
-				"return_to": 7
+				"y": 75,
+				"next": [
+					20,
+					21
+				],
+				"side": false,
+				"return_to": 0
 			},
 			{
-				"n": 19,
+				"n": 18,
 				"name": "Primm's Private Gallery",
 				"type": "treasure",
 				"note": "the painted-over royal portrait",
 				"x": 74,
-				"y": 25,
-				"next": [],
-				"side": true,
-				"return_to": 8
+				"y": 22,
+				"next": [
+					22
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 19,
+				"name": "Royal Stair",
+				"type": "elite",
+				"note": "",
+				"x": 84,
+				"y": 52,
+				"next": [
+					22
+				],
+				"side": false,
+				"return_to": 0
 			},
 			{
 				"n": 20,
 				"name": "Clocktower Balcony",
 				"type": "elite",
 				"note": "",
-				"x": 86,
-				"y": 78,
+				"x": 90,
+				"y": 75,
 				"next": [
-					21
+					22
 				],
-				"side": true,
-				"return_to": 9
+				"side": false,
+				"return_to": 0
 			},
 			{
 				"n": 21,
 				"name": "Royal Vault",
 				"type": "treasure",
 				"note": "",
-				"x": 92,
-				"y": 88,
-				"next": [],
-				"side": true,
-				"return_to": 9
+				"x": 94,
+				"y": 90,
+				"next": [
+					22
+				],
+				"side": false,
+				"return_to": 0
 			},
 			{
 				"n": 22,
-				"name": "Garden of Uniform Flowers",
-				"type": "event",
+				"name": "The Model Room",
+				"type": "boss",
 				"note": "",
-				"x": 26,
-				"y": 92,
+				"x": 89,
+				"y": 38,
 				"next": [],
-				"side": true,
-				"return_to": 3
+				"side": false,
+				"return_to": 0
 			}
 		]
 	},

@@ -58,6 +58,7 @@
 		{"name": "Compostella, the Rotheart", "kind": "boss", "where": "The Rotheart", "icon": "cathelineau/tree-face", "blurb": "The Refusemancers' leader, corrupted. Turned everything to mulch, even her manners."},
 		{"name": "Hedge Trimmer Guard", "kind": "foe", "where": "Primm's Castle", "icon": "lorc/sword-spin", "blurb": "Trims hedges to the millimetre. Trims intruders to the same standard."},
 		{"name": "Gallery Curator", "kind": "foe", "where": "Primm's Castle", "icon": "delapouite/portrait", "blurb": "Every painting in the gallery is of Primm. He picked the frames."},
+		{"name": "The Pantry Mimic", "kind": "elite", "where": "Primm's Castle", "icon": "delapouite/chef-toque", "blurb": "A cupboard that learned to cook by eating the cookbook. It copies whatever is put in front of it and has never once made anything up."},
 		{"name": "Mirror Knight", "kind": "foe", "where": "Primm's Castle", "icon": "delapouite/shinto-shrine-mirror", "blurb": "Reflects your moves back at you. Also your fashion choices, unkindly."},
 		{"name": "Ministry Clerk", "kind": "foe", "where": "Primm's Castle", "icon": "delapouite/stamper", "blurb": "Stamps 'IMPROVED' on everything. Including the stamp."},
 		{"name": "Royal Staircase Guard", "kind": "foe", "where": "Primm's Castle", "icon": "lorc/visored-helm", "blurb": "Guards the stairs. Has never climbed them. Too scared of the top."},

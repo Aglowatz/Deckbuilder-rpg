@@ -350,11 +350,11 @@ static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: Dunge
 		if rules != null:
 			spec.player_sources.append(rules)
 		_attach_rules(spec, PrimmBoss.rules_key(index))
-		# Daytime Oct 19: the four freed leaders stand beside you (the story frees every zone before the castle; `Session.begin_primm_fight`).
-		for zone_id: String in PrimmBoss.LEADERS.keys():
-			var boon: ModifierSource = PrimmBoss.leader_boon(zone_id)
-			if boon != null:
-				spec.player_sources.append(boon)
+		# Fable Nov 21 castle: the leaders won over in the castle's ally rooms help in every phase (`CastleAllies`). `primm_allies` says
+		# which of them this catalogue assumes (all four by default; the castle sims set it to measure 0 to 4).
+		var help: ModifierSource = CastleAllies.help_source(primm_allies)
+		if help != null:
+			spec.player_sources.append(help)
 		spec.sequence = "boss:primm"
 		result.append(spec)
 	return result
@@ -367,6 +367,10 @@ static func _kind_of(kind: DungeonMap.Kind) -> EncounterSpec.Kind:
 		DungeonMap.Kind.BOSS:
 			return EncounterSpec.Kind.BOSS
 	return EncounterSpec.Kind.NORMAL
+
+
+## Fable Nov 21 castle: the leaders the simulated hero has won over before Primm (zone ids; see `CastleAllies.ZONES`).
+static var primm_allies: Array[String] = ["beefcake", "gourmand", "necrocrat", "refusemancer"]
 
 
 # ---- The arena's battles (puzzles are hand-made boards, not balance) ----------------------------------------------------------

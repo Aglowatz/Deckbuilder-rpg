@@ -295,6 +295,12 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.SETUP_TURNS, maxi(1, int(spec.get("turns", BossTempo.DEFAULT_SETUP_TURNS)))))
 		"first_card_cost":
 			made.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(spec.get("amount", 1))))
+		"one_per_type":
+			made.append(CardBuilder.modifier(Modifier.Kind.ONE_CARD_PER_TYPE_PER_TURN, 1))  # Fable Nov 21 castle
+		"mirrors":
+			made.append(CardBuilder.modifier(Modifier.Kind.MIRRORS, 1))
+		"opening_hand":
+			made.append(CardBuilder.modifier(Modifier.Kind.OPENING_HAND_SIZE, int(spec.get("count", 1))))
 		"mirror_first_unit":
 			made.append(CardBuilder.modifier(Modifier.Kind.MIRROR_FIRST_UNIT, 1))  # Overnight Nov 4-5: The Shattered Gallery's Perfect Form
 		"start_of_turn_resources":
@@ -340,7 +346,7 @@ static func _token_of(spec: Dictionary, key: String) -> CardData:
 	# Oct 20: a rule may rename a token and set its keywords ("token_name", "token_keywords": [] = none) - the store room's plain 1/1 Ghost is
 	# the Hungry Ghost (its art) without Flying. The copy keeps the token's id, so its art and its bestiary entry still match.
 	# Fable Nov 20: "token_stats": [attack, defense] sets the token's printed size (Clipwell's Topiary is a 1/2).
-	if spec.has("token_name") or spec.has("token_keywords") or spec.get("token_stats") is Array or spec.has("token_art"):
+	if spec.has("token_name") or spec.has("token_keywords") or spec.get("token_stats") is Array or spec.has("token_art") or spec.has("token_id"):
 		token = token.duplicate() as CardData
 		# Fable Nov 21 castle (Part 1.9): "token_art" (a res:// picture) and "token_tint" (a colour over it) dress the copy
 		if spec.has("token_art"):
@@ -351,6 +357,12 @@ static func _token_of(spec: Dictionary, key: String) -> CardData:
 			token.defense = int((spec["token_stats"] as Array)[1])
 		if spec.has("token_name"):
 			token.display_name = str(spec["token_name"])
+		# Fable Nov 21 castle (Part 3): "token_id" gives the copy an id of its own (an objective counts it: "destroy 3 Polish Pumps")
+		# and "token_text" its rules line; its picture is then "token_art" (no card art exists under the new id).
+		if spec.has("token_id"):
+			token.id = str(spec["token_id"])
+		if spec.has("token_text"):
+			token.rules_text = str(spec["token_text"])
 		if spec.has("token_keywords"):
 			var keywords: Array[CardEnums.Keyword] = []
 			for word: Variant in spec["token_keywords"] as Array:

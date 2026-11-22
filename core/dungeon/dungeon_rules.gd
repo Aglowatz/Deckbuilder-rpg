@@ -116,8 +116,11 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			]
 		"D-PC":
 			return [
-				_rule("Perfect Order", "Units can't have more than 2 keywords.", "both", [CardBuilder.modifier(Modifier.Kind.KEYWORD_CAP, 2)] as Array[Modifier]),
-				_rule("Mirrors", "The first card each player plays each game is copied for the opponent.", "both", [CardBuilder.modifier(Modifier.Kind.MIRRORS, 1)] as Array[Modifier]),
+				# Fable Nov 21 castle (Part 5.2): Perfect Order is "one card of each type per turn" for both players (it was a cap of 2
+				# keywords on a unit). Part 5.3: Mirrors only in the Gilded Pantry and the Hall of Mirrors (it was every fight); the copy can
+				# be paid with energy of any Path (`CardInstance.any_path_cost`).
+				_rule("Perfect Order", PERFECT_ORDER_TEXT, "both", [CardBuilder.modifier(Modifier.Kind.ONE_CARD_PER_TYPE_PER_TURN, 1)] as Array[Modifier]),
+				_rule("Mirrors", "The first card each player plays each game is copied for the opponent. The copy can be paid with energy of any Path.", "both", [CardBuilder.modifier(Modifier.Kind.MIRRORS, 1)] as Array[Modifier], MIRRORS_NODES),
 			]
 		ShatteredGallery.DUNGEON_ID:
 			# Overnight Nov 4-5, Part 5: the mirror rules stack wing by wing (Iron 2-4, Order 5-8, Appetite 9-12, the mirror room 13).
@@ -152,6 +155,11 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 		"S-TOWN":
 			return [_rule("Old Kingdom", "Pathless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]
 	return []
+
+
+const PERFECT_ORDER_TEXT: String = "Each player may play only one card of each type per turn: one unit, one spell, one trap, one wonder and one tool (and one Infrastructure, as always)."
+## The castle's fights under Mirrors (room numbers of the dungeon list): 2 the Gilded Pantry's Mimic, 9 the Hall of Mirrors' Knight.
+const MIRRORS_NODES: Array = [2, 9]
 
 
 ## `harmful`: a player-side rule that hurts the player (the Lab's lower max life), shown as a bad badge.

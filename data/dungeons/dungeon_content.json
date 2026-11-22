@@ -787,6 +787,14 @@
 			},
 			"foes": {
 				"2": {
+					"name": "The Pantry Mimic",
+					"deck": "gourmand_control",
+					"size": 33,
+					"hp": 28,
+					"icon": "delapouite/chef-toque",
+					"ai": "Balanced"
+				},
+				"3": {
 					"name": "Hedge Trimmer Guard",
 					"deck": "colorless_regime",
 					"size": 32,
@@ -796,7 +804,7 @@
 						"gourmand"
 					]
 				},
-				"4": {
+				"5": {
 					"name": "Gallery Curator",
 					"deck": "colorless_regime",
 					"size": 32,
@@ -806,21 +814,42 @@
 						"gourmand"
 					]
 				},
-				"5": {
+				"8": {
+					"name": "Coup Barracks Sergeant",
+					"deck": "necrocrat_beefcake",
+					"size": 32,
+					"hp": 24,
+					"ai": "Aggressive"
+				},
+				"9": {
 					"name": "Mirror Knight",
 					"deck": "necrocrat_beefcake",
 					"size": 33,
 					"hp": 23,
 					"icon": "delapouite/shinto-shrine-mirror"
 				},
-				"6": {
+				"11": {
+					"name": "Percival Plume, Deputy Minister of Good News",
+					"deck": "necrocrat_beefcake",
+					"size": 33,
+					"hp": 24,
+					"icon": "delapouite/trumpet",
+					"ai": "Aggressive"
+				},
+				"12": {
 					"name": "Ministry Clerk",
 					"deck": "gourmand_necrocrat",
 					"size": 32,
 					"hp": 25,
 					"icon": "delapouite/stamper"
 				},
-				"9": {
+				"14": {
+					"name": "Seed Vault Gardener",
+					"deck": "necrocrat_refusemancer",
+					"size": 32,
+					"hp": 24
+				},
+				"19": {
 					"name": "Royal Staircase Guard",
 					"deck": "colorless_regime",
 					"size": 35,
@@ -834,27 +863,6 @@
 						"C-30": 1,
 						"C-32": 1
 					}
-				},
-				"10": "PRIMM_BOSS",
-				"13": {
-					"name": "Coup Barracks Sergeant",
-					"deck": "necrocrat_beefcake",
-					"size": 32,
-					"hp": 21
-				},
-				"14": {
-					"name": "Percival Plume, Deputy Minister of Good News",
-					"deck": "necrocrat_beefcake",
-					"size": 33,
-					"hp": 24,
-					"icon": "delapouite/trumpet",
-					"ai": "Aggressive"
-				},
-				"15": {
-					"name": "Seed Vault Gardener",
-					"deck": "necrocrat_refusemancer",
-					"size": 32,
-					"hp": 21
 				},
 				"20": {
 					"name": "Clocktower Sentinel",
@@ -870,10 +878,35 @@
 						"C-30": 1,
 						"C-32": 1
 					}
-				}
+				},
+				"22": "PRIMM_BOSS"
 			},
 			"events": {
-				"3": {
+				"4": {
+					"title": "The Doppelganger's Lab Notes",
+					"body": "A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her. The margins are full of practice smiles.",
+					"choices": [
+						[
+							"Read the notes",
+							"It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy. You read every page, and you walk on knowing a little too well how the next one will move. A jar on the table bites you on the way out.",
+							"boon:Read Ahead|draw=1,next=1",
+							"damage:3"
+						],
+						[
+							"Take the samples",
+							"Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need. One of the jars bites.",
+							"gold:80",
+							"damage:3"
+						],
+						[
+							"Practise the smile in the mirror",
+							"The smile comes out perfect, which is horrifying, and your face stays like that for a while. The next guard waves you through to go first, and whoever you send out first is too busy smiling to hit properly.",
+							"boon:Perfect Smile|first=1,next=1",
+							"curse:Stuck Smile|first_unit_atk=-2,next=1"
+						]
+					]
+				},
+				"6": {
 					"title": "Grand Foyer",
 					"body": "A portrait of a smiling ruler fills the wall. The floor is so polished you can see yourself, and he is standing behind you in every reflection.",
 					"choices": [
@@ -891,110 +924,102 @@
 						],
 						[
 							"Count the reflections",
-							"There is always one more reflection than there should be. You wave, he waves a moment too late, and for a moment you are a little less afraid of him. Then the extra one steps out of the floor and goes to tell someone.",
-							"boon:Seen Him First|def=1",
+							"There is always one more reflection than there should be. You wave, he waves a moment too late, and you know where to look for him next time. Then the extra one steps out of the floor and goes to tell someone.",
+							"boon:Seen Him First|draw=1,next=1",
 							"curse:One Reflection Too Many|foe_unit=16,next=1"
 						]
 					]
 				},
-				"8": {
-					"ref": "pc_early_journals"
-				},
-				"12": {
-					"title": "The Doppelganger's Lab Notes",
-					"body": "A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her. The margins are full of practice smiles.",
-					"choices": [
-						[
-							"Read the notes",
-							"It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy. You read every page, and it is hard to think of anything else afterwards.",
-							"boon:Lab Notes|atk=1,def=1",
-							"curse:Too Much Reading|draw=-1"
-						],
-						[
-							"Take the samples",
-							"Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need. One of the jars bites.",
-							"gold:80",
-							"damage:3"
-						],
-						[
-							"Practise the smile in the mirror",
-							"The smile comes out perfect, which is horrifying, and your face stays like that for a while. The guards leave you alone.",
-							"boon:Perfect Smile|def=1",
-							"damage:2"
-						]
-					]
-				},
-				"16": {
-					"ref": "pc_corrected_citizens"
-				},
-				"22": {
+				"7": {
 					"title": "Garden of Uniform Flowers",
-					"body": "A thousand identical flowers stand in identical rows. You count them twice. One of them is, very slightly, a different shade of yellow.",
+					"body": "A thousand identical flowers stand in identical rows, and one of them is, very slightly, a different shade of yellow. A gardener's lunch sits on the bench beside it, untouched, with a price pencilled on the paper.",
 					"choices": [
 						[
-							"Pick the odd one out",
-							"It tastes of dandelion, bitter and ordinary, and it feels like the first honest thing you have found in the castle.",
-							"heal:8",
+							"Leave the coins and eat the lunch",
+							"Sixty coins go under the stone, where the gardener will find them. It is bread, cheese and an apple, and nobody has improved any of it.",
+							"heal:6",
+							"pay:60"
+						],
+						[
+							"Pick the odd one out and eat it",
+							"It tastes of dandelion, bitter and ordinary, and it feels like the first honest thing you have found in the castle. Somebody was watching that flower.",
+							"heal:6",
 							"curse:The Gardeners Noticed|foe_atk=1,next=1"
 						],
 						[
-							"Pick a handful of the rest",
-							"They wilt in your hand and leave behind a few coins, which is more than they should have been able to do.",
-							"gold:90",
-							"curse:Uniform Pollen|max_hp=-7"
-						],
-						[
-							"Plant something crooked",
-							"You press a bent stem into the soil. The gardener will find it tomorrow and have to rethink everything. You walk on, lighter.",
-							"boon:Crooked Little Hope|atk=1,def=1",
-							"damage:3"
+							"Leave the garden as it is",
+							"You count the rows once more and walk on. The odd flower is still there when you look back.",
+							"nothing"
 						]
 					]
+				},
+				"10": {
+					"ref": "pc_corrected_citizens"
+				},
+				"15": {
+					"ref": "pc_early_journals"
 				}
 			},
 			"challenges": {
-				"17": {
+				"13": {
 					"ref": "pc_mirror_test"
 				}
 			},
 			"loot": {
-				"11": {
-					"gold": 70,
-					"xp": 30,
-					"item": "energy_draught"
-				},
-				"18": {
-					"gold": 80,
+				"17": {
+					"gold": 90,
 					"xp": 40,
 					"item": "energy_draught"
 				},
-				"19": {
-					"gold": 110,
+				"18": {
+					"gold": 130,
 					"xp": 60,
 					"item": "vitality_charm"
 				},
 				"21": {
-					"gold": 120,
+					"gold": 170,
 					"xp": 60,
 					"card": "C-30"
 				}
 			},
+			"blurbs": {
+				"2": "Optional and hard: the Pantry Mimic copies what you play. Beat it for a Gilded Pack and one strong boon for the last fight.",
+				"3": "A fight: the Hedge Trimmer Guard keeps the courtyard square.",
+				"4": "A choice: the shapeshifter's notes. Something for the next fight, at a price.",
+				"5": "A fight: the Gallery Curator and a thousand portraits of one man.",
+				"6": "A choice: every reflection in this floor has him in it.",
+				"7": "A place to rest: heal 6 HP, for gold or for a drawback.",
+				"8": "A fight to hold a line: the Sergeant and his coup orders.",
+				"9": "A tougher fight: the Mirror Knight, under the Mirrors rule.",
+				"10": "A choice: the Corrected. Sit with them, and they stay with you to the end.",
+				"11": "A tougher fight against the clock: Percival Plume and his red tape.",
+				"12": "A fight: the Ministry Clerk has a form for you.",
+				"13": "Your deck is put to the test by a mirror that hesitates.",
+				"14": "A fight: the Gardener and three spotless statues.",
+				"15": "A choice: his early journals. What you read here stays with you to the end.",
+				"16": "The resistance keeps a quiet room here: a full heal.",
+				"17": "Treasure: the royal kitchens' strongbox.",
+				"18": "Treasure: his private gallery, and a painting someone has painted over.",
+				"19": "A tougher fight: the Royal Staircase Guard holds the stair.",
+				"20": "A tougher fight: the Clocktower Sentinel. Its prize is worth the climb.",
+				"21": "Treasure: the Royal Vault."
+			},
 			"story_keys": {
 				"1": "pc_gate",
-				"8": "pc_archive_gate",
-				"10": "pc_boss",
-				"16": "pc_ward",
-				"19": "pc_gallery"
+				"10": "pc_ward",
+				"15": "pc_archive_gate",
+				"18": "pc_gallery",
+				"22": "pc_boss"
 			},
 			"sections": {
-				"12": "the Gourmand Wing",
-				"13": "the Beefcake Wing",
-				"14": "the Necrocrat Wing",
-				"15": "the Refusemancer Wing",
+				"4": "the Gourmand Wing",
+				"8": "the Beefcake Wing",
+				"11": "the Necrocrat Wing",
+				"14": "the Refusemancer Wing",
 				"20": "the Clocktower"
 			},
 			"scenes": {
-				"10": {
+				"22": {
 					"before": "primm_intro",
 					"after": "primm_end"
 				}
@@ -1003,7 +1028,7 @@
 				"1": {
 					"before": "pc_capture"
 				},
-				"14": {
+				"11": {
 					"before": "pc_plume_memo",
 					"after": "pc_plume_memo_after"
 				}

@@ -505,7 +505,11 @@ func generic_cost_for(player_index: int, data: CardData, card: CardInstance = nu
 		change += players[player_index].modifiers.sum(Modifier.Kind.FIRST_SPELL_COST_CHANGE)
 	if not data.is_infrastructure() and players[player_index].non_infrastructure_plays_this_turn == 0:
 		change += players[player_index].modifiers.sum(Modifier.Kind.FIRST_CARD_COST_CHANGE)
+	if not data.is_infrastructure() and not data.is_unit():
+		change += players[player_index].modifiers.sum(Modifier.Kind.NON_UNIT_COST_CHANGE)  # Fable Nov 21 castle: the appeal
 	var base: int = data.generic_cost
+	if card != null and card.any_path_cost:
+		base += data.colored_pips.size()  # a Mirrors copy: its Path pips are paid with energy of any Path
 	if card != null:
 		var override: Dictionary = StaticEffects.cost_override(self, player_index, card)
 		if not override.is_empty():
@@ -519,7 +523,16 @@ func pips_for(player_index: int, data: CardData, card: CardInstance = null) -> A
 		var override: Dictionary = StaticEffects.cost_override(self, player_index, card)
 		if not override.is_empty():
 			return override["pips"] as Array[Affinity.Type]
+	if card != null and card.any_path_cost:
+		return [] as Array[Affinity.Type]  # Fable Nov 21 castle (Part 5.3): counted in the generic cost instead
 	return data.colored_pips
+
+
+## Fable Nov 21 castle (Part 5.2, "Perfect Order"): true when this seat may play only one card of each type a turn and has already
+## played one of the type of `data` this turn. Infrastructure is not counted (it has its own one-a-turn rule).
+func type_played_this_turn(player_index: int, data: CardData) -> bool:
+	var player: PlayerState = players[player_index]
+	return not data.is_infrastructure() and player.types_played_this_turn.has(int(data.type)) and player.modifiers.has(Modifier.Kind.ONE_CARD_PER_TYPE_PER_TURN)
 
 
 func in_main_phase() -> bool:
@@ -623,6 +636,8 @@ func can_play_card(player_index: int, uid: int, targets: Array[int] = [] as Arra
 		return false
 	if player.non_infrastructure_play_cap >= 0 and player.non_infrastructure_plays_this_turn >= player.non_infrastructure_play_cap:
 		return false
+	if type_played_this_turn(player_index, card.data):
+		return false
 	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= player.max_traps:
 		return false
 	var extra: Array[CardAbility.Cost] = play_costs_of(card.data)
@@ -684,6 +699,8 @@ func play_card(
 		AbilityRunner.pay_costs(seed_ctx, extra, picks)
 	player.hand.erase(card)
 	player.non_infrastructure_plays_this_turn += 1
+	if not player.types_played_this_turn.has(int(card.data.type)):
+		player.types_played_this_turn.append(int(card.data.type))
 	player.cards_played_this_turn += 1
 	if card.data.type == CardEnums.CardType.SPELL:
 		player.spells_played_this_turn += 1
@@ -860,6 +877,7 @@ func _mirror_first_card(player_index: int, card: CardInstance) -> void:
 	player.mirrored = true
 	var other: PlayerState = players[1 - player_index]
 	var copy: CardInstance = create_instance(card.data, 1 - player_index)
+	copy.any_path_cost = true  # Fable Nov 21 castle (Part 5.3): the copy can be paid with energy of any Path
 	other.hand.append(copy)
 	emit_event(GameEvent.Type.CARD_DRAWN, 1 - player_index, copy.uid, 0, 1, other.hand.size(), "mirror")
 
@@ -1067,6 +1085,7 @@ func _begin_turn() -> void:
 	player.non_infrastructure_plays_this_turn = 0
 	player.cards_played_this_turn = 0
 	player.spells_played_this_turn = 0
+	player.types_played_this_turn = []
 	player.first_unit_exhaust_done = false
 	player.unit_mirrored_this_turn = false
 	player.first_play_done_this_turn = false
@@ -1829,6 +1848,12 @@ func _resolve_losses() -> void:
 		_end_game(1 - losers[0], false)
 
 
+## Fable Nov 21 castle (Part 3): a scripted end - an objective reached or a deadline missed (`EncounterScripts`: concede / defeat_foe).
+func end_by_script(winning_player: int) -> void:
+	if not is_over():
+		_end_game(winning_player, false)
+
+
 func _end_game(winning_player: int, drawn: bool) -> void:
 	stage = Stage.OVER
 	winner = winning_player
@@ -1907,6 +1932,14 @@ func _fire_timed_summons(player_index: int) -> void:
 	var player: PlayerState = players[player_index]
 	var fired: bool = false
 	for modifier: Modifier in player.modifiers.modifiers:
+		# Fable Nov 21 castle (Part 3): an ally who joins on a set turn, once, ready to act
+		if modifier.kind == Modifier.Kind.ARRIVING_UNIT:
+			if not modifier.tokens.is_empty() and player.turns_taken == maxi(1, modifier.value):
+				var arrived: CardInstance = create_stated_token(player_index, modifier.tokens[0])
+				if arrived != null:
+					arrived.just_arrived = false
+					fired = true
+			continue
 		if modifier.kind != Modifier.Kind.TIMED_SUMMON or modifier.tokens.is_empty() or modifier.value <= 0:
 			continue
 		if player.turns_taken % modifier.value != 0:

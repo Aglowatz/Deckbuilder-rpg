@@ -11,6 +11,7 @@ extends RefCounted
 ##   own_units_at_most {count}         the foe controls that many units or fewer (checked at the start of its turns, from its 2nd)
 ##   foe_hp_below {pct}         your HP is at or below pct% of your starting HP
 ## Effects (in order): rule {a modifiers.json rule spec: adds a one-sided rule for the rest of the duel} | remove_rule {name} |
+## concede {if_foe_controls?} (the foe gives up: you win) | defeat_foe (you lose) |
 ## summon {token, count?, token_name?, token_keywords?} | card {card, to: hand/deck/field, count?} | heal {amount} | shield {amount} |
 ## damage {amount} (to you) | resources {resource, count} | buff {atk, def} (the foe's units, for good) |
 ## debuff_foes {atk, def} (your units, until the foe's next turn) | exhaust_foes {count?, skip_refresh?} (your strongest ready units) |
@@ -45,7 +46,7 @@ const DEFAULT_ICON: String = "lorc/fire-bowl"
 const WHEN_TYPES: Array[String] = ["hp_below", "turn", "units_died", "foe_units_at_least", "own_units_at_most", "foe_hp_below"]
 const EFFECT_KINDS: Array[String] = [
 	"rule", "remove_rule", "summon", "card", "heal", "shield", "damage", "resources", "buff", "debuff_foes", "exhaust_foes", "draw",
-	"foe_heal", "exhaust_own",
+	"foe_heal", "exhaust_own", "concede", "defeat_foe",
 ]
 
 
@@ -66,6 +67,9 @@ class Trigger:
 	var value: int = 50
 	var side: String = "own"
 	var card_id: String = ""
+	## Fable Nov 21 castle (Part 3): a "turn" trigger that only happens while YOU still control a card with this id (the trainees of
+	## "Hold the Line"); when its turn comes and you do not, it is spent without firing.
+	var needs_foe_card: String = ""
 	var effects: Array[Dictionary] = []
 
 	func when_line() -> String:
@@ -174,6 +178,7 @@ static func build_trigger(spec: Dictionary, key: String = "", index: int = 0) ->
 	made.value = int(when.get("pct", when.get("turn", when.get("count", 1))))
 	made.side = str(when.get("side", "own"))
 	made.card_id = str(when.get("card", ""))
+	made.needs_foe_card = str(when.get("if_foe_controls", ""))
 	for effect: Variant in spec.get("effects", []) as Array:
 		var entry: Dictionary = effect as Dictionary
 		var kind: String = str(entry.get("kind", ""))
@@ -349,11 +354,16 @@ static func on_turn_start(state: GameState) -> void:
 			if run.fired.has(each.id):
 				continue
 			if run.owner == state.active and each.when_type == "turn" and owner.turns_taken >= each.value:
+				if not each.needs_foe_card.is_empty() and not _controls(state.players[1 - run.owner], each.needs_foe_card):
+					run.fired[each.id] = state.turn  # its condition is gone (no trainee left to hold the line for): spent, nothing happens
+					continue
 				fire(state, run, each)
 			elif run.owner == state.active and each.when_type == "own_units_at_most" and owner.turns_taken >= 2 and _unit_count(owner) <= each.value:
 				fire(state, run, each)
 			elif run.owner != state.active and each.when_type == "turn" and owner.turns_taken + 1 == each.value and not run.warned.has(each.id):
 				run.warned[each.id] = true
+				if not each.needs_foe_card.is_empty() and not _controls(state.players[1 - run.owner], each.needs_foe_card):
+					continue
 				var text: String = each.warn if not each.warn.is_empty() else "Next turn: %s." % each.name
 				state.emit_event(GameEvent.Type.SCRIPT_WARNING, run.owner, 0, 0, 0, 0, text)
 		if state.is_over():
@@ -401,6 +411,13 @@ static func _condition_met(state: GameState, run: Run, each: Trigger) -> bool:
 			return run.deaths[run.owner] >= each.value
 		"foe_units_at_least":
 			return _unit_count(foe) >= each.value
+	return false
+
+
+static func _controls(player: PlayerState, card_id: String) -> bool:
+	for card: CardInstance in player.field:
+		if card.data.id == card_id:
+			return true
 	return false
 
 
@@ -508,6 +525,15 @@ static func _resolve(state: GameState, run: Run, effect: Dictionary) -> void:
 			for card: CardInstance in player.field.duplicate():
 				if card.data.is_unit():
 					state.exhaust_unit(card, bool(effect.get("skip_refresh", true)))
+		"concede":
+			# Fable Nov 21 castle (Part 3): the foe gives up - the duel is won. "if_foe_controls": only while you still control a
+			# card with that id (the trainees you were holding the line for).
+			var needed: String = str(effect.get("if_foe_controls", ""))
+			if needed.is_empty() or _controls(state.players[foe], needed):
+				state.end_by_script(foe)
+		"defeat_foe":
+			# ... and the other way round: time is up, you lose the duel (the appeal lapses).
+			state.end_by_script(owner)
 
 
 ## The trigger behind a SCRIPT_TRIGGERED event's detail ("key|id"), for the UI and the log.

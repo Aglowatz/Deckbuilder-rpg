@@ -2014,6 +2014,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		phase = PrimmBoss.phase(boss_phase)
 		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
 		player_rules = EncounterModifiers.merge_player_rules(PrimmBoss.player_rules(boss_phase), PrimmBoss.rules_key(boss_phase))
+		player_rules = CastleAllies.with_help(player_rules, run)  # Fable Nov 21 castle (Part 3): the leaders won over in this run
 		EncounterModifiers.apply_to_enemy(enemy, PrimmBoss.rules_key(boss_phase))
 	elif main_dungeon_active or mini_active:
 		enemy = MainDungeons.enemy_setup(content, node, dungeon_key)
@@ -2081,6 +2082,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.rule_badges.append_array(RuleBadges.for_capital(flags))
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	context.rule_badges.append_array(allies)  # Fable Nov 15 (Part 4): what the run earned for this fight (an ally, the severed roots)
+	if phase != null:
+		context.rule_badges.append_array(CastleAllies.help_badges(run))
 	# Fable Nov 15 (Part 4): the rules applied in code are shown too - Primm's phase rules and the early-zone ease
 	if phase != null and PrimmBoss.phase_badge(phase.index) != null:
 		context.rule_badges.append(PrimmBoss.phase_badge(phase.index))
@@ -3530,14 +3533,11 @@ var boss_phase_pending: bool = false
 var boss_boons_given: bool = false
 
 
-## Entering the final boss's chamber: each freed leader lends a boon (once per run). Returns what they say (story lines).
+## Entering the final boss's chamber: who stands with you (the leaders whose castle rooms this run has won: `CastleAllies`). Fable Nov 21
+## castle: nothing is handed out here any more (the freed leaders' passive boons are gone).
 func begin_primm_fight() -> Array[String]:
-	var lines: Array[String] = PrimmBoss.leader_lines(flags)
-	if not boss_boons_given and run != null:
-		boss_boons_given = true
-		for boon: ModifierSource in PrimmBoss.leader_boons(flags):
-			run.add_dungeon_source(boon)
-	return lines
+	boss_boons_given = true
+	return PrimmBoss.leader_lines(run)
 
 
 ## Fable Nov 12c (A9): a loss to the final boss, in any phase, may be fought again on the spot. True for a lost duel of his in a live
@@ -4314,6 +4314,7 @@ func complete_battle(context: BattleContext) -> void:
 	offer.enemy_name = context.enemy_name
 	offer.board_key = context.board_key
 	offer.levels_gained = add_xp(context.xp_reward)
+	_castle_room_won(context, offer)
 	# Part C: the player's first time through the trial only ever offers cards of their own
 	# chosen element, so the only on-color cards they own by the end are the 3 they picked here.
 	# A later replay (intro_dungeon_cleared already true) is a normal dungeon with normal variety.
@@ -4341,6 +4342,25 @@ func complete_battle(context: BattleContext) -> void:
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
+
+
+## Fable Nov 21 castle (Parts 3 and 4): what winning an ally room of Primm's Castle adds. With its leader there (the zone is freed) the
+## run gains that leader's help against Primm; without, the fight pays a fair sum instead. The Gilded Pantry's Mimic also leaves a
+## Gilded Pack (its boon is chosen on the map afterwards: `CastleAllies.SPOILS_EVENT`).
+func _castle_room_won(context: BattleContext, offer: RewardOffer) -> void:
+	if not main_dungeon_active or dungeon_key != CastleAllies.DUNGEON_KEY or dungeon_map == null or run == null:
+		return
+	var room: DungeonMap.MapNode = dungeon_map.node(context.node_id)
+	if room == null or room.kind == DungeonMap.Kind.BOSS:
+		return
+	var zone_id: String = CastleAllies.zone_of_room(dungeon_key, room.number)
+	if not zone_id.is_empty():
+		if CastleAllies.win_room(run, flags, dungeon_key, room.number).is_empty():
+			offer.gold += CastleAllies.FAIR_REWARD_GOLD
+		else:
+			toasts.show_toast("%s will stand with you against Primm." % str(CastleAllies.LEADERS[zone_id]), UIStyle.GOLD, CardIcons.ui("fountain"))
+	if room.number == CastleAllies.PANTRY_ROOM and add_pack(CastleAllies.SPOILS_PACK):
+		toasts.show_toast("A Gilded Pack from the Pantry Mimic's hoard.", UIStyle.GOLD, CardIcons.ui("fountain"))
 
 
 # ---- Overnight Oct 23, Part 4: the card pick after an elite or boss --------------------------------------------------------------

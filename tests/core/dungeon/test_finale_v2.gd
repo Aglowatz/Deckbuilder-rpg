@@ -23,7 +23,7 @@ func test_the_fight_scenes_carry_the_reflection_line_and_the_zone_lessons() -> v
 	assert_true("\n".join(story.get_lines("cutscene.primm_p2.2")).contains("treating people with respect"))
 	assert_true("\n".join(story.get_lines("cutscene.primm_end.3")).to_lower().contains("nothing grows"), "Primm's last lesson")
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
-		assert_false(PrimmBoss.leader_boon(zone_id) == null, zone_id)
+		assert_false(CastleAllies.help_modifiers(zone_id).is_empty(), zone_id)  # Fable Nov 21 castle: earned in the castle's ally rooms
 	assert_eq(PrimmBoss.LEADERS["gourmand"], "The Grand Chef")
 	assert_eq(PrimmBoss.LEADERS["necrocrat"], "Agnes Overdue")
 

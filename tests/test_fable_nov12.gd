@@ -48,18 +48,18 @@ func test_the_phases_are_three_and_only_the_second_is_the_mirror() -> void:
 
 
 func test_the_four_leaders_boons_are_what_the_dev_checkpoint_grants() -> void:
-	# `DevActions.travel_primm_phase` adds PrimmBoss.leader_boon for every key of LEADERS: all four must build, each with +2 max HP
+	# Fable Nov 21 castle: `DevActions.travel_primm_phase` puts the four leaders' markers on the run (their castle rooms count as won);
+	# a marker changes no number by itself - the help is added in Primm's fight (`CastleAllies.help_source`).
 	_in_the_castle()
 	var before: int = Session.run.max_hp()
 	var granted: int = 0
 	for zone_id: String in PrimmBoss.LEADERS.keys():
-		var boon: ModifierSource = PrimmBoss.leader_boon(zone_id)
-		assert_not_null(boon, "%s's leader lends a boon" % zone_id)
-		if boon != null:
-			Session.run.add_dungeon_source(boon)
-			granted += 1
+		Session.run.add_dungeon_source(CastleAllies.marker(zone_id))
+		granted += 1
 	assert_eq(granted, 4)
-	assert_eq(Session.run.max_hp(), before + 8, "four boons: +2 max HP each (23 -> 31 at the critic's level)")
+	assert_eq(CastleAllies.earned(Session.run).size(), 4)
+	assert_eq(Session.run.max_hp(), before, "the markers change no number in the castle's other rooms")
+	assert_eq(CastleAllies.help_source(CastleAllies.earned(Session.run)).modifiers.size(), 4, "one rule per leader in Primm's fight")
 
 
 # ---- The gear offer order ---------------------------------------------------------------------------------------------------------
