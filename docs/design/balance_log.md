@@ -1616,3 +1616,23 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 | The foe's opening hand | **stays at two Infrastructure** (as built Nov 21) | Owner confirmed the reading. |
 | The new heal rooms and the six drawbacks of Nov 21 | **stay as they are for now** | The owner will playtest them. |
 | The sushi side dungeon | **keeps the name "The Raw Deal"** | Owner. |
+
+## Fable Nov 21 castle (the owner's playtest list)
+
+| What | Change | Why |
+|---|---|---|
+| Wobble Weights (NB-13) | pay 1 -> **pay 2** to equip; Necrocrat host +5/+5 -> **+3/+3**; Beefcake units +1/+2 -> **+1/+1** | Owner. |
+| Crown of Mild Hubris | max HP -4 -> **-10** | Owner: "add the drawback -10 max HP"; it already had -4, so the drawback is -10 in all (not -14). |
+| Silence Powder (item) | the opponent tosses 2 -> **1** random card | Owner ("the equipment that makes the opponent discard 2": the only such effect is this item). |
+| Summoning Charm (item) | three 1/1 Militia -> **two** | Owner. |
+| Max-HP curses | Paper Cuts (D-HFA, deep) -2 -> **-4**; the castle -1/-2 -> **-6 to -8**; the Lab and the Shattered Gallery -1 to -3 -> **-6 to -8** | Owner: early -2 to -3, deep -4 to -5, the castle and the postgame -6 to -8. |
+| Primm's Castle, the map | one road with dead-end side rooms -> **a layered map**, 20 rooms in six rows, a run walks six | Owner. |
+| The castle's permanent boons | about ten on a run -> **three rooms** (the Ward Cells, the Archive, the Mimic's hoard), at most two on a route | Owner: "mostly cut". |
+| The freed leaders' boons at Primm's door | removed -> **the leaders' help is earned in their castle rooms**: Flex joins on turn 2 (3/5), +1 card a turn, non-unit cards cost 1 less, +1/+1 | Owner. |
+| Perfect Order | a unit keeps at most 2 keywords -> **one card of each type per turn**, both players | Owner. |
+| Mirrors | every castle fight -> **the Pantry and the Hall of Mirrors only**; the copy is paid with any Path | Owner. |
+| Primm | phases 56 / 52 / 50 HP -> **40 / 46 / 44**; Standing Army 3 Militia -> **1**; He Already Knows draws 2 -> **1**; Unraveling +3/+3 -> **+2/+2**; opening hand 5 -> **8**; **A Plan for Everyone**: +8 HP a phase for each leader with you, a Militia for Flex and one more with all four | Owner's targets: about 30 % alone, 65 % with all four. The leaders' help alone took him to 9 in 10. |
+| Grandmaster Flex in the Model Room | **3/5** (his House of Gains token) | 4/6 made one ally (Flex) worth more than the other three together. |
+| Percival Plume's room (Agnes's) | the Filing Deadline at his **12th** turn, no Red Tape | At the 10th with Red Tape it ended 18 of 24 runs on the all-allies route. |
+| The Pantry Mimic | **36 HP**, Well Fed +1/+1 | 28 HP and -1/-0 was won every time. |
+| The Arena | the bold row of every battle in `docs/balance_report_nov21.md`, section 2 | Owner approved. |

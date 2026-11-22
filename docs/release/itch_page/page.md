@@ -1,5 +1,8 @@
 # itch.io page kit - The Wayward Path (final check Nov 9, against 1.0.0-rc1)
 
+> **Superseded (Fable Nov 21 castle):** the current page text is `docs/release/itch_page.md` (Nov 21). Keep its AI paragraph, including "The game's code was written with an AI coding assistant under the creator's direction", and tick **Code** in the disclosure form; where this older kit says otherwise, follow the newer draft.
+
+
 Paste-ready text for the itch.io project page. Pricing: **free, donations welcome** (itch's "$0 or donate" with a suggested 3-5 USD; or
 "No payments" and the in-game Support button only - see `../itch_upload.md`). Kind of project: Downloadable. Classification: Game.
 Genre: Card Game (secondary: Role Playing). Checked Nov 9 against the 1.0.0-rc1 build: descriptions, features, controls (`app/keybinds.gd`

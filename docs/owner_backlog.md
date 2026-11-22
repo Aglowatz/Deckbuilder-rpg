@@ -29,7 +29,7 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **The Heart Roots' old option** (sever the roots: the Rotheart starts with 6 less HP) is out of the node; its code and cutscene are still there if it should return.
 
 ## Added by Fable Nov 21 (deferred, for the owner to schedule)
-- **A full-heal room is left in Primm's Castle** (the Resistance Safe Room; the owner's rule: the castle rooms are unchanged). The Path-ology Lab's became a "heal 5 for a cost" room on Nov 20.
+- **Primm's Castle keeps one full heal** (the Resistance Safe Room), now on some routes only (Fable Nov 21 castle). The Path-ology Lab's became a "heal 5 for a cost" room on Nov 20.
 - **Balance after Nov 21:** simulated by the Nov 21 review (`docs/balance_report_nov21.md`): the changes moved little; the heal rooms cost HP, not clears. Open decisions from it: the Arena table, the House of Gains (Vivienne Quota), Mortimer for Beefcake, the economy.
 - **The Deck Station's search and controllers** (decided Nov 20: later): the controller's cursor skips the search box because there is no on-screen keyboard; the Path toggles and the other filters work with a controller.
 
@@ -40,8 +40,8 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **The D.N.A.'s painted map shows a sunny village** (red and blue roofs, green lawns) where the zone is a haunted office at dusk; it fits the walk grid, the mood is the painter's. A repaint in the zone's palette would be a Batch 19 row if wanted (Nov 21: optional, not wanted for now; the row is marked so in `docs/art/batch19.csv`).
 
 ## Added by the Nov 21 review (deferred, for the owner to schedule)
-- **The Arena's proposed rows** (`docs/balance_report_nov21.md`, section 2): one simulated row per battle, to tick and have applied. Diamond Sand has no player level in `ProgressionModel.LEVELS` (the sim assumes 25; the prize multiplier reads the same table).
-- **Two "freed" lines for the Gainlands** (Gary under his barbell, the rep-game host's banned show): the owner writes them.
+- ~~The Arena's proposed rows~~ applied by Fable Nov 21 castle (the bold rows); re-simulated in the balance report's section 6. Diamond Sand has no player level in `ProgressionModel.LEVELS` (the sim assumes 25; the prize multiplier reads the same table).
+- ~~Two "freed" lines for the Gainlands~~ written by Fable Nov 21 castle (Gary, Chet Thunderabs; revertible).
 - **Batch 19 has a second row:** the locked Necrocrat pack as a sealed parcel like the other three.
 - **Card sheet wording** (names and flavour the importer owns): "Stock The Pantry", "The Recycling Center", "honor" / "favor" in three flavour lines, "Draw 2 cards" on N-18 and N-20.
 - **The player read-me in the zip** (`docs/release/player_readme.txt`): the export still writes the playtest read-me; switch it for the public build.
@@ -49,4 +49,7 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **A real-fight bot run per Path** (`bash tools/run_full_real.sh <path>`): the fight pilots can finish scripted-event fights again since the Nov 21 review; none has been run since Nov 17.
 
 ## Added by Fable Nov 21 castle (deferred, for the owner to schedule)
+- **Batch 19 grew by six rows** (`docs/art/batch19.csv`): the castle map repainted for the new routes (refs `plan-primm-castle.jpg`, `now_MAP-PC.jpg`), the Pantry Mimic's portrait, Auntie Alembic's brewing scene, an empty glass jar, and two optional token pictures (the Captured Trainee, the Spotless Statue). Stand-ins work until then.
+- **The owner's card sheet** must get this pass's changes or the next import reverts them: Wobble Weights' text (NB-13), "Pathwork" in two NPC rows, and the D-PC cell of the dungeon list (written by `tools/castle_nov21.py`).
+- **The item and equipment strength table** (`docs/balance_report_nov21.md`, section 5): proposals to tick line by line; nothing beyond Part 1's four was changed.
 - **The Extra Pocket** (the equipment that lets each equipped item be used twice per battle) stays as it is for now (the owner, Nov 21): revisit with testing. The item strength table in `docs/balance_report_nov21.md` (section 5) has its number.

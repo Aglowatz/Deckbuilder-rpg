@@ -1,5 +1,8 @@
 # AI-generated content disclosure (draft for the itch.io page and the credits)
 
+> **Superseded (Fable Nov 21 castle):** the current page text is `docs/release/itch_page.md` (Nov 21). Keep its AI paragraph, including "The game's code was written with an AI coding assistant under the creator's direction", and tick **Code** in the disclosure form; where this older kit says otherwise, follow the newer draft.
+
+
 Short version (for the page, under the description):
 
 > **About the art, music and writing.** The Wayward Path was made by one person with the help of AI tools. The paintings - cards,

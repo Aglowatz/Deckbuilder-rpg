@@ -16,6 +16,18 @@ The game holds together: four automated playthroughs (one per Path, new game to 
 no quest can strand a player, and nothing clips at 720p or 1080p. What is left is **your hands on the real game**, **three balance
 decisions**, **the page**, and a short list of small things. Nothing on this list is a blocker today.
 
+## Status after Fable Nov 21 castle (night of Nov 21-22)
+
+Done by that run (from your playtest list): **item 3, the Arena** (your bold rows applied and re-simulated); **item 10, the freed
+lines** for Gary and the rep-game host; Primm's Castle rebuilt (a layered map with crossing routes, the four leaders in ally rooms
+with their help against Primm, the Pantry Mimic) and **Primm rebalanced** to about 30 % alone and 60-75 % with three or four leaders;
+the rules panel; Alembic's shop; the card and item fixes; Pathwork. Batch 19 has six more rows (item 9 grows: the castle map, the
+Mimic, the brewing scene, a jar; two optional tokens).
+
+New for you, and it changes item 1: **play the castle twice** in your playthrough (one route for the allies, one for the heals and
+treasure). The sims cannot judge whether choosing a route is fun, only whether each route can be won. Still open from this plan:
+items 1, 2, 4, 5 to 8, 11 to 14. Item 13 (the economy) and the item table (balance report, section 5) wait for your ticks.
+
 ## A. What a player would feel most (do these)
 
 | # | What | Why a player feels it | Who | Size | Day |
