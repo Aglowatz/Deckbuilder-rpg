@@ -206,12 +206,12 @@ respectively, so the tier reads even without the color).
 - A lost duel ends the run: the hero wakes at the respawn point with full HP and the dungeon starts over from its first room. The
   cards and gold already won are kept.
 - **The final boss is the exception (Nov 12).** A loss to Primm in any of his three phases offers "Fight Primm again" (the fight
-  restarts from the beginning of Phase 1 with full HP and the freed leaders' boons; the castle's earlier rooms are not replayed) or
+  restarts from the beginning of Phase 1 with full HP and the leaders won over in the castle (Nov 21: their help is earned in the castle's ally rooms, not lent at the door); the castle's earlier rooms are not replayed) or
   "Leave the castle" (the normal rule above).
 - **The Hollow Well (the Forgotten Cave, Nov 12)** is an offer, not a test: "Sacrifice a random card from your deck for the rest of this
   dungeon: heal 4 HP." The card returns when the run ends (won, lost or left). It may be declined, is closed at full HP and when the
   deck is at the minimum dungeon deck size, and can be taken once per run.
-- **Fog (Nov 12):** a room's type shows one step ahead - a room is known once a room that leads to it can be reached.
+- **Fog (Nov 12):** a room's type shows one step ahead - a room is known once a room that leads to it can be reached. **Primm's Castle (Nov 21):** the whole map is known from the gate (choosing the route is the game there).
 - **Late rewards (Nov 12):** every level-21+ castle fight's three reward cards include at least one Uncommon or better.
 
 ## Opening Hand: Hand Smoother (option)
@@ -235,3 +235,21 @@ same hidden swap on the game's own seeded RNG, after its draw and after its mull
 ## Mulligan
 
 Each player gets **one free mulligan**.
+
+## Rules added Nov 21 2026 (Primm's Castle)
+
+- **Perfect Order (the castle's dungeon rule, both players):** each player may play only one card of each type per turn: one unit,
+  one spell, one trap, one wonder and one tool. Infrastructure keeps its own one-a-turn rule and is not counted. The type is used up
+  when a card of it is played from hand; it frees again at the start of that player's next turn (`Modifier.Kind.ONE_CARD_PER_TYPE_PER_TURN`,
+  `GameState.type_played_this_turn`). It replaces the old Perfect Order (a unit kept at most two keywords).
+- **Mirrors** (only in the Gilded Pantry and the Hall of Mirrors): the first non-Infrastructure card each player plays in the duel is
+  copied into the opponent's hand. **The copy's Path pips may be paid with energy of any Path** (they are added to its generic cost;
+  `CardInstance.any_path_cost`).
+- **A non-unit cost change** (`NON_UNIT_COST_CHANGE`, Agnes's help): changes the generic cost of the owner's spells, traps, wonders
+  and tools; never below 0; Path pips are still owed.
+- **An arriving unit** (`ARRIVING_UNIT`, Grandmaster Flex's help): a set token enters its owner's field, ready, at the start of the
+  owner's Nth own turn, once.
+- **Scripted ends** (`EncounterScripts`: `concede`, `defeat_foe`): an encounter's script may end the duel - the foe gives up when an
+  objective is reached (a Captured Trainee still alive when the Sergeant's 6th turn begins; all three Spotless Statues destroyed), or
+  the player loses when a deadline passes (Percival Plume's 10th turn). These are told on the fight's rule list from the start.
+- **Primm opens every phase with 8 cards** (the normal opening hand is 5).

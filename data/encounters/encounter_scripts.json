@@ -1138,9 +1138,9 @@
 			"icon": "delapouite/alarm-clock",
 			"when": {
 				"type": "turn",
-				"turn": 10
+				"turn": 12
 			},
-			"text": "When Plume's 10th turn begins the office closes and you lose the duel. Win before then.",
+			"text": "When Plume's 12th turn begins the office closes and you lose the duel. Win before then.",
 			"line": "And that is the end of the filing day! Do come back tomorrow. There is always a tomorrow, we have a great many in stock.",
 			"effects": [
 				{

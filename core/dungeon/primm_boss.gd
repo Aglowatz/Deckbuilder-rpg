@@ -66,23 +66,23 @@ static func phase(index: int) -> Phase:
 	var hand: Modifier = _mod(Modifier.Kind.OPENING_HAND_SIZE, OPENING_HAND - PlayerProfile.new().base_opening_hand(), "A Full Desk")
 	match made.index:
 		0:
-			made.hp = 56  # Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
+			made.hp = 40  # Fable Nov 21 castle (Part 6): 56 -> 40 (see docs/balance_report_nov21.md, section 5). Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
 			made.ai_name = "Balanced"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 2, "C-32": 2})  # Overnight Oct 18 Part 2: 100% with 16 basics
 			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
 			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
-			made.hp = 52  # Fable pass Nov 1: 42 -> 52 (and Boss skill, AIPlayer.SKILL_OVERRIDES: 100 % at 48 / Elite). XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
+			made.hp = 46  # Fable Nov 21 castle (Part 6): 52 -> 46. Fable pass Nov 1: 42 -> 52 (and Boss skill, AIPlayer.SKILL_OVERRIDES: 100 % at 48 / Elite). XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
 			made.ai_name = "Balanced"
 			made.mirror = true
 			# Fable pass Nov 1: He Already Knows draws 2 extra (was 1; the mirror phase was 100 % at L22).
-			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 2, "He Already Knows")] as Array[Modifier]
+			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 1, "He Already Knows")] as Array[Modifier]
 		_:
-			made.hp = 50  # Fable pass Nov 1: 42 -> 50. XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
+			made.hp = 44  # Fable Nov 21 castle (Part 6): 50 -> 44. Fable pass Nov 1: 42 -> 50. XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
 			made.ai_name = "Aggressive"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 16), {"P4-03": 1, "P4-01": 1, "C-30": 2})
 			made.enemy_modifiers = [
-				_mod(Modifier.Kind.STAT_CHANGE, 3, "Everything He Cannot Control", 3),  # Fable pass Nov 1: +2/+2 -> +3/+3. XP pass Oct 30: +1/+1 -> +2/+2 (the sequence was 78 % at L22)
+				_mod(Modifier.Kind.STAT_CHANGE, 2, "Everything He Cannot Control", 2),  # Fable pass Nov 1: +2/+2 -> +3/+3. XP pass Oct 30: +1/+1 -> +2/+2 (the sequence was 78 % at L22)
 				_mod(Modifier.Kind.EXTRA_DRAWS, 1, "Panic"),
 				_unraveling_effect(),
 			] as Array[Modifier]
@@ -107,10 +107,51 @@ static func _unraveling_effect() -> Modifier:
 	return modifier
 
 
+## Fable Nov 21 castle (Part 6), "A Plan for Everyone": he has prepared for each leader who walks in with you. For each of them he has
+## `HP_PER_LEADER` more HP in every phase; to answer Grandmaster Flex (a unit on your side) he posts a guard (a Militia, T-16) at the
+## start of every phase, and one more when all four leaders came. Without the plan the four leaders' help took the fight from about
+## 1 win in 10 to 9 in 10, and Flex alone was worth as much as the other three together; the owner's targets are about 30 % alone and
+## 65 % with all four (docs/balance_report_nov21.md, section 5).
+const HP_PER_LEADER: int = 8
+const PLAN_RULE_NAME: String = "A Plan for Everyone"
+const FLEX_ZONE: String = "beefcake"
+
+
+static func hp_for(index: int, leaders: int) -> int:
+	return phase(index).hp + HP_PER_LEADER * clampi(leaders, 0, 4)
+
+
+## The guards he posts at the start of each phase for these leaders (zone ids).
+static func guards_for(zones: Array[String]) -> int:
+	return (1 if zones.has(FLEX_ZONE) else 0) + (1 if zones.size() >= 4 else 0)
+
+
+static func plan_text(zones: Array[String]) -> String:
+	var words: String = "He has prepared for everyone who came with you: %d more HP in each phase for each leader at your side (+%d now)" % [HP_PER_LEADER, HP_PER_LEADER * mini(zones.size(), 4)]
+	var guards: int = guards_for(zones)
+	if guards == 1:
+		words += ", and a Militia at the start of each phase to answer Grandmaster Flex"
+	elif guards > 1:
+		words += ", and %d Militia at the start of each phase (one to answer Grandmaster Flex, one because all four came)" % guards
+	return words + "."
+
+
+## The guards of the plan as a rule on his seat (null when he posts none).
+static func plan_source(zones: Array[String]) -> ModifierSource:
+	var count: int = guards_for(zones)
+	var guard: CardData = TokenRegistry.data("T-16")
+	if count <= 0 or guard == null:
+		return null
+	var posted: Modifier = _mod(Modifier.Kind.STARTING_UNITS, count, PLAN_RULE_NAME)
+	posted.tokens = [guard] as Array[CardData]
+	return CardBuilder.modifier_source(PLAN_RULE_NAME, ModifierSource.SourceKind.ZONE, [posted] as Array[Modifier])
+
+
 ## The seat for phase `index`: a mirror phase copies `player_deck` (his deck is yours), the others use their recipe. `content` is
 ## the card deck; enemy modifiers are added to the seat (the caller adds the Capital's debuffs).
-static func enemy_setup(content: ContentSet, index: int, player_deck: Deck) -> PlayerSetup:
+static func enemy_setup(content: ContentSet, index: int, player_deck: Deck, leaders: Array[String] = [] as Array[String]) -> PlayerSetup:
 	var stage: Phase = phase(index)
+	stage.hp = hp_for(index, leaders.size())
 	var deck: Deck
 	if stage.mirror:
 		deck = Deck.new()
@@ -123,6 +164,9 @@ static func enemy_setup(content: ContentSet, index: int, player_deck: Deck) -> P
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = stage.hp
 	setup.modifiers.add_source(CardBuilder.modifier_source("Primm: %s" % stage.key, ModifierSource.SourceKind.ZONE, stage.enemy_modifiers))
+	var plan: ModifierSource = plan_source(leaders)
+	if plan != null:
+		setup.modifiers.add_source(plan)
 	return setup
 
 

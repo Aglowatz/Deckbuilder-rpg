@@ -39,13 +39,13 @@ const HELP_ICONS: Dictionary = {
 }
 const ZONE_NAMES: Dictionary = {"beefcake": "the Gainlands", "gourmand": "the Endless Buffet", "necrocrat": "the D.N.A.", "refusemancer": "the Verdant Dump"}
 ## Grandmaster Flex as he fights beside you in the Model Room (tuned in Part 6; his House of Gains token T-15 is a 3/5).
-const FLEX_ATTACK: int = 4
-const FLEX_DEFENSE: int = 6
+const FLEX_ATTACK: int = 3
+const FLEX_DEFENSE: int = 5
 ## The objective of each ally room, in one line (the map's tooltip).
 const OBJECTIVES: Dictionary = {
 	"beefcake": "Hold the line: keep a Captured Trainee alive until the Sergeant's 6th turn begins, or beat him outright.",
 	"gourmand": "Win back the stolen recipe book from the Pantry Mimic.",
-	"necrocrat": "Get the appeal through: beat Percival Plume before his 10th turn begins.",
+	"necrocrat": "Get the appeal through: beat Percival Plume before his 12th turn begins.",
 	"refusemancer": "Clean out the polish: destroy the three Spotless Statues, or beat the Gardener outright.",
 }
 

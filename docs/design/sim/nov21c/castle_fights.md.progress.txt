@@ -1,0 +1,13 @@
+D-PC:2	D-PC:2                                       100%  turns 6.9  too easy (+25)
+D-PC:3	D-PC:3                                       100%  turns 5.4  ok, fast
+D-PC:5	D-PC:5                                       100%  turns 5.6  ok, fast
+D-PC:8	D-PC:8                                       100%  turns 3.8  ok, fast
+D-PC:9	D-PC:9                                        75%  turns 6.4  ok
+D-PC:11	D-PC:11                                       67%  turns 7.1  ok
+D-PC:12	D-PC:12                                      100%  turns 5.7  ok, fast
+D-PC:14	D-PC:14                                      100%  turns 6.0  ok, fast
+D-PC:19	D-PC:19                                       75%  turns 8.0  ok
+D-PC:20	D-PC:20                                       83%  turns 8.5  too easy (+8)
+D-PC:22:phase1	D-PC:22:phase1                                71%  turns 6.6  too easy (+11)
+D-PC:22:phase2	D-PC:22:phase2                                79%  turns 8.9  too easy (+19)
+D-PC:22:phase3	D-PC:22:phase3                                42%  turns 7.3  ok

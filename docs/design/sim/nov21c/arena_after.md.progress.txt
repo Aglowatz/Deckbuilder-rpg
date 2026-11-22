@@ -1,0 +1,6 @@
+arena:arena_warmup	arena:arena_warmup                            79%  turns 8.1  TOO HARD (-1)
+arena:arena_neutral_mile	arena:arena_neutral_mile                      85%  turns 9.2  ok
+arena:arena_spells_only	arena:arena_spells_only                       31%  turns 22.8  TOO HARD (-29), slow
+arena:arena_four_fists	arena:arena_four_fists                        52%  turns 10.0  TOO HARD (-8)
+arena:arena_marshal	arena:arena_marshal                           25%  turns 5.4  TOO HARD (-15), fast
+arena:arena_four_fists_unbound	arena:arena_four_fists_unbound                46%  turns 6.9  ok

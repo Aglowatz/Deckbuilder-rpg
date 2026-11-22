@@ -2012,7 +2012,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	elif capital and node.kind == DungeonMap.Kind.BOSS:
 		# The final boss: a duel per phase (see `PrimmBoss`); phase `boss_phase` is the one being fought.
 		phase = PrimmBoss.phase(boss_phase)
-		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
+		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck(), CastleAllies.earned(run))
 		player_rules = EncounterModifiers.merge_player_rules(PrimmBoss.player_rules(boss_phase), PrimmBoss.rules_key(boss_phase))
 		player_rules = CastleAllies.with_help(player_rules, run)  # Fable Nov 21 castle (Part 3): the leaders won over in this run
 		EncounterModifiers.apply_to_enemy(enemy, PrimmBoss.rules_key(boss_phase))
@@ -2090,6 +2090,10 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 				kept.append(badge)
 		context.rule_badges = kept
 		context.rule_badges.append_array(CastleAllies.help_badges(run))
+		if not CastleAllies.earned(run).is_empty():
+			var plan: RuleBadges.Badge = RuleBadges.special(PrimmBoss.PLAN_RULE_NAME, PrimmBoss.plan_text(CastleAllies.earned(run)), "delapouite/checklist", PrimmBoss.plan_source(CastleAllies.earned(run)).modifiers if PrimmBoss.plan_source(CastleAllies.earned(run)) != null else [] as Array[Modifier])
+			plan.side = RuleBadges.SIDE_ENEMY
+			context.rule_badges.append(plan)
 	# Fable Nov 15 (Part 4): the rules applied in code are shown too - Primm's phase rules and the early-zone ease
 	if phase != null and PrimmBoss.phase_badge(phase.index) != null:
 		context.rule_badges.append(PrimmBoss.phase_badge(phase.index))

@@ -2,6 +2,19 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 21 (evening and night, the castle): **Primm's Castle has a new map** - the gate, six rows of rooms and the Model Room, many
+  routes that cross, six rooms of twenty in a run, the whole map shown from the gate; **the four zone leaders wait in ally rooms**
+  (the Gilded Pantry, the Beefcake, Necrocrat and Refusemancer wings): win the leader's fight and they help against Primm
+  (Grandmaster Flex joins the fight, the Grand Chef draws you a card each turn, Agnes makes non-unit cards cost 1 less, Compostella
+  gives your units +1/+1); the leaders' old passive boons at Primm's door are gone; **the Gilded Pantry is an optional fight**
+  against the Pantry Mimic (a Gilded Pack and one of three boons); Perfect Order is "one card of each type per turn"; Mirrors only
+  in two rooms and its copy can be paid with any Path; Primm opens with 8 cards and was rebalanced; **the battle's rules panel**
+  scrolls inside itself and folds the run's allies, boons and curses into one "Run effects" line; choice prompts are drawn above
+  the played cards; Wobble Weights (2 to equip, +3/+3 or +1/+1), the Crown of Mild Hubris (-10 max HP), Silence Powder (1 card),
+  the Summoning Charm (two Militia); max-HP curses hit harder with depth; the Deck Station filters Infrastructure and puts a new
+  deck in use; **the kingdom is Pathwork**; the Mirror Knight's reflections wear his own picture; **Auntie Alembic's shop** has
+  glass essence jars, a pick-two-then-brew strip and a brewing moment; **the Arena's six battles** are harder (the approved rows);
+  Gary and Chet Thunderabs have lines for the freed Gainlands.
 - Nov 21 (the launch review): the menus follow the Text size setting (the pause menu, settings, quest log, glossary, feats,
   credits, save and load, the map's legend, the quest box, pop-ups: Large 1.15, Larger 1.3); the rose window tops the title menu;
   Recipe for Wonder costs 1(G) to use, as its text says (it charged only (G)); pack descriptions and two lines say "Pathless cards"

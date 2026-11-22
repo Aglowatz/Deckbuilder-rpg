@@ -22,6 +22,11 @@ const CAULDRON_ART: String = "UI-CAULDRON"
 var _result_holder: Control
 var _brewing: bool = false
 var _gold_label: Label
+## Fable Nov 21 castle (Part 8): one jar's cell on the shelf, the "pick two Paths, then brew" strip and its two slots.
+const JAR_CELL: Vector2 = Vector2(270, 262)
+var _steps: HBoxContainer
+var _slots: Array[PanelContainer] = []
+var _pool_title: Label
 
 
 func _ready() -> void:
@@ -62,66 +67,69 @@ func _build_essence_column() -> Control:
 	panel.custom_minimum_size = Vector2(620.0 - _narrow(), 0)
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Your Path essence (at most %d each)" % Alchemy.ESSENCE_CAP_PER_PATH, &"HeadingLabel", 30))
+	column.add_child(UIKit.label("Your essence jars", &"HeadingLabel", 30))
 	# Overnight Nov 19 (Part 3.7): you own up to 3 copies of every card, so a copy beyond the third converts; a brew costs 6 + 6; 18 is the cap.
-	var blurb: Label = UIKit.label(instructions(), &"MutedLabel", 20)
+	var blurb: Label = UIKit.label(instructions(), &"MutedLabel", 18)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 	column.add_child(blurb)
+	# Fable Nov 21 castle (Part 8): four glass jars on a shelf (2 x 2) in place of the cramped list - each fills to 18 with its number
+	# on the glass and lights up when it is chosen for the brew. The buttons keep their names (EssenceRow<path>).
+	var shelf: GridContainer = GridContainer.new()
+	shelf.name = "JarShelf"
+	shelf.columns = 2
+	shelf.add_theme_constant_override("h_separation", 14)
+	shelf.add_theme_constant_override("v_separation", 12)
+	shelf.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	column.add_child(shelf)
 	for path: Affinity.Type in Affinity.colored_types():
 		var row: Button = Button.new()
 		row.name = "EssenceRow%d" % int(path)
 		row.toggle_mode = false  # Fixes Nov 8 (C3 F5): the screen owns the selection; a toggle button flipped itself and the first click looked lost
-		row.custom_minimum_size = Vector2(580.0 - _narrow(), 82)
-		row.focus_mode = Control.FOCUS_NONE
-		row.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.05), UIStyle.affinity_color(path).darkened(0.3), 2, 12))
-		row.add_theme_stylebox_override("hover", UIStyle.box(Color(1, 1, 1, 0.09), UIStyle.affinity_color(path), 3, 12))
-		row.add_theme_stylebox_override("pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.35), UIStyle.GOLD, 5, 12, 10))
-		row.add_theme_stylebox_override("hover_pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.3), UIStyle.GOLD, 5, 12, 10))
-		row.add_theme_stylebox_override("disabled", UIStyle.box(Color(1, 1, 1, 0.02), Color(1, 1, 1, 0.08), 2, 12))
+		row.custom_minimum_size = Vector2(JAR_CELL.x - _narrow() * 0.5, JAR_CELL.y)
+		row.focus_mode = Control.FOCUS_ALL
+		row.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.04), UIStyle.affinity_color(path).darkened(0.35), 2, 14))
+		row.add_theme_stylebox_override("hover", UIStyle.box(Color(1, 1, 1, 0.09), UIStyle.affinity_color(path), 3, 14))
+		row.add_theme_stylebox_override("pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.45), UIStyle.GOLD, 4, 14, 10))
+		row.add_theme_stylebox_override("hover_pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.4), UIStyle.GOLD, 4, 14, 10))
+		row.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), UIStyle.GOLD, 3, 14))
+		row.add_theme_stylebox_override("disabled", UIStyle.box(Color(1, 1, 1, 0.02), Color(1, 1, 1, 0.08), 2, 14))
 		row.pressed.connect(_toggle_path.bind(path))
-		var inner: HBoxContainer = UIKit.hbox(14)
-		inner.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		inner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		inner.offset_left = 14
-		inner.offset_right = -14
-		row.add_child(inner)
-		var orb: TextureRect = IconArt.glyph_or(IconArt.essence_id(path), CardIcons.ui("gems"), UIStyle.affinity_color(path), 48.0)
+		var jar: EssenceJar = EssenceJar.make(path, Alchemy.ESSENCE_CAP_PER_PATH)
+		jar.position = Vector2((row.custom_minimum_size.x - EssenceJar.SIZE.x) * 0.5, 8)
+		row.add_child(jar)
+		var name_row: HBoxContainer = UIKit.hbox(6)
+		name_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		name_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		name_row.position = Vector2(0, EssenceJar.SIZE.y + 10.0)
+		name_row.custom_minimum_size = Vector2(row.custom_minimum_size.x, 30)
+		name_row.size = name_row.custom_minimum_size
+		row.add_child(name_row)
+		var orb: TextureRect = IconArt.glyph_or(IconArt.essence_id(path), CardIcons.ui("gems"), UIStyle.affinity_color(path), 26.0)
 		orb.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		inner.add_child(orb)
-		var name_label: Label = UIKit.label("%s essence" % Affinity.display_name(path), &"", 26, UIStyle.PARCHMENT)
-		name_label.custom_minimum_size = Vector2(250.0 - _narrow() * 0.2, 0)
+		name_row.add_child(orb)
+		var name_label: Label = UIKit.label(Affinity.display_name(path), &"", 22, UIStyle.PARCHMENT)
 		name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		inner.add_child(name_label)
-		var bar: ProgressBar = ProgressBar.new()
-		bar.custom_minimum_size = Vector2(140.0 - _narrow() * 0.8, 18)
-		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		bar.show_percentage = false
-		bar.max_value = Alchemy.ESSENCE_CAP_PER_PATH  # Overnight Nov 19 (Part 3.6): the bar is the jar - 9 of 18 is half full
-		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		bar.add_theme_stylebox_override("fill", UIStyle.box(UIStyle.affinity_color(path), Color(0, 0, 0, 0), 0, 6))
-		inner.add_child(bar)
-		var amount: Label = UIKit.label("0", &"", 34, Color.WHITE, HORIZONTAL_ALIGNMENT_RIGHT)
+		name_row.add_child(name_label)
+		# the number is on the glass; this label keeps the count for screen readers of the tree (tests, smokes)
+		var amount: Label = UIKit.label("0", &"", 18, Color.WHITE)
 		amount.name = "Amount"
-		amount.custom_minimum_size = Vector2(70, 0)
-		amount.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		inner.add_child(amount)
-		# Overnight Nov 4-5, Part 1: a chosen jar says so - a gold tick and "Selected" on the row (the pressed style is the highlight).
-		var tick: Label = UIKit.label("✓ Selected", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_RIGHT)
+		amount.visible = false
+		row.add_child(amount)
+		# Overnight Nov 4-5, Part 1: a chosen jar says so - a gold tick and "Selected" (and the jar lights up).
+		var tick: Label = UIKit.label("✓ Selected", &"", 18, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 		tick.name = "Selected"
 		tick.add_theme_font_override("font", UIStyle.font_title())
 		tick.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 		tick.add_theme_constant_override("outline_size", 6)
 		tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		tick.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-		tick.offset_left = -170
-		tick.offset_right = -12
-		tick.offset_top = -2
-		tick.offset_bottom = 24
+		tick.position = Vector2(0, EssenceJar.SIZE.y + 38.0)
+		tick.custom_minimum_size = Vector2(row.custom_minimum_size.x, 22)
+		tick.size = tick.custom_minimum_size
 		tick.visible = false
 		row.add_child(tick)
-		column.add_child(row)
-		_essence_rows[path] = {"button": row, "bar": bar, "amount": amount, "tick": tick}
+		shelf.add_child(row)
+		_essence_rows[path] = {"button": row, "jar": jar, "amount": amount, "tick": tick}
 	column.add_child(UIKit.spacer(6))
 	if Alchemy.tri_path_unlocked(Session.profile):
 		var tri: Label = UIKit.label("TRI-PATH CRAFTING: with Primm gone the Paths mix freely, and the cauldron takes three. Pick three Paths for a tri-Path card (%d gold)." % Alchemy.TRI_GOLD_COST, &"MutedLabel", 20)
@@ -133,17 +141,18 @@ func _build_essence_column() -> Control:
 
 
 func _build_brew_column() -> Control:
-	var panel: PanelContainer = UIKit.panel()
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")  # Fable Nov 21 castle: the same panel as the jars and as the other vendors
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
 	column.add_child(UIKit.label("The brew", &"HeadingLabel", 32))
-	_cost_label = UIKit.label("", &"", 24, UIStyle.PARCHMENT)
+	column.add_child(_build_steps())
+	_cost_label = UIKit.label("", &"", 21, UIStyle.PARCHMENT)
 	_cost_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_cost_label.custom_minimum_size = Vector2(700, 0)
 	column.add_child(_cost_label)
 	_stage = Control.new()
-	_stage.custom_minimum_size = Vector2(700, 270)
+	_stage.custom_minimum_size = Vector2(700, 230)
 	_stage.clip_contents = false
 	column.add_child(_stage)
 	if UiArt.has(CAULDRON_ART):
@@ -153,9 +162,9 @@ func _build_brew_column() -> Control:
 		_cauldron.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_cauldron.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_cauldron.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_cauldron.size = Vector2(260, 260)
-		_cauldron.pivot_offset = Vector2(130, 150)
-		_cauldron.position = Vector2(220, 8)
+		_cauldron.size = Vector2(230, 230)
+		_cauldron.pivot_offset = Vector2(115, 132)
+		_cauldron.position = Vector2(235, 2)
 	else:
 		_cauldron = CardIcons.glyph(CardIcons.named("lorc/cauldron"), Color("8fd36a"), Vector2(200, 200))
 		_cauldron.size = Vector2(200, 200)
@@ -163,21 +172,80 @@ func _build_brew_column() -> Control:
 		_cauldron.position = Vector2(250, 50)
 	_cauldron.name = "Cauldron"
 	_stage.add_child(_cauldron)
+	_pool_title = UIKit.label("", &"", 20, UIStyle.GOLD)
+	_pool_title.name = "PoolTitle"
+	column.add_child(_pool_title)
 	_preview_box = UIKit.vbox(6)
 	_preview_box.name = "PossibleCards"
 	_preview_box.position = Vector2(0, 0)
-	_preview_box.custom_minimum_size = Vector2(700, 300)  # Fixes Nov 8 (C3 F5): space kept for the odds grid, so nothing jumps under the cursor
+	_preview_box.custom_minimum_size = Vector2(700, 290)  # Fixes Nov 8 (C3 F5): space kept for the odds grid, so nothing jumps under the cursor
 	column.add_child(_preview_box)
-	_hint_label = UIKit.label("", &"MutedLabel", 22)
+	_hint_label = UIKit.label("", &"MutedLabel", 20)
 	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_hint_label.custom_minimum_size = Vector2(700, 0)
 	column.add_child(_hint_label)
-	_craft_button = FancyButton.make("Craft", &"PrimaryButton", Vector2(520, 96))
+	_craft_button = FancyButton.make("Brew", &"PrimaryButton", Vector2(520, 88))
 	_craft_button.name = "CraftButton"
 	_craft_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_craft_button.pressed.connect(_craft)
 	column.add_child(_craft_button)
 	return panel
+
+
+## "1 Pick two Paths  >  [slot] + [slot]  >  2 Brew": the flow in one strip, the slots filling with the chosen Paths' colours.
+func _build_steps() -> Control:
+	_steps = UIKit.hbox(10)
+	_steps.name = "BrewSteps"
+	_steps.alignment = BoxContainer.ALIGNMENT_CENTER
+	_steps.add_child(_step_chip("StepPick", "1  Pick two Paths"))
+	_slots = []
+	for index: int in range(2):
+		if index == 1:
+			_steps.add_child(UIKit.label("+", &"", 30, UIStyle.GOLD))
+		var slot: PanelContainer = PanelContainer.new()
+		slot.name = "Slot%d" % index
+		slot.custom_minimum_size = Vector2(170, 46)
+		var text: Label = UIKit.label("", &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		text.name = "Text"
+		slot.add_child(text)
+		_steps.add_child(slot)
+		_slots.append(slot)
+	_steps.add_child(UIKit.label(">", &"", 30, UIStyle.GOLD))
+	_steps.add_child(_step_chip("StepBrew", "2  Brew"))
+	return _steps
+
+
+func _step_chip(chip_name: String, words: String) -> PanelContainer:
+	var chip: PanelContainer = PanelContainer.new()
+	chip.name = chip_name
+	chip.custom_minimum_size = Vector2(0, 46)
+	var text: Label = UIKit.label(words, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	text.name = "Text"
+	text.add_theme_font_override("font", UIStyle.font_title())
+	chip.add_child(UIKit.margin(text, 10))
+	return chip
+
+
+## The step in hand is lit gold: picking until two (or three) Paths are chosen, brewing after.
+func _refresh_steps() -> void:
+	if _steps == null:
+		return
+	for index: int in range(_slots.size()):
+		var slot: PanelContainer = _slots[index]
+		var filled: bool = index < _selected.size()
+		var colour: Color = UIStyle.affinity_color(_selected[index]) if filled else Color(1, 1, 1, 0.18)
+		slot.add_theme_stylebox_override("panel", UIStyle.box(Color(colour.darkened(0.55), 0.9) if filled else Color(1, 1, 1, 0.04), colour, 3 if filled else 2, 10))
+		var words: String = Affinity.display_name(_selected[index]) if filled else "empty"
+		if index == 1 and _selected.size() == 3:
+			words = "%s + %s" % [Affinity.display_name(_selected[1]), Affinity.display_name(_selected[2])]
+		(slot.get_node("Text") as Label).text = words
+		(slot.get_node("Text") as Label).add_theme_color_override("font_color", UIStyle.PARCHMENT if filled else UIStyle.MUTED)
+	var ready: bool = _selected.size() >= 2
+	for pair: Array in [["StepPick", not ready], ["StepBrew", ready]]:
+		var chip: PanelContainer = _steps.get_node(str(pair[0])) as PanelContainer
+		chip.add_theme_stylebox_override("panel", UIStyle.box(Color(UIStyle.GOLD.darkened(0.6), 0.9), UIStyle.GOLD, 3, 10) if bool(pair[1]) else UIStyle.box(Color(1, 1, 1, 0.04), Color(1, 1, 1, 0.2), 2, 10))
+	if _pool_title != null:
+		_pool_title.text = "" if not ready else "What this brew can make (hover a card to read it; a card you have never seen is face down)"
 
 
 func _toggle_path(path: Affinity.Type) -> void:
@@ -205,18 +273,19 @@ func _refresh() -> void:
 		(entry["amount"] as Label).text = str(amount)
 		# Overnight Nov 19 (Part 3.6): white below the cap, gold when the jar is full.
 		(entry["amount"] as Label).add_theme_color_override("font_color", UIStyle.GOLD if amount >= Alchemy.ESSENCE_CAP_PER_PATH else Color.WHITE)
-		(entry["bar"] as ProgressBar).value = float(mini(amount, Alchemy.ESSENCE_CAP_PER_PATH))
 		var button: Button = entry["button"] as Button
 		var chosen: bool = _selected.has(path as Affinity.Type)
 		var colour: Color = UIStyle.affinity_color(path as Affinity.Type)
-		button.add_theme_stylebox_override("normal", UIStyle.box(colour.darkened(0.35), UIStyle.GOLD, 5, 12, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.05), colour.darkened(0.3), 2, 12))
-		button.add_theme_stylebox_override("hover", UIStyle.box(colour.darkened(0.3), UIStyle.GOLD, 5, 12, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.09), colour, 3, 12))
+		(entry["jar"] as EssenceJar).set_state(amount, chosen)
+		button.add_theme_stylebox_override("normal", UIStyle.box(colour.darkened(0.5), UIStyle.GOLD, 4, 14, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.04), colour.darkened(0.35), 2, 14))
+		button.add_theme_stylebox_override("hover", UIStyle.box(colour.darkened(0.42), UIStyle.GOLD, 4, 14, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.09), colour, 3, 14))
 		button.set_meta("chosen", chosen)
 		(entry["tick"] as Label).visible = chosen
 		button.tooltip_text = "%d / %d essence needed to craft." % [amount, Alchemy.MIN_ESSENCE_PER_PATH] if amount < Alchemy.MIN_ESSENCE_PER_PATH else "Click to use this Path in the brew."
 		if amount >= Alchemy.ESSENCE_CAP_PER_PATH:
 			button.tooltip_text += "\nFull (%d): extra copies of %s cards add no more essence until you brew." % [Alchemy.ESSENCE_CAP_PER_PATH, Affinity.display_name(path as Affinity.Type)]
 	_rebuild_preview()
+	_refresh_steps()
 	if _selected.size() == 3:
 		var essence: Array[String] = []
 		for path: Affinity.Type in _selected:
@@ -249,7 +318,7 @@ func _set_craft_text(gold: int, paths: int, problem: String) -> void:
 	var each: Array[String] = []
 	for index: int in range(paths):
 		each.append(str(Alchemy.MIN_ESSENCE_PER_PATH))
-	var label: String = "Craft — %d gold, %s" % [gold, " + ".join(each)]
+	var label: String = "Brew — %d gold, %s" % [gold, " + ".join(each)]
 	if not problem.is_empty() and not _brewing:
 		label += "\n" + problem.trim_suffix(".")
 	_craft_button.text = label
@@ -328,23 +397,52 @@ func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Res
 		spiral.tween_interval(0.05 * float(index % 6))
 		spiral.tween_property(mote, "position", Vector2(342, 202), 1.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		spiral.tween_callback(mote.queue_free)
+	# Fable Nov 21 castle (Part 8): the pot boils - bubbles in both colours rise out of it and burst
+	if not Settings.reduce_motion:
+		for index: int in range(BREW_BUBBLES):
+			var bubble: Panel = Panel.new()
+			var wide: float = 10.0 + float(index % 4) * 5.0
+			bubble.name = "Bubble%d" % index
+			bubble.size = Vector2(wide, wide)
+			bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			bubble.add_theme_stylebox_override("panel", UIStyle.box(Color(color_a if index % 2 == 0 else color_b, 0.75), Color(1, 1, 1, 0.75), 2, int(wide * 0.5)))
+			bubble.position = Vector2(300.0 + float((index * 37) % 100), 110.0)
+			bubble.modulate.a = 0.0
+			_stage.add_child(bubble)
+			var up: Tween = bubble.create_tween()
+			up.tween_interval(0.08 * float(index))
+			up.tween_property(bubble, "modulate:a", 1.0, 0.1)
+			up.parallel().tween_property(bubble, "position:y", -30.0 - float((index * 53) % 70), 0.9).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			up.parallel().tween_property(bubble, "position:x", bubble.position.x + (30.0 if index % 2 == 0 else -30.0), 0.9)
+			up.tween_property(bubble, "scale", Vector2(1.7, 1.7), 0.08)
+			up.parallel().tween_property(bubble, "modulate:a", 0.0, 0.08)
+			up.tween_callback(bubble.queue_free)
+	_brew_colours = [color_a, color_b] as Array[Color]
 	var timer: SceneTreeTimer = get_tree().create_timer(1.5, false)
 	timer.timeout.connect(func() -> void: _reveal(result))
+
+
+const BREW_BUBBLES: int = 14
+var _brew_colours: Array[Color] = [Color.WHITE]
 
 
 func _reveal(result: Alchemy.Result) -> void:
 	# A three-Path (postgame) craft has its own sting.
 	Audio.sting(&"STG-CRAFT-POST" if result.paths.size() >= 3 else &"STG-CRAFT")
 	_cauldron.modulate = Color.WHITE
-	var flash: ColorRect = ColorRect.new()
-	flash.color = Color(1, 1, 1, 0.0)
-	UIKit.full_rect(flash)
-	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(flash)
-	var flash_tween: Tween = flash.create_tween()
-	flash_tween.tween_property(flash, "color:a", 0.7 * Settings.flash_scale(), 0.1)
-	flash_tween.tween_property(flash, "color:a", 0.0, 0.5)
-	flash_tween.tween_callback(flash.queue_free)
+	# Fable Nov 21 castle (Part 8): the flash is in the two Paths' colours, one after the other, not plain white
+	for index: int in range(_brew_colours.size()):
+		var flash: ColorRect = ColorRect.new()
+		flash.name = "BrewFlash%d" % index
+		flash.color = Color(_brew_colours[index].lightened(0.35), 0.0)
+		UIKit.full_rect(flash)
+		flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(flash)
+		var flash_tween: Tween = flash.create_tween()
+		flash_tween.tween_interval(0.14 * float(index))
+		flash_tween.tween_property(flash, "color:a", 0.6 * Settings.flash_scale(), 0.1)
+		flash_tween.tween_property(flash, "color:a", 0.0, 0.45)
+		flash_tween.tween_callback(flash.queue_free)
 	# Fable Nov 20 (Part 3.1): the new card large and centred in "The brew" panel, its line underneath (wrapped, never over the
 	# card); hovering it magnifies it like a reward card. It takes the place of the cauldron and the possible-cards grid until the
 	# next brew or the next jar click.
@@ -384,6 +482,8 @@ func _reveal(result: Alchemy.Result) -> void:
 	brew_column.move_child(box, _stage.get_index())
 	_stage.visible = false
 	_preview_box.visible = false
+	if _pool_title != null:
+		_pool_title.visible = false
 	_brewing = false
 	# Fable Nov 20 (Part 3.2): the two (or three) chosen essences stay chosen, so the next brew is one click away while there is
 	# enough essence and gold (the Craft button says what is missing otherwise).
@@ -402,6 +502,8 @@ func _clear_result() -> void:
 		_stage.visible = true
 	if _preview_box != null:
 		_preview_box.visible = true
+	if _pool_title != null:
+		_pool_title.visible = true
 
 
 ## The essence column is this much narrower next to Auntie Alembic (the vendor stage takes the left side).

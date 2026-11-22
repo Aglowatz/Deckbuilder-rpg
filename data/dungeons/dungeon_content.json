@@ -790,7 +790,7 @@
 					"name": "The Pantry Mimic",
 					"deck": "gourmand_control",
 					"size": 33,
-					"hp": 28,
+					"hp": 36,
 					"icon": "delapouite/chef-toque",
 					"ai": "Balanced"
 				},

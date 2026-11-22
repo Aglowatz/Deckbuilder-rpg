@@ -340,7 +340,7 @@ static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: Dunge
 		spec.dungeon_key = key
 		spec.node_number = node.number
 		spec.enemy_name = "Primm (%s)" % phase.key
-		spec.enemy_hp = phase.hp
+		spec.enemy_hp = PrimmBoss.hp_for(index, primm_allies.size())
 		spec.enemy_ai_name = phase.ai_name
 		spec.enemy_recipe = phase.recipe
 		spec.mirror_player_deck = phase.mirror
@@ -352,6 +352,9 @@ static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: Dunge
 		_attach_rules(spec, PrimmBoss.rules_key(index))
 		# Fable Nov 21 castle: the leaders won over in the castle's ally rooms help in every phase (`CastleAllies`). `primm_allies` says
 		# which of them this catalogue assumes (all four by default; the castle sims set it to measure 0 to 4).
+		var plan: ModifierSource = PrimmBoss.plan_source(primm_allies)
+		if plan != null:
+			spec.enemy_sources.append(plan)
 		var help: ModifierSource = CastleAllies.help_source(primm_allies)
 		if help != null:
 			spec.player_sources.append(help)

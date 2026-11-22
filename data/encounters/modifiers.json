@@ -430,6 +430,14 @@
 			"icon": "delapouite/three-friends",
 			"kind": "start_of_turn_damage",
 			"amount": 1
+		},
+		{
+			"name": "The Crowd Roars",
+			"text": "His units get another +1/+1 (+3/+2 in all).",
+			"icon": "delapouite/three-friends",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"zone:gourmand:casserole": [
@@ -475,21 +483,21 @@
 	"arena:arena_four_fists": [
 		{
 			"name": "Four Fists",
-			"text": "The Champion's units get +1/+1.",
+			"text": "The Champion's units get +2/+2.",
 			"icon": "lorc/fire-punch",
 			"kind": "stat",
-			"atk": 1,
-			"def": 1
+			"atk": 2,
+			"def": 2
 		}
 	],
 	"Primm (standardization)": [
 		{
 			"name": "Standing Army",
-			"text": "Primm starts the duel with 3 Militia on the field (3/3, like every unit under Standardization).",
+			"text": "Primm starts the duel with 1 Militia on the field (a 3/3, like every unit under Standardization).",
 			"icon": "delapouite/guards",
 			"kind": "starting_tokens",
 			"token": "T-16",
-			"count": 3
+			"count": 1
 		}
 	],
 	"town:old_well": [
@@ -578,15 +586,6 @@
 			"kind": "stat",
 			"atk": 1,
 			"def": 1
-		},
-		{
-			"name": "Red Tape",
-			"text": "The first card you play each turn costs 1 more.",
-			"icon": "delapouite/stamper",
-			"side": "player",
-			"harmful": true,
-			"kind": "first_card_cost",
-			"amount": 1
 		}
 	],
 	"capital:quota": [
@@ -767,13 +766,12 @@
 			"kind": "mirror_first_unit"
 		},
 		{
-			"name": "Never Its Own Idea",
-			"text": "The Mimic's own units get -1/-0. It has never once made anything up.",
-			"icon": "lorc/crossed-swords",
+			"name": "Well Fed",
+			"text": "The Mimic's units get +1/+1. It has eaten the cookbook.",
+			"icon": "delapouite/chef-toque",
 			"kind": "stat",
-			"atk": -1,
-			"def": 0,
-			"non_tokens": true
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"Coup Barracks Sergeant": [
@@ -832,6 +830,43 @@
 			"atk": 1,
 			"def": 1,
 			"non_tokens": true
+		}
+	],
+	"arena:arena_warmup": [
+		{
+			"name": "Home Crowd",
+			"text": "The Rookie's units get +1/+1. The stands are full of his cousins.",
+			"icon": "delapouite/three-friends",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
+		}
+	],
+	"arena:arena_neutral_mile": [
+		{
+			"name": "Packed Sand",
+			"text": "The Sentinel's units get +0/+2.",
+			"icon": "lorc/crossed-swords",
+			"kind": "stat",
+			"atk": 0,
+			"def": 2
+		}
+	],
+	"arena:arena_four_fists_unbound": [
+		{
+			"name": "Unbound",
+			"text": "The Champion's units get +4/+4.",
+			"icon": "lorc/fire-punch",
+			"kind": "stat",
+			"atk": 4,
+			"def": 4
+		},
+		{
+			"name": "Ready for You",
+			"text": "The Champion starts with one more card in hand.",
+			"icon": "lorc/crossed-swords",
+			"kind": "opening_hand",
+			"count": 1
 		}
 	]
 }

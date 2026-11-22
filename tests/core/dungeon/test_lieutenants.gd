@@ -31,7 +31,7 @@ func test_each_lieutenant_is_a_fight_with_a_rule_a_bestiary_entry_and_a_relic() 
 		for rule: EncounterModifiers.Rule in EncounterModifiers.rules(foe):
 			own_rules += 1 if rule.is_enemy_side() else 0
 			# Fable Nov 21 castle: Plume's fight also binds the player (Red Tape, in Agnes's room)
-			assert_true(rule.is_enemy_side() or (id == Lieutenants.PLUME and rule.name == "Red Tape"), "%s's rule is the enemy's (%s)" % [id, rule.name])
+			assert_true(rule.is_enemy_side(), "%s's rule is the enemy's (%s)" % [id, rule.name])
 		assert_gt(own_rules, 0, "%s has a rule of their own" % id)
 		assert_not_null(Bestiary.find(foe), "%s is in the Bestiary" % id)
 		var relic: EquipmentData = Session.content.equipment_piece(Lieutenants.reward_id(id))

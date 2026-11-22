@@ -466,10 +466,9 @@ func test_hold_the_line_is_off_once_both_trainees_are_gone() -> void:
 
 func test_plumes_filing_deadline_ends_the_duel() -> void:
 	var game: GameState = _fight(11)
-	assert_eq(game.players[0].modifiers.sum(Modifier.Kind.FIRST_CARD_COST_CHANGE), 1, "red tape: the first card each turn costs 1 more")
-	_pass_until_foe_turn(game, 9)
-	assert_false(game.is_over(), "nine turns are yours")
-	_pass_until_foe_turn(game, 10)
+	_pass_until_foe_turn(game, 11)
+	assert_false(game.is_over(), "eleven turns are yours")
+	_pass_until_foe_turn(game, 12)
 	assert_true(game.is_over())
 	assert_eq(game.winner, 1, "the office closes: the duel is lost")
 
@@ -588,3 +587,43 @@ func test_the_objectives_are_never_a_hidden_trait() -> void:
 		EncounterScripts.triggers(str(pair[0]))
 		assert_false(EncounterScripts.is_hidden(str(pair[0]), str(pair[1])), "%s: the objective is told from the start" % str(pair[0]))
 	EncounterScripts.hide_unseen = before
+
+
+# ---- Part 6: "A Plan for Everyone" (Primm prepares for the leaders you bring) ---------------------------------------------------
+
+
+func test_primm_has_more_hp_for_each_leader_and_a_guard_to_answer_flex() -> void:
+	for index: int in range(PrimmBoss.PHASES):
+		assert_eq(PrimmBoss.hp_for(index, 0), PrimmBoss.phase(index).hp, "alone: his own HP")
+		assert_eq(PrimmBoss.hp_for(index, 4), PrimmBoss.phase(index).hp + 4 * PrimmBoss.HP_PER_LEADER)
+	assert_eq(PrimmBoss.guards_for([] as Array[String]), 0)
+	assert_eq(PrimmBoss.guards_for(["gourmand"] as Array[String]), 0, "no guard for a leader who puts no unit on the table")
+	assert_eq(PrimmBoss.guards_for(["beefcake"] as Array[String]), 1, "a Militia to answer Grandmaster Flex")
+	assert_eq(PrimmBoss.guards_for(["gourmand", "necrocrat", "refusemancer"] as Array[String]), 0)
+	assert_eq(PrimmBoss.guards_for(CastleAllies.ZONES), 2, "and one more when all four came")
+	assert_null(PrimmBoss.plan_source(["necrocrat"] as Array[String]))
+	assert_true(PrimmBoss.plan_text(CastleAllies.ZONES).contains("+%d now" % (4 * PrimmBoss.HP_PER_LEADER)))
+
+
+func test_the_plan_is_in_the_fight_and_on_a_badge() -> void:
+	_start_castle_run()
+	var alone: BattleContext = Session.make_dungeon_battle(_map.boss())
+	_keep_hands(alone.game)  # the guards are posted after the opening hands
+	assert_eq(alone.game.players[1].hp, PrimmBoss.phase(0).hp)
+	for badge: RuleBadges.Badge in alone.rule_badges:
+		assert_ne(badge.name, PrimmBoss.PLAN_RULE_NAME, "alone: no plan")
+	var militia_alone: int = alone.game.players[1].units().size()
+	_free(CastleAllies.ZONES)
+	for number: int in ALLY_ROOMS:
+		CastleAllies.win_room(Session.run, Session.flags, "final", number)
+	var together: BattleContext = Session.make_dungeon_battle(_map.boss())
+	_keep_hands(together.game)
+	assert_eq(together.game.players[1].hp, PrimmBoss.phase(0).hp + 4 * PrimmBoss.HP_PER_LEADER)
+	assert_eq(together.game.players[1].units().size(), militia_alone + 2, "two more guards on his side")
+	var named: bool = false
+	for badge: RuleBadges.Badge in together.rule_badges:
+		if badge.name == PrimmBoss.PLAN_RULE_NAME:
+			named = true
+			assert_eq(badge.side, RuleBadges.SIDE_ENEMY)
+			assert_true(badge.text.contains("Grandmaster Flex"))
+	assert_true(named, "the plan is a rule badge in his fight")

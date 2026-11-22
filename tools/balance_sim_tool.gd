@@ -6,6 +6,7 @@ extends RefCounted
 ##         one (a single encounter, --id=..., with the full card-impact lists per Path)
 ## --mode: quick (12 games per Path and encounter) or full (100); --games overrides. --level forces the player's level. --seed sets the base seed.
 ## --resume (encounters): skip what a stopped run with the same --out already finished (<out>.progress.txt).
+## --allies=beefcake,gourmand | none: the leaders won over before Primm (the castle, Fable Nov 21; default all four).
 ## --path=beefcake limits the player to one Path. --nogear strips equipment and items. --starter plays the bare starter deck. --filter narrows the encounter list (id or group substring).
 ## Writes markdown to --out (default res://docs/design/sim/latest.md) and prints the table.
 
@@ -17,6 +18,13 @@ func run() -> bool:
 		if arg.begins_with("--"):
 			var parts: PackedStringArray = arg.substr(2).split("=", true, 1)
 			args[parts[0]] = parts[1] if parts.size() > 1 else "true"
+	# Fable Nov 21 castle: --allies=beefcake,gourmand (or none) says which leaders the hero has won over before Primm (default: all four)
+	if args.has("allies"):
+		var allies: Array[String] = []
+		for word: String in str(args["allies"]).split(",", false):
+			if CastleAllies.ZONES.has(word):
+				allies.append(word)
+		EncounterCatalog.primm_allies = allies
 	var what: String = str(args.get("what", "encounters"))
 	var mode: String = str(args.get("mode", "quick"))
 	var games: int = int(args.get("games", BalanceSim.FULL_GAMES if mode == "full" else BalanceSim.QUICK_GAMES))

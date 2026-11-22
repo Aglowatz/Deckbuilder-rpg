@@ -85,11 +85,11 @@ static func flag_name(encounter_id: String) -> StringName:
 static func _build() -> Array[ArenaEncounter]:
 	var list: Array[ArenaEncounter] = []
 	# ---- Tier 1: Bronze Sand -------------------------------------------------------------------------
-	var warmup: ArenaEncounter = _battle("arena_warmup", 1, "Gladiator Rookie", 14, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 28, 18))
+	var warmup: ArenaEncounter = _battle("arena_warmup", 1, "Gladiator Rookie", 20, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 28, 18))  # Fable Nov 21 castle (Part 9.1): 14 -> 20 HP, Elite skill, "Home Crowd" +1/+1 (balance report, row 1)
 	warmup.reward = {"gold": 90, "xp": 40, "pack": "primary"}
 	list.append(warmup)
 	list.append(_data_puzzle("arena_lethal_lunch", 1, {"gold": 120, "xp": 40, "pack": "general_1"}))
-	var mile: ArenaEncounter = _battle("arena_neutral_mile", 1, "Sandbag Sentinel", 13, "Defensive", EnemyDecks.trimmed("colorless_regime", 30, 16))
+	var mile: ArenaEncounter = _battle("arena_neutral_mile", 1, "Sandbag Sentinel", 20, "Defensive", EnemyDecks.trimmed("colorless_regime", 30, 16))  # Fable Nov 21 castle: 13 -> 20 HP, Elite skill, "Packed Sand" +0/+2 (row 2)
 	mile.player_recipe = {
 		"BAS-B": 15, "C-01": 3, "C-02": 3, "C-03": 3, "C-04": 3, "C-06": 2, "C-07": 2, "C-08": 2, "C-13": 2, "C-14": 2, "C-12": 2, "C-16": 1,
 	}
@@ -99,7 +99,7 @@ static func _build() -> Array[ArenaEncounter]:
 	list.append(_data_puzzle("arena_hold_the_line", 2, {"gold": 150, "xp": 80, "pack": "general_2"}))
 	# Rebalance (Oct 18): the Colossus runs on Gourmand basics, so it has no Iron to burst with (temporary Iron made its one big hit
 	# too big for a deck that cannot block).
-	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 6, "Passive", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.GOURMAND] as Array[Affinity.Type], 16))
+	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 10, "Passive", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.GOURMAND] as Array[Affinity.Type], 16))
 	spells.player_recipe = {"BAS-B": 9, "BAS-G": 8, "B-03": 4, "B-21": 6, "G-21": 4, "G-25": 3, "C-14": 4, "C-15": 2, "G-20": 3, "B-27": 2}
 	var no_units: Modifier = Modifier.new()
 	no_units.kind = Modifier.Kind.NO_UNIT_PLAYS
@@ -107,18 +107,18 @@ static func _build() -> Array[ArenaEncounter]:
 	spells.player_rules = [no_units] as Array[Modifier]
 	spells.reward = {"gold": 150, "xp": 80, "pack": "general_2", "essence": {"primary": 3}}
 	list.append(spells)
-	var fists: ArenaEncounter = _battle("arena_four_fists", 2, "Champion of the Four Fists", 33, "Balanced", EnemyDecks.recipe("four_paths", 17))  # Rebalance Part E: 22 -> 28 HP
+	var fists: ArenaEncounter = _battle("arena_four_fists", 2, "Champion of the Four Fists", 40, "Balanced", EnemyDecks.with_cards(EnemyDecks.recipe("four_paths", 17), {"INF-11": 3}))  # Fable Nov 21 castle: 33 -> 40 HP, 3 Old Kingdom Crossroads, "Four Fists" +2/+2 in all (row 4)
 	fists.reward = {"gold": 250, "xp": 100, "pack": "primary", "essence": {"B": 4, "G": 4, "R": 4, "N": 4}}
 	list.append(fists)
 	# ---- Tier 3: Gold Sand --------------------------------------------------------------------------
 	list.append(_data_puzzle("arena_zero_to_hero", 3, {"gold": 200, "xp": 120, "pack": "general_2", "item": "energy_draught"}))
-	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 46, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3, "B-29": 1, "B-30": 1}))  # Rebalance Part E: 30 -> 38 HP, two Epics
+	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 64, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3, "B-29": 1, "B-30": 1}))  # Rebalance Part E: 30 -> 38 HP, two Epics
 	marshal.reward = {"gold": 500, "xp": 250, "pack": "primary", "essence": {"primary": 6}}
 	list.append(marshal)
 	# ---- Tier 4: Diamond Sand (Overnight Nov 19) ---------------------------------------------------------
 	list.append(_data_puzzle("arena_final_bell", 4, {"gold": 300, "xp": 150, "pack": "general_2", "essence": {"primary": 6}}))
 	# The Four Fists, Unbound: the Silver champion again, every Path at once and harder than the Marshal (more HP, more Epics).
-	var unbound: ArenaEncounter = _battle("arena_four_fists_unbound", 4, "Champion of the Four Fists", 54, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("four_paths", 17), {"B-13": 2, "B-28": 2, "N-03": 2, "B-30": 1}))
+	var unbound: ArenaEncounter = _battle("arena_four_fists_unbound", 4, "Champion of the Four Fists", 80, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("four_paths", 17), {"B-13": 2, "B-28": 2, "N-03": 2, "B-30": 1, "INF-11": 3}))  # Fable Nov 21 castle: 54 -> 80 HP, 3 Crossroads, one more opening card, "Unbound" +4/+4 (row 6)
 	unbound.reward = {"gold": 600, "xp": 300, "pack": "primary", "essence": {"primary": 6}}
 	list.append(unbound)
 	return list

@@ -123,9 +123,9 @@ func test_the_puzzles_keep_their_ids_tiers_and_prizes() -> void:
 	# the Arena's battles are untouched (the owner tunes them by hand)
 	for id: String in ["arena_warmup", "arena_neutral_mile", "arena_spells_only", "arena_four_fists", "arena_marshal", "arena_four_fists_unbound"]:
 		assert_false(ArenaDefs.find(id).is_puzzle(), id)
-	assert_eq(ArenaDefs.find("arena_four_fists").enemy_hp, 33)
-	assert_eq(ArenaDefs.find("arena_marshal").enemy_hp, 46)
-	assert_eq(ArenaDefs.find("arena_four_fists_unbound").enemy_hp, 54)
+	assert_eq(ArenaDefs.find("arena_four_fists").enemy_hp, 40)  # Fable Nov 21 castle: the Arena's approved rows
+	assert_eq(ArenaDefs.find("arena_marshal").enemy_hp, 64)
+	assert_eq(ArenaDefs.find("arena_four_fists_unbound").enemy_hp, 80)
 
 
 func test_a_solved_puzzle_says_what_you_just_did() -> void:

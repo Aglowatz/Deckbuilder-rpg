@@ -59,6 +59,8 @@ const SKILL_OVERRIDES: Dictionary = {
 	"Primm": Skill.ELITE, "Primm (standardization)": Skill.ELITE, "Primm (unraveling)": Skill.ELITE,
 	# Fable pass Nov 1: the mirror phase plays at Boss skill (100 % at Elite with 2 extra draws and 48 HP; it mirrors the player, so its cards are the player's own).
 	"Primm (reflection)": Skill.BOSS,
+	# Fable Nov 21 castle (Part 9.1, the Arena's approved rows): the two Bronze Sand fighters stop making a Normal foe's mistakes.
+	"Gladiator Rookie": Skill.ELITE, "Sandbag Sentinel": Skill.ELITE,
 }
 
 var personality: AIPersonality

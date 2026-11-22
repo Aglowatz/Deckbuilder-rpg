@@ -1,0 +1,38 @@
+# Fable Nov 21 castle, Part 8: Auntie Alembic's shop (before / after)
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 18
+dev gold 6000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev essence Beefcake 18
+dev essence Necrocrat 13
+dev essence Gourmand 7
+dev essence Refusemancer 2
+wait 1
+dev freed beefcake
+dev freed gourmand
+dev travel town
+wait 10
+skip_dialogue 20
+button Continue
+wait 1
+skip_dialogue 20
+button Continue
+wait 1
+dev goto alchemist
+wait 1
+key E
+wait 3
+skip_dialogue
+wait 2
+shot shop_open
+dump

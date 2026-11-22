@@ -42,7 +42,7 @@ func test_the_craft_button_shows_its_cost_and_why_it_is_off() -> void:
 	await wait_frames(3)
 	var craft: FancyButton = screen.find_child("CraftButton", true, false) as FancyButton
 	assert_true(craft.disabled)
-	assert_string_contains(craft.text, "Craft — %d gold, %d + %d" % [Alchemy.GOLD_COST, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH])
+	assert_string_contains(craft.text, "Brew — %d gold, %d + %d" % [Alchemy.GOLD_COST, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH])
 	assert_string_contains(craft.text, "Pick two Paths")
 	for path: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT]:
 		((screen.find_child("EssenceRow%d" % int(path), true, false)) as Button).pressed.emit()

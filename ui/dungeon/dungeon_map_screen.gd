@@ -436,7 +436,7 @@ func _on_node_hovered(id: int) -> void:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
 			if node.kind == DungeonMap.Kind.BOSS and node.enemy_name == PrimmBoss.BOSS_FOE:
 				# Overnight Nov 9-10 (late critic #8): the final boss is three duels in a row, and its prize is not a gold line.
-				text += "\n[b]%s[/b]: three duels in a row (%d, %d and %d HP), your HP carried between them.  At stake: the kingdom." % [node.enemy_name, PrimmBoss.phase(0).hp, PrimmBoss.phase(1).hp, PrimmBoss.phase(2).hp]
+				text += "\n[b]%s[/b]: three duels in a row (%d, %d and %d HP), your HP carried between them.  At stake: the kingdom." % [node.enemy_name, PrimmBoss.hp_for(0, CastleAllies.earned(Session.run).size()), PrimmBoss.hp_for(1, CastleAllies.earned(Session.run).size()), PrimmBoss.hp_for(2, CastleAllies.earned(Session.run).size())]
 				# Fable Nov 21 castle (Part 3): who stands with you so far
 				var with_you: Array[String] = CastleAllies.earned(Session.run)
 				if with_you.is_empty():

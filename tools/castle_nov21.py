@@ -89,7 +89,7 @@ CONTENT = {
     },
     "boss": {"deck": "colorless_regime", "extra": {}, "hp": 28, "icon": "cathelineau/old-king"},
     "foes": {
-        "2": {"name": "The Pantry Mimic", "deck": "gourmand_control", "size": 33, "hp": 28, "icon": "delapouite/chef-toque", "ai": "Balanced"},
+        "2": {"name": "The Pantry Mimic", "deck": "gourmand_control", "size": 33, "hp": 36, "icon": "delapouite/chef-toque", "ai": "Balanced"},
         "3": {"name": "Hedge Trimmer Guard", "deck": "colorless_regime", "size": 32, "hp": 24, "mixed": REGIME},
         "5": {"name": "Gallery Curator", "deck": "colorless_regime", "size": 32, "hp": 25, "mixed": REGIME},
         "8": {"name": "Coup Barracks Sergeant", "deck": "necrocrat_beefcake", "size": 32, "hp": 24, "ai": "Aggressive"},
@@ -181,7 +181,7 @@ STATUE_ART = "res://assets/art/bestiary/BST-CAPTAIN-SPOTLESS.webp"
 RULES = {
     "The Pantry Mimic": [
         {"name": "Mimicry", "text": "The first unit you play each turn is copied for the Mimic.", "icon": "delapouite/chef-toque", "side": "player", "harmful": True, "kind": "mirror_first_unit"},
-        {"name": "Never Its Own Idea", "text": "The Mimic's own units get -1/-0. It has never once made anything up.", "icon": "lorc/crossed-swords", "kind": "stat", "atk": -1, "def": 0, "non_tokens": True},
+        {"name": "Well Fed", "text": "The Mimic's units get +1/+1. It has eaten the cookbook.", "icon": "delapouite/chef-toque", "kind": "stat", "atk": 1, "def": 1},
     ],
     "Coup Barracks Sergeant": [
         {"name": "Captured Trainees", "text": "Two Captured Trainees (0/3) stand on your side from the start. Keep one alive until the Sergeant's 6th turn begins and the barracks gives up.",
@@ -192,7 +192,6 @@ RULES = {
     "Percival Plume, Deputy Minister of Good News": [
         {"name": "Great News!", "text": "Plume draws an extra card each turn. There is always another announcement.", "icon": "delapouite/trumpet", "kind": "extra_draws", "count": 1},
         {"name": "Positive Spin", "text": "Plume's units get +1/+1. Everything hits harder in a press release.", "icon": "delapouite/scroll-quill", "kind": "stat", "atk": 1, "def": 1},
-        {"name": "Red Tape", "text": "The first card you play each turn costs 1 more.", "icon": "delapouite/stamper", "side": "player", "harmful": True, "kind": "first_card_cost", "amount": 1},
     ],
     "Seed Vault Gardener": [
         {"name": "Spotless", "text": "Three Spotless Statues (0/4) stand on the Gardener's side from the start. Destroy all three and the vault is yours.",
@@ -216,8 +215,8 @@ SCRIPTS = {
          "text": "At half health Plume announces that he is fine: he heals 2.",
          "line": "Great news, citizens! I have been approved to feel fine!",
          "effects": [{"kind": "heal", "amount": 2}], "banner": "Plume heals 2."},
-        {"id": "deadline", "open": True, "name": "Filing Deadline", "icon": "delapouite/alarm-clock", "when": {"type": "turn", "turn": 10},
-         "text": "When Plume's 10th turn begins the office closes and you lose the duel. Win before then.",
+        {"id": "deadline", "open": True, "name": "Filing Deadline", "icon": "delapouite/alarm-clock", "when": {"type": "turn", "turn": 12},
+         "text": "When Plume's 12th turn begins the office closes and you lose the duel. Win before then.",
          "line": "And that is the end of the filing day! Do come back tomorrow. There is always a tomorrow, we have a great many in stock.",
          "effects": [{"kind": "defeat_foe"}],
          "warn": "Next turn: the filing deadline. Win now, or the office closes and the duel is lost.",
@@ -265,7 +264,7 @@ SCENES = {
         ["NPC-AGNES", "Oh, it's you, dear. Good. I have an appeal here against the whole of the last ten years: every correction, every transfer, every signature he made in the kingdom's name. It runs to forty thousand pages and I have checked the staples.",
          "It only counts if it is stamped in this room before the filing day closes, and the Deputy Minister has the stamp. He also has the desk, the clock, and a great deal of red tape that he keeps putting in front of people."],
         ["NPC-PLAYER", "What do you need from me?"],
-        ["NPC-AGNES", "Get me to that desk before his tenth turn, dear. After that the office is closed and they tell you to come back tomorrow. I have been told to come back tomorrow for forty years."],
+        ["NPC-AGNES", "Get me to that desk before his twelfth turn, dear. After that the office is closed and they tell you to come back tomorrow. I have been told to come back tomorrow for forty years."],
     ],
     "pc_ally_necrocrat_after": [
         ["", "Agnes floats through the wreck of the Deputy Minister's desk, picks the stamp out of the inkwell, breathes on it and brings it down once. The sound is small. Every drawer in the archive slides open an inch."],
