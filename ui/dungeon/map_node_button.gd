@@ -55,6 +55,9 @@ var _pulse: Tween
 ## Overnight Nov 3-4, Part B8: a node never stepped on in this save: a "?" medallion and "???" for a name (set before it enters the tree).
 const FOG_TITLE: String = "???"
 var fogged: bool = false
+## Fable Nov 21 castle: on a route-planning map a room still ahead of the party shows what it is (no padlock, lightly dimmed); only a
+## room the party can no longer reach wears the padlock.
+var ahead: bool = false
 
 
 func setup(node: DungeonMap.MapNode, is_available: bool, is_cleared: bool) -> void:
@@ -149,8 +152,8 @@ func _icon_at(icon_id: String, side: float, middle: Vector2) -> TextureRect:
 ## Medallion states: available glows (a gold ring pulses around it), cleared wears the gold check stamp, unreachable is dimmed under the padlock stamp.
 func _apply_medallion_state(border: Color) -> void:
 	# The start node is where the hero came in: never shown as locked.
-	var unreachable: bool = not available and not cleared and map_node.kind != DungeonMap.Kind.START
-	_medallion.modulate = Color(0.62, 0.62, 0.68) if unreachable else Color.WHITE
+	var unreachable: bool = not available and not cleared and map_node.kind != DungeonMap.Kind.START and not ahead
+	_medallion.modulate = Color(0.62, 0.62, 0.68) if unreachable else (Color(0.9, 0.9, 0.93) if ahead and not available and not cleared else Color.WHITE)
 	if _done_stamp != null:
 		_done_stamp.visible = cleared
 	if _locked_stamp != null:

@@ -18,14 +18,48 @@ var lines_mode: bool = false
 const LINE_WIDTH: float = 300.0
 const LINE_CHARS: int = 120
 var _caption: Label
+## Fable Nov 21 castle (Part 5.1), the battle's rules panel: `max_height` > 0 caps the list - the fight's own rules then scroll inside
+## the panel (its own scroll bar), so the list never grows over the items or the player's plate. `fold_run` folds what the RUN brought
+## (boons, curses, the leaders' help: `RUN_KINDS`) into one line under the list, "Run effects: 3 allies, 4 boons, 1 curse"; hovering,
+## clicking or focusing that line (or the Rules key / button) opens the full list beside the panel.
+var max_height: float = 0.0
+var fold_run: bool = false
+const RUN_KINDS: Array[String] = ["ally", "boon", "curse"]
+const RUN_LINE_HEIGHT: float = 34.0
+const RUN_PANEL_MAX_HEIGHT: float = 430.0
+var _run_badges: Array[RuleBadges.Badge] = []
+var _run_button: Button
+var _run_panel: PanelContainer
+var _run_pinned: bool = false
 
 
-static func make(rule_badges: Array[RuleBadges.Badge], caption: String = "Rules", compact: bool = false, as_lines: bool = false) -> RuleIconRow:
+## The battle HUD's panel: one line per rule of the fight in a list `height_limit` tall at most, the run's effects in one line.
+static func make_battle(rule_badges: Array[RuleBadges.Badge], height_limit: float, caption: String = "Rules of this fight") -> RuleIconRow:
+	return make(rule_badges, caption, false, true, height_limit, true)
+
+
+## "Run effects: 3 allies, 4 boons, 1 curse" ("" when the run brought nothing).
+static func run_summary(rule_badges: Array[RuleBadges.Badge]) -> String:
+	var counts: Dictionary = {"ally": 0, "boon": 0, "curse": 0}
+	for badge: RuleBadges.Badge in rule_badges:
+		if counts.has(badge.kind):
+			counts[badge.kind] = int(counts[badge.kind]) + 1
+	var parts: PackedStringArray = []
+	for pair: Array in [["ally", "ally", "allies"], ["boon", "boon", "boons"], ["curse", "curse", "curses"]]:
+		var count: int = int(counts[pair[0]])
+		if count > 0:
+			parts.append("%d %s" % [count, pair[1] if count == 1 else pair[2]])
+	return "" if parts.is_empty() else "Run effects: %s" % ", ".join(parts)
+
+
+static func make(rule_badges: Array[RuleBadges.Badge], caption: String = "Rules", compact: bool = false, as_lines: bool = false, height_limit: float = 0.0, fold: bool = false) -> RuleIconRow:
 	var row: RuleIconRow = RuleIconRow.new()
 	row.name = "RuleIconRow"
 	row.badges = rule_badges
 	row.caption_text = caption
 	row.lines_mode = as_lines
+	row.max_height = height_limit
+	row.fold_run = fold
 	row.mouse_filter = Control.MOUSE_FILTER_PASS
 	row._build(compact)
 	return row
@@ -52,14 +86,40 @@ func _build(compact: bool) -> void:
 		_row = VBoxContainer.new()
 		_row.add_theme_constant_override("separation", 4)
 		_row.mouse_filter = Control.MOUSE_FILTER_PASS
-		column.add_child(_row)
+		var listed: Array[RuleBadges.Badge] = []
+		_run_badges = []
 		for badge: RuleBadges.Badge in badges:
+			if fold_run and RUN_KINDS.has(badge.kind):
+				_run_badges.append(badge)
+			else:
+				listed.append(badge)
+		for badge: RuleBadges.Badge in listed:
 			_row.add_child(_line(badge))
-		var tall: float = 0.0 if compact or caption_text.is_empty() else 20.0
-		for badge: RuleBadges.Badge in badges:
+		var head: float = 0.0 if compact or caption_text.is_empty() else 20.0
+		var list_tall: float = 0.0
+		for badge: RuleBadges.Badge in listed:
 			var chars: int = mini(badge.text.length(), LINE_CHARS) + badge.name.length() + 2
-			tall += maxf(ICON_PX + 8.0, ceilf(float(chars) * 7.4 / LINE_WIDTH) * 19.0) + 4.0
-		custom_minimum_size = Vector2(LINE_WIDTH + ICON_PX + 16.0, tall)
+			list_tall += maxf(ICON_PX + 8.0, ceilf(float(chars) * 7.4 / LINE_WIDTH) * 19.0) + 4.0
+		var foot: float = RUN_LINE_HEIGHT + 4.0 if not _run_badges.is_empty() else 0.0
+		var width: float = LINE_WIDTH + ICON_PX + 16.0
+		var room: float = max_height - head - foot
+		if max_height > 0.0 and list_tall > room:
+			# The list is longer than its room: it scrolls inside the panel (its own bar), the panel keeps its height.
+			var scroll: ScrollContainer = ScrollContainer.new()
+			scroll.name = "RuleScroll"
+			scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+			scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+			scroll.custom_minimum_size = Vector2(width + 14.0, maxf(room, ICON_PX + 12.0))
+			scroll.mouse_filter = Control.MOUSE_FILTER_PASS
+			scroll.add_child(_row)
+			column.add_child(scroll)
+			list_tall = maxf(room, ICON_PX + 12.0)
+			width += 14.0
+		else:
+			column.add_child(_row)
+		if not _run_badges.is_empty():
+			column.add_child(_run_line())
+		custom_minimum_size = Vector2(width, head + list_tall + foot)
 		return
 	_row = HBoxContainer.new()
 	_row.add_theme_constant_override("separation", int(GAP))
@@ -91,6 +151,90 @@ func _line(badge: RuleBadges.Badge) -> HBoxContainer:
 	text.add_theme_constant_override("outline_size", 5)
 	line.add_child(text)
 	return line
+
+
+## The one line the run's effects fold into: a button (mouse and controller focus) that opens the full list beside the panel.
+func _run_line() -> Button:
+	_run_button = Button.new()
+	_run_button.name = "RunEffects"
+	_run_button.text = run_summary(_run_badges)
+	_run_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_run_button.custom_minimum_size = Vector2(LINE_WIDTH + ICON_PX + 16.0, RUN_LINE_HEIGHT)
+	_run_button.focus_mode = Control.FOCUS_ALL
+	_run_button.mouse_filter = Control.MOUSE_FILTER_STOP
+	_run_button.add_theme_font_size_override("font_size", 16)
+	_run_button.add_theme_color_override("font_color", Color("ffe08a"))
+	_run_button.add_theme_stylebox_override("normal", UIStyle.box(Color(0.05, 0.03, 0.09, 0.78), Color(UIStyle.GOLD, 0.55), 1, 8))
+	_run_button.add_theme_stylebox_override("hover", UIStyle.box(Color(0.12, 0.08, 0.18, 0.92), UIStyle.GOLD, 2, 8))
+	_run_button.add_theme_stylebox_override("pressed", UIStyle.box(Color(0.12, 0.08, 0.18, 0.92), UIStyle.GOLD, 2, 8))
+	_run_button.add_theme_stylebox_override("focus", UIStyle.box(Color(0.12, 0.08, 0.18, 0.92), UIStyle.GOLD, 3, 8))
+	_run_button.mouse_entered.connect(func() -> void: _show_run_panel(true))
+	_run_button.mouse_exited.connect(func() -> void: _show_run_panel(_run_pinned))
+	_run_button.focus_entered.connect(func() -> void: _show_run_panel(true))
+	_run_button.focus_exited.connect(func() -> void: _show_run_panel(_run_pinned))
+	_run_button.pressed.connect(toggle_run_effects)
+	PromptText.bind(_run_button, run_summary(_run_badges) + "  ({dungeon_rules})")
+	return _run_button
+
+
+## The run's effects as the list shows them (for tests).
+func run_badges() -> Array[RuleBadges.Badge]:
+	return _run_badges
+
+
+func run_effects_open() -> bool:
+	return _run_panel != null and is_instance_valid(_run_panel) and _run_panel.visible
+
+
+## Click, the Rules key or the controller's Rules button: the full list stays open until toggled again.
+func toggle_run_effects() -> void:
+	if _run_badges.is_empty():
+		return
+	_run_pinned = not _run_pinned
+	_show_run_panel(_run_pinned)
+
+
+func _show_run_panel(shown: bool) -> void:
+	if not shown:
+		if _run_panel != null and is_instance_valid(_run_panel):
+			_run_panel.visible = false
+		return
+	if _run_panel == null or not is_instance_valid(_run_panel):
+		_run_panel = PanelContainer.new()
+		_run_panel.name = "RunEffectsPanel"
+		_run_panel.theme_type_variation = &"DarkPanel"
+		_run_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_run_panel.z_index = 400
+		var column: VBoxContainer = UIKit.vbox(6)
+		_run_panel.add_child(column)
+		column.add_child(UIKit.label("Run effects", &"HeadingLabel", 21))
+		var list: VBoxContainer = UIKit.vbox(6)
+		var tall: float = 0.0
+		for badge: RuleBadges.Badge in _run_badges:
+			list.add_child(_full_row(badge))
+			tall += 30.0 + ceilf(float(badge.text.length() + 12) * 7.2 / 290.0) * 19.0
+		if tall > RUN_PANEL_MAX_HEIGHT:
+			var scroll: ScrollContainer = ScrollContainer.new()
+			scroll.name = "RunScroll"
+			scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+			scroll.custom_minimum_size = Vector2(346, RUN_PANEL_MAX_HEIGHT)
+			scroll.add_child(list)
+			column.add_child(scroll)
+		else:
+			column.add_child(list)
+		add_child(_run_panel)
+		# beside the panel, its foot level with the line, never above the top of the screen
+		_run_panel.reset_size()
+		var panel_tall: float = _run_panel.get_combined_minimum_size().y
+		var top: float = minf(0.0, custom_minimum_size.y - panel_tall)
+		_run_panel.position = Vector2(custom_minimum_size.x + 12.0, maxf(top, 12.0 - global_position.y))
+	_run_panel.visible = true
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if fold_run and not _run_badges.is_empty() and is_visible_in_tree() and event.is_action_pressed(&"dungeon_rules"):
+		toggle_run_effects()
+		get_viewport().set_input_as_handled()
 
 
 func _find_badge(badge_name: String) -> Node:

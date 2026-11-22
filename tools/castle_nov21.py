@@ -204,7 +204,7 @@ RULES = {
 
 SCRIPTS = {
     "Coup Barracks Sergeant": [
-        {"id": "hold", "name": "Hold the Line", "icon": "lorc/muscle-up", "when": {"type": "turn", "turn": 6, "if_foe_controls": "PC-TRAINEE"},
+        {"id": "hold", "open": True, "name": "Hold the Line", "icon": "lorc/muscle-up", "when": {"type": "turn", "turn": 6, "if_foe_controls": "PC-TRAINEE"},
          "text": "When the Sergeant's 6th turn begins, if a Captured Trainee is still alive, the barracks gives up and you win.",
          "line": "They're still standing? Nobody told me they would still be standing.",
          "effects": [{"kind": "concede", "if_foe_controls": "PC-TRAINEE"}],
@@ -216,7 +216,7 @@ SCRIPTS = {
          "text": "At half health Plume announces that he is fine: he heals 2.",
          "line": "Great news, citizens! I have been approved to feel fine!",
          "effects": [{"kind": "heal", "amount": 2}], "banner": "Plume heals 2."},
-        {"id": "deadline", "name": "Filing Deadline", "icon": "delapouite/alarm-clock", "when": {"type": "turn", "turn": 10},
+        {"id": "deadline", "open": True, "name": "Filing Deadline", "icon": "delapouite/alarm-clock", "when": {"type": "turn", "turn": 10},
          "text": "When Plume's 10th turn begins the office closes and you lose the duel. Win before then.",
          "line": "And that is the end of the filing day! Do come back tomorrow. There is always a tomorrow, we have a great many in stock.",
          "effects": [{"kind": "defeat_foe"}],
@@ -224,7 +224,7 @@ SCRIPTS = {
          "banner": "The filing day is over. The office is closed."},
     ],
     "Seed Vault Gardener": [
-        {"id": "polish", "name": "Clean Out the Polish", "icon": "delapouite/plant-seed", "when": {"type": "units_died", "count": 3, "card": "PC-STATUE"},
+        {"id": "polish", "open": True, "name": "Clean Out the Polish", "icon": "delapouite/plant-seed", "when": {"type": "units_died", "count": 3, "card": "PC-STATUE"},
          "text": "When all three Spotless Statues are destroyed, the Gardener has nothing left to guard: you win.",
          "line": "You've let the damp in. Do you know how long it takes to wax a seed?",
          "effects": [{"kind": "concede"}],

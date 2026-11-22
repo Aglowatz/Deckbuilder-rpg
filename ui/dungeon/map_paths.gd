@@ -24,9 +24,15 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+## The rooms the party can still walk to (style "plan").
+var _reachable: Array[int] = []
+
+
 func _draw() -> void:
 	if _map == null:
 		return
+	if style == "plan":
+		_reachable = _map.reachable_from(_map.current)
 	for node: DungeonMap.MapNode in _map.nodes:
 		if node.hidden or style == "none":
 			continue
@@ -44,6 +50,14 @@ func _draw() -> void:
 				draw_polyline(points, UIStyle.GOLD, 6.0 * thin, true)
 			elif ahead:
 				_dashes(points, UIStyle.GOLD.lightened(0.2), 7.0 * thin, true)
+			elif style == "plan":
+				# Fable Nov 21 castle: a route-planning map draws every link - the ones still ahead of the party as a pale line on a dark
+				# edge (they do not follow the painting's own paths), the ones it can no longer take very faintly.
+				if _reachable.has(node.id):
+					draw_polyline(points, Color(0.08, 0.05, 0.12, 0.55), 7.0, true)
+					draw_polyline(points, Color(0.98, 0.93, 0.78, 0.85), 3.0, true)
+				else:
+					draw_polyline(points, Color(0.08, 0.05, 0.12, 0.25), 3.0, true)
 			elif style == "full":
 				_dashes(points, Color(UIStyle.MUTED, 0.35), 4.0, false)
 			elif style == "subtle":
@@ -51,7 +65,7 @@ func _draw() -> void:
 
 
 func _curve(from: Vector2, to: Vector2) -> PackedVector2Array:
-	if style == "highlight" or style == "subtle":
+	if style == "highlight" or style == "subtle" or style == "plan":
 		# Over a painted map the line only marks the way: straight, so it follows the painted path.
 		var straight: PackedVector2Array = PackedVector2Array()
 		for step: int in range(41):

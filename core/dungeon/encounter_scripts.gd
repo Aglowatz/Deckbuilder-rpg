@@ -41,7 +41,10 @@ static func ref_of(key: String, trigger_id: String) -> String:
 
 ## True while the trigger has never fired in this save (and the game hides unseen triggers).
 static func is_hidden(key: String, trigger_id: String) -> bool:
-	return hide_unseen and not seen.has(ref_of(key, trigger_id))
+	return hide_unseen and not seen.has(ref_of(key, trigger_id)) and not _open.has(ref_of(key, trigger_id))
+## Fable Nov 21 castle (Part 3): triggers marked "open": true in the data are an objective or a deadline the player must know from
+## the start (Hold the Line, the Filing Deadline, Clean Out the Polish): never a "Hidden trait ?".
+static var _open: Dictionary = {}
 const DEFAULT_ICON: String = "lorc/fire-bowl"
 const WHEN_TYPES: Array[String] = ["hp_below", "turn", "units_died", "foe_units_at_least", "own_units_at_most", "foe_hp_below"]
 const EFFECT_KINDS: Array[String] = [
@@ -179,6 +182,8 @@ static func build_trigger(spec: Dictionary, key: String = "", index: int = 0) ->
 	made.side = str(when.get("side", "own"))
 	made.card_id = str(when.get("card", ""))
 	made.needs_foe_card = str(when.get("if_foe_controls", ""))
+	if bool(spec.get("open", false)):
+		_open[ref_of(key, made.id)] = true
 	for effect: Variant in spec.get("effects", []) as Array:
 		var entry: Dictionary = effect as Dictionary
 		var kind: String = str(entry.get("kind", ""))

@@ -647,7 +647,7 @@ static func _fx_label(effect: CardAbility.Fx) -> String:
 		"create":
 			var count: String = str(effect.args[1]) if effect.args.size() > 1 else "1"
 			var kind: String = str(effect.args[0]).capitalize().replace("Redtape", "Red Tape")
-			return "Create %s %s" % ["a" if count == "1" else count, kind]
+			return "Create %s %s" % [("an" if kind.left(1) in ["A", "E", "I", "O", "U"] else "a") if count == "1" else count, kind]  # Fable Nov 21 castle: "an Ingredient"
 		"destroy":
 			return "Destroy it"
 		"destroy_self":

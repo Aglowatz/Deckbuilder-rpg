@@ -1133,6 +1133,7 @@
 		},
 		{
 			"id": "deadline",
+			"open": true,
 			"name": "Filing Deadline",
 			"icon": "delapouite/alarm-clock",
 			"when": {
@@ -1476,6 +1477,7 @@
 	"Coup Barracks Sergeant": [
 		{
 			"id": "hold",
+			"open": true,
 			"name": "Hold the Line",
 			"icon": "lorc/muscle-up",
 			"when": {
@@ -1498,6 +1500,7 @@
 	"Seed Vault Gardener": [
 		{
 			"id": "polish",
+			"open": true,
 			"name": "Clean Out the Polish",
 			"icon": "delapouite/plant-seed",
 			"when": {

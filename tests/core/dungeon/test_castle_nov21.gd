@@ -579,3 +579,12 @@ func test_primm_opens_every_phase_with_eight_cards() -> void:
 		assert_eq(context.game.players[1].opening_hand_size, 8, "phase %d" % phase_index)
 		assert_eq(context.game.players[0].opening_hand_size, Session.profile.base_opening_hand() + Session.run.modifiers().sum(Modifier.Kind.OPENING_HAND_SIZE), "yours is unchanged")
 	Session.boss_phase = 0
+
+
+func test_the_objectives_are_never_a_hidden_trait() -> void:
+	var before: bool = EncounterScripts.hide_unseen
+	EncounterScripts.hide_unseen = true
+	for pair: Array in [["Coup Barracks Sergeant", "hold"], ["Percival Plume, Deputy Minister of Good News", "deadline"], ["Seed Vault Gardener", "polish"]]:
+		EncounterScripts.triggers(str(pair[0]))
+		assert_false(EncounterScripts.is_hidden(str(pair[0]), str(pair[1])), "%s: the objective is told from the start" % str(pair[0]))
+	EncounterScripts.hide_unseen = before

@@ -267,6 +267,7 @@ func _build_nodes() -> void:
 	for node: DungeonMap.MapNode in map.nodes:
 		var button: MapNodeButton = MapNodeButton.new()
 		button.fogged = not node_known(node)
+		button.ahead = fog_key() in ROUTE_PLANNING and map.reachable_from(map.current).has(node.id)
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))
 		add_child(button)
 		button.position = _node_position(node) - Vector2(MapNodeButton.DIAMETER, MapNodeButton.DIAMETER) * 0.5
@@ -436,6 +437,12 @@ func _on_node_hovered(id: int) -> void:
 			if node.kind == DungeonMap.Kind.BOSS and node.enemy_name == PrimmBoss.BOSS_FOE:
 				# Overnight Nov 9-10 (late critic #8): the final boss is three duels in a row, and its prize is not a gold line.
 				text += "\n[b]%s[/b]: three duels in a row (%d, %d and %d HP), your HP carried between them.  At stake: the kingdom." % [node.enemy_name, PrimmBoss.phase(0).hp, PrimmBoss.phase(1).hp, PrimmBoss.phase(2).hp]
+				# Fable Nov 21 castle (Part 3): who stands with you so far
+				var with_you: Array[String] = CastleAllies.earned(Session.run)
+				if with_you.is_empty():
+					text += "\n[color=#ffd166]No leader stands with you yet (win a leader's room on the way).[/color]"
+				for zone_id: String in with_you:
+					text += "\n[color=#6fbf73]%s[/color]: %s" % [str(CastleAllies.LEADERS[zone_id]), CastleAllies.help_text(zone_id)]
 			else:
 				text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
 			# Rebalance Part E / Playtest v0.4.0 Part F: the fight's one-sided rules, before the player commits (same colours as the badges).

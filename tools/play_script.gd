@@ -731,6 +731,9 @@ func _dev(parts: PackedStringArray) -> void:
 					result = DevActions.travel_zone(arg2, parts[4] if parts.size() > 4 else "")  # Import Nov 8: an optional anchor ("quiz")
 				"dungeon":
 					result = DevActions.travel_dungeon(arg2, int(parts[4]) if parts.size() > 4 else -1)
+				"route":
+					# Fable Nov 21 castle: `dev travel route <dungeon id> <room,room,...>` - the dungeon with those rooms walked in order
+					result = DevActions.travel_route(arg2, parts[4] if parts.size() > 4 else "")
 				_:
 					result = "unknown travel target %s" % arg
 			await driver.seconds(3.0)

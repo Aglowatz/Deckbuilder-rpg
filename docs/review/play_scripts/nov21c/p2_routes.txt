@@ -1,0 +1,60 @@
+# Fable Nov 21 castle, Part 2: the map from the gate and three different routes (walked by decree), with tooltips
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 22
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev freed refusemancer
+dev travel dungeon D-PC
+wait 9
+skip_dialogue 30
+wait 1
+button Got it
+wait 1
+skip_dialogue 10
+shot map_gate
+move 660 280
+wait 1
+shot tip_flex_room
+move 265 310
+wait 1
+shot tip_pantry
+move 1032 510
+wait 1
+shot tip_safe_room
+move 458 770
+wait 1
+shot tip_garden
+# route A: all four allies (no heal, one treasure)
+dev travel route D-PC 2,5,8,11,14,18
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+move 1322 340
+wait 1
+shot route_a_all_allies
+# route B: the middle - fights and the Safe Room
+dev travel route D-PC 3,6,9,12,16,19
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+move 60 500
+wait 1
+shot route_b_middle_safe_room
+# route C: the south - the Garden, choices, treasure
+dev travel route D-PC 3,7,10,13,17,21
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+move 60 500
+wait 1
+shot route_c_south_treasure

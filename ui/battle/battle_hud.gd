@@ -130,7 +130,9 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 		rule_row.queue_free()
 	# Overnight Nov 19 (Part 1.4): one readable line per rule (icon with its hover, name and text) under the opponent's plate - the
 	# Arena's and the dungeons' rules too (the Arena's banner across the top, behind the opponent's hand, is gone).
-	rule_row = RuleIconRow.make(badges, "Rules of this fight", false, true)
+	# Fable Nov 21 castle (Part 5.1): the fight's rules in a panel that never grows over the battle log, the items or the player's plate
+	# (the list scrolls inside it), and everything the run brought folded into one "Run effects" line.
+	rule_row = RuleIconRow.make_battle(badges, RULES_BOTTOM - at_y)
 	rule_row.position = Vector2(24, at_y)
 	add_child(rule_row)
 	var height: float = rule_row.custom_minimum_size.y + 24.0
@@ -139,8 +141,19 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	_refresh_jam()
 
 
+## The lowest line the rules panel may reach: the battle log's button is at y 646, the item bar at 700, the player's plate at 884.
+const RULES_BOTTOM: float = 628.0
+
+
 ## Fable Nov 15b (Part 1): the badges in the rule row, so a rule already shown there is not written out a second time.
 var _shown_badges: Array[RuleBadges.Badge] = []
+
+
+func _has_badge_kind(kind: String) -> bool:
+	for badge: RuleBadges.Badge in _shown_badges:
+		if badge != null and badge.kind == kind:
+			return true
+	return false
 
 
 ## True when a shown badge already carries this rule line (Primm's phase badges do, since Fable Nov 15).
@@ -172,7 +185,9 @@ func set_encounter_rules(rules: Array[EncounterModifiers.Rule]) -> void:
 ## Brief 10: in the Capital's duels the broken services (the debuffs that apply to this duel) and, in a boss phase, the phase's rule.
 func set_capital_panels(flags: Dictionary, rules_text: String) -> void:
 	var y: float = _side_y
-	if not CapitalDebuffs.active(flags).is_empty():
+	# Fable Nov 21 castle (Part 5.1): the broken services are rule lines in the panel already (`RuleBadges.for_capital`); a second panel
+	# under it could reach the items.
+	if not CapitalDebuffs.active(flags).is_empty() and not _has_badge_kind("capital"):
 		var services: ServiceDebuffsPanel = ServiceDebuffsPanel.make(flags)
 		services.position = Vector2(24, y)
 		add_child(services)

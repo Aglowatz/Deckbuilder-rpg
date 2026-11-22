@@ -30,7 +30,7 @@ const SCRIPTED_COLOR: Color = Color("ff9f43")
 
 class Badge:
 	extends RefCounted
-	## "zone_buff", "zone_debuff", "dungeon", "boon", "curse", "capital" or "encounter".
+	## "zone_buff", "zone_debuff", "dungeon", "boon", "curse", "capital", "encounter" or "ally" (a leader's help against Primm).
 	var kind: String = "dungeon"
 	var name: String = ""
 	var text: String = ""
@@ -49,7 +49,7 @@ class Badge:
 		return good
 
 	func color() -> Color:
-		if kind == "zone_buff" or kind == "boon" or (kind == "encounter" and (side == SIDE_PLAYER or good)):
+		if kind == "zone_buff" or kind == "boon" or kind == "ally" or (kind == "encounter" and (side == SIDE_PLAYER or good)):
 			return Color("6fbf73")
 		if kind == "zone_debuff" or kind == "capital" or kind == "curse" or (kind == "encounter" and side == SIDE_ENEMY):
 			return Color("e8625a")
@@ -146,7 +146,9 @@ static func for_boons(sources: Array[ModifierSource]) -> Array[Badge]:
 			continue
 		# Fixes Oct 27, Part 4: the real effect from the boon's numbers (BoonText); a curse is a red badge
 		var curse: bool = BoonText.is_curse(source)
-		result.append(_cover(_badge("curse" if curse else "boon", source.source_name, BoonText.describe(source), CURSE_ICON if curse else BOON_ICON, SIDE_PLAYER, not curse), source.modifiers))
+		# Fable Nov 21 castle: a leader won over in the castle counts as an ally (the run-effects line says "2 allies")
+		var kind: String = "ally" if CastleAllies.is_marker(source) else ("curse" if curse else "boon")
+		result.append(_cover(_badge(kind, source.source_name, BoonText.describe(source), CURSE_ICON if curse else BOON_ICON, SIDE_PLAYER, not curse), source.modifiers))
 	return result
 
 

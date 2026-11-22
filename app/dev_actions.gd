@@ -112,6 +112,27 @@ static func travel_dungeon(dungeon_id: String, node_id: int = -1) -> String:
 	return "Travel: %s%s" % [dungeon_id, (" at node %d (%d cleared on the way)" % [target, walked]) if target >= 0 else ""]
 
 
+## Fable Nov 21 castle: enters `dungeon_id` and walks the given rooms in order (room numbers of the dungeon list, "2,5,8"): each is
+## cleared by decree, and a castle ally room on the way counts as won (`CastleAllies.win_room`). For route screenshots and tests.
+static func travel_route(dungeon_id: String, rooms: String) -> String:
+	var result: String = travel_dungeon(dungeon_id, -1)
+	var map: DungeonMap = Session.dungeon_map
+	if map == null:
+		return result
+	var walked: PackedStringArray = []
+	for word: String in rooms.split(",", false):
+		var number: int = int(word)
+		var room: DungeonMap.MapNode = null
+		for node: DungeonMap.MapNode in map.nodes:
+			if node.number == number:
+				room = node
+		if room == null or not map.complete(room.id):
+			return "%s; route stopped at room %d (not open from here)" % [result, number]
+		CastleAllies.win_room(Session.run, Session.flags, Session.dungeon_key, number)
+		walked.append(room.title)
+	return "%s; walked %s" % [result, ", ".join(walked)]
+
+
 ## Fix pass Nov 7 (item 10): the checkpoint between Primm's phases for testing - the castle (D-PC) at its boss node with phase `phase`
 ## (1-3) next, the freed leaders' boons as a real run would have them. Phase 2 and 3 never needed beating the earlier phases here.
 static func travel_primm_phase(phase: int) -> String:

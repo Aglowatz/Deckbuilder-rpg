@@ -2083,6 +2083,12 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	context.rule_badges.append_array(allies)  # Fable Nov 15 (Part 4): what the run earned for this fight (an ally, the severed roots)
 	if phase != null:
+		# in his fight each leader's badge is the help itself (it covers the rules added to your seat), not the run's marker
+		var kept: Array[RuleBadges.Badge] = []
+		for badge: RuleBadges.Badge in context.rule_badges:
+			if not (badge.kind == "ally" and badge.name.begins_with(CastleAllies.MARKER_PREFIX)):
+				kept.append(badge)
+		context.rule_badges = kept
 		context.rule_badges.append_array(CastleAllies.help_badges(run))
 	# Fable Nov 15 (Part 4): the rules applied in code are shown too - Primm's phase rules and the early-zone ease
 	if phase != null and PrimmBoss.phase_badge(phase.index) != null:

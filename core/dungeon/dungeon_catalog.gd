@@ -278,7 +278,7 @@ static func side_unlock_flag(dungeon_id: String) -> StringName:
 	return StringName("side_unlocked_%s" % dungeon_id.to_lower().replace("-", "_"))
 
 
-## How the paths between nodes are drawn over this dungeon's painted map: "full", "subtle" (default), "highlight" or "none" (`map_layout.json`, key "paths").
+## How the paths between nodes are drawn over this dungeon's painted map: "full", "subtle" (default), "highlight", "plan" (every link, for the castle's route planning) or "none" (`map_layout.json`, key "paths").
 static func path_style(dungeon_id: String) -> String:
 	_load()
 	var styles: Variant = _layout.get("paths", {})
