@@ -12,8 +12,8 @@ var zone_id: String = ""
 ## Set by the scene after a fight: `Session.pending_draft_result`.
 var result: Dictionary = {}
 
-const CARD_SCALE: float = 0.62
-const DECK_SCALE: float = 0.3
+const CARD_SCALE: float = 1.15
+const DECK_SCALE: float = 0.52
 const PATH_ORDER: Array[int] = [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]
 
 var _open_paths: Array[int] = []
@@ -46,7 +46,7 @@ func _fill() -> void:
 	if draft == null:
 		_fill_challenges()
 		return
-	header_extra.add_child(UIKit.label(DraftChallenges.title(draft.challenge_id), &"", 26, GlassTheme.TITLE))
+	header_extra.add_child(UIKit.label(DraftChallenges.title(draft.challenge_id), &"", 36, GlassTheme.TITLE))
 	match draft.phase:
 		DraftState.PHASE_PICK:
 			_fill_pick(draft)
@@ -58,7 +58,7 @@ func _fill() -> void:
 			_fill_done(draft)
 
 
-func _text(text: String, size: int = 22, colour: Color = GlassTheme.TEXT) -> Label:
+func _text(text: String, size: int = 30, colour: Color = GlassTheme.TEXT) -> Label:
 	var label: Label = UIKit.label(text, &"", size, colour)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -72,7 +72,7 @@ func _pane(lit: bool = false) -> PanelContainer:
 	return pane
 
 
-func _button(text: String, node_name: String, action: Callable, size: Vector2 = Vector2(220, 52)) -> FancyButton:
+func _button(text: String, node_name: String, action: Callable, size: Vector2 = Vector2(300, 66)) -> FancyButton:
 	var button: FancyButton = FancyButton.make(text, &"", size)
 	button.name = node_name
 	button.pressed.connect(action)
@@ -83,9 +83,9 @@ func _button(text: String, node_name: String, action: Callable, size: Vector2 = 
 
 
 func _fill_challenges() -> void:
-	body.add_child(_text("Twenty-five picks, one of three each time. Five pieces of equipment and two items along the way. Then three fights with what you drafted: your own deck, gear and items stay at home.", 22, GlassTheme.SECONDARY))
+	body.add_child(_text("Twenty-five picks, one of three each time. Five pieces of equipment and two items along the way. Then three fights with what you drafted: your own deck, gear and items stay at home.", 30, GlassTheme.SECONDARY))
 	if not _notice.is_empty():
-		body.add_child(_text(_notice, 22, GlassTheme.CAUTION))
+		body.add_child(_text(_notice, 30, GlassTheme.CAUTION))
 	var ids: Array[String] = []
 	if DraftChallenges.ZONES.has(zone_id):
 		ids.append(DraftChallenges.zone_id_for(zone_id))
@@ -94,14 +94,14 @@ func _fill_challenges() -> void:
 	for id: String in ids:
 		body.add_child(_challenge_row(id))
 	if not DraftChallenges.open_unlocked(Session.flags):
-		body.add_child(_text("The Open Draft (your choice of Path, repeatable) opens once you have won a zone draft.", 20, GlassTheme.SECONDARY))
+		body.add_child(_text("The Open Draft (your choice of Path, repeatable) opens once you have won a zone draft.", 28, GlassTheme.SECONDARY))
 	var won: int = DraftChallenges.zone_drafts_won(Session.flags)
 	var tease: String = "Zone drafts won: %d of 4." % won
 	if Session.flag(StringName(DraftChallenges.ARENA_FLAG)):
 		tease += "  The Crosspath draft arena has heard of you. Its doors are being oiled; it opens soon."
 	else:
 		tease += "  Win all four and the Crosspath draft arena opens its doors."
-	body.add_child(_text(tease, 20, GlassTheme.TITLE))
+	body.add_child(_text(tease, 28, GlassTheme.TITLE))
 
 
 func _challenge_row(id: String) -> Control:
@@ -113,11 +113,11 @@ func _challenge_row(id: String) -> Control:
 	words.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(words)
 	var won: bool = Session.flag(StringName(DraftChallenges.won_flag(id)))
-	words.add_child(UIKit.label(DraftChallenges.title(id) + ("   (won)" if won else ""), &"", 30, GlassTheme.TITLE))
-	words.add_child(_text(DraftChallenges.summary(id), 20))
+	words.add_child(UIKit.label(DraftChallenges.title(id) + ("   (won)" if won else ""), &"", 42, GlassTheme.TITLE))
+	words.add_child(_text(DraftChallenges.summary(id), 28))
 	var fee: int = Session.draft_fee(id)
 	var first: Dictionary = DraftChallenges.reward(3, true, not won)
-	words.add_child(_text("Entry: %s.   Three wins pay %d gold and %d XP%s, and you keep one drafted card." % ["free (your first attempt)" if fee == 0 else "%d gold" % fee, int(first["gold"]), int(first["xp"]), "" if won else " (the first time)"], 20, GlassTheme.SECONDARY))
+	words.add_child(_text("Entry: %s.   Three wins pay %d gold and %d XP%s, and you keep one drafted card." % ["free (your first attempt)" if fee == 0 else "%d gold" % fee, int(first["gold"]), int(first["xp"]), "" if won else " (the first time)"], 28, GlassTheme.SECONDARY))
 	if id == DraftChallenges.OPEN_ID:
 		words.add_child(_path_choice())
 	var start: FancyButton = _button("Start the draft", "Start_%s" % id.replace(":", "_"), func() -> void: _start(id))
@@ -134,9 +134,9 @@ func _path_choice() -> Control:
 	var limit: int = DraftChallenges.max_open_paths(Session.flags)
 	if _open_paths.is_empty() and Session.profile != null:
 		_open_paths.append(int(Session.profile.primary_affinity) if int(Session.profile.primary_affinity) != 0 else PATH_ORDER[0])
-	row.add_child(UIKit.label("Paths (%s):" % ("one" if limit == 1 else "up to %d" % limit), &"", 20, GlassTheme.TEXT))
+	row.add_child(UIKit.label("Paths (%s):" % ("one" if limit == 1 else "up to %d" % limit), &"", 28, GlassTheme.TEXT))
 	for path: int in PATH_ORDER:
-		var toggle: FancyButton = FancyButton.make(Affinity.display_name(path as Affinity.Type), &"GhostButton", Vector2(170, 44))
+		var toggle: FancyButton = FancyButton.make(Affinity.display_name(path as Affinity.Type), &"GhostButton", Vector2(230, 58))
 		toggle.name = "Path_%d" % path
 		toggle.toggle_mode = true
 		toggle.button_pressed = _open_paths.has(path)
@@ -178,11 +178,11 @@ func _fill_pick(draft: DraftState) -> void:
 		title_text = "Equipment %d of 5   -   choose your %s" % [int(draft.offer.get("pick", 1)), EquipmentData.slot_name(int(draft.offer.get("slot", 0)) as EquipmentData.Slot).to_lower()]
 	elif kind == DraftEngine.KIND_ITEM:
 		title_text = "Item %d of %d   -   one use in each fight" % [int(draft.offer.get("pick", 1)), DraftRules.item_slots()]
-	var title_label: Label = UIKit.label(title_text, &"", 30, GlassTheme.TITLE)
+	var title_label: Label = UIKit.label(title_text, &"", 42, GlassTheme.TITLE)
 	title_label.name = "PickTitle"
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(title_label)
-	var reroll: FancyButton = _button("Reroll (%d left)" % draft.rerolls_left, "Reroll", _reroll, Vector2(230, 48))
+	var reroll: FancyButton = _button("Reroll (%d left)" % draft.rerolls_left, "Reroll", _reroll, Vector2(300, 60))
 	reroll.disabled = draft.rerolls_left <= 0
 	reroll.tooltip_text = "Three new options. One reroll per draft, for any offer."
 	head.add_child(reroll)
@@ -214,13 +214,13 @@ func _option(kind: String, id: String, index: int) -> Control:
 			label = "Take %s" % card.display_name
 		DraftEngine.KIND_EQUIPMENT:
 			var piece: EquipmentData = Session.content.equipment_piece(id)
-			column.add_child(_gear_pane(piece.source_name, "%s  -  %s" % [EquipmentData.slot_name(piece.slot), EquipmentRarity.display_name(int(piece.rarity))], piece.tooltip_text(), IconArt.equipment_texture(piece, 96.0) if IconArt.has_equipment_icon(piece) else null))
+			column.add_child(_gear_pane(piece.source_name, "%s  -  %s" % [EquipmentData.slot_name(piece.slot), EquipmentRarity.display_name(int(piece.rarity))], piece.tooltip_text(), IconArt.equipment_texture(piece, 128.0) if IconArt.has_equipment_icon(piece) else null))
 			label = "Take %s" % piece.source_name
 		_:
 			var item: ItemData = Session.content.item(id)
-			column.add_child(_gear_pane(item.display_name, "Item  -  one use each fight", item.description, IconArt.item_texture(item, 96.0) if IconArt.has_item_icon(item) else null))
+			column.add_child(_gear_pane(item.display_name, "Item  -  one use each fight", item.description, IconArt.item_texture(item, 128.0) if IconArt.has_item_icon(item) else null))
 			label = "Take %s" % item.display_name
-	var take: FancyButton = _button(label, "Take%d" % index, func() -> void: _pick(index), Vector2(300, 50))
+	var take: FancyButton = _button(label, "Take%d" % index, func() -> void: _pick(index), Vector2(345, 62))
 	take.clip_text = true
 	take.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(take)
@@ -229,23 +229,23 @@ func _option(kind: String, id: String, index: int) -> Control:
 
 func _gear_pane(title_text: String, kind_text: String, text: String, icon: Texture2D) -> Control:
 	var pane: PanelContainer = _pane(true)
-	pane.custom_minimum_size = Vector2(300, 400)
+	pane.custom_minimum_size = Vector2(345, 517)
 	var box: VBoxContainer = UIKit.vbox(10)
 	pane.add_child(box)
 	if icon != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = icon
-		picture.custom_minimum_size = Vector2(96, 96)
+		picture.custom_minimum_size = Vector2(128, 128)
 		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		picture.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(picture)
-	var name_label: Label = _text(title_text, 26, GlassTheme.TITLE)
+	var name_label: Label = _text(title_text, 36, GlassTheme.TITLE)
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(name_label)
-	var kind_label: Label = _text(kind_text, 18, GlassTheme.SECONDARY)
+	var kind_label: Label = _text(kind_text, 26, GlassTheme.SECONDARY)
 	kind_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(kind_label)
-	box.add_child(_text(text, 19))
+	box.add_child(_text(text, 27))
 	return pane
 
 
@@ -253,40 +253,40 @@ func _gear_pane(title_text: String, kind_text: String, text: String, icon: Textu
 func _side_panel(draft: DraftState) -> Control:
 	var pane: PanelContainer = _pane()
 	pane.name = "DraftSoFar"
-	pane.custom_minimum_size = Vector2(330, 0)
+	pane.custom_minimum_size = Vector2(470, 0)
 	var box: VBoxContainer = UIKit.vbox(8)
 	pane.add_child(box)
 	var cards: Array[CardData] = DraftEngine.picked_cards(Session.content, draft)
-	box.add_child(UIKit.label("Your draft: %d of %d cards" % [cards.size(), DraftRules.card_picks()], &"", 22, GlassTheme.TITLE))
-	box.add_child(UIKit.label("Cost curve", &"", 18, GlassTheme.SECONDARY))
+	box.add_child(UIKit.label("Your draft: %d of %d cards" % [cards.size(), DraftRules.card_picks()], &"", 30, GlassTheme.TITLE))
+	box.add_child(UIKit.label("Cost curve", &"", 26, GlassTheme.SECONDARY))
 	box.add_child(_curve(DraftEngine.curve_of(cards)))
-	box.add_child(UIKit.label("Paths", &"", 18, GlassTheme.SECONDARY))
+	box.add_child(UIKit.label("Paths", &"", 26, GlassTheme.SECONDARY))
 	var split: Dictionary = DraftEngine.path_split(cards)
 	var paths_row: HBoxContainer = UIKit.hbox(8)
 	paths_row.name = "PathSplit"
 	box.add_child(paths_row)
 	for path: int in draft.paths:
-		paths_row.add_child(GlassTheme.path_tag(path as Affinity.Type, "%s %d" % [Affinity.display_name(path as Affinity.Type), int(split.get(path, 0))]) if GlassTheme.available() else UIKit.label("%s %d" % [Affinity.display_name(path as Affinity.Type), int(split.get(path, 0))], &"", 18))
-	paths_row.add_child(UIKit.label("Pathless %d" % int(split.get(0, 0)), &"", 18, GlassTheme.TEXT))
+		paths_row.add_child(GlassTheme.path_tag(path as Affinity.Type, "%s %d" % [Affinity.display_name(path as Affinity.Type), int(split.get(path, 0))]) if GlassTheme.available() else UIKit.label("%s %d" % [Affinity.display_name(path as Affinity.Type), int(split.get(path, 0))], &"", 26))
+	paths_row.add_child(UIKit.label("Pathless %d" % int(split.get(0, 0)), &"", 26, GlassTheme.TEXT))
 	var units: int = 0
 	for card: CardData in cards:
 		units += 1 if card.is_unit() else 0
-	box.add_child(UIKit.label("Units %d   -   other cards %d" % [units, cards.size() - units], &"", 18, GlassTheme.TEXT))
-	box.add_child(UIKit.label("Equipment", &"", 18, GlassTheme.SECONDARY))
+	box.add_child(UIKit.label("Units %d   -   other cards %d" % [units, cards.size() - units], &"", 26, GlassTheme.TEXT))
+	box.add_child(UIKit.label("Equipment", &"", 26, GlassTheme.SECONDARY))
 	if draft.equipment.is_empty():
-		box.add_child(UIKit.label("none yet (after picks 4, 9, 14, 19, 23)", &"", 16, GlassTheme.SECONDARY))
+		box.add_child(UIKit.label("none yet (after picks 4, 9, 14, 19, 23)", &"", 24, GlassTheme.SECONDARY))
 	for id: String in draft.equipment:
 		var piece: EquipmentData = Session.content.equipment_piece(id)
-		var line: Label = UIKit.label("%s: %s" % [EquipmentData.slot_name(piece.slot), piece.source_name], &"", 17, GlassTheme.TEXT)
+		var line: Label = UIKit.label("%s: %s" % [EquipmentData.slot_name(piece.slot), piece.source_name], &"", 25, GlassTheme.TEXT)
 		line.tooltip_text = piece.tooltip_text()
 		line.mouse_filter = Control.MOUSE_FILTER_STOP
 		box.add_child(line)
-	box.add_child(UIKit.label("Items", &"", 18, GlassTheme.SECONDARY))
+	box.add_child(UIKit.label("Items", &"", 26, GlassTheme.SECONDARY))
 	if draft.items.is_empty():
-		box.add_child(UIKit.label("none yet (after picks 7 and 17)", &"", 16, GlassTheme.SECONDARY))
+		box.add_child(UIKit.label("none yet (after picks 7 and 17)", &"", 24, GlassTheme.SECONDARY))
 	for id: String in draft.items:
 		var item: ItemData = Session.content.item(id)
-		var line: Label = UIKit.label(item.display_name, &"", 17, GlassTheme.TEXT)
+		var line: Label = UIKit.label(item.display_name, &"", 25, GlassTheme.TEXT)
 		line.tooltip_text = item.description
 		line.mouse_filter = Control.MOUSE_FILTER_STOP
 		box.add_child(line)
@@ -297,7 +297,7 @@ func _side_panel(draft: DraftState) -> Control:
 func _curve(counts: Array[int]) -> Control:
 	var row: HBoxContainer = UIKit.hbox(6)
 	row.name = "CostCurve"
-	row.custom_minimum_size = Vector2(0, 110)
+	row.custom_minimum_size = Vector2(0, 150)
 	var top: int = 1
 	for count: int in counts:
 		top = maxi(top, count)
@@ -305,12 +305,12 @@ func _curve(counts: Array[int]) -> Control:
 		var column: VBoxContainer = UIKit.vbox(2)
 		column.alignment = BoxContainer.ALIGNMENT_END
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		column.add_child(UIKit.label(str(counts[bucket]), &"", 15, GlassTheme.TEXT, HORIZONTAL_ALIGNMENT_CENTER))
+		column.add_child(UIKit.label(str(counts[bucket]), &"", 22, GlassTheme.TEXT, HORIZONTAL_ALIGNMENT_CENTER))
 		var bar: ColorRect = ColorRect.new()
 		bar.color = GlassTheme.GOLD_LINE
-		bar.custom_minimum_size = Vector2(22, 4.0 + 60.0 * float(counts[bucket]) / float(top))
+		bar.custom_minimum_size = Vector2(30, 4.0 + 80.0 * float(counts[bucket]) / float(top))
 		column.add_child(bar)
-		column.add_child(UIKit.label("%d%s" % [bucket, "+" if bucket == counts.size() - 1 else ""], &"", 15, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER))
+		column.add_child(UIKit.label("%d%s" % [bucket, "+" if bucket == counts.size() - 1 else ""], &"", 22, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER))
 		row.add_child(column)
 	return row
 
@@ -334,26 +334,26 @@ func _fill_deck(draft: DraftState) -> void:
 	var in_deck: int = draft.cards.size() - draft.bench.size()
 	var head: HBoxContainer = UIKit.hbox(16)
 	body.add_child(head)
-	var count: Label = UIKit.label("Your deck: %d of %d drafted cards, and %d basic Infrastructure. Click a card to leave it out or bring it back." % [in_deck, DraftRules.deck_cards(), DraftRules.deck_basics()], &"", 22, GlassTheme.TEXT if DraftEngine.deck_ready(draft) else GlassTheme.CAUTION)
+	var count: Label = UIKit.label("Your deck: %d of %d drafted cards, and %d basic Infrastructure. Click a card to leave it out or bring it back." % [in_deck, DraftRules.deck_cards(), DraftRules.deck_basics()], &"", 30, GlassTheme.TEXT if DraftEngine.deck_ready(draft) else GlassTheme.CAUTION)
 	count.name = "DeckCount"
 	count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(count)
-	var go: FancyButton = _button("Lock the deck and meet your rivals", "LockDeck", _begin_run, Vector2(420, 52))
+	var go: FancyButton = _button("Lock the deck and meet your rivals", "LockDeck", _begin_run, Vector2(560, 66))
 	go.disabled = not DraftEngine.deck_ready(draft)
 	head.add_child(go)
 	var basics: HBoxContainer = UIKit.hbox(12)
 	basics.name = "Basics"
 	body.add_child(basics)
-	basics.add_child(UIKit.label("Basic Infrastructure:", &"", 20, GlassTheme.SECONDARY))
+	basics.add_child(UIKit.label("Basic Infrastructure:", &"", 28, GlassTheme.SECONDARY))
 	for path: int in draft.paths:
 		var basic: CardData = Session.content.infrastructure.get(path) as CardData
-		basics.add_child(UIKit.label("%s %d" % [basic.display_name if basic != null else Affinity.display_name(path as Affinity.Type), int(draft.basics.get(path, 0))], &"", 20, GlassTheme.TEXT))
+		basics.add_child(UIKit.label("%s %d" % [basic.display_name if basic != null else Affinity.display_name(path as Affinity.Type), int(draft.basics.get(path, 0))], &"", 28, GlassTheme.TEXT))
 		if draft.paths.size() > 1:
 			var other: int = draft.paths[(draft.paths.find(path) + 1) % draft.paths.size()]
-			basics.add_child(_button("+1", "BasicPlus_%d" % path, func() -> void: _move_basic(other, path), Vector2(60, 40)))
-	basics.add_child(UIKit.label("   Cost curve of the 20:", &"", 20, GlassTheme.SECONDARY))
+			basics.add_child(_button("+1", "BasicPlus_%d" % path, func() -> void: _move_basic(other, path), Vector2(80, 54)))
+	basics.add_child(UIKit.label("   Cost curve of the 20:", &"", 28, GlassTheme.SECONDARY))
 	var curve: Control = _curve(DraftEngine.curve_of(DraftEngine.deck_cards(Session.content, draft)))
-	curve.custom_minimum_size = Vector2(300, 100)
+	curve.custom_minimum_size = Vector2(420, 130)
 	basics.add_child(curve)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -411,18 +411,18 @@ func _begin_run() -> void:
 
 
 func _score(draft: DraftState) -> Label:
-	var label: Label = UIKit.label("Wins %d of %d      Losses %d of %d" % [draft.wins, DraftRules.wins_to_finish(), draft.losses, DraftRules.losses_to_finish()], &"", 32, GlassTheme.TITLE)
+	var label: Label = UIKit.label("Wins %d of %d      Losses %d of %d" % [draft.wins, DraftRules.wins_to_finish(), draft.losses, DraftRules.losses_to_finish()], &"", 46, GlassTheme.TITLE)
 	label.name = "Score"
 	return label
 
 
 func _fill_run(draft: DraftState) -> void:
 	if not result.is_empty():
-		var banner: Label = _text(("You beat %s." if bool(result.get("won", false)) else "%s beat you.") % str(result.get("enemy", "your rival")), 26, GlassTheme.GOOD if bool(result.get("won", false)) else GlassTheme.CAUTION)
+		var banner: Label = _text(("You beat %s." if bool(result.get("won", false)) else "%s beat you.") % str(result.get("enemy", "your rival")), 36, GlassTheme.GOOD if bool(result.get("won", false)) else GlassTheme.CAUTION)
 		banner.name = "FightResult"
 		body.add_child(banner)
 	body.add_child(_score(draft))
-	body.add_child(_text("Three fights at full HP each. Three wins take the prize; two losses end the run.", 20, GlassTheme.SECONDARY))
+	body.add_child(_text("Three fights at full HP each. Three wins take the prize; two losses end the run.", 28, GlassTheme.SECONDARY))
 	var rivals: HBoxContainer = UIKit.hbox(18)
 	rivals.name = "Rivals"
 	body.add_child(rivals)
@@ -430,7 +430,7 @@ func _fill_run(draft: DraftState) -> void:
 	for index: int in range(draft.rivals.size()):
 		var rival: Dictionary = draft.rivals[index]
 		var pane: PanelContainer = _pane(index == mini(next, draft.rivals.size() - 1))
-		pane.custom_minimum_size = Vector2(360, 300)
+		pane.custom_minimum_size = Vector2(460, 420)
 		pane.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var box: VBoxContainer = UIKit.vbox(6)
 		pane.add_child(box)
@@ -438,12 +438,12 @@ func _fill_run(draft: DraftState) -> void:
 		if portrait != null:
 			var picture: TextureRect = TextureRect.new()
 			picture.texture = portrait
-			picture.custom_minimum_size = Vector2(150, 150)
+			picture.custom_minimum_size = Vector2(230, 230)
 			picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			box.add_child(picture)
-		box.add_child(_text(str(rival.get("name", "")), 24, GlassTheme.TITLE))
-		box.add_child(_text("%s: %s." % [str(rival.get("personality", "")).capitalize(), str(rival.get("title", ""))], 18))
+		box.add_child(_text(str(rival.get("name", "")), 34, GlassTheme.TITLE))
+		box.add_child(_text("%s: %s." % [str(rival.get("personality", "")).capitalize(), str(rival.get("title", ""))], 26))
 		box.add_child(_text("%d HP" % int(rival.get("hp", 0)), 18, GlassTheme.SECONDARY))
 		if index < next:
 			pane.modulate = Color(0.7, 0.7, 0.75)
@@ -451,9 +451,9 @@ func _fill_run(draft: DraftState) -> void:
 	var row: HBoxContainer = UIKit.hbox(16)
 	body.add_child(row)
 	var rival_name: String = str(DraftRun.next_rival(draft).get("name", "your rival"))
-	row.add_child(_button("Fight %s" % rival_name, "Fight", _fight, Vector2(420, 56)))
+	row.add_child(_button("Fight %s" % rival_name, "Fight", _fight, Vector2(560, 70)))
 	row.add_child(UIKit.filler())
-	row.add_child(_button("Give up this draft", "GiveUp", _give_up, Vector2(240, 44)))
+	row.add_child(_button("Give up this draft", "GiveUp", _give_up, Vector2(330, 58)))
 
 
 func _fight() -> void:
@@ -472,18 +472,18 @@ func _give_up() -> void:
 func _fill_done(draft: DraftState) -> void:
 	var pay: Dictionary = draft.result
 	var headline: String = "Three wins. The table is yours." if draft.full_win() else "The run is over: %d win%s." % [draft.wins, "" if draft.wins == 1 else "s"]
-	var head: Label = UIKit.label(headline, &"", 34, GlassTheme.TITLE)
+	var head: Label = UIKit.label(headline, &"", 50, GlassTheme.TITLE)
 	head.name = "RunOver"
 	body.add_child(head)
 	body.add_child(_score(draft))
 	var line: String = "You earned %d gold and %d XP." % [int(pay.get("gold", 0)), int(pay.get("xp", 0))]
 	if bool(pay.get("first_win", false)):
 		line += "  That includes the first-win prize for %s." % DraftChallenges.title(draft.challenge_id)
-	var reward: Label = _text(line, 24, GlassTheme.GOOD)
+	var reward: Label = _text(line, 34, GlassTheme.GOOD)
 	reward.name = "RewardLine"
 	body.add_child(reward)
 	if draft.full_win() and draft.kept_card.is_empty():
-		body.add_child(_text("Keep one card you drafted. It goes into your collection.", 24))
+		body.add_child(_text("Keep one card you drafted. It goes into your collection.", 34))
 		var scroll: ScrollContainer = ScrollContainer.new()
 		scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -512,8 +512,8 @@ func _fill_done(draft: DraftState) -> void:
 		return
 	if not draft.kept_card.is_empty():
 		var kept: CardData = Session.card_by_id(draft.kept_card)
-		body.add_child(_text("You kept %s." % (kept.display_name if kept != null else draft.kept_card), 24))
-	body.add_child(_button("Finish", "Finish", _finish, Vector2(260, 56)))
+		body.add_child(_text("You kept %s." % (kept.display_name if kept != null else draft.kept_card), 34))
+	body.add_child(_button("Finish", "Finish", _finish, Vector2(340, 70)))
 
 
 func _keep(card_id: String) -> void:
