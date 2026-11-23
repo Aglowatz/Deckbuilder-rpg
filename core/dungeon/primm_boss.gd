@@ -66,19 +66,19 @@ static func phase(index: int) -> Phase:
 	var hand: Modifier = _mod(Modifier.Kind.OPENING_HAND_SIZE, OPENING_HAND - PlayerProfile.new().base_opening_hand(), "A Full Desk")
 	match made.index:
 		0:
-			made.hp = 40  # Fable Nov 21 castle (Part 6): 56 -> 40 (see docs/balance_report_nov21.md, section 5). Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
+			made.hp = 30  # Fable Nov 22 night: 40 -> 30 (the item changes took the fight to 17 % alone). Fable Nov 21 castle (Part 6): 56 -> 40 (see docs/balance_report_nov21.md, section 5). Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
 			made.ai_name = "Balanced"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 2, "C-32": 2})  # Overnight Oct 18 Part 2: 100% with 16 basics
 			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
 			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
-			made.hp = 46  # Fable Nov 21 castle (Part 6): 52 -> 46. Fable pass Nov 1: 42 -> 52 (and Boss skill, AIPlayer.SKILL_OVERRIDES: 100 % at 48 / Elite). XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
+			made.hp = 36  # Fable Nov 22 night: 46 -> 36. Fable Nov 21 castle (Part 6): 52 -> 46. Fable pass Nov 1: 42 -> 52 (and Boss skill, AIPlayer.SKILL_OVERRIDES: 100 % at 48 / Elite). XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
 			made.ai_name = "Balanced"
 			made.mirror = true
 			# Fable pass Nov 1: He Already Knows draws 2 extra (was 1; the mirror phase was 100 % at L22).
 			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 1, "He Already Knows")] as Array[Modifier]
 		_:
-			made.hp = 44  # Fable Nov 21 castle (Part 6): 50 -> 44. Fable pass Nov 1: 42 -> 50. XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
+			made.hp = 34  # Fable Nov 22 night: 44 -> 34. Fable Nov 21 castle (Part 6): 50 -> 44. Fable pass Nov 1: 42 -> 50. XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
 			made.ai_name = "Aggressive"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 16), {"P4-03": 1, "P4-01": 1, "C-30": 2})
 			made.enemy_modifiers = [
@@ -112,7 +112,7 @@ static func _unraveling_effect() -> Modifier:
 ## start of every phase, and one more when all four leaders came. Without the plan the four leaders' help took the fight from about
 ## 1 win in 10 to 9 in 10, and Flex alone was worth as much as the other three together; the owner's targets are about 30 % alone and
 ## 65 % with all four (docs/balance_report_nov21.md, section 5).
-const HP_PER_LEADER: int = 8
+const HP_PER_LEADER: int = 7  # Fable Nov 22 night: 8 -> 7
 const PLAN_RULE_NAME: String = "A Plan for Everyone"
 const FLEX_ZONE: String = "beefcake"
 

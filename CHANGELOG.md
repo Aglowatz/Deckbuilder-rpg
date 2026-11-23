@@ -9,7 +9,7 @@
   Captured Trainees and Spotless Statues have their own card art; **items:** Gladiator's Net catches only the first enemy unit
   each turn, Siphon's Lens costs 2 max HP (it gave 2), Glass Jaw Gauntlets cost 6 max HP (was 3), Dex's Matching Pair copies only
   a first card that costs 3 or less, units under Hover Boots can block units with Flying, the Velvet Rope gives Gourmand units
-  +1/+2 (was +0/+3); **Grand Bellows** lost "The Crowd Roars" again (64 HP stays); **Primm's Castle:** after the fight in the
+  +1/+2 (was +0/+3); **Grand Bellows** lost "The Crowd Roars" again (64 HP stays); **Primm** has 30 / 36 / 34 HP (was 40 / 46 / 44) and 7 more HP a phase for each leader (was 8), after the item changes made his fight harder; **Primm's Castle:** after the fight in the
   Notarized Archives there is a kettle (heal 6 for 60 gold or for a drawback, the Garden's rules), so the all-allies route has
   one paid heal; a link out of a room you never entered no longer shows as walked; the zip carries the player read-me
   (`README.txt`); "Forms A through F" and "Grandmaster Flex Stands with You" follow the titles' capitals.

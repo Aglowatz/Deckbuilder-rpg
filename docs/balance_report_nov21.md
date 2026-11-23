@@ -469,3 +469,48 @@ already, down from 4/6), and **Beefcake struggles against Primm** at every count
 HP pool (`castle_runs.md`, 6 runs per Path and route, final numbers) is harder still: the all-allies route
 was cleared in 13 % of runs, the three-ally route in 0 %, the middle road in 4 %, the quiet south in 21 %, the one-ally route with
 the Safe Room in 42 %. The Pantry Mimic ends 11 of 24 runs on both ally routes; it is optional, but the Grand Chef waits there.
+
+## 8. After your answers (Fable Nov 22 night, Part 2)
+
+Applied from your table: Gladiator's Net (the first enemy unit each turn), Siphon's Lens (max HP -2), Glass Jaw Gauntlets (max HP
+-6), Dex's Matching Pair (a first card of cost 3 or less), Hover Boots (their units can block flyers), Velvet Rope (+1/+2). No
+change: the Shears, the Bloodsand Boots, the Elastic Waistband. Tests: `tests/test_fable_nov22_night.gd`.
+
+**Grand Bellows** without "The Crowd Roars", 64 HP, his scripted events played (24 games per Path, `docs/design/sim/nov22/bellows.md`):
+Beefcake 38 %, Necrocrat 46 %, Gourmand 54 %, Refusemancer 58 %, **all 49 %** (was 25 %; his band is 40 to 60 %).
+
+**Primm.** Flex was already 3/5 with no Unbreakable in both places (the House of Gains and the Model Room); a test holds it now.
+The first re-run was off target all the same: **17 % alone, 48 % with all four** (33 and 63 the night before). The cause is the
+item table, not Flex: the sim's player wears the Glass Jaw Gauntlets from level 10, and 6 max HP instead of 3 is felt over three
+duels on one HP pool. (Taking the Gauntlets off is worse: 3 % alone; their +2 attack is worth more than the HP.) So Primm was
+eased, by HP only: his phases **40 / 46 / 44 to 30 / 36 / 34**, and "A Plan for Everyone" **8 to 7 HP** a leader. Nothing else of
+his changed (8 opening cards, 1 Militia, the guards for Flex and for all four). 32 runs per Path and cell
+(`docs/design/sim/nov22/primm_t2_*.md`; the untuned run is `primm_<allies>.md` beside it):
+
+| Leaders at your side | Beefcake | Gourmand | Refusemancer | Necrocrat | All | Target |
+|---|---:|---:|---:|---:|---:|---|
+| none | 6 % | 16 % | 38 % | 47 % | **27 %** | about 30 % |
+| one (Flex) | 56 % | 72 % | 78 % | 75 % | **70 %** | |
+| two (Flex and the Chef) | 34 % | 63 % | 69 % | 84 % | **63 %** | |
+| three (Flex, the Chef, Agnes) | 50 % | 78 % | 81 % | 94 % | **76 %** | |
+| all four | 31 % | 69 % | 78 % | 81 % | **65 %** | about 65 % |
+
+On target at both ends. Two things stand as before: **Flex is worth more than the rest** (with him alone the fight is already at
+70 %, because the plan's extra HP grows with every further leader and the second guard comes only with all four), and
+**Beefcake is the weak Path** (6 % alone). The single cells for the Chef, Agnes and Compostella were run before the tuning only
+(22 to 30 % for all Paths together, beside 17 % alone), so each is worth a few points on their own.
+
+**The whole castle on one HP pool**, gate to the end of phase 3, with the Archivists' Kettle (heal 6 after Agnes's room) and the
+eased Primm, 8 runs per Path and route (`docs/design/sim/nov22/castle_runs_t2.md`; before the easing: `castle_runs.md`):
+
+| Route | Allies | Reach Primm | Cleared | Nov 21 | Most lost at |
+|---|---:|---:|---:|---:|---|
+| A: all four allies, the kettle, one treasure | 4 | 31 % | **16 %** | 13 % | the Pantry Mimic (18 of 32 runs) |
+| B: three allies (Chef, Flex, Agnes), the kettle | 3 | 3 % | **3 %** | 0 % | the Pantry Mimic (18 of 32) |
+| C: one ally (Flex) and the Safe Room | 1 | 75 % | **53 %** | 42 % | the Clocktower Sentinel (7) |
+| D: no ally, the middle road with the Safe Room | 0 | 13 % | **3 %** | 4 % | the Mirror Knight (14) |
+| E: no ally, the quiet south | 0 | 100 % | **22 %** | 21 % | Primm, phase 1 (12) |
+
+**The all-allies route did not reach 35 %.** The kettle is in the fourth room; more than half of the runs on that route end in
+the first, at the Pantry Mimic, and a heal three rooms later cannot help them. Of the runs that pass the Mimic about half go on to
+beat Primm. The lever is the Mimic (36 HP, +1/+1 and Mirrors), not a second heal; it is in the inbox, not changed.

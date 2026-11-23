@@ -101,6 +101,9 @@ static func level_for(key: String, fallback: int = 1) -> int:
 
 ## The equipment worn at `level`, slot by slot, within the caps (Common 5; Uncommon 2, 3 from L10, 5 from L16; Epic 1 from L5, 2 from
 ## L13, 3 from L19). Nothing before level 5 (the armory quest).
+static var skip_gear: Array[String] = []
+
+
 static func equipment_for(level: int) -> Array[String]:
 	var result: Array[String] = []
 	if level < 5:
@@ -127,6 +130,8 @@ static func equipment_for(level: int) -> Array[String]:
 	if level >= 22:
 		result.erase("saucepan_helmet")
 		result.append("hubris_crown")
+	for piece: String in skip_gear:  # Fable Nov 22 night: a what-if (the sims' --skip_gear=), never set by the game
+		result.erase(piece)
 	return result
 
 

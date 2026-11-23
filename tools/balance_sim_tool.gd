@@ -19,6 +19,11 @@ func run() -> bool:
 			var parts: PackedStringArray = arg.substr(2).split("=", true, 1)
 			args[parts[0]] = parts[1] if parts.size() > 1 else "true"
 	# Fable Nov 21 castle: --allies=beefcake,gourmand (or none) says which leaders the hero has won over before Primm (default: all four)
+	if args.has("skip_gear"):  # Fable Nov 22 night: --skip_gear=glass_jaw_gauntlets, the model player without these pieces
+		var skipped: Array[String] = []
+		for word: String in str(args["skip_gear"]).split(",", false):
+			skipped.append(word)
+		ProgressionModel.skip_gear = skipped
 	if args.has("allies"):
 		var allies: Array[String] = []
 		for word: String in str(args["allies"]).split(",", false):
