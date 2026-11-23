@@ -1,3 +1,146 @@
+# Fable Nov 22 night - report: Batch 19 in the game, your answers applied, Primm and the castle re-simulated
+
+Brief: `docs/prompts/fable_nov22_night.md`. Start tag `pre-fable-nov22-night`. Questions: `docs/overnight_inbox.md`, "Fable Nov 22
+night" (6 decisions). Shots: `docs/overnight_shots/nov22/`. Numbers: `docs/balance_report_nov21.md`, section 8. **Nothing was
+uploaded.** One commit per part, all pushed.
+
+**In one paragraph.** All eight pictures of Batch 19 are in the game and wired. Your item answers are applied (six pieces changed,
+three left alone), each with a test. Grand Bellows without "The Crowd Roars" is beaten 49 % of the time (it was 25 %; his band is 40 to 60 %).
+Flex was already 3/5 without Unbreakable everywhere, but the item changes made Primm harder (17 % alone, 48 % with all four), so
+his HP came down: **27 % alone and 65 % with all four** now. The all-allies route has its heal (a kettle after Agnes's room, heal
+6 for 60 gold or a drawback), but **the route is at 16 %, not 35 %**: the Pantry Mimic in its first room ends more than half of
+those runs, and a heal three rooms later cannot help them. The export writes the player read-me now (tonight's build keeps the
+playtest one, as it is for playtesters). Every test shard, smoke, probe and story bot is green, and 1.0.0 is exported.
+
+**One thing to know about the night.** A Godot editor and a game started from it were open on the PC from 20:34 to 22:15. With
+them the PC had 0.7 GB free, so the run started no Godot of its own for that hour and forty minutes (the brief's memory rule),
+and went on by itself when they closed.
+
+| Part | Done | Where to look |
+|---|---|---|
+| 1 Batch 19: 8 pictures | yes | `p1_*.jpg`; `docs/art/import_nov22_batch19.md` |
+| 2 Your answers | yes; the all-allies route misses its 35 % | balance report, section 8; `tests/test_fable_nov22_night.gd` |
+| 3 Two-week plan items | yes: items 9, 11, 14; item 17 left (a design choice) | `docs/release/two_week_plan.md` |
+| 4 The backlog, written down and placed | yes | `docs/owner_backlog.md`, the plan's rows 22 to 25 |
+| 5 The focused playthrough | yes, by play script (seven runs, 0 script errors) | `p5_*_sheet.jpg` |
+| 6 Tests, checks, export, report | yes | below |
+
+## Part 1 - Batch 19
+
+| Picture | Where it is now | Redo? |
+|---|---|---|
+| MAP-PC | Primm's Castle map. All 22 rooms sit on their painted landing spots. The painting shows 30 of the 41 links, so the game draws no line over those; the 11 it misses keep a drawn line | **one row in `docs/art/batch20.csv`**: the eleven missing walkways (two of them are on the all-allies route) |
+| BST-THE-PANTRY-MIMIC | the Mimic's portrait in the fight, the brief and the Bestiary (the stand-in is gone) | no |
+| UI-ALEMBIC-BREW | Auntie Alembic's cauldron, in the middle of her shop; the bubbles, motes and flash play over it. Checked at 1280x720 and 1920x1080 | no |
+| UI-ALEMBIC-JAR | the essence jars. The inside of the jar is transparent (checked), the liquid is drawn in the hole | no |
+| UI-PACK-LOCKED-N | the locked Necrocrat pack in Foil Fenwick's shop, a sealed parcel like the other three | no |
+| MAP-WORLD-BUFF | the Buffet's map with the Raw Deal. The map's icon sits on the painted shop's roof, a few metres north of where the shop stands in the world | no (see the inbox notes) |
+| T-PC-TRAINEE | the Captured Trainees' token (the tint is gone) | no |
+| T-PC-STATUE | the Spotless Statues' token | no |
+
+The copies are in the Approved folders; the Pending copies are left; the files they replaced are in
+`Superseded/Batch 19 replaced/`. **Download size:** the art folder grew by 0.6 MB (551.8 to 552.4 MB); the zip is below.
+Shots: `p1_castle_*.jpg` (the map and three routes), `p1_alembic_720_*.jpg` and `p1_alembic_1080_*.jpg`, `p1_fenwick_locked_packs.jpg`,
+`p1_buffet_map*.jpg`, `p1_mimic_battle*.jpg`, `p1_trainee*.jpg`, `p1_statue*.jpg`. The castle walk-through bot (the Gourmand
+story bot) passed after the import: 119 checks, 0 failed.
+
+## Part 2 - your answers
+
+**Items** (text, glossary and a test each):
+
+| Piece | Now | Before |
+|---|---|---|
+| Gladiator's Net | the first enemy unit to enter the field each turn gets -1/-1 | every enemy unit |
+| Siphon's Lens | an extra card each turn, max HP -2 | max HP +2 |
+| Glass Jaw Gauntlets | +2 attack, max HP -6 | max HP -3 |
+| Dex's Matching Pair | copies your first card of a turn only if it costs 3 or less | any cost |
+| Hover Boots | your units have Flying and can block only units with Flying | could not block at all |
+| Velvet Rope | your Gourmand units +1/+2 | +0/+3 |
+| Clipwell's Shears, Bloodsand Boots, Elastic Waistband | no change, as you said | |
+
+**Grand Bellows:** "The Crowd Roars" is gone, 64 HP stays. With his scripted events played: Beefcake 38 %, Necrocrat 46 %,
+Gourmand 54 %, Refusemancer 58 %, **all 49 %** (his band: 40 to 60 %).
+
+**Beefcake against Primm:** no change. **The camera:** +6 for new games is recorded.
+
+**Flex and Primm.** Flex is 3/5 with no Unbreakable in the House of Gains and in the Model Room; that was already so, and a test
+holds it. Primm's first re-run was off target anyway (17 % alone, 48 % with all four). The cause is the Glass Jaw Gauntlets: the
+simulated player wears them, and 6 max HP instead of 3 tells over three duels on one HP pool. So, as the brief allows, Primm was
+adjusted, by HP only: **30 / 36 / 34 HP** (was 40 / 46 / 44) and **7 more HP a phase for each leader** (was 8).
+
+| Leaders at your side | Beefcake | Gourmand | Refusemancer | Necrocrat | All | Target |
+|---|---:|---:|---:|---:|---:|---|
+| none | 6 % | 16 % | 38 % | 47 % | **27 %** | about 30 % |
+| one (Flex) | 56 % | 72 % | 78 % | 75 % | **70 %** | |
+| two (Flex and the Chef) | 34 % | 63 % | 69 % | 84 % | **63 %** | |
+| three (Flex, the Chef, Agnes) | 50 % | 78 % | 81 % | 94 % | **76 %** | |
+| all four | 31 % | 69 % | 78 % | 81 % | **65 %** | about 65 % |
+
+32 runs per Path and cell. The Chef, Agnes and Compostella alone were run before the adjustment only (each 22 to 30 % where
+"none" was 17 %).
+
+**The heal on the all-allies route: the Archivists' Kettle.** The fourth room of that route is Agnes's (the Notarized Archives),
+so the heal is an event after her fight there, by the Garden's rules: pay 60 gold and heal 6; or heal 6 and the next foe's units
+get +1 attack; or walk on. Shots: `p5_a3_7_kettle.jpg`, `p5_a3_8_kettle_paid.jpg` (9 to 15 HP, 60 gold gone).
+
+**The whole castle, every route** (gate to the end of Primm's third phase on one HP pool, 8 runs per Path):
+
+| Route | Allies | Reach Primm | Cleared | Nov 21 | Most lost at |
+|---|---:|---:|---:|---:|---|
+| A: all four allies, the kettle, one treasure | 4 | 31 % | **16 %** | 13 % | the Pantry Mimic (18 of 32 runs) |
+| B: three allies (Chef, Flex, Agnes), the kettle | 3 | 3 % | **3 %** | 0 % | the Pantry Mimic (18 of 32) |
+| C: one ally (Flex) and the Safe Room | 1 | 75 % | **53 %** | 42 % | the Clocktower Sentinel (7) |
+| D: no ally, the middle road with the Safe Room | 0 | 13 % | **3 %** | 4 % | the Mirror Knight (14) |
+| E: no ally, the quiet south | 0 | 100 % | **22 %** | 21 % | Primm, phase 1 (12) |
+
+**The 35 % was not reached,** and one heal cannot reach it: the runs end at the Mimic, three rooms before the kettle. Nothing
+else was changed; the lever is in the inbox (decision 2).
+
+## Part 3 - the two-week plan
+
+Ticked in `docs/release/two_week_plan.md`, each with its commit: **item 9** (Batch 19), **item 11** (the camera, your answer),
+**item 14** (the export writes `README.txt` from the player read-me; `PLAYTEST_after the tests, 2,417 MB free, `PLAYTEST_BUILD=1 bash tools/export_windows.sh 1.0.0` -> **EXPORT OK**. **`builds/TheWaywardPath-v1.0.0-windows.zip`, 805 MB** (805,250,272 bytes; last night's was 804,864,623, so Batch 19 cost 0.4 MB). It carries `README_PLAYTEST.txt` and the five launchers. `run_release_smoke_exported.sh` **PASSED (1.0.0)**; a fresh test pack, then the three `play_exported.sh` checks (`exported_rc1_a`, `_b`, `_c`) all ran to "done" with **0 SCRIPT ERROR**. No dialogue line was changed tonight, so there is nothing to revert (the new lines are listed in `docs/dialogue/nov22_lines.csv`).=1` in front keeps `README_PLAYTEST.txt`).
+Text capitals: "Forms A through F", "Grandmaster Flex Stands with You". The smokes that go stale (the playtest smoke, the
+controller smoke, the Old Well, the dungeons) all still pass; one test count followed Batch 19. **Not done: item 17** (keyword
+colours by Path), because Flying, Swat and Overtime sit on cards of several Paths and the sheet does not say whose they are.
+
+## Part 4 - the backlog
+
+Written into `docs/owner_backlog.md` ("Added by Fable Nov 22 night") and placed in the plan as rows 22 to 25: the Extra Pocket
+(revisit with testing), Beefcake against Mortimer and Primm (watch in the playtests), more Arena puzzles, the collection grind,
+the Deck Station's controller search, the optional D.N.A. map repaint, and Batch 20's one row.
+
+## Part 5 - the playthrough
+
+By play script from a late game (level 22, four zones freed), seven runs, **0 script errors**: the Gilded Pantry with the Grand
+Chef, the Pantry Mimic and its hoard (`p5_a1_sheet.jpg`); Flex and the Captured Trainees (`p5_a2_sheet.jpg`); Agnes, Percival
+Plume and the kettle (`p5_a3_sheet.jpg`); Compostella and the Spotless Statues (`p5_a4_sheet.jpg`); Primm with all four leaders,
+58 HP and the four "Ally" rules on his brief (`p5_a5_sheet.jpg`); the quiet south to Primm with nobody, 30 HP (`p5_b_sheet.jpg`);
+the middle road with the Safe Room and the Royal Stair (`p5_c_sheet.jpg`). Alembic's brewing, Fenwick's shop and the Buffet map
+were shot in Part 1. Nothing in the game needed a fix. Two notes: the fights were won by decree after a few turns, because the
+script's built-in pilot loses them with the plain late-game deck it is given (it is a shot aid, not a player); and the pilot
+stops at a revealed-card pop-up, which a player closes with Space.
+
+## Part 6 - tests, checks, build
+
+- **Tests:** `bash tools/run_tests.sh --min-free=1200` in three groups (shards 1-16, 17-32, 33-47): **3,687 of 3,690 passed, 2
+  pending, 1 failing** (the UI kit's count, 103, stale after Batch 19's two new pieces; now 105 and green). Real saves untouched.
+- **Walk smokes, all seven pass:** the Buffet, the D.N.A., the Capital, Crosspath, the Gainlands, the Verdant Dump, the hub.
+- **Probes:** NPC visibility 150 checks, 0 failed; the fade probe 0 script errors; quest hand-in 32 passed, 0 failed; the
+  hover-zoom probe and the puzzle solver tests are in the suite (green).
+- **Story bots, one per Path, one after another:** Beefcake, Gourmand, Necrocrat, Refusemancer each **119 steps, 119 passed, 0 failed, 0 script errors**, through the castle to Primm's defeat and the postgame.
+- **Build:** after the tests, 2,417 MB free, `PLAYTEST_BUILD=1 bash tools/export_windows.sh 1.0.0` -> **EXPORT OK**. **`builds/TheWaywardPath-v1.0.0-windows.zip`, 805 MB** (805,250,272 bytes; last night's was 804,864,623, so Batch 19 cost 0.4 MB). It carries `README_PLAYTEST.txt` and the five launchers. `run_release_smoke_exported.sh` **PASSED (1.0.0)**; a fresh test pack, then the three `play_exported.sh` checks (`exported_rc1_a`, `_b`, `_c`) all ran to "done" with **0 SCRIPT ERROR**. No dialogue line was changed tonight, so there is nothing to revert (the new lines are listed in `docs/dialogue/nov22_lines.csv`).
+
+## Your decisions (inbox, "Fable Nov 22 night")
+
+1. **Primm's HP came down to hold your targets** after the item changes. Recommendation: keep.
+2. **The all-allies route is at 16 %, and the Pantry Mimic is why.** Recommendation: soften the Mimic, then re-simulate.
+3. **The heal is a kettle after Agnes's fight,** not a room of its own. Recommendation: keep.
+4. **Batch 20, one picture:** the castle map with its eleven missing walkways. Recommendation: paint it.
+5. **Keyword colours by Path (plan item 17):** whose are Flying, Swat and Overtime? Recommendation: colour only the keywords that
+   belong to one Path.
+6. **Dex's Matching Pair: a first card that costs 4 or more uses up the turn's chance.** Recommendation: keep.
+
 # Fable Nov 21 castle - report: Primm's Castle rebuilt, the four allies, Primm rebalanced, your playtest list
 
 Brief: `docs/prompts/fable_nov21_castle_allies.md`. Start tag `pre-fable-nov21-castle`. Questions: `docs/overnight_inbox.md`,
