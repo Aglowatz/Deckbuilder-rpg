@@ -121,6 +121,7 @@ func _encounter(rival: Dictionary, index: int) -> EncounterSpec:
 	spec.enemy_hp = int(rival["hp"])
 	spec.enemy_ai_name = str(rival["ai"])
 	spec.enemy_recipe = rival["recipe"] as Dictionary
+	spec.enemy_sources = DraftRivals.equipment_sources(content, rival)
 	return spec
 
 

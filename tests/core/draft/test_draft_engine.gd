@@ -284,6 +284,13 @@ func test_rivals_draft_with_the_same_system_and_their_decks_are_fixed_up() -> vo
 		assert_gte(units, 9, "%s has enough units" % rival["name"])
 		assert_lte(dear, 5, "%s is not all dear cards" % rival["name"])
 		assert_eq(int(rival["hp"]), ProgressionTable.row(12).max_hp, "a rival has the player's base HP")
+		var worn: Array = rival["equipment"] as Array
+		assert_eq(worn.size(), 5, "%s drafted five pieces of equipment, like the player" % rival["name"])
+		var slots: Dictionary = {}
+		for id: Variant in worn:
+			slots[int(_content().equipment_piece(str(id)).slot)] = true
+		assert_eq(slots.size(), 5, "one piece per slot")
+		assert_eq(DraftRivals.equipment_sources(_content(), rival).size(), 5)
 	assert_eq(names.size(), 3, "three different rivals")
 
 
@@ -335,6 +342,8 @@ func test_a_draft_fight_is_an_ordinary_duel_with_the_draft_deck() -> void:
 	var profile: PlayerProfile = DraftRun.player_profile(_content(), state)
 	var game: GameState = DraftRun.build_game(_content(), state, profile, DraftRun.next_rival(state), 5)
 	assert_eq(game.players.size(), 2)
-	assert_eq(game.players[1].hp, ProgressionTable.row(12).max_hp)
+	var rival_setup: PlayerSetup = DraftRun.enemy_setup(_content(), DraftRun.next_rival(state))
+	assert_eq(rival_setup.profile.equipment.size(), 5, "the rival wears what it drafted in the fight")
+	assert_gt(game.players[1].hp, 0)
 	var total: int = game.players[0].deck.size() + game.players[0].hand.size()
 	assert_eq(total, 35, "the player plays the 35-card draft deck")

@@ -445,6 +445,13 @@ func _fill_run(draft: DraftState) -> void:
 		box.add_child(_text(str(rival.get("name", "")), 34, GlassTheme.TITLE))
 		box.add_child(_text("%s: %s." % [str(rival.get("personality", "")).capitalize(), str(rival.get("title", ""))], 26))
 		box.add_child(_text("%d HP" % int(rival.get("hp", 0)), 18, GlassTheme.SECONDARY))
+		var worn: PackedStringArray = []
+		for piece: ModifierSource in DraftRivals.equipment_sources(Session.content, rival):
+			worn.append(piece.source_name)
+		if not worn.is_empty():
+			var gear_line: Label = _text("Wears: %s." % ", ".join(worn), 22, GlassTheme.SECONDARY)
+			gear_line.name = "RivalGear"
+			box.add_child(gear_line)
 		if index < next:
 			pane.modulate = Color(0.7, 0.7, 0.75)
 		rivals.add_child(pane)

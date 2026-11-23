@@ -40,11 +40,12 @@ static func next_rival(state: DraftState) -> Dictionary:
 
 static func enemy_setup(content: ContentSet, rival: Dictionary) -> PlayerSetup:
 	var deck: Deck = ZoneDecks.from_recipe(content, str(rival.get("name", "Rival")), rival.get("recipe", {}) as Dictionary)
-	var setup: PlayerSetup = PlayerSetup.create(deck, null, [] as Array[ModifierSource], str(rival.get("name", "Rival")))
-	setup.starting_hp = int(rival.get("hp", 20))
-	setup.profile = PlayerProfile.new()
-	setup.profile.max_hp = maxi(setup.starting_hp, PlayerProfile.START_MAX_HP)
-	return setup
+	# the rival's seat: its base HP and the equipment it drafted (as rule sources; a max-HP piece moves its HP like the player's)
+	var profile: PlayerProfile = PlayerProfile.new()
+	profile.max_hp = maxi(int(rival.get("hp", 20)), 1)
+	for piece: ModifierSource in DraftRivals.equipment_sources(content, rival):
+		profile.equipment.append(piece)
+	return PlayerSetup.create(deck, profile, [] as Array[ModifierSource], str(rival.get("name", "Rival")))
 
 
 ## The duel against `rival`: an ordinary GameState, so the battle screen, the AI and every rule work unchanged.

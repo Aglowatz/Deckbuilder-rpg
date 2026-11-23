@@ -75,6 +75,8 @@
 		"fudge_max_cost_share": 0.25,
 		"_fudge": "A rival's drafted 20 are fixed up when the draft went badly: at least fudge_min_units units, and at most fudge_max_cost_share of the 20 may cost 5 or more (the worst offenders are swapped for on-curve cards of the same Paths).",
 		"hp_bonus": 0,
-		"skill": "elite"
+		"skill": "elite",
+		"draft_equipment": true,
+		"_draft_equipment": "Rivals draft five pieces of equipment like the player (the rarest of each three). Without it a sensible player won 91 % of fights."
 	}
 }

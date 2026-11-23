@@ -3,8 +3,9 @@ extends RefCounted
 ## Draft mode, Phase 1: the rival drafters. A rival is somebody the player already knows (an existing NPC's name and portrait)
 ## who drafts with the same system (`DraftEngine`'s offers, from the same Paths) and picks by a personality: aggressive (cheap
 ## hitters), controlling (spells, traps and big blockers) or swarming (the cheapest units and token makers). When the draft went
-## badly the deck is fixed up ("fudged") so the fight stays a fight: enough units, not too many dear cards. Rivals wear no
-## equipment and carry no items; their HP is the player's base HP plus the rules' `hp_bonus`.
+## badly the deck is fixed up ("fudged") so the fight stays a fight: enough units, not too many dear cards. Rivals carry no
+## items, but they draft equipment like the player (five picks, one per slot, the rarest of each three): a player in five
+## drafted pieces against a bare rival won nine fights in ten. Their HP is the player's base HP plus the rules' `hp_bonus`.
 
 const AGGRESSIVE: String = "aggressive"
 const CONTROLLING: String = "controlling"
@@ -55,7 +56,7 @@ static func build(content: ContentSet, state: DraftState, npc_id: String, rival_
 	var drafted: DraftState = draft(content, state, personality, index)
 	var hp: int = ProgressionTable.row(clampi(state.level, 1, ProgressionTable.MAX_LEVEL)).max_hp + int(DraftRules.rivals().get("hp_bonus", 0))
 	return {"name": rival_name, "npc_id": npc_id, "personality": personality, "ai": str(AI_NAMES.get(personality, "Balanced")), "hp": hp,
-		"title": str(TITLES.get(personality, "")), "recipe": recipe(content, drafted)}
+		"title": str(TITLES.get(personality, "")), "recipe": recipe(content, drafted), "equipment": drafted.equipment.duplicate()}
 
 
 ## A rival's whole draft: the same offers as a player's (its own seed), each pick by the personality's taste, then the fix-up.
@@ -74,6 +75,19 @@ static func draft(content: ContentSet, state: DraftState, personality: String, i
 		if options.is_empty():
 			break
 		rival.cards.append(best_option(content, rival, options, personality))
+	if bool(DraftRules.rivals().get("draft_equipment", true)):
+		for gear_pick: int in range(DraftRules.int_list("equipment_picks_after").size()):
+			rival.step = 100 + gear_pick
+			var slot: int = DraftEngine._next_slot(content, rival)
+			var best_id: String = ""
+			var best_rarity: int = -1
+			for id: String in DraftEngine.equipment_offer(content, rival, slot):
+				var piece: EquipmentData = content.equipment_piece(id)
+				if piece != null and int(piece.rarity) > best_rarity:
+					best_rarity = int(piece.rarity)
+					best_id = id
+			if not best_id.is_empty():
+				rival.equipment.append(best_id)
 	rival.phase = DraftState.PHASE_DECK
 	DraftEngine.auto_deck(content, rival)
 	fudge(content, rival)
@@ -177,6 +191,16 @@ static func _filler(content: ContentSet, rival: DraftState, turn: int) -> CardDa
 	if pool.is_empty():
 		return null
 	return pool[(hash([rival.seed, "filler", turn]) & 0x7fffffff) % pool.size()]
+
+
+## The pieces a rival wears, as rule sources for its seat.
+static func equipment_sources(content: ContentSet, rival: Dictionary) -> Array[ModifierSource]:
+	var result: Array[ModifierSource] = []
+	for id: Variant in rival.get("equipment", []) as Array:
+		var piece: EquipmentData = content.equipment_piece(str(id))
+		if piece != null:
+			result.append(piece)
+	return result
 
 
 ## The 35-card deck of a drafted rival as a recipe ("Card ID -> copies").
