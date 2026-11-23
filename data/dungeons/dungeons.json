@@ -1300,11 +1300,11 @@
 		"story": "To get your form stamped you must reach the front of the line. The line is eternal. Fight your way past the receptionist, the queue, and finally Betty Bones herself, who is very sorry, but you'll need forms A through F.",
 		"boss": "Betty Bones, Surly Secretary",
 		"buffs": "Please Wait: units enter exhausted (both players).",
-		"reward_first": "Betty Bones",
-		"reward_repeat": "Surly Secretary (N-30).",
-		"hook": "Small gold and a Necrocrat Path Pack.",
-		"map_id": "A ghost clutching a crumpled ticket: \"Number 4,000,212? They're on 3. Can you help?\"",
-		"battleboard_id": "An endless gray waiting room seen from a high angle, rows of chairs stretching into fog. A path weaves from a ticket dispenser and glowing number display at the bottom-left (spot 1), through a long snaking queue of ghosts and skeletons in the middle (spot 2), to a lone secretary's desk piled with forms under a single green-shaded lamp at the top-right (spot 3).",
+		"reward_first": "Betty Bones, Surly Secretary (N-30).",
+		"reward_repeat": "Small gold and a Necrocrat Path Pack.",
+		"hook": "A ghost clutching a crumpled ticket: \"Number 4,000,212? They're on 3. Can you help?\"",
+		"map_id": "MAP-S-NECRO",
+		"battleboard_id": "BB-S-NECRO",
 		"nodes": [
 			{
 				"n": 1,
