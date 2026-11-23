@@ -11,7 +11,7 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - (Elowen's walk is not missing: she and her disguise both have full walk sets in the game. Closed by the Nov 21 review.)
 
 ## Design and balance passes
-- **Camera per zone:** since Nov 21: +6 degrees everywhere (`data/camera/zone_camera.json`) and five presets on V (+6 to +14); "Camera angle" and "Camera distance" stay in Settings. Open: which preset a new player starts on.
+- **Camera per zone:** since Nov 21: +6 degrees everywhere (`data/camera/zone_camera.json`) and five presets on V (+6 to +14); "Camera angle" and "Camera distance" stay in Settings. Decided Nov 22: a new game (and a player who never changed it) starts on +6, preset 1 of 5; V cycles the five and the choice is saved.
 - **The Arena's balance and difficulty:** several encounters are far too easy and the puzzles were rebuilt Nov 20 (four, each with one solver-proven solution; the owner play-checks them). The battles: the owner checks each by hand, then a Fable pass. It's fine for the Arena AI to have set hands and opening-hand rules (e.g. a guaranteed mix of infrastructure and cards) so it never stalls on too little or only infrastructure.
 - **Combat pacing:** the owner tests manually; no automatic changes. The 45-card minimum stays.
 - **The heal rooms and the six drawbacks of Nov 21** stay as they are until the owner has playtested them (decided Nov 20). The cheapest dial if the last stretch of a dungeon is too hard: the heal (5 to 7) before the prices.

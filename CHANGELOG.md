@@ -2,6 +2,17 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 22 (night): **Batch 19's 8 pictures** - Primm's Castle has its repainted map (every room on its painted landing spot;
+  the painted walkways replace the drawn lines, and eleven links the painting misses keep a line), the Pantry Mimic has its own
+  portrait, Auntie Alembic stirs her cauldron in the middle of her shop and her essence jars are painted glass, the locked
+  Necrocrat pack is a sealed parcel like the other three, the Endless Buffet's map shows the Raw Deal where it stands, and the
+  Captured Trainees and Spotless Statues have their own card art; **items:** Gladiator's Net catches only the first enemy unit
+  each turn, Siphon's Lens costs 2 max HP (it gave 2), Glass Jaw Gauntlets cost 6 max HP (was 3), Dex's Matching Pair copies only
+  a first card that costs 3 or less, units under Hover Boots can block units with Flying, the Velvet Rope gives Gourmand units
+  +1/+2 (was +0/+3); **Grand Bellows** lost "The Crowd Roars" again (64 HP stays); **Primm's Castle:** after the fight in the
+  Notarized Archives there is a kettle (heal 6 for 60 gold or for a drawback, the Garden's rules), so the all-allies route has
+  one paid heal; a link out of a room you never entered no longer shows as walked; the zip carries the player read-me
+  (`README.txt`); "Forms A through F" and "Grandmaster Flex Stands with You" follow the titles' capitals.
 - Nov 21 (evening and night, the castle): **Primm's Castle has a new map** - the gate, six rows of rooms and the Model Room, many
   routes that cross, six rooms of twenty in a run, the whole map shown from the gate; **the four zone leaders wait in ally rooms**
   (the Gilded Pantry, the Beefcake, Necrocrat and Refusemancer wings): win the leader's fight and they help against Primm

@@ -16,7 +16,7 @@ extends Node
 ##   scene                          print the current scene and the hero's state (level, gold, hp)
 ##   pilot <seconds>                let a simple built-in player play the current battle for up to that long (mulligan, plays, attacks, blocks)
 ##   skip_dialogue [max]            tap E until no dialogue box / story still / popup is open (max taps, default 40)
-##   dev <action> ...               debug shortcuts: lowend on|off | textsize 0|1|2 | level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
+##   dev <action> ...               debug shortcuts: lowend on|off | textsize 0|1|2 | level N | gold N | hp N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
 ##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
@@ -713,6 +713,9 @@ func _dev(parts: PackedStringArray) -> void:
 			_say("  reveal: %s" % ("done" if mini != null else "no minimap here"))
 		"heal":
 			result = DevActions.full_heal(battle)
+		"hp":
+			# Fable Nov 22 night: `dev hp N` sets the hero's HP (in a battle, or the run's between fights), to show a heal room working
+			result = DevActions.set_hp(int(arg), battle)
 		"primm":
 			# Fix pass Nov 7 (item 10): the checkpoint between Primm's phases - straight to phase 1, 2 or 3 at the castle's boss node
 			result = DevActions.travel_primm_phase(int(arg))

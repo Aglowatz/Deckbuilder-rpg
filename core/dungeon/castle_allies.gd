@@ -39,7 +39,7 @@ const LEADERS: Dictionary = {
 }
 ## The name of each help as a rule badge in Primm's fight.
 const HELP_NAMES: Dictionary = {
-	"beefcake": "Grandmaster Flex Stands With You", "gourmand": "The Grand Chef's Recipe", "necrocrat": "Agnes's Appeal", "refusemancer": "Compostella's Handful of Earth",
+	"beefcake": "Grandmaster Flex Stands with You", "gourmand": "The Grand Chef's Recipe", "necrocrat": "Agnes's Appeal", "refusemancer": "Compostella's Handful of Earth",
 }
 const HELP_ICONS: Dictionary = {
 	"beefcake": "lorc/muscle-up", "gourmand": "delapouite/chef-toque", "necrocrat": "delapouite/stamper", "refusemancer": "lorc/sprout",

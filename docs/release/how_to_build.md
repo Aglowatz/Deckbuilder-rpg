@@ -28,7 +28,8 @@ The script only replaces `builds/_export/` and `builds/TheWaywardPath-v<ver>-win
 
 - **Good:** the last lines say `zip: builds/TheWaywardPath-v<ver>-windows.zip = ~690 MB (checked: CRCs, contents, size)` and
   `EXPORT OK`. The zip holds `TheWaywardPath.exe` (~104 MB), `TheWaywardPath.pck` (~730 MB), the five `Start (...).bat` launchers and
-  `README_PLAYTEST.txt`.
+  the read-me: `README.txt` (the player read-me, `docs/release/player_readme.txt`) since Nov 22, or `README_PLAYTEST.txt` when the
+  build was made for playtesters with `PLAYTEST_BUILD=1 bash tools/export_windows.sh <ver>`.
 - **Stopped:** it prints `EXPORT STOPPED: <reason>` and `Nothing was replaced` - the previous zip and build folder are exactly as they
   were. Reasons: Godot running, too little RAM or disk, Godot exited non-zero or was killed, an export error in the log, a missing or
   small exe, a .pck that is cut short / fails an MD5 / has no baked shaders / is under 90% of the estimated payload, a zip that fails its
@@ -38,7 +39,7 @@ To check any zip or pack by hand:
 
 ```
 unzip -tq builds/TheWaywardPath-v0.4.5-windows.zip          # "No errors detected" = every file's CRC matches
-unzip -l builds/TheWaywardPath-v0.4.5-windows.zip           # exe, pck, 5 launchers, README_PLAYTEST.txt
+unzip -l builds/TheWaywardPath-v0.4.5-windows.zip           # exe, pck, 5 launchers, README.txt (README_PLAYTEST.txt in a playtest build)
 node tools/verify_pck.js builds/_export/TheWaywardPath.pck --min-shaders=40   # "PCK OK: ... MD5s match"
 ```
 

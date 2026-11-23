@@ -1,0 +1,2 @@
+# Fable Nov 22 night: no line of the dialogue files was changed, so there is nothing for the importer to revert.
+# The new lines of docs/dialogue/nov22_lines.csv live in code and data (see their IDs); revert them with git.

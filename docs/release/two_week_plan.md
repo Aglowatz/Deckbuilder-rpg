@@ -28,6 +28,16 @@ New for you, and it changes item 1: **play the castle twice** in your playthroug
 treasure). The sims cannot judge whether choosing a route is fun, only whether each route can be won. Still open from this plan:
 items 1, 2, 4, 5 to 8, 11 to 14. Item 13 (the economy) and the item table (balance report, section 5) wait for your ticks.
 
+## Status after Fable Nov 22 night (night of Nov 22-23)
+
+Ticked below, each with its commit: **item 9** (Batch 19: all 8 pictures in the game, `70c42d9a`), **item 11** (the camera: +6 for
+new games, your answer, recorded in `70c42d9a`), **item 14** (the export writes the player read-me; `PLAYTEST_BUILD=1` keeps the
+playtest one, `70c42d9a`). From your answers: the item table's six changes, Grand Bellows without "The Crowd Roars" (49 % in the
+sim, in his band), the all-allies route's heal stop. Not done, on purpose: **item 17** (which keyword belongs to which Path is a
+design choice the sheet does not make: Flying, Swat and Overtime are on cards of several Paths) and everything marked as yours.
+New rows 22 to 24 place the rest of the backlog. One new art row: Batch 20 (`docs/art/batch20.csv`, the castle map's eleven
+missing walkways).
+
 ## A. What a player would feel most (do these)
 
 | # | What | Why a player feels it | Who | Size | Day |
@@ -45,12 +55,12 @@ items 1, 2, 4, 5 to 8, 11 to 14. Item 13 (the economy) and the item table (balan
 
 | # | What | Who | Size | Day |
 |---|---|---|---|---|
-| 9 | **Batch 19, two pictures:** the Endless Buffet's map with the Raw Deal in its new place, and the locked Necrocrat pack as a sealed parcel like the other three (`docs/art/batch19.csv`). The D.N.A. map's mood stays as it is (your answer). | **Art**, then Claude imports | S + S | Mon Nov 23 (paint), Tue Nov 24 (import) |
+| 9 | ~~done Nov 22 (`70c42d9a`): all 8 pictures of Batch 19 imported and wired~~ **Batch 19, two pictures:** the Endless Buffet's map with the Raw Deal in its new place, and the locked Necrocrat pack as a sealed parcel like the other three (`docs/art/batch19.csv`). The D.N.A. map's mood stays as it is (your answer). | **Art**, then Claude imports | S + S | Mon Nov 23 (paint), Tue Nov 24 (import) |
 | 10 | **Two "freed" lines for the Gainlands:** Gary (still under his barbell while Brenda says he is lifting) and the rep-game host (still "the regime banned my show"). Two to four lines in your voice; the importer takes them from a CSV. | **You** write, Claude imports | S | any evening |
-| 11 | **Which camera preset a new player starts on.** Today +6 degrees (preset 1 of 5). Play ten minutes on 2 and 3 and pick; it is one number. | **You** decide, Claude sets | S | during item 1 |
+| 11 | ~~decided Nov 22: +6, as now (`70c42d9a`)~~ **Which camera preset a new player starts on.** Today +6 degrees (preset 1 of 5). Play ten minutes on 2 and 3 and pick; it is one number. | **You** decide, Claude sets | S | during item 1 |
 | 12 | **The itch page:** edit `docs/release/itch_page.md` in your words, choose among the eight screenshots, decide the AI disclosure's "Code" tick (inbox 4) and the donation link. | **You** | M | Thu Nov 26 |
 | 13 | **The economy** (balance report, section 3): a no-grind run earns 23,131 gold against your 21.2k target (9 % over). Leave it, or trim the newest quests. Separately: a full collection costs about 75,800 gold today (a brew is 6 essence a Path again); decide whether that is the length you want. | **You** decide | S | Wed Nov 25 |
-| 14 | **The player read-me in the zip:** switch the export from the playtest read-me to `docs/release/player_readme.txt` for the public build. | Claude, on your word | S | with item 6 |
+| 14 | ~~done Nov 22 (`70c42d9a`): the export writes `README.txt` from the player read-me; `PLAYTEST_BUILD=1` keeps the playtest read-me~~ **The player read-me in the zip:** switch the export from the playtest read-me to `docs/release/player_readme.txt` for the public build. | Claude, on your word | S | with item 6 |
 
 ## C. Nice to have (after 1.0 is fine)
 
@@ -63,6 +73,10 @@ items 1, 2, 4, 5 to 8, 11 to 14. Item 13 (the economy) and the item table (balan
 | 19 | **An on-screen keyboard for the Deck Station's search box** (controller only). | Claude | M |
 | 20 | **"Freed" lines for the other zones' quiz masters and minigame hosts** (they say nothing that dates, so nobody will notice). | You | S |
 | 21 | **The D.N.A.'s map repainted at dusk** (the optional Batch 19 row). | Art | S |
+| 22 | **The Extra Pocket** (each equipped item twice per battle): revisit with testing, after the playtesters have used items for a week. | You decide, Claude applies | S |
+| 23 | **Beefcake against Primm** (and Mortimer, item 4): no change now; watch both in the playtests. If a Beefcake player hits the wall, the lever is a Beefcake-only answer, not the bosses' numbers. | You watch | - |
+| 24 | **The collection grind:** about 13 hours of repeat clears for everything. The dial is the essence (what a spare copy gives, or what a brew costs); decide with item 13, then one number changes. | You decide, Claude applies | S |
+| 25 | **Batch 20, one picture:** the castle map with its eleven missing walkways (`docs/art/batch20.csv`; the game draws a line for those until then). | Art, then Claude imports | S + S |
 
 Closed by this review, so off the list: **Elowen's walk** (it is not missing: she and her disguise both have full walk sets in the
 game); the info screens following the Text size setting; the rose window on the title; the zone maps' sharpness.

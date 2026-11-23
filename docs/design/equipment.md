@@ -35,7 +35,7 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 | Red Tape Dispenser (`red_tape_dispenser`) | Relic | Uncommon / 2 | At the start of your turn, create 1 Red Tape. | - | Pull here. Then fill out a form explaining why you pulled. | Main quest Take a Number (midpoint) |
 | Doggy Bag (`doggy_bag`) | Armor | Uncommon / 2 | At the end of your turn, create 1 Ingredient. | - | Leftovers are just tomorrow's lunch with better self-esteem. | Main quest Key Ingredients (midpoint) |
 | Dumpster Diving Gloves (`dumpster_gloves`) | Weapon | Uncommon / 2 | Whenever one of your units dies, create 2 Garbage. | - | One person's trash is another person's starting hand. | Main quest Root Cause (midpoint) |
-| Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | Weapon | Epic / 3 | Your units get +2 attack. | Max HP -3. | Hits like a truck. Takes a punch like a soufflé. | The House of Gains (first clear) |
+| Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | Weapon | Epic / 3 | Your units get +2 attack. | Max HP -6. | Hits like a truck. Takes a punch like a soufflé. | The House of Gains (first clear) |
 | Overdue Library Book (`overdue_library_book`) | Relic | Epic / 3 | Draw 1 extra card each turn. | Then discard 1 card at random. | Due back in 1987. The fines are now sentient. | The Hall of Final Approvals (first clear) |
 | Elastic Waistband of Victory (`elastic_waistband`) | Armor | Epic / 3 | Your units get +1/+1. | You can play only 2 non-infrastructure cards per turn. | Built for the Endless Buffet. Stretches to fit any ambition. | The Test Kitchen (first clear) |
 | Crown of Mild Hubris (`hubris_crown`) | Helm | Legendary / 3 | You always go first, draw an extra card on your first turn, and your units get +1 attack. | Max HP -10. | Heavy is the head that wears the crown. Mostly because it's very heavy. | The Old Service Tunnels (first clear) |
@@ -46,7 +46,7 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 | Side-Hustle Headband (`hustle_headband`) | Helm | Uncommon / 2 | Your Beefcake units have Hustle. | - | For when one grind just isn't enough grind. | Mount Swolympus (first clear, postgame) |
 | Paper-Plane Cape (`paper_plane_cape`) | Armor | Uncommon / 2 | Your Necrocrat units have Flying. | - | Folded from a rejected appeal. It flies better than it was ever filed. | Sub-Basement 3 (first clear) |
 | Mystery-Stain Bib (`mystery_stain_bib`) | Armor | Uncommon / 2 | Your Refusemancer units have Toxic. | - | Nobody knows what the stain is. Nobody wants to. It is load-bearing now. | The Landfill Depths (first clear) |
-| Velvet Rope (`velvet_rope`) | Relic | Uncommon / 2 | Your Gourmand units get +0/+3. | They have Wallflower (they cannot attack). | Sorry, the kitchen is reservation-only. You are not on the list. | The Walk-In Freezer (first clear) |
+| Velvet Rope (`velvet_rope`) | Relic | Uncommon / 2 | Your Gourmand units get +1/+2. | They have Wallflower (they cannot attack). | Sorry, the kitchen is reservation-only. You are not on the list. | The Walk-In Freezer (first clear) |
 | Sucker Punch Mitts (`sucker_punch_mitts`) | Weapon | Uncommon / 2 | Your units have Sucker Punch (they deal combat damage first). | Max HP -3. | Rule one of the fight club: hit first, apologise never. | Granny Gristle's Compost Grange, once the Dump is free; hidden chests (tier 2) |
 | Dog-Eared Bookmark (`dog_eared_bookmark`) | Relic | Uncommon / 2 | When a duel starts, draw 2 cards. | - | Saves your place. And sometimes your life. | Mirepoix's Dessert & Deckery; hidden chests (tier 2) |
 | Participation Trophy (`participation_trophy`) | Relic | Common / 1 | Gain 25% more XP from everything. | - | You showed up. That's basically winning. The trophy agrees. | Quest: Meet the Merchants |
@@ -61,3 +61,13 @@ budget, the verdict for every piece, the slot progression per zone). Changes: th
 max HP; the Sucker Punch Mitts are an Uncommon with a max-HP cost; the Galoshes are Common, the Laurels Uncommon, the Gladiator's Net Epic;
 the four lieutenants' relics, the Crown of Mild Hubris, the Four-Seal Signet, Siphon's Lens and the Phial of First Water were brought up to
 their rarity's worth; the Reckless Tonic heals 5. Prices: `docs/design/economy.md`.
+
+## Nov 22 (the owner's answers to the item table of `docs/balance_report_nov21.md`, section 5)
+
+Six pieces changed, three stay: the Gladiator's Net gives -1/-1 to the first enemy unit to enter each turn (either player's turn;
+it was every enemy unit); Siphon's Lens costs 2 max HP (it gave 2); the Glass Jaw Gauntlets cost 6 max HP (was 3); Dex's Matching
+Pair copies the turn's first non-Infrastructure card only if it costs 3 or less (a dearer first card uses the turn's chance up);
+units under Hover Boots can block attackers with Flying (and still nothing on the ground); the Velvet Rope gives Gourmand units
++1/+2 (was +0/+3). Unchanged on purpose: Clipwell's Golden Shears (2 damage), the Bloodsand Boots (a card on every hit), the
+Elastic Waistband of Victory. Tests: `tests/test_fable_nov22_night.gd`. After a change to a piece in code, run
+`Godot --headless --path . -s res://tools/generate_content.gd` (the game reads the pieces from `data/equipment/`).

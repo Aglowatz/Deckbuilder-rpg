@@ -1,0 +1,58 @@
+# Fable Nov 22 night, Part 5: the Beefcake wing - Grandmaster Flex and the Captured Trainees
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 22
+dev gold 400
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev freed refusemancer
+dev travel route D-PC 2,5
+wait 8
+skip_dialogue 30
+wait 1
+button Got it
+wait 1
+skip_dialogue 10
+move 40 880
+wait 1
+shot a2_0_map
+click 709 237
+wait 3
+shot a2_1_before
+skip_dialogue 60
+wait 2
+shot a2_2_brief
+button Continue
+wait 4
+skip_dialogue 80
+wait 6
+skip_dialogue 40
+button Keep
+wait 5
+button Got it
+wait 1
+shot a2_3_fight
+pilot 40
+shot a2_4_fight_later
+dev win
+wait 5
+skip_dialogue 20
+button Continue
+wait 2
+button Continue
+wait 2
+key E
+wait 1
+button Continue
+wait 3
+shot a2_5_after
+skip_dialogue 60
+wait 2
+shot a2_6_then
+dump
+button Continue
+wait 2
+shot a2_7_map

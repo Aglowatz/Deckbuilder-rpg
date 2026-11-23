@@ -825,7 +825,7 @@
 	"Betty Bones, Surly Secretary": [
 		{
 			"id": "forms",
-			"name": "Forms A Through F",
+			"name": "Forms A through F",
 			"icon": "delapouite/files",
 			"when": {
 				"type": "hp_below",

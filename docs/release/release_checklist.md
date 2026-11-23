@@ -40,7 +40,7 @@ field by field), `docs/release/itch_page.md` (the text to paste), `docs/release/
 |---|---|---|
 | 13 | `bash tools/export_windows.sh 1.0.0` in the foreground (about 5 minutes). It ends with `EXPORT OK` and writes `builds/TheWaywardPath-v1.0.0-windows.zip`. "EXPORT STOPPED" means nothing was replaced: free memory and run it again. | Claude |
 | 14 | Check the exported game, not the editor: `bash tools/run_release_smoke_exported.sh` (look for `PASSED`), then `bash tools/export_test_pack.sh` and the three `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_{a,b,c}.txt` runs (0 SCRIPT ERROR each). | Claude |
-| 15 | Copy `docs/release/player_readme.txt` into the build folder as `README.txt` in place of the playtest read-me, if you want the player version in the zip (the export writes `README_PLAYTEST.txt` today; ask Claude to switch the export to the player file before the final build). | Claude, on your word |
+| 15 | The read-me in the zip: done by the export since Nov 22. `bash tools/export_windows.sh 1.0.0` writes the player read-me (`docs/release/player_readme.txt`) as `README.txt`; a build for playtesters is made with `PLAYTEST_BUILD=1` in front and carries `README_PLAYTEST.txt` instead. Check which one is in the zip before the upload. | Claude (done) |
 | 16 | **Play the real `.exe` yourself for 20 minutes** from the unzipped zip, on a fresh folder: a new game, the cave, Crosspath, one shop, one battle, save, quit, start again, Continue. If you can, do the same on a second PC. | **Owner** |
 
 ## E. The itch.io page (Draft the whole time)
