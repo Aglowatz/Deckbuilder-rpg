@@ -862,6 +862,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | V-BENCHLEY | Coach Brutus Benchley | Zone card vendor; Clear the Lanes | Minotaur | Retired champion selling cards like supplements; whistle, clipboard, no inside voice; "LET'S GO!" | Hid the old cards under a loose floorboard |
 | NPC-HURL | Big Hurl | Thrower | Stone troll | Gentle giant; counts down before every throw; "never once missed (he says)" | Represents all Throwers |
 | NPC-RIP | Rip Tearson | Portal ripper; runs the Beefcake Rift Express | Human | Rips portals and his shirt every time (400 identical shirts); a grunt, then calm customer service | Every station is a cousin named Rip (#2 to #8); finds the Lab hatch |
+| NPC-TREY | Trey Pickett | Travelling draft-master; keeps a draft table in every Path zone (draft mode) | Human | Dry, exact, counts in threes; delighted by other people's hard choices and never says which card he would have taken | Carries the folding table on his back; "I charge by the sitting, not the minute"; knows Dex (they do not play each other any more) |
 | NPC-PUMP | Professor Pump | Quiz master | Rhinoceros | Buff academic in tweed; "brain-ceps"; grades on a bicep curve | - |
 | NPC-THUNDERABS | Chet Thunderabs | Minigame host (Rep Counter) | Human | 80s-90s infomercial host; "But WAIT, there's MORE!" | The regime banned his show |
 | NPC-MOUNTAIN | Old Man Mountain | Hermit; Spot Me!, Water for the Hermit | Yeti | Wheezy, nostalgic, trails off; once climbed Swolympus | Remembers the king and the boy at the Lifting Festival |

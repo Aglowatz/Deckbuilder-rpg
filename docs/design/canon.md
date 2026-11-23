@@ -28,6 +28,7 @@ Locked names, spellings and rules on one page. Created Oct 19 2026. Detail, sour
 | Postgame dungeon | the Path-ology Lab (boss: Dr. Ambrose Siphon, Chief Path-ologist) | - |
 | Scientists of the Paths | Path-ologists (the field: Path-ology; founded by Elder Maren) | - |
 | Fast travel | the Beefcake Rift Express (Rip Tearson and his cousins) | - |
+| Draft mode's host | Trey Pickett, travelling draft-master (draft mode, Nov 23; the name is the owner's to confirm: alternatives Mona Curve, Dravina Pool) | - |
 
 Spellings to copy exactly: D.N.A. (the Department of Necrotic Affairs); CE-No; Path-ology; Doppelganger (no umlaut in names); Gerald,
 Number 4,000,212; Kyle (Deceased Since '09); Bertram Beetsworth, Assistant to the Regional Merchant; Shiro Swindle, Master of the Oldest
