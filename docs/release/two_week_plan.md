@@ -1,4 +1,11 @@
-# The two weeks to 1.0 - The Wayward Path
+# The release plan for 1.0 - The Wayward Path
+
+**The launch has moved back (owner, Nov 22): 1.0 ships with draft mode, and there is no hard date.** The Dec 5 day below no
+longer holds; the order of the items does. Draft mode is built in three phases (`docs/design/draft_mode.md`): Phase 1 (the draft
+engine, the travelling host, the four zone drafts and their quest line, the art rows) is the run of the night of Nov 22-23;
+Phase 2 is the Crosspath draft arena; Phase 3 the dungeon drafts and the balance pass. Between the phases you playtest and an art
+batch is made (Batch 20). This file keeps its name (`two_week_plan.md`) because a dozen documents and tools point at it.
+
 
 Written Nov 21 2026 (Fable Nov 21 review, Part 8). Everything left before the release, **ranked by what a player would feel**.
 Release day in this plan: **Saturday Dec 5**. If it moves, move the days with it; the order stays.

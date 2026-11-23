@@ -1,0 +1,80 @@
+{
+	"_about": "Draft mode, Phase 1 (docs/design/draft_mode.md). Every number of the mode lives here; core/draft/draft_rules.gd reads it. The owner tunes these; nothing in code repeats them.",
+	"card_picks": 25,
+	"options_per_pick": 3,
+	"high_rarity_every": 5,
+	"_high_rarity_every": "Every 5th pick (5, 10, 15, 20, 25) offers three cards of the top two rarities (Epic and Legendary; Uncommon fills in when a pool has too few).",
+	"rarity_weights": {
+		"common": 55,
+		"uncommon": 35,
+		"epic": 10,
+		"legendary": 0
+	},
+	"_rarity_weights": "The weight of each card rarity on an ordinary pick (cards have four rarities: Common, Uncommon, Epic, Legendary). Legendary cards come from the high-rarity picks only.",
+	"high_rarity_weights": {
+		"epic": 70,
+		"legendary": 30
+	},
+	"fit_weight": 2.0,
+	"_fit_weight": "How strongly an offer leans toward what is already taken: a card's weight is multiplied by 1 + fit_weight * fit, fit from 0 to 1 (its Path's share of the picks so far, and whether it fills a thin spot of the cost curve).",
+	"max_same_card_in_offer": 1,
+	"equipment_picks_after": [
+		4,
+		9,
+		14,
+		19,
+		23
+	],
+	"item_picks_after": [
+		7,
+		17
+	],
+	"equipment_rarity_weights": {
+		"common": 40,
+		"uncommon": 34,
+		"epic": 20,
+		"legendary": 6
+	},
+	"item_slots": 2,
+	"rerolls": 1,
+	"deck_drafted_cards": 20,
+	"deck_basic_infrastructure": 15,
+	"wins_to_finish": 3,
+	"losses_to_finish": 2,
+	"fights": 3,
+	"entry_fee": 100,
+	"first_attempt_free": true,
+	"banned_equipment": [],
+	"banned_items": [],
+	"banned_cards": [],
+	"_banned": "The ban lists of draft mode. Empty on purpose: the sims propose bans (docs/design/draft_balance.md), the owner decides.",
+	"rewards": {
+		"_about": "Gold and XP for a run by its wins (0 to 3), for a replay and for the first full win of a challenge. A full win (3 wins) also lets the player keep one drafted card.",
+		"replay": {
+			"gold": [
+				20,
+				45,
+				80,
+				140
+			],
+			"xp": [
+				10,
+				25,
+				45,
+				80
+			]
+		},
+		"first_win_bonus": {
+			"gold": 300,
+			"xp": 200
+		}
+	},
+	"rivals": {
+		"_about": "Rival drafters: an existing NPC's name and portrait, a drafting personality, the AI profile that plays the deck. hp_bonus is the fudge when a sim shows a rival too weak or too strong.",
+		"fudge_min_units": 9,
+		"fudge_max_cost_share": 0.25,
+		"_fudge": "A rival's drafted 20 are fixed up when the draft went badly: at least fudge_min_units units, and at most fudge_max_cost_share of the 20 may cost 5 or more (the worst offenders are swapped for on-curve cards of the same Paths).",
+		"hp_bonus": 0,
+		"skill": "elite"
+	}
+}
