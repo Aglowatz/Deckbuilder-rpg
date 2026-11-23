@@ -512,5 +512,4 @@ eased Primm, 8 runs per Path and route (`docs/design/sim/nov22/castle_runs_t2.md
 | E: no ally, the quiet south | 0 | 100 % | **22 %** | 21 % | Primm, phase 1 (12) |
 
 **The all-allies route did not reach 35 %.** The kettle is in the fourth room; more than half of the runs on that route end in
-the first, at the Pantry Mimic, and a heal three rooms later cannot help them. Of the runs that pass the Mimic about half go on to
-beat Primm. The lever is the Mimic (36 HP, +1/+1 and Mirrors), not a second heal; it is in the inbox, not changed.
+the first, at the Pantry Mimic, and a heal three rooms later cannot help them. Of the runs that reach Primm about half beat him. The lever is the Mimic (36 HP, +1/+1 and Mirrors), not a second heal; it is in the inbox, not changed.
