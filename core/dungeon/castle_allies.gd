@@ -20,6 +20,13 @@ const ROOMS: Dictionary = {8: "beefcake", 2: "gourmand", 11: "necrocrat", 14: "r
 const PANTRY_ROOM: int = 2
 const SPOILS_EVENT: String = "pc_mimic_larder"
 const SPOILS_PACK: String = "gilded_general"
+## Fable Nov 22 night (the owner's answer to "the all-allies route has no heal"): the fourth row of that route is Agnes's room, so its
+## "heal 6 for a cost" stop is in that room, after the fight: the archivists' kettle, with the Garden's rules (heal `REST_HEAL` for
+## `REST_COST` gold, or for a drawback in the next fight, or walk on). Once per run, freed D.N.A. or not.
+const REST_ROOM: int = 11
+const REST_EVENT: String = "pc_archive_kettle"
+const REST_HEAL: int = 6
+const REST_COST: int = 60
 ## What an ally room pays when its zone is not freed (no leader, no help).
 const FAIR_REWARD_GOLD: int = 120
 ## Grandmaster Flex walks in at the start of the player's second turn.
@@ -233,6 +240,8 @@ static func room_lines(flags: Dictionary, run: DungeonRun, dungeon_key: String, 
 		return lines
 	var leader: String = str(LEADERS[zone_id])
 	lines.append("Objective: %s" % str(OBJECTIVES[zone_id]))
+	if number == REST_ROOM:
+		lines.append(REST_LINE)
 	if has_ally(run, zone_id):
 		lines.append("%s will help against Primm: %s" % [leader, help_text(zone_id)])
 	elif leader_present(flags, zone_id):
@@ -240,6 +249,10 @@ static func room_lines(flags: Dictionary, run: DungeonRun, dungeon_key: String, 
 	else:
 		lines.append("Nobody waits here: %s is not free yet. The same fight, for %d gold." % [str(ZONE_NAMES[zone_id]), FAIR_REWARD_GOLD])
 	return lines
+
+
+## The map tooltip's line for the room with the kettle.
+const REST_LINE: String = "After the fight: the archivists' kettle (heal 6 for 60 gold or for a drawback)."
 
 
 ## The summary line of Primm's door ("3 of 4 leaders stand with you: ...").

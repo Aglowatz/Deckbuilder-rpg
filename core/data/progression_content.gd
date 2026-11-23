@@ -21,7 +21,7 @@ static func equipment() -> Dictionary:
 	_add(result, _piece("extra_pocket", "Extra Pocket", EquipmentData.Slot.RELIC, "Sewn in where no one thinks to look. You can use each equipped item twice per battle (each use spends a charge).", [_mod(K.ITEM_USES_PER_BATTLE, 1)]))
 	_add(result, _piece("cheaters_dice", "Cheater's Dice", EquipmentData.Slot.RELIC, "They only ever land the way you need them to. You always go first.", [_mod(K.ALWAYS_FIRST, 1)], true))
 	_add(result, _piece("travelers_boots", "Traveler's Boots", EquipmentData.Slot.BOOTS, "Worn thin by roads longer than this one. Draw an extra card at the start of your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)]))
-	_add(result, _piece("hover_boots", "Hover Boots", EquipmentData.Slot.BOOTS, "A finger's width of clearance, always. Your units have Flying but cannot block.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.FLYING), Modifier.ANY_COLOR, 0), _mod(K.CANNOT_BLOCK, 1)], true))
+	_add(result, _piece("hover_boots", "Hover Boots", EquipmentData.Slot.BOOTS, "A finger's width of clearance, always. Your units have Flying, and can block only units with Flying.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.FLYING), Modifier.ANY_COLOR, 0), _mod(K.CANNOT_BLOCK, 1)], true))
 	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your Pathless units get +1 defense.", [_mod(K.STAT_CHANGE, 0, int(Affinity.Type.NEUTRAL), 1)]))
 	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max HP -2; whenever an enemy unit attacks you, it takes 1 damage.", [_mod(K.MAX_HP, -2), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
 	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
@@ -45,7 +45,7 @@ static func zone_equipment() -> Dictionary:
 	ExpansionGear.add_all(result)
 	OldWellQuest.add_equipment(result)  # Overnight Oct 19-20, Part 6: the Old Well secret quest's relic
 	# Overnight Nov 7-8, Part 6.3 / Fixes Nov 8: the Cardsharp's Circuit prize, Dex's Matching Pair (boots, the slot with the fewest pieces).
-	var pair: EquipmentData = _piece(CardMatchCircuit.PRIZE_ID, "Dex's Matching Pair", EquipmentData.Slot.BOOTS, "Once each turn, when you play your first non-Infrastructure card, draw a copy of that card from your deck (if there is one).", [_mod(K.DRAW_COPY_FIRST_PLAY, 1)], true)
+	var pair: EquipmentData = _piece(CardMatchCircuit.PRIZE_ID, "Dex's Matching Pair", EquipmentData.Slot.BOOTS, "Once each turn, when you play your first non-Infrastructure card, if it costs %d or less, draw a copy of that card from your deck (if there is one)." % MATCHING_PAIR_MAX_COST, [_mod(K.DRAW_COPY_FIRST_PLAY, 1, Modifier.ANY_COLOR, MATCHING_PAIR_MAX_COST)], true)
 	pair.tier = 3
 	pair.source = "The Cardsharp's Circuit (Dex Shufflewick's final table)"
 	pair.flavor_text = "Every card has a twin somewhere. Dex just knows where to look."
@@ -115,6 +115,10 @@ static func _piece(id: String, title: String, slot: EquipmentData.Slot, descript
 	piece.modifiers = modifiers
 	piece.advanced = advanced
 	return piece
+
+
+## Fable Nov 22 night: Dex's Matching Pair copies only a first card that costs this much or less (the modifier's `value2`; 0 = any cost).
+const MATCHING_PAIR_MAX_COST: int = 3
 
 
 static func _mod(kind: Modifier.Kind, value: int, color: int = Modifier.ANY_COLOR, value2: int = 0) -> Modifier:
@@ -224,8 +228,8 @@ static func _add_zone_pieces(result: Dictionary) -> void:
 ## Brief 16, Group G: the exclusive reward of the Four-Seal Vault (never sold): a relic that holds one of each Path's Resources and a little extra life.
 ## Story v2 Part H: the Path-ology Lab's first-clear equipment (placeholder numbers).
 static func _add_lab_gear(result: Dictionary) -> void:
-	var lens: EquipmentData = _piece("siphons_lens", "Siphon's Lens", EquipmentData.Slot.RELIC, "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card each turn.", [
-		_mod(K.MAX_HP, 2),
+	var lens: EquipmentData = _piece("siphons_lens", "Siphon's Lens", EquipmentData.Slot.RELIC, "A glass lens from the draining chamber, ground to see all four Paths at once. You draw an extra card each turn. Max HP -2.", [
+		_mod(K.MAX_HP, -2),  # Fable Nov 22 night: was +2 (an extra card a turn had no price)
 		_mod(K.EXTRA_DRAWS, 1),
 	], true)  # Oct 29: an Epic's worth (it drew one card on the first turn only)
 	lens.flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."

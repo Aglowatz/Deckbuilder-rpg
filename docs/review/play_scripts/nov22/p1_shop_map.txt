@@ -1,0 +1,47 @@
+# Fable Nov 22 night, Part 1: Foil Fenwick's shop (the locked Necrocrat parcel beside the other three) and the Buffet's map
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 12
+dev gold 3000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev travel town
+wait 24
+skip_dialogue 80
+wait 1
+dev goto pack_vendor
+wait 2
+key E
+wait 3
+skip_dialogue
+wait 2
+key E
+wait 3
+skip_dialogue
+wait 2
+shot fenwick
+dump
+key Escape
+wait 2
+key Escape
+wait 1
+dev travel zone gourmand
+wait 12
+skip_dialogue 40
+wait 1
+dev reveal
+wait 1
+key M
+wait 3
+shot buffet_map
+dump
+key Escape
+wait 1

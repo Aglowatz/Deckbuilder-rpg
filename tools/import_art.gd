@@ -11,6 +11,9 @@ const CONFIG: String = "res://data/source/art_config.cfg"
 const MANIFEST: String = "res://data/source/art_import_manifest.csv"
 const STATUS: String = "res://docs/art/art_status.md"
 const FORBIDDEN_FOLDERS: Array[String] = ["pending review", "superseded"]
+## Batch 19 (Fable Nov 22 night): card-format pictures that belong to no card ID: the tokens an encounter rule dresses by "token_art"
+## (the Captured Trainee and the Spotless Statue of Primm's Castle).
+const EXTRA_ART: Dictionary = {"T-PC-TRAINEE": "Captured Trainee", "T-PC-STATUE": "Spotless Statue"}
 
 
 func _init() -> void:
@@ -18,6 +21,7 @@ func _init() -> void:
 	var known: Dictionary = {}
 	for entry: CardImporter.Entry in CardImporter.build_all():
 		known[entry.id] = entry.data.display_name
+	known.merge(EXTRA_ART)
 	var source_dir: String = _source_dir()
 	var drive: ArtImporter.Result = null
 	if not source_dir.is_empty():

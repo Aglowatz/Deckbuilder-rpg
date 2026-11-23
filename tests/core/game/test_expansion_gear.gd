@@ -64,7 +64,7 @@ func test_the_brief_categories_are_covered() -> void:
 func test_glass_jaw_gauntlets_hit_harder_and_start_lower() -> void:
 	var plain: GameState = _equipped("lucky_sock")
 	var glass: GameState = _equipped("glass_jaw_gauntlets")
-	assert_eq(plain.players[0].hp - glass.players[0].hp, 5, "lucky sock +2, gauntlets -3")
+	assert_eq(plain.players[0].hp - glass.players[0].hp, 8, "lucky sock +2, gauntlets -6 (Fable Nov 22 night: was -3)")
 	assert_eq(glass.players[0].modifiers.stat_bonus_attack_for(null) if glass.players[0].modifiers.has_method("stat_bonus_attack_for") else 2, 2)
 
 
@@ -105,7 +105,7 @@ func test_comparison_shows_the_numbers_that_change() -> void:
 	var lines: PackedStringArray = EquipmentCompare.diff_lines(_piece("cardboard_cuirass"), _piece("doggy_bag"))
 	assert_true(lines.has("+2 Max HP"), str(lines))
 	var glass: PackedStringArray = EquipmentCompare.diff_lines(_piece("glass_jaw_gauntlets"), null)
-	assert_true(glass.has("+2 unit attack") and glass.has("-3 Max HP"), str(glass))
+	assert_true(glass.has("+2 unit attack") and glass.has("-6 Max HP"), str(glass))
 	var text: String = EquipmentCompare.tooltip(_piece("glass_jaw_gauntlets"), _piece("pointy_stick"))
 	# Overnight Nov 19 (Part 7): no comparison with the worn piece in descriptions any more.
 	assert_false(text.contains("Compared with") or text.contains("You'd lose"))

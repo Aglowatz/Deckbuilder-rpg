@@ -1,5 +1,5 @@
 {
-	"_about": "The default camera of each place (Fable Nov 19, Part 2; Fable Nov 21: +6 degrees everywhere, the owner's decision, replacing +4). pitch_bonus = degrees added to every camera preset at the DEFAULT of the five look-down presets (V cycles +6 / +8 / +10 / +12 / +14: the others add 2, 4, 6 and 8 degrees to this number and stand 3 % further out per step); distance = how far the camera stands (1.0 = as everywhere). Read by ZoneCamera (world/look/zone_camera.gd)",
+	"_about": "The default camera of each place (Fable Nov 19, Part 2; Fable Nov 21: +6 degrees everywhere, the owner's decision, replacing +4; Fable Nov 22 night: confirmed by the owner as the start for new games and for players who never changed it - V still cycles the five presets and the choice is saved). pitch_bonus = degrees added to every camera preset at the DEFAULT of the five look-down presets (V cycles +6 / +8 / +10 / +12 / +14: the others add 2, 4, 6 and 8 degrees to this number and stand 3 % further out per step); distance = how far the camera stands (1.0 = as everywhere). Read by ZoneCamera (world/look/zone_camera.gd)",
 	"places": {
 		"crosspath": {"pitch_bonus": 6, "distance": 1.0},
 		"forest": {"pitch_bonus": 6, "distance": 1.0},

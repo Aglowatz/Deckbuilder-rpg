@@ -1,0 +1,168 @@
+# Fable Nov 22 night, Part 1: Auntie Alembic's shop with the Batch 19 jar and brewing scene
+wait 3
+dev newgame
+wait 10
+skip_dialogue
+dev level 18
+dev gold 6000
+dev flag trial_cleared
+dev flag elder_greeted
+dev flag maren_met
+dev flag armory_unlocked
+dev gate beefcake
+dev gate gourmand
+dev gate refusemancer
+dev gate necrocrat
+dev essence Beefcake 18
+dev essence Necrocrat 13
+dev essence Gourmand 7
+dev essence Refusemancer 2
+wait 1
+dev freed beefcake
+dev freed gourmand
+dev travel town
+wait 10
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+button Continue
+wait 1
+button Continue
+wait 1
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+button Continue
+wait 1
+button Continue
+wait 1
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+key E
+wait 0.4
+button Continue
+wait 1
+button Continue
+wait 1
+dev goto alchemist
+wait 1
+key E
+wait 3
+button Brew now
+wait 2
+skip_dialogue 30
+wait 3
+button Brew now
+wait 3
+shot shop_open
+click 510 300
+wait 1
+click 686 510
+wait 1
+move 40 880
+wait 1
+shot two_paths
+button Brew
+wait 0.9
+shot brewing
+wait 4
+shot brewed
+wait 1

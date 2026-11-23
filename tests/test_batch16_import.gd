@@ -31,8 +31,8 @@ func test_every_piece_is_imported() -> void:
 
 func test_sergeant_scuff_has_his_own_pictures() -> void:
 	assert_true(Portraits.STAND_INS.is_empty(), "no borrowed dialogue portrait")
-	# Fable Nov 21 castle: the Pantry Mimic borrows the Echo of the Doppelganger until its Batch 19 portrait (BST-THE-PANTRY-MIMIC) arrives; nothing else borrows.
-	assert_eq(Bestiary.ART_STAND_INS, {"The Pantry Mimic": "BST-ECHO-OF-THE-DOPPELGANGER"}, "no borrowed Bestiary square but the Mimic's")
+	# Batch 19 (Nov 22): the Pantry Mimic has its own portrait; nothing borrows.
+	assert_eq(Bestiary.ART_STAND_INS, {}, "no borrowed Bestiary square")
 	assert_false(Bestiary.CUTOUTS_AWAITING_ART.has("CUT-SCUFF"))
 	assert_eq(Bestiary.cutout_id("Enforcer Sergeant Scuff"), "CUT-SCUFF")
 	assert_eq(Bestiary.cutout("Enforcer Sergeant Scuff"), Portraits.texture_for("CUT-SCUFF"), "his boss intro slides his own cut-out in")

@@ -11,6 +11,10 @@ var trim_radius: float = 62.0
 ## How the paths are drawn over a painted map (decided per map in `data/dungeons/map_layout.json`, key "paths"): "full" (the placeholder look: all paths), "subtle" (thin and dim
 ## paths, the walked and next ones highlighted), "highlight" (only the walked and the next paths; the painted path is clear enough), "none" (nothing).
 var style: String = "full"
+## Batch 19 (Fable Nov 22 night): on a "plan" map whose painting has its own walkways, only the links listed here ("from>to" in node
+## ids) keep a drawn line while they are ahead; the painted ones show the walked and the next step only. Unset: every link is drawn.
+var painted_walkways: bool = false
+var drawn_links: Dictionary = {}
 
 
 func setup(map: DungeonMap, point_of: Callable) -> void:
@@ -40,6 +44,8 @@ func _draw() -> void:
 			var from: Vector2 = _point_of.call(node.id) as Vector2
 			var to: Vector2 = _point_of.call(next_id) as Vector2
 			var walked: bool = _map.is_cleared(next_id)
+			if style == "plan" and walked and node.id != 0 and not _map.is_cleared(node.id):
+				walked = false  # Fable Nov 22 night: on a map of crossing routes, a link out of a room the party never entered was not walked
 			var ahead: bool = node.id == _map.current and not walked
 			var points: PackedVector2Array = _trim(_curve(from, to), trim_radius)
 			if points.size() < 2:
@@ -50,6 +56,8 @@ func _draw() -> void:
 				draw_polyline(points, UIStyle.GOLD, 6.0 * thin, true)
 			elif ahead:
 				_dashes(points, UIStyle.GOLD.lightened(0.2), 7.0 * thin, true)
+			elif style == "plan" and painted_walkways and not drawn_links.has("%d>%d" % [node.id, next_id]):
+				pass  # the painting shows this walkway itself
 			elif style == "plan":
 				# Fable Nov 21 castle: a route-planning map draws every link - the ones still ahead of the party as a pale line on a dark
 				# edge (they do not follow the painting's own paths), the ones it can no longer take very faintly.

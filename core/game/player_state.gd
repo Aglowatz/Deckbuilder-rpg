@@ -67,6 +67,8 @@ var first_infrastructure_exhaust_done: bool = false
 var unit_mirrored_this_turn: bool = false
 ## Overnight Nov 7-8, Part 6.3: the first non-Infrastructure card of this turn has been played (DRAW_COPY_FIRST_PLAY).
 var first_play_done_this_turn: bool = false
+## Fable Nov 22 night (the Gladiator's Net): this side's ON_ENEMY_UNIT_ENTER_EFFECT has already answered an enemy unit this turn.
+var enemy_enter_effect_done_this_turn: bool = false
 ## Overnight Oct 23 (EncounterScripts "shield"): damage to this player is absorbed by this many points first.
 var shield: int = 0
 
@@ -181,6 +183,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.first_infrastructure_exhaust_done = first_infrastructure_exhaust_done
 	copy.unit_mirrored_this_turn = unit_mirrored_this_turn
 	copy.first_play_done_this_turn = first_play_done_this_turn
+	copy.enemy_enter_effect_done_this_turn = enemy_enter_effect_done_this_turn
 	copy.shield = shield
 	copy.resources = _clone_zone(resources)
 	copy.tokens = _clone_zone(tokens)

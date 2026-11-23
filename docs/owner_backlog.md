@@ -53,3 +53,13 @@ Kept by the owner's assistant. Claude Code: read this, but don't start these ite
 - **The owner's card sheet** must get this pass's changes or the next import reverts them: Wobble Weights' text (NB-13), "Pathwork" in two NPC rows, and the D-PC cell of the dungeon list (written by `tools/castle_nov21.py`).
 - **The item and equipment strength table** (`docs/balance_report_nov21.md`, section 5): proposals to tick line by line; nothing beyond Part 1's four was changed.
 - **The Extra Pocket** (the equipment that lets each equipped item be used twice per battle) stays as it is for now (the owner, Nov 21): revisit with testing. The item strength table in `docs/balance_report_nov21.md` (section 5) has its number.
+
+## Added by Fable Nov 22 night (deferred, for the owner to schedule)
+Written down, not built (the brief's Part 4). Each is placed in `docs/release/two_week_plan.md`.
+- **The Extra Pocket** (each equipped item can be used twice per battle): revisit with testing. One charge of an item is worth +0 to +13 points of win rate (`docs/balance_report_nov21.md`, section 5); the Pocket roughly doubles it. Plan: item 22, after 1.0.
+- **Beefcake against Mortimer and against Primm:** no change now (the owner, Nov 22); watch both in the playtests. The numbers: Mortimer 0 wins in 18 for an on-level Beefcake deck; Primm for Beefcake in the table of the Nov 22 report. The lever, if a playtester hits the wall: a Beefcake-only answer, not the bosses' numbers. Plan: item 4 (Mortimer) and item 23.
+- **More Arena puzzles:** four today, six would be one per pair of Paths (`bash tools/arena_puzzle_lab.sh --file=<draft>` proves a draft). Plan: item 15.
+- **The collection grind:** everything costs about 13 hours of repeat clears after the story (about 75,800 gold; a brew is 6 essence of each of two Paths). The dial is the essence: how much a spare copy gives, or what a brew costs. Plan: item 13 (decide), item 24 (apply).
+- **The Deck Station's search for controllers** (an on-screen keyboard; the other filters already work with a controller). Plan: item 19.
+- **The D.N.A.'s map repainted at dusk** (optional; the row in `docs/art/batch19.csv` is marked "do not make" until wanted). Plan: item 21.
+- **Batch 20** (`docs/art/batch20.csv`): one redo row so far, the castle map's eleven missing walkways (the game draws a line for those until then).

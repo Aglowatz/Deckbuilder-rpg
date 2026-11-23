@@ -4,9 +4,14 @@ extends Control
 ## Path's colour, shows the number on the glass, and lights up when it is chosen for the brew. Drawn here (a cork, the glass, the
 ## liquid with a bright surface line, a few bubbles and a shine) until Batch 19 paints an empty jar (`JAR_ART`), which then lies over the
 ## liquid: the game still fills and tints it.
+## Batch 19 (Fable Nov 22 night): UI-ALEMBIC-JAR is in. Its inside is truly transparent (checked: one closed hole, alpha 0), so the
+## liquid, the bubbles and the dark of the glass are drawn in that hole (`ART_HOLE`, as fractions of the picture) and the painting lies
+## over them at its own proportions; the number is drawn on top.
 
 const JAR_ART: String = "UI-ALEMBIC-JAR"
 const SIZE: Vector2 = Vector2(150, 190)
+## The see-through inside of the painted jar, as a fraction of the (trimmed) picture: left, top, width, height.
+const ART_HOLE: Rect2 = Rect2(0.109, 0.281, 0.801, 0.648)
 
 var path: Affinity.Type = Affinity.Type.BEEFCAKE
 var amount: int = 0
@@ -56,16 +61,22 @@ func _draw() -> void:
 	var colour: Color = UIStyle.affinity_color(path)
 	var body: Rect2 = Rect2(18, 34, SIZE.x - 36, SIZE.y - 46)
 	var neck: Rect2 = Rect2(42, 18, SIZE.x - 84, 22)
+	var painted: bool = UiArt.has(JAR_ART)
+	var art_rect: Rect2 = Rect2(Vector2.ZERO, SIZE)
+	if painted:
+		art_rect = painted_rect(UiArt.texture(JAR_ART).get_size())
+		body = hole_rect(art_rect).grow(3.0)
 	# the glow of a chosen jar
 	if chosen:
 		for ring: int in range(4):
 			var grow: float = 6.0 + float(ring) * 5.0
-			draw_style_box(UIStyle.box(Color(0, 0, 0, 0), Color(UIStyle.GOLD, 0.34 - 0.07 * float(ring)), 3, 26 + int(grow)), body.grow(grow))
+			draw_style_box(UIStyle.box(Color(0, 0, 0, 0), Color(UIStyle.GOLD, 0.34 - 0.07 * float(ring)), 3, 26 + int(grow)), (body.grow(9.0) if painted else body).grow(grow))
 	# the glass, dark inside
 	draw_style_box(UIStyle.box(Color(0.06, 0.05, 0.11, 0.86), Color(0, 0, 0, 0), 0, 22), body)
-	draw_style_box(UIStyle.box(Color(0.06, 0.05, 0.11, 0.86), Color(0, 0, 0, 0), 0, 6), neck)
+	if not painted:
+		draw_style_box(UIStyle.box(Color(0.06, 0.05, 0.11, 0.86), Color(0, 0, 0, 0), 0, 6), neck)
 	# the liquid
-	var inner: Rect2 = body.grow(-6.0)
+	var inner: Rect2 = body if painted else body.grow(-6.0)
 	var tall: float = inner.size.y * clampf(_shown_level, 0.0, 1.0)
 	if tall > 1.0:
 		var liquid: Rect2 = Rect2(inner.position.x, inner.end.y - tall, inner.size.x, tall)
@@ -78,8 +89,8 @@ func _draw() -> void:
 			if tall > 18.0:
 				draw_circle(at, 2.5 + float(bubble % 2), Color(1, 1, 1, 0.32 * (1.0 - phase)))
 	# the painted jar over the liquid, or the drawn glass
-	if UiArt.has(JAR_ART):
-		draw_texture_rect(UiArt.texture(JAR_ART), Rect2(Vector2.ZERO, SIZE), false)
+	if painted:
+		draw_texture_rect(UiArt.texture(JAR_ART), art_rect, false, Color(1.18, 1.18, 1.18) if chosen else Color.WHITE)
 	else:
 		var rim: Color = Color(0.82, 0.9, 1.0, 0.9) if chosen else Color(0.72, 0.8, 0.92, 0.62)
 		draw_style_box(UIStyle.box(Color(0, 0, 0, 0), rim, 4, 22), body)
@@ -100,3 +111,14 @@ func _draw() -> void:
 	var small_at: Vector2 = Vector2((SIZE.x - small_width) * 0.5, number_at.y + 22.0)
 	draw_string_outline(font, small_at, small, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.04, 0.02, 0.08, 0.95))
 	draw_string(font, small_at, small, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.86, 0.84, 0.78))
+
+
+## Where the painted jar is drawn inside the control: as tall as the control, at the picture's own proportions, centred.
+static func painted_rect(texture_size: Vector2) -> Rect2:
+	var wide: float = SIZE.y * texture_size.x / maxf(1.0, texture_size.y)
+	return Rect2((SIZE.x - wide) * 0.5, 0.0, wide, SIZE.y)
+
+
+## The see-through inside of the painted jar drawn in `art_rect`.
+static func hole_rect(art_rect: Rect2) -> Rect2:
+	return Rect2(art_rect.position + ART_HOLE.position * art_rect.size, ART_HOLE.size * art_rect.size)

@@ -110,8 +110,8 @@ const CUTOUTS_AWAITING_ART: Array[String] = []  # Batch 17 (Nov 18): CUT-QUADZIL
 
 
 ## Fable Nov 14 (1.1): entries that borrow another entry's picture until their own is painted (Batch 16: BST-ENFORCER-SERGEANT-SCUFF).
-## Fable Nov 21 castle (Part 4): the Pantry Mimic borrows the Echo of the Doppelganger until Batch 19 paints it.
-const ART_STAND_INS: Dictionary = {"The Pantry Mimic": "BST-ECHO-OF-THE-DOPPELGANGER"}
+## Fable Nov 21 castle (Part 4): the Pantry Mimic borrowed the Echo of the Doppelganger until Batch 19 painted it (BST-THE-PANTRY-MIMIC, Nov 22).
+const ART_STAND_INS: Dictionary = {}
 
 
 static func _load_art(id: String, entry_name: String) -> Texture2D:

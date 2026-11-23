@@ -108,3 +108,5 @@ UI-MAP-FRAME,Map frame,Info screens,"The frame round the full map screen (M)","2
 UI-QUEST-MARKS,Quest step marks (three cells),Info screens,"Quest step bullets: open, done, next","384x128 PNG, transparent","See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",,Approved
 UI-SCROLL-RAIL,Scroll bar rail,Info screens,"Every scrolling list","48x512 PNG, transparent; 3-slice","See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",,Approved
 UI-SCROLL-GRIP,Scroll bar grip,Info screens,"Every scrolling list","48x160 PNG, transparent; 3-slice","See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",,Approved
+UI-ALEMBIC-BREW,Auntie Alembic's brewing scene,Screen pieces,"The centre of the brew panel in Auntie Alembic's shop","1024x768 PNG, transparent","See docs/art/batch19.csv (Batch 19, Nov 22).",,Approved
+UI-ALEMBIC-JAR,Empty glass essence jar,Screen pieces,"The four essence jars in Auntie Alembic's shop (the game draws the liquid behind the glass)","512x640 PNG, transparent","See docs/art/batch19.csv (Batch 19, Nov 22).",,Approved

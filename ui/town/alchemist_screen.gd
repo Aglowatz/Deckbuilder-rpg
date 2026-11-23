@@ -19,6 +19,12 @@ var _stage: Control
 var _cauldron: TextureRect
 ## Import Nov 8: the painted cauldron (Batch 13); the vector glyph stands in without it.
 const CAULDRON_ART: String = "UI-CAULDRON"
+## Batch 19 (Fable Nov 22 night): Auntie Alembic stirring the big cauldron under four glass pipes, the centre of "The brew" panel (it
+## replaces the small cauldron; the bubbles and the flash of a brew start at the pot's mouth, `_pot_mouth`).
+const BREW_ART: String = "UI-ALEMBIC-BREW"
+const BREW_STAGE_HEIGHT: float = 320.0
+var _pot_mouth: Vector2 = Vector2(350, 110)
+var _brew_swing: float = 6.0
 var _result_holder: Control
 var _brewing: bool = false
 var _gold_label: Label
@@ -155,7 +161,21 @@ func _build_brew_column() -> Control:
 	_stage.custom_minimum_size = Vector2(700, 230)
 	_stage.clip_contents = false
 	column.add_child(_stage)
-	if UiArt.has(CAULDRON_ART):
+	if UiArt.has(BREW_ART):
+		var scene: Texture2D = UiArt.texture(BREW_ART)
+		var wide: float = BREW_STAGE_HEIGHT * scene.get_size().x / maxf(1.0, scene.get_size().y)
+		_stage.custom_minimum_size = Vector2(700, BREW_STAGE_HEIGHT)
+		_cauldron = TextureRect.new()
+		_cauldron.texture = scene
+		_cauldron.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_cauldron.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_cauldron.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_cauldron.size = Vector2(wide, BREW_STAGE_HEIGHT)
+		_cauldron.pivot_offset = Vector2(wide * 0.5, BREW_STAGE_HEIGHT * 0.78)
+		_cauldron.position = Vector2((700.0 - wide) * 0.5, 0.0)
+		_pot_mouth = Vector2(350.0, BREW_STAGE_HEIGHT * 0.58)
+		_brew_swing = 1.5  # she is in the picture: the whole scene only trembles
+	elif UiArt.has(CAULDRON_ART):
 		# Import Nov 8 (Batch 13, C3 F13): the painted copper cauldron replaces the flat green vector glyph.
 		_cauldron = TextureRect.new()
 		_cauldron.texture = UiArt.texture(CAULDRON_ART)
@@ -381,7 +401,7 @@ func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Res
 	var color_b: Color = UIStyle.affinity_color(second)
 	var shake: Tween = create_tween()
 	for index: int in range(10):
-		shake.tween_property(_cauldron, "rotation_degrees", 6.0 if index % 2 == 0 else -6.0, 0.12)
+		shake.tween_property(_cauldron, "rotation_degrees", _brew_swing if index % 2 == 0 else -_brew_swing, 0.12)
 	shake.tween_property(_cauldron, "rotation_degrees", 0.0, 0.1)
 	var glow: Tween = create_tween()
 	glow.tween_property(_cauldron, "modulate", Color(1.6, 1.6, 1.6), 1.2)
@@ -391,11 +411,11 @@ func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Res
 		mote.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		mote.add_theme_stylebox_override("panel", UIStyle.box(color_a if index % 2 == 0 else color_b, Color(1, 1, 1, 0.6), 2, 8, 6))
 		var angle: float = TAU * float(index) / 18.0
-		mote.position = Vector2(350, 210) + Vector2(cos(angle), sin(angle)) * 300.0
+		mote.position = _pot_mouth + Vector2(0, 100) + Vector2(cos(angle), sin(angle)) * 300.0
 		_stage.add_child(mote)
 		var spiral: Tween = mote.create_tween()
 		spiral.tween_interval(0.05 * float(index % 6))
-		spiral.tween_property(mote, "position", Vector2(342, 202), 1.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		spiral.tween_property(mote, "position", _pot_mouth + Vector2(-8, 10), 1.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		spiral.tween_callback(mote.queue_free)
 	# Fable Nov 21 castle (Part 8): the pot boils - bubbles in both colours rise out of it and burst
 	if not Settings.reduce_motion:
@@ -406,13 +426,13 @@ func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Res
 			bubble.size = Vector2(wide, wide)
 			bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			bubble.add_theme_stylebox_override("panel", UIStyle.box(Color(color_a if index % 2 == 0 else color_b, 0.75), Color(1, 1, 1, 0.75), 2, int(wide * 0.5)))
-			bubble.position = Vector2(300.0 + float((index * 37) % 100), 110.0)
+			bubble.position = Vector2(_pot_mouth.x - 50.0 + float((index * 37) % 100), _pot_mouth.y)
 			bubble.modulate.a = 0.0
 			_stage.add_child(bubble)
 			var up: Tween = bubble.create_tween()
 			up.tween_interval(0.08 * float(index))
 			up.tween_property(bubble, "modulate:a", 1.0, 0.1)
-			up.parallel().tween_property(bubble, "position:y", -30.0 - float((index * 53) % 70), 0.9).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			up.parallel().tween_property(bubble, "position:y", _pot_mouth.y - 140.0 - float((index * 53) % 70), 0.9).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			up.parallel().tween_property(bubble, "position:x", bubble.position.x + (30.0 if index % 2 == 0 else -30.0), 0.9)
 			up.tween_property(bubble, "scale", Vector2(1.7, 1.7), 0.08)
 			up.parallel().tween_property(bubble, "modulate:a", 0.0, 0.08)

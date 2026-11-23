@@ -31,7 +31,7 @@ var temp_keywords: Array[CardEnums.Keyword] = []
 ## Nov 18 day (Part 1.2): who gave each granted / until-end-of-turn keyword (keyword -> the source's name, "" when unknown), for the badge's hover.
 var keyword_sources: Dictionary = {}
 ## New brief, Part B: set once on entering the field if the controller's equipment grants
-## it (e.g. Hover Boots) - this unit can never be declared as a blocker.
+## it (e.g. Hover Boots) - this unit cannot be declared as a blocker, except against an attacker with Flying (Fable Nov 22 night).
 var cannot_block: bool = false
 ## Brief 14: how many buffs (permanent +1/+1) this unit has received.
 var buffs: int = 0

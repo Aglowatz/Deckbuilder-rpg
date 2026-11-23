@@ -278,6 +278,22 @@ static func side_unlock_flag(dungeon_id: String) -> StringName:
 	return StringName("side_unlocked_%s" % dungeon_id.to_lower().replace("-", "_"))
 
 
+## Batch 19 (Fable Nov 22 night): the links of a "plan" map the painting has NO walkway for, as "from>to" in node ids (number - 1):
+## only these still get a drawn line; every other link is a painted walkway (`map_layout.json`, key "drawn_links", in room numbers).
+## `listed` is false when the dungeon has no such list (then every link is drawn, as before the repaint).
+static func drawn_links(dungeon_id: String) -> Dictionary:
+	_load()
+	var result: Dictionary = {"listed": false, "links": {}}
+	var all_lists: Variant = _layout.get("drawn_links", {})
+	if not (all_lists is Dictionary) or not (all_lists as Dictionary).has(dungeon_id):
+		return result
+	result["listed"] = true
+	for pair: Variant in (all_lists as Dictionary)[dungeon_id] as Array:
+		if pair is Array and (pair as Array).size() >= 2:
+			(result["links"] as Dictionary)["%d>%d" % [int((pair as Array)[0]) - 1, int((pair as Array)[1]) - 1]] = true
+	return result
+
+
 ## How the paths between nodes are drawn over this dungeon's painted map: "full", "subtle" (default), "highlight", "plan" (every link, for the castle's route planning) or "none" (`map_layout.json`, key "paths").
 static func path_style(dungeon_id: String) -> String:
 	_load()

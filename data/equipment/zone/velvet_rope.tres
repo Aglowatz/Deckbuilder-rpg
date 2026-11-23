@@ -7,7 +7,8 @@
 [sub_resource type="Resource" id="Resource_3mgpn"]
 script = ExtResource("1_0u8lo")
 kind = 5
-value2 = 3
+value = 1
+value2 = 2
 color = 2
 
 [sub_resource type="Resource" id="Resource_s8jss"]
@@ -19,7 +20,7 @@ color = 2
 [resource]
 script = ExtResource("3_ehce3")
 id = "velvet_rope"
-description = "Your Gourmand units get +0/+3. They have Wallflower (they cannot attack)."
+description = "Your Gourmand units get +1/+2. They have Wallflower (they cannot attack)."
 flavor_text = "Sorry, the kitchen is reservation-only. You are not on the list."
 rarity = 1
 tier = 2

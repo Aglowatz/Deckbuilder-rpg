@@ -10,14 +10,16 @@ extends RefCounted
 const GARDEN_HEAL: int = 6
 ## Label, what the route is, the rooms in order (dungeon list numbers).
 const ROUTES: Array = [
-	["A", "all four allies (no heal, one treasure)", [2, 5, 8, 11, 14, 18]],
-	["B", "three allies (Chef, Flex, Agnes), no heal", [2, 4, 8, 11, 15, 19]],
+	["A", "all four allies (the kettle: heal 6 for a cost; one treasure)", [2, 5, 8, 11, 14, 18]],
+	["B", "three allies (Chef, Flex, Agnes), the kettle", [2, 4, 8, 11, 15, 19]],
 	["C", "one ally (Flex) and the Safe Room", [3, 5, 8, 12, 16, 20]],
 	["D", "no ally: the middle road with the Safe Room", [3, 6, 9, 12, 16, 19]],
 	["E", "no ally: the quiet south (the Garden, treasure, one fight less)", [3, 7, 10, 13, 17, 21]],
 ]
 const SAFE_ROOM: int = 16
 const GARDEN: int = 7
+## Fable Nov 22 night: the Archivists' Kettle (heal 6 for a cost) after the fight of room 11; `--kettle=0` walks past it.
+const KETTLE: int = CastleAllies.REST_ROOM
 
 var args: Dictionary = {}
 
@@ -78,6 +80,8 @@ func _route(content: ContentSet, route: Array, runs: int, seed_value: int) -> St
 		elif by_id.has("D-PC:%d" % int(number)):
 			steps.append(by_id["D-PC:%d" % int(number)])
 			fights += 1
+			if int(number) == KETTLE and str(args.get("kettle", "1")) != "0":
+				steps.append("kettle")
 	var door: int = steps.size()
 	for phase: int in range(1, PrimmBoss.PHASES + 1):
 		steps.append(by_id["D-PC:22:phase%d" % phase])

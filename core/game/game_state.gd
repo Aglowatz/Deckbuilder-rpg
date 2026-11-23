@@ -891,6 +891,13 @@ func _echo_first_play(player_index: int, card: CardInstance) -> void:
 	player.first_play_done_this_turn = true
 	if not player.modifiers.has(Modifier.Kind.DRAW_COPY_FIRST_PLAY):
 		return
+	# Fable Nov 22 night: only a card that costs `value2` or less is copied (0 = any); a dearer first card uses the turn's chance up.
+	var max_cost: int = 0
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.DRAW_COPY_FIRST_PLAY:
+			max_cost = maxi(max_cost, modifier.value2) if modifier.value2 > 0 else max_cost
+	if max_cost > 0 and card.data.energy_value() > max_cost:
+		return
 	for index: int in range(player.deck.size() - 1, -1, -1):
 		var candidate: CardInstance = player.deck[index]
 		if candidate.data.id == card.data.id:
@@ -970,7 +977,10 @@ func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targe
 	if card.data.is_unit() and not is_over():
 		_fire_modifier_effects(card.owner, Modifier.Kind.ON_UNIT_ENTER_EFFECT, 0, card.data)
 	if card.data.is_unit() and not is_over():
-		_fire_modifier_effects(1 - card.owner, Modifier.Kind.ON_ENEMY_UNIT_ENTER_EFFECT, card.uid)
+		var watcher: PlayerState = players[1 - card.owner]
+		if not watcher.enemy_enter_effect_done_this_turn and watcher.modifiers.has(Modifier.Kind.ON_ENEMY_UNIT_ENTER_EFFECT):
+			watcher.enemy_enter_effect_done_this_turn = true  # Fable Nov 22 night: the first enemy unit each turn only
+			_fire_modifier_effects(1 - card.owner, Modifier.Kind.ON_ENEMY_UNIT_ENTER_EFFECT, card.uid)
 
 
 ## New brief, Part B: applies the controller's GRANT_KEYWORD_TO_CREATURES/CANNOT_BLOCK equipment
@@ -1089,6 +1099,8 @@ func _begin_turn() -> void:
 	player.first_unit_exhaust_done = false
 	player.unit_mirrored_this_turn = false
 	player.first_play_done_this_turn = false
+	for side: PlayerState in players:
+		side.enemy_enter_effect_done_this_turn = false  # the Gladiator's Net answers the first enemy unit of every turn, yours or theirs
 	for infra: CardInstance in player.infrastructure:
 		_refresh(infra)
 	for card: CardInstance in player.field:

@@ -55,6 +55,34 @@ static func _events(def: MainDungeonDef) -> void:
 	journals.choice([DungeonEvent.heal(7), DungeonEvent.boon(DungeonBuilder.boon_from("Sympathy for Him|max_hp=-6"))] as Array[DungeonEvent.Outcome])
 	def.add_event(journals)
 	def.add_event(spoils_event())
+	def.add_event(rest_event(def))
+
+
+## Fable Nov 22 night: the Archivists' Kettle, the all-allies route's one "heal for a cost" stop (room 11, after Plume's fight). The
+## Garden's rules exactly: heal 6 for 60 gold, heal 6 for a drawback in the next fight (the foe's units +1 attack), or nothing.
+static func rest_event(def: MainDungeonDef) -> DungeonEvent:
+	var event: DungeonEvent = DungeonEvent.make(CastleAllies.REST_EVENT)
+	DungeonCatalog.set_text(event.title_key(), ["The Archivists' Kettle"])
+	DungeonCatalog.set_text(event.body_key(), ["Behind the last shelf of the Notarized Archives somebody keeps a kettle, a tin of biscuits and an honesty box. The kettle is still warm. A card on the tin says: \"Tea and two biscuits, %d gold. Receipts on request.\"" % CastleAllies.REST_COST])
+	var names: Array[String] = ["Pay the honesty box and sit down", "Help yourself and skip the box", "Leave the kettle for the clerks"]
+	var results: Array[String] = [
+		"Sixty coins rattle into the box. The tea is strong, the biscuits are plain, and for five minutes nobody stamps anything.",
+		"The tea is just as good unpaid for. Somebody has counted these biscuits, though, and the count goes upstairs ahead of you.",
+		"You straighten the tin and walk on. The kettle goes on ticking as it cools.",
+	]
+	var outcomes: Array = [
+		["heal:%d" % CastleAllies.REST_HEAL, "pay:%d" % CastleAllies.REST_COST],
+		["heal:%d" % CastleAllies.REST_HEAL, "curse:Two Biscuits Short|foe_atk=1,next=1"],
+		["nothing"],
+	]
+	for index: int in range(outcomes.size()):
+		DungeonCatalog.set_text(event.choice_key(index), [names[index]])
+		DungeonCatalog.set_text(event.result_key(index), [results[index]])
+		var made: Array[DungeonEvent.Outcome] = []
+		for token: Variant in outcomes[index] as Array:
+			made.append(DungeonBuilder.event_outcome(str(token), def))
+		event.choice(made)
+	return event
 
 
 ## The Pantry Mimic's hoard (Part 4): after the fight, one strong boon for the rest of the run, the last fight above all. A reward, so

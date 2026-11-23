@@ -43,8 +43,8 @@ enum Kind {
 	## so this doesn't need to be recomputed continuously). `color` may restrict it like
 	## STAT_CHANGE; ANY_COLOR means every unit.
 	GRANT_KEYWORD_TO_UNITS,
-	## New brief, Part B: presence means every unit the owner controls can never be declared
-	## as a blocker (applied once on entering the field, same timing as the grant above).
+	## New brief, Part B: presence means every unit the owner controls cannot be declared as a blocker (applied once on entering the
+	## field, same timing as the grant above). Fable Nov 22 night: such a unit can still block an attacker with Flying (Hover Boots).
 	CANNOT_BLOCK,
 	## New brief, Part B: value = the smallest cap (if several apply) on how many non-infrastructure cards
 	## the owner may play in one turn. Absent (no such modifier) means unlimited.
@@ -84,8 +84,9 @@ enum Kind {
 	## Part G: `effect` resolves for the owner every time THEY declare attackers (once per declaration), e.g. the
 	## Crowd-Pleaser's Cape.
 	ON_ATTACK_DECLARED_EFFECT,
-	## Part G: `effect` resolves for the owner whenever an ENEMY unit enters the field; its target
-	## kind TRIGGERING_CARD means that unit, e.g. the Gladiator's Net.
+	## Part G: `effect` resolves for the owner when an ENEMY unit enters the field; its target
+	## kind TRIGGERING_CARD means that unit, e.g. the Gladiator's Net. Fable Nov 22 night: only for the FIRST enemy unit to enter each
+	## turn (either player's turn; `PlayerState.enemy_enter_effect_done_this_turn`).
 	ON_ENEMY_UNIT_ENTER_EFFECT,
 	## Part G: `effect` resolves for the owner whenever they are dealt damage (not mere HP loss), e.g. the
 	## Bloodsand Boots.

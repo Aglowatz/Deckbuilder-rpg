@@ -23,7 +23,7 @@ static func add_equipment(result: Dictionary) -> void:
 	cape.flavor_text = "Every charge earns a roar, and every roar is oddly nourishing."
 	result[cape.id] = cape
 	var net: EquipmentData = _piece("gladiators_net", "Gladiator's Net", EquipmentData.Slot.WEAPON,
-		"Whenever an enemy unit enters the field, it gets -1/-1 permanently.",
+		"The first enemy unit to enter the field each turn gets -1/-1 permanently.",  # Fable Nov 22 night: was every enemy unit
 		[ProgressionContent._mod_effect(K.ON_ENEMY_UNIT_ENTER_EFFECT, ProgressionContent._effect_ab(O.BUFF, -1, -1, G.TRIGGERING_CARD))])
 	net.flavor_text = "Thrown from the stands by a very enthusiastic fishmonger. It holds, apparently."
 	result[net.id] = net

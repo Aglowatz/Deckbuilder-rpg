@@ -8,33 +8,18 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 | Dungeon | Name | Type | First victory | Unique card | Not in packs | Repeat clears |
 |---------|------|------|---------------|-------------|--------------|---------------|
 | D-TUT | The Forgotten Cave | Tutorial | Choose 1 of 3 cards from your chosen Path after each battle (3 total); opens the road to town. | (none) | (n/a) | Small gold (replayable for practice). |
-| D-HOG | The House of Gains | Main Dungeon | The Big Unit (B-32), a Gilded Beefcake Pack, bonus gold and XP; frees the Gainlands. | B-32 The Big Unit | yes | Beefcake Pack + gold. |
-| D-TTK | The Test Kitchen | Main Dungeon | Grand Chef Escoffina (G-33), a Gilded Gourmand Pack, bonus gold and XP; frees the Endless Buffet. | G-33 Grand Chef Escoffina | yes | Gourmand Path Pack + gold. |
-| D-HFA | The Hall of Final Approvals | Main Dungeon | Mass Layoffs (N-29), a Gilded Necrocrat Pack, bonus gold and XP; frees the D.N.A. (Cards Oct 27: Mortimer is ENEMY-ONLY) | N-29 Mass Layoffs | yes | Necrocrat Path Pack + gold. |
-| D-ROT | The Rotheart | Main Dungeon | Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump. | R-33 Archdruid Compostella | yes | Refusemancer Path Pack + gold. |
-| D-PC | Primm's Castle | Final Dungeon | Reunion of the Paths (P4-02), bonus gold and XP, the ending, and the postgame unlock (all Paths can be combined). | P4-02 Reunion of the Paths | yes | Prismatic Pack + gold (postgame). |
+| D-HOG | The House of Gains | Main Dungeon | The Big Unit (B-32), a Gilded Beefcake Pack, bonus gold and XP; frees the Gainlands. | B-32 The Big Unit | **NO** | Beefcake Pack + gold. |
+| D-TTK | The Test Kitchen | Main Dungeon | Grand Chef Escoffina (G-33), a Gilded Gourmand Pack, bonus gold and XP; frees the Endless Buffet. | G-33 Grand Chef Escoffina | **NO** | Gourmand Path Pack + gold. |
+| D-HFA | The Hall of Final Approvals | Main Dungeon | Mass Layoffs (N-29), a Gilded Necrocrat Pack, bonus gold and XP; frees the D.N.A. | N-29 Mass Layoffs | **NO** | Necrocrat Path Pack + gold. |
+| D-ROT | The Rotheart | Main Dungeon | Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump. | R-33 Archdruid Compostella | **NO** | Refusemancer Path Pack + gold. |
+| D-PC | Primm's Castle | Final Dungeon | Reunion of the Paths (P4-02), bonus gold and XP, the ending, and the postgame unlock (all Paths can be combined). | P4-02 Reunion of the Paths | **NO** | Prismatic Pack + gold (postgame). |
 | S-BEEF | The Ascent of Mount Swolympus | Side Dungeon | Barbell of the Ancients (B-30). | B-30 Barbell of the Ancients | yes | Small gold and a Beefcake Pack. |
-| S-GOUR | Omakase | Side Dungeon | Toro Toro (G-27). | G-27 Toro Toro | yes | Small gold and a Gourmand Path Pack. |
-| S-NECRO | The Waiting Room of Eternity | Side Dungeon | The Department of Final Approvals (N-31). (Cards Oct 27: Betty Bones is ENEMY-ONLY) | N-31 Department of Final Approvals | yes | Small gold and a Necrocrat Path Pack. |
+| S-GOUR | The Raw Deal | Side Dungeon | Toro Toro (G-27). | G-27 Toro Toro | yes | Small gold and a Gourmand Path Pack. |
+| S-NECRO | The Waiting Room of Eternity | Side Dungeon | Betty Bones | (none) | (n/a) | Surly Secretary (N-30). |
 | S-REF | The Trash Panda Throne | Side Dungeon | Raccoon (R-27). | R-27 Raccoon | yes | Small gold and a Refusemancer Path Pack. |
 | S-CAP | The Old Service Tunnels | Side Dungeon | The Wanderer (C-29). | C-29 The Wanderer | yes | Small gold and a General Pack. |
-| S-PASTE | The Paste Works | Side Dungeon | The Colonel's Ladle (relic), bonus gold and XP. | (none) | (n/a) | Small gold and a Gourmand Path Pack. |
+| S-PASTE | The Paste Works | Side Dungeon | The Infinite Pantry (G-30), the Colonel's Ladle (relic), bonus gold and XP. | G-30 The Infinite Pantry | yes | Small gold and a Gourmand Path Pack. |
 | S-TOWN | The Forgotten Vault | Side Dungeon | Old Kingdom Banner (C-21). | C-21 Old Kingdom Banner | yes | Small gold and a General Pack. |
-| D-LAB | The Path-ology Lab | Postgame Dungeon | Siphon's Lens (equipment), bonus gold and XP | (none) | (n/a) | Small gold and a Prismatic Pack |
+| D-LAB | The Path-ology Lab | Postgame Dungeon | Champion of the Four Paths (P4-01), Siphon's Lens (equipment), bonus gold and XP | P4-01 Champion of the Four Paths | **NO** | Small gold and a Prismatic Pack |
 
 Other reward-only cards (quests, chests, the black market, vendors) are defined in code and data: see `ZoneQuestDefinitions`, `CapitalContent`, `ZoneCards` and `data/source/card_overrides.csv`.
-
-
-## Cards Oct 27, Part 3: earned cards go to the collection, not the deck
-
-Every card won, picked, found or bought - dungeon picks, elite / boss / gatekeeper picks, quest rewards, chests, packs, vendors, dungeon
-events and challenges - joins the player's collection only (`Session.add_cards`); nothing is added to a deck. The one exception is the
-Forgotten Cave's first run (`Session.rewards_go_to_deck()`: the tutorial's three picks still build the starting deck, and
-`complete_trial` makes the run's deck the player's deck only on that first clear; a replay leaves the deck as it is). Copy caps apply as
-before (an extra copy converts to essence). The pick screens say "Added to your collection" (the tutorial's: "joins your deck"); the first
-time it happens after the cave, a one-time tip (`Session.take_collection_tip`, flag `tip_collection_deck`) points at the Deck Station,
-which shows "NEW" on every card that joined the collection since the station was last closed (`Session.new_cards`, saved; cleared by
-`mark_new_cards_viewed` when the station closes). Existing saves: decks stay exactly as they are. Tests:
-`tests/core/dungeon/test_collection_routing.gd`.
-
-Availability (Part 2) and the reward table above: `docs/design/card_availability.md`.

@@ -57,8 +57,8 @@ static func add_all(result: Dictionary) -> void:
 	_add(result, "dumpster_gloves", "Dumpster Diving Gloves", S.WEAPON, R.UNCOMMON, 2, "Whenever one of your units dies, create 2 Garbage.", "",
 		"One person's trash is another person's starting hand.", [_eff_ab(K.ON_ALLY_DEATH_EFFECT, O.CREATE_RESOURCE, int(ResourceKind.Kind.GARBAGE), 2, G.CONTROLLER)])
 	# -- Four powerful pieces with real drawbacks (tier 3).
-	_add(result, "glass_jaw_gauntlets", "Glass Jaw Gauntlets", S.WEAPON, R.RARE, 3, "Your units get +2 attack.", "Max HP -3.",
-		"Hits like a truck. Takes a punch like a soufflé.", [_mod(K.STAT_CHANGE, 2, Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -3)])  # Oct 29: max HP, so the cost counts inside dungeons too
+	_add(result, "glass_jaw_gauntlets", "Glass Jaw Gauntlets", S.WEAPON, R.RARE, 3, "Your units get +2 attack.", "Max HP -6.",
+		"Hits like a truck. Takes a punch like a soufflé.", [_mod(K.STAT_CHANGE, 2, Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -6)])  # Fable Nov 22 night: -6 (was -3)  # Oct 29: max HP, so the cost counts inside dungeons too
 	_add(result, "overdue_library_book", "Overdue Library Book", S.RELIC, R.RARE, 3, "Draw 1 extra card each turn.", "Then discard 1 card at random.",
 		"Due back in 1987. The fines are now sentient.", [_mod(K.EXTRA_DRAWS, 1), _eff(K.START_OF_TURN_EFFECT, O.TOSS, 1, G.CONTROLLER)])
 	_add(result, "elastic_waistband", "Elastic Waistband of Victory", S.ARMOR, R.RARE, 3, "Your units get +1/+1.", "You can play only 2 non-infrastructure cards per turn.",
@@ -81,8 +81,8 @@ static func add_all(result: Dictionary) -> void:
 		"Folded from a rejected appeal. It flies better than it was ever filed.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.FLYING), N, 0)])
 	_add(result, "mystery_stain_bib", "Mystery-Stain Bib", S.ARMOR, R.UNCOMMON, 2, "Your Refusemancer units have Toxic.", "",
 		"Nobody knows what the stain is. Nobody wants to. It is load-bearing now.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.TOXIC), RE, 0)])
-	_add(result, "velvet_rope", "Velvet Rope", S.RELIC, R.UNCOMMON, 2, "Your Gourmand units get +0/+3.", "They have Wallflower (they cannot attack).",
-		"Sorry, the kitchen is reservation-only. You are not on the list.", [_mod(K.STAT_CHANGE, 0, GO, 3), _mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.WALLFLOWER), GO, 0)])
+	_add(result, "velvet_rope", "Velvet Rope", S.RELIC, R.UNCOMMON, 2, "Your Gourmand units get +1/+2.", "They have Wallflower (they cannot attack).",
+		"Sorry, the kitchen is reservation-only. You are not on the list.", [_mod(K.STAT_CHANGE, 1, GO, 2), _mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.WALLFLOWER), GO, 0)])
 	_add(result, "sucker_punch_mitts", "Sucker Punch Mitts", S.WEAPON, R.UNCOMMON, 2, "Your units have Sucker Punch (they deal combat damage first).", "Max HP -3.",
 		"Rule one of the fight club: hit first, apologise never.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.SUCKER_PUNCH), Modifier.ANY_COLOR, 0), _mod(K.MAX_HP, -3)])  # Oct 29: -1 defense to every unit cancelled the piece (+0); an Uncommon with a max-HP cost
 	# -- Two utility pieces.

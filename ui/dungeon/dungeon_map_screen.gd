@@ -202,6 +202,10 @@ func _build_board() -> void:
 	_paths.size = Vector2(1920, 1080)
 	_paths.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_paths.style = DungeonCatalog.path_style(_plan.id) if _plan != null else "full"
+	if _plan != null and _art != null:
+		var drawn: Dictionary = DungeonCatalog.drawn_links(_plan.id)
+		_paths.painted_walkways = bool(drawn["listed"])
+		_paths.drawn_links = drawn["links"] as Dictionary
 	add_child(_paths)
 
 
@@ -716,11 +720,13 @@ func _play_pending_after_story() -> void:
 
 ## The Pantry Mimic's hoard: the pick of one boon after its fight is won, once per run (null for any other room).
 func _spoils_event(node: DungeonMap.MapNode) -> DungeonEvent:
-	if _main_def == null or run == null or Session.dungeon_key != CastleAllies.DUNGEON_KEY or node.number != CastleAllies.PANTRY_ROOM:
+	if _main_def == null or run == null or Session.dungeon_key != CastleAllies.DUNGEON_KEY or not DungeonMap.is_battle_kind(node.kind):
 		return null
-	if not DungeonMap.is_battle_kind(node.kind) or run.used_challenges.has(CastleAllies.SPOILS_EVENT):
+	# Fable Nov 22 night: the Archivists' Kettle after the fight of room 11 works the same way (the "heal 6 for a cost" stop)
+	var event_id: String = CastleAllies.SPOILS_EVENT if node.number == CastleAllies.PANTRY_ROOM else (CastleAllies.REST_EVENT if node.number == CastleAllies.REST_ROOM else "")
+	if event_id.is_empty() or run.used_challenges.has(event_id):
 		return null
-	return _main_def.event(CastleAllies.SPOILS_EVENT)
+	return _main_def.event(event_id)
 
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.

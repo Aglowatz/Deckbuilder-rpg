@@ -10,29 +10,34 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 # number, name, CSV type, note, row, (x, y) on the painted map (0..1), exits
 ROOMS = [
-    (1, "Castle Gate", "Start", "story: Elowen is seized on Plume's orders", 0, (0.048, 0.770), [2, 3]),
-    (2, "Gilded Pantry", "Elite", "the Pantry Mimic; the Grand Chef's recipe", 1, (0.104, 0.347), [4, 5]),
-    (3, "Courtyard of Perfect Hedges", "Battle", "", 1, (0.146, 0.628), [5, 6, 7]),
-    (4, "Gourmand Wing: the Doppelganger's Lab Notes", "Event", "", 2, (0.290, 0.327), [8, 9]),
-    (5, "Portrait Gallery", "Battle", "", 2, (0.347, 0.525), [8, 9]),
-    (6, "Grand Foyer", "Event", "", 2, (0.247, 0.703), [9, 10]),
-    (7, "Garden of Uniform Flowers", "Full Heal", "heal for a cost", 2, (0.247, 0.853), [9, 10]),
-    (8, "Beefcake Wing: Coup Orders Barracks", "Battle", "ally room: Grandmaster Flex", 3, (0.397, 0.308), [11, 12]),
-    (9, "Hall of Mirrors", "Elite", "", 3, (0.451, 0.602), [11, 12, 13]),
-    (10, "Correction Ward Cells", "Event", "free prisoners for a boon", 3, (0.440, 0.826), [12, 13]),
-    (11, "Necrocrat Wing: Notarized Archives", "Elite", "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture", 4, (0.541, 0.279), [14, 15]),
-    (12, "Ministry of Correction", "Battle", "", 4, (0.562, 0.476), [14, 15, 16]),
-    (13, "Mirror Maze", "Deck Challenge", "", 4, (0.562, 0.795), [16, 17]),
-    (14, "Refusemancer Wing: the Corrupted Seed Vault", "Battle", "ally room: Archdruid Compostella", 5, (0.627, 0.258), [18, 19]),
-    (15, "Archive of Good Intentions", "Event", "Primm's journals; young Maren's letter", 5, (0.756, 0.416), [19, 20]),
-    (16, "Resistance Safe Room", "Full Heal", "", 5, (0.672, 0.563), [19, 20]),
-    (17, "Royal Kitchens", "Treasure", "", 5, (0.724, 0.754), [20, 21]),
-    (18, "Primm's Private Gallery", "Treasure", "the painted-over royal portrait", 6, (0.736, 0.218), [22]),
-    (19, "Royal Stair", "Elite", "", 6, (0.840, 0.523), [22]),
-    (20, "Clocktower Balcony", "Elite", "", 6, (0.896, 0.754), [22]),
-    (21, "Royal Vault", "Treasure", "", 6, (0.943, 0.895), [22]),
-    (22, "The Model Room", "Boss", "", 7, (0.887, 0.376), []),
+    (1, "Castle Gate", "Start", "story: Elowen is seized on Plume's orders", 0, (0.062, 0.428), [2, 3]),
+    (2, "Gilded Pantry", "Elite", "the Pantry Mimic; the Grand Chef's recipe", 1, (0.183, 0.287), [4, 5]),
+    (3, "Courtyard of Perfect Hedges", "Battle", "", 1, (0.178, 0.635), [5, 6, 7]),
+    (4, "Gourmand Wing: the Doppelganger's Lab Notes", "Event", "", 2, (0.311, 0.237), [8, 9]),
+    (5, "Portrait Gallery", "Battle", "", 2, (0.303, 0.442), [8, 9]),
+    (6, "Grand Foyer", "Event", "", 2, (0.307, 0.651), [9, 10]),
+    (7, "Garden of Uniform Flowers", "Full Heal", "heal for a cost", 2, (0.305, 0.844), [9, 10]),
+    (8, "Beefcake Wing: Coup Orders Barracks", "Battle", "ally room: Grandmaster Flex", 3, (0.433, 0.264), [11, 12]),
+    (9, "Hall of Mirrors", "Elite", "", 3, (0.426, 0.468), [11, 12, 13]),
+    (10, "Correction Ward Cells", "Event", "free prisoners for a boon", 3, (0.433, 0.666), [12, 13]),
+    (11, "Necrocrat Wing: Notarized Archives", "Elite", "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture", 4, (0.561, 0.263), [14, 15]),
+    (12, "Ministry of Correction", "Battle", "", 4, (0.556, 0.474), [14, 15, 16]),
+    (13, "Mirror Maze", "Deck Challenge", "", 4, (0.555, 0.669), [16, 17]),
+    (14, "Refusemancer Wing: the Corrupted Seed Vault", "Battle", "ally room: Archdruid Compostella", 5, (0.686, 0.235), [18, 19]),
+    (15, "Archive of Good Intentions", "Event", "Primm's journals; young Maren's letter", 5, (0.685, 0.444), [19, 20]),
+    (16, "Resistance Safe Room", "Full Heal", "", 5, (0.686, 0.650), [19, 20]),
+    (17, "Royal Kitchens", "Treasure", "", 5, (0.677, 0.846), [20, 21]),
+    (18, "Primm's Private Gallery", "Treasure", "the painted-over royal portrait", 6, (0.808, 0.234), [22]),
+    (19, "Royal Stair", "Elite", "", 6, (0.811, 0.451), [22]),
+    (20, "Clocktower Balcony", "Elite", "", 6, (0.814, 0.653), [22]),
+    (21, "Royal Vault", "Treasure", "", 6, (0.810, 0.853), [22]),
+    (22, "The Model Room", "Boss", "", 7, (0.948, 0.488), []),
 ]
+
+# Batch 19 (Fable Nov 22 night): the repainted MAP-PC has a landing spot for every room (the coordinates above are their centres) and a
+# painted walkway for 30 of the 41 links. These eleven have none, so the game still draws a line for them (map_layout.json,
+# "drawn_links"); docs/art/batch20.csv asks for them.
+DRAWN_LINKS = [(2, 5), (3, 7), (4, 9), (5, 8), (6, 9), (7, 9), (9, 11), (10, 12), (12, 14), (16, 19), (17, 20)]
 
 BUFFS = ("The Capital's broken-services debuffs (one per faction whose zone isn't freed yet). Perfect Order: each player may play only one "
          "card of each type per turn (one unit, one spell, one trap, one wonder, one tool). Mirrors (the Gilded Pantry and the Hall of "
@@ -75,7 +80,15 @@ def write_layout():
     cells = ['"%d": [%.3f, %.3f]' % (number, x, y) for number, _n, _k, _note, _row, (x, y), _e in ROOMS]
     lines = [", ".join(cells[i:i + 7]) for i in range(0, len(cells), 7)]
     block = '"D-PC": {\n\t\t' + ",\n\t\t".join(lines) + '\n\t}'
-    io.open(path, 'w', encoding='utf-8', newline='\n').write(text[:start] + block + text[end:])
+    text = text[:start] + block + text[end:]
+    drawn = '"drawn_links": {"D-PC": [%s]}' % ", ".join("[%d, %d]" % link for link in DRAWN_LINKS)
+    if '"drawn_links"' in text:
+        at = text.index('"drawn_links"')
+        text = text[:at] + drawn + text[text.index(']}', at) + 2:]
+    else:
+        at = text.index('"paths": {')
+        text = text[:at] + drawn + ',\n\t' + text[at:]
+    io.open(path, 'w', encoding='utf-8', newline='\n').write(text)
 
 
 REGIME = ["necrocrat", "gourmand"]
@@ -157,7 +170,7 @@ CONTENT = {
         "8": "A fight to hold a line: the Sergeant and his coup orders.",
         "9": "A tougher fight: the Mirror Knight, under the Mirrors rule.",
         "10": "A choice: the Corrected. Sit with them, and they stay with you to the end.",
-        "11": "A tougher fight against the clock: Percival Plume and his red tape.",
+        "11": "A tougher fight against the clock: Percival Plume and his red tape. Afterwards, the archivists' kettle: heal 6 for a cost.",
         "12": "A fight: the Ministry Clerk has a form for you.",
         "13": "Your deck is put to the test by a mirror that hesitates.",
         "14": "A fight: the Gardener and three spotless statues.",
@@ -175,8 +188,8 @@ CONTENT = {
     "talks": {"1": {"before": "pc_capture"}, "11": {"before": "pc_plume_memo", "after": "pc_plume_memo_after"}},
 }
 
-TRAINEE_ART = "res://assets/art/bestiary/BST-FLEXING-BRUTE.webp"
-STATUE_ART = "res://assets/art/bestiary/BST-CAPTAIN-SPOTLESS.webp"
+TRAINEE_ART = "res://assets/art/cards/T-PC-TRAINEE.webp"
+STATUE_ART = "res://assets/art/cards/T-PC-STATUE.webp"
 
 RULES = {
     "The Pantry Mimic": [
@@ -186,7 +199,7 @@ RULES = {
     "Coup Barracks Sergeant": [
         {"name": "Captured Trainees", "text": "Two Captured Trainees (0/3) stand on your side from the start. Keep one alive until the Sergeant's 6th turn begins and the barracks gives up.",
          "icon": "lorc/muscle-up", "side": "player", "kind": "starting_tokens", "token": "T-16", "count": 2, "token_id": "PC-TRAINEE", "token_name": "Captured Trainee",
-         "token_stats": [0, 3], "token_keywords": [], "token_text": "One of Flex's trainees, who would not sign. Keep one alive.", "token_art": TRAINEE_ART, "token_tint": "f0dcc0"},
+         "token_stats": [0, 3], "token_keywords": [], "token_text": "One of Flex's trainees, who would not sign. Keep one alive.", "token_art": TRAINEE_ART},
         {"name": "Coup Orders", "text": "The Sergeant's units get +2/+0. They were told to go through the line.", "icon": "lorc/crossed-swords", "kind": "stat", "atk": 2, "def": 0},
     ],
     "Percival Plume, Deputy Minister of Good News": [
@@ -196,7 +209,7 @@ RULES = {
     "Seed Vault Gardener": [
         {"name": "Spotless", "text": "Three Spotless Statues (0/4) stand on the Gardener's side from the start. Destroy all three and the vault is yours.",
          "icon": "delapouite/plant-seed", "kind": "starting_tokens", "token": "T-16", "count": 3, "token_id": "PC-STATUE", "token_name": "Spotless Statue",
-         "token_stats": [0, 4], "token_keywords": [], "token_text": "Polished every morning. It keeps the damp out.", "token_art": STATUE_ART, "token_tint": "e2ecf6"},
+         "token_stats": [0, 4], "token_keywords": [], "token_text": "Polished every morning. It keeps the damp out.", "token_art": STATUE_ART},
         {"name": "Waxed and Polished", "text": "The Gardener's own units get +1/+1 (the statues do not).", "icon": "lorc/crossed-swords", "kind": "stat", "atk": 1, "def": 1, "non_tokens": True},
     ],
 }
@@ -304,6 +317,9 @@ def write_json(path, mutate):
 def main():
     write_csv()
     write_layout()
+    if '--layout' in sys.argv:  # Batch 19: only the room coordinates and the drawn links (then: bash tools/import_dungeons.sh)
+        print('castle layout written; now run: bash tools/import_dungeons.sh')
+        return
 
     def content(data):
         data['dungeons']['D-PC'] = CONTENT

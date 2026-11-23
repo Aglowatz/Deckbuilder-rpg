@@ -430,14 +430,6 @@
 			"icon": "delapouite/three-friends",
 			"kind": "start_of_turn_damage",
 			"amount": 1
-		},
-		{
-			"name": "The Crowd Roars",
-			"text": "His units get another +1/+1 (+3/+2 in all).",
-			"icon": "delapouite/three-friends",
-			"kind": "stat",
-			"atk": 1,
-			"def": 1
 		}
 	],
 	"zone:gourmand:casserole": [
@@ -791,8 +783,7 @@
 			],
 			"token_keywords": [],
 			"token_text": "One of Flex's trainees, who would not sign. Keep one alive.",
-			"token_art": "res://assets/art/bestiary/BST-FLEXING-BRUTE.webp",
-			"token_tint": "f0dcc0"
+			"token_art": "res://assets/art/cards/T-PC-TRAINEE.webp"
 		},
 		{
 			"name": "Coup Orders",
@@ -819,8 +810,7 @@
 			],
 			"token_keywords": [],
 			"token_text": "Polished every morning. It keeps the damp out.",
-			"token_art": "res://assets/art/bestiary/BST-CAPTAIN-SPOTLESS.webp",
-			"token_tint": "e2ecf6"
+			"token_art": "res://assets/art/cards/T-PC-STATUE.webp"
 		},
 		{
 			"name": "Waxed and Polished",

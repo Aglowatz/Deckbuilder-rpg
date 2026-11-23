@@ -11,18 +11,18 @@ value = 2
 
 [sub_resource type="Resource" id="Resource_422pd"]
 script = ExtResource("1_5ccdt")
-value = -3
+value = -6
 
 [resource]
 script = ExtResource("3_mhp2m")
 id = "glass_jaw_gauntlets"
 slot = 1
-description = "Your units get +2 attack. Max HP -3."
+description = "Your units get +2 attack. Max HP -6."
 advanced = true
 flavor_text = "Hits like a truck. Takes a punch like a soufflé."
 rarity = 2
 tier = 3
 source = "The House of Gains (first clear)"
-drawback = "Max HP -3."
+drawback = "Max HP -6."
 source_name = "Glass Jaw Gauntlets"
 modifiers = Array[ExtResource("1_5ccdt")]([SubResource("Resource_4h2qf"), SubResource("Resource_422pd")])

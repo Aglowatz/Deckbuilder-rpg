@@ -8,12 +8,13 @@
 script = ExtResource("1_g2vnp")
 kind = 57
 value = 1
+value2 = 3
 
 [resource]
 script = ExtResource("3_25ko5")
 id = "dex_matching_pair"
 slot = 3
-description = "Once each turn, when you play your first non-Infrastructure card, draw a copy of that card from your deck (if there is one)."
+description = "Once each turn, when you play your first non-Infrastructure card, if it costs 3 or less, draw a copy of that card from your deck (if there is one)."
 advanced = true
 flavor_text = "Every card has a twin somewhere. Dex just knows where to look."
 rarity = 2

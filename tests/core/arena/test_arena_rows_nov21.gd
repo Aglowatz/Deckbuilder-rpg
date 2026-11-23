@@ -47,7 +47,9 @@ func test_row_4_the_champion_of_the_four_fists() -> void:
 func test_row_5_announcer_grand_bellows() -> void:
 	assert_eq(ArenaDefs.find("arena_marshal").enemy_hp, 64, "46 -> 64 HP")
 	assert_eq(_stat("arena:arena_marshal", "Crowd Favourite"), [2, 1] as Array[int], "his old rule stays")
-	assert_eq(_stat("arena:arena_marshal", "The Crowd Roars"), [1, 1] as Array[int], "and the crowd adds +1/+1")
+	# Fable Nov 22 night: "The Crowd Roars" (+1/+1) is off again (64 HP stays): with his scripted events the row was won 25 % of the time
+	for rule: Variant in (JSON.parse_string(FileAccess.get_file_as_string("res://data/encounters/modifiers.json")) as Dictionary)["arena:arena_marshal"] as Array:
+		assert_ne(str((rule as Dictionary).get("name", "")), "The Crowd Roars")
 
 
 func test_row_6_the_four_fists_unbound() -> void:

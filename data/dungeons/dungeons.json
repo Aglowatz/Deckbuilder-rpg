@@ -879,8 +879,8 @@
 				"name": "Castle Gate",
 				"type": "start",
 				"note": "story: Elowen is seized on Plume's orders",
-				"x": 5,
-				"y": 77,
+				"x": 6,
+				"y": 43,
 				"next": [
 					2,
 					3
@@ -893,8 +893,8 @@
 				"name": "Gilded Pantry",
 				"type": "elite",
 				"note": "the Pantry Mimic; the Grand Chef's recipe",
-				"x": 10,
-				"y": 35,
+				"x": 18,
+				"y": 29,
 				"next": [
 					4,
 					5
@@ -907,8 +907,8 @@
 				"name": "Courtyard of Perfect Hedges",
 				"type": "battle",
 				"note": "",
-				"x": 15,
-				"y": 63,
+				"x": 18,
+				"y": 64,
 				"next": [
 					5,
 					6,
@@ -922,8 +922,8 @@
 				"name": "Gourmand Wing: the Doppelganger's Lab Notes",
 				"type": "event",
 				"note": "",
-				"x": 29,
-				"y": 33,
+				"x": 31,
+				"y": 24,
 				"next": [
 					8,
 					9
@@ -936,8 +936,8 @@
 				"name": "Portrait Gallery",
 				"type": "battle",
 				"note": "",
-				"x": 35,
-				"y": 52,
+				"x": 30,
+				"y": 44,
 				"next": [
 					8,
 					9
@@ -950,8 +950,8 @@
 				"name": "Grand Foyer",
 				"type": "event",
 				"note": "",
-				"x": 25,
-				"y": 70,
+				"x": 31,
+				"y": 65,
 				"next": [
 					9,
 					10
@@ -964,8 +964,8 @@
 				"name": "Garden of Uniform Flowers",
 				"type": "heal",
 				"note": "heal for a cost",
-				"x": 25,
-				"y": 85,
+				"x": 30,
+				"y": 84,
 				"next": [
 					9,
 					10
@@ -978,8 +978,8 @@
 				"name": "Beefcake Wing: Coup Orders Barracks",
 				"type": "battle",
 				"note": "ally room: Grandmaster Flex",
-				"x": 40,
-				"y": 31,
+				"x": 43,
+				"y": 26,
 				"next": [
 					11,
 					12
@@ -992,8 +992,8 @@
 				"name": "Hall of Mirrors",
 				"type": "elite",
 				"note": "",
-				"x": 45,
-				"y": 60,
+				"x": 43,
+				"y": 47,
 				"next": [
 					11,
 					12,
@@ -1007,8 +1007,8 @@
 				"name": "Correction Ward Cells",
 				"type": "event",
 				"note": "free prisoners for a boon",
-				"x": 44,
-				"y": 83,
+				"x": 43,
+				"y": 67,
 				"next": [
 					12,
 					13
@@ -1021,8 +1021,8 @@
 				"name": "Necrocrat Wing: Notarized Archives",
 				"type": "elite",
 				"note": "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture",
-				"x": 54,
-				"y": 28,
+				"x": 56,
+				"y": 26,
 				"next": [
 					14,
 					15
@@ -1036,7 +1036,7 @@
 				"type": "battle",
 				"note": "",
 				"x": 56,
-				"y": 48,
+				"y": 47,
 				"next": [
 					14,
 					15,
@@ -1051,7 +1051,7 @@
 				"type": "challenge",
 				"note": "",
 				"x": 56,
-				"y": 80,
+				"y": 67,
 				"next": [
 					16,
 					17
@@ -1064,8 +1064,8 @@
 				"name": "Refusemancer Wing: the Corrupted Seed Vault",
 				"type": "battle",
 				"note": "ally room: Archdruid Compostella",
-				"x": 63,
-				"y": 26,
+				"x": 69,
+				"y": 24,
 				"next": [
 					18,
 					19
@@ -1078,8 +1078,8 @@
 				"name": "Archive of Good Intentions",
 				"type": "event",
 				"note": "Primm's journals; young Maren's letter",
-				"x": 76,
-				"y": 42,
+				"x": 68,
+				"y": 44,
 				"next": [
 					19,
 					20
@@ -1092,8 +1092,8 @@
 				"name": "Resistance Safe Room",
 				"type": "heal",
 				"note": "",
-				"x": 67,
-				"y": 56,
+				"x": 69,
+				"y": 65,
 				"next": [
 					19,
 					20
@@ -1106,8 +1106,8 @@
 				"name": "Royal Kitchens",
 				"type": "treasure",
 				"note": "",
-				"x": 72,
-				"y": 75,
+				"x": 68,
+				"y": 85,
 				"next": [
 					20,
 					21
@@ -1120,8 +1120,8 @@
 				"name": "Primm's Private Gallery",
 				"type": "treasure",
 				"note": "the painted-over royal portrait",
-				"x": 74,
-				"y": 22,
+				"x": 81,
+				"y": 23,
 				"next": [
 					22
 				],
@@ -1133,8 +1133,8 @@
 				"name": "Royal Stair",
 				"type": "elite",
 				"note": "",
-				"x": 84,
-				"y": 52,
+				"x": 81,
+				"y": 45,
 				"next": [
 					22
 				],
@@ -1146,8 +1146,8 @@
 				"name": "Clocktower Balcony",
 				"type": "elite",
 				"note": "",
-				"x": 90,
-				"y": 75,
+				"x": 81,
+				"y": 65,
 				"next": [
 					22
 				],
@@ -1159,8 +1159,8 @@
 				"name": "Royal Vault",
 				"type": "treasure",
 				"note": "",
-				"x": 94,
-				"y": 90,
+				"x": 81,
+				"y": 85,
 				"next": [
 					22
 				],
@@ -1172,8 +1172,8 @@
 				"name": "The Model Room",
 				"type": "boss",
 				"note": "",
-				"x": 89,
-				"y": 38,
+				"x": 95,
+				"y": 49,
 				"next": [],
 				"side": false,
 				"return_to": 0
@@ -1300,11 +1300,11 @@
 		"story": "To get your form stamped you must reach the front of the line. The line is eternal. Fight your way past the receptionist, the queue, and finally Betty Bones herself, who is very sorry, but you'll need forms A through F.",
 		"boss": "Betty Bones, Surly Secretary",
 		"buffs": "Please Wait: units enter exhausted (both players).",
-		"reward_first": "Betty Bones, Surly Secretary (N-30).",
-		"reward_repeat": "Small gold and a Necrocrat Path Pack.",
-		"hook": "A ghost clutching a crumpled ticket: \"Number 4,000,212? They're on 3. Can you help?\"",
-		"map_id": "MAP-S-NECRO",
-		"battleboard_id": "BB-S-NECRO",
+		"reward_first": "Betty Bones",
+		"reward_repeat": "Surly Secretary (N-30).",
+		"hook": "Small gold and a Necrocrat Path Pack.",
+		"map_id": "A ghost clutching a crumpled ticket: \"Number 4,000,212? They're on 3. Can you help?\"",
+		"battleboard_id": "An endless gray waiting room seen from a high angle, rows of chairs stretching into fog. A path weaves from a ticket dispenser and glowing number display at the bottom-left (spot 1), through a long snaking queue of ghosts and skeletons in the middle (spot 2), to a lone secretary's desk piled with forms under a single green-shaded lamp at the top-right (spot 3).",
 		"nodes": [
 			{
 				"n": 1,

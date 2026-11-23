@@ -125,7 +125,13 @@ min_pck=$(( est_mb * 9 / 10 ))
 [ "$min_pck" -lt 300 ] && min_pck=300
 node tools/verify_pck.js "$pck" --min-mb="$min_pck" --min-shaders=40 || stop "the .pck is incomplete or unreadable"
 cp tools/playtest_kit/*.bat "$stage/" || stop "could not copy the launchers"
-node -e "const fs=require('fs');fs.writeFileSync(process.argv[2],fs.readFileSync(process.argv[1],'utf8').replace(/\r?\n/g,'\r\n'))" tools/playtest_kit/README_PLAYTEST.txt "$stage/README_PLAYTEST.txt" || stop "could not write README_PLAYTEST.txt"
+# Fable Nov 22 night (two-week plan, item 14): the public build carries the player read-me (docs/release/player_readme.txt -> README.txt).
+# A playtest build keeps the playtest read-me: PLAYTEST_BUILD=1 bash tools/export_windows.sh <version>
+if [ "${PLAYTEST_BUILD:-0}" = "1" ]; then readme_src="tools/playtest_kit/README_PLAYTEST.txt"; readme_name="README_PLAYTEST.txt"; else readme_src="docs/release/player_readme.txt"; readme_name="README.txt"; fi
+[ -f "$readme_src" ] || stop "no read-me at $readme_src"
+rm -f "$stage/README_PLAYTEST.txt" "$stage/README.txt"
+node -e "const fs=require('fs');fs.writeFileSync(process.argv[2],fs.readFileSync(process.argv[1],'utf8').replace(/\r?\n/g,'\r\n'))" "$readme_src" "$stage/$readme_name" || stop "could not write $readme_name"
+echo "read-me: $readme_name (from $readme_src)"
 expected=$( (cd "$stage" && ls -1) | sort)
 pck_mb=$(mb_of "$pck")
 total_mb=$(du -sm "$stage" | awk '{print $1}')
@@ -140,7 +146,7 @@ echo "--- zipping ---"
 unzip -tq "$zip_tmp" >/dev/null || stop "the new zip failed its CRC test"
 listed=$(unzip -Z1 "$zip_tmp" | sort)
 [ "$listed" = "$expected" ] || stop "the zip lists different files than the build folder: $(echo $listed)"
-for need in TheWaywardPath.exe TheWaywardPath.pck README_PLAYTEST.txt "Start (Safe Mode).bat"; do
+for need in TheWaywardPath.exe TheWaywardPath.pck "$readme_name" "Start (Safe Mode).bat"; do
 	echo "$listed" | grep -qxF "$need" || stop "the zip has no $need"
 done
 zip_bytes=$(bytes_of "$zip_tmp")

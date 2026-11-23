@@ -24,14 +24,20 @@ static func _can_attack(state: GameState, card: CardInstance) -> bool:
 
 static func possible_blockers(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
+	var flyer_attacks: bool = false
+	for attacker_uid: int in state.attackers:
+		var attacker: CardInstance = state.find_card(attacker_uid)
+		if attacker != null and state.unit_has_keyword(attacker, CardEnums.Keyword.FLYING):
+			flyer_attacks = true
 	for card: CardInstance in state.players[defender_index].units():
-		if _can_ever_block(state, card):
+		# a unit kept from blocking by its controller's equipment (Hover Boots) can still block an attacker with Flying
+		if _can_ever_block(state, card) and (not card.cannot_block or flyer_attacks):
 			result.append(card)
 	return result
 
 
 static func _can_ever_block(state: GameState, card: CardInstance) -> bool:
-	if card.exhausted or card.cannot_block or card.temp_cannot_block:
+	if card.exhausted or card.temp_cannot_block:
 		return false
 	return not StaticEffects.card_flag(state, card, "cant_block")
 
@@ -45,7 +51,7 @@ static func can_block(state: GameState, attacker: CardInstance, blocker: CardIns
 		return false
 	if state.unit_has_keyword(attacker, CardEnums.Keyword.FLYING):
 		return state.unit_has_keyword(blocker, CardEnums.Keyword.FLYING) or state.unit_has_keyword(blocker, CardEnums.Keyword.SWAT)
-	return true
+	return not blocker.cannot_block  # Fable Nov 22 night: Hover Boots' units block flyers only
 
 
 ## Attackers always attack the opposing player (there is no Guard).
