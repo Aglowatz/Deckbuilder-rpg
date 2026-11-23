@@ -40,6 +40,11 @@ static func get_def(zone_id: String) -> ZoneDef:
 			made.spots.append(CardMatchCircuit.spot_entry(made.id))
 			# Overnight Nov 16 (critic S2, finding 1): Dex is on the zone's map and in its "Point me to..." list (he had no marker at all)
 			made.poi_kinds["cardsharp"] = MapPoi.Kind.MINIGAME
+		if made != null and DraftChallenges.ZONES.has(made.id):
+			# Draft mode, Phase 1: Trey Pickett's draft table in every Path zone, on the map and the minimap
+			made.npcs.append(DraftHost.npc_entry(made.id))
+			made.spots.append(DraftHost.spot_entry(made.id))
+			made.poi_kinds[DraftHost.SPOT_ID] = MapPoi.Kind.MINIGAME
 	return _cache[zone_id] as ZoneDef
 
 

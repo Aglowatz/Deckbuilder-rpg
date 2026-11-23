@@ -12,6 +12,10 @@ var node_id: int = -1
 var tutorial: bool = false
 var is_boss: bool = false
 var practice: bool = false
+## Draft mode, Phase 1: a draft fight (Session.make_draft_battle / resolve_draft_battle) and the stand-in profile it is played with
+## (base HP, only the drafted equipment and items).
+var draft: bool = false
+var draft_profile: PlayerProfile = null
 ## New brief, Part E: set for a corrupted-NPC town challenge ("beefcake"/"gourmand"/"refusemancer"/"necrocrat"),
 ## empty otherwise. See Session.make_npc_challenge_battle/_complete_npc_challenge.
 var town_npc_id: String = ""

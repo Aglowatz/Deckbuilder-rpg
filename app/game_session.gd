@@ -180,6 +180,8 @@ func new_game() -> void:
 	found_secrets = []
 	quest_log.reset()
 	counters = {}
+	draft = null
+	pending_draft_result = {}
 	cosmetics = CosmeticState.new()
 	zone_log = []
 	map_fog = {}
@@ -1308,6 +1310,7 @@ func to_dict() -> Dictionary:
 		"completed_quests": completed_quests,
 		"quests": quest_log.to_dict(),
 		"counters": counters,
+		"draft": draft.to_dict() if draft != null else {},  # Draft mode, Phase 1: a draft in progress resumes after quitting
 		"zone_log": zone_log,
 		"map_fog": _fog_to_dict(),
 		"level": profile.level,
@@ -1444,6 +1447,8 @@ func from_dict(data: Dictionary) -> bool:
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	quest_migration_pending = quest_log.version < QuestLog.VERSION
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
+	draft = DraftState.from_dict(data.get("draft", {}) as Dictionary)  # absent in old saves: no draft
+	pending_draft_result = {}
 	cosmetics = CosmeticState.new()
 	if data.has("cosmetics"):
 		cosmetics.from_dict(data["cosmetics"] as Dictionary)
@@ -1590,6 +1595,8 @@ func _essence_to_dict() -> Dictionary:
 func save_game() -> void:
 	if not save_enabled or profile == null:
 		return
+	if _draft_real_profile != null:
+		return  # Draft mode: during a draft fight `profile` is the draft's stand-in; never write that one to disk
 	last_location = location_name()
 	if save_path != SaveSystem.PATH:
 		SaveSystem.write(to_dict(), save_path)
@@ -4235,6 +4242,158 @@ func arena_tier_open(tier: int) -> bool:
 
 
 
+# ---- Draft mode, Phase 1 (docs/design/draft_mode.md) -----------------------------------------------------------------------------
+
+## The draft in progress (null when there is none): saved with the game, so it resumes after quitting.
+var draft: DraftState = null
+## Set by a finished draft fight, read once by the scene the player comes back to (it reopens the draft screen); {} otherwise.
+var pending_draft_result: Dictionary = {}
+## The real profile while a draft fight is on (the fight runs with `DraftRun.player_profile`); null otherwise.
+var _draft_real_profile: PlayerProfile = null
+
+
+## What the next attempt at `challenge_id` costs (0: the first attempt at each challenge is free).
+func draft_fee(challenge_id: String) -> int:
+	return DraftChallenges.fee(challenge_id, counters)
+
+
+## Starts a draft: pays the fee, counts the attempt and puts the first offer on the table. False when another draft is in
+## progress, the Paths are not allowed or the gold is short.
+func start_draft(challenge_id: String, paths: Array[int]) -> bool:
+	ensure_game()
+	if draft != null:
+		return false
+	var fixed: Array[int] = DraftChallenges.fixed_paths(challenge_id)
+	var chosen: Array[int] = fixed if not fixed.is_empty() else paths.duplicate()
+	if chosen.is_empty() or (fixed.is_empty() and chosen.size() > DraftChallenges.max_open_paths(flags)):
+		return false
+	var fee: int = draft_fee(challenge_id)
+	if fee > 0 and not spend_gold(fee):
+		return false
+	bump_counter(DraftChallenges.attempts_counter(challenge_id))
+	var all_freed: bool = ZoneCompletion.count(flags) >= DraftChallenges.ZONES.size()
+	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, rng.randi() % 1000000 + 1, all_freed and chosen.size() >= 2, flag(MultiPathLock.FLAG_UNLOCKED))
+	draft.fee_paid = fee
+	save_game()
+	return true
+
+
+func draft_pick(index: int) -> bool:
+	if draft == null or not DraftEngine.pick(content, draft, index):
+		return false
+	save_game()
+	return true
+
+
+func draft_reroll() -> bool:
+	if draft == null or not DraftEngine.reroll(content, draft):
+		return false
+	save_game()
+	return true
+
+
+## Leaves the deck builder: the rivals draft and the run begins.
+func draft_begin_run() -> bool:
+	if draft == null or not DraftRun.begin(content, draft):
+		return false
+	save_game()
+	return true
+
+
+## The duel against the next rival, with the draft's own player (base HP, the drafted gear and items, the 35-card deck).
+func make_draft_battle() -> BattleContext:
+	ensure_game()
+	var rival: Dictionary = DraftRun.next_rival(draft)
+	var stand_in: PlayerProfile = DraftRun.player_profile(content, draft, profile)
+	var context: BattleContext = BattleContext.new()
+	context.game = DraftRun.build_game(content, draft, stand_in, rival, rng.randi() % 1000000 + 1)
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, str(rival.get("ai", "Balanced"))), DraftRun.skill(), str(rival.get("name", "Rival")))
+	context.enemy_name = str(rival.get("name", "Rival"))
+	context.enemy_icon = "lorc/card-pick"
+	context.draft = true
+	context.draft_profile = stand_in
+	context.board_key = "arena"
+	return context
+
+
+func start_draft_fight() -> bool:
+	if draft == null or draft.phase != DraftState.PHASE_RUN or draft.is_finished():
+		return false
+	var context: BattleContext = make_draft_battle()
+	save_game()
+	_draft_real_profile = profile
+	profile = context.draft_profile  # the battle screen, the item bar and item use all read Session.profile
+	start_battle(context)
+	return true
+
+
+func _complete_draft_battle(context: BattleContext) -> void:
+	resolve_draft_battle(context)
+	if in_zone():
+		SceneManager.change_scene(zone_def().scene_path)
+	else:
+		SceneManager.go_to_town()
+
+
+## The books of a finished draft fight (no scene change, so tests can run it): the real profile comes back, the win or loss is
+## counted, and when the run is over its rewards are paid. Returns the result the draft screen shows.
+func resolve_draft_battle(context: BattleContext) -> Dictionary:
+	if _draft_real_profile != null:
+		profile = _draft_real_profile
+		_draft_real_profile = null
+	feats.watcher.detach()
+	if draft == null:
+		return {}
+	var won: bool = context.game != null and context.game.winner == 0
+	context.won = won
+	var over: bool = DraftRun.record(draft, won)
+	var result: Dictionary = {"won": won, "over": over, "wins": draft.wins, "losses": draft.losses, "enemy": context.enemy_name}
+	if over:
+		result["reward"] = _pay_draft_rewards()
+	pending_draft_result = result
+	save_game()
+	return result
+
+
+## Pays a finished run once: gold and XP by its wins, the first-win bonus and flag, the counters the draft quests watch.
+func _pay_draft_rewards() -> Dictionary:
+	if draft == null or draft.rewarded:
+		return draft.result if draft != null else {}
+	var won_flag: StringName = StringName(DraftChallenges.won_flag(draft.challenge_id))
+	var first: bool = draft.full_win() and not flag(won_flag)
+	var pay: Dictionary = DraftChallenges.reward(draft.wins, draft.full_win(), first)
+	add_gold(int(pay["gold"]))
+	pending_level_ups.append_array(add_xp(int(pay["xp"])))
+	draft.rewarded = true
+	draft.result = pay
+	bump_counter("draft_runs_finished")
+	if draft.full_win():
+		bump_counter("draft_runs_won")
+		set_flag(won_flag)
+		if DraftChallenges.all_zone_drafts_won(flags):
+			set_flag(StringName(DraftChallenges.ARENA_FLAG))
+	refresh_quests()
+	return pay
+
+
+## After a full win: keeps one drafted card in the collection (once per draft).
+func draft_keep(card_id: String) -> bool:
+	if draft == null or not DraftRun.keep(draft, card_id):
+		return false
+	var card: CardData = card_by_id(card_id)
+	if card != null:
+		add_cards([card] as Array[CardData])
+	save_game()
+	return true
+
+
+## Puts the finished draft away (or gives up one in progress: the fee is not returned).
+func close_draft() -> void:
+	draft = null
+	pending_draft_result = {}
+	save_game()
+
+
 # ---- Zone portals (Part G) ---------------------------------------------------------------
 
 ## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
@@ -4258,6 +4417,9 @@ func record_victory(context: BattleContext) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	if context.draft:
+		_complete_draft_battle(context)  # Draft mode: its own books (no victory record, no world pick; the real profile comes back first)
+		return
 	if context.won and not context.practice and not context.dev_battle:
 		_battle_feats(context)
 	else:

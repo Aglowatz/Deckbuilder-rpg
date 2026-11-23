@@ -2222,6 +2222,20 @@
 			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.",
 			"Come and find me at my house once you've dried off. When you're ready for the roads, I'll send you out myself."
 		],
+		"drafthost.intro": [
+			"Stop right there. You have the look of somebody who has never been handed three cards and told to love one. Trey Pickett, travelling draft-master. I carry the table myself.",
+			"Here is the whole game. Twenty-five times I show you three cards, and you keep one. Along the way I offer you boots, hats and odd bottles. Then you play three people with whatever you ended up holding.",
+			"Your own deck stays in your bag, and so does everything you are wearing. At my table everybody starts with nothing and blames the shuffle. The first sitting is on the house."
+		],
+		"drafthost.return": [
+			"Back for another sitting? Good. The cards have been asking after you, and the rivals have been practising their surprised faces."
+		],
+		"drafthost.resume": [
+			"Your draft is exactly where you left it. I have not looked at your picks. I have looked a little. Sit down."
+		],
+		"drafthost.arena": [
+			"Four tables, four Paths, and you cleared every one. I have put your name forward at the Crosspath draft arena. They are still oiling the doors, so until they open, my table is yours."
+		],
 		"cardsharp.intro": [
 			"Ah, a card person! I can always tell, because you people check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp, and the best you'll meet this week.",
 			"I keep a little memory table in every Path's country, each one dealt from that Path's own cards. Beat my score at all four of them, and then come and find me for the final table.",

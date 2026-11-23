@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_y30uo"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6275x"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="3_87iya"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_5y7p4"]
+
+[sub_resource type="Resource" id="Resource_qnbo6"]
+script = ExtResource("1_y30uo")
+value = 3
+
+[sub_resource type="Resource" id="Resource_77wle"]
+script = ExtResource("3_87iya")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_rwsgl"]
+script = ExtResource("1_y30uo")
+kind = 23
+effect = SubResource("Resource_77wle")
+
+[resource]
+script = ExtResource("4_5y7p4")
+id = "booster_wrapper_cape"
+slot = 2
+description = "Max HP +3. Whenever one of your units dies, gain 1 HP."
+advanced = true
+flavor_text = "Stitched from four hundred foil wrappers. It crinkles when you are winning."
+rarity = 2
+tier = 3
+source = "Quest: The Necrocrat Draft (Trey Pickett)"
+source_name = "Booster-Wrapper Cape"
+modifiers = Array[ExtResource("1_y30uo")]([SubResource("Resource_qnbo6"), SubResource("Resource_rwsgl")])

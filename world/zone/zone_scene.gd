@@ -1167,7 +1167,13 @@ func _process(delta: float) -> void:
 	_update_soundscape(delta)
 	Hitch.stop("zone.soundscape")
 	var world_active: bool = _world_active()
-	if world_active and not Session.pending_popups.is_empty():
+	if world_active and not Session.pending_draft_result.is_empty():
+		# Draft mode: back from a draft fight - the table opens again on the result
+		var draft_result: Dictionary = Session.pending_draft_result
+		Session.pending_draft_result = {}
+		_open_draft(draft_result)
+		world_active = false
+	elif world_active and not Session.pending_popups.is_empty():
 		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)
 		_open_overlay(popup)
 		popup.finished.connect(_close_overlay)
@@ -1675,6 +1681,8 @@ func _interact(spot: ZoneSpot) -> void:
 			Session.set_flag(def.flag_met("quiz"))
 		"cardsharp":
 			_talk_cardsharp()
+		"drafthost":
+			_talk_drafthost()
 		"minigame":
 			_face_npc(str(spot.data["npc"]))
 			# Overnight Oct 22, Part 2: a long first introduction plays on its own; the game opens from the next talk.
@@ -1725,6 +1733,23 @@ func _talk_cardsharp() -> void:
 	Session.set_flag(StringName(CardMatchCircuit.MET_FLAG))
 	Session.offer_auto_quests()
 	_say(CardMatchCircuit.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_card_match(table), CardMatchCircuit.portrait_id())
+
+
+## Draft mode, Phase 1: Trey Pickett. His line for the moment, then his table (the draft screen).
+func _talk_drafthost() -> void:
+	_face_npc(DraftHost.SPOT_ID)
+	var key: String = DraftHost.line_key(Session.flags, Session.draft != null)
+	Session.set_flag(StringName(DraftHost.MET_FLAG))
+	Session.offer_auto_quests()
+	_say(DraftHost.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_draft({}), DraftHost.portrait_id())
+
+
+func _open_draft(result: Dictionary) -> void:
+	var screen: DraftScreen = DraftScreen.new()
+	screen.zone_id = def.id
+	screen.result = result
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
 
 
 func _open_card_match(table: String) -> void:

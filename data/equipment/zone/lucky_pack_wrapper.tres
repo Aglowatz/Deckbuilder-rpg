@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_6gr03"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sp7ib"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_u2ay5"]
+
+[sub_resource type="Resource" id="Resource_ljjls"]
+script = ExtResource("1_6gr03")
+kind = 1
+value = 1
+
+[sub_resource type="Resource" id="Resource_5cm4k"]
+script = ExtResource("1_6gr03")
+kind = 47
+value = 10
+
+[resource]
+script = ExtResource("3_u2ay5")
+id = "lucky_pack_wrapper"
+description = "Start every duel with 1 extra HP. Gain 10% more XP from everything."
+flavor_text = "The pack it came off had nothing good in it. The wrapper has been apologising ever since."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Lucky Pack Wrapper"
+modifiers = Array[ExtResource("1_6gr03")]([SubResource("Resource_ljjls"), SubResource("Resource_5cm4k")])

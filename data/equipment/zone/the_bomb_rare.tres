@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_8vytd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_umu1p"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_t3ibk"]
+
+[sub_resource type="Resource" id="Resource_mux7c"]
+script = ExtResource("1_8vytd")
+kind = 5
+value = 1
+value2 = 1
+
+[sub_resource type="Resource" id="Resource_pp0xc"]
+script = ExtResource("1_8vytd")
+kind = 3
+value = -1
+
+[resource]
+script = ExtResource("3_t3ibk")
+id = "the_bomb_rare"
+slot = 1
+description = "Your units get +1/+1. Your opening hand has 1 fewer card."
+advanced = true
+flavor_text = "Somebody passed this. Somebody has regretted it every day since."
+rarity = 2
+tier = 3
+source = "Quest: The Refusemancer Draft (Trey Pickett)"
+drawback = "Your opening hand has 1 fewer card."
+source_name = "The Bomb Rare"
+modifiers = Array[ExtResource("1_8vytd")]([SubResource("Resource_mux7c"), SubResource("Resource_pp0xc")])

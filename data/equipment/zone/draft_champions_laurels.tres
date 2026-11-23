@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_q861x"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_gj5l8"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_pdw2n"]
+
+[sub_resource type="Resource" id="Resource_k0cf4"]
+script = ExtResource("1_q861x")
+kind = 3
+value = 1
+
+[sub_resource type="Resource" id="Resource_av2sg"]
+script = ExtResource("1_q861x")
+kind = 7
+value = 1
+
+[sub_resource type="Resource" id="Resource_1arrt"]
+script = ExtResource("1_q861x")
+value = -5
+
+[resource]
+script = ExtResource("3_pdw2n")
+id = "draft_champions_laurels"
+slot = 0
+description = "Your opening hand has 1 more card, and you draw an extra card each turn. Max HP -5."
+advanced = true
+flavor_text = "Woven from the corners of first picks. Heavy with other people's second choices."
+rarity = 3
+tier = 3
+source = "Quest: Last Pick, Best Pick (Trey Pickett)"
+drawback = "Max HP -5."
+source_name = "Draft Champion's Laurels"
+modifiers = Array[ExtResource("1_q861x")]([SubResource("Resource_k0cf4"), SubResource("Resource_av2sg"), SubResource("Resource_1arrt")])

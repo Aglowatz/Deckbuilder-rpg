@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_hfexk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n5h3o"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_obx53"]
+
+[sub_resource type="Resource" id="Resource_xolol"]
+script = ExtResource("1_hfexk")
+kind = 5
+value = 1
+
+[sub_resource type="Resource" id="Resource_qkmj2"]
+script = ExtResource("1_hfexk")
+kind = 13
+value = 1
+
+[sub_resource type="Resource" id="Resource_407bh"]
+script = ExtResource("1_hfexk")
+value = -3
+
+[resource]
+script = ExtResource("3_obx53")
+id = "curve_topper_boots"
+slot = 3
+description = "Your units get +1 attack. You draw an extra card on your first turn. Max HP -3."
+advanced = true
+flavor_text = "Every deck needs something big at the top. These are for getting there first."
+rarity = 2
+tier = 3
+source = "Quest: The Beefcake Draft (Trey Pickett)"
+drawback = "Max HP -3."
+source_name = "Curve-Topper Boots"
+modifiers = Array[ExtResource("1_hfexk")]([SubResource("Resource_xolol"), SubResource("Resource_qkmj2"), SubResource("Resource_407bh")])

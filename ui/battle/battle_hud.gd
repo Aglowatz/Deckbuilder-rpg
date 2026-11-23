@@ -227,6 +227,8 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	enemy_panel.title = enemy_name
 	enemy_panel.icon_key = enemy_icon
 	enemy_panel.picture = Bestiary.art(ShatteredGallery.original_of(enemy_name))
+	if enemy_panel.picture == null and not DraftRivals.portrait_id(enemy_name).is_empty():
+		enemy_panel.picture = Portraits.texture_for(DraftRivals.portrait_id(enemy_name))  # Draft mode: a rival drafter is an NPC, not a Bestiary foe
 	# Overnight Nov 4-5, Part 5: an Echo wears its original's picture, The Perfect Copy the hero's own, both behind cold silver glass
 	if ShatteredGallery.is_mirror_foe(enemy_name):
 		enemy_panel.mirrored = true

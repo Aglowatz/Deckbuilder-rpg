@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_mbk6k"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_lk1vt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_t7xj7"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_ycaiy"]
+
+[sub_resource type="Resource" id="Resource_s63ry"]
+script = ExtResource("2_lk1vt")
+target = 1
+op = 2
+amount = 2
+
+[sub_resource type="Resource" id="Resource_g4uxs"]
+script = ExtResource("1_mbk6k")
+kind = 25
+effect = SubResource("Resource_s63ry")
+
+[sub_resource type="Resource" id="Resource_wioqf"]
+script = ExtResource("2_lk1vt")
+target = 1
+op = 9
+amount = 2
+
+[sub_resource type="Resource" id="Resource_vmtau"]
+script = ExtResource("1_mbk6k")
+kind = 25
+effect = SubResource("Resource_wioqf")
+
+[resource]
+script = ExtResource("4_ycaiy")
+id = "sideboard_satchel"
+description = "When a duel starts, draw 2 cards and gain 2 HP."
+advanced = true
+flavor_text = "Fifteen cards you swore you would never need, and one sandwich."
+rarity = 2
+tier = 3
+source = "Quest: The Gourmand Draft (Trey Pickett)"
+source_name = "Sideboard Satchel"
+modifiers = Array[ExtResource("1_mbk6k")]([SubResource("Resource_g4uxs"), SubResource("Resource_vmtau")])

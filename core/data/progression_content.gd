@@ -43,6 +43,7 @@ static func zone_equipment() -> Dictionary:
 	_add_lab_gear(result)
 	ArenaContent.add_equipment(result)
 	ExpansionGear.add_all(result)
+	DraftGear.add_all(result)  # Draft mode, Phase 1: the eight pieces of the draft quest line (two of them on Bertram's stall)
 	OldWellQuest.add_equipment(result)  # Overnight Oct 19-20, Part 6: the Old Well secret quest's relic
 	# Overnight Nov 7-8, Part 6.3 / Fixes Nov 8: the Cardsharp's Circuit prize, Dex's Matching Pair (boots, the slot with the fewest pieces).
 	var pair: EquipmentData = _piece(CardMatchCircuit.PRIZE_ID, "Dex's Matching Pair", EquipmentData.Slot.BOOTS, "Once each turn, when you play your first non-Infrastructure card, if it costs %d or less, draw a copy of that card from your deck (if there is one)." % MATCHING_PAIR_MAX_COST, [_mod(K.DRAW_COPY_FIRST_PLAY, 1, Modifier.ANY_COLOR, MATCHING_PAIR_MAX_COST)], true)

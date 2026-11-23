@@ -821,6 +821,10 @@ func _dev(parts: PackedStringArray) -> void:
 			else:
 				Session.profile.set_essence(essence_path, int(arg2))
 				result = "%s essence = %d" % [arg, Session.profile.essence_of(essence_path)]
+		"draft":
+			# Draft mode, Phase 1: `dev draft open` opens Trey Pickett's table where you stand; `dev draft start <challenge>`, `dev draft pick <n>`,
+			# `dev draft autopick` (every pick, the first option), `dev draft lock`, `dev draft fight`, `dev draft finish`, `dev draft won` (books a win)
+			result = DevActions.draft(arg, arg2, get_tree().current_scene)
 		"arena":
 			# Fable Nov 20 (Part 7): `dev arena <encounter id>` starts that Arena bout or puzzle at once (every tier counted open)
 			for tier: int in range(1, ArenaDefs.TIER_COUNT + 1):

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_b18rw"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_bjlwo"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_5imgn"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_7gd51"]
+
+[sub_resource type="Resource" id="Resource_ha6wn"]
+script = ExtResource("2_bjlwo")
+target = 2
+amount = 2
+
+[sub_resource type="Resource" id="Resource_wcj5l"]
+script = ExtResource("1_b18rw")
+kind = 25
+effect = SubResource("Resource_ha6wn")
+
+[resource]
+script = ExtResource("4_7gd51")
+id = "card_sleeve_gauntlets"
+slot = 1
+description = "When a duel starts, deal 2 damage to the opponent."
+flavor_text = "Double-sleeved, for protection. Yours, not theirs."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Card-Sleeve Gauntlets"
+modifiers = Array[ExtResource("1_b18rw")]([SubResource("Resource_wcj5l")])

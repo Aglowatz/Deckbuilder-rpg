@@ -54,6 +54,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_city_gathers())
 	result.append(_after_the_fall())
 	result.append(CardMatchCircuit.quest())  # Overnight Nov 7-8, Part 6.3
+	result.append_array(DraftHost.quests())  # Draft mode, Phase 1: Pick of Three, the four zone drafts, Last Pick, Best Pick
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())

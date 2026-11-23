@@ -739,3 +739,44 @@ static func load_snapshot(snapshot_name: String) -> String:
 static func delete_snapshot(snapshot_name: String) -> String:
 	DirAccess.remove_absolute(snapshot_path(snapshot_name))
 	return "Snapshot deleted: %s" % snapshot_name
+
+
+## Draft mode, Phase 1: the play scripts' and the Dev Menu's handle on a draft. `what`: open (the table, in the scene you stand in),
+## start <challenge id> (free of charge), pick <n>, autopick (every pick left, the first option), lock (the deck, the rivals draft),
+## fight (the next rival), won / lost (books a fight without playing it), finish (puts the finished draft away).
+static func draft(what: String, value: String, scene: Node) -> String:
+	match what:
+		"open":
+			if scene != null and scene.has_method("_open_draft"):
+				scene.call("_open_draft", {})
+				return "Draft: table opened"
+			return "Draft: no table in this scene"
+		"start":
+			Session.close_draft()
+			var id: String = value if not value.is_empty() else "zone:beefcake"
+			Session.counters.erase(DraftChallenges.attempts_counter(id))
+			var paths: Array[int] = [int(Session.profile.primary_affinity)] as Array[int]
+			return "Draft: %s started" % id if Session.start_draft(id, paths) else "Draft: %s could not start" % id
+		"pick":
+			return "Draft: picked %s" % value if Session.draft_pick(int(value)) else "Draft: no such option"
+		"autopick":
+			var count: int = 0
+			while Session.draft != null and Session.draft.phase == DraftState.PHASE_PICK and count < 100:
+				Session.draft_pick(0)
+				count += 1
+			return "Draft: %d picks made" % count
+		"lock":
+			return "Draft: deck locked, rivals drafted" if Session.draft_begin_run() else "Draft: the deck is not ready"
+		"fight":
+			return "Draft: fight started" if Session.start_draft_fight() else "Draft: no fight to start"
+		"won", "lost":
+			if Session.draft == null or Session.draft.phase != DraftState.PHASE_RUN:
+				return "Draft: no run"
+			var over: bool = DraftRun.record(Session.draft, what == "won")
+			if over:
+				Session._pay_draft_rewards()
+			return "Draft: %d wins, %d losses%s" % [Session.draft.wins, Session.draft.losses, " (over)" if over else ""]
+		"finish":
+			Session.close_draft()
+			return "Draft: put away"
+	return "Draft: unknown command %s" % what

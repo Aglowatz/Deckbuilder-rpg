@@ -1203,7 +1203,10 @@
 			"Keep your head down, and carry your hope anyway. It has never once been approved.",
 			"Whatever you see up there, tell me exactly. It all goes into the record, in ink."
 		],
-		"barks_freed": ["The record is open. Every name in it. That was the whole fight, really.","Tea's on in the Crease. The grudges can wait. Most of them."],
+		"barks_freed": [
+			"The record is open. Every name in it. That was the whole fight, really.",
+			"Tea's on in the Crease. The grudges can wait. Most of them."
+		],
 		"game_function": "Runs the hideout; story guide in the Capital and the castle.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1274,7 +1277,10 @@
 			"Psst. Chalk on the left means go. Chalk on the right means I got bored.",
 			"Psst. Guards change on the hour and I change whenever I feel like it, so keep up."
 		],
-		"barks_freed": ["No more chalk. I keep drawing arrows anyway. Habit. Also it's fun.","Guards still change on the hour. Now they wave. It's deeply unsettling."],
+		"barks_freed": [
+			"No more chalk. I keep drawing arrows anyway. Habit. Also it's fun.",
+			"Guards still change on the hour. Now they wave. It's deeply unsettling."
+		],
 		"game_function": "Gives the Old Service Tunnels quest (S-CAP).",
 		"quest_links": [
 			"The Older Way"
@@ -1310,7 +1316,10 @@
 			"HALT. State your height. No, do not state it. STAND at it.",
 			"A SMUDGE is TREASON! ...It's on me, isn't it. It's always on me."
 		],
-		"barks_freed": ["HALT. ...At ease. I am practising at ease. It is VERY difficult.","A smudge on my sleeve. I have decided to allow it. Retroactively."],
+		"barks_freed": [
+			"HALT. ...At ease. I am practising at ease. It is VERY difficult.",
+			"A smudge on my sleeve. I have decided to allow it. Retroactively."
+		],
 		"game_function": "Gate battle.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1380,7 +1389,10 @@
 			"Ten years... on the wheel... my calves... have calves.",
 			"Back in the Gainlands... my crews got rest days. I'd like... those back."
 		],
-		"barks_freed": ["No wheel... and my legs... keep going anyway. Ghost cardio.","The crews took a day off. Then another. We're... getting good at it."],
+		"barks_freed": [
+			"No wheel... and my legs... keep going anyway. Ghost cardio.",
+			"The crews took a day off. Then another. We're... getting good at it."
+		],
 		"game_function": "Beefcake Path quest in the Capital.",
 		"quest_links": [
 			"The Wheel Never Stops"
@@ -1417,7 +1429,10 @@
 			"Psst. Bread: some flour, a bit of water, enough time. You didn't hear it here.",
 			"Down here we cook with all the heat and none of the sky. Smell that? Contraband."
 		],
-		"barks_freed": ["Bread in the open. Some flour, some water, all the sky. Smell that? Legal.","The paste vats are planters now. I'm growing some garlic. Lots of some."],
+		"barks_freed": [
+			"Bread in the open. Some flour, some water, all the sky. Smell that? Legal.",
+			"The paste vats are planters now. I'm growing some garlic. Lots of some."
+		],
 		"game_function": "Gourmand Path quest in the Capital.",
 		"quest_links": [
 			"The Recipe Box"
@@ -1453,7 +1468,10 @@
 			"Untidy, they call me. Dirt's supposed to be untidy. That's how it works.",
 			"The worms in my hat are unapproved. So am I. We get along."
 		],
-		"barks_freed": ["They asked me to tidy the square. I said no. They said thank you. Strange times.","The worms have a permit now. They're furious about it."],
+		"barks_freed": [
+			"They asked me to tidy the square. I said no. They said thank you. Strange times.",
+			"The worms have a permit now. They're furious about it."
+		],
 		"game_function": "Refusemancer Path quest in the Capital.",
 		"quest_links": [
 			"Untidy"
@@ -1489,7 +1507,10 @@
 			"Everything is perfect! Everything is... (whisper) is it raining? I liked rain.",
 			"Smile! It's mandatory! Eight degrees! ...Is mine at eight? Please say eight."
 		],
-		"barks_freed": ["Everything is... not perfect! It rained on Thursday! I stood in it for an hour!","I smiled at eleven degrees today. Nobody wrote it down. I may do it again."],
+		"barks_freed": [
+			"Everything is... not perfect! It rained on Thursday! I stood in it for an hour!",
+			"I smiled at eleven degrees today. Nobody wrote it down. I may do it again."
+		],
 		"game_function": "Atmosphere; hints of the facade.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -2413,5 +2434,40 @@
 		"world_sprite_status": "Needed (SPR-DEX; the CITIZEN set stands in)",
 		"art_check": "missing",
 		"notes": "Fixes Nov 8: own art in Batch 13 (NPC-DEX, SPR-DEX)."
+	},
+	{
+		"id": "NPC-TREY",
+		"name": "Trey Pickett",
+		"location": "Every Path zone, by the trivia corner (across from Dex)",
+		"role": "Travelling draft-master (draft mode: the zone drafts, the open draft, the draft quest line)",
+		"species": "human",
+		"species_type": "Human",
+		"description": "A tall, tidy man in a long travelling coat with a folding card table strapped to his back and three cards always fanned in one hand.",
+		"personality": "Dry, exact, delighted by other people's hard choices; never tells you which card he would have taken, and always has an opinion about it.",
+		"speech_style": "Short, level sentences; counts things in threes; a dealer's patience.",
+		"sample_line": "Three cards. One is right. I will not say which. Take your time; I charge by the sitting, not the minute.",
+		"barks": [
+			"Three cards on the table. Two of them will haunt you.",
+			"Nobody ever regrets the pick they made. Only the two they passed.",
+			"The table folds. The draft-master does not."
+		],
+		"game_function": "Runs draft mode in each Path zone",
+		"quest_links": [
+			"draft_pick_of_three",
+			"draft_zone_beefcake",
+			"draft_zone_gourmand",
+			"draft_zone_necrocrat",
+			"draft_zone_refusemancer",
+			"draft_last_pick"
+		],
+		"vendor_links": [],
+		"portrait_id": "NPC-TREY",
+		"portrait_status": "Needed (Batch 20; the townsfolk portrait stands in)",
+		"expressions": [],
+		"art_status": "Needed (Batch 20)",
+		"sprite_status": "Needed (SPR-TREY)",
+		"world_sprite_status": "Needed (SPR-TREY; the CITIZEN set stands in)",
+		"art_check": "missing",
+		"notes": "Draft mode, Phase 1 (Nov 23): the name is the owner's to confirm (alternatives: Mona Curve, Dravina Pool)."
 	}
 ]

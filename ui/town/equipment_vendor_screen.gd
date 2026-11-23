@@ -237,6 +237,8 @@ static func default_stock() -> EquipmentVendorData:
 	data.add("travelers_boots", Economy.gear_price(common, 1), always)
 	data.add("solid_plate", Economy.gear_price(uncommon, 1), always)
 	data.add("xray_goggles", Economy.gear_price(uncommon, 1), always)
+	for draft_piece: Variant in DraftGear.VENDOR_PIECES.keys():  # Draft mode, Phase 1: the two weak draft pieces, from the start
+		data.add(str(draft_piece), int(DraftGear.VENDOR_PIECES[draft_piece]), always)
 	data.add("cardboard_cuirass", Economy.gear_price(common, 1), always)  # Oct 16: two cheap early pieces
 	data.add("saucepan_helmet", Economy.gear_price(common, 1), always)
 	data.add("flamethrower", Economy.gear_price(epic, 3), advanced)
