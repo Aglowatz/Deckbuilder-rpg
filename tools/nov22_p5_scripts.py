@@ -37,7 +37,9 @@ def click(room):
 def travel(prefix):
     rooms = ','.join(str(r) for r in prefix)
     line = 'dev travel route D-PC %s' % rooms if prefix else 'dev travel dungeon D-PC'
-    return '%s\nwait 8\nskip_dialogue 30\nwait 1\nbutton Got it\nwait 1\nskip_dialogue 10\nmove 40 880\nwait 1\n' % line
+    # the Archivists' Kettle opens after room 11, by decree too: walk on
+    kettle = 'button Leave the kettle\nwait 2\nskip_dialogue 10\nbutton Continue\nwait 2\n' if 11 in prefix else ''
+    return '%s\nwait 8\nskip_dialogue 30\nwait 1\nbutton Got it\nwait 1\nskip_dialogue 10\n%smove 40 880\nwait 1\n' % (line, kettle)
 
 
 def fight(room, name, pilot=25):
@@ -46,7 +48,7 @@ def fight(room, name, pilot=25):
              'skip_dialogue 80', 'wait 6', 'skip_dialogue 40', 'button Keep', 'wait 5', 'button Got it', 'wait 1', 'shot %s_3_fight' % name]
     if pilot > 0:
         lines += ['pilot %d' % pilot, 'shot %s_4_fight_later' % name]
-    lines += ['dev win', 'wait 5', 'skip_dialogue 20', 'button Continue', 'wait 2', 'button Continue', 'wait 2', 'key E', 'wait 1', 'button Continue', 'wait 3',
+    lines += ['click 1180 520', 'wait 1', 'dev win', 'wait 2', 'click 1180 520', 'wait 4', 'shot %s_4b_won' % name, 'button Continue', 'wait 3', 'shot %s_4c_reward' % name, 'button Skip card', 'wait 3', 'button Continue', 'wait 3', 'button Continue', 'wait 3',
               'shot %s_5_after' % name, 'skip_dialogue 60', 'wait 2', 'shot %s_6_then' % name, 'dump']
     return '\n'.join(lines) + '\n'
 
@@ -59,12 +61,12 @@ def write(name, title, body):
 def main():
     os.makedirs(OUT, exist_ok=True)
     write('p5_a1', 'the Gilded Pantry - the Grand Chef, the Pantry Mimic, the hoard',
-          travel([]) + 'shot a1_0_gate\n' + fight(2, 'a1', 40) + 'button second helping\nwait 3\nshot a1_7_hoard_taken\nskip_dialogue 10\nbutton Continue\nwait 2\nshot a1_8_map\n')
-    write('p5_a2', 'the Beefcake wing - Grandmaster Flex and the Captured Trainees', travel([2, 5]) + 'shot a2_0_map\n' + fight(8, 'a2', 40) + 'button Continue\nwait 2\nshot a2_7_map\n')
+          travel([]) + 'shot a1_0_gate\n' + fight(2, 'a1', 8) + 'button second helping\nwait 3\nshot a1_7_hoard_taken\nskip_dialogue 10\nbutton Continue\nwait 2\nshot a1_8_map\n')
+    write('p5_a2', 'the Beefcake wing - Grandmaster Flex and the Captured Trainees', travel([2, 5]) + 'shot a2_0_map\n' + fight(8, 'a2', 8) + 'button Continue\nwait 2\nshot a2_7_map\n')
     write('p5_a3', "the Necrocrat wing - Agnes, then the Archivists' Kettle (heal 6 for a cost)",
-          travel([2, 5, 8]) + 'dev hp 9\nmove %d %d\nwait 2\nshot a3_0_tooltip\nmove 40 880\n' % (125 + SPOT[11][0] * 1350, SPOT[11][1] * 900) + fight(11, 'a3', 25)
+          travel([2, 5, 8]) + 'dev hp 9\nmove %d %d\nwait 2\nshot a3_0_tooltip\nmove 40 880\n' % (125 + SPOT[11][0] * 1350, SPOT[11][1] * 900) + fight(11, 'a3', 3)
           + 'shot a3_7_kettle\nbutton Pay the honesty\nwait 3\nshot a3_8_kettle_paid\nskip_dialogue 10\nbutton Continue\nwait 2\nscene\nshot a3_9_map\n')
-    write('p5_a4', 'the Refusemancer wing - Compostella and the Spotless Statues', travel([2, 5, 8, 11]) + 'shot a4_0_map\n' + fight(14, 'a4', 40) + 'button Continue\nwait 2\nshot a4_7_map\n')
+    write('p5_a4', 'the Refusemancer wing - Compostella and the Spotless Statues', travel([2, 5, 8, 11]) + 'shot a4_0_map\n' + fight(14, 'a4', 8) + 'button Continue\nwait 2\nshot a4_7_map\n')
     write('p5_a5', 'the all-allies route to Primm, four leaders at your side',
           travel([2, 5, 8, 11, 14, 18]) + 'move %d %d\nwait 2\nshot a5_0_primm_tooltip\nmove 40 880\n' % (125 + SPOT[22][0] * 1350, SPOT[22][1] * 900)
           + click(22) + '\nwait 3\nskip_dialogue 60\nwait 2\nshot a5_1_brief\nbutton Continue\nwait 4\nskip_dialogue 80\nwait 6\nskip_dialogue 40\nbutton Keep\nwait 5\nshot a5_2_fight\n'
@@ -74,7 +76,7 @@ def main():
           + 'skip_dialogue 40\nbutton Keep\nwait 5\nshot b_2_fight\npilot 60\nshot b_3_turns_later\npilot 90\nshot b_4_later\ndump\n')
     write('p5_c', 'the middle road - the Safe Room, then the Royal Stair',
           travel([3, 6, 9, 12]) + 'dev hp 7\nshot c_0_map\n' + click(16) + '\nwait 3\nshot c_1_safe_room\nskip_dialogue 30\nbutton Continue\nwait 2\nbutton Rest\nwait 2\nskip_dialogue 20\n'
-          + 'button Continue\nwait 2\nscene\nshot c_2_after_rest\n' + fight(19, 'c', 25) + 'button Continue\nwait 2\nshot c_7_map\n')
+          + 'button Continue\nwait 2\nscene\nshot c_2_after_rest\n' + fight(19, 'c', 8) + 'button Continue\nwait 2\nshot c_7_map\n')
     print('7 scripts in', os.path.relpath(OUT, ROOT))
 
 

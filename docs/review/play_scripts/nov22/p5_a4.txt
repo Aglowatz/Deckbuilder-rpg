@@ -16,6 +16,11 @@ wait 1
 button Got it
 wait 1
 skip_dialogue 10
+button Leave the kettle
+wait 2
+skip_dialogue 10
+button Continue
+wait 2
 move 40 880
 wait 1
 shot a4_0_map
@@ -35,17 +40,22 @@ wait 5
 button Got it
 wait 1
 shot a4_3_fight
-pilot 40
+pilot 8
 shot a4_4_fight_later
-dev win
-wait 5
-skip_dialogue 20
-button Continue
-wait 2
-button Continue
-wait 2
-key E
+click 1180 520
 wait 1
+dev win
+wait 2
+click 1180 520
+wait 4
+shot a4_4b_won
+button Continue
+wait 3
+shot a4_4c_reward
+button Skip card
+wait 3
+button Continue
+wait 3
 button Continue
 wait 3
 shot a4_5_after

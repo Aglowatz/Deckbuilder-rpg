@@ -35,17 +35,22 @@ wait 5
 button Got it
 wait 1
 shot a1_3_fight
-pilot 40
+pilot 8
 shot a1_4_fight_later
-dev win
-wait 5
-skip_dialogue 20
-button Continue
-wait 2
-button Continue
-wait 2
-key E
+click 1180 520
 wait 1
+dev win
+wait 2
+click 1180 520
+wait 4
+shot a1_4b_won
+button Continue
+wait 3
+shot a1_4c_reward
+button Skip card
+wait 3
+button Continue
+wait 3
 button Continue
 wait 3
 shot a1_5_after
