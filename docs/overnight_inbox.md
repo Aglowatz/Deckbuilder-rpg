@@ -4,6 +4,12 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 22 night - in progress
+
+Brief: `docs/prompts/fable_nov22_night.md`. Tag `pre-fable-nov22-night`. Shots: `docs/overnight_shots/nov22/`.
+
+- **21:25, the run is holding its Godot work.** A Godot editor and a game started from it have been open since 20:34 (yours: `Downloads/Godot_v4.7.2-stable_win64.exe --editor`), and with them the PC has 0.7 GB of memory free and 1.9 GB of commit left. The brief says one Godot at a time, so no simulation, play script, test or export is started while they are open. Parts 1, 3 and 4 are done and pushed; Part 2's rule changes are in and tested; what waits is Primm's last numbers, Part 5's playthrough, and Part 6 (tests, story bots, export). **Close the editor and the game and the run goes on by itself** (it checks every 15 seconds).
+
 ## Fable Nov 21 castle - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov21_castle_allies.md`. Tag `pre-fable-nov21-castle`. Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov21c/`. Numbers: `docs/balance_report_nov21.md`, sections 5 to 7. The run stopped once (the PC ran out of memory in Part 10, after commit bb21d61) and was finished the next morning: Parts 7 and 10 only, as asked.
