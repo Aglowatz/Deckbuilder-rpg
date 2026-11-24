@@ -77,6 +77,15 @@ func test_the_freed_cast_keeps_the_rift_clear_and_primm_is_in_his_cell() -> void
 	assert_true(EnvKit.has(CapitalScene.PRIMM_CELL_ID), "the painted cell")
 
 
+func test_the_store_room_ghosts_have_a_picture_on_their_battle_plate() -> void:
+	assert_not_null(Bestiary.art(StoreroomGhosts.ENEMY_NAME), "the ghosts wear the Hungry Ghost's card picture")
+	assert_true(ResourceLoader.exists(str(Bestiary.CARD_ART_STAND_INS[StoreroomGhosts.ENEMY_NAME])))
+	# the Ghost tokens of their rule keep the Hungry Ghost's id, so their card art shows on the table
+	var setup: PlayerSetup = StoreroomGhosts.enemy_setup(content)
+	assert_not_null(setup)
+	assert_true(ResourceLoader.exists("res://assets/art/cards_thumb/T-19.webp"))
+
+
 # ---- Part 6 ------------------------------------------------------------------------------------------------------------------------
 
 

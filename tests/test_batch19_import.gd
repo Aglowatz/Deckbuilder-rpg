@@ -3,7 +3,9 @@ extends GutTest
 ## painted landing spot, a drawn line only where the painting has no walkway), the Pantry Mimic's portrait, Auntie Alembic's brewing
 ## scene and glass jar, the locked Necrocrat parcel, the Buffet's map and the two token pictures of the castle's ally rooms.
 
-const DRAWN: Array = [[2, 5], [3, 7], [4, 9], [5, 8], [6, 9], [7, 9], [9, 11], [10, 12], [12, 14], [16, 19], [17, 20]]
+## Fable big pass Nov 23: Batch 20 repainted MAP-PC with the eleven walkways that were missing, so no link keeps a drawn line
+## (the list stays, empty: every link of the castle is a painted walkway, and its line follows it - tests/test_map_curves.gd).
+const DRAWN: Array = []
 
 
 func test_every_picture_is_in_the_game() -> void:

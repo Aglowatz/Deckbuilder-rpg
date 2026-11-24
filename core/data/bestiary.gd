@@ -120,6 +120,12 @@ const CUTOUTS_AWAITING_ART: Array[String] = []  # Batch 17 (Nov 18): CUT-QUADZIL
 const ART_STAND_INS: Dictionary = {}
 
 
+## Fable big pass Nov 23 (Part 5.3, "the store-room ghosts' art"): a foe with no Bestiary square and no portrait of its own that
+## is a crowd of one token wears that token's card picture (the battle plate, the intro). The Store Room Ghosts are Hungry
+## Ghosts (T-19): their plate showed only the small ghost glyph.
+const CARD_ART_STAND_INS: Dictionary = {"Store Room Ghosts": "res://assets/art/cards/T-19.webp"}
+
+
 static func _load_art(id: String, entry_name: String) -> Texture2D:
 	var texture: Texture2D = null
 	var candidates: Array[String] = [id]
@@ -136,6 +142,8 @@ static func _load_art(id: String, entry_name: String) -> Texture2D:
 			break
 	if texture == null:
 		texture = portrait_art(entry_name)
+	if texture == null and CARD_ART_STAND_INS.has(canonical(entry_name)) and ResourceLoader.exists(str(CARD_ART_STAND_INS[canonical(entry_name)])):
+		texture = load(str(CARD_ART_STAND_INS[canonical(entry_name)])) as Texture2D
 	return texture
 
 

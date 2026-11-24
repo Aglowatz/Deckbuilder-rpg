@@ -2144,7 +2144,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		if not draft_rival.is_empty():
 			context.rule_badges.append_array(DraftRun.rival_badges(content, draft_rival))
 			context.enemy_icon = "lorc/card-pick"
-			context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, str(draft_rival.get("ai", "Balanced"))), AIPlayer.Skill.BOSS if bool(draft_rival.get("boss", false)) else DraftRun.skill(), node.enemy_name)
+			context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, str(draft_rival.get("ai", "Balanced"))), DraftRivals.skill_of(draft_rival), node.enemy_name)
 	return context
 
 

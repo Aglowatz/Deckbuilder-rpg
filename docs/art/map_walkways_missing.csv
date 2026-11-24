@@ -1,14 +1,3 @@
 dungeon,name,map,from room,to room
 D-TTK,The Test Kitchen,MAP-TTK,9,10
-D-PC,Primm's Castle,MAP-PC,2,5
-D-PC,Primm's Castle,MAP-PC,3,7
-D-PC,Primm's Castle,MAP-PC,4,9
-D-PC,Primm's Castle,MAP-PC,5,8
-D-PC,Primm's Castle,MAP-PC,6,9
-D-PC,Primm's Castle,MAP-PC,7,9
-D-PC,Primm's Castle,MAP-PC,9,11
-D-PC,Primm's Castle,MAP-PC,10,12
-D-PC,Primm's Castle,MAP-PC,12,14
-D-PC,Primm's Castle,MAP-PC,16,19
-D-PC,Primm's Castle,MAP-PC,17,20
 D-SHUFFLE,The Shuffled Halls,MAP-DRAFT,18,19

@@ -117,8 +117,8 @@
 		"fudge_min_units": 9,
 		"fudge_max_cost_share": 0.25,
 		"_fudge": "A rival's drafted 20 are fixed up when the draft went badly: at least fudge_min_units units, and at most fudge_max_cost_share of the 20 may cost 5 or more (the worst offenders are swapped for on-curve cards of the same Paths).",
-		"hp_bonus": 0,
-		"skill": "elite",
+		"hp_bonus": 12,
+		"skill": "boss",
 		"draft_equipment": true,
 		"_draft_equipment": "Rivals draft five pieces of equipment like the player (the rarest of each three). Without it a sensible player won 91 % of fights.",
 		"random_paths": true,
@@ -131,10 +131,10 @@
 	"_deck_min_cards": "The player's draft deck needs at least deck_min_cards cards, Infrastructure included, and may hold at most deck_max_basics basic Infrastructure.",
 	"_entry_fee": "Every draft is free (the owner, Nov 23; it was 100 gold after the first attempt).",
 	"rival_equipment_cap": {
-		"default": "epic",
+		"default": "uncommon",
 		"high": "legendary"
 	},
-	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge (the owner, Nov 23: in zone drafts the AI may not get the most powerful pieces, the player may): Epic everywhere, so the four Legendary pieces are the player's alone, except the arena's harder win-three tables (high), where rivals draft from the player's whole pool. With the cap at Uncommon a sensible player won 86 % of fights (docs/design/sim/nov23/rivals_zone_v1.md).",
+	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge (the owner, Nov 23: in zone drafts the player may get the powerful pieces, the AI opponents may not): Uncommon everywhere, so the Epic and Legendary pieces are the player's alone, except the arena's harder win-three tables (high), where rivals draft from the player's whole pool. The cap alone leaves the rivals too soft (docs/design/sim/nov23/): rivals.hp_bonus makes up for it.",
 	"high": {
 		"losses_to_finish": 1,
 		"hp_bonus": 0
@@ -149,10 +149,12 @@
 		},
 		"_foe_hp_percent": "Rebalance for drafted decks: every foe's HP in a dungeon played as a draft, in percent, by dungeon key ('default' for the rest). Set from the sims (docs/design/draft_balance.md).",
 		"halls": {
-			"fight_hp_bonus": 0,
-			"champion_hp_bonus": 4,
-			"boss_hp_bonus": 10,
-			"_about": "The Shuffled Halls: its regular rooms are rival drafters (drafted the draft way, at the player's base HP plus fight_hp_bonus), Trey Pickett and the other champion get champion_hp_bonus, Octavia Eightfold boss_hp_bonus."
+			"fight_hp_bonus": -11,
+			"fight_skill": "normal",
+			"champion_hp_bonus": -4,
+			"champion_skill": "elite",
+			"boss_hp_bonus": 6,
+			"_about": "The Shuffled Halls, measured from the player's base HP (the zone tables' rivals.hp_bonus does not apply here: the fights come one after another on one pool of HP). Its regular rooms are rival drafters at base HP plus fight_hp_bonus who play at fight_skill; Trey Pickett and the other champion get champion_hp_bonus and champion_skill; Octavia Eightfold boss_hp_bonus, boss-level play and a card more each turn. Tuned with the draft smoke's careful and greedy routes (docs/design/sim/nov23/halls.md)."
 		}
 	}
 }

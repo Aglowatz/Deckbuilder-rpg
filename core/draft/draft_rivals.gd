@@ -112,20 +112,25 @@ static func build_halls(content: ContentSet, state: DraftState) -> Array[Diction
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = hash([state.seed, "halls"])
 	var index: int = 10
+	# The Halls' numbers are measured from the player's base HP: the table rivals' own bonus (`rivals.hp_bonus`, tuned for one
+	# fair fight at a zone table) is taken back out, because here the fights come one after another on ONE pool of HP.
+	var table_bonus: int = int(DraftRules.rivals().get("hp_bonus", 0))
 	for room: int in HALLS_FIGHT_ROOMS:
 		var face: Array = ["NPC-DEX", "A Drafter", SWARMING]
 		for guard: int in range(40):
 			face = faces[rng.randi() % faces.size()] as Array
 			if str(face[1]) != "Dex Shufflewick" and not _has_name(result, str(face[1])):
 				break
-		var rival: Dictionary = build(content, state, str(face[0]), str(face[1]), str(face[2]), index, int(numbers.get("fight_hp_bonus", 0)))
+		var rival: Dictionary = build(content, state, str(face[0]), str(face[1]), str(face[2]), index, int(numbers.get("fight_hp_bonus", 0)) - table_bonus)
 		rival["room"] = room
+		rival["skill"] = str(numbers.get("fight_skill", "normal"))
 		result.append(rival)
 		index += 1
 	for room: Variant in HALLS_CHAMPIONS.keys():
 		var row: Array = HALLS_CHAMPIONS[room] as Array
-		var champion: Dictionary = build(content, state, str(row[0]), str(row[1]), str(row[2]), index, int(numbers.get("champion_hp_bonus", 4)), [] as Array[int], int(EquipmentData.Rarity.RARE))
+		var champion: Dictionary = build(content, state, str(row[0]), str(row[1]), str(row[2]), index, int(numbers.get("champion_hp_bonus", 4)) - table_bonus, [] as Array[int], int(EquipmentData.Rarity.RARE))
 		champion["room"] = int(room)
+		champion["skill"] = str(numbers.get("champion_skill", "elite"))
 		champion["champion"] = true
 		if str(row[1]) == str(TREY[1]):
 			champion["recipe"] = _with_card(content, champion["recipe"] as Dictionary, TREY_CARD, 2)
@@ -133,8 +138,9 @@ static func build_halls(content: ContentSet, state: DraftState) -> Array[Diction
 		index += 1
 	# Octavia deals from two Paths at once whatever the player drafted (she is the house), with the whole equipment pool
 	var octavia_state: DraftState = _probe_for_boss(state)
-	var boss: Dictionary = build(content, octavia_state, str(OCTAVIA[0]), str(OCTAVIA[1]), str(OCTAVIA[2]), index, int(numbers.get("boss_hp_bonus", 10)), [] as Array[int], int(EquipmentData.Rarity.LEGENDARY))
+	var boss: Dictionary = build(content, octavia_state, str(OCTAVIA[0]), str(OCTAVIA[1]), str(OCTAVIA[2]), index, int(numbers.get("boss_hp_bonus", 10)) - table_bonus, [] as Array[int], int(EquipmentData.Rarity.LEGENDARY))
 	boss["room"] = HALLS_BOSS_ROOM
+	boss["skill"] = "boss"
 	boss["boss"] = true
 	result.append(boss)
 	return result
@@ -345,3 +351,16 @@ static func recipe(content: ContentSet, rival: DraftState) -> Dictionary:
 	for card: CardData in DraftEngine.build_deck(content, rival).cards:
 		result[card.id] = int(result.get(card.id, 0)) + 1
 	return result
+
+
+## How well a rival plays: its own level in the Shuffled Halls ("skill": the table drafters play at normal level there, the
+## champions at elite, Octavia at boss), else the rules' level for every table rival.
+static func skill_of(rival: Dictionary) -> AIPlayer.Skill:
+	match str(rival.get("skill", "")):
+		"normal":
+			return AIPlayer.Skill.NORMAL
+		"elite":
+			return AIPlayer.Skill.ELITE
+		"boss":
+			return AIPlayer.Skill.BOSS
+	return AIPlayer.Skill.BOSS if bool(rival.get("boss", false)) else DraftRun.skill()
