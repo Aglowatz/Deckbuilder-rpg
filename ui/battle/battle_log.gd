@@ -96,6 +96,13 @@ func describe(event: GameEvent) -> String:
 			if trigger == null:
 				return ""
 			return "[color=#ff9f43]%s: %s[/color]" % [trigger.name, trigger.banner if trigger.banner != trigger.name else trigger.text]
+		GameEvent.Type.HAND_REVEALED:
+			# Fable big pass Nov 23 (Signal Reader): the looker sees the names; the other side only learns that it was looked at
+			if event.player != 0:
+				return "%s looked at your hand" % _who(event.player)
+			if event.detail.is_empty():
+				return "[color=#9fd3ff]%s's hand is empty[/color]" % enemy_name
+			return "[color=#9fd3ff]%s's hand: %s[/color]" % [enemy_name, ", ".join(event.detail.split("|"))]
 		GameEvent.Type.SCRIPT_WARNING:
 			return "[color=#ff9f43]%s[/color]" % event.detail
 		GameEvent.Type.TRAP_TRIGGERED:

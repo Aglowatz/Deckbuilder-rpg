@@ -14,7 +14,7 @@ const OP_NAMES: Array[String] = [
 	"copy_token", "copy_all_tokens", "morph_tokens", "shuffle_into", "shuffle_refuse_into_deck", "pump", "pump_kill", "buff", "kw_grant",
 	"set_def", "set_atk", "cant_block", "protect", "exhaust", "no_refresh", "attach", "add", "gain", "lose", "draw", "peek", "bury", "search",
 	"put_field", "use", "use_any", "set", "if", "may", "ifdid", "flip", "choose", "processing", "delay_start_next_turn",
-	"stat", "kw", "flag", "selfstat", "cost_set", "cost_plus",
+	"stat", "kw", "flag", "selfstat", "cost_set", "cost_plus", "wheel", "reveal_hand",
 ]
 
 
@@ -231,6 +231,19 @@ static func execute(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 			for index: int in drawers:
 				state.draw_cards(index, count)
 			return count > 0
+		"wheel":
+			# Fable big pass Nov 23 (Wheel the Table): each player shuffles their hand into their deck, then draws `n` cards.
+			var wheel_count: int = AbilityRunner.eval_int(fx.args[0], ctx)
+			for index: int in range(state.players.size()):
+				state.shuffle_hand_into_deck(index)
+			for index: int in range(state.players.size()):
+				state.draw_cards(index, wheel_count)
+			return true
+		"reveal_hand":
+			# Fable big pass Nov 23 (Signal Reader): the controller looks at a player's hand (an event the battle screen shows).
+			for index: int in _player_indexes(AbilityRunner.refs(fx.args[0], ctx), state):
+				state.reveal_hand(ctx.controller, index, ctx.source_uid())
+			return true
 		"peek":
 			if state.peek_deck(ctx.controller, AbilityRunner.eval_int(fx.args[0], ctx), ctx):
 				ctx.data[AbilityRunner.PEEK_WAIT] = true

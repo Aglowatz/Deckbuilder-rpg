@@ -25,5 +25,5 @@ paths_all = Array[int]([2, 4])
 script_text = "kw flying
 when(token_dies:mine) => create(ingredient); create(T-19)
 act | use(ingredient,3) => pump(all(token.mine),2,2,eot)"
-rules_hash = "1e3aa684f76d"
+rules_hash = "b19335b77271"
 image_description = "A glamorous ghost restaurateur in a flowing translucent gown and pearls, floating above a candlelit haunted bistro full of spectral diners."

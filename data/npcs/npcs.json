@@ -2438,18 +2438,19 @@
 	{
 		"id": "NPC-TREY",
 		"name": "Trey Pickett",
-		"location": "Every Path zone, by the trivia corner (across from Dex)",
-		"role": "Travelling draft-master (draft mode: the zone drafts, the open draft, the draft quest line)",
-		"species": "human",
-		"species_type": "Human",
-		"description": "A tall, tidy man in a long travelling coat with a folding card table strapped to his back and three cards always fanned in one hand.",
-		"personality": "Dry, exact, delighted by other people's hard choices; never tells you which card he would have taken, and always has an opinion about it.",
-		"speech_style": "Short, level sentences; counts things in threes; a dealer's patience.",
-		"sample_line": "Three cards. One is right. I will not say which. Take your time; I charge by the sitting, not the minute.",
+		"location": "Every Path zone, near the entrance (his squeaky draft cart); a fight in the Shuffled Halls",
+		"role": "Travelling draft-master (draft mode: the zone drafts and the draft quest line); nephew and pupil of Octavia Eightfold",
+		"species": "shark",
+		"species_type": "Animal folk",
+		"description": "A grinning card shark, a real one, in a loud red-and-cream striped suit, a green waistcoat and bow tie and a straw boater with a suit-pip band. He pushes a squeaky card cart with a brass bell and always has three cards fanned in one fin.",
+		"personality": "A carnival auctioneer at full volume: zany, breathless, delighted by everything, most of all by other people having to choose. Family friendly; he never cheats and is deeply hurt when anyone checks.",
+		"speech_style": "Rapid patter in threes, capital-letter punchlines, a bell for punctuation (\"Pick it, pick it, PICK IT!\"); calls everyone \"friend\" or \"champ\"; shark puns he pretends are accidents.",
+		"sample_line": "Step right up, friend, step right UP! Three cards, one choice, no refunds! Pick it, pick it, PICK IT!",
 		"barks": [
-			"Three cards on the table. Two of them will haunt you.",
-			"Nobody ever regrets the pick they made. Only the two they passed.",
-			"The table folds. The draft-master does not."
+			"Pick it, pick it, PICK IT!",
+			"Three cards, one choice, no refunds! (ding!)",
+			"I'm not circling you, friend. That's just how I walk.",
+			"Going once, going twice, GONE! ...Sorry. Force of habit."
 		],
 		"game_function": "Runs draft mode in each Path zone",
 		"quest_links": [
@@ -2462,12 +2463,41 @@
 		],
 		"vendor_links": [],
 		"portrait_id": "NPC-TREY",
-		"portrait_status": "Needed (Batch 20; the townsfolk portrait stands in)",
+		"portrait_status": "Approved (Batch 20)",
 		"expressions": [],
-		"art_status": "Needed (Batch 20)",
-		"sprite_status": "Needed (SPR-TREY)",
-		"world_sprite_status": "Needed (SPR-TREY; the CITIZEN set stands in)",
-		"art_check": "missing",
-		"notes": "Draft mode, Phase 1 (Nov 23): the name is the owner's to confirm (alternatives: Mona Curve, Dravina Pool)."
+		"art_status": "Approved (Batch 20)",
+		"sprite_status": "Approved (SPR-TREY, Batch 20)",
+		"world_sprite_status": "Approved (SPR-TREY, Batch 20)",
+		"art_check": "ok",
+		"notes": "Fable big pass Nov 23: the owner settled the character (a card shark carnival auctioneer); Batch 20 art everywhere (portrait, sprite, BST-TREY). Draft mode, Phase 1 named him."
+	},
+	{
+		"id": "NPC-OCTAVIA",
+		"name": "Octavia Eightfold",
+		"location": "Crosspath, the Shuffle House (the draft arena); the final boss of the Shuffled Halls",
+		"role": "Showwoman and owner of the Shuffle House (the draft arena, its challenges and the Shuffled Halls); Trey Pickett's aunt and mentor",
+		"species": "octopus",
+		"species_type": "Animal folk",
+		"description": "A flamboyant rose-pink octopus showwoman in a sequined crimson-and-gold gown, a jewelled turban with a peacock feather, gold hoops and a beaded purse. She deals with all eight arms at once: cards in two, chips in two, a microphone, a lorgnette, and two free for gesturing.",
+		"personality": "A grand casino hostess who treats every sentence as an opening night. Warm, theatrical, generous with praise and merciless at the table; adores her nephew and says so loudly. Family friendly.",
+		"speech_style": "Showbiz patter, \"darling\" and \"sweetie\", announces things to an audience only she can see, counts on her arms and always has one left over; \"the house always deals\".",
+		"sample_line": "Darling! Welcome to the Shuffle House, where the lights are bright, the cards are fresh and the house always DEALS. On the one arm, glory. On the other seven, also glory!",
+		"barks": [
+			"The house always deals, darling!",
+			"Eight arms, sweetie, and every one of them is holding a better card than yours.",
+			"Places, everyone! That means you, darling. You're the everyone.",
+			"My nephew taught you that pick? I taught HIM. Applause!"
+		],
+		"game_function": "Runs the Shuffle House: the Open Draft, the arena challenges, the Shuffled Halls and Mystery Mini",
+		"quest_links": [],
+		"vendor_links": [],
+		"portrait_id": "NPC-OCTAVIA",
+		"portrait_status": "Approved (Batch 20)",
+		"expressions": [],
+		"art_status": "Approved (Batch 20)",
+		"sprite_status": "Approved (SPR-OCTAVIA, Batch 20)",
+		"world_sprite_status": "Approved (SPR-OCTAVIA, Batch 20)",
+		"art_check": "ok",
+		"notes": "Fable big pass Nov 23: the owner's character (a flamboyant casino showwoman octopus, Trey's aunt and mentor)."
 	}
 ]

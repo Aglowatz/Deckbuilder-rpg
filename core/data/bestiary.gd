@@ -60,7 +60,13 @@ static func reset_art() -> void:
 
 ## "Cave Scavenger" -> "BST-CAVE-SCAVENGER" (letters and digits, everything else a single dash).
 static func art_id(entry_name: String) -> String:
+	if ART_IDS.has(canonical(entry_name)):
+		return str(ART_IDS[canonical(entry_name)])
 	return "BST-" + slug(canonical(entry_name))
+
+
+## Fable big pass Nov 23 (Batch 20): pictures filed under a shorter id than the enemy's full name.
+const ART_IDS: Dictionary = {"Trey Pickett": "BST-TREY", "Octavia Eightfold": "BST-OCTAVIA"}
 
 
 ## The world-sprite character key of an enemy: "FOE-" + the same slug as its Bestiary picture ("Quota Spotter" -> "FOE-QUOTA-SPOTTER").

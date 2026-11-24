@@ -362,6 +362,7 @@ static func build_map(blueprint: DungeonCatalog.Blueprint, def: MainDungeonDef) 
 		added.title = node.node_name
 		added.position = node.position
 		added.blurb = _blurb(blueprint, node, content)
+		added.hidden = node.type == "start" and node.note == "hidden"  # Fable big pass Nov 23: a way in that is not drawn (the Shuffled Halls' two gates are the first choice)
 		match kind:
 			K.BATTLE, K.ELITE, K.BOSS:
 				var foe_name: String = foe_name_of(blueprint, node)

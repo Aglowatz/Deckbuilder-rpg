@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_q6i2b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_f65ht"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_a4iyl"]
+
+[sub_resource type="Resource" id="Resource_hvaon"]
+script = ExtResource("1_q6i2b")
+kind = 13
+value = 1
+
+[resource]
+script = ExtResource("3_a4iyl")
+id = "thinking_cap"
+slot = 0
+description = "You draw an extra card on your first turn."
+flavor_text = "The tassel swings toward the right answer. Usually."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Thinking Cap"
+modifiers = Array[ExtResource("1_q6i2b")]([SubResource("Resource_hvaon")])

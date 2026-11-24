@@ -118,3 +118,49 @@ static func first_win_bonus() -> Dictionary:
 
 static func rivals() -> Dictionary:
 	return data().get("rivals", {}) as Dictionary
+
+
+# ---- Fable big pass Nov 23 ----------------------------------------------------------------------------------------------------------
+
+
+## The least cards a player's draft deck may hold (Infrastructure included), and the most basic Infrastructure.
+static func deck_min() -> int:
+	return number("deck_min_cards", 35)
+
+
+static func deck_max_basics() -> int:
+	return number("deck_max_basics", 25)
+
+
+static func section(key: String) -> Dictionary:
+	var found: Variant = data().get(key, {})
+	return found as Dictionary if found is Dictionary else {}
+
+
+static func rewards() -> Dictionary:
+	return section("rewards")
+
+
+static func dungeon() -> Dictionary:
+	return section("dungeon")
+
+
+static func dungeon_rewards() -> Dictionary:
+	var found: Variant = rewards().get("dungeon", {})
+	return found as Dictionary if found is Dictionary else {}
+
+
+## The rarest piece of equipment a rival may draft in a challenge of `kind` (DraftArena.KIND_*).
+static func rival_equipment_cap(kind: String) -> int:
+	var table: Dictionary = section("rival_equipment_cap")
+	var word: String = str(table.get(kind, table.get("default", "legendary")))
+	var index: int = CARD_RARITY_KEYS.find(word)
+	return index if index >= 0 else int(EquipmentData.Rarity.LEGENDARY)
+
+
+## Every foe's HP in a dungeon played as a draft, in percent.
+static func foe_hp_percent(dungeon_key: String) -> int:
+	var table: Variant = dungeon().get("foe_hp_percent", {})
+	if table is Dictionary:
+		return int((table as Dictionary).get(dungeon_key, (table as Dictionary).get("default", 100)))
+	return 100

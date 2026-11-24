@@ -132,3 +132,6 @@ play t=unit => if(on_path(t,N),{damage(t,4)},{damage(t,2)})
 kw bulldoze
 enter => create(iron,2)
 boc => may({use(iron); pump(all(unit.mine.other),1,0,eot); kw_grant(all(unit.mine.other),bulldoze,eot)})
+
+== B-38 @2ccd128c13c0  # Bomb in the Pack
+play => damage(all(unit.opp),4)

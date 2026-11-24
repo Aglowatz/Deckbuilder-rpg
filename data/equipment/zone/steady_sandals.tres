@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_h3kvq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6ky4a"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_eojhj"]
+
+[sub_resource type="Resource" id="Resource_i0or1"]
+script = ExtResource("1_h3kvq")
+value = 1
+
+[sub_resource type="Resource" id="Resource_he7yp"]
+script = ExtResource("1_h3kvq")
+kind = 1
+value = 2
+
+[resource]
+script = ExtResource("3_eojhj")
+id = "steady_sandals"
+slot = 3
+description = "Max HP +1. Start every duel with 2 extra HP."
+flavor_text = "Four straps, two buckles, zero surprises."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Steady Sandals"
+modifiers = Array[ExtResource("1_h3kvq")]([SubResource("Resource_i0or1"), SubResource("Resource_he7yp")])

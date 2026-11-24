@@ -67,7 +67,14 @@ extra cards. One number per level in data, like the rest of draft mode.
 4. The dungeon draft entry on each freed zone's dungeon door, and the Primm's Castle draft.
 5. Sims: clear rates by Path and route, like the castle's route table.
 
-## Open points for the owner
+## Decided by the owner, Nov 23
+
+- The Shuffled Halls is the Shuffle House's own dungeon (its own map, MAP-DRAFT); each freed zone's draft dungeon uses that zone's own map.
+- One HP pool; the run ends at the first loss.
+- Trey Pickett is a fight inside and Octavia Eightfold is the final boss.
+- Entry is free.
+
+## Open points for the owner (answered above)
 
 - One shared map for every dungeon draft (this plan), or one per zone? One map is one picture; five would be five.
 - One HP pool (this plan) or full HP each fight, as at the host's table?

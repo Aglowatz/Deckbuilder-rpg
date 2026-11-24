@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fjuie"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8bogo"]
+
+[resource]
+script = ExtResource("2_8bogo")
+id = "GN-17"
+display_name = "Table Captain"
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+attack = 3
+defense = 4
+rules_text = "When this unit enters, create an Ingredient and a Red Tape.
+
+Your other units get +0/+1."
+rarity = 2
+flavor_text = "He seats the living and the dead alike, and nobody gets the table by the window."
+paths_all = Array[int]([2, 4])
+script_text = "enter => create(ingredient); create(redtape)
+aura(unit.mine.other) => stat(0,1)"
+rules_hash = "662e5fd29323"
+image_description = "Batch 20 (docs/art/batch20.csv, DR-06)."

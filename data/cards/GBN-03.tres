@@ -18,5 +18,5 @@ rarity = 1
 flavor_text = "To absent friends! (They're right behind you.)"
 paths_all = Array[int]([1, 2, 4])
 script_text = "play t=refuse.unit.mine.cost<=3 => reinstate(t); pump(last,2,0,eot); kw_grant(last,hustle,eot); create(ingredient)"
-rules_hash = "a16fa78e4cde"
+rules_hash = "bfff3acd14e9"
 image_description = "A grand gala crowd of chefs, Beefcakes, and ghosts raising glowing goblets as a fallen hero rises from a banquet table."

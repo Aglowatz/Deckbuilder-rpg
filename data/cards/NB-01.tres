@@ -19,5 +19,5 @@ flavor_text = "Counting calories is so easy when you're dead. Being dead rules!"
 paths_all = Array[int]([1, 4])
 script_text = "when(resource_used:mine:redtape) => pump(self,1,0,eot); kw_grant(self,elusive,eot)
 when(resource_used:mine:iron) => pump(self,1,0,eot); kw_grant(self,elusive,eot)"
-rules_hash = "79d8f3fd6ab2"
+rules_hash = "1fde0e72f8e1"
 image_description = "Beefcake ghost with his shirt off, flexing and showing off his huge muscles and abs as a bunch of other shocked beefcakes look on"

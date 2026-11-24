@@ -17,5 +17,5 @@ rarity = 1
 flavor_text = "Grandpa wanted to be scattered at the gym."
 paths_all = Array[int]([1, 4])
 script_text = "act t=refuse.unit.mine.cost<=2 | destroy_self => reinstate(t); kw_grant(last,hustle,eot)"
-rules_hash = "7f5155c2f91c"
+rules_hash = "c27207582edf"
 image_description = "An ornate funeral urn shaped like a protein tub, glowing powder swirling out of it and forming a muscular ghost."

@@ -651,6 +651,13 @@ func _play_new_events() -> void:
 			await _show_script_event(event)
 		elif event.type == GameEvent.Type.SCRIPT_WARNING and script_banner != null:
 			script_banner.warn(event.detail)
+		if event.type == GameEvent.Type.HAND_REVEALED and event.player == 0:
+			# Fable big pass Nov 23 (Signal Reader): the opponent's hand, named on the banner (and kept in the battle log)
+			var seen: String = "Their hand is empty." if event.detail.is_empty() else "Their hand: %s." % ", ".join(event.detail.split("|"))
+			if script_banner != null:
+				script_banner.warn(seen)
+			else:
+				hud.announce(seen, 3.0)
 		await board.present(event)
 		if tutorial != null:
 			tutorial.on_battle_event(event)

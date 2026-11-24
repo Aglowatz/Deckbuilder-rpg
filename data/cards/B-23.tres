@@ -16,5 +16,5 @@ rarity = 1
 flavor_text = "Oops, all protein bars"
 paths_all = Array[int]([1])
 script_text = "act t=unit.fresh | pay(1) => pump(t,2,0,eot)"
-rules_hash = "bb34d68d8411"
+rules_hash = "3c9bb733e89c"
 image_description = "A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait."

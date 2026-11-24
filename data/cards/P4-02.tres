@@ -20,5 +20,5 @@ availability = 1
 availability_source = "Primm's Castle, first clear (Primm)"
 paths_all = Array[int]([1, 2, 3, 4])
 script_text = "play => reinstate_diff_paths(4); create(iron); create(redtape); create(ingredient); create(garbage); pump(all(unit.mine),2,2,eot)"
-rules_hash = "64dae635c18e"
+rules_hash = "88a2fb2c9a53"
 image_description = "Leaders of all four Paths clasping hands in a sunlit restored capital square as their peoples cheer, broken mirrors and rifts fading in the background."

@@ -75,3 +75,4 @@ CAP-PROP-CREASE-CRATES,"Crease crates",Prop,CUTOUT,"See docs/art/batch16_nov14.c
 CAP-STATUE-PRIMM-STANDING,"Primm statue, standing",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1024x1536 PNG, transparent","Zone hub statue (standing)",2,Approved
 CAP-STATUE-PRIMM-TOPPLED,"Primm statue, toppled",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","1536x1024 PNG, transparent","Zone hub statue after the zone is freed",2,Approved
 CAP-PROP-SERVICE-MANHOLE,"Service tunnel manhole",Prop,CUTOUT,"See docs/art/batch18_nov18.csv (Batch 18, Nov 20).","1024x1024 PNG, transparent","The way into the Old Service Tunnels",2,Approved
+CAP-PROP-PRIMM-CELL,"Primm's cell",Prop,CUTOUT,"See docs/art/batch20.csv (Batch 20, Nov 23).","1536x1024 PNG, transparent","The barred cell Primm stands behind in the underground base after his defeat",2,Approved

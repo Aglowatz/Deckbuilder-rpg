@@ -21,5 +21,5 @@ flavor_text = "Everybody in. Seatbelts are for the weak."
 paths_all = Array[int]([1])
 script_text = "kw hustle
 enter => kw_grant(all(unit.mine.other),hustle,eot)"
-rules_hash = "7d3e2ded3c96"
+rules_hash = "af046f8b61a3"
 image_description = "A giant Beefcake running with a wooden cart strapped to his back, a crowd of smaller warriors cheering from the cart as it bounces down a hill."

@@ -38,33 +38,37 @@ func _finish_fight(won: bool) -> Dictionary:
 	return result
 
 
-func test_the_first_attempt_is_free_and_the_next_costs_100_gold() -> void:
+func test_every_draft_is_free() -> void:
+	# The owner, Nov 23: entry is free for every draft (it was 100 gold after the first attempt)
 	assert_eq(Session.draft_fee("zone:beefcake"), 0)
 	assert_true(Session.start_draft("zone:beefcake", [] as Array[int]))
-	assert_eq(Session.gold, 500, "the first sitting is on the house")
+	assert_eq(Session.gold, 500, "the sitting is on the house")
 	assert_eq(Session.draft.paths, [int(Affinity.Type.BEEFCAKE)], "a zone draft fixes the Path")
 	assert_false(Session.start_draft("zone:gourmand", [] as Array[int]), "one draft at a time")
 	Session.close_draft()
-	assert_eq(Session.draft_fee("zone:beefcake"), 100)
-	assert_true(Session.start_draft("zone:beefcake", [] as Array[int]))
-	assert_eq(Session.gold, 400)
-	Session.close_draft()
-	Session.gold = 50
-	assert_false(Session.start_draft("zone:beefcake", [] as Array[int]), "no gold, no draft")
-	assert_eq(Session.gold, 50)
+	assert_eq(Session.draft_fee("zone:beefcake"), 0, "and the next one too")
+	Session.gold = 0
+	assert_true(Session.start_draft("zone:beefcake", [] as Array[int]), "no gold needed")
+	assert_eq(Session.gold, 0)
 
 
-func test_the_open_draft_takes_one_path_until_the_arena_is_open() -> void:
-	assert_false(DraftChallenges.open_unlocked(Session.flags))
-	Session.set_flag(StringName(DraftChallenges.won_flag("zone:beefcake")))
-	assert_true(DraftChallenges.open_unlocked(Session.flags), "the open draft opens with the first zone draft won")
-	assert_false(Session.start_draft("open", [1, 2] as Array[int]), "two Paths wait for the Crosspath draft arena")
+func test_the_open_draft_belongs_to_the_shuffle_house_and_follows_the_path_rule() -> void:
+	# Trey's cart offers only its zone's draft; choosing Paths happens at the Shuffle House, once it is open
+	assert_false(Session.start_draft("open", [2] as Array[int]), "the Shuffle House is not open yet")
+	Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
+	assert_eq(DraftChallenges.max_open_paths(Session.flags), 1, "before any zone is freed: one Path")
+	assert_false(Session.start_draft("open", [1, 2] as Array[int]), "two Paths wait for the first freed zone")
 	assert_true(Session.start_draft("open", [2] as Array[int]))
 	assert_eq(Session.draft.paths, [2])
+	assert_false(Session.draft.two_path_ok)
 	Session.close_draft()
-	Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
+	Session.flags[str(ZoneCompletion.flag_name("beefcake"))] = true
+	assert_eq(DraftChallenges.max_open_paths(Session.flags), 2, "a zone is freed: two Paths")
 	assert_true(Session.start_draft("open", [1, 2] as Array[int]))
-	assert_false(Session.draft.two_path_ok, "two-Path cards still wait for all four zones to be freed")
+	assert_true(Session.draft.two_path_ok, "two-Path cards come with the first freed zone")
+	assert_false(Session.draft.multi_path_ok)
+	Session.close_draft()
+	assert_false(Session.start_draft("open", [1, 2, 3] as Array[int]), "three Paths wait for Primm")
 
 
 func test_a_draft_is_saved_with_the_game_and_old_saves_still_load() -> void:
@@ -204,18 +208,18 @@ func test_every_draft_piece_also_exists_in_the_main_game() -> void:
 	for entry: EquipmentVendorEntry in EquipmentVendorScreen.default_stock().entries:
 		if entry.unlock == null:
 			stall.append(entry.equipment_id)
-	assert_eq(DraftGear.ids().size(), 8)
+	assert_eq(DraftGear.ids().size(), 19, "the eight of Phase 1 and the eleven modest pieces of Nov 23")
 	for id: String in DraftGear.ids():
 		var piece: EquipmentData = Session.content.equipment_piece(id)
 		assert_not_null(piece, id)
 		assert_false(piece.source.is_empty(), "%s says where it comes from" % id)
 		assert_true(quest_pieces.has(id) or DraftGear.VENDOR_PIECES.has(id), "%s is a quest reward or on Bertram's stall" % id)
 		var in_pool: bool = false
-		for pooled: EquipmentData in DraftEngine.equipment_pool(Session.content, int(piece.slot)):
+		for pooled: EquipmentData in DraftEngine.equipment_pool(Session.content, int(piece.slot)):  # every one of them is offered (the owner: "never offered in a draft")
 			in_pool = in_pool or pooled.id == id
 		assert_true(in_pool, "%s can be drafted" % id)
 	for id: Variant in DraftGear.VENDOR_PIECES.keys():
-		assert_eq(Session.content.equipment_piece(str(id)).rarity, EquipmentData.Rarity.COMMON, "the weak pieces are the early ones")
+		assert_lte(int(Session.content.equipment_piece(str(id)).rarity), int(EquipmentData.Rarity.UNCOMMON), "the weak pieces are the early ones")
 		assert_true(stall.has(str(id)), "%s is on the stall from the start" % id)
 
 

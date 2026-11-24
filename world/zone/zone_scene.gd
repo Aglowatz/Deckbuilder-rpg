@@ -1745,11 +1745,12 @@ func _talk_drafthost() -> void:
 
 
 func _open_draft(result: Dictionary) -> void:
-	var screen: DraftScreen = DraftScreen.new()
-	screen.zone_id = def.id
-	screen.result = result
+	# Fable big pass Nov 23: Trey's menu and the next-opponent reveal are one screen, the picks / the deck / the rewards another;
+	# each asks to be reopened when the draft moves to the other's faces
+	var screen: OverlayScreen = DraftHubScreen.for_state(def.id, result)
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+	screen.connect(&"reopen", func() -> void: _open_draft.call_deferred({}))
 
 
 func _open_card_match(table: String) -> void:

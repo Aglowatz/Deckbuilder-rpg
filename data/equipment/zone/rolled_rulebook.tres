@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_b53p8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3ajx6"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_ot6fe"]
+
+[sub_resource type="Resource" id="Resource_vig00"]
+script = ExtResource("1_b53p8")
+kind = 36
+value = -1
+
+[resource]
+script = ExtResource("3_ot6fe")
+id = "rolled_rulebook"
+slot = 1
+description = "Your first spell each turn costs 1 less."
+flavor_text = "Chapter one: the rules. Chapter two: bonking."
+rarity = 1
+tier = 2
+source = "Bertram's equipment stall, Crosspath, or a hidden chest"
+source_name = "Rolled-Up Rulebook"
+modifiers = Array[ExtResource("1_b53p8")]([SubResource("Resource_vig00")])

@@ -15,5 +15,5 @@ rules_text = "Destroy this Tool: target unit gets +3/+0 and Hustle until the end
 flavor_text = "Contains 900% of your daily jitters."
 paths_all = Array[int]([1])
 script_text = "act t=unit | destroy_self => pump(t,3,0,eot); kw_grant(t,hustle,eot)"
-rules_hash = "600eff135701"
+rules_hash = "a0ba09d8c046"
 image_description = "A neon-colored canister of pre-workout powder bursting open in an explosion of electric energy, a nearby Beefcake vibrating intensely."

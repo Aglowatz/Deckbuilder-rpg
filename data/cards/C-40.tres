@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_wxo5c"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8kofg"]
+
+[resource]
+script = ExtResource("2_8kofg")
+id = "C-40"
+display_name = "Trey Pickett"
+generic_cost = 3
+attack = 2
+defense = 3
+rules_text = "When this unit enters, Peek 3.
+
+Pick It, Pick It, PICK IT!: at the start of your turn, choose one: draw a card, gain 2 HP, or put a buff on this unit."
+rarity = 2
+flavor_text = "Three cards, one choice, no refunds, and step right up!"
+script_text = "enter => peek(3)
+sot => choose({draw(1)},{gain(me,2)},{buff(self,1)})"
+rules_hash = "e1262ebf6bd6"
+image_description = "Batch 20 (docs/art/batch20.csv, DR-08)."

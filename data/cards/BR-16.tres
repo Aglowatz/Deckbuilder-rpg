@@ -25,5 +25,5 @@ paths_all = Array[int]([1, 3])
 script_text = "kw hustle
 sot => create(garbage); create(iron)
 act | eat, lose(1) => buff(self,1); kw_grant(self,bulldoze,eot)"
-rules_hash = "66e2eeb3aca1"
+rules_hash = "42cf0e7b2131"
 image_description = "A colossal boar wrestler in a championship belt made from a hubcap, standing triumphantly in a junkyard wrestling ring as rats and goats cheer."

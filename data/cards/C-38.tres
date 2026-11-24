@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lru83"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cjr6g"]
+
+[resource]
+script = ExtResource("2_cjr6g")
+id = "C-38"
+display_name = "Wheel the Table"
+type = 2
+generic_cost = 3
+defense = 0
+rules_text = "Each player shuffles their hand into their deck, then draws four cards."
+rarity = 2
+flavor_text = "Everybody passes to the left. No, your other left."
+script_text = "play => wheel(4)"
+rules_hash = "37ec383fe731"
+image_description = "Batch 20 (docs/art/batch20.csv, DR-02)."

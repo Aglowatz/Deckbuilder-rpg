@@ -1,5 +1,5 @@
 {
-	"_about": "Draft mode, Phase 1 (docs/design/draft_mode.md). Every number of the mode lives here; core/draft/draft_rules.gd reads it. The owner tunes these; nothing in code repeats them.",
+	"_about": "Draft mode (docs/design/draft_mode.md). Every number of the mode lives here; core/draft/draft_rules.gd reads it. The owner tunes these; nothing in code repeats them. Fable big pass Nov 23: free entry, the 35-card minimum with free basics, the equipment removals and variety, the arena's rewards, the dungeon drafts.",
 	"card_picks": 25,
 	"options_per_pick": 3,
 	"high_rarity_every": 5,
@@ -30,10 +30,10 @@
 		17
 	],
 	"equipment_rarity_weights": {
-		"common": 40,
+		"common": 46,
 		"uncommon": 34,
-		"epic": 20,
-		"legendary": 6
+		"epic": 15,
+		"legendary": 5
 	},
 	"item_slots": 2,
 	"rerolls": 1,
@@ -42,14 +42,22 @@
 	"wins_to_finish": 3,
 	"losses_to_finish": 2,
 	"fights": 3,
-	"entry_fee": 100,
+	"entry_fee": 0,
 	"first_attempt_free": true,
-	"banned_equipment": [],
+	"banned_equipment": [
+		"gotta_go_galoshes",
+		"flamethrower",
+		"thorned_loincloth",
+		"clipwells_shears",
+		"gladiators_net",
+		"hall_pass_slippers",
+		"participation_trophy"
+	],
 	"banned_items": [],
 	"banned_cards": [],
-	"_banned": "The ban lists of draft mode. Empty on purpose: the sims propose bans (docs/design/draft_balance.md), the owner decides.",
+	"_banned": "The ban lists of draft mode. Equipment (the owner's rules of Nov 23): Gotta-Go Galoshes; every piece that damages enemy units or gives them minus toughness (the Flamethrower, the Thorned Loincloth, Clipwell's Golden Shears, the Gladiator's Net); every piece that only works outside battle (Hall Pass Slippers, the Participation Trophy, the Galoshes). tests/test_draft_big_pass.gd checks that no piece left in the pool breaks these rules. Items and cards: empty; the sims propose (docs/design/draft_balance.md), the owner decides.",
 	"rewards": {
-		"_about": "Gold and XP for a run by its wins (0 to 3), for a replay and for the first full win of a challenge. A full win (3 wins) also lets the player keep one drafted card.",
+		"_about": "Gold and XP for a table run by its wins (0 to 3). A full win (3 wins) also pays a pack and lets the player keep one drafted card; the first full win of each challenge pays the first-win bonus on top. Packs: 'path' = the Path Pack of one of the draft's Paths, 'gilded' = a Gilded Pack of one of them, 'prismatic' only after Primm (before that it turns into 'gilded').",
 		"replay": {
 			"gold": [
 				20,
@@ -67,6 +75,39 @@
 		"first_win_bonus": {
 			"gold": 300,
 			"xp": 200
+		},
+		"full_win_pack": {
+			"zone": "path",
+			"open": "path",
+			"pair": "path",
+			"trio": "prismatic",
+			"quad": "prismatic",
+			"high": "gilded"
+		},
+		"first_win_pack": {
+			"zone": "",
+			"open": "gilded",
+			"pair": "gilded",
+			"trio": "prismatic",
+			"quad": "prismatic",
+			"high": "gilded"
+		},
+		"after_primm_full_win_pack": {
+			"pair": "prismatic",
+			"high": "prismatic"
+		},
+		"_after_primm_full_win_pack": "After Primm, these kinds pay a Prismatic Pack for a full win instead (two-Path tables and the win-three tables become a source of multi-Path cards).",
+		"dungeon": {
+			"_about": "A dungeon cleared with a drafted deck pays MORE than a normal clear: the dungeon's own repeat-clear rewards (gold and its pack), an extra pack, and one card of the draft deck to keep. A run that ends early pays consolation gold per room won.",
+			"extra_pack": "gilded_general",
+			"extra_pack_after_primm": "prismatic",
+			"gold_per_fight_won": 15,
+			"xp_per_fight_won": 12,
+			"halls_clear_gold": 200,
+			"halls_clear_xp": 160,
+			"halls_first_clear_gold": 300,
+			"halls_first_clear_xp": 300,
+			"halls_first_clear_pack": "gilded_general"
 		}
 	},
 	"rivals": {
@@ -77,6 +118,39 @@
 		"hp_bonus": 0,
 		"skill": "elite",
 		"draft_equipment": true,
-		"_draft_equipment": "Rivals draft five pieces of equipment like the player (the rarest of each three). Without it a sensible player won 91 % of fights."
+		"_draft_equipment": "Rivals draft five pieces of equipment like the player (the rarest of each three). Without it a sensible player won 91 % of fights.",
+		"random_paths": true,
+		"_random_paths": "Each rival drafts random Paths, as many as the player's draft has (any Path, the player's included): the owner, Nov 23."
+	},
+	"_equipment_rarity_weights": "Weak pieces are common and strong ones rare (the owner, Nov 23). A piece already offered in this draft is not offered again unless its slot runs out; a piece that only helps a Path the draft does not have is never offered.",
+	"_deck_drafted_cards": "The default deck (and every rival's): 20 of the 25 picks and 15 basics. The player may play up to all 25 and sets the number of each basic Infrastructure.",
+	"deck_min_cards": 35,
+	"deck_max_basics": 25,
+	"_deck_min_cards": "The player's draft deck needs at least deck_min_cards cards, Infrastructure included, and may hold at most deck_max_basics basic Infrastructure.",
+	"_entry_fee": "Every draft is free (the owner, Nov 23; it was 100 gold after the first attempt).",
+	"rival_equipment_cap": {
+		"default": "uncommon",
+		"high": "legendary"
+	},
+	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge: Uncommon everywhere (the player may still get Epic and Legendary pieces), except the arena's harder win-three tables (high), where rivals draft from the player's whole pool.",
+	"high": {
+		"losses_to_finish": 1,
+		"hp_bonus": 0
+	},
+	"_high": "The arena's harder win-three tables: one loss ends the run.",
+	"dungeon": {
+		"_about": "Dungeon drafts: one HP pool (the base HP of the player's level), the run ends at the first loss, and after each fight won the player picks one of three cards: add it, swap it for a card of the deck, or pass. Champions (elites) and the boss offer the top two rarities.",
+		"pick_options": 3,
+		"trade_options": 3,
+		"foe_hp_percent": {
+			"default": 100
+		},
+		"_foe_hp_percent": "Rebalance for drafted decks: every foe's HP in a dungeon played as a draft, in percent, by dungeon key ('default' for the rest). Set from the sims (docs/design/draft_balance.md).",
+		"halls": {
+			"fight_hp_bonus": 0,
+			"champion_hp_bonus": 4,
+			"boss_hp_bonus": 10,
+			"_about": "The Shuffled Halls: its regular rooms are rival drafters (drafted the draft way, at the player's base HP plus fight_hp_bonus), Trey Pickett and the other champion get champion_hp_bonus, Octavia Eightfold boss_hp_bonus."
+		}
 	}
 }

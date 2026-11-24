@@ -25,5 +25,5 @@ paths_all = Array[int]([1, 2, 4])
 script_text = "kw bulldoze
 enter => reinstate_up_to(2,refuse.unit.mine); kw_grant(last,hustle,eot)
 when(attacks:mine) => create(ingredient)"
-rules_hash = "245bb0954120"
+rules_hash = "387f01d4d5eb"
 image_description = "A towering, muscular undead aristocrat in a velvet coat and monocle presiding over a lavish eternal feast, ghostly guests and golem waiters all around."

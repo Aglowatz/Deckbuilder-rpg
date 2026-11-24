@@ -7,7 +7,7 @@ extends RefCounted
 ## Chest-rollable pieces per tier (quest and dungeon pieces stay special and are never rolled).
 const TIER_GEAR: Dictionary = {
 	1: ["lucky_sock", "saucepan_helmet", "cardboard_cuirass", "flip_flops"],
-	2: ["dog_eared_bookmark", "sucker_punch_mitts", "lucky_sock", "flip_flops"],
+	2: ["dog_eared_bookmark", "sucker_punch_mitts", "lucky_sock", "flip_flops", "rolled_rulebook", "tinkers_wrench"],  # Fable big pass Nov 23: two of the modest draft pieces
 	3: ["sucker_punch_mitts", "dog_eared_bookmark"],
 }
 const GEAR_CHANCE: Dictionary = {1: 0.2, 2: 0.25, 3: 0.3}

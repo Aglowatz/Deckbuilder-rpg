@@ -25,5 +25,5 @@ paths_all = Array[int]([1, 2])
 script_text = "kw hustle
 enter => create(ingredient,3)
 when(resource_used:mine:ingredient) => pump(self,1,1,eot)"
-rules_hash = "5211957fe82f"
+rules_hash = "11353eee06df"
 image_description = "A towering, lavish banquet golem of roasts, pies, and fruit, covered in dozens of curious olive eyes that all blink at once."

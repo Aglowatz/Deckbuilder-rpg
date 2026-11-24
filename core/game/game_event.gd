@@ -63,6 +63,8 @@ enum Type {
 	## Overnight Nov 19: the engine waits for a player choice (player = who chooses, card = source, amount = options) / it was made (other = answer).
 	CHOICE_REQUESTED,
 	CHOICE_MADE,
+	## Fable big pass Nov 23 (Signal Reader): `player` looked at the hand of seat `other` (amount = cards, detail = names joined by "|").
+	HAND_REVEALED,
 }
 
 var sequence: int = 0

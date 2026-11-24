@@ -125,3 +125,8 @@ play => reinstate_diff_paths(4); create(iron); create(redtape); create(ingredien
 == P4-03 @1ba2cf32f7ca  # Mr. Tiggle, Rules Lawyer
 kw untouchable
 static => cost_plus(opp,any,played(opp)); flag(extra_infra_drop)
+
+== P4-04 @574daef6b855  # Octavia Eightfold
+kw swat
+enter => draw(4)
+sot => choose({create(iron)},{create(redtape)},{create(ingredient)},{create(garbage)})

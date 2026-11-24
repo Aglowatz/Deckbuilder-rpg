@@ -25,6 +25,8 @@ enum Kind {
 	GROWTH,
 	## Appended last: the Arena building in town.
 	ARENA,
+	## Fable big pass Nov 23: a draft table - Trey Pickett's cart in a Path zone, the Shuffle House in Crosspath (ICON-MAP-DRAFT).
+	DRAFT,
 }
 
 var kind: Kind = Kind.VENDOR
@@ -109,6 +111,8 @@ static func kind_name(poi_kind: Kind) -> String:
 			return "Growing spot"
 		Kind.ARENA:
 			return "Arena"
+		Kind.DRAFT:
+			return "Draft table"
 	return "?"
 
 
@@ -152,6 +156,8 @@ static func kind_glyph(poi_kind: Kind) -> String:
 			return "V"
 		Kind.ARENA:
 			return "A"
+		Kind.DRAFT:
+			return "3"
 	return "?"
 
 
@@ -191,4 +197,6 @@ static func kind_color(poi_kind: Kind) -> Color:
 			return Color("6fd05a")
 		Kind.ARENA:
 			return Color("e0a040")
+		Kind.DRAFT:
+			return Color("e8574f")
 	return Color.WHITE

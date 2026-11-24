@@ -1,10 +1,11 @@
 class_name DraftHost
 extends RefCounted
-## Draft mode, Phase 1 (Part 2): Trey Pickett, the travelling draft-master. A recurring character like Dex and Rip: he keeps a
-## draft table in each of the four Path zones (that zone's draft, and the open draft once a zone draft is won) and gives the
-## draft quest line: "Pick of Three" (the introduction: finish any draft), one quest per zone draft, and "Last Pick, Best Pick"
-## (all four won), which opens the Crosspath draft arena (Phase 2; here only the unlock and a teaser).
-## He has no art of his own yet (Batch 20 rows): the townsfolk portrait and the CITIZEN sprite stand in, with his own tint.
+## Draft mode: Trey Pickett, the travelling draft-master, a card shark in a striped suit and a straw boater who talks like a
+## carnival auctioneer ("Pick it, pick it, PICK IT!"). A recurring character like Dex and Rip: he pushes his draft cart into each
+## of the four Path zones, where he offers ONLY that zone's draft (the owner, Nov 23: choosing Paths happens at the Shuffle
+## House), and gives the draft quest line: "Pick of Three" (finish any draft), one quest per zone draft, and "Last Pick, Best
+## Pick" (all four won), which opens his aunt Octavia's Shuffle House in Crosspath.
+## Batch 20 (Nov 23): his own portrait (NPC-TREY), world sprite (SPR-TREY) and Bestiary picture (BST-TREY) everywhere.
 
 const NPC_ID: String = "NPC-TREY"
 const SPRITE_KEY: String = "TREY"
@@ -40,7 +41,10 @@ static func zone_quest_id(zone_id: String) -> String:
 
 ## The zone entry and the talk spot ZoneDefs adds to each Path zone.
 static func npc_entry(zone_id: String = "") -> Dictionary:
-	return {"id": SPOT_ID, "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": offset_for(zone_id), "yaw": -30.0, "tint": Color(0.8, 0.95, 1.2)}
+	var entry: Dictionary = {"id": SPOT_ID, "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": offset_for(zone_id), "yaw": -30.0}
+	if sprite_key() == STAND_IN_SPRITE:
+		entry["tint"] = Color(0.8, 0.95, 1.2)  # only the stand-in is tinted: his own sprite (Batch 20) keeps its colours
+	return entry
 
 
 static func spot_entry(zone_id: String = "") -> Dictionary:

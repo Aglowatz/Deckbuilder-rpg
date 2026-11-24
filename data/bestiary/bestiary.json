@@ -109,6 +109,8 @@
 		{"name": "Echo of the Doppelganger", "kind": "foe", "where": "The Shattered Gallery", "icon": "delapouite/chef-toque", "blurb": "A copy of a copy. It wears a mirror where the Grand Chef's face should be."},
 		{"name": "Echo of Hortensia Clipwell", "kind": "elite", "where": "The Shattered Gallery", "icon": "lorc/leaf-swirl", "blurb": "Clipwell's topiary reflection, trimming everything that dares to grow an inch out of line."},
 		{"name": "Echo of the Rotheart", "kind": "elite", "where": "The Shattered Gallery", "icon": "lorc/root-tip", "blurb": "The Rotheart as the mirrors remember it: evergreen, deathless, and very hard to stop."},
-		{"name": "The Perfect Copy", "kind": "boss", "where": "The Shattered Gallery", "icon": "delapouite/shinto-shrine-mirror", "blurb": "You, without the doubts. It plays your deck better than you'd like and smiles the whole time."}
+		{"name": "The Perfect Copy", "kind": "boss", "where": "The Shattered Gallery", "icon": "delapouite/shinto-shrine-mirror", "blurb": "You, without the doubts. It plays your deck better than you'd like and smiles the whole time."},
+		{"name": "Trey Pickett", "kind": "elite", "where": "The Shuffled Halls", "icon": "delapouite/up-card", "blurb": "The travelling draft-master, a card shark in every sense. He deals three, you pick one, and he has already picked the other two."},
+		{"name": "Octavia Eightfold", "kind": "boss", "where": "The Shuffled Halls", "icon": "delapouite/up-card", "blurb": "The lady of the Shuffle House: eight arms, four Paths and one very large hat. The house always deals, darling, and the house is her."}
 	]
 }

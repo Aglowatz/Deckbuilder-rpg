@@ -29,3 +29,5 @@ TOWN-PROP-CELLAR-FOURSEALS-OPEN,"Four Seals cellar door, open",Prop,CUTOUT,"See 
 TOWN-PROP-SEAL-LOCKED,"Seal, locked",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door",2,Approved
 TOWN-PROP-SEAL-BLANK,"Seal, blank",Prop,CUTOUT,"See docs/art/batch17_nov17.csv (Batch 17, Nov 18).","512x512 PNG, transparent","The four seals on the vault door (turned)",2,Approved
 TOWN-PROP-CAVE-MOUTH-BRUSH,"Cave mouth in the brush",Prop,CUTOUT,"See docs/art/batch18_nov18.csv (Batch 18, Nov 20).","1024x1024 PNG, transparent","The Forgotten Cave mouth on the north edge",2,Approved
+TOWN-HERO-SHUFFLEHOUSE,"The Shuffle House (painted)",Prop,CUTOUT,"See docs/art/batch20.csv (Batch 20, Nov 23).","1536x2048 PNG, transparent","The draft arena building in Crosspath",2,Approved
+TOWN-SIGN-SHUFFLEHOUSE,"The Shuffle House sign",Prop,CUTOUT,"See docs/art/batch20.csv (Batch 20, Nov 23).","1024x1024 PNG, transparent","The hanging sign over the Shuffle House door",2,Approved

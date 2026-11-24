@@ -18,5 +18,5 @@ rarity = 2
 flavor_text = "All aboard! Next stop: Swoleville."
 paths_all = Array[int]([1, 2])
 script_text = "when(resource_used:mine:ingredient) => pump(all(unit.mine),1,1,eot)"
-rules_hash = "6ae1dc8fb414"
+rules_hash = "0440e0993e63"
 image_description = "A huge steam train built from dumbbells and lunchboxes, Beefcakes powering it from the inside while a chef shovels food into the furnace."

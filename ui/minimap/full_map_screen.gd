@@ -21,13 +21,13 @@ signal travel_requested
 ## Overnight Nov 17 (the late critic's #2: Crosspath's list had no "The Capital"): the roads out (exits) come right after the dungeons and
 ## gates - the 16-place cap cut them in a busy town - and the cap is 22 (the list scrolls).
 const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.GATE, MapPoi.Kind.EXIT, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL,
-	MapPoi.Kind.ARENA, MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.MINIGAME, MapPoi.Kind.QUIZ, MapPoi.Kind.PUZZLE,
+	MapPoi.Kind.ARENA, MapPoi.Kind.DRAFT, MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.MINIGAME, MapPoi.Kind.QUIZ, MapPoi.Kind.PUZZLE,
 	MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.INTERACTABLE]  # Nov 17 (card games critic #1-2): the hosts, the teachers, the terminal
 const WHERE_TO_MAX: int = 22
 ## Place names on the map: the landmark kinds are always written; the minor kinds (interactables, pads, rafts...) only when the map is drawn
 ## large enough (`MINOR_LABEL_MIN_SCALE` pixels per metre) and there is room - hovering any icon shows its name.
 const MAJOR_LABEL_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.EXIT, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL,
-	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.GATE, MapPoi.Kind.ARENA, MapPoi.Kind.CHALLENGE]
+	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.GATE, MapPoi.Kind.ARENA, MapPoi.Kind.DRAFT, MapPoi.Kind.CHALLENGE]
 const MINOR_LABEL_MIN_SCALE: float = 5.5
 const PING_SECONDS: float = 4.0
 var _ping: MapPoi = null

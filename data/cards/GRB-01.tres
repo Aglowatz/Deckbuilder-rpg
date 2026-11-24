@@ -18,5 +18,5 @@ rarity = 1
 flavor_text = "First prize goes to whoever catches it. Second prize: a bath."
 paths_all = Array[int]([1, 2, 3])
 script_text = "trap(attacks:opp) => pump(trig,-3,0,eot); create(ingredient); create(garbage); create(iron)"
-rules_hash = "8d1c8c974b3b"
+rules_hash = "c37387c2aa20"
 image_description = "A squealing, slippery pig rocketing through a county-fair arena, sending an attacking warrior sprawling face-first into the mud."

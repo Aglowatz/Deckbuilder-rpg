@@ -49,7 +49,7 @@ class Result extends RefCounted:
 
 
 ## Batch 18 (Nov 20): backdrops filed with the vendor screens that are no "VS-" row of the NPC sheet (the Arena menu's cave).
-const EXTRA_VENDOR_IDS: Array[String] = ["ARENA-MENU-BG"]
+const EXTRA_VENDOR_IDS: Array[String] = ["ARENA-MENU-BG", "VS-TREY"]  # Batch 20: the draft cart behind the zone draft menu
 ## Pictures the game no longer shows (their Drive files stay): never imported again. VS-BELLOWS, the colosseum behind the Arena menu,
 ## gave way to ARENA-MENU-BG (the row VS-BELLOWS still names the vendor: his lines and his music).
 const RETIRED_IDS: Array[String] = ["VS-BELLOWS"]

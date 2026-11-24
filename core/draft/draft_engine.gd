@@ -81,16 +81,52 @@ static func card_pool(content: ContentSet, state: DraftState) -> Array[CardData]
 	return pool
 
 
-## Every piece of equipment in the game minus the ban list, by slot.
-static func equipment_pool(content: ContentSet, slot: int = -1) -> Array[EquipmentData]:
+## Every piece of equipment in the game minus the ban list, by slot. With `paths` (a draft's Paths): also minus the pieces that
+## only help a Path the draft does not have (the Hustle Headband in a Necrocrat draft would be a dud).
+static func equipment_pool(content: ContentSet, slot: int = -1, paths: Array[int] = [], max_rarity: int = 99) -> Array[EquipmentData]:
 	var banned: Dictionary = DraftRules.banned("banned_equipment")
 	var pool: Array[EquipmentData] = []
 	for piece: EquipmentData in GearCatalog.all_pieces(content):
-		if piece == null or banned.has(piece.id) or (slot >= 0 and int(piece.slot) != slot):
+		if piece == null or banned.has(piece.id) or (slot >= 0 and int(piece.slot) != slot) or int(piece.rarity) > max_rarity:
+			continue
+		if not paths.is_empty() and not fits_paths(piece, paths):
 			continue
 		pool.append(piece)
 	pool.sort_custom(func(a: EquipmentData, b: EquipmentData) -> bool: return a.id < b.id)
 	return pool
+
+
+## Ingredients and Garbage do nothing without their Path's cards (Iron, Red Tape and the Contract have a use of their own).
+const RESOURCE_PATHS: Dictionary = {ResourceKind.Kind.INGREDIENT: Affinity.Type.GOURMAND, ResourceKind.Kind.GARBAGE: Affinity.Type.REFUSEMANCER}
+const RESOURCE_KINDS: Array[int] = [Modifier.Kind.STARTING_RESOURCES, Modifier.Kind.RESOURCE_BONUS, Modifier.Kind.START_OF_TURN_RESOURCES]
+
+
+## The Path a modifier is bound to (NEUTRAL when it helps any deck): its colour, or the Path of the resource it makes.
+static func modifier_path(modifier: Modifier) -> int:
+	if modifier == null:
+		return int(Affinity.Type.NEUTRAL)
+	if modifier.color != Modifier.ANY_COLOR and modifier.color != int(Affinity.Type.NEUTRAL):
+		return modifier.color
+	if RESOURCE_KINDS.has(int(modifier.kind)) and RESOURCE_PATHS.has(modifier.value2):
+		return int(RESOURCE_PATHS[modifier.value2])
+	if modifier.effect != null and modifier.effect.op == CardEnums.EffectOp.CREATE_RESOURCE and RESOURCE_PATHS.has(modifier.effect.amount):
+		return int(RESOURCE_PATHS[modifier.effect.amount])
+	return int(Affinity.Type.NEUTRAL)
+
+
+## True when `piece` does something for a draft of `paths`: it has a modifier that helps any deck, or one bound to a drafted Path.
+static func fits_paths(piece: EquipmentData, paths: Array[int]) -> bool:
+	var bound: int = 0
+	for modifier: Modifier in piece.modifiers:
+		var path: int = modifier_path(modifier)
+		if path == int(Affinity.Type.NEUTRAL):
+			if int(modifier.kind) != int(Modifier.Kind.MAX_HP) and int(modifier.kind) != int(Modifier.Kind.STARTING_HP):
+				return true  # a real effect for every deck (a little max HP beside a Path effect does not make a piece general)
+			continue
+		bound += 1
+		if paths.has(path):
+			return true
+	return bound == 0
 
 
 static func item_pool(content: ContentSet) -> Array[ItemData]:
@@ -129,7 +165,11 @@ static func make_offer(content: ContentSet, state: DraftState) -> void:
 			state.offer = {"kind": KIND_CARD, "pick": int(step["pick"]), "high": high, "options": card_offer(content, state, high)}
 		KIND_EQUIPMENT:
 			var slot: int = _next_slot(content, state)
-			state.offer = {"kind": KIND_EQUIPMENT, "pick": int(step["pick"]), "slot": slot, "options": equipment_offer(content, state, slot)}
+			var pieces: Array[String] = equipment_offer(content, state, slot)
+			state.offer = {"kind": KIND_EQUIPMENT, "pick": int(step["pick"]), "slot": slot, "options": pieces}
+			for piece_id: String in pieces:
+				if not state.offered_equipment.has(piece_id):
+					state.offered_equipment.append(piece_id)  # no repeats across the offers of one draft (the owner, Nov 23)
 		_:
 			state.offer = {"kind": KIND_ITEM, "pick": int(step["pick"]), "options": item_offer(content, state)}
 	if (state.offer["options"] as Array).is_empty():
@@ -255,7 +295,7 @@ static func _next_slot(content: ContentSet, state: DraftState) -> int:
 			used[int(piece.slot)] = true
 	var free: Array[int] = []
 	for slot: int in range(EquipmentData.Slot.size()):
-		if not used.has(slot) and equipment_pool(content, slot).size() > 0:
+		if not used.has(slot) and equipment_pool(content, slot, state.paths).size() > 0:
 			free.append(slot)
 	if free.is_empty():
 		for slot: int in range(EquipmentData.Slot.size()):
@@ -265,10 +305,17 @@ static func _next_slot(content: ContentSet, state: DraftState) -> int:
 	return free[rng.randi() % free.size()]
 
 
-## Three different pieces of `slot`, weighted by rarity.
-static func equipment_offer(content: ContentSet, state: DraftState, slot: int) -> Array[String]:
+## Three different pieces of `slot`, weighted by rarity (weak pieces common, strong ones rare). Pieces already offered in this
+## draft are left out unless the slot has too few others; `max_rarity` caps what a rival may be shown (`DraftRules.rival_equipment_cap`).
+static func equipment_offer(content: ContentSet, state: DraftState, slot: int, max_rarity: int = 99) -> Array[String]:
 	var rng: RandomNumberGenerator = _rng(state, 1)
-	var pool: Array[EquipmentData] = equipment_pool(content, slot)
+	var pool: Array[EquipmentData] = equipment_pool(content, slot, state.paths, max_rarity)
+	var fresh: Array[EquipmentData] = []
+	for piece: EquipmentData in pool:
+		if not state.offered_equipment.has(piece.id):
+			fresh.append(piece)
+	if fresh.size() >= DraftRules.options():
+		pool = fresh
 	var ids: Array[String] = []
 	while ids.size() < DraftRules.options() and not pool.is_empty():
 		var total: float = 0.0
@@ -411,14 +458,12 @@ static func deck_cards(content: ContentSet, state: DraftState) -> Array[CardData
 	return result
 
 
-## Moves card `index` between the deck and the bench. A card comes off the bench only while the deck has room, and goes onto it
-## at any time (the deck must end at exactly 20: `deck_ready`).
+## Moves card `index` between the deck and the bench. Since Nov 23 the deck may hold any number of the drafted cards, all 25
+## included: the only rule is the 35-card minimum with the Infrastructure (`deck_ready`).
 static func toggle_bench(state: DraftState, index: int) -> bool:
 	if index < 0 or index >= state.cards.size():
 		return false
 	if state.bench.has(index):
-		if state.cards.size() - state.bench.size() >= DraftRules.deck_cards():
-			return false
 		state.bench.erase(index)
 	else:
 		state.bench.append(index)
@@ -426,11 +471,45 @@ static func toggle_bench(state: DraftState, index: int) -> bool:
 	return true
 
 
-static func deck_ready(state: DraftState) -> bool:
+static func basics_total(state: DraftState) -> int:
 	var basics: int = 0
 	for value: Variant in state.basics.values():
 		basics += int(value)
-	return state.cards.size() - state.bench.size() == mini(DraftRules.deck_cards(), state.cards.size()) and basics == DraftRules.deck_basics()
+	return basics
+
+
+## The size of the deck as it stands: the drafted cards in it plus the basic Infrastructure.
+static func deck_size(state: DraftState) -> int:
+	return state.cards.size() - state.bench.size() + basics_total(state)
+
+
+## At least `DraftRules.deck_min` cards with the Infrastructure, and at least one drafted card.
+static func deck_ready(state: DraftState) -> bool:
+	return state.cards.size() - state.bench.size() >= 1 and deck_size(state) >= DraftRules.deck_min()
+
+
+## Why the deck can't be locked yet ("" when it can).
+static func deck_problem(state: DraftState) -> String:
+	if state.cards.size() - state.bench.size() < 1:
+		return "Put at least one drafted card in the deck."
+	var short: int = DraftRules.deck_min() - deck_size(state)
+	if short > 0:
+		return "The deck needs %d more card%s (at least %d with the Infrastructure)." % [short, "" if short == 1 else "s", DraftRules.deck_min()]
+	return ""
+
+
+## Sets how many basic Infrastructure of `path` the deck runs (0 to `DraftRules.deck_max_basics` in all). The new count is returned.
+static func set_basics(state: DraftState, path: int, count: int) -> int:
+	if not state.paths.has(path):
+		return 0
+	var others: int = basics_total(state) - int(state.basics.get(path, 0))
+	var value: int = clampi(count, 0, maxi(0, DraftRules.deck_max_basics() - others))
+	state.basics[path] = value
+	return value
+
+
+static func add_basic(state: DraftState, path: int, delta: int) -> int:
+	return set_basics(state, path, int(state.basics.get(path, 0)) + delta)
 
 
 ## The 15 basics split across the drafted Paths in proportion to the deck's coloured pips (every drafted Path with a card gets
@@ -500,6 +579,84 @@ static func build_deck(content: ContentSet, state: DraftState, deck_name: String
 		for i: int in range(int(state.basics.get(path, 0))):
 			deck.cards.append(basic)
 	return deck
+
+
+# ---- Dungeon drafts: the pick after each fight, the Trade Counter (Fable big pass Nov 23) ------------------------------------------
+
+const KIND_DUNGEON_PICK: String = "dungeon_pick"
+const KIND_DUNGEON_TRADE: String = "dungeon_trade"
+
+
+## After a fight won in a dungeon draft: three cards on the table (`high`: the top two rarities, after a champion or a boss).
+## The player adds one, swaps one in for a card of the deck, or passes (`dungeon_pick`). `room` seeds the offer.
+static func make_dungeon_offer(content: ContentSet, state: DraftState, room: int, high: bool) -> void:
+	var probe: DraftState = _probe(state, 500 + room)
+	var options: Array[String] = card_offer(content, probe, high)
+	state.offer = {"kind": KIND_DUNGEON_PICK, "room": room, "high": high, "options": options} if not options.is_empty() else {}
+
+
+## The Trade Counter: three multi-Path cards that fit the draft's Paths (two-Path cards once they are open, three- and four-Path
+## cards after Primm; the best single-Path cards when the draft has no multi-Path card to show). Taking one costs a card of the deck.
+static func make_trade_offer(content: ContentSet, state: DraftState, room: int) -> void:
+	var probe: DraftState = _probe(state, 900 + room)
+	var rng: RandomNumberGenerator = _rng(probe, 3)
+	var picked: Array[CardData] = picked_cards(content, probe)
+	var multi: Array[CardData] = []
+	var fine: Array[CardData] = []
+	for card: CardData in card_pool(content, state):
+		if card.paths().size() >= 2:
+			multi.append(card)
+		elif int(card.rarity) >= int(CardEnums.Rarity.EPIC):
+			fine.append(card)
+	var chosen: Array[String] = []
+	var count: int = int(DraftRules.dungeon().get("trade_options", 3))
+	for source: Array[CardData] in [multi, fine]:
+		var pool: Array[CardData] = source.duplicate()
+		while chosen.size() < count and not pool.is_empty():
+			var card: CardData = _weighted_by_fit(pool, picked, state, rng)
+			pool.erase(card)
+			chosen.append(card.id)
+	state.offer = {"kind": KIND_DUNGEON_TRADE, "room": room, "options": chosen} if not chosen.is_empty() else {}
+
+
+## A copy of the draft that only carries what an offer reads, with its own step (so a dungeon offer never repeats a draft offer).
+static func _probe(state: DraftState, step: int) -> DraftState:
+	var probe: DraftState = DraftState.new()
+	probe.challenge_id = state.challenge_id
+	probe.paths = state.paths.duplicate()
+	probe.seed = state.seed
+	probe.step = step
+	probe.two_path_ok = state.two_path_ok
+	probe.multi_path_ok = state.multi_path_ok
+	for i: int in range(state.cards.size()):
+		if not state.bench.has(i):
+			probe.cards.append(state.cards[i])
+	return probe
+
+
+## Resolves the dungeon offer on the table. `option` < 0 passes. `replace` is an index into `state.cards` of a card in the deck
+## that leaves for the new one (-1: the new card is simply added; a Trade Counter card always needs one). True when done.
+static func dungeon_pick(state: DraftState, option: int, replace: int = -1) -> bool:
+	var kind: String = str(state.offer.get("kind", ""))
+	if kind != KIND_DUNGEON_PICK and kind != KIND_DUNGEON_TRADE:
+		return false
+	if option < 0:
+		state.offer = {}
+		return true
+	var options: Array = state.offer.get("options", []) as Array
+	if option >= options.size():
+		return false
+	var has_replace: bool = replace >= 0 and replace < state.cards.size() and not state.bench.has(replace)
+	if replace >= 0 and not has_replace:
+		return false
+	if kind == KIND_DUNGEON_TRADE and not has_replace:
+		return false
+	if has_replace:
+		state.bench.append(replace)
+		state.bench.sort()
+	state.cards.append(str(options[option]))
+	state.offer = {}
+	return true
 
 
 ## Leaves the deck builder for the run (the deck must be ready).

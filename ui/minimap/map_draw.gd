@@ -16,6 +16,7 @@ const POI_ICONS: Dictionary = {
 	MapPoi.Kind.TRAVEL_THROW: "ICON-MAP-TRAVEL",
 	MapPoi.Kind.TRAVEL_PORTAL: "ICON-MAP-TRAVEL",
 	MapPoi.Kind.ARENA: "ICON-MAP-ARENA",
+	MapPoi.Kind.DRAFT: "ICON-MAP-DRAFT",  # Batch 20 (Nov 23)
 }
 ## An icon is drawn this many times its disc radius wide.
 const ICON_SCALE: float = 2.7

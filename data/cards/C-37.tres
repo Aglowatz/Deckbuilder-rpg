@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_t8354"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0qn6c"]
+
+[resource]
+script = ExtResource("2_0qn6c")
+id = "C-37"
+display_name = "First Pick"
+type = 2
+generic_cost = 1
+defense = 0
+rules_text = "Peek 3, then draw a card."
+rarity = 1
+flavor_text = "One of three. It is always one of three."
+script_text = "play => peek(3); draw(1)"
+rules_hash = "5fabba48d189"
+image_description = "Batch 20 (docs/art/batch20.csv, DR-01)."

@@ -23,7 +23,13 @@ static func side_ids() -> Array[String]:
 
 
 static func has_def(key: String) -> bool:
-	return ids().has(key) or side_ids().has(key) or is_postgame(key)
+	return ids().has(key) or side_ids().has(key) or is_postgame(key) or is_draft_only(key)
+
+
+## Fable big pass Nov 23: a dungeon played only as a draft (the Shuffled Halls). Built from data like a side dungeon.
+static func is_draft_only(key: String) -> bool:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(key)
+	return plan != null and plan.is_draft_only()
 
 
 static func is_side(key: String) -> bool:
@@ -38,7 +44,7 @@ static func is_postgame(key: String) -> bool:
 
 ## The blueprint behind a dungeon key.
 static func blueprint(key: String) -> DungeonCatalog.Blueprint:
-	return DungeonCatalog.find(key) if (is_side(key) or is_postgame(key)) else DungeonCatalog.main_for_zone(key)
+	return DungeonCatalog.find(key) if (is_side(key) or is_postgame(key) or is_draft_only(key)) else DungeonCatalog.main_for_zone(key)
 
 
 static func def(key: String) -> MainDungeonDef:
@@ -57,7 +63,7 @@ static func def(key: String) -> MainDungeonDef:
 			PathologyLab.DUNGEON_ID:
 				_defs[key] = PathologyLab.build_def()
 			_:
-				if not is_side(key) and not is_postgame(key):  # Overnight Nov 4-5: a data-only postgame dungeon (The Shattered Gallery) builds like a side one
+				if not is_side(key) and not is_postgame(key) and not is_draft_only(key):  # Overnight Nov 4-5: a data-only postgame dungeon (The Shattered Gallery) builds like a side one
 					return null
 				_defs[key] = DungeonBuilder.build_def(DungeonCatalog.find(key))
 		_fill_challenge_text(_defs[key] as MainDungeonDef)

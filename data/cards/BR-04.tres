@@ -21,5 +21,5 @@ paths_all = Array[int]([1, 3])
 script_text = "attach
 host => stat(2,0)
 act | eat => pump(host,2,2,eot)"
-rules_hash = "06c6bfb957a5"
+rules_hash = "b8145acb39d4"
 image_description = "A massive old cart tire covered in moss and flowers, a Beefcake mid-flip lifting it out of a scrap heap."

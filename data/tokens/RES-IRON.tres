@@ -15,4 +15,4 @@ is_token = true
 not_in_packs = true
 paths_all = Array[int]([1])
 resource_kind = 0
-rules_hash = "c651676d718a"
+rules_hash = "eee2abceb162"

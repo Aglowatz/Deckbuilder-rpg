@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_fy2gw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7nyvm"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_rp42j"]
+
+[sub_resource type="Resource" id="Resource_3vt6c"]
+script = ExtResource("1_fy2gw")
+value = 2
+
+[sub_resource type="Resource" id="Resource_1tgwf"]
+script = ExtResource("1_fy2gw")
+kind = 2
+value = 1
+
+[resource]
+script = ExtResource("3_rp42j")
+id = "fair_play_badge"
+description = "Max HP +2. Max hand size +1."
+flavor_text = "Awarded for shaking hands before the match. Polished by people who lost it."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Fair-Play Badge"
+modifiers = Array[ExtResource("1_fy2gw")]([SubResource("Resource_3vt6c"), SubResource("Resource_1tgwf")])

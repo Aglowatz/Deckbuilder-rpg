@@ -7,7 +7,7 @@ extends RefCounted
 ## Fix pass Nov 7 (owner decision D5): shops, exits and travel points, quest givers with a quest, and a zone's landmarks (dungeons, the
 ## arena, healing spots) always show, fog or not; everything else once its ground is revealed.
 const ALWAYS_SHOWN: Array[MapPoi.Kind] = [MapPoi.Kind.VENDOR, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.TRAVEL_THROW,
-	MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.ARENA, MapPoi.Kind.HEAL]
+	MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.ARENA, MapPoi.Kind.HEAL, MapPoi.Kind.DRAFT]
 
 
 static func always_shown(poi: MapPoi) -> bool:

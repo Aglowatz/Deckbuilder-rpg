@@ -114,3 +114,6 @@ enter => create(T-02,2)
 == R-36 @6c42978a83dd  # Landfill Leviathan
 enter => create(garbage,2)
 act | eat => kw_grant(self,bulldoze,eot)
+
+== R-37 @1a08a787ac3c  # Late-Pick Hero
+static => selfstat(min(count(refuse.card.mine),4),min(count(refuse.card.mine),4))

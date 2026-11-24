@@ -5487,5 +5487,49 @@
 			"SIDE",
 			"BACK"
 		]
+	},
+	"TREY": {
+		"bottom_pad": 16,
+		"canvas": [
+			344,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.0,
+		"walk_dirs": []
+	},
+	"OCTAVIA": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.1,
+		"walk_dirs": []
 	}
 }

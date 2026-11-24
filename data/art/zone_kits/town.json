@@ -234,6 +234,35 @@
 			"use": "The square",
 			"zone": "town"
 		},
+		"TOWN-HERO-SHUFFLEHOUSE": {
+			"aspect": 0.745,
+			"asset": "The Shuffle House (painted)",
+			"category": "Prop",
+			"cleared_alpha": 48235,
+			"desc": "See docs/art/batch20.csv (Batch 20, Nov 23).",
+			"from_px": [
+				1536,
+				2048
+			],
+			"group": "prop",
+			"id": "TOWN-HERO-SHUFFLEHOUSE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1123,
+				1507
+			],
+			"sheet_status": "Approved",
+			"size": "1536x2048 PNG, transparent",
+			"slot": "prop.town-hero-shufflehouse",
+			"tinted": false,
+			"use": "The draft arena building in Crosspath",
+			"zone": "town"
+		},
 		"TOWN-PROP-CAVE-MOUTH-BRUSH": {
 			"aspect": 1.001,
 			"asset": "Cave mouth in the brush",
@@ -717,6 +746,35 @@
 			"slot": "banner.town-sheet-freed-banners-06",
 			"tinted": false,
 			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SIGN-SHUFFLEHOUSE": {
+			"aspect": 1.013,
+			"asset": "The Shuffle House sign",
+			"category": "Prop",
+			"cleared_alpha": 36507,
+			"desc": "See docs/art/batch20.csv (Batch 20, Nov 23).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "TOWN-SIGN-SHUFFLEHOUSE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				987,
+				974
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.town-sign-shufflehouse",
+			"tinted": false,
+			"use": "The hanging sign over the Shuffle House door",
 			"zone": "town"
 		}
 	},

@@ -18,5 +18,5 @@ rarity = 1
 flavor_text = "Pasta: the original pre-workout."
 paths_all = Array[int]([1, 2])
 script_text = "trap(attacks:opp) => pump(all(unit.mine),1,2,eot); create(ingredient)"
-rules_hash = "adc4a7b46de5"
+rules_hash = "70223751cfad"
 image_description = "A team of Beefcakes slurping enormous bowls of glowing spaghetti in unison, veins and auras swelling."

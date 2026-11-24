@@ -44,7 +44,7 @@ static func get_def(zone_id: String) -> ZoneDef:
 			# Draft mode, Phase 1: Trey Pickett's draft table in every Path zone, on the map and the minimap
 			made.npcs.append(DraftHost.npc_entry(made.id))
 			made.spots.append(DraftHost.spot_entry(made.id))
-			made.poi_kinds[DraftHost.SPOT_ID] = MapPoi.Kind.MINIGAME
+			made.poi_kinds[DraftHost.SPOT_ID] = MapPoi.Kind.DRAFT  # Batch 20: his own marker (it was the minigame's)
 	return _cache[zone_id] as ZoneDef
 
 

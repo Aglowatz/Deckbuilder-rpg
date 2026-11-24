@@ -22,5 +22,5 @@ not_in_packs = true
 paths_all = Array[int]([1])
 script_text = "kw overtime
 sot => pump(all(unit.mine.other),1,1,eot)"
-rules_hash = "fcac84763784"
+rules_hash = "9b6f6a64c9a9"
 image_description = "A once-frail old Beefcake monk tearing away his ragged prison robes to reveal a massive, chiseled physique, glowing with calm inner light in a broken prison cell, chains snapping around him."

@@ -38,7 +38,14 @@ static func factor_for(target: Control) -> float:
 	var height: float = target.get_global_rect().size.y
 	if height <= 1.0:
 		return 1.0
-	return clampf(TARGET_HEIGHT / height, 1.0, MAX_FACTOR)
+	# Fable big pass Nov 23: a screen that shows its cards large already (the draft pick) asks for a bigger zoom (`set_height`)
+	return clampf(float(target.get_meta(&"zoom_height", TARGET_HEIGHT)) / height, 1.0, MAX_FACTOR)
+
+
+## The on-screen height (canvas px) `target` grows to instead of `TARGET_HEIGHT`.
+static func set_height(target: Control, height: float) -> void:
+	if target != null:
+		target.set_meta(&"zoom_height", height)
 
 
 static func zoom_in(target: Control, enabled: Callable = Callable()) -> void:

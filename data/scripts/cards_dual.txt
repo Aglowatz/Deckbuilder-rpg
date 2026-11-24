@@ -338,3 +338,7 @@ trap(attacks:opp) => damage(all(unit.attacking),4)
 kw hustle
 sot => create(garbage); create(iron)
 act | eat, lose(1) => buff(self,1); kw_grant(self,bulldoze,eot)
+
+== GN-17 @662e5fd29323  # Table Captain
+enter => create(ingredient); create(redtape)
+aura(unit.mine.other) => stat(0,1)

@@ -15,6 +15,8 @@ const TYPE_FINAL: String = "Final Dungeon"
 const TYPE_SIDE: String = "Side Dungeon"
 const TYPE_TUTORIAL: String = "Tutorial"
 const TYPE_POSTGAME: String = "Postgame Dungeon"
+## Fable big pass Nov 23: a dungeon that is only ever played with a drafted deck (the Shuffled Halls, D-SHUFFLE).
+const TYPE_DRAFT: String = "Draft Dungeon"
 ## Hand-made dungeons the designer's sheet has no node list for yet (the Path-ology Lab). A sheet row that has nodes wins over an entry here.
 const EXTRA_PATH: String = "res://data/dungeons/postgame_dungeons.json"
 
@@ -67,6 +69,9 @@ class Blueprint:
 
 	func is_postgame() -> bool:
 		return type == TYPE_POSTGAME
+
+	func is_draft_only() -> bool:
+		return type == TYPE_DRAFT
 
 	## The unique card of the first-victory reward text ("... (B-30)"), "" when none.
 	func reward_card_id() -> String:

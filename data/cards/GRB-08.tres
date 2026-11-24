@@ -25,5 +25,5 @@ paths_all = Array[int]([1, 2, 3])
 script_text = "kw bulldoze,swat
 enter => create(ingredient,3); create(garbage,3); create(iron,3)
 when(resource_used:mine) => pump(self,1,1,eot)"
-rules_hash = "b30c35039ac5"
+rules_hash = "a9751a4ac692"
 image_description = "A colossal prize pig in a blue ribbon sash and a tiny crown, standing atop a mountain of produce and scrap while confetti rains down."

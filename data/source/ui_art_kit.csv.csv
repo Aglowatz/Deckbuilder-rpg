@@ -110,3 +110,5 @@ UI-SCROLL-RAIL,Scroll bar rail,Info screens,"Every scrolling list","48x512 PNG, 
 UI-SCROLL-GRIP,Scroll bar grip,Info screens,"Every scrolling list","48x160 PNG, transparent; 3-slice","See docs/art/batch18_nov18.csv (Batch 18, Nov 20).",,Approved
 UI-ALEMBIC-BREW,Auntie Alembic's brewing scene,Screen pieces,"The centre of the brew panel in Auntie Alembic's shop","1024x768 PNG, transparent","See docs/art/batch19.csv (Batch 19, Nov 22).",,Approved
 UI-ALEMBIC-JAR,Empty glass essence jar,Screen pieces,"The four essence jars in Auntie Alembic's shop (the game draws the liquid behind the glass)","512x640 PNG, transparent","See docs/art/batch19.csv (Batch 19, Nov 22).",,Approved
+UI-DRAFT-BG,Draft pick table (baize),Screen pieces,"Behind the three offered cards on the draft pick screen","1920x1080 PNG","See docs/art/batch20.csv (Batch 20, Nov 23).",,Approved
+UI-DRAFT-HALL,The Shuffle House hall,Screen pieces,"The backdrop of the Shuffle House's arena menu","1920x1080 PNG","See docs/art/batch20.csv (Batch 20, Nov 23).",,Approved

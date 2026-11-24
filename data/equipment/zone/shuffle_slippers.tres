@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_bvyw6"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_88m7q"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_583ld"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_sgfmh"]
+
+[sub_resource type="Resource" id="Resource_85xux"]
+script = ExtResource("2_88m7q")
+target = 1
+op = 2
+amount = 1
+
+[sub_resource type="Resource" id="Resource_x7vy7"]
+script = ExtResource("1_bvyw6")
+kind = 25
+effect = SubResource("Resource_85xux")
+
+[sub_resource type="Resource" id="Resource_fhotr"]
+script = ExtResource("2_88m7q")
+target = 1
+op = 3
+amount = 1
+
+[sub_resource type="Resource" id="Resource_uqwms"]
+script = ExtResource("1_bvyw6")
+kind = 25
+effect = SubResource("Resource_fhotr")
+
+[resource]
+script = ExtResource("4_sgfmh")
+id = "shuffle_slippers"
+slot = 3
+description = "When a duel starts, draw a card, then toss a card."
+flavor_text = "Fluffy, silent, and the pom-poms are suited."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Shuffle Slippers"
+modifiers = Array[ExtResource("1_bvyw6")]([SubResource("Resource_x7vy7"), SubResource("Resource_uqwms")])

@@ -385,6 +385,7 @@ func complete_zone(zone_id: String) -> bool:
 		mark_vendor_new("zone_" + zone_id)
 	_sync_freed_stories()
 	sync_path_limit()
+	open_shuffle_house_if_due()  # Fable big pass Nov 23: the third freed zone opens the Shuffle House (if the zone drafts have not)
 	refresh_quests()
 	EventBus.zone_completed.emit(zone_id)
 	check_feats()
@@ -1938,6 +1939,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 ## The Forgotten Cave is the tutorial dungeon: no main or side dungeon is active while it runs, so its battles keep the cave battleboard (BB-TUT)
 ## and the cave's enemies, never those of a dungeon left over from an earlier visit.
 func _clear_dungeon_mode() -> void:
+	draft_dungeon_active = false
 	main_dungeon_active = false
 	mini_active = false
 	town_side_active = false
@@ -2013,7 +2015,11 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var player_rules: ModifierSource = null
 	var phase: PrimmBoss.Phase = null
 	var capital: bool = main_dungeon_active and zone_def().id == CapitalZone.ID
-	if mini_active and dungeon_key == ShatteredGallery.DUNGEON_ID and node.kind == DungeonMap.Kind.BOSS:
+	# Fable big pass Nov 23: a room of the Shuffled Halls is held by a rival drafter (`DraftRivals.build_halls`)
+	var draft_rival: Dictionary = DraftRivals.for_room(draft, node.number) if (draft_dungeon_active and draft != null) else {}
+	if not draft_rival.is_empty():
+		enemy = DraftRun.enemy_setup(content, draft_rival)
+	elif mini_active and dungeon_key == ShatteredGallery.DUNGEON_ID and node.kind == DungeonMap.Kind.BOSS:
 		# Overnight Nov 4-5, Part 5: The Perfect Copy plays the run's own deck (lost cards stay lost), with more HP and an extra draw.
 		enemy = ShatteredGallery.perfect_copy_setup(run.current_deck(), run.max_hp())
 	elif capital and node.kind == DungeonMap.Kind.BOSS:
@@ -2031,7 +2037,14 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	else:
 		enemy = TrialOfTheHollow.enemy_setup(content, node)
 		FirstDuel.apply_flood_guard(options)  # Overnight Nov 9-10 (RC1 critic #2): no infrastructure floods in the cave
-	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null) else ""
+	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null and not draft_dungeon_active) else ""
+	if draft_dungeon_active and draft_rival.is_empty():
+		# a dungeon played as a draft: its foes' HP by the rebalance table (data/draft/draft_rules.json, dungeon.foe_hp_percent)
+		var percent: int = DraftRules.foe_hp_percent(dungeon_key)
+		if percent != 100:
+			enemy.starting_hp = maxi(1, int(round(float(enemy.starting_hp) * float(percent) / 100.0)))
+			if enemy.profile != null:
+				enemy.profile.max_hp = maxi(enemy.starting_hp, 1)
 	# Overnight Nov 4-5, Part 3: a Path zone played earlier than its designed place in the order has easier foes (ZoneOrderEase)
 	if not effect_zone.is_empty():
 		ZoneOrderEase.ease_seat(enemy, effect_zone, completed_zone_count(), is_zone_completed(effect_zone))
@@ -2120,6 +2133,18 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.gold_reward = Economy.dungeon_fight_gold_bonus(Economy.late_gold(node.gold_reward, ProgressionModel.level_for(dungeon_key, 1)))
 		context.xp_reward = Economy.dungeon_fight_xp_bonus(context.xp_reward)
 	context.card_choices = node.card_choices
+	if draft_dungeon_active:
+		# a draft dungeon keeps its own books: no gold, XP or reward pick per fight (the pick of three is the draft's), and a rival's
+		# equipment shows as battle effects under their name
+		context.draft = true
+		context.draft_profile = profile
+		context.gold_reward = 0
+		context.xp_reward = 0
+		context.card_choices = 0
+		if not draft_rival.is_empty():
+			context.rule_badges.append_array(DraftRun.rival_badges(content, draft_rival))
+			context.enemy_icon = "lorc/card-pick"
+			context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, str(draft_rival.get("ai", "Balanced"))), AIPlayer.Skill.BOSS if bool(draft_rival.get("boss", false)) else DraftRun.skill(), node.enemy_name)
 	return context
 
 
@@ -4107,16 +4132,36 @@ func _treasure_area() -> String:
 ## Resolves one choice of a story event for the current dungeon run: HP/boons/cards go to the run, gold
 ## to the player. Returns the `EventResolver.Result` (ok = false when the choice could not be taken).
 func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResolver.Result:
-	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold, rewards_go_to_deck(), rng)
+	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold, rewards_go_to_deck() or draft_dungeon_active, rng)
 	if result.ok:
 		if result.gold_delta > 0:
 			add_gold(result.gold_delta)
 		elif result.gold_delta < 0:
 			spend_gold(-result.gold_delta)
-		if not result.cards.is_empty():
-			add_cards(result.cards)
+		if not result.cards.is_empty() and not draft_dungeon_active:
+			add_cards(result.cards)  # in a draft dungeon a card joins the drafted deck for the run, never the collection
+		if draft_dungeon_active and draft != null:
+			_draft_room_offer(event, choice_index)
 		save_game()
 	return result
+
+
+## Fable big pass Nov 23: the first choice of a draft room puts its offer on the table (`draft_rooms` in the dungeon's content:
+## room number -> "trade" for the Trade Counter, "vault" for a prize of the top two rarities). The map opens the pick.
+func _draft_room_offer(event: DungeonEvent, choice_index: int) -> void:
+	if choice_index != 0 or dungeon_map == null:
+		return
+	var rooms: Dictionary = {}
+	if DungeonCatalog.content_for(dungeon_key).get("draft_rooms", {}) is Dictionary:
+		rooms = DungeonCatalog.content_for(dungeon_key).get("draft_rooms", {}) as Dictionary
+	for node: DungeonMap.MapNode in dungeon_map.nodes:
+		if node.event_id != event.id or not rooms.has(str(node.number)):
+			continue
+		if str(rooms[str(node.number)]) == "trade":
+			DraftEngine.make_trade_offer(content, draft, node.number)
+		else:
+			DraftEngine.make_dungeon_offer(content, draft, node.number, true)
+		return
 
 
 # ---- The Arena (brief 9, Part G) ----------------------------------------------------------
@@ -4242,38 +4287,86 @@ func arena_tier_open(tier: int) -> bool:
 
 
 
-# ---- Draft mode, Phase 1 (docs/design/draft_mode.md) -----------------------------------------------------------------------------
+# ---- Draft mode (docs/design/draft_mode.md; Phase 1 of Nov 23, the owner's feedback and the Shuffle House of the big pass) ---------
 
 ## The draft in progress (null when there is none): saved with the game, so it resumes after quitting.
 var draft: DraftState = null
-## Set by a finished draft fight, read once by the scene the player comes back to (it reopens the draft screen); {} otherwise.
+## Set by a finished draft fight or dungeon, read once by the scene the player comes back to (it reopens the draft screen); {} otherwise.
 var pending_draft_result: Dictionary = {}
-## The real profile while a draft fight is on (the fight runs with `DraftRun.player_profile`); null otherwise.
+## The real profile while a draft fight or a draft dungeon is on (they run with `DraftRun.player_profile`); null otherwise.
 var _draft_real_profile: PlayerProfile = null
+## Fable big pass Nov 23: a dungeon is being walked with the drafted deck (`start_draft_dungeon` to `resolve_draft_dungeon`). The
+## real profile and deck wait in `_draft_real_profile` / `_draft_real_deck`; nothing is saved meanwhile (`save_game` skips).
+var draft_dungeon_active: bool = false
+var _draft_real_deck: Deck = null
 
 
-## What the next attempt at `challenge_id` costs (0: the first attempt at each challenge is free).
+## What the next attempt at `challenge_id` costs (0: every draft is free since Nov 23).
 func draft_fee(challenge_id: String) -> int:
 	return DraftChallenges.fee(challenge_id, counters)
 
 
-## Starts a draft: pays the fee, counts the attempt and puts the first offer on the table. False when another draft is in
-## progress, the Paths are not allowed or the gold is short.
+## The dungeons that can be played as a draft now, as `MainDungeons` keys: the main dungeon of every freed Path zone, and every
+## side and postgame dungeon the player has already cleared with their own deck (a draft never spends a first clear). Primm's
+## Castle is not one of them (its allies and its three-phase boss are built around the story run).
+func draft_dungeon_keys() -> Array[String]:
+	var keys: Array[String] = []
+	for zone_id: String in DraftChallenges.ZONES:
+		if MainDungeons.has_def(zone_id) and is_zone_completed(zone_id):
+			keys.append(zone_id)
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		if (plan.is_side() or plan.is_postgame()) and flag(side_cleared_flag(plan)):
+			keys.append(plan.id)
+	return keys
+
+
+## The mini dungeons Mystery Mini can land on: the three-fight side dungeons the player has cleared.
+func draft_mystery_pool() -> Array[String]:
+	var keys: Array[String] = []
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		if plan.is_side() and flag(side_cleared_flag(plan)):
+			keys.append(plan.id)
+	return keys
+
+
+## Why a draft can't start with these Paths ("" when it can): the rules of `DraftChallenges.start_problem`, plus what only the
+## save knows (another draft on the table, a dungeon not cleared yet, no mini dungeon for the wheel).
+func draft_start_problem(challenge_id: String, paths: Array[int]) -> String:
+	if draft != null:
+		return "Another draft is still on the table."
+	var fixed: Array[int] = DraftChallenges.fixed_paths(challenge_id)
+	var problem: String = DraftChallenges.start_problem(challenge_id, fixed if not fixed.is_empty() else paths, flags)
+	if not problem.is_empty():
+		return problem
+	match DraftArena.kind_of(challenge_id):
+		DraftArena.KIND_MYSTERY:
+			if draft_mystery_pool().is_empty():
+				return "Clear a mini dungeon with your own deck first: the wheel needs one to land on."
+		DraftArena.KIND_DUNGEON:
+			if not draft_dungeon_keys().has(DraftArena.dungeon_key_of(challenge_id)):
+				return "Clear this dungeon with your own deck first."
+	if draft_fee(challenge_id) > gold:
+		return "You need %d gold." % draft_fee(challenge_id)
+	return ""
+
+
+## Starts a draft: counts the attempt and puts the first offer on the table. False when `draft_start_problem` names a reason.
 func start_draft(challenge_id: String, paths: Array[int]) -> bool:
 	ensure_game()
-	if draft != null:
+	if not draft_start_problem(challenge_id, paths).is_empty():
 		return false
 	var fixed: Array[int] = DraftChallenges.fixed_paths(challenge_id)
 	var chosen: Array[int] = fixed if not fixed.is_empty() else paths.duplicate()
-	if chosen.is_empty() or (fixed.is_empty() and chosen.size() > DraftChallenges.max_open_paths(flags)):
-		return false
 	var fee: int = draft_fee(challenge_id)
 	if fee > 0 and not spend_gold(fee):
 		return false
 	bump_counter(DraftChallenges.attempts_counter(challenge_id))
-	var all_freed: bool = ZoneCompletion.count(flags) >= DraftChallenges.ZONES.size()
-	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, rng.randi() % 1000000 + 1, all_freed and chosen.size() >= 2, flag(MultiPathLock.FLAG_UNLOCKED))
+	# two-Path cards once a zone is freed (a set two-Path challenge can only be started then); three- and four-Path cards after Primm
+	var two_ok: bool = chosen.size() >= 2 and DraftArena.max_paths(flags) >= 2
+	var multi_ok: bool = chosen.size() >= 3 and flag(MultiPathLock.FLAG_UNLOCKED)
+	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, rng.randi() % 1000000 + 1, two_ok, multi_ok)
 	draft.fee_paid = fee
+	draft.dungeon_key = DraftArena.dungeon_key_of(challenge_id)
 	save_game()
 	return true
 
@@ -4292,15 +4385,40 @@ func draft_reroll() -> bool:
 	return true
 
 
-## Leaves the deck builder: the rivals draft and the run begins.
-func draft_begin_run() -> bool:
-	if draft == null or not DraftRun.begin(content, draft):
+## The deck builder: a drafted card in or out of the deck, and one more or one fewer basic Infrastructure of a Path.
+func draft_toggle_card(index: int) -> bool:
+	if draft == null or draft.phase != DraftState.PHASE_DECK or not DraftEngine.toggle_bench(draft, index):
 		return false
 	save_game()
 	return true
 
 
-## The duel against the next rival, with the draft's own player (base HP, the drafted gear and items, the 35-card deck).
+func draft_add_basic(path: int, delta: int) -> bool:
+	if draft == null or draft.phase != DraftState.PHASE_DECK:
+		return false
+	var before: int = int(draft.basics.get(path, 0))
+	if DraftEngine.add_basic(draft, path, delta) == before:
+		return false
+	save_game()
+	return true
+
+
+## Leaves the deck builder: the rivals draft and the run begins. Mystery Mini spins its wheel here.
+func draft_begin_run() -> bool:
+	if draft == null:
+		return false
+	if DraftArena.kind_of(draft.challenge_id) == DraftArena.KIND_MYSTERY and draft.dungeon_key.is_empty():
+		var pool: Array[String] = draft_mystery_pool()
+		if pool.is_empty():
+			return false
+		draft.dungeon_key = pool[(hash([draft.seed, "mystery"]) & 0x7fffffff) % pool.size()]
+	if not DraftRun.begin(content, draft):
+		return false
+	save_game()
+	return true
+
+
+## The duel against the next rival, with the draft's own player (base HP, the drafted gear and items, the drafted deck).
 func make_draft_battle() -> BattleContext:
 	ensure_game()
 	var rival: Dictionary = DraftRun.next_rival(draft)
@@ -4312,12 +4430,15 @@ func make_draft_battle() -> BattleContext:
 	context.enemy_icon = "lorc/card-pick"
 	context.draft = true
 	context.draft_profile = stand_in
-	context.board_key = "arena"
+	# the house table (BB-SHUFFLE, Batch 20) for every draft fight, at Trey's cart and in the Shuffle House alike
+	context.board_key = "draft"
+	# the owner, Nov 23: what the rival wears shows as battle effects under their name, as in other fights
+	context.rule_badges = DraftRun.rival_badges(content, rival)
 	return context
 
 
 func start_draft_fight() -> bool:
-	if draft == null or draft.phase != DraftState.PHASE_RUN or draft.is_finished():
+	if draft == null or draft.phase != DraftState.PHASE_RUN or draft.is_finished() or draft.is_dungeon():
 		return false
 	var context: BattleContext = make_draft_battle()
 	save_game()
@@ -4328,6 +4449,9 @@ func start_draft_fight() -> bool:
 
 
 func _complete_draft_battle(context: BattleContext) -> void:
+	if draft_dungeon_active:
+		_complete_draft_dungeon_battle(context)
+		return
 	resolve_draft_battle(context)
 	if in_zone():
 		SceneManager.change_scene(zone_def().scene_path)
@@ -4355,28 +4479,43 @@ func resolve_draft_battle(context: BattleContext) -> Dictionary:
 	return result
 
 
-## Pays a finished run once: gold and XP by its wins, the first-win bonus and flag, the counters the draft quests watch.
+## Pays a finished table run once: gold and XP by its wins, the pack of a full win, the first-win bonus and flag, the counters
+## the draft quests watch. A finished draft also opens the Shuffle House when the fourth zone draft was the one just won.
 func _pay_draft_rewards() -> Dictionary:
 	if draft == null or draft.rewarded:
 		return draft.result if draft != null else {}
 	var won_flag: StringName = StringName(DraftChallenges.won_flag(draft.challenge_id))
 	var first: bool = draft.full_win() and not flag(won_flag)
-	var pay: Dictionary = DraftChallenges.reward(draft.wins, draft.full_win(), first)
+	var pay: Dictionary = DraftChallenges.reward(draft.wins, draft.full_win(), first, draft.challenge_id, draft.paths, flag(MultiPathLock.FLAG_UNLOCKED), draft.seed)
 	add_gold(int(pay["gold"]))
 	pending_level_ups.append_array(add_xp(int(pay["xp"])))
+	for pack: Variant in pay.get("packs", []) as Array:
+		if PackCatalog.find(str(pack)) != null:
+			add_pack(str(pack), 1)
 	draft.rewarded = true
 	draft.result = pay
 	bump_counter("draft_runs_finished")
+	bump_counter("draft_finished:%s" % DraftArena.kind_of(draft.challenge_id))
 	if draft.full_win():
 		bump_counter("draft_runs_won")
+		bump_counter("draft_won_kind:%s" % DraftArena.kind_of(draft.challenge_id))
 		set_flag(won_flag)
-		if DraftChallenges.all_zone_drafts_won(flags):
-			set_flag(StringName(DraftChallenges.ARENA_FLAG))
+	open_shuffle_house_if_due()
 	refresh_quests()
 	return pay
 
 
-## After a full win: keeps one drafted card in the collection (once per draft).
+## The Shuffle House opens (its flag is set, once) when all four zone drafts are won or three zones are freed. True when it
+## opened with this call. Called after a draft, after a zone is freed and when a save loads.
+func open_shuffle_house_if_due() -> bool:
+	if flag(StringName(DraftChallenges.ARENA_FLAG)) or not DraftArena.is_open(flags):
+		return false
+	set_flag(StringName(DraftChallenges.ARENA_FLAG))
+	offer_auto_quests()
+	return true
+
+
+## After a full win (three wins at a table, or a dungeon cleared): keeps one drafted card in the collection (once per draft).
 func draft_keep(card_id: String) -> bool:
 	if draft == null or not DraftRun.keep(draft, card_id):
 		return false
@@ -4387,11 +4526,224 @@ func draft_keep(card_id: String) -> bool:
 	return true
 
 
-## Puts the finished draft away (or gives up one in progress: the fee is not returned).
+## Puts the finished draft away (or gives up one in progress).
 func close_draft() -> void:
 	draft = null
 	pending_draft_result = {}
 	save_game()
+
+
+# ---- Dungeon drafts (Fable big pass Nov 23, Part 4) --------------------------------------------------------------------------------
+
+
+## Walks into the draft's dungeon with the drafted deck: one HP pool (the base HP of the player's level with the drafted gear),
+## the dungeon's own map and foes (the Shuffled Halls has its cast of rival drafters). The real profile and deck come back in
+## `resolve_draft_dungeon`. False when the draft is not at its dungeon's door.
+func start_draft_dungeon() -> bool:
+	if not prepare_draft_dungeon():
+		return false
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+	return true
+
+
+## The state changes of `start_draft_dungeon` (no scene change, so tests can run it).
+func prepare_draft_dungeon() -> bool:
+	if draft == null or not draft.is_dungeon() or draft.phase != DraftState.PHASE_RUN or draft.is_finished() or draft_dungeon_active:
+		return false
+	var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(draft.dungeon_key) if MainDungeons.has_def(draft.dungeon_key) else null
+	if plan == null:
+		return false
+	save_game()
+	var stand_in: PlayerProfile = DraftRun.player_profile(content, draft, profile)
+	for item: ItemData in stand_in.owned_items:
+		stand_in.item_uses_remaining[item.id] = 99  # one use in each fight of the dungeon (the per-battle limit still holds)
+	_draft_real_profile = profile
+	_draft_real_deck = deck
+	profile = stand_in
+	deck = DraftEngine.build_deck(content, draft)
+	_clear_dungeon_mode()
+	dungeon_key = draft.dungeon_key
+	dungeon_map = MainDungeons.build_map(dungeon_key)
+	var sources: Array[ModifierSource] = []
+	if dungeon_key == PathologyLab.DUNGEON_ID and DungeonRules.player_source(dungeon_key) != null:
+		sources.append(DungeonRules.player_source(dungeon_key))
+	run = DungeonRun.enter(profile, deck, sources)
+	if dungeon_key == ShatteredGallery.DUNGEON_ID:
+		run.dungeon_sources.append(ShatteredGallery.silver_reserve())
+	run.hp = run.max_hp()
+	AudioMix.set_mirror_music(dungeon_key == ShatteredGallery.DUNGEON_ID)
+	mini_active = true
+	town_side_active = true
+	main_dungeon_active = false
+	draft_dungeon_active = true
+	boss_phase = 0
+	boss_phase_pending = false
+	dungeon_story_seen = []
+	dungeon_rules_intro_seen = false
+	trial_finished = false
+	pending_reward = null
+	# the Shuffled Halls: each fight room shows the rival who waits there
+	for node: DungeonMap.MapNode in dungeon_map.nodes:
+		var rival: Dictionary = DraftRivals.for_room(draft, node.number)
+		if rival.is_empty():
+			continue
+		node.enemy_name = str(rival.get("name", node.enemy_name))
+		node.enemy_hp = int(rival.get("hp", node.enemy_hp))
+		node.ai_name = str(rival.get("ai", node.ai_name))
+		node.blurb = ("Boss: %s. The house always deals." if bool(rival.get("boss", false)) else ("A champion's table: %s." if bool(rival.get("champion", false)) else "%s is dealing here.")) % node.enemy_name
+	bump_counter("draft_dungeons_entered")
+	if dungeon_key == DraftArena.HALLS_DUNGEON:
+		bump_counter("draft_halls_played")
+		refresh_quests()
+	return true
+
+
+## A fight of a draft dungeon is over: a loss ends the run; a win clears the room and, unless it was the boss, puts three cards
+## on the table (the pick is made on the map: add one, swap one in, or pass).
+func _complete_draft_dungeon_battle(context: BattleContext) -> void:
+	var over: Dictionary = resolve_draft_dungeon_battle(context)
+	if bool(over.get("over", false)):
+		SceneManager.go_to_town()
+	else:
+		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## The books of a draft dungeon's fight (no scene change). {"won", "over", "cleared"}.
+func resolve_draft_dungeon_battle(context: BattleContext) -> Dictionary:
+	feats.watcher.detach()
+	if run == null or draft == null or dungeon_map == null:
+		resolve_draft_dungeon(false)
+		return {"won": false, "over": true, "cleared": false}
+	run.finish_encounter(context.game)
+	var won: bool = context.game != null and context.game.winner == 0 and not run.failed
+	context.won = won
+	if not won:
+		resolve_draft_dungeon(false)
+		return {"won": false, "over": true, "cleared": false}
+	var room: DungeonMap.MapNode = dungeon_map.node(context.node_id)
+	dungeon_map.complete(context.node_id)
+	draft.fights_won += 1
+	if context.is_boss:
+		resolve_draft_dungeon(true)
+		return {"won": true, "over": true, "cleared": true}
+	DraftEngine.make_dungeon_offer(content, draft, room.number if room != null else draft.fights_won, room != null and room.kind == DungeonMap.Kind.ELITE)
+	return {"won": true, "over": false, "cleared": false}
+
+
+## Resolves the offer a draft dungeon put on the table (the pick after a fight, the Trade Counter, the Chained Vault): `option` < 0
+## passes; `replace` is the index (in the draft's picks) of the deck card that leaves for the new one, -1 to simply add it.
+func draft_dungeon_pick(option: int, replace: int = -1) -> bool:
+	if draft == null or not draft_dungeon_active or not DraftEngine.dungeon_pick(draft, option, replace):
+		return false
+	deck = DraftEngine.build_deck(content, draft)
+	if run != null:
+		run.base_deck = deck
+	return true
+
+
+## Leaves the draft dungeon: retreat or a loss (`cleared` false), or the boss fell. The real profile and deck come back, the
+## run is paid, and the Shuffle House opens again on the result. No scene change (tests run it); `finish_draft_dungeon` adds it.
+func resolve_draft_dungeon(cleared: bool) -> Dictionary:
+	if _draft_real_profile != null:
+		profile = _draft_real_profile
+		_draft_real_profile = null
+	if _draft_real_deck != null:
+		deck = _draft_real_deck
+		_draft_real_deck = null
+	var key: String = dungeon_key
+	var was_active: bool = draft_dungeon_active
+	draft_dungeon_active = false
+	run = null
+	dungeon_map = null
+	_clear_dungeon_mode()
+	AudioMix.set_mirror_music(false)
+	trial_finished = false
+	pending_reward = null
+	if draft == null or not was_active:
+		return {}
+	DraftRun.finish_dungeon(draft, cleared)
+	var pay: Dictionary = _pay_draft_dungeon_rewards(key, cleared)
+	pending_draft_result = {"won": cleared, "over": true, "dungeon": true, "reward": pay, "enemy": ""}
+	save_game()
+	return pay
+
+
+func finish_draft_dungeon(cleared: bool) -> void:
+	resolve_draft_dungeon(cleared)
+	SceneManager.go_to_town()
+
+
+## What a dungeon draft pays (once). Every run: gold and XP per fight won. A clear: the dungeon's own repeat-clear rewards (its
+## gold and its pack), an extra pack on top (the owner's rule: more than a normal clear), and the card to keep. The Shuffled Halls
+## pays its own sums, and its first clear a piece of draft equipment and a Gilded Pack as well.
+func _pay_draft_dungeon_rewards(key: String, cleared: bool) -> Dictionary:
+	if draft == null or draft.rewarded:
+		return draft.result if draft != null else {}
+	var table: Dictionary = DraftRules.dungeon_rewards()
+	var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(key) if MainDungeons.has_def(key) else null
+	var after_primm: bool = flag(MultiPathLock.FLAG_UNLOCKED)
+	var gold_pay: int = int(table.get("gold_per_fight_won", 0)) * draft.fights_won
+	var xp_pay: int = int(table.get("xp_per_fight_won", 0)) * draft.fights_won
+	var packs: Array[String] = []
+	var won_flag: StringName = StringName(DraftChallenges.won_flag(draft.challenge_id))
+	var first: bool = cleared and not flag(won_flag)
+	var pay: Dictionary = {"dungeon": plan.dungeon_name if plan != null else "the dungeon", "cleared": cleared, "fights_won": draft.fights_won, "first_win": first, "keep_card": cleared, "packs": packs}
+	if cleared and plan != null:
+		if key == DraftArena.HALLS_DUNGEON:
+			gold_pay += int(table.get("halls_clear_gold", 0))
+			xp_pay += int(table.get("halls_clear_xp", 0))
+			packs.append("general_1")
+			if first:
+				gold_pay += int(table.get("halls_first_clear_gold", 0))
+				xp_pay += int(table.get("halls_first_clear_xp", 0))
+				packs.append(str(table.get("halls_first_clear_pack", "gilded_general")))
+				var piece: EquipmentData = _draft_gear_prize()
+				if piece != null and grant_equipment(piece):
+					pay["equipment"] = piece.id
+		else:
+			var main: bool = DraftChallenges.ZONES.has(key)
+			gold_pay += DungeonBuilder.MAIN_REPEAT_GOLD if main else DungeonBuilder.SIDE_REPEAT_GOLD
+			var own_pack: String = PackRules.path_pack_id(PackRules.path_for_zone(key)) if main else plan.repeat_pack_id()
+			if not own_pack.is_empty():
+				packs.append(own_pack)
+		packs.append(str(table.get("extra_pack_after_primm", "prismatic")) if after_primm else str(table.get("extra_pack", "gilded_general")))
+	add_gold(gold_pay)
+	pending_level_ups.append_array(add_xp(xp_pay))
+	var paid: Array[String] = []
+	for pack: String in packs:
+		if PackCatalog.find(pack) != null:
+			add_pack(pack, 1)
+			paid.append(pack)
+	pay["packs"] = paid
+	pay["gold"] = gold_pay
+	pay["xp"] = xp_pay
+	draft.rewarded = true
+	draft.result = pay
+	bump_counter("draft_runs_finished")
+	bump_counter("draft_finished:%s" % DraftArena.kind_of(draft.challenge_id))
+	if cleared:
+		bump_counter("draft_runs_won")
+		bump_counter("draft_dungeons_cleared")
+		bump_counter("draft_won_kind:%s" % DraftArena.kind_of(draft.challenge_id))
+		set_flag(won_flag)
+	refresh_quests()
+	return pay
+
+
+## The piece of draft equipment the Shuffled Halls' first clear guarantees: the first one the player does not own, the modest
+## Uncommon pieces first (the quest rewards stay their quests').
+func _draft_gear_prize() -> EquipmentData:
+	var order: Array[String] = ["pocket_hourglass", "pathwork_waistcoat", "rolled_rulebook", "tinkers_wrench"]
+	for id: String in DraftGear.MODEST:
+		if not order.has(id):
+			order.append(id)
+	for id: String in ["lucky_pack_wrapper", "card_sleeve_gauntlets"]:
+		order.append(id)
+	for id: String in order:
+		var piece: EquipmentData = content.equipment_piece(id)
+		if piece != null and not owned_equipment_ids().has(id):
+			return piece
+	return null
 
 
 # ---- Zone portals (Part G) ---------------------------------------------------------------
@@ -4770,6 +5122,9 @@ const CAVE_LOSS_NOTICE: String = "You come round in the forest clearing at full 
 
 
 func abandon_run(notice: String = "") -> void:
+	if draft_dungeon_active:
+		finish_draft_dungeon(false)  # Fable big pass Nov 23: a draft dungeon ends at the Shuffle House, with its consolation
+		return
 	if main_dungeon_active:
 		finish_main_dungeon(false, run != null and (run.failed or run.hp <= 0))
 		return

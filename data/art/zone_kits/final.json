@@ -1037,6 +1037,35 @@
 			"use": "The avenue, the castle door and the palace front",
 			"zone": "final"
 		},
+		"CAP-PROP-PRIMM-CELL": {
+			"aspect": 1.509,
+			"asset": "Primm's cell",
+			"category": "Prop",
+			"cleared_alpha": 25473,
+			"desc": "See docs/art/batch20.csv (Batch 20, Nov 23).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "CAP-PROP-PRIMM-CELL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1512,
+				1002
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.cap-prop-primm-cell",
+			"tinted": false,
+			"use": "The barred cell Primm stands behind in the underground base after his defeat",
+			"zone": "final"
+		},
 		"CAP-PROP-PRIMM-STATUE-SIDE": {
 			"aspect": 0.56,
 			"asset": "Gold Primm statue, side view",

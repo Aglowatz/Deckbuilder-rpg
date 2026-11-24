@@ -45,7 +45,36 @@ static func enemy_setup(content: ContentSet, rival: Dictionary) -> PlayerSetup:
 	profile.max_hp = maxi(int(rival.get("hp", 20)), 1)
 	for piece: ModifierSource in DraftRivals.equipment_sources(content, rival):
 		profile.equipment.append(piece)
-	return PlayerSetup.create(deck, profile, [] as Array[ModifierSource], str(rival.get("name", "Rival")))
+	var extra: Array[ModifierSource] = []
+	if bool(rival.get("boss", false)):
+		extra.append(house_rule())
+	return PlayerSetup.create(deck, profile, extra, str(rival.get("name", "Rival")))
+
+
+## Octavia Eightfold's rule as the boss of the Shuffled Halls: one more card each turn.
+static func house_rule() -> ModifierSource:
+	var source: ModifierSource = ModifierSource.new()
+	source.source_name = DraftRivals.HOUSE_RULE_NAME
+	source.modifiers = [CardBuilder.modifier(Modifier.Kind.EXTRA_DRAWS, 1)] as Array[Modifier]
+	return source
+
+
+## What a rival brings to the fight, as badges under its name (the owner, Nov 23: "as in other fights"): one per piece of
+## equipment it drafted, and the boss's own rule.
+static func rival_badges(content: ContentSet, rival: Dictionary) -> Array[RuleBadges.Badge]:
+	var result: Array[RuleBadges.Badge] = []
+	if bool(rival.get("boss", false)):
+		var house: RuleBadges.Badge = RuleBadges.special(DraftRivals.HOUSE_RULE_NAME, DraftRivals.HOUSE_RULE_TEXT, "lorc/scroll-unfurled", house_rule().modifiers)
+		house.side = RuleBadges.SIDE_ENEMY
+		result.append(house)
+	for source: ModifierSource in DraftRivals.equipment_sources(content, rival):
+		var piece: EquipmentData = source as EquipmentData
+		if piece == null:
+			continue
+		var badge: RuleBadges.Badge = RuleBadges.special(piece.source_name, "%s wears this: %s" % [str(rival.get("name", "Your rival")), piece.description], "lorc/gem-pendant", piece.modifiers)
+		badge.side = RuleBadges.SIDE_ENEMY
+		result.append(badge)
+	return result
 
 
 ## The duel against `rival`: an ordinary GameState, so the battle screen, the AI and every rule work unchanged.
@@ -71,17 +100,33 @@ static func skill() -> AIPlayer.Skill:
 	return AIPlayer.Skill.ELITE
 
 
-## Leaves the deck builder: the three rivals draft now (so they are saved with the run and stay the same after a quit).
+## Leaves the deck builder: the rivals draft now (so they are saved with the run and stay the same after a quit). A table run
+## has three; the Shuffled Halls has its whole cast; the other dungeon drafts meet their dungeon's own foes.
 static func begin(content: ContentSet, state: DraftState) -> bool:
 	if not DraftEngine.lock_deck(state):
 		return false
-	state.rivals = DraftRivals.build_all(content, state)
+	if not state.is_dungeon():
+		state.rivals = DraftRivals.build_all(content, state)
+	elif state.dungeon_key == DraftArena.HALLS_DUNGEON:
+		state.rivals = DraftRivals.build_halls(content, state)
+	else:
+		state.rivals = [] as Array[Dictionary]
 	return true
 
 
-## Books a finished fight. Returns true when the run is over with it.
+## Ends a dungeon draft: `cleared` when its boss fell. The run pays once (`Session`), then the deck's card to keep is chosen.
+static func finish_dungeon(state: DraftState, cleared: bool) -> void:
+	if not state.is_dungeon() or state.dungeon_over:
+		return
+	state.dungeon_over = true
+	state.dungeon_cleared = cleared
+	state.offer = {}
+	state.phase = DraftState.PHASE_DONE
+
+
+## Books a finished fight of a TABLE run. Returns true when the run is over with it.
 static func record(state: DraftState, won: bool) -> bool:
-	if state.phase != DraftState.PHASE_RUN or state.is_finished():
+	if state.phase != DraftState.PHASE_RUN or state.is_finished() or state.is_dungeon():
 		return state.is_finished()
 	if won:
 		state.wins += 1

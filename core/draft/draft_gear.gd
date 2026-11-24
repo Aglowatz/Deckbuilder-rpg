@@ -21,13 +21,34 @@ const SOURCES: Dictionary = {
 	"booster_wrapper_cape": "Quest: The Necrocrat Draft (Trey Pickett)",
 	"the_bomb_rare": "Quest: The Refusemancer Draft (Trey Pickett)",
 	"draft_champions_laurels": "Quest: Last Pick, Best Pick (Trey Pickett)",
+	# Fable big pass Nov 23: the modest pieces (the owner's names; Cardboard Cuirass, the twelfth, was already in the game)
+	"practice_foil": "Bertram's equipment stall, Crosspath",
+	"thinking_cap": "Bertram's equipment stall, Crosspath",
+	"dealers_visor": "Bertram's equipment stall, Crosspath",
+	"shuffle_slippers": "Bertram's equipment stall, Crosspath",
+	"steady_sandals": "Bertram's equipment stall, Crosspath",
+	"lucky_dice": "Bertram's equipment stall, Crosspath",
+	"fair_play_badge": "Bertram's equipment stall, Crosspath",
+	"rolled_rulebook": "Bertram's equipment stall, Crosspath, or a hidden chest",
+	"tinkers_wrench": "Bertram's equipment stall, Crosspath, or a hidden chest",
+	"pathwork_waistcoat": "Bertram's equipment stall, Crosspath",
+	"pocket_hourglass": "Bertram's equipment stall, Crosspath",
 }
+## Fable big pass Nov 23: the eleven modest pieces added for draft variety (2 to 3 per slot, weak to medium, battle-only, nothing
+## that hurts or shrinks enemy units). All of them are on Bertram's stall from the start; two also turn up in hidden chests.
+const MODEST: Array[String] = ["practice_foil", "rolled_rulebook", "tinkers_wrench", "thinking_cap", "dealers_visor", "pathwork_waistcoat",
+	"shuffle_slippers", "steady_sandals", "lucky_dice", "pocket_hourglass", "fair_play_badge"]
+## The eight pieces of Phase 1 (the draft quest line's rewards and the two on Bertram's stall).
+const PHASE1: Array[String] = ["lucky_pack_wrapper", "card_sleeve_gauntlets", "first_pick_fedora", "curve_topper_boots", "sideboard_satchel",
+	"booster_wrapper_cape", "the_bomb_rare", "draft_champions_laurels"]
 ## The reward of each zone draft's quest.
 const ZONE_REWARDS: Dictionary = {"beefcake": "curve_topper_boots", "gourmand": "sideboard_satchel", "necrocrat": "booster_wrapper_cape", "refusemancer": "the_bomb_rare"}
 const INTRO_REWARD: String = "first_pick_fedora"
 const FINALE_REWARD: String = "draft_champions_laurels"
 ## The two weak pieces on Bertram's stall, with their prices.
-const VENDOR_PIECES: Dictionary = {"lucky_pack_wrapper": 90, "card_sleeve_gauntlets": 120}
+const VENDOR_PIECES: Dictionary = {"lucky_pack_wrapper": 90, "card_sleeve_gauntlets": 120,
+	"practice_foil": 80, "thinking_cap": 90, "dealers_visor": 90, "shuffle_slippers": 80, "steady_sandals": 90, "lucky_dice": 100, "fair_play_badge": 90,
+	"rolled_rulebook": 220, "tinkers_wrench": 220, "pathwork_waistcoat": 240, "pocket_hourglass": 260}
 
 
 static func ids() -> Array[String]:
@@ -58,6 +79,35 @@ static func add_all(result: Dictionary) -> void:
 	# -- The finale's prize (tier 3, Legendary).
 	_add(result, "draft_champions_laurels", "Draft Champion's Laurels", S.HELM, R.LEGENDARY, 3, "Your opening hand has 1 more card, and you draw an extra card each turn.", "Max HP -5.",
 		"Woven from the corners of first picks. Heavy with other people's second choices.", [_mod(K.OPENING_HAND_SIZE, 1), _mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_HP, -5)])
+	# -- Fable big pass Nov 23: eleven modest pieces (tier 1 Common, tier 2 Uncommon). Weapons.
+	_add(result, "practice_foil", "Practice Foil", S.WEAPON, R.COMMON, 1, "The first unit you play each duel gets +2 attack.", "",
+		"The tip has a cork on it. The cork has seen things.", [_mod(K.FIRST_UNIT_STAT_CHANGE, 2, Modifier.ANY_COLOR, 0)])
+	_add(result, "rolled_rulebook", "Rolled-Up Rulebook", S.WEAPON, R.UNCOMMON, 2, "Your first spell each turn costs 1 less.", "",
+		"Chapter one: the rules. Chapter two: bonking.", [_mod(K.FIRST_SPELL_COST_CHANGE, -1)])
+	_add(result, "tinkers_wrench", "Tinker's Wrench", S.WEAPON, R.UNCOMMON, 2, "Your units get +0/+1.", "",
+		"Righty tighty, lefty loosey, and if neither works, hit it.", [_mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)])
+	# Helms.
+	_add(result, "thinking_cap", "Thinking Cap", S.HELM, R.COMMON, 1, "You draw an extra card on your first turn.", "",
+		"The tassel swings toward the right answer. Usually.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)])
+	_add(result, "dealers_visor", "Dealer's Visor", S.HELM, R.COMMON, 1, "Max hand size +2. Start every duel with 2 extra HP.", "",
+		"Everything looks greener under it. Mostly the table.", [_mod(K.MAX_HAND_SIZE, 2), _mod(K.STARTING_HP, 2)])
+	# Armor.
+	_add(result, "pathwork_waistcoat", "Pathwork Waistcoat", S.ARMOR, R.UNCOMMON, 2, "Start every duel with 1 Iron, 1 Red Tape, 1 Ingredient and 1 Garbage.", "",
+		"One panel for every Path, and a button for each time they agreed on something.", [_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.RED_TAPE)), _mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.INGREDIENT)),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.GARBAGE))])
+	# Boots.
+	_add(result, "shuffle_slippers", "Shuffle Slippers", S.BOOTS, R.COMMON, 1, "When a duel starts, draw a card, then toss a card.", "",
+		"Fluffy, silent, and the pom-poms are suited.", [_eff(K.START_OF_DUEL_EFFECT, O.DRAW, 1, G.CONTROLLER), _eff(K.START_OF_DUEL_EFFECT, O.TOSS, 1, G.CONTROLLER)])
+	_add(result, "steady_sandals", "Steady Sandals", S.BOOTS, R.COMMON, 1, "Max HP +1. Start every duel with 2 extra HP.", "",
+		"Four straps, two buckles, zero surprises.", [_mod(K.MAX_HP, 1), _mod(K.STARTING_HP, 2)])
+	# Relics.
+	_add(result, "lucky_dice", "Lucky Dice", S.RELIC, R.COMMON, 1, "Start every duel with 1 extra HP, and draw an extra card on your first turn.", "",
+		"Both sixes. Do not ask what is on the other sides.", [_mod(K.STARTING_HP, 1), _mod(K.FIRST_TURN_EXTRA_DRAW, 1)])
+	_add(result, "pocket_hourglass", "Pocket Hourglass", S.RELIC, R.UNCOMMON, 2, "Your first card each turn costs 1 less.", "Max HP -3.",
+		"It saves you a moment every turn and keeps a little of you for itself.", [_mod(K.FIRST_CARD_COST_CHANGE, -1), _mod(K.MAX_HP, -3)])
+	_add(result, "fair_play_badge", "Fair-Play Badge", S.RELIC, R.COMMON, 1, "Max HP +2. Max hand size +1.", "",
+		"Awarded for shaking hands before the match. Polished by people who lost it.", [_mod(K.MAX_HP, 2), _mod(K.MAX_HAND_SIZE, 1)])
 
 
 static func _add(result: Dictionary, id: String, title: String, slot: EquipmentData.Slot, rarity: EquipmentData.Rarity, tier: int, effect_text: String, drawback: String, flavor: String, modifiers: Array[Modifier]) -> void:

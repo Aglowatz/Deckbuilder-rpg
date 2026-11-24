@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_chi1f"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rghnu"]
+
+[resource]
+script = ExtResource("2_rghnu")
+id = "R-37"
+display_name = "Late-Pick Hero"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+attack = 1
+rules_text = "This unit gets +1/+1 for each card in your Refuse Pile, up to +4/+4."
+rarity = 1
+flavor_text = "Nobody wanted him at pick three. Everybody wanted him by turn nine."
+paths_all = Array[int]([3])
+script_text = "static => selfstat(min(count(refuse.card.mine),4),min(count(refuse.card.mine),4))"
+rules_hash = "1a08a787ac3c"
+image_description = "Batch 20 (docs/art/batch20.csv, DR-05)."

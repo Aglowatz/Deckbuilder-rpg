@@ -15,7 +15,7 @@ var paths: Array[int] = []
 var seed: int = 1
 ## The player's level when the draft began: the base HP and the hand size of the run.
 var level: int = 1
-## Two-Path cards may be offered (all four zones freed); three- and four-Path cards may be offered (Primm defeated).
+## Two-Path cards may be offered (a zone is freed and the draft has two Paths or more); three- and four-Path cards (Primm defeated).
 var two_path_ok: bool = false
 var multi_path_ok: bool = false
 var phase: String = PHASE_PICK
@@ -32,7 +32,7 @@ var rerolls_left: int = 0
 var rerolled: int = 0
 ## Indices into `cards` left out of the deck (the deck plays 20 of the 25).
 var bench: Array[int] = []
-## Basic Infrastructure by Path (Affinity.Type value -> count), 15 in all.
+## Basic Infrastructure by Path (Affinity.Type value -> count): 15 in all by default; the player sets each amount (Nov 23).
 var basics: Dictionary = {}
 var wins: int = 0
 var losses: int = 0
@@ -44,14 +44,31 @@ var rewarded: bool = false
 var kept_card: String = ""
 ## The reward of the finished run, for the result screen.
 var result: Dictionary = {}
+## Fable big pass Nov 23: the pieces of equipment already offered in this draft (a piece is not offered twice unless its slot runs out).
+var offered_equipment: Array[String] = []
+## A dungeon draft: the dungeon it plays (a `MainDungeons` key; set when the draft starts, or at the door for Mystery Mini), and how it
+## ended (`dungeon_over`: the run is finished; `dungeon_cleared`: the boss fell). `fights_won` counts its fights for the consolation.
+var dungeon_key: String = ""
+var dungeon_over: bool = false
+var dungeon_cleared: bool = false
+var fights_won: int = 0
+
+
+func is_dungeon() -> bool:
+	return DraftArena.is_dungeon(challenge_id)
 
 
 func is_finished() -> bool:
-	return wins >= DraftRules.wins_to_finish() or losses >= DraftRules.losses_to_finish()
+	if is_dungeon():
+		return dungeon_over
+	return wins >= DraftChallenges.wins_to_finish(challenge_id) or losses >= DraftChallenges.losses_to_finish(challenge_id)
 
 
+## A table draft won with three wins, or a dungeon draft whose boss fell.
 func full_win() -> bool:
-	return wins >= DraftRules.wins_to_finish()
+	if is_dungeon():
+		return dungeon_cleared
+	return wins >= DraftChallenges.wins_to_finish(challenge_id)
 
 
 func fights_played() -> int:
@@ -64,6 +81,7 @@ func to_dict() -> Dictionary:
 		"phase": phase, "step": step, "cards": cards.duplicate(), "equipment": equipment.duplicate(), "items": items.duplicate(), "offer": offer.duplicate(true),
 		"rerolls_left": rerolls_left, "rerolled": rerolled, "bench": bench.duplicate(), "basics": _string_keys(basics), "wins": wins, "losses": losses,
 		"rivals": rivals.duplicate(true), "fee_paid": fee_paid, "rewarded": rewarded, "kept_card": kept_card, "result": result.duplicate(true),
+		"offered_equipment": offered_equipment.duplicate(), "dungeon_key": dungeon_key, "dungeon_over": dungeon_over, "dungeon_cleared": dungeon_cleared, "fights_won": fights_won,
 	}
 
 
@@ -92,7 +110,7 @@ static func from_dict(data: Dictionary) -> DraftState:
 		for value: Variant in state.offer["options"] as Array:
 			options.append(str(value))
 		state.offer["options"] = options
-	for key: String in ["slot", "pick"]:
+	for key: String in ["slot", "pick", "room"]:
 		if state.offer.has(key):
 			state.offer[key] = int(state.offer[key])  # JSON hands numbers back as floats
 	state.rerolls_left = int(data.get("rerolls_left", 0))
@@ -107,6 +125,13 @@ static func from_dict(data: Dictionary) -> DraftState:
 	for value: Variant in data.get("rivals", []) as Array:
 		var rival: Dictionary = (value as Dictionary).duplicate(true)
 		rival["hp"] = int(rival.get("hp", 20))
+		if rival.has("room"):
+			rival["room"] = int(rival["room"])
+		if rival.has("paths"):
+			var rival_paths: Array[int] = []
+			for path: Variant in rival["paths"] as Array:
+				rival_paths.append(int(path))
+			rival["paths"] = rival_paths
 		var recipe: Dictionary = {}
 		for id: Variant in (rival.get("recipe", {}) as Dictionary).keys():
 			recipe[str(id)] = int((rival["recipe"] as Dictionary)[id])
@@ -116,6 +141,12 @@ static func from_dict(data: Dictionary) -> DraftState:
 	state.rewarded = bool(data.get("rewarded", false))
 	state.kept_card = str(data.get("kept_card", ""))
 	state.result = (data.get("result", {}) as Dictionary).duplicate(true)
+	for value: Variant in data.get("offered_equipment", []) as Array:
+		state.offered_equipment.append(str(value))
+	state.dungeon_key = str(data.get("dungeon_key", ""))
+	state.dungeon_over = bool(data.get("dungeon_over", false))
+	state.dungeon_cleared = bool(data.get("dungeon_cleared", false))
+	state.fights_won = int(data.get("fights_won", 0))
 	return state
 
 

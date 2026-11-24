@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_d2qej"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_jgv32"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_h7upc"]
+
+[sub_resource type="Resource" id="Resource_t6mdc"]
+script = ExtResource("1_d2qej")
+kind = 51
+value = -1
+
+[sub_resource type="Resource" id="Resource_dkp34"]
+script = ExtResource("1_d2qej")
+value = -3
+
+[resource]
+script = ExtResource("3_h7upc")
+id = "pocket_hourglass"
+description = "Your first card each turn costs 1 less. Max HP -3."
+flavor_text = "It saves you a moment every turn and keeps a little of you for itself."
+rarity = 1
+tier = 2
+source = "Bertram's equipment stall, Crosspath"
+drawback = "Max HP -3."
+source_name = "Pocket Hourglass"
+modifiers = Array[ExtResource("1_d2qej")]([SubResource("Resource_t6mdc"), SubResource("Resource_dkp34")])

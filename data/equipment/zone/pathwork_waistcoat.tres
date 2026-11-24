@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_pisb5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_lacns"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_hcffs"]
+
+[sub_resource type="Resource" id="Resource_wc7f6"]
+script = ExtResource("1_pisb5")
+kind = 33
+value = 1
+
+[sub_resource type="Resource" id="Resource_03ueu"]
+script = ExtResource("1_pisb5")
+kind = 33
+value = 1
+value2 = 1
+
+[sub_resource type="Resource" id="Resource_62wt3"]
+script = ExtResource("1_pisb5")
+kind = 33
+value = 1
+value2 = 3
+
+[sub_resource type="Resource" id="Resource_f4jvh"]
+script = ExtResource("1_pisb5")
+kind = 33
+value = 1
+value2 = 4
+
+[resource]
+script = ExtResource("3_hcffs")
+id = "pathwork_waistcoat"
+slot = 2
+description = "Start every duel with 1 Iron, 1 Red Tape, 1 Ingredient and 1 Garbage."
+flavor_text = "One panel for every Path, and a button for each time they agreed on something."
+rarity = 1
+tier = 2
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Pathwork Waistcoat"
+modifiers = Array[ExtResource("1_pisb5")]([SubResource("Resource_wc7f6"), SubResource("Resource_03ueu"), SubResource("Resource_62wt3"), SubResource("Resource_f4jvh")])

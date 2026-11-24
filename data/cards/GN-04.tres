@@ -17,5 +17,5 @@ rarity = 1
 flavor_text = "Spicy enough to leave your body."
 paths_all = Array[int]([2, 4])
 script_text = "act t=unit | destroy_self => pump(t,2,0,eot); kw_grant(t,flying,eot)"
-rules_hash = "d627b34f87b6"
+rules_hash = "c981432a509d"
 image_description = "A glowing translucent chili pepper with a ghostly face, wisps of spectral steam curling off it like flames."

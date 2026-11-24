@@ -2659,6 +2659,24 @@ func shuffle_tokens_into_deck(player_index: int, data: CardData, count: int, cre
 		player.deck.insert(rng.randi_range(0, player.deck.size()), token)
 
 
+## Fable big pass Nov 23 (Wheel the Table): the whole hand goes back into the deck, which is shuffled.
+func shuffle_hand_into_deck(player_index: int) -> void:
+	var player: PlayerState = players[player_index]
+	for card: CardInstance in player.hand:
+		player.deck.append(card)
+	player.hand.clear()
+	RngUtil.shuffle(player.deck, rng)
+
+
+## Fable big pass Nov 23 (Signal Reader): `viewer` looks at the hand of `owner`. Rules-wise nothing moves; the event carries
+## the card names (detail, "|"-separated) so the battle screen can show them to a human viewer. `other` = the owner seat.
+func reveal_hand(viewer: int, owner: int, source_uid: int = 0) -> void:
+	var names: PackedStringArray = []
+	for card: CardInstance in players[owner].hand:
+		names.append(card.data.display_name)
+	emit_event(GameEvent.Type.HAND_REVEALED, viewer, source_uid, owner, names.size(), 0, "|".join(names))
+
+
 func shuffle_refuse_pile_into_deck(player_index: int) -> void:
 	var player: PlayerState = players[player_index]
 	for card: CardInstance in player.refuse_pile:

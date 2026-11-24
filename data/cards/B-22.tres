@@ -20,5 +20,5 @@ flavor_text = "Oh no, I'm late! Or am I...?"
 paths_all = Array[int]([1])
 script_text = "attach | pay(1)
 boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})"
-rules_hash = "9ce12627a629"
+rules_hash = "f23080849626"
 image_description = "A battered wind-up alarm clock with mismatched hands and a bent bell, ringing wildly while a Beefcake either sprints off or snoozes on top of it."
