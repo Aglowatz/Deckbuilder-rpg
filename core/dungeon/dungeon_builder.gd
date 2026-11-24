@@ -126,7 +126,10 @@ static func _add_foe(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, n
 		hp = int(boss.get("hp", 28))
 		icon = str(boss.get("icon", icon))
 		recipe = EnemyDecks.with_cards(EnemyDecks.recipe(deck_key, int(boss.get("infra", 17))), (boss.get("extra", {}) as Dictionary).duplicate())
-		def.add_foe(name, hp, str(data.get("ai", "Balanced")), recipe, icon)
+		if boss.get("cards") is Dictionary:
+			recipe = _exact_recipe(boss["cards"] as Dictionary)  # Fable Nov 24: a hand-made deck, card by card
+		def.add_foe(name, hp, str(boss.get("ai", data.get("ai", "Balanced"))), recipe, icon)
+		_foe_extras(def.foe(name), boss)
 		# Fable pass Nov 1 (boss tempo): every boss opens with a setup window (`setup_turns` in its block; the default otherwise).
 		EncounterModifiers.ensure_setup_rule(name, BossTempo.turns_of(boss))
 		return
@@ -145,7 +148,31 @@ static func _add_foe(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, n
 		recipe = EnemyDecks.trimmed(deck_key, size, infra)
 	if data.has("extra"):
 		recipe = EnemyDecks.with_cards(recipe, (data["extra"] as Dictionary).duplicate())
+	if data.get("cards") is Dictionary:
+		recipe = _exact_recipe(data["cards"] as Dictionary)  # Fable Nov 24: a hand-made deck, card by card (no archetype)
 	def.add_foe(name, hp, ai, recipe, icon)
+	_foe_extras(def.foe(name), data)
+
+
+## Fable Nov 24: "cards" in a foe's block is its whole deck, card id -> copies (the basics included).
+static func _exact_recipe(cards: Dictionary) -> Dictionary:
+	var recipe: Dictionary = {}
+	for id: Variant in cards.keys():
+		if int(cards[id]) > 0:
+			recipe[str(id)] = int(cards[id])
+	return recipe
+
+
+## Fable Nov 24: the optional "equipment", "skill", "hp_vs_player" and "paths" of a foe's block (`MainDungeonDef.Foe`).
+static func _foe_extras(fighter: MainDungeonDef.Foe, data: Dictionary) -> void:
+	if fighter == null:
+		return
+	for id: Variant in data.get("equipment", []) as Array:
+		fighter.equipment.append(str(id))
+	fighter.skill = str(data.get("skill", ""))
+	fighter.has_hp_vs_player = data.has("hp_vs_player")
+	fighter.hp_vs_player = int(data.get("hp_vs_player", 0))
+	fighter.paths_text = str(data.get("paths", ""))
 
 
 static func _add_event(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, node: DungeonCatalog.BlueprintNode, content: Dictionary) -> void:

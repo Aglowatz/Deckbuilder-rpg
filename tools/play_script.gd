@@ -11,6 +11,7 @@ extends Node
 ##   pad <a|b|x|y|lb|rb|back|start|up|down|left|right> [s]   tap a controller button; stick <x> <y> <s> hold the left stick (Nov 17)
 ##   drag <x1> <y1> <x2> <y2>       drag and drop (playing a card)
 ##   button <text>                  click the first visible button whose text contains <text>
+##   node <Name>                    click the first visible Control with that node name (a tile without text: Mode_high, PathToggle_2)
 ##   shot <name>                    save a screenshot
 ##   dump                           print every visible label and button (text + screenshot position) to the log
 ##   scene                          print the current scene and the hero's state (level, gold, hp)
@@ -132,6 +133,20 @@ func _run_line(line: String) -> void:
 		"button":
 			var found: bool = await driver.click_button(rest)
 			_say("  button %s: %s" % [rest, "clicked" if found else "NOT FOUND"])
+		"node":
+			# Fable Nov 24: `node <Name>` - a real mouse click on the middle of the first visible Control with that node name (a
+			# tile or a toggle that has no text of its own: the Shuffle House's mode tiles and Path toggles)
+			var named: Control = null
+			for candidate: Node in get_tree().root.find_children(rest, "Control", true, false):
+				if (candidate as Control).is_visible_in_tree():
+					named = candidate as Control
+					break
+			if named == null:
+				_say("  node %s: NOT FOUND" % rest)
+			else:
+				_say("  node %s: clicked at %s" % [rest, named.get_global_rect().get_center()])
+				await driver.click(named.get_global_rect().get_center())
+				await driver.frames(4)
 		"shot":
 			await _shot(rest if not rest.is_empty() else "shot")
 		"clickcard":

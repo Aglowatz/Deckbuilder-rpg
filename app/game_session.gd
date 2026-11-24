@@ -2015,7 +2015,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var player_rules: ModifierSource = null
 	var phase: PrimmBoss.Phase = null
 	var capital: bool = main_dungeon_active and zone_def().id == CapitalZone.ID
-	# Fable big pass Nov 23: a room of the Shuffled Halls is held by a rival drafter (`DraftRivals.build_halls`)
+	# Fable Nov 24: the Shuffled Halls' fights are the dungeon's own (hand-made, static); `draft.rivals` holds room rivals only
+	# in a draft saved by the build of Nov 23
 	var draft_rival: Dictionary = DraftRivals.for_room(draft, node.number) if (draft_dungeon_active and draft != null) else {}
 	if not draft_rival.is_empty():
 		enemy = DraftRun.enemy_setup(content, draft_rival)
@@ -2145,6 +2146,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 			context.rule_badges.append_array(DraftRun.rival_badges(content, draft_rival))
 			context.enemy_icon = "lorc/card-pick"
 			context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, str(draft_rival.get("ai", "Balanced"))), DraftRivals.skill_of(draft_rival), node.enemy_name)
+		else:
+			# a hand-made dealer's fixed equipment shows as battle effects under their name
+			context.rule_badges.append_array(MainDungeons.equipment_badges(content, dungeon_key, node.enemy_name))
 	return context
 
 
@@ -4161,10 +4165,13 @@ func _draft_room_offer(event: DungeonEvent, choice_index: int) -> void:
 	for node: DungeonMap.MapNode in dungeon_map.nodes:
 		if node.event_id != event.id or not rooms.has(str(node.number)):
 			continue
-		if str(rooms[str(node.number)]) == "trade":
-			DraftEngine.make_trade_offer(content, draft, node.number)
-		else:
-			DraftEngine.make_dungeon_offer(content, draft, node.number, true)
+		match str(rooms[str(node.number)]):
+			"trade":
+				DraftEngine.make_trade_offer(content, draft, node.number)
+			"cashout":
+				draft_cash_out_pending = true  # Fable Nov 24: the Counting Halls - the map ends the run when the room closes
+			_:
+				DraftEngine.make_dungeon_offer(content, draft, node.number, true)
 		return
 
 
@@ -4189,11 +4196,15 @@ func arena_cleared_count() -> int:
 
 ## Battle AI upgrade, Part 4: the AI skill a dungeon node calls for - bosses play well, elites are competent, normals make human mistakes.
 func _skill_for_node(node: DungeonMap.MapNode) -> AIPlayer.Skill:
+	var by_room: AIPlayer.Skill = AIPlayer.Skill.NORMAL
 	if node.kind == DungeonMap.Kind.BOSS:
-		return AIPlayer.Skill.BOSS
-	if node.kind == DungeonMap.Kind.ELITE:
-		return AIPlayer.Skill.ELITE
-	return AIPlayer.Skill.NORMAL
+		by_room = AIPlayer.Skill.BOSS
+	elif node.kind == DungeonMap.Kind.ELITE:
+		by_room = AIPlayer.Skill.ELITE
+	# Fable Nov 24: a foe's block may say how well it plays (the Shuffled Halls' dealers)
+	if (main_dungeon_active or mini_active) and MainDungeons.has_def(dungeon_key):
+		return MainDungeons.skill_of(dungeon_key, node.enemy_name, by_room)
+	return by_room
 
 
 ## The duel of one arena encounter, using the player's real deck/profile (or the encounter's restricted deck).
@@ -4303,6 +4314,9 @@ var _draft_real_profile: PlayerProfile = null
 ## real profile and deck wait in `_draft_real_profile` / `_draft_real_deck`; nothing is saved meanwhile (`save_game` skips).
 var draft_dungeon_active: bool = false
 var _draft_real_deck: Deck = null
+## Fable Nov 24: the player chose to cash out at the Counting Halls (`_draft_room_offer`); the dungeon map ends the run with
+## `finish_draft_cash_out` when the room's screen closes.
+var draft_cash_out_pending: bool = false
 
 
 ## What the next attempt at `challenge_id` costs (0: every draft is free since Nov 23).
@@ -4310,27 +4324,50 @@ func draft_fee(challenge_id: String) -> int:
 	return DraftChallenges.fee(challenge_id, counters)
 
 
-## The dungeons that can be played as a draft now, as `MainDungeons` keys: the main dungeon of every freed Path zone, and every
-## side and postgame dungeon the player has already cleared with their own deck (a draft never spends a first clear). Primm's
-## Castle is not one of them (its allies and its three-phase boss are built around the story run).
+## The Dungeon Draft's list (Fable Nov 24), as `MainDungeons` keys: the LARGE dungeons the player has cleared once in the main
+## game (a draft never spends a first clear) - the main dungeon of every freed Path zone, Primm's Castle once Primm is defeated,
+## the cleared postgame dungeons (the Path-ology Lab, the Shattered Gallery), the dungeons the rules name on top (`dungeon.
+## large_extra`: Mount Swolympus, the owner's list) - and the Shuffled Halls after their first clear. The mini dungeons (three
+## encounters) are Mystery Mini's.
 func draft_dungeon_keys() -> Array[String]:
 	var keys: Array[String] = []
 	for zone_id: String in DraftChallenges.ZONES:
 		if MainDungeons.has_def(zone_id) and is_zone_completed(zone_id):
 			keys.append(zone_id)
+	if MainDungeons.has_def(CapitalZone.ID) and is_zone_completed(CapitalZone.ID):
+		keys.append(CapitalZone.ID)
+	var extra: Array = DraftRules.dungeon().get("large_extra", []) as Array
 	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
-		if (plan.is_side() or plan.is_postgame()) and flag(side_cleared_flag(plan)):
+		if not (plan.is_side() or plan.is_postgame()) or not flag(side_cleared_flag(plan)):
+			continue
+		if not DraftArena.is_mini(plan) or extra.has(plan.id):
 			keys.append(plan.id)
+	if flag(StringName(DraftChallenges.won_flag(DraftArena.HALLS_ID))):
+		keys.append(DraftArena.HALLS_DUNGEON)
 	return keys
 
 
-## The mini dungeons Mystery Mini can land on: the three-fight side dungeons the player has cleared.
+## A random dungeon of the Dungeon Draft's list ("" when the list is empty): the menu's Random option.
+func draft_random_dungeon() -> String:
+	var keys: Array[String] = draft_dungeon_keys()
+	return keys[rng.randi() % keys.size()] if not keys.is_empty() else ""
+
+
+## The mini dungeons Mystery Mini's wheel can land on (Fable Nov 24: "any dungeon with three encounters"): the ones the player
+## has cleared, and the ones of every freed Path zone (their zone is behind the player, so nothing is spoiled). While that is
+## still nobody - the house can open on four zone drafts alone - the four Path zones' own minis.
 func draft_mystery_pool() -> Array[String]:
 	var keys: Array[String] = []
+	var fallback: Array[String] = []
 	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
-		if plan.is_side() and flag(side_cleared_flag(plan)):
+		if not plan.is_side() or not DraftArena.is_mini(plan) or not MainDungeons.has_def(plan.id):
+			continue
+		var in_path_zone: bool = DraftChallenges.ZONES.has(plan.zone_id)
+		if flag(side_cleared_flag(plan)) or (in_path_zone and is_zone_completed(plan.zone_id)):
 			keys.append(plan.id)
-	return keys
+		elif in_path_zone and not plan.zone_side:
+			fallback.append(plan.id)
+	return keys if not keys.is_empty() else fallback
 
 
 ## Why a draft can't start with these Paths ("" when it can): the rules of `DraftChallenges.start_problem`, plus what only the
@@ -4345,12 +4382,12 @@ func draft_start_problem(challenge_id: String, paths: Array[int]) -> String:
 	match DraftArena.kind_of(challenge_id):
 		DraftArena.KIND_MYSTERY:
 			if draft_mystery_pool().is_empty():
-				return "Clear a mini dungeon with your own deck first: the wheel needs one to land on."
+				return "The wheel has no mini dungeon to land on yet."
 		DraftArena.KIND_DUNGEON:
 			if not draft_dungeon_keys().has(DraftArena.dungeon_key_of(challenge_id)):
 				return "Clear this dungeon with your own deck first."
 	if draft_fee(challenge_id) > gold:
-		return "You need %d gold." % draft_fee(challenge_id)
+		return "The entry fee is %d gold, and you have %d." % [draft_fee(challenge_id), gold]
 	return ""
 
 
@@ -4372,6 +4409,7 @@ func start_draft(challenge_id: String, paths: Array[int]) -> bool:
 	var two_ok: bool = chosen.size() >= 2 and DraftArena.max_paths(flags) >= 2
 	var multi_ok: bool = chosen.size() >= 3 and flag(MultiPathLock.FLAG_UNLOCKED)
 	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, DraftArena.daily_seed(challenge_id) if daily else rng.randi() % 1000000 + 1, two_ok, multi_ok)
+	draft.max_paths = DraftArena.max_paths(flags)  # Fable Nov 24: the opponents' Paths follow the story, never the player's choice
 	draft.fee_paid = fee
 	draft.dungeon_key = DraftArena.dungeon_key_of(challenge_id)
 	save_game()
@@ -4509,6 +4547,12 @@ func _pay_draft_rewards() -> Dictionary:
 		if draft.losses == 0:
 			bump_counter("draft_flawless")  # the feat "Three and Oh"
 		set_flag(won_flag)
+		# Fable Nov 24: a Classic, High Rollers or Draft of the Day win with two, three or four Paths counts for that set of Paths
+		# (the quests "Two of a Kind", "Three's Company" and "Full House"; the flags of the separate tables of Nov 23)
+		if DraftArena.mode_of(draft.challenge_id) == DraftArena.MODE_CLASSIC or DraftArena.mode_of(draft.challenge_id) == DraftArena.MODE_HIGH:
+			var goal: String = DraftArena.paths_goal_flag(draft.paths)
+			if not goal.is_empty():
+				set_flag(StringName(goal))
 	open_shuffle_house_if_due()
 	refresh_quests()
 	return pay
@@ -4522,7 +4566,7 @@ func open_shuffle_house_if_due() -> bool:
 	set_flag(StringName(DraftChallenges.ARENA_FLAG))
 	offer_auto_quests()
 	if toasts != null:
-		toasts.show_toast("The Shuffle House has opened its doors: the striped house on the north-east corner of Crosspath's square.", UIStyle.GOLD, CardIcons.ui("fountain"))
+		toasts.show_toast("The Shuffle House has opened its doors: the big striped house on the lawn north-east of Crosspath's square (follow the cobbled path past Pip's).", UIStyle.GOLD, CardIcons.ui("fountain"))
 	return true
 
 
@@ -4593,15 +4637,31 @@ func prepare_draft_dungeon() -> bool:
 	dungeon_rules_intro_seen = false
 	trial_finished = false
 	pending_reward = null
-	# the Shuffled Halls: each fight room shows the rival who waits there
+	draft_cash_out_pending = false
+	# Fable Nov 24: a hand-made foe whose HP is measured from the player's (the Shuffled Halls' dealers: a draft is played at the
+	# base HP of the player's level) gets its number now, and its room card says what Paths it plays and what it wears
+	var base_hp: int = ProgressionTable.row(clampi(draft.level, 1, ProgressionTable.MAX_LEVEL)).max_hp
 	for node: DungeonMap.MapNode in dungeon_map.nodes:
 		var rival: Dictionary = DraftRivals.for_room(draft, node.number)
-		if rival.is_empty():
+		if not rival.is_empty():
+			# a draft saved by the build of Nov 23: its room rivals stay
+			node.enemy_name = str(rival.get("name", node.enemy_name))
+			node.enemy_hp = int(rival.get("hp", node.enemy_hp))
+			node.ai_name = str(rival.get("ai", node.ai_name))
+			node.blurb = ("Boss: %s. The house always deals." if bool(rival.get("boss", false)) else ("A champion's table: %s." if bool(rival.get("champion", false)) else "%s is dealing here.")) % node.enemy_name
 			continue
-		node.enemy_name = str(rival.get("name", node.enemy_name))
-		node.enemy_hp = int(rival.get("hp", node.enemy_hp))
-		node.ai_name = str(rival.get("ai", node.ai_name))
-		node.blurb = ("Boss: %s. The house always deals." if bool(rival.get("boss", false)) else ("A champion's table: %s." if bool(rival.get("champion", false)) else "%s is dealing here.")) % node.enemy_name
+		var fighter: MainDungeonDef.Foe = MainDungeons.def(dungeon_key).foe(node.enemy_name) if not node.enemy_name.is_empty() else null
+		if fighter == null:
+			continue
+		if fighter.has_hp_vs_player:
+			node.enemy_hp = maxi(8, base_hp + fighter.hp_vs_player)
+		var notes: PackedStringArray = []
+		if not fighter.paths_text.is_empty():
+			notes.append("Plays %s." % fighter.paths_text)
+		for piece: EquipmentData in MainDungeons.equipment_of(content, dungeon_key, node.enemy_name):
+			notes.append("Wears %s (%s)" % [piece.source_name, GearText.effect(piece)])
+		if not notes.is_empty():
+			node.blurb = "%s %s" % [node.blurb, " ".join(notes)]
 	bump_counter("draft_dungeons_entered")
 	if dungeon_key == DraftArena.HALLS_DUNGEON:
 		bump_counter("draft_halls_played")
@@ -4654,7 +4714,8 @@ func draft_dungeon_pick(option: int, replace: int = -1) -> bool:
 
 ## Leaves the draft dungeon: retreat or a loss (`cleared` false), or the boss fell. The real profile and deck come back, the
 ## run is paid, and the Shuffle House opens again on the result. No scene change (tests run it); `finish_draft_dungeon` adds it.
-func resolve_draft_dungeon(cleared: bool) -> Dictionary:
+func resolve_draft_dungeon(cleared: bool, cashed_out: bool = false) -> Dictionary:
+	draft_cash_out_pending = false
 	if _draft_real_profile != null:
 		profile = _draft_real_profile
 		_draft_real_profile = null
@@ -4673,7 +4734,7 @@ func resolve_draft_dungeon(cleared: bool) -> Dictionary:
 	if draft == null or not was_active:
 		return {}
 	DraftRun.finish_dungeon(draft, cleared)
-	var pay: Dictionary = _pay_draft_dungeon_rewards(key, cleared)
+	var pay: Dictionary = _pay_draft_dungeon_rewards(key, cleared, cashed_out and not cleared)
 	pending_draft_result = {"won": cleared, "over": true, "dungeon": true, "reward": pay, "enemy": ""}
 	save_game()
 	return pay
@@ -4684,10 +4745,17 @@ func finish_draft_dungeon(cleared: bool) -> void:
 	SceneManager.go_to_town()
 
 
+## Fable Nov 24 (Part 4): cashing out at the Counting Halls - the run ends here with part of the prize (`rewards.dungeon.
+## halls_cash_out` in the rules file) and it is NOT a win: no clear, no card to keep, no first-clear prize, no "won" flag.
+func finish_draft_cash_out() -> void:
+	resolve_draft_dungeon(false, true)
+	SceneManager.go_to_town()
+
+
 ## What a dungeon draft pays (once). Every run: gold and XP per fight won. A clear: the dungeon's own repeat-clear rewards (its
 ## gold and its pack), an extra pack on top (the owner's rule: more than a normal clear), and the card to keep. The Shuffled Halls
 ## pays its own sums, and its first clear a piece of draft equipment and a Gilded Pack as well.
-func _pay_draft_dungeon_rewards(key: String, cleared: bool) -> Dictionary:
+func _pay_draft_dungeon_rewards(key: String, cleared: bool, cashed_out: bool = false) -> Dictionary:
 	if draft == null or draft.rewarded:
 		return draft.result if draft != null else {}
 	var table: Dictionary = DraftRules.dungeon_rewards()
@@ -4699,7 +4767,23 @@ func _pay_draft_dungeon_rewards(key: String, cleared: bool) -> Dictionary:
 	var won_flag: StringName = StringName(DraftChallenges.won_flag(draft.challenge_id))
 	var first: bool = cleared and not flag(won_flag)
 	var pay: Dictionary = {"dungeon": plan.dungeon_name if plan != null else "the dungeon", "cleared": cleared, "fights_won": draft.fights_won, "first_win": first, "keep_card": cleared, "packs": packs}
-	if cleared and plan != null:
+	var mystery: bool = DraftArena.kind_of(draft.challenge_id) == DraftArena.KIND_MYSTERY
+	if cashed_out:
+		# the Counting Halls: part of the prize, on top of the gold for the fights won
+		var cash: Dictionary = {}
+		if table.get("halls_cash_out", {}) is Dictionary:
+			cash = table.get("halls_cash_out", {}) as Dictionary
+		gold_pay += int(cash.get("gold", 0))
+		xp_pay += int(cash.get("xp", 0))
+		if not str(cash.get("pack", "")).is_empty():
+			packs.append(str(cash.get("pack", "")))
+		pay["cashed_out"] = true
+	if cleared and plan != null and mystery:
+		# Fable Nov 24: Mystery Mini pays a pack of that dungeon's Path (a General Pack when the dungeon has none), and its gold
+		gold_pay += DungeonBuilder.SIDE_REPEAT_GOLD
+		var mini_path: Affinity.Type = PackRules.path_for_zone(plan.zone_id) if DraftChallenges.ZONES.has(plan.zone_id) else Affinity.Type.NEUTRAL
+		packs.append(PackRules.path_pack_id(mini_path) if mini_path != Affinity.Type.NEUTRAL else str(table.get("mystery_pathless_pack", "general_1")))
+	elif cleared and plan != null:
 		if key == DraftArena.HALLS_DUNGEON:
 			gold_pay += int(table.get("halls_clear_gold", 0))
 			xp_pay += int(table.get("halls_clear_xp", 0))

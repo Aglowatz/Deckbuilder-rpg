@@ -13,7 +13,7 @@ extends RefCounted
 ##              notice board          (open, low south side)          Rift Express
 ##                         S: Champions' Road (the Chapel | the inn; the Grave Road branches west)
 ##   (Nov 18 day: the Deck Station is a card stall on the square. Nov 23: it stands on the fountain's south side, beside where the
-##   hero arrives; the Shuffle House stands ten metres behind the north-east corner across an open forecourt, in place of the
+##   hero arrives; the Shuffle House stands in the open lawn north-east of the square (Fable Nov 24; it stood on the corner plot), in place of the
 ##   north-east row house; a hedge closes the east side of the Secret Dealer's alley.)
 ##                                     the Undercroft cottage; the meadow road bends round it to the Gainlands
 
@@ -162,7 +162,7 @@ static func shops() -> Array[Shop]:
 	var north_face: float = PLAZA.z - FRONT_RING
 	# Oct 20, Part 4: the north-west corner house is Tilly Tonic's store room (its door starts the ghost fight; nobody walks in)
 	list.append(_kit(StoreroomGhosts.SPOT_ID, "home_b", 12.3, north_face - 3.4, 0.0, "Tilly's store room"))
-	# Fable big pass Nov 23: the Shuffle House (Octavia Eightfold's draft arena) stands on the north-east corner, set back behind a
+	# Fable Nov 24: the Shuffle House (Octavia Eightfold's draft arena) stands in the north-east lawn, at the end of its cobbled path, past a
 	# small forecourt, where a plain row house stood (`TownShuffleHouse`)
 	var house: Shop = _shop(TownShuffleHouse.KEY, "", TownShuffleHouse.CENTER, 0.0, 1.0, TownShuffleHouse.WIDTH * 0.5, TownShuffleHouse.DOOR, "The Shuffle House", "bare")
 	house.footprint = TownShuffleHouse.FOOTPRINT

@@ -102,9 +102,13 @@ static func equipment_weight(rarity: EquipmentData.Rarity) -> float:
 	return float(table.get(CARD_RARITY_KEYS[clampi(int(rarity), 0, 3)], 1.0))
 
 
-## Gold and XP of a finished run by its wins: {"gold": n, "xp": n}.
-static func replay_reward(wins: int) -> Dictionary:
+## Gold and XP of a finished run by its wins: {"gold": n, "xp": n}. Fable Nov 24: a kind of challenge may have a table of its
+## own ("replay_by_kind": High Rollers pays more than Classic).
+static func replay_reward(wins: int, kind: String = "") -> Dictionary:
 	var table: Dictionary = (data().get("rewards", {}) as Dictionary).get("replay", {}) as Dictionary
+	var by_kind: Variant = (data().get("rewards", {}) as Dictionary).get("replay_by_kind", {})
+	if not kind.is_empty() and by_kind is Dictionary and (by_kind as Dictionary).get(kind) is Dictionary:
+		table = (by_kind as Dictionary)[kind] as Dictionary
 	var gold: Array = table.get("gold", [0, 0, 0, 0]) as Array
 	var xp: Array = table.get("xp", [0, 0, 0, 0]) as Array
 	var index: int = clampi(wins, 0, gold.size() - 1)
@@ -118,6 +122,19 @@ static func first_win_bonus() -> Dictionary:
 
 static func rivals() -> Dictionary:
 	return data().get("rivals", {}) as Dictionary
+
+
+## Fable Nov 24: the entry fee of a kind of challenge ("entry_fees": High Rollers has one), else the general `entry_fee`.
+static func entry_fee_for(kind: String) -> int:
+	var table: Dictionary = section("entry_fees")
+	if table.has(kind):
+		return maxi(0, int(table[kind]))
+	return maxi(0, entry_fee())
+
+
+## True when a kind's fee is its own (charged on every attempt: the general "first attempt free" rule is not for it).
+static func has_own_fee(kind: String) -> bool:
+	return section("entry_fees").has(kind)
 
 
 # ---- Fable big pass Nov 23 ----------------------------------------------------------------------------------------------------------

@@ -21,6 +21,12 @@ var result: Dictionary = {}
 var dungeon_mode: bool = false
 
 const PICK_SCALE: float = 1.36
+## Fable Nov 24 (Part 3): the three options always fit side by side. In a window narrower than 16:9 the canvas is narrower
+## too (1,570 px in the owner's window), and three cards at the full scale pushed the third off the page.
+const PICK_SCALE_MIN: float = 0.72
+const PICK_GAP: int = 22
+const PAGE_MARGIN: float = 124.0
+const SIDE_WIDTH_NARROW: float = 372.0
 ## The on-screen height (canvas px) an offered card grows to under the pointer (the owner: "cards enlarge more on hover").
 const PICK_ZOOM_HEIGHT: float = 800.0
 const GRID_SCALE: float = 0.56
@@ -34,6 +40,37 @@ var _notice: String = ""
 ## The dungeon pick: the option chosen (-1: none yet) and the deck card that leaves for it (-1: add without a swap).
 var _chosen: int = -1
 var _replace: int = -1
+## The canvas width the pick screen was last laid out for (it is laid out again when the window's shape changes).
+var _laid_out_for: float = 0.0
+## The Trade Counter's and the pick's large card: the deck card under the pointer, shown whole and on top of everything.
+var _swap_preview: Control = null
+
+
+## The width of the canvas (1,920 at 16:9; less in a squarer window).
+func canvas_width() -> float:
+	return get_viewport_rect().size.x if is_inside_tree() and get_viewport_rect().size.x > 200.0 else 1920.0
+
+
+## How wide the side panel is and how large the three options are drawn so that all three fit beside it.
+func side_width() -> float:
+	return SIDE_WIDTH if canvas_width() >= 1800.0 else SIDE_WIDTH_NARROW
+
+
+func pick_scale(options: int = 3) -> float:
+	return scale_for(canvas_width(), side_width(), options)
+
+
+## The scale at which `options` cards fit side by side on a canvas `canvas` px wide, beside a side panel `side` px wide.
+static func scale_for(canvas: float, side: float, options: int = 3) -> float:
+	var room: float = canvas - PAGE_MARGIN - side - 22.0 - float(PICK_GAP * maxi(0, options - 1))
+	return clampf(room / float(maxi(1, options)) / CardView.SIZE.x, PICK_SCALE_MIN, PICK_SCALE)
+
+
+func _notification(what: int) -> void:
+	# the window changed shape while the pick screen is up: lay the options out again so the third card never leaves the page
+	if what == NOTIFICATION_RESIZED and _laid_out_for > 0.0 and absf(canvas_width() - _laid_out_for) > 24.0 and Session.draft != null and Session.draft.phase == DraftState.PHASE_PICK and not dungeon_mode:
+		_laid_out_for = canvas_width()
+		_refresh.call_deferred()
 
 
 func _init() -> void:
@@ -101,6 +138,7 @@ func _fill() -> void:
 
 func _fill_pick(draft: DraftState) -> void:
 	var kind: String = str(draft.offer.get("kind", ""))
+	_laid_out_for = canvas_width()
 	var split: HBoxContainer = UIKit.hbox(22)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(split)
@@ -122,14 +160,22 @@ func _fill_pick(draft: DraftState) -> void:
 	reroll.tooltip_text = "Three new options. One reroll per draft, for any offer."
 	reroll.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	head.add_child(reroll)
-	var options: HBoxContainer = UIKit.hbox(30)
+	var options: HBoxContainer = UIKit.hbox(PICK_GAP)
 	options.name = "Options"
 	options.alignment = BoxContainer.ALIGNMENT_CENTER
 	options.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	left.add_child(options)
 	var ids: Array = draft.offer.get("options", []) as Array
+	var scale_now: float = pick_scale(maxi(ids.size(), DraftRules.options()))
+	options.set_meta(&"pick_scale", scale_now)
 	for index: int in range(ids.size()):
-		options.add_child(_option(kind, str(ids[index]), index))
+		options.add_child(_option(kind, str(ids[index]), index, scale_now))
+	if ids.size() < DraftRules.options():
+		# one fewer only when the pool truly ran out, and the screen says so
+		var short: Label = DraftKit.text("Only %d to choose from this time: the pool has nothing else left to offer." % ids.size(), 24, GlassTheme.CAUTION)
+		short.name = "ShortOffer"
+		short.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		left.add_child(short)
 	split.add_child(_side_panel(draft))
 
 
@@ -159,11 +205,11 @@ func _pick_note(draft: DraftState, kind: String) -> String:
 	return "Take one of the three. Hover a card to read it."
 
 
-func _option(kind: String, id: String, index: int) -> Control:
+func _option(kind: String, id: String, index: int, card_scale: float = PICK_SCALE) -> Control:
 	var column: VBoxContainer = UIKit.vbox(10)
 	column.name = "Option%d" % index
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	var size: Vector2 = CardView.SIZE * PICK_SCALE
+	var size: Vector2 = CardView.SIZE * card_scale
 	var tile: Button = Button.new()
 	tile.name = "Card%d" % index
 	tile.flat = true
@@ -174,7 +220,7 @@ func _option(kind: String, id: String, index: int) -> Control:
 	match kind:
 		DraftEngine.KIND_CARD:
 			var card: CardData = Session.card_by_id(id)
-			var view: Control = CardView.wrapped(card, PICK_SCALE)
+			var view: Control = CardView.wrapped(card, card_scale)
 			view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile.add_child(view)
 			tile.tooltip_text = ""
@@ -205,7 +251,8 @@ func _option(kind: String, id: String, index: int) -> Control:
 func _side_panel(draft: DraftState) -> Control:
 	var panel: PanelContainer = DraftKit.plaque(0.9)
 	panel.name = "DraftSoFar"
-	panel.custom_minimum_size = Vector2(SIDE_WIDTH, 0)
+	panel.custom_minimum_size = Vector2(side_width(), 0)
+	panel.clip_contents = true
 	var box: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(box)
 	var cards: Array[CardData] = DraftEngine.picked_cards(Session.content, draft)
@@ -213,8 +260,11 @@ func _side_panel(draft: DraftState) -> Control:
 	box.add_child(DraftKit.curve(DraftEngine.curve_of(cards), 132.0))
 	box.add_child(DraftKit.chip("Paths"))
 	var split: Dictionary = DraftEngine.path_split(cards)
-	var paths_row: HBoxContainer = UIKit.hbox(14)
+	# a flow, not a row: with three or four Paths the badges wrap instead of widening the panel (which pushed a card off the page)
+	var paths_row: HFlowContainer = HFlowContainer.new()
 	paths_row.name = "PathSplit"
+	paths_row.add_theme_constant_override("h_separation", 12)
+	paths_row.add_theme_constant_override("v_separation", 6)
 	box.add_child(paths_row)
 	for path: int in draft.paths:
 		paths_row.add_child(DraftKit.path_badge(path, 46.0, true, int(split.get(path, 0))))
@@ -567,6 +617,11 @@ func _begin_run() -> void:
 
 
 func _fill_done(draft: DraftState) -> void:
+	# Fable Nov 24 (Part 3): the result is the hub's standard pop-up (`DraftHubScreen.result_summary`); this table shows only the
+	# cards to choose the kept one from. There is nothing to choose: hand over to the pop-up at once.
+	if not DraftHubScreen.needs_keep(draft):
+		reopen.emit.call_deferred()
+		return
 	var pay: Dictionary = draft.result
 	var headline: String = ""
 	if draft.is_dungeon():
@@ -631,6 +686,8 @@ func _fill_done(draft: DraftState) -> void:
 func _keep(card_id: String) -> void:
 	if Session.draft_keep(card_id):
 		Audio.sfx(&"ui_confirm")
+		reopen.emit()  # on to the result pop-up, with the kept card shown as a card
+		return
 	_refresh()
 
 
@@ -667,6 +724,7 @@ func _fill_dungeon_pick(draft: DraftState) -> void:
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		view.modulate = Color.WHITE if (_chosen < 0 or index == _chosen) else Color(0.55, 0.55, 0.62)
 		tile.add_child(view)
+		tile.z_index = 2  # an option grows over the deck below it, never under
 		CardHoverZoom.set_height(tile, 640.0)
 		CardHoverZoom.attach(tile)
 		tile.pressed.connect(func() -> void:
@@ -695,14 +753,26 @@ func _fill_dungeon_pick(draft: DraftState) -> void:
 		tile.name = "Swap%d" % index
 		tile.flat = true
 		tile.custom_minimum_size = CardView.SIZE * SWAP_SCALE
-		tile.tooltip_text = "Swap %s out" % card.display_name
 		var view: Control = CardView.wrapped(card, SWAP_SCALE)
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		view.modulate = Color(1.0, 0.6, 0.55) if index == _replace else Color.WHITE
 		tile.add_child(view)
-		CardHoverZoom.attach(tile)
+		if index == _replace:
+			var out: Label = UIKit.label("leaves", &"", 20, GlassTheme.CAUTION, HORIZONTAL_ALIGNMENT_CENTER)
+			out.add_theme_font_override("font", UIStyle.font_bold())
+			out.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE, 4)
+			out.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tile.add_child(out)
+		# Fable Nov 24 (Part 3): the card under the pointer was grown in place, inside the scrolling list, so the list cut it off
+		# and its "Swap X out" tooltip lay across it. It is shown whole in a layer of its own now, with the label clear of it.
+		var words: String = "Swap %s out" % card.display_name
+		tile.mouse_entered.connect(func() -> void: show_swap_preview(card, tile, words))
+		tile.focus_entered.connect(func() -> void: show_swap_preview(card, tile, words))
+		tile.mouse_exited.connect(hide_swap_preview)
+		tile.focus_exited.connect(hide_swap_preview)
 		tile.pressed.connect(func() -> void:
 			_replace = -1 if _replace == index else index
+			hide_swap_preview()
 			_refresh())
 		grid.add_child(tile)
 	var row: HBoxContainer = UIKit.hbox(14)
@@ -720,6 +790,58 @@ func _fill_dungeon_pick(draft: DraftState) -> void:
 	row.add_child(take)
 	row.add_child(UIKit.filler())
 	row.add_child(DraftKit.button("Take nothing" if not trade else "Walk on", "PassPick", _pass_dungeon_pick, Vector2(300, 62)))
+
+
+## The large card of the deck card under the pointer: whole, on top of every other thing on the page, beside or above the small
+## card it belongs to and inside the screen; its "Swap X out" label on a plate of its own under it, never across it.
+func show_swap_preview(card: CardData, tile: Control, words: String) -> void:
+	hide_swap_preview()
+	if card == null or tile == null or not is_inside_tree():
+		return
+	var holder: Control = Control.new()
+	holder.name = "SwapPreview"
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.z_index = 140
+	holder.top_level = true
+	var view: Control = CardView.wrapped(card, SWAP_PREVIEW_SCALE)
+	view.name = "Card"
+	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(view)
+	var plate: PanelContainer = DraftKit.plaque(0.96, DraftKit.NIGHT, DraftKit.MARQUEE, 12, 8.0)
+	plate.name = "Plate"
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var label: Label = UIKit.label(words, &"", 26, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	label.name = "Words"
+	label.add_theme_font_override("font", UIStyle.font_bold())
+	plate.add_child(label)
+	holder.add_child(plate)
+	add_child(holder)
+	_swap_preview = holder
+	var card_size: Vector2 = CardView.SIZE * SWAP_PREVIEW_SCALE
+	var plate_height: float = 52.0
+	var screen: Vector2 = get_viewport_rect().size
+	var anchor: Rect2 = tile.get_global_rect()
+	# above the small card when there is room for the card and its plate, else to the side that has room
+	var spot: Vector2 = Vector2(anchor.get_center().x - card_size.x * 0.5, anchor.position.y - card_size.y - plate_height - 14.0)
+	if spot.y < 8.0:
+		spot.y = clampf(anchor.get_center().y - card_size.y * 0.5, 8.0, maxf(8.0, screen.y - card_size.y - plate_height - 14.0))
+		spot.x = anchor.end.x + 16.0 if anchor.end.x + 16.0 + card_size.x < screen.x - 8.0 else anchor.position.x - card_size.x - 16.0
+	spot.x = clampf(spot.x, 8.0, maxf(8.0, screen.x - card_size.x - 8.0))
+	holder.global_position = spot
+	holder.size = card_size + Vector2(0.0, plate_height + 6.0)
+	view.position = Vector2.ZERO
+	plate.position = Vector2(0.0, card_size.y + 6.0)
+	plate.custom_minimum_size = Vector2(card_size.x, plate_height)
+	plate.size = Vector2(card_size.x, plate_height)
+
+
+func hide_swap_preview() -> void:
+	if _swap_preview != null and is_instance_valid(_swap_preview):
+		_swap_preview.queue_free()
+	_swap_preview = null
+
+
+const SWAP_PREVIEW_SCALE: float = 0.9
 
 
 func _take_dungeon_pick() -> void:

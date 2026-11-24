@@ -858,5 +858,130 @@
 			"kind": "opening_hand",
 			"count": 1
 		}
+	],
+	"Maurice, Head of Security": [
+		{
+			"name": "The Velvet Rope",
+			"text": "Maurice starts with a 0/4 Velvet Rope with Wallflower. Nobody gets past the rope. Well. Not quickly.",
+			"icon": "lorc/manacles",
+			"kind": "starting_tokens",
+			"count": 1,
+			"token": "T-23",
+			"token_name": "Velvet Rope",
+			"token_stats": [
+				0,
+				4
+			],
+			"token_keywords": [
+				"wallflower"
+			]
+		}
+	],
+	"Tilda Tinsel, Confetti Cannoneer": [
+		{
+			"name": "Confetti Cannon",
+			"text": "Every third turn of hers the cannon goes off, and a 1/1 Confetti Critter lands on her side.",
+			"icon": "delapouite/party-popper",
+			"kind": "timed_summon",
+			"every": 3,
+			"token": "T-02",
+			"token_name": "Confetti Critter",
+			"token_stats": [
+				1,
+				1
+			],
+			"token_keywords": []
+		}
+	],
+	"Madame Darjeeling": [
+		{
+			"name": "A Proper Cup",
+			"text": "Madame Darjeeling gains 1 HP at the start of each of her turns. One does not rush tea.",
+			"icon": "delapouite/coffee-cup",
+			"kind": "start_of_turn_heal",
+			"amount": 1
+		}
+	],
+	"\"Honest\" Hal Lowball": [
+		{
+			"name": "The Ante",
+			"text": "Hal's table, Hal's ante: the first card you play each turn costs 1 more.",
+			"icon": "delapouite/coins-pile",
+			"kind": "first_card_cost",
+			"amount": 1,
+			"side": "player",
+			"harmful": true
+		}
+	],
+	"Trey Pickett": [
+		{
+			"name": "Opening Bid",
+			"text": "Trey draws an extra card on his first turn. He always gets the first look at the lot.",
+			"icon": "faithtoken/card-pick",
+			"kind": "first_turn_draw",
+			"count": 1
+		}
+	],
+	"Dizzy Lizzie, Carousel Queen": [
+		{
+			"name": "The Ride Never Stops",
+			"text": "Lizzie's units have Hustle: they come off the carousel already running.",
+			"icon": "lorc/flame-spin",
+			"kind": "keyword",
+			"keyword": "hustle"
+		}
+	],
+	"Professor Fineprint": [
+		{
+			"name": "Rule 1: No Running",
+			"text": "House rule, both sides: units enter exhausted. (His side.)",
+			"icon": "delapouite/book-cover",
+			"kind": "enter_exhausted"
+		},
+		{
+			"name": "Rule 1: No Running",
+			"text": "House rule, both sides: units enter exhausted. (Your side.)",
+			"icon": "delapouite/book-cover",
+			"kind": "enter_exhausted",
+			"side": "player",
+			"harmful": true
+		}
+	],
+	"Dex Shufflewick": [
+		{
+			"name": "House Edge",
+			"text": "Dex starts the duel with a Garbage and a Red Tape. The house always starts a little ahead.",
+			"icon": "delapouite/dice-six-faces-six",
+			"kind": "starting_resources",
+			"resource": "garbage",
+			"count": 1
+		},
+		{
+			"name": "House Edge",
+			"text": "Dex starts the duel with a Garbage and a Red Tape. The house always starts a little ahead.",
+			"icon": "delapouite/dice-six-faces-six",
+			"kind": "starting_resources",
+			"resource": "red_tape",
+			"count": 1
+		}
+	],
+	"Penny Sleeves": [
+		{
+			"name": "Mint Condition",
+			"text": "Everything in the shop is sleeved: Penny's units get +0/+1.",
+			"icon": "delapouite/shop",
+			"kind": "stat",
+			"atk": 0,
+			"def": 1
+		}
+	],
+	"Octavia Eightfold": [
+		{
+			"name": "The House Deals",
+			"text": "Octavia Eightfold draws an extra card each turn. The house always deals, darling.",
+			"icon": "lorc/scroll-unfurled",
+			"kind": "extra_draws",
+			"count": 1
+		}
 	]
 }

@@ -175,13 +175,13 @@ func test_zone_rivals_never_wear_the_strongest_pieces_but_the_win_three_tables_r
 	var strong_at_high: int = 0
 	for seed_value: int in [21, 22, 23, 24, 25]:
 		var zone: DraftState = DraftEngine.start(content, "zone:gourmand", [int(P.GOURMAND)] as Array[int], 12, seed_value)
-		var high: DraftState = DraftEngine.start(content, "high:1", [int(P.GOURMAND)] as Array[int], 12, seed_value)
+		var high: DraftState = DraftEngine.start(content, DraftArena.HIGH_ID, [int(P.GOURMAND)] as Array[int], 12, seed_value)
 		for index: int in range(3):
 			for id: String in DraftRivals.draft(content, zone, DraftRivals.AGGRESSIVE, index, [int(P.GOURMAND)] as Array[int], DraftRules.rival_equipment_cap(DraftArena.KIND_ZONE)).equipment:
 				assert_lte(int(content.equipment_piece(id).rarity), int(EquipmentData.Rarity.UNCOMMON), "a zone rival wears nothing above Uncommon (%s)" % id)
 			for id: String in DraftRivals.draft(content, high, DraftRivals.AGGRESSIVE, index, [int(P.GOURMAND)] as Array[int], DraftRules.rival_equipment_cap(DraftArena.KIND_HIGH)).equipment:
 				strong_at_high += 1 if int(content.equipment_piece(id).rarity) >= int(EquipmentData.Rarity.RARE) else 0
-	assert_gt(strong_at_high, 0, "at the win-three tables the rivals draft from the player's whole pool")
+	assert_gt(strong_at_high, 0, "at the High Rollers Draft the opponents draft from the player's whole pool")
 	# the player is never capped
 	var epic_offered: bool = false
 	for seed_value: int in range(40, 60):
@@ -217,8 +217,9 @@ func test_how_many_paths_a_draft_may_have_follows_the_story() -> void:
 func test_two_path_cards_are_drafted_once_a_zone_is_free() -> void:
 	_open_house()
 	_free(["beefcake"])
-	var pair: String = DraftArena.pair_ids()[0]
-	assert_true(Session.start_draft(pair, [] as Array[int]), "a two-Path table starts")
+	# Fable Nov 24: the two-Path tables are Classic Drafts with two Paths switched on
+	assert_false(Session.start_draft(DraftArena.pair_ids()[0], [] as Array[int]), "the separate two-Path tables are gone")
+	assert_true(Session.start_draft(DraftArena.CLASSIC_ID, [int(P.BEEFCAKE), int(P.GOURMAND)] as Array[int]), "a Classic Draft with two Paths starts")
 	assert_eq(Session.draft.paths.size(), 2)
 	assert_true(Session.draft.two_path_ok, "two-Path cards are in its pool")
 	assert_false(Session.draft.multi_path_ok)
@@ -281,21 +282,25 @@ func test_the_arena_quest_line_and_the_main_quest_are_registered() -> void:
 		assert_true(Condition.met(objective.condition, state), "done: %s" % objective.text)
 
 
-func test_a_win_three_table_ends_at_the_first_loss() -> void:
-	assert_eq(DraftChallenges.losses_to_finish("high:1"), 1)
+func test_the_win_three_tables_are_retired_and_high_rollers_ends_like_classic() -> void:
+	# Fable Nov 24: the three "win three" tables are the High Rollers Draft now - a Classic Draft for higher stakes (two losses)
+	assert_eq(DraftChallenges.losses_to_finish(DraftArena.HIGH_ID), 2)
 	assert_eq(DraftChallenges.losses_to_finish("zone:beefcake"), 2)
 	_open_house()
-	assert_true(Session.start_draft("high:1", [int(P.NECROCRAT)] as Array[int]))
+	Session.gold = 1000
+	assert_false(Session.start_draft("high:1", [int(P.NECROCRAT)] as Array[int]), "a retired table cannot be started")
+	assert_true(Session.start_draft(DraftArena.HIGH_ID, [int(P.NECROCRAT)] as Array[int]))
 	_pick_all()
 	assert_true(Session.draft_begin_run())
-	assert_true(DraftRun.record(Session.draft, false), "one loss and the run is over")
+	assert_false(DraftRun.record(Session.draft, false), "one loss: the run goes on")
+	assert_true(DraftRun.record(Session.draft, false), "two losses and it is over")
 	assert_true(Session.draft.is_finished())
 	assert_false(Session.draft.full_win())
 
 
 func test_table_rewards_pay_every_result_and_prismatic_packs_only_after_primm() -> void:
 	var paths: Array[int] = [int(P.BEEFCAKE), int(P.GOURMAND)]
-	var pair: String = DraftArena.pair_ids()[0]
+	var pair: String = DraftArena.CLASSIC_ID  # Fable Nov 24: the two-Path tables are Classic Drafts with two Paths switched on
 	for wins: int in range(0, 3):
 		var pay: Dictionary = DraftChallenges.reward(wins, false, false, pair, paths, false)
 		assert_gt(int(pay["gold"]), 0, "%d wins still pay" % wins)
@@ -311,7 +316,11 @@ func test_table_rewards_pay_every_result_and_prismatic_packs_only_after_primm() 
 		assert_ne(str(pack), PackRules.PRISMATIC_ID, "no Prismatic Pack before Primm")
 		assert_not_null(PackCatalog.find(str(pack)), "%s is a real pack" % str(pack))
 	var after: Dictionary = DraftChallenges.reward(3, true, true, pair, paths, true)
-	assert_true((after["packs"] as Array).has(PackRules.PRISMATIC_ID), "after Primm a two-Path table pays a Prismatic Pack")
+	assert_false((after["packs"] as Array).has(PackRules.PRISMATIC_ID), "Classic never pays a Prismatic Pack, after Primm either")
+	var high_after: Dictionary = DraftChallenges.reward(3, true, true, DraftArena.HIGH_ID, paths, true)
+	assert_true((high_after["packs"] as Array).has(PackRules.PRISMATIC_ID), "after Primm a High Rollers Draft pays a Prismatic Pack")
+	var high_before: Dictionary = DraftChallenges.reward(3, true, true, DraftArena.HIGH_ID, paths, false)
+	assert_false((high_before["packs"] as Array).has(PackRules.PRISMATIC_ID), "and a Gilded Pack before")
 	var zone: Dictionary = DraftChallenges.reward(3, true, false, "zone:beefcake", [int(P.BEEFCAKE)] as Array[int], true)
 	assert_eq(zone["packs"], [PackRules.path_pack_id(P.BEEFCAKE)], "a zone draft pays its Path Pack")
 
@@ -339,22 +348,24 @@ func test_the_shuffled_halls_has_its_eighteen_rooms_trey_and_octavia() -> void:
 	assert_eq(map.available().size(), 2, "two gates to choose from")
 	# every route walks six rooms to the boss (seven by the Counting Room)
 	var boss: DungeonMap.MapNode = map.boss()
-	assert_eq(boss.number, DraftRivals.HALLS_BOSS_ROOM)
+	assert_eq(boss.number, 19)
 	_start_halls()
-	var rivals: Array[Dictionary] = Session.draft.rivals
-	assert_eq(rivals.size(), 10, "seven tables, two champions, the boss")
-	assert_eq(str(DraftRivals.for_room(Session.draft, 8)["name"]), "Trey Pickett", "Trey holds the Auction Ring")
-	assert_true(bool(DraftRivals.for_room(Session.draft, 8)["champion"]))
-	assert_true((DraftRivals.for_room(Session.draft, 8)["recipe"] as Dictionary).has(DraftRivals.TREY_CARD), "with his own card in his deck")
-	var octavia: Dictionary = DraftRivals.for_room(Session.draft, DraftRivals.HALLS_BOSS_ROOM)
-	assert_eq(str(octavia["name"]), "Octavia Eightfold")
-	assert_true(bool(octavia["boss"]))
-	assert_eq((octavia["paths"] as Array).size(), 2, "she deals from two Paths")
-	assert_gt(int(octavia["hp"]), int(DraftRivals.for_room(Session.draft, 2)["hp"]), "and has more HP than a table drafter")
+	# Fable Nov 24: the Halls' cast is hand-made and static (tests/test_nov24_modes.gd): no rival is drafted for a room
+	assert_true(Session.draft.rivals.is_empty(), "a dungeon draft drafts no rivals")
+	var def: MainDungeonDef = MainDungeons.def(DraftArena.HALLS_DUNGEON)
+	assert_eq(DungeonBuilder.foe_name_of(plan, plan.node(8)), "Trey Pickett", "Trey holds the Auction Ring")
+	assert_true(def.foe("Trey Pickett").recipe.has(DraftRivals.TREY_CARD), "with his own card in his deck")
+	assert_eq(DungeonBuilder.foe_name_of(plan, plan.node(14)), "Dex Shufflewick", "Dex runs the Roulette Pit")
+	assert_eq(boss.enemy_name, "Octavia Eightfold")
+	assert_gt(def.foe("Octavia Eightfold").hp_vs_player, def.foe("Trey Pickett").hp_vs_player, "she has more HP than a champion")
+	assert_gt(def.foe("Trey Pickett").hp_vs_player, def.foe(DungeonBuilder.foe_name_of(plan, plan.node(2))).hp_vs_player, "and a champion more than a table dealer")
 	var names: Dictionary = {}
-	for rival: Dictionary in rivals:
-		assert_false(names.has(str(rival["name"])), "%s sits in one room only" % str(rival["name"]))
-		names[str(rival["name"])] = true
+	for node: DungeonMap.MapNode in map.nodes:
+		if not DungeonMap.is_battle_kind(node.kind):
+			continue
+		assert_false(names.has(node.enemy_name), "%s sits in one room only" % node.enemy_name)
+		names[node.enemy_name] = true
+	assert_eq(names.size(), 10, "seven tables, two champions, the boss")
 
 
 func test_a_dungeon_draft_swaps_the_hero_in_and_out_and_pays_once() -> void:
@@ -370,7 +381,7 @@ func test_a_dungeon_draft_swaps_the_hero_in_and_out_and_pays_once() -> void:
 	assert_eq(Session.counter("draft_halls_played"), 1, "walking in counts as playing the Halls")
 	assert_eq(Session.dungeon_key, DraftArena.HALLS_DUNGEON)
 	var gate: DungeonMap.MapNode = Session.dungeon_map.available()[0]
-	assert_eq(gate.enemy_name, str(DraftRivals.for_room(Session.draft, gate.number)["name"]), "the room shows the rival who waits there")
+	assert_true(["Maurice, Head of Security", "Tilda Tinsel, Confetti Cannoneer"].has(gate.enemy_name), "a gate's own dealer waits there (%s)" % gate.enemy_name)
 	# a fight won: no gold or XP of its own, the rival's equipment as badges, then three cards on the table
 	var context: BattleContext = Session.make_dungeon_battle(gate)
 	assert_true(context.draft)
@@ -378,8 +389,9 @@ func test_a_dungeon_draft_swaps_the_hero_in_and_out_and_pays_once() -> void:
 	assert_eq(context.board_key, "BB-SHUFFLE", "on the house table")
 	var badges: int = 0
 	for badge: RuleBadges.Badge in context.rule_badges:
-		badges += 1 if badge.side == RuleBadges.SIDE_ENEMY else 0
-	assert_eq(badges, (DraftRivals.for_room(Session.draft, gate.number)["equipment"] as Array).size())
+		badges += 1 if badge.side == RuleBadges.SIDE_ENEMY and badge.text.contains("wears this") else 0
+	assert_eq(badges, MainDungeons.equipment_of(content, DraftArena.HALLS_DUNGEON, gate.enemy_name).size(), "the dealer's fixed equipment shows as battle effects")
+	assert_gt(badges, 0)
 	context.game.winner = 0
 	var fight: Dictionary = Session.resolve_draft_dungeon_battle(context)
 	assert_false(bool(fight["over"]))
@@ -487,31 +499,31 @@ func test_the_trade_counter_takes_a_card_for_a_card() -> void:
 func test_dungeon_drafts_are_for_dungeons_cleared_with_your_own_deck() -> void:
 	_open_house()
 	assert_eq(Session.draft_dungeon_keys(), [] as Array[String], "nothing cleared, nothing to draft")
-	assert_false(Session.draft_start_problem(DraftArena.MYSTERY_ID, [int(P.BEEFCAKE)] as Array[int]).is_empty(), "Mystery Mini needs a cleared mini dungeon")
 	assert_false(Session.start_draft(DraftArena.dungeon_id("beefcake"), [int(P.BEEFCAKE)] as Array[int]))
 	_free(["beefcake"])
 	assert_true(Session.draft_dungeon_keys().has("beefcake"), "a freed zone's main dungeon")
-	assert_false(Session.draft_dungeon_keys().has(PrimmsCastleDungeon.ZONE_ID), "never the castle")
+	assert_false(Session.draft_dungeon_keys().has(PrimmsCastleDungeon.ZONE_ID), "the castle only once it is cleared (Fable Nov 24)")
 	var vault: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone("town")
 	Session.set_flag(Session.side_cleared_flag(vault))
-	assert_true(Session.draft_dungeon_keys().has(vault.id), "the vault, once cleared")
-	assert_eq(Session.draft_mystery_pool(), [vault.id] as Array[String])
-	# Mystery Mini lands on a cleared mini dungeon
+	assert_false(Session.draft_dungeon_keys().has(vault.id), "a mini dungeon is Mystery Mini's, not the Dungeon Draft's (Fable Nov 24)")
+	assert_true(Session.draft_mystery_pool().has(vault.id), "the vault, once cleared, is on the wheel")
+	# Mystery Mini lands on a mini dungeon of its pool
 	assert_true(Session.start_draft(DraftArena.MYSTERY_ID, [int(P.BEEFCAKE)] as Array[int]))
 	_pick_all()
 	assert_true(Session.draft_begin_run())
-	assert_eq(Session.draft.dungeon_key, vault.id)
+	assert_true(Session.draft_mystery_pool().has(Session.draft.dungeon_key))
+	Session.draft.dungeon_key = vault.id
 	assert_true(Session.prepare_draft_dungeon())
 	assert_eq(Session.dungeon_key, vault.id)
 	var first: DungeonMap.MapNode = Session.dungeon_map.available()[0]
 	var context: BattleContext = Session.make_dungeon_battle(first)
 	assert_true(context.draft)
 	assert_eq(context.xp_reward, 0)
-	# a clear pays the dungeon's own repeat rewards and an extra pack
+	# a clear pays the mini dungeon's gold and a pack (of its Path; a General Pack for the vault, which has none)
 	var gold: int = Session.gold
 	var pay: Dictionary = Session.resolve_draft_dungeon(true)
 	assert_gte(Session.gold - gold, DungeonBuilder.SIDE_REPEAT_GOLD)
-	assert_gte((pay["packs"] as Array).size(), 2, "the dungeon's own pack and the extra one")
+	assert_eq((pay["packs"] as Array).size(), 1, "one pack: the dungeon's Path's")
 	assert_true(bool(pay["keep_card"]))
 	Session.close_draft()
 	# a zone's main dungeon with a drafted deck
@@ -525,13 +537,18 @@ func test_dungeon_drafts_are_for_dungeons_cleared_with_your_own_deck() -> void:
 
 
 func test_a_chest_in_a_draft_dungeon_holds_gold_only() -> void:
-	_start_halls()
+	# Fable Nov 24: the Halls' Counting Room is the Counting Halls now (a cash-out, not a chest); a zone dungeon has a chest
+	_open_house()
+	_free(["beefcake"])
+	assert_true(Session.start_draft(DraftArena.dungeon_id("beefcake"), [int(P.BEEFCAKE)] as Array[int]))
+	_pick_all()
+	assert_true(Session.draft_begin_run())
 	Session.prepare_draft_dungeon()
 	var room: DungeonMap.MapNode = null
 	for node: DungeonMap.MapNode in Session.dungeon_map.nodes:
 		if node.kind == DungeonMap.Kind.TREASURE:
 			room = node
-	assert_not_null(room, "the Counting Room")
+	assert_not_null(room, "the dungeon's treasure room")
 	var items: int = Session.profile.owned_items.size()
 	var granted: Dictionary = Session.apply_treasure(room)
 	assert_true(granted.has("gold"))

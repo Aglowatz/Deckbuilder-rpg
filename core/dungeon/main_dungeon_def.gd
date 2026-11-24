@@ -15,6 +15,15 @@ class Foe:
 	var ai_name: String = "Balanced"
 	var recipe: Dictionary = {}
 	var icon: String = "lorc/imp"
+	## Fable Nov 24 (the Shuffled Halls' hand-made encounters): the pieces of equipment the foe always wears (ids), how well it
+	## plays ("normal" / "elite" / "boss"; "" = by its room: battle, elite, boss), and its HP measured from the player's base HP
+	## in a dungeon played as a draft (`has_hp_vs_player`: the room's HP is the player's base HP plus `hp_vs_player`).
+	var equipment: Array[String] = []
+	var skill: String = ""
+	var hp_vs_player: int = 0
+	var has_hp_vs_player: bool = false
+	## The Paths of its deck in words ("Gourmand and Beefcake"), for the map's room card.
+	var paths_text: String = ""
 
 
 var dungeon_id: String = ""

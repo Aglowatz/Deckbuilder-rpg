@@ -18,6 +18,9 @@ var level: int = 1
 ## Two-Path cards may be offered (a zone is freed and the draft has two Paths or more); three- and four-Path cards (Primm defeated).
 var two_path_ok: bool = false
 var multi_path_ok: bool = false
+## Fable Nov 24: how many Paths the story allowed when the draft began (1, 2 or 4). The opponents of a Classic or High Rollers
+## Draft take their number of Paths from this, never from the player's choice. 0 in a save from before: the old rule then.
+var max_paths: int = 0
 var phase: String = PHASE_PICK
 ## Index into `DraftEngine.schedule()`.
 var step: int = 0
@@ -77,7 +80,7 @@ func fights_played() -> int:
 
 func to_dict() -> Dictionary:
 	return {
-		"challenge_id": challenge_id, "paths": paths.duplicate(), "seed": seed, "level": level, "two_path_ok": two_path_ok, "multi_path_ok": multi_path_ok,
+		"challenge_id": challenge_id, "paths": paths.duplicate(), "seed": seed, "level": level, "two_path_ok": two_path_ok, "multi_path_ok": multi_path_ok, "max_paths": max_paths,
 		"phase": phase, "step": step, "cards": cards.duplicate(), "equipment": equipment.duplicate(), "items": items.duplicate(), "offer": offer.duplicate(true),
 		"rerolls_left": rerolls_left, "rerolled": rerolled, "bench": bench.duplicate(), "basics": _string_keys(basics), "wins": wins, "losses": losses,
 		"rivals": rivals.duplicate(true), "fee_paid": fee_paid, "rewarded": rewarded, "kept_card": kept_card, "result": result.duplicate(true),
@@ -96,6 +99,7 @@ static func from_dict(data: Dictionary) -> DraftState:
 	state.level = int(data.get("level", 1))
 	state.two_path_ok = bool(data.get("two_path_ok", false))
 	state.multi_path_ok = bool(data.get("multi_path_ok", false))
+	state.max_paths = int(data.get("max_paths", 0))
 	state.phase = str(data.get("phase", PHASE_PICK))
 	state.step = int(data.get("step", 0))
 	for value: Variant in data.get("cards", []) as Array:

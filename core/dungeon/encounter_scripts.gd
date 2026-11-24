@@ -461,12 +461,15 @@ static func _resolve(state: GameState, run: Run, effect: Dictionary) -> void:
 				for modifier: Modifier in rule.modifiers:
 					target.modifiers.add(modifier)
 		"remove_rule":
+			# Fable Nov 24: "side": "player" strikes the rule from YOUR seat (Professor Fineprint's amendment takes a house rule
+			# off both players)
 			var label: String = str(effect.get("name", ""))
+			var holder: PlayerState = state.players[foe] if str(effect.get("side", "enemy")) == "player" else player
 			var kept: Array[Modifier] = []
-			for modifier: Modifier in player.modifiers.modifiers:
+			for modifier: Modifier in holder.modifiers.modifiers:
 				if modifier.label != label:
 					kept.append(modifier)
-			player.modifiers.modifiers = kept
+			holder.modifiers.modifiers = kept
 		"summon":
 			var token: CardData = EncounterModifiers._token_of(effect, run.key)
 			if token != null:
@@ -533,8 +536,10 @@ static func _resolve(state: GameState, run: Run, effect: Dictionary) -> void:
 		"concede":
 			# Fable Nov 21 castle (Part 3): the foe gives up - the duel is won. "if_foe_controls": only while you still control a
 			# card with that id (the trainees you were holding the line for).
+			# Fable Nov 24: "if_foe_units_at_least": only while you control that many units ("Honest" Hal folds to a full table).
 			var needed: String = str(effect.get("if_foe_controls", ""))
-			if needed.is_empty() or _controls(state.players[foe], needed):
+			var units_needed: int = int(effect.get("if_foe_units_at_least", 0))
+			if (needed.is_empty() or _controls(state.players[foe], needed)) and (units_needed <= 0 or _unit_count(state.players[foe]) >= units_needed):
 				state.end_by_script(foe)
 		"defeat_foe":
 			# ... and the other way round: time is up, you lose the duel (the appeal lapses).

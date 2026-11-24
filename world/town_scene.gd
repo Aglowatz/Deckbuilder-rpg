@@ -3585,7 +3585,7 @@ func _shuffle_house_closed_popup() -> void:
 	var lines: Array[String] = [
 		"It opens when you have won all four of Trey Pickett's zone drafts (you have won %d of 4), or when three zones are free (%d of 3)." % [won, mini(freed, DraftArena.ZONES_TO_OPEN)],
 		"Trey keeps his draft cart near the entrance of every Path zone.",
-		"This is the place: the striped house on the north-east corner of Crosspath's square. It is marked on your map.",
+		"This is the place: the big striped house on the lawn north-east of Crosspath's square. It is marked on your map.",
 	]
 	var popup: AnnouncementScreen = AnnouncementScreen.make("The Shuffle House", "The doors are locked and the marquee is dark. It isn't open yet.", lines, UIStyle.GOLD)
 	popup.name = "ShuffleHouseClosed"

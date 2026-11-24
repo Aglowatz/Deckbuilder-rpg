@@ -280,7 +280,7 @@ func node_known(node: DungeonMap.MapNode) -> bool:
 
 
 ## Fable Nov 21 castle: the dungeons whose every room is shown from the start.
-const ROUTE_PLANNING: Array[String] = ["D-PC", "D-SHUFFLE"]  # Fable big pass Nov 23: the Shuffled Halls' six columns are a route to plan
+const ROUTE_PLANNING: Array[String] = ["D-PC"]  # Fable Nov 24 (Part 4): the Shuffled Halls show "?" for a room never stepped on, like the other dungeons
 
 
 ## Fix pass Nov 7 (item 14): the dungeons whose rooms show their type once a neighbouring room is cleared.
@@ -797,6 +797,10 @@ func _on_modal_finished(node_id: int) -> void:
 		_modal.queue_free()
 		_modal = null
 	map.complete(node_id)
+	# Fable Nov 24 (Part 4): the Counting Halls - the player cashed out, so the run ends here (part of the prize, not a win)
+	if Session.draft_dungeon_active and Session.draft_cash_out_pending:
+		Session.finish_draft_cash_out()
+		return
 	Session.save_game()
 	if run.failed:
 		Session.abandon_run("You were carried out of %s. Your collection is safe." % map.dungeon_name)

@@ -99,9 +99,48 @@ static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode, key: 
 	setup.starting_hp = map_node.enemy_hp
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
+	# Fable Nov 24: a foe's fixed equipment (the Shuffled Halls' dealers) rides on its seat as rule sources
+	for piece: EquipmentData in equipment_of(content, key, map_node.enemy_name):
+		setup.modifiers.add_source(piece)
 	# Rebalance Part E: the foe's one-sided encounter rules (data/encounters/modifiers.json), keyed by its name.
 	EncounterModifiers.apply_to_enemy(setup, map_node.enemy_name)
 	return setup
+
+
+## The pieces of equipment a foe always wears (empty for nearly every foe: the Shuffled Halls' hand-made dealers have them).
+static func equipment_of(content: ContentSet, key: String, enemy_name: String) -> Array[EquipmentData]:
+	var result: Array[EquipmentData] = []
+	var fighter: MainDungeonDef.Foe = def(key).foe(enemy_name) if has_def(key) else null
+	if fighter == null or content == null:
+		return result
+	for id: String in fighter.equipment:
+		var piece: EquipmentData = content.equipment_piece(id)
+		if piece != null:
+			result.append(piece)
+	return result
+
+
+## What a foe wears, as badges under its name in the fight (like a draft rival's equipment).
+static func equipment_badges(content: ContentSet, key: String, enemy_name: String) -> Array[RuleBadges.Badge]:
+	var result: Array[RuleBadges.Badge] = []
+	for piece: EquipmentData in equipment_of(content, key, enemy_name):
+		var badge: RuleBadges.Badge = RuleBadges.special(piece.source_name, "%s wears this: %s" % [enemy_name, piece.description], "lorc/gem-pendant", piece.modifiers)
+		badge.side = RuleBadges.SIDE_ENEMY
+		result.append(badge)
+	return result
+
+
+## How well a foe plays when its block says so ("skill"), else `fallback` (by its room: battle, elite, boss).
+static func skill_of(key: String, enemy_name: String, fallback: AIPlayer.Skill) -> AIPlayer.Skill:
+	var fighter: MainDungeonDef.Foe = def(key).foe(enemy_name) if has_def(key) else null
+	match fighter.skill if fighter != null else "":
+		"normal":
+			return AIPlayer.Skill.NORMAL
+		"elite":
+			return AIPlayer.Skill.ELITE
+		"boss":
+			return AIPlayer.Skill.BOSS
+	return fallback
 
 
 ## The battle icon of a foe (a game-icons key) for the battle screen's portrait.

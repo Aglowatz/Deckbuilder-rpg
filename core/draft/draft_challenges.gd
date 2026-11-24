@@ -3,9 +3,9 @@ extends RefCounted
 ## Draft mode: what can be drafted, and what a finished run pays.
 ##   - A **zone draft** at Trey Pickett's cart in each of the four Path zones (that zone's Path plus Pathless). Since the owner's
 ##     decisions of Nov 23 his cart offers ONLY that zone's draft.
-##   - Everything else is the Shuffle House's (`DraftArena`): the Open Draft, the two-, three- and four-Path challenges, the harder
-##     win-three tables, the Shuffled Halls, Mystery Mini and the dungeon drafts.
-## Every draft is free (Nov 23). Flags: `draft_won:<id>` once a challenge was won (three wins, or its dungeon cleared); counters:
+##   - Everything else is the Shuffle House's (`DraftArena`): since Nov 24 its four modes (Classic Draft with the Draft of the Day,
+##     Dungeon Draft, Mystery Mini, High Rollers Draft) and the Shuffled Halls.
+## Every draft is free (Nov 23) but High Rollers, which has an entry fee (Nov 24; `DraftRules.entry_fee_for`). Flags: `draft_won:<id>` once a challenge was won (three wins, or its dungeon cleared); counters:
 ## `draft_attempts:<id>`.
 
 const ZONES: Array[String] = ["beefcake", "gourmand", "necrocrat", "refusemancer"]
@@ -42,7 +42,7 @@ static func exists(challenge_id: String) -> bool:
 		DraftArena.KIND_TRIO:
 			return DraftArena.trio_ids().has(challenge_id)
 		DraftArena.KIND_HIGH:
-			return DraftArena.high_ids().has(challenge_id)
+			return challenge_id == DraftArena.HIGH_ID or DraftArena.high_ids().has(challenge_id)
 		DraftArena.KIND_DUNGEON:
 			return MainDungeons.has_def(DraftArena.dungeon_key_of(challenge_id))
 	return false
@@ -96,7 +96,8 @@ static func max_open_paths(flags: Dictionary) -> int:
 	return DraftArena.max_paths(flags)
 
 
-## Three wins finish a table run; the losses that end it depend on the table (two; one at the harder win-three tables).
+## Three wins finish a table run; the losses that end it are the rules' (two everywhere since Nov 24: High Rollers is a Classic
+## Draft for higher stakes, not a no-loss table; `high.losses_to_finish` in the rules file can change that).
 static func wins_to_finish(_challenge_id: String) -> int:
 	return DraftRules.wins_to_finish()
 
@@ -107,8 +108,12 @@ static func losses_to_finish(challenge_id: String) -> int:
 	return DraftRules.losses_to_finish()
 
 
-## The entry fee of the next attempt: nothing (every draft is free since Nov 23; the rules file can bring a fee back).
+## The entry fee of the next attempt: High Rollers has its own, every time (Nov 24: 200 gold by default, in the rules file); every
+## other draft is free since Nov 23 (the rules file can bring a general fee back).
 static func fee(challenge_id: String, counters: Dictionary) -> int:
+	var kind: String = DraftArena.kind_of(challenge_id)
+	if DraftRules.has_own_fee(kind):
+		return DraftRules.entry_fee_for(kind)
 	if DraftRules.entry_fee() <= 0:
 		return 0
 	if DraftRules.first_attempt_free() and int(counters.get(attempts_counter(challenge_id), 0)) <= 0:
@@ -120,6 +125,8 @@ static func fee(challenge_id: String, counters: Dictionary) -> int:
 static func start_problem(challenge_id: String, paths: Array[int], flags: Dictionary) -> String:
 	if not exists(challenge_id):
 		return "There is no such draft."
+	if DraftArena.is_retired(challenge_id):
+		return "That table has closed. Choose those Paths in a Classic Draft or a High Rollers Draft."
 	var locked: String = DraftArena.locked_reason(challenge_id, flags)
 	if not locked.is_empty():
 		return locked
@@ -159,7 +166,7 @@ static func pack_id(word: String, paths: Array[int], after_primm: bool, pick: in
 ## challenge adds the first-win bonus and (for most arena tables) a second pack.
 ## {"gold", "xp", "first_win": bool, "keep_card": bool, "packs": [pack ids]}.
 static func reward(wins: int, full_win: bool, first_win: bool, challenge_id: String = "", paths: Array[int] = [], after_primm: bool = false, pick: int = 0) -> Dictionary:
-	var base: Dictionary = DraftRules.replay_reward(wins)
+	var base: Dictionary = DraftRules.replay_reward(wins, DraftArena.kind_of(challenge_id))
 	var packs: Array[String] = []
 	var result: Dictionary = {"gold": int(base["gold"]), "xp": int(base["xp"]), "first_win": full_win and first_win, "keep_card": full_win, "packs": packs}
 	if not full_win:

@@ -1,5 +1,5 @@
 {
-	"_about": "Draft mode (docs/design/draft_mode.md). Every number of the mode lives here; core/draft/draft_rules.gd reads it. The owner tunes these; nothing in code repeats them. Fable big pass Nov 23: free entry, the 35-card minimum with free basics, the equipment removals and variety, the arena's rewards, the dungeon drafts.",
+	"_about": "Draft mode (docs/design/draft_mode.md). Every number of the mode lives here; core/draft/draft_rules.gd reads it. The owner tunes these; nothing in code repeats them. Fable big pass Nov 23: free entry, the 35-card minimum with free basics, the equipment removals and variety, the dungeon drafts. Fable Nov 24: the Shuffle House's four modes (Classic, Dungeon, Mystery Mini, High Rollers with its entry fee) and the static Shuffled Halls.",
 	"card_picks": 25,
 	"options_per_pick": 3,
 	"high_rarity_every": 5,
@@ -57,7 +57,7 @@
 	"banned_cards": [],
 	"_banned": "The ban lists of draft mode. Equipment (the owner's rules of Nov 23): Gotta-Go Galoshes; every piece that damages enemy units or gives them minus toughness (the Flamethrower, the Thorned Loincloth, Clipwell's Golden Shears, the Gladiator's Net); every piece that only works outside battle (Hall Pass Slippers, the Participation Trophy, the Galoshes). tests/test_draft_big_pass.gd checks that no piece left in the pool breaks these rules. Items and cards: empty; the sims propose (docs/design/draft_balance.md), the owner decides.",
 	"rewards": {
-		"_about": "Gold and XP for a table run by its wins (0 to 3). A full win (3 wins) also pays a pack and lets the player keep one drafted card; the first full win of each challenge pays the first-win bonus on top. Packs: 'path' = the Path Pack of one of the draft's Paths, 'gilded' = a Gilded Pack of one of them, 'prismatic' only after Primm (before that it turns into 'gilded').",
+		"_about": "Gold and XP for a table run by its wins (0 to 3): 'replay', or the kind's own table in 'replay_by_kind' (High Rollers pays more than Classic). A full win (3 wins) also pays a pack and lets the player keep one drafted card; the first full win of each challenge pays the first-win bonus on top. Packs: 'path' = the Path Pack of one of the draft's Paths, 'gilded' = a Gilded Pack of one of them, 'prismatic' only after Primm (before that it turns into 'gilded'). Classic Draft (open) and the Draft of the Day never pay a Prismatic Pack (the owner, Nov 24).",
 		"replay": {
 			"gold": [
 				20,
@@ -81,26 +81,23 @@
 			"zone": "path",
 			"open": "path",
 			"pair": "path",
-			"trio": "prismatic",
-			"quad": "prismatic",
-			"high": "gilded"
+			"trio": "path",
+			"quad": "path",
+			"high": "prismatic"
 		},
 		"first_win_pack": {
 			"daily": "gilded",
 			"zone": "",
 			"open": "gilded",
 			"pair": "gilded",
-			"trio": "prismatic",
-			"quad": "prismatic",
+			"trio": "gilded",
+			"quad": "gilded",
 			"high": "gilded"
 		},
-		"after_primm_full_win_pack": {
-			"pair": "prismatic",
-			"high": "prismatic"
-		},
-		"_after_primm_full_win_pack": "After Primm, these kinds pay a Prismatic Pack for a full win instead (two-Path tables and the win-three tables become a source of multi-Path cards).",
+		"after_primm_full_win_pack": {},
+		"_after_primm_full_win_pack": "Empty since Nov 24: the kinds that turned to Prismatic Packs after Primm (the two-Path and win-three tables) are gone; High Rollers pays 'prismatic' outright.",
 		"dungeon": {
-			"_about": "A dungeon cleared with a drafted deck pays MORE than a normal clear: the dungeon's own repeat-clear rewards (gold and its pack), an extra pack, and one card of the draft deck to keep. A run that ends early pays consolation gold per room won.",
+			"_about": "A dungeon cleared with a drafted deck pays MORE than a normal clear: the dungeon's own repeat-clear rewards (gold and its pack), an extra pack (a Prismatic Pack after Primm: the Dungeon Draft is the Prismatic mode), and one card of the draft deck to keep. A run that ends early pays consolation gold per room won. Mystery Mini pays the mini dungeon's gold and a pack of that dungeon's Path instead (mystery_pathless_pack when it has no Path). halls_cash_out: what cashing out at the Counting Halls pays on top of the gold per fight won (part of the prize; it is not a win).",
 			"extra_pack": "gilded_general",
 			"extra_pack_after_primm": "prismatic",
 			"gold_per_fight_won": 15,
@@ -109,8 +106,31 @@
 			"halls_clear_xp": 160,
 			"halls_first_clear_gold": 300,
 			"halls_first_clear_xp": 300,
-			"halls_first_clear_pack": "gilded_general"
-		}
+			"halls_first_clear_pack": "gilded_general",
+			"halls_cash_out": {
+				"gold": 120,
+				"xp": 80,
+				"pack": "general_1"
+			},
+			"mystery_pathless_pack": "general_1"
+		},
+		"replay_by_kind": {
+			"high": {
+				"gold": [
+					60,
+					140,
+					260,
+					480
+				],
+				"xp": [
+					20,
+					45,
+					80,
+					140
+				]
+			}
+		},
+		"_replay_by_kind": "High Rollers against its 200 gold fee: 0 wins 60 gold back, 1 win 140, 2 wins 260, 3 wins 480 and a Prismatic Pack (Classic: 20 / 45 / 80 / 140 and a Path Pack). Checked with tools/draft_economy.py (docs/design/sim/nov24/modes_economy.md)."
 	},
 	"rivals": {
 		"_about": "Rival drafters: an existing NPC's name and portrait, a drafting personality, the AI profile that plays the deck. hp_bonus is the fudge when a sim shows a rival too weak or too strong.",
@@ -122,24 +142,39 @@
 		"draft_equipment": true,
 		"_draft_equipment": "Rivals draft five pieces of equipment like the player (the rarest of each three). Without it a sensible player won 91 % of fights.",
 		"random_paths": true,
-		"_random_paths": "Each rival drafts random Paths, as many as the player's draft has (any Path, the player's included): the owner, Nov 23."
+		"_random_paths": "Each rival drafts random Paths (any Path, the player's included). In a zone draft as many as the player's draft has; at the Shuffle House a random number (path_count_weights).",
+		"path_count_weights": {
+			"1": [
+				100
+			],
+			"2": [
+				50,
+				50
+			],
+			"4": [
+				35,
+				45,
+				20
+			]
+		},
+		"_path_count_weights": "How many Paths an opponent at the Shuffle House's tables drafts, by how many the story has opened (1, 2 or 4): the weights of one Path, two, three. Never the player's own choice (the owner, Nov 24); never four (a four-Path opponent deck stumbles over its Infrastructure)."
 	},
 	"_equipment_rarity_weights": "Weak pieces are common and strong ones rare (the owner, Nov 23). A piece already offered in this draft is not offered again unless its slot runs out; a piece that only helps a Path the draft does not have is never offered.",
 	"_deck_drafted_cards": "The default deck (and every rival's): 20 of the 25 picks and 15 basics. The player may play up to all 25 and sets the number of each basic Infrastructure.",
 	"deck_min_cards": 35,
 	"deck_max_basics": 25,
 	"_deck_min_cards": "The player's draft deck needs at least deck_min_cards cards, Infrastructure included, and may hold at most deck_max_basics basic Infrastructure.",
-	"_entry_fee": "Every draft is free (the owner, Nov 23; it was 100 gold after the first attempt).",
+	"_entry_fee": "Every draft is free (the owner, Nov 23; it was 100 gold after the first attempt), except the kinds named in entry_fees.",
 	"rival_equipment_cap": {
 		"default": "uncommon",
 		"high": "legendary"
 	},
-	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge (the owner, Nov 23: in zone drafts the player may get the powerful pieces, the AI opponents may not): Uncommon everywhere, so the Epic and Legendary pieces are the player's alone, except the arena's harder win-three tables (high), where rivals draft from the player's whole pool. The cap alone leaves the rivals too soft (docs/design/sim/nov23/): rivals.hp_bonus makes up for it.",
+	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge: Uncommon everywhere (the Epic and Legendary pieces are the player's alone), except the High Rollers Draft (high), where the opponents can get every piece of equipment the player can. The cap alone leaves the rivals too soft: rivals.hp_bonus makes up for it.",
 	"high": {
-		"losses_to_finish": 1,
+		"losses_to_finish": 2,
 		"hp_bonus": 0
 	},
-	"_high": "The arena's harder win-three tables: one loss ends the run.",
+	"_high": "The High Rollers Draft (Nov 24): a Classic Draft for higher stakes, so two losses end it like Classic (the win-three tables of Nov 23 ended at one).",
 	"dungeon": {
 		"_about": "Dungeon drafts: one HP pool (the base HP of the player's level), the run ends at the first loss, and after each fight won the player picks one of three cards: add it, swap it for a card of the deck, or pass. Champions (elites) and the boss offer the top two rarities.",
 		"pick_options": 3,
@@ -148,13 +183,14 @@
 			"default": 100
 		},
 		"_foe_hp_percent": "Rebalance for drafted decks: every foe's HP in a dungeon played as a draft, in percent, by dungeon key ('default' for the rest). Set from the sims (docs/design/draft_balance.md).",
-		"halls": {
-			"fight_hp_bonus": -11,
-			"fight_skill": "normal",
-			"champion_hp_bonus": -4,
-			"champion_skill": "elite",
-			"boss_hp_bonus": 6,
-			"_about": "The Shuffled Halls, measured from the player's base HP (the zone tables' rivals.hp_bonus does not apply here: the fights come one after another on one pool of HP). Its regular rooms are rival drafters at base HP plus fight_hp_bonus who play at fight_skill; Trey Pickett and the other champion get champion_hp_bonus and champion_skill; Octavia Eightfold boss_hp_bonus, boss-level play and a card more each turn. Tuned with the draft smoke's careful and greedy routes (docs/design/sim/nov23/halls.md)."
-		}
-	}
+		"large_extra": [
+			"S-BEEF"
+		],
+		"_large_extra": "Dungeons the Dungeon Draft lists although they have three encounters (the owner's list of Nov 24 names Mount Swolympus). Every other three-encounter dungeon is Mystery Mini's.",
+		"_halls": "The Shuffled Halls' encounters are hand-made and static since Nov 24 (data/dungeons/dungeon_content.json, D-SHUFFLE; tools/nov24_shuffled_halls.py): each dealer's deck, equipment, skill and HP (measured from the player's base HP: hp_vs_player) are in its own block."
+	},
+	"entry_fees": {
+		"high": 200
+	},
+	"_entry_fees": "A kind of challenge with a fee of its own, charged on every attempt (the general entry_fee and first_attempt_free are not for it). high = the High Rollers Draft: 200 gold (the owner's default of Nov 24; an owner decision)."
 }

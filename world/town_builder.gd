@@ -451,6 +451,8 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 				add_glow(shop.door_spot(), 1.4, Color("ffb45a"), 0.08)
 			if shop.key == TownShuffleHouse.KEY:
 				TownShuffleHouse.build(root, obstacles)  # Fable big pass Nov 23
+				# Fable Nov 24 (Part 1): the round house's weight on the grass (the same soft skirt every kit building has)
+				add_ao_footprint(shop.center + Vector3(0.0, 0.0, -TownShuffleHouse.WIDTH * 0.25), Vector2(TownShuffleHouse.WIDTH * 0.98, TownShuffleHouse.WIDTH * 0.56), 0.0, 0.5, 1.5)
 				add_glow(shop.door_spot(), 1.8, Color("ffc56a"), 0.1)
 			if shop.key == "well":
 				var well_cluster: Node3D = PropClusters.make("well_corner")
@@ -827,6 +829,8 @@ func _keeps_clear(pos: Vector3) -> bool:
 		return true  # Fable Nov 16c (Part 2): no tree on the approach to the Dump's travel spot
 	if TownLayout.is_paved(pos, 0.8) or TownLayout.in_footprint(pos, 1.0) or _in_outskirt(pos, 1.0):
 		return true
+	if hub_land and TownShuffleHouse.in_forecourt(pos):
+		return true  # Fable Nov 24 (Part 1): the Shuffle House's lawn stays open, so the house is seen from the square and the path
 	if TownLayout.ALLEY.grow(1.2).has_point(Vector2(pos.x, pos.z)) or not TownBounds.contains(pos) or TownBounds.in_lake(pos):
 		return true
 	return TownBounds.lane_distance(pos) < TownBounds.LANE_WIDTH * 0.5 + 0.8

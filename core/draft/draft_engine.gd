@@ -191,6 +191,17 @@ static func card_offer(content: ContentSet, state: DraftState, high: bool) -> Ar
 		var card: CardData = _draw_card(pool, chosen, picked, state, high, rng)
 		if card != null:
 			chosen.append(card)
+	# Fable Nov 24 (Part 3): always three. A slot whose rarity had no card left (a small pool's Epic slot) takes any card the
+	# pool still has; the offer is short only when the pool itself has fewer cards than that (the screen says so).
+	while chosen.size() < DraftRules.options():
+		var rest: Array[CardData] = []
+		for card: CardData in pool:
+			if not chosen.has(card):
+				rest.append(card)
+		var filler: CardData = _weighted_by_fit(rest, picked, state, rng)
+		if filler == null:
+			break
+		chosen.append(filler)
 	if not chosen.is_empty() and not _has_playable(chosen):
 		var units: Array[CardData] = []
 		for card: CardData in pool:
@@ -610,12 +621,17 @@ static func make_trade_offer(content: ContentSet, state: DraftState, room: int) 
 			fine.append(card)
 	var chosen: Array[String] = []
 	var count: int = int(DraftRules.dungeon().get("trade_options", 3))
-	for source: Array[CardData] in [multi, fine]:
+	var rest: Array[CardData] = []
+	for card: CardData in card_pool(content, state):
+		if not multi.has(card) and not fine.has(card):
+			rest.append(card)
+	for source: Array[CardData] in [multi, fine, rest]:
 		var pool: Array[CardData] = source.duplicate()
 		while chosen.size() < count and not pool.is_empty():
 			var card: CardData = _weighted_by_fit(pool, picked, state, rng)
 			pool.erase(card)
-			chosen.append(card.id)
+			if not chosen.has(card.id):
+				chosen.append(card.id)
 	state.offer = {"kind": KIND_DUNGEON_TRADE, "room": room, "options": chosen} if not chosen.is_empty() else {}
 
 

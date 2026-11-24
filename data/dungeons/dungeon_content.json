@@ -1932,7 +1932,7 @@
 			}
 		},
 		"D-SHUFFLE": {
-			"_note": "Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md): the Shuffled Halls, played only as a draft. The fight rooms are held by rival drafters dealt in when the run starts (DraftRivals.build_halls; the names below are stand-ins for the map's data), Trey Pickett holds the Auction Ring (8), Dex Shufflewick the Roulette Pit (14) and Octavia Eightfold the Big Wheel (19). `draft_rooms`: the first choice of these rooms puts a draft offer on the table (trade = the Trade Counter: a multi-Path card for a card of the deck; vault = a card of the top two rarities).",
+			"_note": "Fable Nov 24 (Part 4): the Shuffled Halls, played only as a draft, with hand-made STATIC encounters (tools/nov24_shuffled_halls.py). Every foe has its exact deck (\"cards\"), its fixed equipment, its skill and its rules (data/encounters/modifiers.json, encounter_scripts.json), in its own Paths whatever the player drafted. \"hp_vs_player\": the foe's HP is the player's base HP plus this (a draft is played at the base HP of the player's level). Trey Pickett holds the Auction Ring (8), Dex Shufflewick the Roulette Pit (14), Octavia Eightfold the Big Wheel (19). `draft_rooms`: trade = the Trade Counter, vault = a card of the top two rarities, cashout = the Counting Halls (the optional early exit: part of the prize, not a win).",
 			"defaults": {
 				"archetypes": [
 					"colorless_regime"
@@ -1946,65 +1946,323 @@
 				"infra": 15
 			},
 			"boss": {
+				"name": "Octavia Eightfold",
 				"deck": "colorless_regime",
 				"extra": {},
 				"hp": 32,
-				"icon": "delapouite/up-card",
-				"infra": 15,
-				"setup_turns": 0
+				"hp_vs_player": 4,
+				"icon": "delapouite/carnival-mask",
+				"infra": 16,
+				"setup_turns": 1,
+				"ai": "Balanced",
+				"skill": "boss",
+				"paths": "all four Paths",
+				"equipment": [
+					"dealers_visor",
+					"pathwork_waistcoat"
+				],
+				"cards": {
+					"BAS-B": 2,
+					"BAS-G": 2,
+					"BAS-N": 2,
+					"BAS-R": 2,
+					"INF-05": 1,
+					"INF-06": 1,
+					"INF-07": 1,
+					"INF-08": 1,
+					"INF-09": 1,
+					"INF-10": 1,
+					"INF-11": 2,
+					"P4-04": 1,
+					"C-29": 1,
+					"C-24": 2,
+					"GB-01": 2,
+					"GN-02": 2,
+					"NR-01": 2,
+					"BR-02": 2,
+					"GR-03": 1,
+					"NB-02": 2,
+					"GN-17": 1,
+					"GN-09": 1,
+					"NR-10": 1,
+					"C-38": 1,
+					"BR-11": 1
+				}
 			},
 			"foes": {
-				"2": "A House Drafter",
-				"3": "A House Drafter",
-				"5": "A House Drafter",
-				"7": "A House Drafter",
-				"10": "A House Drafter",
-				"12": "A House Drafter",
-				"15": "A House Drafter",
+				"2": {
+					"name": "Maurice, Head of Security",
+					"ai": "Aggressive",
+					"icon": "delapouite/guards",
+					"skill": "normal",
+					"hp": 18,
+					"hp_vs_player": -9,
+					"paths": "Beefcake",
+					"equipment": [
+						"tinkers_wrench"
+					],
+					"cards": {
+						"BAS-B": 13,
+						"B-01": 2,
+						"B-05": 2,
+						"B-07": 2,
+						"B-08": 2,
+						"B-09": 1,
+						"B-10": 2,
+						"B-11": 2,
+						"B-12": 1,
+						"B-03": 2,
+						"B-14": 1
+					}
+				},
+				"3": {
+					"name": "Tilda Tinsel, Confetti Cannoneer",
+					"ai": "Balanced",
+					"icon": "delapouite/party-popper",
+					"skill": "normal",
+					"hp": 18,
+					"hp_vs_player": -9,
+					"paths": "Refusemancer",
+					"equipment": [
+						"lucky_dice"
+					],
+					"cards": {
+						"BAS-R": 13,
+						"R-06": 2,
+						"R-02": 2,
+						"R-05": 2,
+						"R-35": 2,
+						"R-04": 1,
+						"R-07": 2,
+						"R-08": 2,
+						"R-14": 1,
+						"R-19": 1,
+						"R-21": 1,
+						"R-37": 1
+					}
+				},
+				"5": {
+					"name": "Madame Darjeeling",
+					"ai": "Defensive",
+					"icon": "delapouite/coffee-cup",
+					"skill": "normal",
+					"hp": 19,
+					"hp_vs_player": -8,
+					"paths": "Gourmand",
+					"equipment": [
+						"steady_sandals"
+					],
+					"cards": {
+						"BAS-G": 13,
+						"G-01": 2,
+						"G-06": 2,
+						"G-04": 2,
+						"G-07": 2,
+						"G-08": 1,
+						"G-12": 1,
+						"G-13": 1,
+						"G-15": 1,
+						"G-05": 2,
+						"G-17": 1,
+						"G-25": 1,
+						"G-21": 1
+					}
+				},
+				"7": {
+					"name": "\"Honest\" Hal Lowball",
+					"ai": "Defensive",
+					"icon": "lorc/poker-hand",
+					"skill": "normal",
+					"hp": 19,
+					"hp_vs_player": -8,
+					"paths": "Necrocrat",
+					"equipment": [
+						"rolled_rulebook"
+					],
+					"cards": {
+						"BAS-N": 13,
+						"N-01": 2,
+						"N-02": 2,
+						"N-06": 2,
+						"N-05": 2,
+						"N-03": 1,
+						"N-38": 1,
+						"N-15": 2,
+						"N-11": 1,
+						"N-36": 1,
+						"N-18": 1,
+						"N-14": 1,
+						"N-07": 1
+					}
+				},
 				"8": {
 					"name": "Trey Pickett",
-					"deck": "colorless_regime",
-					"size": 30,
-					"hp": 24,
-					"infra": 15,
 					"ai": "Aggressive",
-					"icon": "delapouite/up-card"
+					"icon": "faithtoken/card-pick",
+					"skill": "elite",
+					"hp": 24,
+					"hp_vs_player": -3,
+					"paths": "Beefcake, Refusemancer and Pathless",
+					"equipment": [
+						"first_pick_fedora",
+						"card_sleeve_gauntlets"
+					],
+					"cards": {
+						"BAS-B": 7,
+						"BAS-R": 7,
+						"C-40": 2,
+						"C-37": 2,
+						"C-39": 2,
+						"R-37": 2,
+						"B-38": 1,
+						"BR-02": 2,
+						"BR-03": 2,
+						"B-06": 2,
+						"R-07": 1,
+						"B-10": 1,
+						"R-21": 1,
+						"C-06": 2
+					}
+				},
+				"10": {
+					"name": "Dizzy Lizzie, Carousel Queen",
+					"ai": "Aggressive",
+					"icon": "lorc/flame-spin",
+					"skill": "normal",
+					"hp": 19,
+					"hp_vs_player": -8,
+					"paths": "Gourmand and Beefcake",
+					"equipment": [
+						"practice_foil"
+					],
+					"cards": {
+						"BAS-G": 7,
+						"BAS-B": 7,
+						"GB-01": 2,
+						"GB-02": 2,
+						"GB-03": 1,
+						"B-01": 2,
+						"B-06": 2,
+						"B-12": 2,
+						"G-01": 2,
+						"G-06": 1,
+						"GB-08": 1,
+						"B-20": 1
+					}
+				},
+				"12": {
+					"name": "Professor Fineprint",
+					"ai": "Defensive",
+					"icon": "delapouite/scroll-quill",
+					"skill": "normal",
+					"hp": 19,
+					"hp_vs_player": -8,
+					"paths": "Necrocrat and Gourmand",
+					"equipment": [
+						"thinking_cap"
+					],
+					"cards": {
+						"BAS-N": 7,
+						"BAS-G": 7,
+						"GN-02": 2,
+						"GN-03": 1,
+						"N-02": 2,
+						"N-06": 2,
+						"G-04": 2,
+						"G-05": 1,
+						"GN-09": 1,
+						"N-12": 1,
+						"G-17": 1,
+						"GN-17": 1,
+						"N-15": 1,
+						"G-07": 1
+					}
 				},
 				"14": {
 					"name": "Dex Shufflewick",
-					"deck": "colorless_regime",
-					"size": 30,
-					"hp": 24,
-					"infra": 15,
 					"ai": "Balanced",
-					"icon": "delapouite/up-card"
+					"icon": "delapouite/dice-six-faces-six",
+					"skill": "elite",
+					"hp": 24,
+					"hp_vs_player": -3,
+					"paths": "Necrocrat, Refusemancer and Pathless",
+					"equipment": [
+						"cheaters_dice",
+						"shuffle_slippers"
+					],
+					"cards": {
+						"BAS-N": 7,
+						"BAS-R": 7,
+						"NR-01": 2,
+						"NR-03": 2,
+						"NR-02": 1,
+						"R-35": 2,
+						"N-02": 2,
+						"N-06": 1,
+						"NR-15": 1,
+						"NR-10": 1,
+						"NR-06": 1,
+						"C-38": 2,
+						"C-22": 1,
+						"N-15": 1,
+						"R-07": 1
+					}
+				},
+				"15": {
+					"name": "Penny Sleeves",
+					"ai": "Balanced",
+					"icon": "delapouite/shop",
+					"skill": "normal",
+					"hp": 19,
+					"hp_vs_player": -8,
+					"paths": "Beefcake and Necrocrat",
+					"equipment": [
+						"fair_play_badge"
+					],
+					"cards": {
+						"BAS-B": 7,
+						"BAS-N": 7,
+						"NB-02": 2,
+						"NB-17": 2,
+						"B-05": 2,
+						"N-02": 2,
+						"B-08": 1,
+						"B-11": 1,
+						"N-05": 1,
+						"B-02": 1,
+						"N-08": 1,
+						"NB-09": 1,
+						"B-03": 1,
+						"N-15": 1
+					}
 				},
 				"19": "Octavia Eightfold"
 			},
 			"draft_rooms": {
 				"4": "trade",
 				"13": "trade",
-				"11": "vault"
+				"11": "vault",
+				"18": "cashout"
 			},
 			"blurbs": {
-				"2": "The left-hand gate. A drafter is waiting at the first table.",
-				"3": "The right-hand gate. A drafter is waiting at the first table.",
+				"2": "The left-hand gate. Maurice, Head of Security, and a velvet rope that is not on the guest list either.",
+				"3": "The right-hand gate. Tilda Tinsel is loading the confetti cannon, and she does not ask before she fires.",
 				"4": "The Trade Counter: a card of two Paths (or a rare one) for a card of your deck.",
-				"5": "Somebody is taking tea in the garden, with a deck beside the pot.",
+				"5": "Madame Darjeeling is taking tea in the garden. She will pour you a cup. Then she will beat you with the pot.",
 				"6": "The house kettle is on. A cup costs a little; the free one costs something else.",
-				"7": "A quiet game in the back room. It will not stay quiet.",
-				"8": "A champion's table: Trey Pickett holds the Auction Ring. Harder, with a better prize.",
+				"7": "A quiet game in the back room. \"Honest\" Hal Lowball deals, and the ante is yours to pay.",
+				"8": "A champion's table: Trey Pickett holds the Auction Ring. Going once, going twice... Harder, with a better prize.",
 				"9": "A stall of lucky charms. Take one; it lasts the whole run.",
-				"10": "The carousel turns, and somebody is dealing from one of the horses.",
+				"10": "The carousel turns. Dizzy Lizzie's riders never stop, until the music does.",
 				"11": "A prize in chains. Taking it means carrying its curse to the end.",
-				"12": "The house rules, shelved floor to ceiling, and a drafter who has read them all.",
+				"12": "The house rules, shelved floor to ceiling. Professor Fineprint has read them all, and is about to amend one.",
 				"13": "The Prize Tent: another Trade Counter, with a rabbit minding it.",
-				"14": "A champion's table: Dex Shufflewick runs the Roulette Pit. Harder, with a better prize.",
-				"15": "A shop of cards nobody is allowed to buy, and a drafter behind the till.",
+				"14": "A champion's table: Dex Shufflewick runs the Roulette Pit. The wheel spins on his turns. Harder, with a better prize.",
+				"15": "A shop of cards nobody is allowed to buy. Penny Sleeves is behind the till: you break it, you bought it.",
 				"16": "Sofas, a candle, and the last cup of tea before the Big Wheel.",
 				"17": "Cake, on a cart. A slice before the show lasts the whole run.",
-				"18": "The house's takings, and a side door to the Big Wheel.",
-				"19": "Boss: Octavia Eightfold. The house always deals."
+				"18": "The Counting Halls: cash out here and leave with part of the prize. Cashing out ends the run, and it is NOT a win.",
+				"19": "Boss: Octavia Eightfold at the Big Wheel. The house always deals."
 			},
 			"events": {
 				"4": {
@@ -2159,11 +2417,22 @@
 							"nothing"
 						]
 					]
-				}
-			},
-			"loot": {
+				},
 				"18": {
-					"gold": 120
+					"title": "The Counting Halls",
+					"body": "Three long rooms of abacuses, brass scales and clerks in green eyeshades, all counting the house's takings. A cashier's window stands open. The sign over it: CASH OUT HERE. THE HOUSE THANKS YOU FOR PLAYING. In smaller letters: Cashing out ends your run. You leave with part of the prize, and it does not count as a win. The door to the Big Wheel is the other one.",
+					"choices": [
+						[
+							"Cash out and leave",
+							"The cashier counts it out twice, stamps your hand, and holds the side door for you. You walk out into Crosspath with your winnings and your dignity. Octavia's laugh follows you down the corridor.",
+							"hint:Ends the run. You keep 120 gold, 80 XP and a General Pack, on top of the gold for the fights you won. Not a win: no clear, no card to keep, no first-clear prize."
+						],
+						[
+							"Not yet: on to the Big Wheel",
+							"You leave the cashier's window alone. The clerks do not look up. Somebody, somewhere, starts a drum roll.",
+							"nothing"
+						]
+					]
 				}
 			}
 		}
@@ -2470,7 +2739,7 @@
 			"Your draft is right where you left it, champ. I haven't peeked at your picks. I've circled them a little, but that's just how I walk. Sit, sit, SIT!"
 		],
 		"drafthost.arena": [
-			"Would you look at that, would you LOOK at that! (ding ding DING!) My Auntie Octavia has thrown open the Shuffle House in Crosspath, north-east corner of the square, you can't miss it, it's the one that looks like a party. Choose your own Paths in there, champ!",
+			"Would you look at that, would you LOOK at that! (ding ding DING!) My Auntie Octavia has thrown open the Shuffle House in Crosspath, on the big lawn north-east of the square, up the cobbles past Pip's, you can't miss it, it's the one that looks like a party. Choose your own Paths in there, champ!",
 			"Tell her her favourite nephew sent you. I'm her only nephew. Still counts! Meanwhile my cart is your cart. Pick it, pick it, PICK IT!"
 		],
 		"cardsharp.intro": [
@@ -2514,7 +2783,7 @@
 			"That's you out of moves, I'm afraid. It happens to the best of us, and it happened to me for years before I got good."
 		],
 		"drafthost.house": [
-			"Psst, champ! Win my cart in all four zones, or get three zones back on their feet, and my Auntie Octavia opens the Shuffle House in Crosspath. Big striped place, north-east corner of the square. That's where you pick your OWN Paths!"
+			"Psst, champ! Win my cart in all four zones, or get three zones back on their feet, and my Auntie Octavia opens the Shuffle House in Crosspath. Big striped place on the lawn north-east of the square. That's where you pick your OWN Paths!"
 		],
 		"drafthouse.intro": [
 			"DARLING! Welcome, welcome, welcome to the Shuffle House, where the lights are bright, the cards are fresh, and the house always DEALS! Octavia Eightfold. Showwoman, dealer, proprietor, and aunt to a very loud shark.",

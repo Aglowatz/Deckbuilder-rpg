@@ -1,12 +1,22 @@
 class_name DraftArena
 extends RefCounted
-## Fable big pass Nov 23 (Part 4): the Shuffle House, Octavia Eightfold's draft arena in Crosspath. What it offers and when:
-##   the Open Draft (1 to 4 Paths of the player's choice), the six two-Path challenges, the four three-Path challenges and the
-##   four-Path one, the three harder "win three" drafts (the High Rollers' tables: no loss allowed, rivals with the player's own
-##   equipment pool), the Shuffled Halls (the house's own draft dungeon), Mystery Mini (draft, then a random mini dungeon) and the
-##   dungeon drafts (every dungeon the player has cleared, played with a drafted deck).
-## It opens when all four zone drafts are won OR three zones are freed (the owner's rule, Nov 23). How many Paths a draft may have
-## follows the story: one before any zone is freed, two once a zone is freed, three and four after Primm.
+## The Shuffle House, Octavia Eightfold's draft arena in Crosspath (Fable big pass Nov 23; the four modes of Fable Nov 24).
+## Since Nov 24 its menu is FOUR MODES and one door (the owner's list, docs/design/draft_mode.md):
+##   1. Classic Draft      choose your Paths (within the unlock rule), draft, play three random opponents. No Prismatic Packs.
+##                         The Draft of the Day sits under it (one table a day, the same for everybody).
+##   2. Dungeon Draft      draft, then play a LARGE dungeon you have cleared in the main game (every zone's main dungeon, Primm's
+##                         Castle, the Path-ology Lab, Mount Swolympus, the Shattered Gallery; the Shuffled Halls after their first
+##                         clear), or a random one of them. Pays Prismatic Packs.
+##   3. Mystery Mini       draft, then a random mini dungeon (three encounters). Pays a pack of that dungeon's Path.
+##   4. High Rollers Draft an entry fee; a Classic Draft whose opponents may wear every piece of equipment you may. Pays more
+##                         than Classic, Prismatic Packs included.
+##   and the Shuffled Halls, the house's own dungeon, behind its own door under the four.
+## The separate two-Path tables, Three Paths, Four Paths and the three "win three" tables of Nov 23 are gone: their purpose is the
+## Path choice of Classic and High Rollers. Winning one of those two with a set of two, three or four Paths still sets that set's
+## flag (`paths_goal_flag`: the old tables' "won" flags), so the quests and feats that count Path sets carry on, old saves included.
+## It opens when all four zone drafts are won OR three zones are freed. How many Paths a draft may have follows the story: one
+## before any zone is freed, two once a zone is freed, three and four after Primm. Prismatic Packs are paid only after Primm
+## (`DraftChallenges.pack_id`: before that the word means a Gilded Pack).
 ## Pure data and rules; `DraftChallenges` asks this class about every id that is not a zone draft.
 
 const P := Affinity.Type
@@ -18,19 +28,26 @@ const SPEAKER: String = "Octavia Eightfold"
 const HOUSE_NAME: String = "the Shuffle House"
 const MET_FLAG: String = "draft_arena_met"
 
+## Classic Draft keeps the id of the Open Draft it grew out of (saves, counters and flags carry on).
 const OPEN_ID: String = "open"
-const QUAD_ID: String = "quad"
+const CLASSIC_ID: String = OPEN_ID
+const HIGH_ID: String = "high"
 const HALLS_ID: String = "halls"
 const MYSTERY_ID: String = "mystery"
+const DUNGEON_PREFIX: String = "dungeon:"
+## Retired with the four modes (Nov 24): a saved draft of one of these still finishes, a new one cannot be started.
+const QUAD_ID: String = "quad"
 const PAIR_PREFIX: String = "pair:"
 const TRIO_PREFIX: String = "trio:"
 const HIGH_PREFIX: String = "high:"
-const DUNGEON_PREFIX: String = "dungeon:"
 ## The Shuffled Halls' key in the dungeon catalogue (data/dungeons/postgame_dungeons.json).
 const HALLS_DUNGEON: String = "D-SHUFFLE"
-## The harder "win three" drafts by their number of Paths.
-const HIGH_PATHS: Array[int] = [1, 2, 4]
-const HIGH_NAMES: Dictionary = {1: "The High Rollers' Table", 2: "The Double-Down Table", 4: "The Full House Table"}
+## The four modes of the menu, in its order.
+const MODE_CLASSIC: String = "classic"
+const MODE_DUNGEON: String = "dungeon"
+const MODE_MYSTERY: String = "mystery"
+const MODE_HIGH: String = "high"
+const MODES: Array[String] = [MODE_CLASSIC, MODE_DUNGEON, MODE_MYSTERY, MODE_HIGH]
 
 const KIND_ZONE: String = "zone"
 const KIND_OPEN: String = "open"
@@ -45,6 +62,7 @@ const KIND_DUNGEON: String = "dungeon"
 ## player sees the same draft on the same day (no internet). Its id carries the date: "daily:20261123".
 const KIND_DAILY: String = "daily"
 const DAILY_PREFIX: String = "daily:"
+const RETIRED_KINDS: Array[String] = [KIND_PAIR, KIND_TRIO, KIND_QUAD]
 
 
 ## True once the house is open: its flag is set (the draft quest line's finale or the main quest set it), all four zone drafts
@@ -64,10 +82,20 @@ static func max_paths(flags: Dictionary) -> int:
 static func paths_rule_text(flags: Dictionary) -> String:
 	match max_paths(flags):
 		1:
-			return "One-Path drafts for now. Two-Path drafts and two-Path cards open when the first zone is freed; three and four Paths after Primm is defeated."
+			return "One Path a draft for now. Two Paths (and two-Path cards) open when the first zone is freed; three and four after Primm is defeated."
 		2:
-			return "One- and two-Path drafts are open. Three- and four-Path drafts and cards open after Primm is defeated."
-	return "Every draft is open: one, two, three and four Paths."
+			return "One or two Paths a draft. Three and four Paths (and their cards) open after Primm is defeated."
+	return "Any number of Paths: one, two, three or all four."
+
+
+## What the player is told when they switch on more Paths than the story allows yet.
+static func too_many_paths_text(flags: Dictionary) -> String:
+	match max_paths(flags):
+		1:
+			return "One Path at a time for now, darling. Free your first zone and I will deal you two; beat Primm and you may have all four."
+		2:
+			return "Two Paths is the house limit for now, darling. Three and four open once Primm is defeated."
+	return "Four Paths is all there are, darling. Believe me, I have looked."
 
 
 static func kind_of(challenge_id: String) -> String:
@@ -81,7 +109,7 @@ static func kind_of(challenge_id: String) -> String:
 		return KIND_TRIO
 	if challenge_id == QUAD_ID:
 		return KIND_QUAD
-	if challenge_id.begins_with(HIGH_PREFIX):
+	if challenge_id == HIGH_ID or challenge_id.begins_with(HIGH_PREFIX):
 		return KIND_HIGH
 	if challenge_id == HALLS_ID:
 		return KIND_HALLS
@@ -91,6 +119,65 @@ static func kind_of(challenge_id: String) -> String:
 		return KIND_DUNGEON
 	if challenge_id.begins_with(DAILY_PREFIX):
 		return KIND_DAILY
+	return ""
+
+
+## True for a table of Nov 23 that the four modes replaced: a set two-, three- or four-Path table, or a "win three" table by its
+## number of Paths ("high:1"). A saved draft of one still finishes; `DraftChallenges.start_problem` refuses a new one.
+static func is_retired(challenge_id: String) -> bool:
+	return RETIRED_KINDS.has(kind_of(challenge_id)) or challenge_id.begins_with(HIGH_PREFIX)
+
+
+## The mode of the menu a challenge belongs to ("" for the Shuffled Halls, a zone draft and the retired tables).
+static func mode_of(challenge_id: String) -> String:
+	match kind_of(challenge_id):
+		KIND_OPEN, KIND_DAILY:
+			return MODE_CLASSIC
+		KIND_DUNGEON:
+			return MODE_DUNGEON
+		KIND_MYSTERY:
+			return MODE_MYSTERY
+		KIND_HIGH:
+			return MODE_HIGH
+	return ""
+
+
+## The challenge a mode starts (the Dungeon Draft needs its dungeon: `dungeon_id`).
+static func mode_challenge(mode: String) -> String:
+	match mode:
+		MODE_CLASSIC:
+			return CLASSIC_ID
+		MODE_MYSTERY:
+			return MYSTERY_ID
+		MODE_HIGH:
+			return HIGH_ID
+	return ""
+
+
+static func mode_title(mode: String) -> String:
+	match mode:
+		MODE_CLASSIC:
+			return "Classic Draft"
+		MODE_DUNGEON:
+			return "Dungeon Draft"
+		MODE_MYSTERY:
+			return "Mystery Mini"
+		MODE_HIGH:
+			return "High Rollers Draft"
+	return "A draft"
+
+
+## One short line under a mode's name on its tile.
+static func mode_pitch(mode: String) -> String:
+	match mode:
+		MODE_CLASSIC:
+			return "Your Paths. Three random opponents."
+		MODE_DUNGEON:
+			return "A big dungeon you have cleared, with a drafted deck."
+		MODE_MYSTERY:
+			return "The wheel picks a mini dungeon."
+		MODE_HIGH:
+			return "Pay to sit. The opponents wear the best gear."
 	return ""
 
 
@@ -133,7 +220,8 @@ static func _set_id(prefix: String, paths: Array[int]) -> String:
 	return prefix + "+".join(parts)
 
 
-## The six two-Path challenges ("pair:1+2" ... in the Paths' own order).
+## The six pairs of Paths ("pair:1+2" ... in the Paths' own order): goals of the arena's quest line since Nov 24 (win a Classic or
+## High Rollers Draft with each), tables of their own before.
 static func pair_ids() -> Array[String]:
 	var ids: Array[String] = []
 	for a: int in range(PATHS.size()):
@@ -142,7 +230,7 @@ static func pair_ids() -> Array[String]:
 	return ids
 
 
-## The four three-Path challenges (each leaves one Path out).
+## The four sets of three Paths (each leaves one Path out).
 static func trio_ids() -> Array[String]:
 	var ids: Array[String] = []
 	for left_out: int in range(PATHS.size() - 1, -1, -1):
@@ -154,15 +242,32 @@ static func trio_ids() -> Array[String]:
 	return ids
 
 
+## The "win three" tables of Nov 23 by their number of Paths (retired; their "won" flags still count for the High Roller feat).
 static func high_ids() -> Array[String]:
 	var ids: Array[String] = []
-	for count: int in HIGH_PATHS:
+	for count: int in [1, 2, 4]:
 		ids.append("%s%d" % [HIGH_PREFIX, count])
 	return ids
 
 
+## The flag a Classic or High Rollers win with exactly these Paths sets (the old table's "won" flag): a pair, a set of three, all
+## four. "" for a single Path (no goal counts those).
+static func paths_goal_flag(paths: Array[int]) -> String:
+	var sorted: Array[int] = paths.duplicate()
+	sorted.sort()
+	match sorted.size():
+		2:
+			return DraftChallenges.won_flag(_set_id(PAIR_PREFIX, sorted))
+		3:
+			return DraftChallenges.won_flag(_set_id(TRIO_PREFIX, sorted))
+		4:
+			return DraftChallenges.won_flag(QUAD_ID)
+	return ""
+
+
+## The challenge that plays `dungeon_key` as a draft (the Shuffled Halls are their own challenge, also from the Dungeon Draft's list).
 static func dungeon_id(dungeon_key: String) -> String:
-	return DUNGEON_PREFIX + dungeon_key
+	return HALLS_ID if dungeon_key == HALLS_DUNGEON else DUNGEON_PREFIX + dungeon_key
 
 
 ## The dungeon a dungeon draft plays ("" for a table draft; the Shuffled Halls for "halls"; decided at the door for Mystery Mini).
@@ -178,6 +283,23 @@ static func dungeon_key_of(challenge_id: String) -> String:
 static func is_dungeon(challenge_id: String) -> bool:
 	var kind: String = kind_of(challenge_id)
 	return kind == KIND_HALLS or kind == KIND_MYSTERY or kind == KIND_DUNGEON
+
+
+## A mini dungeon is any dungeon with exactly three encounters (the owner, Nov 24): Mystery Mini's wheel lands on those.
+static func is_mini(plan: DungeonCatalog.Blueprint) -> bool:
+	return plan != null and not plan.is_draft_only() and encounters_of(plan) == MINI_ENCOUNTERS
+const MINI_ENCOUNTERS: int = 3
+const ENCOUNTER_TYPES: Array[String] = ["battle", "elite", "boss"]
+
+
+static func encounters_of(plan: DungeonCatalog.Blueprint) -> int:
+	var count: int = 0
+	if plan == null:
+		return count
+	for node: DungeonCatalog.BlueprintNode in plan.nodes:
+		if ENCOUNTER_TYPES.has(node.type):
+			count += 1
+	return count
 
 
 ## The Paths a set challenge fixes (empty: the player chooses).
@@ -198,8 +320,10 @@ static func choice_range(challenge_id: String) -> Array[int]:
 		KIND_OPEN, KIND_HALLS, KIND_MYSTERY, KIND_DUNGEON:
 			return [1, 4]
 		KIND_HIGH:
-			var count: int = int(challenge_id.get_slice(":", 1))
-			return [count, count]
+			if challenge_id.begins_with(HIGH_PREFIX):
+				var count: int = int(challenge_id.get_slice(":", 1))
+				return [count, count]
+			return [1, 4]
 	return [0, 0]
 
 
@@ -239,7 +363,7 @@ static func path_names(paths: Array[int], joiner: String = " and ") -> String:
 static func title(challenge_id: String) -> String:
 	match kind_of(challenge_id):
 		KIND_OPEN:
-			return "The Open Draft"
+			return "Classic Draft"
 		KIND_DAILY:
 			return "Draft of the Day"
 		KIND_PAIR:
@@ -249,33 +373,32 @@ static func title(challenge_id: String) -> String:
 		KIND_QUAD:
 			return "All Four Paths"
 		KIND_HIGH:
-			return str(HIGH_NAMES.get(int(challenge_id.get_slice(":", 1)), "The High Rollers' Table"))
+			return "High Rollers Draft"
 		KIND_HALLS:
 			return "The Shuffled Halls"
 		KIND_MYSTERY:
 			return "Mystery Mini"
 		KIND_DUNGEON:
 			var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(dungeon_key_of(challenge_id))
-			return "Draft: %s" % (plan.dungeon_name if plan != null else "a dungeon")
+			return "Dungeon Draft: %s" % (plan.dungeon_name if plan != null else "a dungeon")
 	return "A draft"
 
 
 static func summary(challenge_id: String) -> String:
 	match kind_of(challenge_id):
 		KIND_OPEN:
-			return "Choose your Paths, draft a deck, and play three rival drafters. Repeatable."
+			return "Choose your Paths, draft a deck, then play three random opponents from all over the kingdom. Their Paths and decks are their own: you never know who sits down, or with what."
 		KIND_DAILY:
-			return "Today's table: the Paths, the offers and the rivals are the same for everybody who sits down today. A new one every day."
+			return "Today's table: the Paths, the offers and the opponents are the same for everybody who sits down today. A new one every day."
 		KIND_PAIR, KIND_TRIO, KIND_QUAD:
-			return "Draft from %s and the Pathless cards, then win three fights against rivals who drafted the same Paths." % path_names(fixed_paths(challenge_id))
+			return "Draft from %s and the Pathless cards, then win three fights against rivals who drafted the same way." % path_names(fixed_paths(challenge_id))
 		KIND_HIGH:
-			var count: int = int(challenge_id.get_slice(":", 1))
-			return "A harder table: %s, and you must win all three fights (one loss ends the run). The rivals draft from the same equipment as you, the best pieces included." % ("one Path of your choice" if count == 1 else ("two Paths of your choice" if count == 2 else "all four Paths"))
+			return "A Classic Draft for higher stakes: an entry fee at the door, and the opponents may wear every piece of equipment you may, the best ones included. It pays more than Classic, Prismatic Packs too."
 		KIND_HALLS:
-			return "The house's own dungeon. Draft a deck, then walk six of its eighteen rooms on one HP pool. After each fight, pick one of three cards. My nephew is in there somewhere, and I am at the end."
+			return "The house's own dungeon. Draft a deck, then walk six of its eighteen rooms on one HP pool. Every table has its own dealer and its own house rule; after each fight, pick one of three cards. My nephew is in there somewhere, and I am at the end."
 		KIND_MYSTERY:
-			return "Draft a deck, then the wheel picks a mini dungeon you have cleared before. One HP pool; a pick of three after each fight."
+			return "Draft a deck, then the wheel picks a mini dungeon: three fights on one HP pool, a pick of three after each. It pays a pack of that dungeon's Path."
 		KIND_DUNGEON:
 			var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(dungeon_key_of(challenge_id))
-			return "Draft a deck, then play %s with it on one HP pool. After each fight, pick one of three cards. Its usual clear rewards, an extra pack, and you keep one card." % (plan.dungeon_name if plan != null else "the dungeon")
+			return "Draft a deck, then play %s with it on one HP pool. After each fight, pick one of three cards. Its usual clear rewards, a Prismatic Pack on top, and you keep one card." % (plan.dungeon_name if plan != null else "the dungeon")
 	return ""

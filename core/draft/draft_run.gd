@@ -101,14 +101,14 @@ static func skill() -> AIPlayer.Skill:
 
 
 ## Leaves the deck builder: the rivals draft now (so they are saved with the run and stay the same after a quit). A table run
-## has three; the Shuffled Halls has its whole cast; the other dungeon drafts meet their dungeon's own foes.
+## has three; a dungeon draft meets its dungeon's own foes.
 static func begin(content: ContentSet, state: DraftState) -> bool:
 	if not DraftEngine.lock_deck(state):
 		return false
+	# a dungeon draft meets its dungeon's own foes; since Nov 24 that goes for the Shuffled Halls too (hand-made, static
+	# encounters in data/dungeons/dungeon_content.json: no drafted rival copies the player's Paths any more)
 	if not state.is_dungeon():
 		state.rivals = DraftRivals.build_all(content, state)
-	elif state.dungeon_key == DraftArena.HALLS_DUNGEON:
-		state.rivals = DraftRivals.build_halls(content, state)
 	else:
 		state.rivals = [] as Array[Dictionary]
 	return true

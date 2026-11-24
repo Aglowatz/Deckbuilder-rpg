@@ -1517,5 +1517,474 @@
 			],
 			"banner": "The last statue falls. The vault is yours."
 		}
+	],
+	"Maurice, Head of Security": [
+		{
+			"id": "backup",
+			"name": "Calling for Backup",
+			"icon": "delapouite/guards",
+			"when": {
+				"type": "units_died",
+				"count": 3,
+				"side": "own"
+			},
+			"text": "When three of his units have died, Maurice whistles: two 2/2 House Security step out from behind the curtain.",
+			"line": "Right. That's it. LADS! We have got a situation at the rope.",
+			"effects": [
+				{
+					"kind": "summon",
+					"count": 2,
+					"token": "T-16",
+					"token_name": "House Security",
+					"token_stats": [
+						2,
+						2
+					],
+					"token_keywords": []
+				}
+			],
+			"banner": "Two 2/2 House Security join Maurice."
+		}
+	],
+	"Tilda Tinsel, Confetti Cannoneer": [
+		{
+			"id": "finale",
+			"name": "The Grand Finale",
+			"icon": "delapouite/party-flags",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Tilda fires everything she has left: her units get +1/+0 for good.",
+			"line": "You want a finale? I'll GIVE you a finale! Cover your ears, sweetie!",
+			"effects": [
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 0
+				}
+			],
+			"banner": "Tilda's units get +1/+0."
+		}
+	],
+	"Madame Darjeeling": [
+		{
+			"id": "guest",
+			"name": "A Cup for the Guest",
+			"icon": "delapouite/coffee-cup",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On her turn 4 she pours you a cup: you gain 3 HP, and she draws a card. Manners cost nothing.",
+			"line": "One lump or two, dear? I do so hate to thrash a guest on an empty stomach.",
+			"effects": [
+				{
+					"kind": "foe_heal",
+					"amount": 3
+				},
+				{
+					"kind": "draw",
+					"count": 1
+				}
+			],
+			"banner": "You gain 3 HP. Madame Darjeeling draws a card.",
+			"warn": "Next turn: Madame Darjeeling pours you a cup (you gain 3 HP).",
+			"open": true
+		},
+		{
+			"id": "second_pot",
+			"name": "The Second Pot",
+			"icon": "lorc/cauldron",
+			"when": {
+				"type": "hp_below",
+				"pct": 40
+			},
+			"text": "At 40% health she rings for the second pot: she gains 4 HP and a 4/4 Cake Golem rolls in on the trolley.",
+			"line": "Oh, we are not nearly finished. Albert! The SECOND pot. And the good cake.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 4
+				},
+				{
+					"kind": "summon",
+					"token": "T-06",
+					"count": 1
+				}
+			],
+			"banner": "She gains 4 HP. A 4/4 Cake Golem arrives."
+		}
+	],
+	"\"Honest\" Hal Lowball": [
+		{
+			"id": "fold",
+			"name": "Hal Folds",
+			"icon": "lorc/poker-hand",
+			"when": {
+				"type": "hp_below",
+				"pct": 30
+			},
+			"text": "At 30% health, if you control three or more units, Hal reads the table and folds: you win the fight on the spot.",
+			"line": "I know when I'm beat. I don't know it often, mind. Take the pot, take the pot.",
+			"effects": [
+				{
+					"kind": "concede",
+					"if_foe_units_at_least": 3
+				}
+			],
+			"banner": "Hal folds. The pot is yours.",
+			"open": true
+		},
+		{
+			"id": "marked",
+			"name": "A Marked Deck",
+			"icon": "faithtoken/card-random",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his turn 5 Hal deals himself two off the bottom: he draws two cards.",
+			"line": "Would you look at that. Two aces. In this light they could be anything, really.",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 2
+				}
+			],
+			"banner": "Hal draws two cards."
+		}
+	],
+	"Trey Pickett": [
+		{
+			"id": "once",
+			"name": "Going Once...",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On his turn 3: going once. Your strongest ready unit is sold out from under you (it is exhausted).",
+			"line": "Going ONCE! (ding!) Do I hear a higher bid? I do not! The big fella sits this one out!",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 1
+				}
+			],
+			"banner": "Your strongest ready unit is exhausted.",
+			"warn": "Next turn: going once (your strongest ready unit is exhausted).",
+			"open": true
+		},
+		{
+			"id": "twice",
+			"name": "Going Twice...",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his turn 5: going twice. Your two strongest ready units are exhausted.",
+			"line": "Going TWICE! (ding ding!) Two lots, one price, no refunds, pick it, pick it, PICK IT!",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				}
+			],
+			"banner": "Your two strongest ready units are exhausted.",
+			"warn": "Next turn: going twice (your two strongest ready units are exhausted).",
+			"open": true
+		},
+		{
+			"id": "sold",
+			"name": "SOLD!",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "turn",
+				"turn": 7
+			},
+			"text": "On his turn 7: SOLD! The gavel comes down, and Trey's units get +2/+0 for good. Beat him before the hammer falls.",
+			"line": "SOLD! (DING DING DING!) To the handsome shark in the stripes! That's me! I bought everything!",
+			"effects": [
+				{
+					"kind": "buff",
+					"atk": 2,
+					"def": 0
+				}
+			],
+			"banner": "Trey's units get +2/+0.",
+			"warn": "Next turn: SOLD! Trey's units get +2/+0 for good.",
+			"open": true
+		}
+	],
+	"Dizzy Lizzie, Carousel Queen": [
+		{
+			"id": "music_stops",
+			"name": "The Music Stops",
+			"icon": "delapouite/boombox",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On her turn 4 the music stops and everybody has to get off: her units are exhausted and miss her next turn. That is your opening.",
+			"line": "Oh, bother. That's the end of the tune. Everybody OFF! Mind the step! ...Why are you smiling like that?",
+			"effects": [
+				{
+					"kind": "exhaust_own"
+				}
+			],
+			"banner": "The carousel stops: Lizzie's units are exhausted and miss her next turn.",
+			"warn": "Next turn: the music stops (her units stand down for a turn).",
+			"open": true
+		},
+		{
+			"id": "faster",
+			"name": "Faster! FASTER!",
+			"icon": "lorc/flame-spin",
+			"when": {
+				"type": "hp_below",
+				"pct": 35
+			},
+			"text": "At 35% health Lizzie throws the lever all the way over: her units get +1/+0 for good.",
+			"line": "FASTER! I said FASTER! Hold on to your hats, your teeth and each other!",
+			"effects": [
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 0
+				}
+			],
+			"banner": "Lizzie's units get +1/+0."
+		}
+	],
+	"Professor Fineprint": [
+		{
+			"id": "amendment",
+			"name": "An Amendment",
+			"icon": "delapouite/scroll-quill",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On his turn 4 he amends the house rules: \"No Running\" is struck out, and Rule 2 comes in for both sides: each player draws an extra card each turn.",
+			"line": "Point of order! I move to strike Rule 1 and adopt Rule 2. All in favour? I am. Carried. Do keep up.",
+			"effects": [
+				{
+					"kind": "remove_rule",
+					"name": "Rule 1: No Running"
+				},
+				{
+					"kind": "remove_rule",
+					"name": "Rule 1: No Running",
+					"side": "player"
+				},
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Rule 2: Open Book",
+						"text": "House rule, both sides: draw an extra card each turn. (His side.)",
+						"icon": "delapouite/book-cover",
+						"kind": "extra_draws",
+						"count": 1
+					}
+				},
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Rule 2: Open Book",
+						"text": "House rule, both sides: draw an extra card each turn. (Your side.)",
+						"icon": "delapouite/book-cover",
+						"kind": "extra_draws",
+						"count": 1,
+						"side": "player"
+					}
+				}
+			],
+			"banner": "Rule 1 is struck out. Rule 2: each player draws an extra card each turn.",
+			"warn": "Next turn: an amendment (Rule 1 goes; both players draw an extra card each turn).",
+			"open": true
+		}
+	],
+	"Dex Shufflewick": [
+		{
+			"id": "red",
+			"name": "The Wheel: Red",
+			"icon": "delapouite/dice-six-faces-six",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On his turn 3 the wheel lands on red: both players pay the table. You lose 2 HP, and Dex's units are exhausted for the spin.",
+			"line": "Red! Everybody pays the table on red. Yes, me too, I stand very still for it. House rules.",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 2
+				},
+				{
+					"kind": "exhaust_own",
+					"skip_refresh": false
+				}
+			],
+			"banner": "Red: you lose 2 HP, and Dex's units are exhausted.",
+			"warn": "Next turn: the wheel spins (red).",
+			"open": true
+		},
+		{
+			"id": "black",
+			"name": "The Wheel: Black",
+			"icon": "delapouite/dice-six-faces-six",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his turn 5 the wheel lands on black: Dex's units get +1/+1 for good.",
+			"line": "Black! Lovely colour. Slimming. And what do you know, it's the one I had my chips on.",
+			"effects": [
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 1
+				}
+			],
+			"banner": "Black: Dex's units get +1/+1.",
+			"warn": "Next turn: the wheel spins (black).",
+			"open": true
+		},
+		{
+			"id": "zero",
+			"name": "The Wheel: Double Zero",
+			"icon": "delapouite/coins-pile",
+			"when": {
+				"type": "turn",
+				"turn": 7
+			},
+			"text": "On his turn 7 the wheel lands on the double zero, and the house wins: Dex gains 4 HP and draws two cards.",
+			"line": "Double zero. Oh dear. Oh dear, oh dear. That one's just... mine. All of it. Sorry! Not sorry!",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 4
+				},
+				{
+					"kind": "draw",
+					"count": 2
+				}
+			],
+			"banner": "Double zero: Dex gains 4 HP and draws two cards.",
+			"warn": "Next turn: the wheel spins (double zero).",
+			"open": true
+		}
+	],
+	"Penny Sleeves": [
+		{
+			"id": "bought_it",
+			"name": "You Break It, You Bought It",
+			"icon": "delapouite/shop",
+			"when": {
+				"type": "units_died",
+				"count": 3,
+				"side": "own"
+			},
+			"text": "When three of her units have died, Penny rings it all up: you lose 3 HP.",
+			"line": "That is THREE. Three! Do you know what those were worth sealed? I am ringing it up. All of it.",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 3
+				}
+			],
+			"banner": "Penny rings it up: you lose 3 HP."
+		},
+		{
+			"id": "clearance",
+			"name": "Clearance Sale",
+			"icon": "delapouite/ticket",
+			"when": {
+				"type": "hp_below",
+				"pct": 40
+			},
+			"text": "At 40% health everything must go: Penny draws two cards and makes two Iron.",
+			"line": "Fine. FINE. Clearance sale! Everything must go! Mostly at you!",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 2
+				},
+				{
+					"kind": "resources",
+					"resource": "iron",
+					"count": 2
+				}
+			],
+			"banner": "Penny draws two cards and gets two Iron."
+		}
+	],
+	"Octavia Eightfold": [
+		{
+			"id": "wheel_iron",
+			"name": "The Big Wheel: Iron",
+			"icon": "lorc/rainbow-star",
+			"when": {
+				"type": "hp_below",
+				"pct": 75
+			},
+			"text": "At 75% health the Big Wheel spins and lands on Iron: Octavia's units get +1/+0 for good.",
+			"line": "Spin it, darlings! ...IRON! Oh, I do love it when the wheel has opinions. Chins up, my lovelies, and HIT them.",
+			"effects": [
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 0
+				}
+			],
+			"banner": "The wheel lands on Iron: her units get +1/+0."
+		},
+		{
+			"id": "wheel_kitchen",
+			"name": "The Big Wheel: The Kitchen",
+			"icon": "lorc/rainbow-star",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the wheel lands on the Kitchen: Octavia gains 5 HP and a 4/4 Cake Golem rolls out from the wings.",
+			"line": "And again! ...The KITCHEN! Somebody wheel in the cake. No, the BIG cake. The one with the fists.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 5
+				},
+				{
+					"kind": "summon",
+					"token": "T-06",
+					"count": 1
+				}
+			],
+			"banner": "The wheel lands on the Kitchen: she gains 5 HP, and a 4/4 Cake Golem arrives."
+		},
+		{
+			"id": "wheel_tape",
+			"name": "The Big Wheel: Red Tape",
+			"icon": "lorc/rainbow-star",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "At 25% health the wheel lands on Red Tape: your two strongest ready units are tied up (exhausted), and Octavia draws two cards.",
+			"line": "One more spin for the road! ...RED TAPE. Oh, how dreary. For YOU, darling. Do hold still, there are forms.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				},
+				{
+					"kind": "draw",
+					"count": 2
+				}
+			],
+			"banner": "The wheel lands on Red Tape: your two strongest ready units are exhausted, and she draws two."
+		}
 	]
 }
