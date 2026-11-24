@@ -295,7 +295,7 @@ func test_tri_path_crafting_opens_in_the_postgame() -> void:
 	assert_false(Alchemy.tri_path_unlocked(Session.profile))
 	Session.profile.postgame_unlocked = true
 	assert_true(Alchemy.tri_path_unlocked(Session.profile))
-	assert_eq(Alchemy.max_craft_paths(Session.profile), 3)
+	assert_eq(Alchemy.max_craft_paths(Session.profile), 4, "Fable big pass Nov 23: three and four Paths after Primm")
 	assert_false(Alchemy.tri_path_cards(Session.content, [A, B, C] as Array[Affinity.Type]).is_empty(), "tri-Path cards exist")
 
 

@@ -45,7 +45,8 @@ func test_the_brewed_card_is_large_centred_and_its_line_sits_under_it() -> void:
 	assert_false(card_rect.intersects(caption_rect.grow(-1.0)), "the two never overlap")
 	assert_string_contains(caption.text, "joins your collection")
 	assert_ne(caption.autowrap_mode, TextServer.AUTOWRAP_OFF, "a long card name wraps instead of running over the card")
-	assert_false((screen.find_child("PossibleCards", true, false) as Control).visible, "the possible-cards grid makes room for it")
+	# Fable big pass Nov 23 (Part 8): the card rises over the cauldron on the left; the possible cards stay in their panel
+	assert_false((screen.find_child("Cauldron", true, false) as Control).visible, "the cauldron makes room for it")
 	# hovering magnifies it, like a reward card
 	assert_eq(card.mouse_filter, Control.MOUSE_FILTER_PASS, "the card takes the mouse")
 	assert_true(card.mouse_entered.get_connections().size() > 0, "hover zoom is attached")
@@ -113,7 +114,9 @@ func test_the_longest_equipment_description_wraps_and_fits_at_large_text() -> vo
 		var button: Control = screen.find_child("GearButton", true, false) as Control
 		var status: Control = screen.find_child("GearStatus", true, false) as Control
 		assert_eq(effect.text, piece.description)
-		assert_gt(effect.get_line_count(), 1, "%s: the description wraps onto more lines" % piece.source_name)
+		# Fable big pass Nov 23: the Loincloth's line of story is its flavour text now, so its effect may fit one line
+		if piece == longest:
+			assert_gt(effect.get_line_count(), 1, "%s: the description wraps onto more lines" % piece.source_name)
 		assert_eq(effect.get_visible_line_count(), effect.get_line_count(), "every line is shown")
 		assert_lte(effect.get_global_rect().end.x, button.get_global_rect().position.x, "%s: it ends left of the Equip button" % piece.source_name)
 		assert_lte(status.get_global_rect().end.y, page.get_global_rect().end.y, "%s: the whole text column ends inside the panel" % piece.source_name)

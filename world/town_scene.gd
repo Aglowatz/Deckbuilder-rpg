@@ -392,7 +392,10 @@ func _ready() -> void:
 			Session.pending_level_ups.append_array(Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]))))
 		if _screenshot_args.has("essence"):
 			for path: Affinity.Type in Affinity.colored_types():
-				Session.profile.set_essence(path, 14 if path == Affinity.Type.BEEFCAKE or path == Affinity.Type.NECROCRAT else 3)
+				Session.profile.set_essence(path, 14 if path == Affinity.Type.BEEFCAKE or path == Affinity.Type.NECROCRAT or str(_screenshot_args["essence"]) == "all" else 3)
+			if str(_screenshot_args["essence"]) == "all":
+				Session.profile.postgame_unlocked = true  # --essence=all: every jar at 14 and the cauldron open to three and four Paths
+				Session.add_gold(600)
 	if Session.deck == null:
 		Session.new_game()
 	Session.arrive_in_town()
@@ -3119,6 +3122,11 @@ func _open_alchemist() -> void:
 	var screen: AlchemistScreen = AlchemistScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+	# Shot aids (Fable big pass Nov 23): --brew=1,4 chooses those Paths (Affinity.Type numbers); --brew_now=true presses Brew
+	for word: String in str(_screenshot_args.get("brew", "")).split(",", false):
+		screen._toggle_path(int(word) as Affinity.Type)
+	if _screenshot_args.has("brew_now"):
+		screen._craft()
 
 ## Brief 9, Part G: the Grand Clashatorium. Chained until the first zone is free (a hint from the sign on the chains), then
 ## Announcer Grand Bellows greets you and the Arena screen opens.

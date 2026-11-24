@@ -139,8 +139,36 @@ static func tri_path_unlocked(profile: PlayerProfile) -> bool:
 	return profile.postgame_unlocked
 
 
+## Fable big pass Nov 23 (Part 8, the owner): brews of two Paths, then three AND four once Primm is beaten.
 static func max_craft_paths(profile: PlayerProfile) -> int:
-	return 3 if tri_path_unlocked(profile) else 2
+	return 4 if tri_path_unlocked(profile) else 2
+
+
+## A brew of all four Paths costs this much gold.
+const QUAD_GOLD_COST: int = GOLD_COST * 3
+
+
+## The gold a brew of `count` Paths costs.
+static func gold_cost(count: int) -> int:
+	return QUAD_GOLD_COST if count >= 4 else (TRI_GOLD_COST if count == 3 else GOLD_COST)
+
+
+## Why a brew of these Paths cannot be made, whatever their number (empty = it can; "Pick two Paths" below two).
+static func problem_for(profile: PlayerProfile, gold: int, paths: Array[Affinity.Type]) -> String:
+	if paths.size() < 2:
+		return "Pick two Paths"
+	if paths.size() == 2:
+		return problem(profile, gold, paths[0], paths[1])
+	return tri_problem(profile, gold, paths)
+
+
+## The cards a brew of these Paths can make (two Paths: the dual-Path cards; three or four: the cards of exactly those Paths).
+static func pool_for(content: ContentSet, paths: Array[Affinity.Type], earned: Dictionary = {}) -> Array[CardData]:
+	if paths.size() < 2:
+		return [] as Array[CardData]
+	if paths.size() == 2:
+		return possible_cards(content, paths[0], paths[1], earned)
+	return tri_path_pool(content, paths, earned)
 
 
 ## The three-Path (or, with four, the four-Path) cards of exactly these Paths, rarest last.
@@ -179,13 +207,13 @@ static func tri_problem(profile: PlayerProfile, gold: int, paths: Array[Affinity
 	for path: Affinity.Type in paths:
 		if path != Affinity.Type.NEUTRAL:
 			distinct[path] = true
-	if paths.size() != 3 or distinct.size() != 3:
-		return "Pick three different Paths."
+	if paths.size() < 3 or paths.size() > 4 or distinct.size() != paths.size():
+		return "Pick three or four different Paths."
 	for path: Affinity.Type in paths:
 		if profile.essence_of(path) < MIN_ESSENCE_PER_PATH:
 			return short_essence(profile, path)
-	if gold < TRI_GOLD_COST:
-		return "Need %d gold" % TRI_GOLD_COST
+	if gold < gold_cost(paths.size()):
+		return "Need %d gold" % gold_cost(paths.size())
 	return ""
 
 
@@ -201,10 +229,10 @@ static func craft_tri(content: ContentSet, profile: PlayerProfile, gold: int, pa
 		earned[owned.id] = true
 	var pool: Array[CardData] = tri_path_pool(content, paths, earned)
 	if pool.is_empty():
-		result.reason = "These Paths have no tri-Path cards yet."
+		result.reason = "These Paths have no card of all %s yet." % ("four" if paths.size() >= 4 else "three")
 		return result
 	pool = _favour_missing(pool, profile)
-	var weights: Array[int] = weights_for(MIN_ESSENCE_PER_PATH * 3, 3)
+	var weights: Array[int] = weights_for(MIN_ESSENCE_PER_PATH * paths.size(), paths.size())
 	var total: int = 0
 	for card: CardData in pool:
 		total += weights[int(card.rarity)]
@@ -221,7 +249,7 @@ static func craft_tri(content: ContentSet, profile: PlayerProfile, gold: int, pa
 	result.ok = true
 	result.card = chosen
 	result.paths = paths.duplicate()
-	result.gold_spent = TRI_GOLD_COST
+	result.gold_spent = gold_cost(paths.size())
 	return result
 
 ## Fixes Nov 8 (owner: "craft all the multi-Path cards"): the cauldron favours what you lack - while any card of the pool is missing from the

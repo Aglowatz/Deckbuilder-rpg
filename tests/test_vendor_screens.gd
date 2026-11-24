@@ -71,7 +71,16 @@ func test_the_town_shops_show_their_stage() -> void:
 	await _stage_of(EquipmentVendorScreen.new(), "VS-BEETSWORTH")
 	await _stage_of(TailorScreen.new(), "VS-THREADWELL")
 	await _stage_of(PackShopScreen.make(PackData.VENDOR_PACK, "town.pack_vendor"), "VS-FENWICK")
-	await _stage_of(AlchemistScreen.new(), "VS-ALEMBIC")
+	# Fable big pass Nov 23 (Part 8): Auntie Alembic is the centre of her own screen now (UI-ALEMBIC-BREW inside the circle of
+	# sockets), so it has no vendor stage with her portrait on the left
+	var alembic: AlchemistScreen = AlchemistScreen.new()
+	add_child_autofree(alembic)
+	await wait_frames(3)
+	if UiArt.has(AlchemistScreen.BREW_ART):
+		assert_null(alembic.stage, "no portrait stage beside the rebuilt screen")
+		assert_not_null(alembic.find_child("Cauldron", true, false), "she is at her cauldron in the middle of it")
+	else:
+		assert_not_null(alembic.stage, "without her picture the old stage stands in")
 	await _stage_of(ArenaScreen.new(), "VS-BELLOWS")
 
 

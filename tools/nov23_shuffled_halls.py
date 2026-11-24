@@ -72,9 +72,8 @@ def main():
     data[DUNGEON_ID] = {str(n): (known[str(n)] if str(n) in known and n != 1 else [round(room[2], 3), round(room[3], 3)]) for n, room in sorted(ROOMS.items())}
     data.setdefault('paths', {})[DUNGEON_ID] = data.get('paths', {}).get(DUNGEON_ID, 'highlight')
     out = compact(json.dumps(data, indent='	', ensure_ascii=False))
-    io.open(layout_path, 'w', encoding='utf-8', newline='').write(out.replace('
-', newline) + (newline if layout.endswith('
-') else ''))
+    lf = chr(10)
+    io.open(layout_path, 'w', encoding='utf-8', newline='').write(out.replace(lf, newline) + (newline if layout.endswith(lf) else ''))
     print('D-SHUFFLE: %d rooms written' % len(ROOMS))
 
 
