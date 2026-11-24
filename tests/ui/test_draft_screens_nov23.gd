@@ -130,23 +130,14 @@ func test_the_reveal_shows_the_next_opponent_large_with_their_equipment_as_battl
 	assert_eq(context.board_key, "draft", "on the house table")
 
 
-func test_the_shuffle_house_menu_has_every_table_and_locks_by_the_story() -> void:
+func test_the_shuffle_house_menu_has_four_modes_and_the_halls_door() -> void:
+	# Fable Nov 24: the menu is four modes, the Draft of the Day and the Halls' own door (it was eighteen tiles). The modes, the
+	# Path toggles and the story's limits are tested in tests/test_nov24_modes.gd.
 	Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
 	var screen: OverlayScreen = await _open("")
 	assert_true(screen is DraftHubScreen)
-	assert_eq(screen.find_child("Tiles", true, false).get_child_count(), 18, "the Open Draft, six pairs, three and four Paths, three win-three tables, the Halls, Mystery Mini, the dungeon drafts")
+	for mode: String in ["classic", "dungeon", "mystery", "high", "daily", "halls"]:
+		assert_not_null(screen.find_child("Mode_%s" % mode, true, false), "the menu has %s" % mode)
+	assert_null(screen.find_child("Tile_pair_1_2", true, false), "the separate two-Path tables are gone")
 	assert_not_null((screen.find_child("HostPortrait", true, false) as TextureRect).texture, "Octavia Eightfold")
-	var pair_tile: Button = screen.find_child("Tile_pair_1_2", true, false) as Button
-	assert_not_null(pair_tile)
-	assert_not_null(pair_tile.find_child("State", true, false), "a two-Path table is locked before any zone is freed")
-	assert_true((screen.find_child("PathsRule", true, false) as Label).text.contains("first zone is freed"), "and the menu says when it opens")
-	# choosing it explains the lock and disables Start
-	pair_tile.pressed.emit()
-	await get_tree().process_frame
-	assert_true((screen.find_child("Start", true, false) as Button).disabled)
-	assert_not_null(screen.find_child("Notice", true, false))
-	# the Open Draft: one Path for now
-	(screen.find_child("Tile_open", true, false) as Button).pressed.emit()
-	await get_tree().process_frame
-	assert_not_null(screen.find_child("PathChoice", true, false), "the Open Draft lets you choose your Path here")
-	assert_false((screen.find_child("Start", true, false) as Button).disabled)
+	assert_not_null(screen.find_child("PathToggle_1", true, false), "Classic lets you choose your Paths here")

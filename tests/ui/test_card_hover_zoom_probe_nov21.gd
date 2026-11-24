@@ -19,6 +19,7 @@ const EXEMPT: Dictionary = {
 	"res://ui/battle/battle_board.gd": "the battle board: BattleScreen shows the hovered card large in the HUD (BattleHud.show_preview)",
 	"res://ui/battle/battle_hud.gd": "it IS the battle's large preview card",
 	"res://ui/card/hover_preview.gd": "it IS the large preview",
+	"res://ui/battle/hand_reveal_panel.gd": "it IS the large view: a looked-at hand, its cards already enlarged over the middle of the screen",
 	"res://ui/card/card_view.gd": "the card itself (the factory)",
 	"res://ui/card/card_gallery.gd": "a developer scene (card frames side by side), not in the game",
 	"res://ui/ui_art_warmup.gd": "the loading warm-up: cards drawn off screen once",

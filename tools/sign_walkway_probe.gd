@@ -19,6 +19,8 @@ var _args: Dictionary = {}
 var _scene: Node
 var _wait: int = 300
 var _started: bool = false
+var _patience: int = 3000
+var _settle: int = 120
 
 
 func _initialize() -> void:
@@ -40,6 +42,14 @@ func _process(_delta: float) -> bool:
 		return false
 	_wait -= 1
 	if _wait > 0:
+		return false
+	# Fable Nov 24: the areas build in stages now (the town since v0.4.2, the zones since the performance pass), so 300 frames
+	# is not always enough for the walkable area to exist: wait for it (up to 3,000 more frames), then two more seconds.
+	if _area() == null and _patience > 0:
+		_patience -= 1
+		return false
+	if _settle > 0 and _patience < 3000:
+		_settle -= 1
 		return false
 	_check()
 	quit(0)

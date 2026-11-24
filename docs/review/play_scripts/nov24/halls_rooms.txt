@@ -1,0 +1,350 @@
+# Fable Nov 24 (Part 4): a shot of every room of the Shuffled Halls not seen in halls_run1.txt (continues from the saved door of
+# halls_fresh.txt). Fights are booked as won. Route A: 3, 6, 9, 13, 17, 18 (on to the wheel). Route B: 2, 4, 7, 11. Route C: 3, 6, 10, 14.
+#   bash tools/play.sh docs/review/play_scripts/nov24/halls_rooms.txt nov24_halls_rooms 2400
+wait 6
+dev load nov24_halls_door
+wait 14
+skip_dialogue 10
+button Continue
+wait 1
+dev draft open
+wait 2
+button Enter
+wait 6
+button Got it
+wait 1
+dev autowin on
+node Room_3
+wait 2
+button Continue
+wait 8
+button Keep Hand
+wait 1
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_6
+wait 4
+shot room06_house_kettle
+button Buy a cup of the house blend
+wait 3
+shot room06_house_kettle_result
+button Continue
+wait 3
+node Room_9
+wait 4
+shot room09_lucky_stall
+button Take the horseshoe
+wait 3
+shot room09_lucky_stall_result
+button Continue
+wait 3
+node Room_13
+wait 4
+shot room13_prize_tent
+button Look at the three cards
+wait 3
+shot room13_prize_tent_result
+button Continue
+wait 3
+wait 2
+move 1500,900
+wait 1
+shot room13_prize_tent_offer
+button Walk on
+wait 3
+node Room_17
+wait 4
+shot room17_dessert_cart
+button Buy the sponge
+wait 3
+shot room17_dessert_cart_result
+button Continue
+wait 3
+node Room_18
+wait 4
+shot room18_counting_halls_go_on
+button Not yet: on to the Big Wheel
+wait 3
+shot room18_counting_halls_go_on_result
+button Continue
+wait 3
+shot map_after_counting_halls_went_on
+button Retreat
+wait 2
+shot retreat_confirm
+dump
+dev draft leave
+wait 5
+button Finish
+wait 2
+button Continue
+wait 2
+dev draft open
+wait 3
+node Mode_halls
+wait 1
+button Start
+wait 2
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+button Lock the deck
+wait 2
+button Enter
+wait 6
+node Room_2
+wait 2
+button Continue
+wait 8
+button Keep Hand
+wait 1
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_4
+wait 4
+shot room04_trade_counter
+button Walk on
+wait 3
+shot room04_trade_counter_result
+button Continue
+wait 3
+node Room_7
+wait 2
+shot room07_back_room_hal_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot room07_back_room_hal_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_11
+wait 4
+shot room11_chained_vault
+button Take a card, and the house
+wait 3
+shot room11_chained_vault_result
+button Continue
+wait 3
+wait 2
+move 1500,900
+wait 1
+shot room11_chained_vault_offer
+dump
+button Retreat
+wait 2
+shot retreat_confirm
+dump
+dev draft leave
+wait 5
+button Finish
+wait 2
+button Continue
+wait 2
+dev draft open
+wait 3
+node Mode_halls
+wait 1
+button Start
+wait 2
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+button Lock the deck
+wait 2
+button Enter
+wait 6
+node Room_3
+wait 2
+button Continue
+wait 8
+button Keep Hand
+wait 1
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_6
+wait 4
+shot room06_house_kettle2
+button Leave the kettle singing
+wait 3
+shot room06_house_kettle2_result
+button Continue
+wait 3
+node Room_10
+wait 2
+shot room10_carousel_lizzie_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot room10_carousel_lizzie_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_14
+wait 2
+shot room14_roulette_dex_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot room14_roulette_dex_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+shot map_end
+dump

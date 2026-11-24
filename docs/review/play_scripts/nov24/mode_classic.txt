@@ -1,0 +1,157 @@
+# Fable Nov 24 (Part 7.2): a Classic Draft with two Paths (the hero's own and a second one), three fights won, the result pop-up.
+#   bash tools/play.sh docs/review/play_scripts/nov24/mode_classic.txt nov24_mode_classic 1500
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 16
+dev gold 2500
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev travel town
+wait 16
+skip_dialogue 20
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+skip_dialogue 20
+dev draft unlock
+dev draft open
+wait 3
+node Mode_classic
+wait 1
+node PathToggle_2
+wait 1
+shot classic_01_menu
+button Start
+wait 3
+shot classic_02_first_pick
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+shot classic_03_deck
+button Lock the deck
+wait 3
+shot classic_04_run_page
+dump
+dev draft fight
+wait 9
+button Keep Hand
+wait 2
+shot classic_fight_1
+dev win
+wait 6
+button Continue
+wait 5
+shot classic_after_fight_1
+dev draft fight
+wait 9
+button Keep Hand
+wait 2
+shot classic_fight_2
+dev win
+wait 6
+button Continue
+wait 5
+shot classic_after_fight_2
+dev draft fight
+wait 9
+button Keep Hand
+wait 2
+shot classic_fight_3
+dev win
+wait 6
+button Continue
+wait 5
+shot classic_after_fight_3
+wait 2
+move 1700,1000
+wait 1
+shot classic_05_keep_a_card
+node KeepGrid
+wait 3
+shot classic_06_result
+dump
+button Finish
+wait 3
+shot classic_07_after

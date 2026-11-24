@@ -73,9 +73,14 @@ static func zoom_in(target: Control, enabled: Callable = Callable()) -> void:
 			var shift: Vector2 = _keep_on_screen_at(target, centred, new_scale)
 			# Fable Nov 24: a card that is itself on the screen never needs to move further than it grows on one side. A larger
 			# shift means the screen was still sliding in or not laid out yet when the pointer met the card (the pick of three
-			# after a Halls fight threw its first card 2,000 px off the page that way): grow it where it stands instead.
+			# after a Halls fight threw its first card 2,000 px off the page that way, and the card stayed grown while the
+			# pointer was really on its neighbour): no zoom then. The next move of the mouse grows the card it is really on.
 			var most: Vector2 = target.size * (new_scale - Vector2.ONE) * 0.5 + Vector2(MARGIN, MARGIN)
-			shift = Vector2(clampf(shift.x, -most.x, most.x), clampf(shift.y, -most.y, most.y))
+			if absf(shift.x) > most.x or absf(shift.y) > most.y:
+				target.z_index = int(target.get_meta(&"zoom_base_z", 0))
+				for key: StringName in [&"zoom_base_scale", &"zoom_base_position", &"zoom_base_z", &"zoom_base_pivot"]:
+					target.remove_meta(key)
+				return
 			target.pivot_offset = middle + Vector2(shift.x / (1.0 - new_scale.x), shift.y / (1.0 - new_scale.y))
 		_tween(target, new_scale, Vector2.INF)
 		return

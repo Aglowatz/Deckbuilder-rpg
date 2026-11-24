@@ -4,6 +4,7 @@
 OK   | ui/battle/battle_board.gd | exempt: the battle board: BattleScreen shows the hovered card large in the HUD (BattleHud.show_preview)
 OK   | ui/battle/battle_hud.gd | exempt: it IS the battle's large preview card
 OK   | ui/battle/choice_panel.gd | grows in place (a card that ignores the mouse)
+OK   | ui/battle/hand_reveal_panel.gd | exempt: it IS the large view: a looked-at hand, its cards already enlarged over the middle of the screen
 OK   | ui/battle/peek_panel.gd | grows in place (mouse and focus)
 OK   | ui/battle/refuse_pile_viewer.gd | the screen's own large card
 OK   | ui/battle/refuse_pile_widget.gd | grows in place (a card that ignores the mouse)
@@ -24,4 +25,4 @@ OK   | ui/ui_art_warmup.gd | exempt: the loading warm-up: cards drawn off screen
 OK   | ui/zone/card_games/card_game_screen.gd | grows in place (a card that ignores the mouse)
 OK   | ui/zone/card_match_screen.gd | grows in place (a card that ignores the mouse)
 
-22 scripts, 0 without a hover zoom
+23 scripts, 0 without a hover zoom

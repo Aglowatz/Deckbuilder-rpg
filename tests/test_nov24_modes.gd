@@ -969,7 +969,7 @@ func test_a_scripted_rule_can_leave_both_seats_and_a_dealer_can_fold() -> void:
 # ---- the pick of three after a Halls fight: a card met by the pointer while the table slides in stays on the page -------------------
 
 
-func test_a_card_hovered_while_its_screen_is_still_off_the_page_grows_where_it_stands() -> void:
+func test_a_card_hovered_while_its_screen_is_still_off_the_page_does_not_grow() -> void:
 	var row: HBoxContainer = HBoxContainer.new()
 	add_child_autofree(row)
 	row.position = Vector2(300, 2600)  # the table has not slid in yet: far below the window
@@ -979,11 +979,13 @@ func test_a_card_hovered_while_its_screen_is_still_off_the_page_grows_where_it_s
 	await get_tree().process_frame
 	CardHoverZoom.set_height(tile, 640.0)
 	CardHoverZoom.zoom_in(tile)
+	assert_false(CardHoverZoom.is_zoomed(tile), "no zoom for a card that is not on the page yet (it was thrown 2,000 px off it)")
+	assert_eq(tile.scale, Vector2.ONE)
+	assert_eq(tile.pivot_offset, Vector2.ZERO)
+	row.position = Vector2(300, 200)  # and now it has slid in: the pointer's next move grows it, whole
+	CardHoverZoom.zoom_in(tile)
 	assert_true(CardHoverZoom.is_zoomed(tile))
-	row.position = Vector2(300, 200)  # and now it has
-	var grown: Vector2 = tile.size * CardHoverZoom.factor_for(tile)
-	var top: float = tile.global_position.y + tile.pivot_offset.y * (1.0 - CardHoverZoom.factor_for(tile))
-	assert_gt(top, -200.0, "its grown top edge is near the page (it was thrown 2,000 px above it)")
-	assert_lt(top + grown.y, get_viewport().get_visible_rect().size.y + 400.0)
-	assert_between(tile.pivot_offset.y, -tile.size.y, tile.size.y * 2.0, "the pivot stays near the card")
+	var factor: float = CardHoverZoom.factor_for(tile)
+	var top: float = tile.global_position.y + tile.pivot_offset.y * (1.0 - factor)
+	assert_gte(top, 0.0, "its grown top edge is on the page")
 	CardHoverZoom.zoom_out(tile)

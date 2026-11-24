@@ -652,6 +652,9 @@ func _fill_done(draft: DraftState) -> void:
 		if GlassTheme.available():
 			GlassTheme.style_scroll(scroll)
 		body.add_child(scroll)
+		# Fable Nov 24: a draft's cards fit the page without scrolling, so the list does not clip: the card under the pointer grows
+		# whole (the first card of the row was cut off at the list's left and top edges).
+		scroll.clip_contents = draft.cards.size() > 36
 		var grid: HFlowContainer = HFlowContainer.new()
 		grid.name = "KeepGrid"
 		grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -668,7 +671,7 @@ func _fill_done(draft: DraftState) -> void:
 			tile.name = "Keep_%s" % id
 			tile.flat = true
 			tile.custom_minimum_size = CardView.SIZE * GRID_SCALE
-			tile.tooltip_text = "Keep %s" % card.display_name
+			# Fable Nov 24: no tooltip here: it lay across the grown card (the line above the list says what a click does)
 			var view: Control = CardView.wrapped(card, GRID_SCALE)
 			view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile.add_child(view)
