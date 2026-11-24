@@ -1,3 +1,234 @@
+# Fable big pass Nov 23 - report: Batch 20, the Shuffle House and the Shuffled Halls, the draft feedback, the world list, map lines, Auntie Alembic
+
+Brief: `docs/prompts/fable_nov23_big_pass.md`. Start tag `pre-big-pass-nov23`. Questions: `docs/overnight_inbox.md`, "Fable big
+pass Nov 23" (6 decisions). Shots: `docs/overnight_shots/nov23b/`. Sim tables: `docs/design/sim/nov23/`. **Nothing was
+uploaded.** Commits after each part, all pushed.
+
+**In one paragraph.** All nine parts are built and checked, with gaps that are listed under "What's left". The two main ones: the equipment ban tables of Part 2 are measured for the 23 Epic and Legendary pieces only, and the sign
+walkway probe, which fails before it checks a sign (below). Batch 20 is in the game. Drafts are free and follow your
+feedback. The Shuffle House stands in Crosspath with Octavia Eightfold, its arena menu and the Shuffled Halls behind it. The
+world list is done, with one item I could not pin down (the store-room ghosts' art: nothing was ever removed; inbox 5). Every
+dungeon map draws its lines along the painted walkways. Auntie Alembic's screen is rebuilt from mock-up B. The whole test suite is green (3,780 of 3,782, 0 failing, 2 pending), as are the eight walk smokes, the NPC visibility, fade and quest hand-in probes, the four story bots and the draft smoke. **1.0.0 is exported: `builds/TheWaywardPath-v1.0.0-windows.zip`, 812 MB.**
+
+**Two things I got wrong on the way, both corrected.** I first read "the AI may not get the most powerful pieces" as "no
+Legendary" and loosened the rivals' cap to Epic; your own list says the AI may not get the powerful pieces, so the cap is back
+at Uncommon and the rivals are tuned with HP and skill instead. And the Halls as first built could not be cleared (1 run of
+16); they are eased now (inbox 2).
+
+| Part | Done | Where to look |
+|---|---|---|
+| 1 Batch 20 (59 pictures) | yes: 52 files in the game, 2 sprite reference sheets filed, 5 mock-ups used as designs | `p1_batch20_in_game_files.jpg`; in place: `p3_*`, `p4_*`, `p5_crease_*`, `p8_*`, `maps/` |
+| 2 Draft Phase 1 leftovers | zone draft playthroughs folded into the smoke; ban tables for the 23 Epic and Legendary pieces, proposals under Part 9 | `tools/draft_smoke_tool.gd`; `docs/design/sim/nov23/` |
+| 3 Draft feedback | yes | `p3_*.jpg`; `tests/test_draft_big_pass.gd` |
+| 4 Shuffle House, Shuffled Halls, main quest | yes | `p4_*.jpg`; `docs/design/sim/nov23/halls.md` |
+| 5 World and towns | yes; the ghosts' art is a question | `p5_*.jpg` |
+| 6 Quests, cards, items, shops | yes | `tests/test_big_pass_world_and_items.gd` |
+| 7 Map lines on the painted walkways | yes: 17 maps, 2 links without a painted walkway | `maps/map_*.jpg`; `docs/art/map_walkways_missing.csv` |
+| 8 Auntie Alembic | yes | `p8_alembic_*.jpg` |
+| 9 Checks, build, report | yes, but for the sign walkway probe | below |
+
+## Part 1 - Batch 20
+
+All 59 files were copied to their Approved folders (the Pending Review copies stay) and imported with the usual tools. 52 are
+files in the game; SPR-TREY-REF and SPR-OCTAVIA-REF are reference sheets (their frames are in); the five mock-ups were built
+from, not imported. `assets/art` went from 556 MB to 566 MB on disk; the zip's size is under Part 9. In place: the draft
+screens (`p3_*`), the Shuffle House and its sign in Crosspath, Octavia, the arena menu on UI-DRAFT-HALL, the Halls on MAP-DRAFT
+(`p4_*`), Primm's cell (`p5_crease_primm_cell.jpg`), the repainted castle map (`maps/map_D-PC.jpg`: all 41 links are painted
+now, so the list of drawn lines is empty), the four-armed Alembic (`p8_*`), the equipment icons and card art
+(`p1_batch20_in_game_files.jpg`: that sheet is the imported files side by side, not 59 separate in-game shots).
+
+## Part 3 - draft mode after your feedback
+
+- **Free entry.** Trey offers only his zone's draft and says where the Shuffle House is and what opens it.
+- **Paths:** one Path until a zone is freed, two after the first, three and four after Primm; Prismatic packs as draft rewards
+  only after Primm.
+- **The deck builder** works like the main one: all 25 picks can be played, 35 cards at least with Infrastructure, and you set
+  the basics yourself.
+- **The pick screen** is built from UI-DRAFT-MOCK-PICK with a larger hover zoom; **the next opponent** from MOCK-VERSUS on
+  VS-TREY, with the rival's equipment listed; in the fight it shows as battle effects under their name.
+- **Rivals** draft the draft way on random Paths (one Path in a one-Path draft, any Path, yours included).
+  **Strength: about 60 % for a sensible player, not measured tightly** (inbox 1): Uncommon gear cap, boss-level play, +12 HP.
+- **The equipment pool:** 74 of the 81 pieces. Out: Gotta-Go Galoshes, Flamethrower, Thorned Loincloth, Clipwell's Shears,
+  Gladiator's Net (they hurt enemy units), Hall Pass Slippers, Participation Trophy (outside battle only). In: the 8 Phase 1
+  pieces and the new modest ones. Rarity weights 46 / 34 / 15 / 5, no piece offered twice in a draft until the pool runs out.
+  Zone and arena rivals: nothing above Uncommon; the win-three tables' rivals: your whole pool.
+- **The modest pieces** (eleven new; Cardboard Cuirass already existed), all cheap at the armory from the start:
+
+  | Piece | Effect |
+  |---|---|
+  | Practice Foil | The first unit you play each duel gets +2 attack |
+  | Rolled-Up Rulebook | Your first spell each turn costs 1 less |
+  | Tinker's Wrench | Your units get +0/+1 |
+  | Thinking Cap | You draw an extra card on your first turn |
+  | Dealer's Visor | Max hand size +2; start every duel with 2 extra HP |
+  | Pathwork Waistcoat | Start every duel with 1 Iron, 1 Red Tape, 1 Ingredient and 1 Garbage |
+  | Shuffle Slippers | When a duel starts, draw a card, then toss a card |
+  | Steady Sandals | Max HP +1; start every duel with 2 extra HP |
+  | Lucky Dice | Start every duel with 1 extra HP and draw an extra card on your first turn |
+  | Pocket Hourglass | Your first card each turn costs 1 less; Max HP -3 |
+  | Fair-Play Badge | Max HP +2; max hand size +1 |
+
+- **The eight new cards** (art DR-01 to DR-08), in the draft pools and the main game:
+
+  | Card | Cost | What it does |
+  |---|---|---|
+  | First Pick (Pathless, Uncommon spell) | 1 | Peek 3, then draw a card |
+  | Wheel the Table (Pathless, Epic spell) | 3 | Each player shuffles their hand into their deck, then draws four |
+  | Signal Reader (Pathless, Common 2/2) | 2 | When it enters, look at the opponent's hand |
+  | Bomb in the Pack (Beefcake, Epic spell) | 3(B)(B) | Deal 4 damage to each enemy unit |
+  | Late-Pick Hero (Refusemancer, Uncommon 1/1) | 2(R) | +1/+1 for each card in your Refuse Pile, up to +4/+4 |
+  | Table Captain (Gourmand / Necrocrat, Epic 3/4) | 2(G)(N) | Enters with an Ingredient and a Red Tape; your other units get +0/+1 |
+  | Octavia Eightfold (all four, Legendary 4/8) | 2(B)(G)(N)(R) | Swat; draws four when she enters; a resource of your choice each turn. The prize of "Lost in the Halls", after Primm |
+  | Trey Pickett (Pathless, Epic 2/3) | 3 | Peek 3 when he enters; each turn choose: draw, gain 2 HP, or a buff on him. The prize of "Last Pick, Best Pick" |
+
+  **Bomb in the Pack was not singled out in a sim.** The rival sims above include it in the pools; I have no table that
+  isolates it. It is a five-cost one-sided sweep at Epic; watch it in the playtest.
+
+## Part 4 - the Shuffle House and the Shuffled Halls
+
+- **The house** stands on the north-east corner of Crosspath's square, ten metres back across an open forecourt, visible from
+  the fountain, with its sign on a post at the corner, a paved path, and a marker on the map and the minimap. Closed, the door
+  says what opens it and how far along you are (`p4_house_closed_popup.jpg`). It opens with four zone drafts won **or** three
+  zones freed (the smoke proves both).
+- **The arena menu** (from MOCK-ARENA on UI-DRAFT-HALL, `p4_house_arena_menu.jpg`): the Open Draft, six two-Path tables,
+  three- and four-Path tables, three win-three tables, the Draft of the Day, the Shuffled Halls, Mystery Mini, the dungeon
+  drafts. A quest per encounter is added when the house opens; nine draft feats.
+- **The Shuffled Halls** (`p4_halls_map.jpg`): 18 rooms on MAP-DRAFT, one pool of HP, a pick of three after every fight (add,
+  swap, or pass), Trey in the Auction Ring, Octavia at the Big Wheel, two Trade Counters, two heal rooms, two buff rooms, the
+  Chained Vault, the Counting Room. Every boon has its price (the game's rule). **Clear rates: 4 of 10 on a careful route, 2 of
+  10 taking every table** (`docs/design/sim/nov23/halls.md`, inbox 2).
+- **The main quest** "The House Always Deals" starts with three zones freed: meet Octavia, play the Halls once (win or lose).
+- **Dungeon drafts:** every dungeon you have cleared (the castle excepted), the minis through Mystery Mini, the postgame
+  dungeons and the vault. A clear pays the dungeon's own repeat rewards, an extra pack and a kept card; the Halls' first clear
+  also a piece of draft equipment. Table drafts pay something for every result, more for three wins, much more the first time.
+- **Trey and Octavia** have their lines (`docs/dialogue/nov23_lines.csv`, 16 lines). To put the earlier wording back:
+  `node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov23_lines_ids.txt`.
+
+## Part 5 - the world
+
+- **The opening scene:** the painted pine in front of the lens is gone (`p5_opening_before.jpg`, `p5_opening_after.jpg`). The
+  rule that keeps trees out of the camera's view was three narrow lines from before the camera was pulled back; it covers the
+  whole view now.
+- **Crosspath:** the Deck Station stands south of the fountain; the Shuffle House is in; the key chest is 3.9 m from the well
+  (it shared a prompt with it at 2.6 m); the square's second badger is the old hare and its farm hand a market regular; the
+  three other farm hands walk small loops (`p5_crosspath_square_before.jpg`, `_after.jpg`).
+- **The store-room ghosts:** inbox 5. Their plate now shows the Hungry Ghost (`p5_ghosts_*.jpg`).
+- **The Crease after Primm:** the four leaders stand west of the map table, nothing stands within 3.5 m of the rift, and Primm
+  stands behind the bars of his cell with his guard at the door (`p5_crease_after_primm.jpg`, `p5_crease_primm_cell.jpg`). The
+  painted cell is one opaque picture, so the bars are a second layer cut from it and drawn in front of him.
+- **Trey's spots:** near each zone's entrance, off the entrance's own line; in the Dump on the first tier, on the left
+  (`p5_trey_*.jpg`). The NPC visibility probe sees him from both cameras in all four zones.
+
+## Part 6 - quests, cards, items, shops
+
+Each with a test. A quest-giver gives the introduction and the quest in one talk. Participation Trophy 15 %. Global Gains
+Platinum Membership costs 2 less, attaches for 1, gives Hustle, Overtime and Bulldoze, and stays on the table instead of
+returning to hand. Let Them Eat Cake costs 1 less. Equipment and items read name, slot and rarity, effect, flavour on the
+armory, the shops, the Character page, the draft picks, the reward boxes and the tooltips (sixteen older pieces had their story
+line moved out of the effect). Pip's dyes are previewed on the cloak's icon. The Pantry Mimic has 28 HP. Glossary keywords of
+one Path wear its colour.
+
+**The castle with the softer Mimic** (4 runs per Path and route, so loose): all four allies 13 % (unchanged; the Mimic still
+ends most of those runs), three allies 13 % (was 3 %), Flex and the Safe Room 63 % (was 41 %), the middle road 0 % (was 3 %),
+the quiet south 25 % (was 6 %). Table: `docs/design/sim/nov23/castle_runs_mimic28.md`.
+
+## Part 7 - map lines
+
+`python tools/map_curves.py --fit` learns each painting's walkway colours, moves each room onto its painted landing, and traces
+every link along the walkway. All 17 dungeon maps are done; the game draws the traced lines. **For your review:** one picture
+per map in `docs/overnight_shots/nov23b/maps/` (cyan: follows the painting; red: no painted walkway, a tidy arc is drawn). Two
+links have no painted walkway: the Test Kitchen's 9 to 10, and the Halls' Counting Room to the Big Wheel. The castle's lines
+are right but busy to look at, because the painting is a web of white staircases. In-game shots of every map were not taken
+separately; the check pictures show the same data on the same paintings, and `p4_halls_map.jpg` shows one in the game.
+
+## Part 8 - Auntie Alembic
+
+Rebuilt from mock-up B with mock-up A's light panel (`p8_alembic_before_*.jpg`, `p8_alembic_after_*.jpg`, at 1280 x 720 and
+1920 x 1080): she stands at her cauldron inside a gold circle with the four Path sockets; a chosen socket lights up and its
+essence pours into the pot; Brew is under her; the jars stand along the bottom; the parchment panel on the right shows the
+Paths of the brew (two slots, the third and fourth padlocked until Primm), the price, and the cards it can make with hover
+zoom. The brewed card rises out of the pot. Sockets, jars and Brew take controller focus (checked by test, not by hand with a
+pad). Brews of three and four Paths open after Primm; a four-Path brew can only copy a prize card you own (inbox 4).
+
+## Part 9 - checks and build
+
+- **Tests:** `bash tools/run_tests.sh --min-free=1200`, 48 shards: **3,780 of 3,782 passed, 0 failing, 2 pending.** Real saves
+  untouched. The first full run had 25 older tests failing on things this pass changed on purpose (card, equipment, feat and
+  dungeon counts, the armory's stock, the vendor stage on Alembic's screen) and a few that found real gaps, now closed: the
+  Halls had no music, no level hint and two rooms of free boons; Octavia's four-Path card could be earned before Primm.
+- **Draft smoke** (`bash tools/run_draft_smoke.sh`): **494 checks, 0 failed** - a zone draft and run in each of the four zones
+  with a save and reload in the middle, the Shuffle House opening both ways and the main quest starting, an Open Draft at an
+  arena table, the Halls on two routes, a Mystery Mini, a zone dungeon as a draft (the House of Gains, cleared).
+- **Play scripts:** the real store-room ghost fight from Maren's quest, and the Shuffle House from the closed door through
+  Octavia's welcome, the arena menu and into the Halls and out (0 script errors; `p4_*.jpg`, `p5_ghosts_*.jpg`). The zone
+  draft, Halls, Mystery Mini and dungeon-draft playthroughs are the headless smoke above (real fights, both sides played by the
+  AI), not windowed play scripts.
+- **Walk smokes, all eight pass:** Crosspath, the hub, the Gainlands, the Buffet, the Verdant Dump, the D.N.A., the Capital,
+  the reach walk; and the opening-forest smoke.
+- **Probes:** NPC visibility **158 checks, 0 failed** (Trey in all four zones from both cameras); the fade probe 0 script
+  errors; quest hand-in **32 passed, 0 failed**. **The sign walkway probe fails**: it reports "no walkable area found" in every
+  zone before it checks a single sign. It was not in the last nights' lists, and I did not check whether it already failed
+  before this pass, so I cannot say this pass did not break it.
+- **Story bots, one per Path, one after another:** Beefcake, Gourmand, Necrocrat, Refusemancer each **119 steps, 119 passed, 0
+  failed, 0 script errors**.
+- **Sims:** rivals (inbox 1; `rivals_zone_v1` to `v7`), the Halls (`halls.md`), the castle after the Mimic
+  (`castle_runs_mimic28.md`). **Not done: rewards against the economy** (no model run; the reward sums are in
+  `data/draft/draft_rules.json`), and one draft run of each other dungeon type beyond the one zone dungeon and one mini the
+  smoke plays. - **Ban tables (Part 2), proposals only - nothing was banned beyond your own removals.** The 23 Epic and Legendary pieces
+  of the pool, each alone on the same four draft decks (one per Path) against elite-level rivals: 48 games a piece, so a
+  difference under about 14 points is noise. The bare deck wins 48 %. Tables: `docs/design/sim/nov23/ban_gear_*.md`.
+
+  | Piece | Rarity | Win rate with it | Change |
+  |---|---|---:|---:|
+  | Elastic Waistband of Victory | Epic | 83 % | +35 |
+  | Glass Jaw Gauntlets | Epic | 77 % | +29 |
+  | Siphon's Lens | Epic | 75 % | +27 |
+  | Big Brain Beret | Epic | 73 % | +25 |
+  | The Bomb Rare, Draft Champion's Laurels (Legendary), Curve-Topper Boots | Epic | 71 % | +23 |
+  | Blade of Earned Reputation | Epic | 69 % | +21 |
+  | Sideboard Satchel, Four-Seal Signet (Legendary), Compliance Clipboard | Epic | 67 % | +19 |
+  | Crown of Mild Hubris | Legendary | 65 % | +17 |
+  | Refusemancer Seed Satchel, Quota's Stopwatch | Epic | 63 % | +15 |
+  | the other nine (Dex's Matching Pair down to Pantry Apron) | | 46 to 58 % | -2 to +10 |
+
+  **Proposal:** take the **Elastic Waistband of Victory** out of drafts, or make it Legendary there (5 % of offers instead of
+  15 %); it is worth more alone than any Legendary piece. **Glass Jaw Gauntlets** and **Siphon's Lens** pay for their strength
+  with max HP in the main game, and a draft's fresh HP every fight makes that price small: a second look, not a ban yet. Four
+  Epic pieces do nothing measurable in a draft (Overdue Library Book, Grandma's Rolling Pin, Pantry Apron, Plume's Notary
+  Quill): they are dead picks rather than problems. **Not measured:** the Common and Uncommon pieces and the items (a piece
+  takes four minutes; the whole pool is five hours of batches); Phase 1's tables for them (`docs/design/sim/draft1/`) are from
+  the old rules.
+- **Build:** after the tests, `PLAYTEST_BUILD=1 bash tools/export_windows.sh 1.0.0` -> **EXPORT OK.**
+  **`builds/TheWaywardPath-v1.0.0-windows.zip`, 812 MB** (812,447,234 bytes; the build of Nov 23 was 805,250,272, so this
+  pass cost 7.2 MB). It carries `README_PLAYTEST.txt` and the five launchers. `run_release_smoke_exported.sh` **PASSED
+  (1.0.0)**; a fresh test pack, then the three `play_exported.sh` checks (`exported_rc1_a`, `_b`, `_c`) all ran to "done" with
+  **0 SCRIPT ERROR**. The final full test run was made after the export; only test files and the report changed in between.
+
+## Batch 21 (`docs/art/batch21.csv`, references in `G:/My Drive/Card Game Art/Batch 21 Refs/`)
+
+Three rows: MAP-TTK (one missing walkway), MAP-DRAFT (one missing carpet), and a walk cycle for the mole farm hand.
+
+## What's left
+
+- **The sign walkway probe** (above): find out whether it is out of date or broken by this pass.
+- **Ban tables for the Common and Uncommon pieces and for the items** (Part 2): not re-measured; a piece takes about four
+  minutes, the whole pool five hours. `bash tools/run_draft_ban_sims.sh 4 0 200 "" 1` runs all of it in 20-minute batches.
+- **Rewards against the economy** and **Bomb in the Pack by itself**: not simulated.
+- **Rival strength** needs a longer measurement than a night's batches gave (inbox 1).
+- **In-game shots of every dungeon map**, and a pad-in-hand check of Alembic's screen.
+- **The Halls' own music**; a walk cycle for the farm hand and the two missing walkways (Batch 21).
+
+## Your decisions (inbox, "Fable big pass Nov 23")
+
+1. Table rivals at about 60 %, loosely measured: keep and watch, or move `rivals.hp_bonus`. **Keep.**
+2. The Shuffled Halls at 4 of 10 (careful) and 2 of 10 (greedy): **keep for the playtest.**
+3. "Win-three" tables as built (win all three, one loss ends it, rivals use your whole pool): **keep**, or say what you meant.
+4. A four-Path brew only copies a prize card you own: **keep**, or ask for cauldron-only four-Path cards.
+5. The store-room ghosts' art: nothing was removed; look at the shots and say what was missing.
+6. The Deck Station south of the fountain and the Shuffle House on the north-east corner: **keep both.**
+
+---
+
 # Fable Nov 22 night - report: Batch 19 in the game, your answers applied, Primm and the castle re-simulated
 
 Brief: `docs/prompts/fable_nov22_night.md`. Start tag `pre-fable-nov22-night`. Questions: `docs/overnight_inbox.md`, "Fable Nov 22

@@ -218,6 +218,9 @@ func _gear() -> void:
 		base_wins += int(base["wins"])
 		base_games += int(base["games"])
 	var pool: Array[EquipmentData] = DraftEngine.equipment_pool(content)
+	# --rarity_min=2: only the Epic and Legendary pieces (the ones a ban decision is about; a piece takes about four minutes)
+	if args.has("rarity_min"):
+		pool = pool.filter(func(piece: EquipmentData) -> bool: return int(piece.rarity) >= int(args["rarity_min"]))
 	var from: int = int(args.get("from", 0))
 	var to: int = mini(int(args.get("to", pool.size())), pool.size())
 	lines.append("Bare draft deck (no equipment, no items): **%d%%** over %d games. Pieces %d to %d of %d, one at a time on the same decks and seeds." % [_pct(base_wins, base_games), base_games, from, to - 1, pool.size()])
