@@ -2,6 +2,7 @@
 
 ## v1.0.0 (Nov 13 2026)
 
+- Nov 23 (draft mode, Phase 1): **draft mode** - Trey Pickett, a travelling host, sets up his draft table in each freed zone: choose from three cards 25 times (every fifth pick from the top two rarities, one reroll), five pieces of equipment and two items on the way, build a 35-card deck (20 of your 25 picks and 15 basic Infrastructure), then play three rival drafters at full HP each; the run ends at three wins or two losses. Rewards rise with wins, the first win of each zone draft pays much more, and after a full win you keep one drafted card. The first attempt at each draft is free, later ones cost 100 gold. Your own deck, equipment and items are untouched. A quest line (an introduction, one quest per zone, a finale) and **eight new pieces of equipment** come with it; a draft in progress is saved and resumes at the table.
 - Nov 22 (night): **Batch 19's 8 pictures** - Primm's Castle has its repainted map (every room on its painted landing spot;
   the painted walkways replace the drawn lines, and eleven links the painting misses keep a line), the Pantry Mimic has its own
   portrait, Auntie Alembic stirs her cauldron in the middle of her shop and her essence jars are painted glass, the locked
