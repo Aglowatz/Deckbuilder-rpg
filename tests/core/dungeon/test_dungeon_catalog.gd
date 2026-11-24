@@ -63,7 +63,8 @@ func test_every_map_is_sound_and_has_the_csv_nodes() -> void:
 		for node: DungeonMap.MapNode in map.nodes:
 			if not node.hidden:
 				visible_nodes += 1
-		assert_eq(visible_nodes, blueprint.nodes.size(), "%s has every node of the CSV on the map" % blueprint.id)
+		# the Shuffled Halls keeps its stage door (room 1) off the map
+		assert_eq(visible_nodes, blueprint.nodes.size() - (1 if blueprint.is_draft_only() else 0), "%s has every node of the CSV on the map" % blueprint.id)
 		assert_eq(map.dungeon_name, blueprint.dungeon_name)
 		for node: DungeonMap.MapNode in map.nodes:
 			assert_between(node.position.x, 0.0, 1.0, "%s node %d x" % [blueprint.id, node.id])
@@ -168,7 +169,7 @@ func test_every_battle_has_a_real_enemy_deck() -> void:
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 			continue
-		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
+		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame() or blueprint.is_draft_only()) else blueprint.zone_id
 		var map: DungeonMap = MainDungeons.build_map(key)
 		for node: DungeonMap.MapNode in map.nodes:
 			if not DungeonMap.is_battle_kind(node.kind):
@@ -182,7 +183,7 @@ func test_every_event_challenge_and_treasure_node_can_be_played() -> void:
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 			continue
-		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
+		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame() or blueprint.is_draft_only()) else blueprint.zone_id
 		var def: MainDungeonDef = MainDungeons.def(key)
 		var story: ZoneStoryText = ZoneStoryText.for_zone(blueprint.zone_id)
 		for node: DungeonMap.MapNode in MainDungeons.build_map(key).nodes:

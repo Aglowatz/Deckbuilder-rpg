@@ -15,7 +15,7 @@ func _event_nodes(plan: DungeonCatalog.Blueprint) -> Array[DungeonCatalog.Bluepr
 
 
 func _key_of(plan: DungeonCatalog.Blueprint) -> String:
-	return plan.id if (plan.is_side() or plan.is_postgame()) else plan.zone_id
+	return plan.id if (plan.is_side() or plan.is_postgame() or plan.is_draft_only()) else plan.zone_id
 
 
 func test_every_event_and_rescue_node_has_content() -> void:

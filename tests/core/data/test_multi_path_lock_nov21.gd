@@ -159,7 +159,7 @@ func test_no_fixed_prize_before_primm_is_a_three_or_four_path_card() -> void:
 	for quest: QuestData in QuestCatalog.all():
 		if DraftArenaQuests.PRIZES_AFTER_PRIMM.has(quest.id):
 			# Fable big pass Nov 23: Octavia's four-Path card is a quest prize whose quest ends with "Defeat Primm"
-			assert_string_contains(quest.objectives[quest.objectives.size() - 1].description, "Primm", "%s hands its prize over after Primm" % quest.id)
+			assert_string_contains(quest.objectives[quest.objectives.size() - 1].text, "Primm", "%s hands its prize over after Primm" % quest.id)
 			continue
 		for id: String in quest.reward_card_ids:
 			fixed[id] = "quest %s" % quest.id

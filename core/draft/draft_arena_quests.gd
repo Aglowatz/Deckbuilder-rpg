@@ -80,7 +80,7 @@ static func quests() -> Array[QuestData]:
 	# Octavia's card is of all four Paths, and no card of three or four Paths is handed out before Primm falls (`MultiPathLock`):
 	# the clear counts whenever it is made, the prize is handed over once the kingdom is free
 	halls.objectives = [_step("Clear the Shuffled Halls (beat Octavia Eightfold)", Condition.flag(DraftChallenges.won_flag(DraftArena.HALLS_ID))),
-		_step("Defeat Primm: Octavia's own card, a card of all four Paths, stays sealed until the Paths may mix", Condition.flag(str(MultiPathLock.FLAG_UNLOCKED)))] as Array[QuestObjective]
+		_step("Defeat Primm (a card of all four Paths stays sealed until then)", Condition.flag(str(MultiPathLock.FLAG_UNLOCKED)))] as Array[QuestObjective]
 	halls.reward_gold = 400
 	halls.reward_xp = 400
 	halls.reward_card_ids = [DraftRivals.OCTAVIA_CARD] as Array[String]

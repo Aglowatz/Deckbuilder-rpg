@@ -293,7 +293,7 @@ func test_global_gains_does_not_return_to_hand_when_the_attached_unit_dies() -> 
 	assert_true(_activate(game, membership, 0, [unit.uid] as Array[int]))
 	game.destroy_unit(unit)
 	assert_false(game.players[0].hand.has(membership), "it does not come back to your hand")
-	assert_false(game.players[0].field.has(membership))
+	assert_true(game.players[0].field.has(membership), "it stays on the table, ready to be attached again (pay 1)")
 
 
 func test_attached_unit_events_attack_and_damage() -> void:

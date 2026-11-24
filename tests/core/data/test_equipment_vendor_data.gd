@@ -61,4 +61,4 @@ func test_default_stock_has_five_basic_and_five_advanced() -> void:
 		assert_true((content.equipment_piece(id) as EquipmentData).advanced, "%s should be advanced" % id)
 	var opened: UnlockState = UnlockState.new()
 	opened.player_level = ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL
-	assert_eq(vendor.available_equipment_ids(opened).size(), 13, "levelling up unlocks the rest")
+	assert_eq(vendor.available_equipment_ids(opened).size(), 13 + DraftGear.VENDOR_PIECES.size(), "levelling up unlocks the rest")

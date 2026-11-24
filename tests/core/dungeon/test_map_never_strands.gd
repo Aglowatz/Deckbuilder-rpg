@@ -14,7 +14,7 @@ func before_each() -> void:
 func _map_for(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 	if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 		return TrialOfTheHollow.build_map()
-	return MainDungeons.build_map(blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id)
+	return MainDungeons.build_map(blueprint.id if (blueprint.is_side() or blueprint.is_postgame() or blueprint.is_draft_only()) else blueprint.zone_id)
 
 
 ## Walks `map` to the end, choosing with `pick`; returns "" or a description of where it got stranded.

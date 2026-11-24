@@ -97,6 +97,8 @@ func test_every_dungeon_boss_and_primms_phases_open_with_a_setup_window() -> voi
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if blueprint.type == DungeonCatalog.TYPE_TUTORIAL:
 			continue
+		if blueprint.is_draft_only():
+			continue  # Fable big pass Nov 23: the Shuffled Halls' boss is a drafted rival (Octavia), dealt in like the tables; no setup window
 		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
 		if not MainDungeons.has_def(key):
 			continue

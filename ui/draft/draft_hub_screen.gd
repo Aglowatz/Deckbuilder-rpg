@@ -266,9 +266,14 @@ func _tile(id: String) -> Control:
 	var picture: Control = _tile_picture(id, locked.is_empty())
 	picture.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box_in.add_child(picture)
-	var title: Label = UIKit.label(_tile_title(id), &"", 22, DraftKit.CREAM if locked.is_empty() else Color("b9b4c4"), HORIZONTAL_ALIGNMENT_CENTER)
+	# Fable big pass Nov 23: a long table name wraps inside its tile (it ran off the edge: "Beefcake x Gourmanc")
+	var long_name: bool = _tile_title(id).length() > 14
+	var title: Label = UIKit.label(_tile_title(id), &"", 18 if long_name else 22, DraftKit.CREAM if locked.is_empty() else Color("b9b4c4"), HORIZONTAL_ALIGNMENT_CENTER)
+	title.name = "Title"
 	title.add_theme_font_override("font", UIStyle.font_bold())
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.custom_minimum_size = Vector2(TILE_SIZE.x - 18.0, 0)
+	title.add_theme_constant_override("line_spacing", -3)
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box_in.add_child(title)
 	var state_words: String = ""
@@ -277,8 +282,11 @@ func _tile(id: String) -> Control:
 	elif won:
 		state_words = "Won"
 	if not state_words.is_empty():
-		var state_label: Label = UIKit.label(state_words, &"", 18, DraftKit.MARQUEE if won and locked.is_empty() else Color("d0c8dc"), HORIZONTAL_ALIGNMENT_CENTER)
+		var state_label: Label = UIKit.label(state_words, &"", 15, DraftKit.MARQUEE if won and locked.is_empty() else Color("d0c8dc"), HORIZONTAL_ALIGNMENT_CENTER)
 		state_label.name = "State"
+		state_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		state_label.custom_minimum_size = Vector2(TILE_SIZE.x - 18.0, 0)
+		state_label.add_theme_constant_override("line_spacing", -3)
 		state_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		box_in.add_child(state_label)
 	tile.tooltip_text = locked if not locked.is_empty() else _tile_title(id)

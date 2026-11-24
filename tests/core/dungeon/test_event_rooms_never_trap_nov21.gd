@@ -14,7 +14,7 @@ func before_each() -> void:
 
 
 func _key(blueprint: DungeonCatalog.Blueprint) -> String:
-	return blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
+	return blueprint.id if (blueprint.is_side() or blueprint.is_postgame() or blueprint.is_draft_only()) else blueprint.zone_id
 
 
 ## Every (dungeon id, room title, event) of the game.
