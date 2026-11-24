@@ -25,11 +25,11 @@ func test_leveling_up_never_grants_a_free_card() -> void:
 func test_reaching_level_10_unlocks_advanced_equipment_at_the_vendor() -> void:
 	var vendor: EquipmentVendorData = EquipmentVendorScreen.default_stock()
 	var before_state: UnlockState = Session.unlock_state()
-	assert_eq(vendor.available_equipment_ids(before_state).size(), 7, "only the 7 basic pieces before leveling")
+	assert_eq(vendor.available_equipment_ids(before_state).size(), 7 + DraftGear.VENDOR_PIECES.size(), "only the 7 basic pieces and the modest draft pieces (Fable big pass Nov 23) before leveling")
 	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL))
 	assert_gte(Session.profile.level, ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 	var after_state: UnlockState = Session.unlock_state()
-	assert_eq(vendor.available_equipment_ids(after_state).size(), 13, "all 13 pieces after reaching level 13 (Oct 29: the Blade of Earned Reputation joined the rack)")
+	assert_eq(vendor.available_equipment_ids(after_state).size(), 13 + DraftGear.VENDOR_PIECES.size(), "plus the modest draft pieces: all 13 pieces after reaching level 13 (Oct 29: the Blade of Earned Reputation joined the rack)")
 
 
 ## Level 17 (ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL; was 6 before the Nov 2 pass) unlocks the item vendor's advanced half.

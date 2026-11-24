@@ -9,6 +9,7 @@ OK   | ui/battle/refuse_pile_viewer.gd | the screen's own large card
 OK   | ui/battle/refuse_pile_widget.gd | grows in place (a card that ignores the mouse)
 OK   | ui/card/card_gallery.gd | exempt: a developer scene (card frames side by side), not in the game
 OK   | ui/card/hover_preview.gd | exempt: it IS the large preview
+OK   | ui/draft/draft_screen.gd | grows in place (mouse and focus)
 OK   | ui/dungeon/challenge_screen.gd | grows in place (mouse and focus)
 OK   | ui/dungeon/element_choice_screen.gd | grows in place (mouse and focus)
 OK   | ui/dungeon/rewards_screen.gd | grows in place (mouse and focus)
@@ -23,4 +24,4 @@ OK   | ui/ui_art_warmup.gd | exempt: the loading warm-up: cards drawn off screen
 OK   | ui/zone/card_games/card_game_screen.gd | grows in place (a card that ignores the mouse)
 OK   | ui/zone/card_match_screen.gd | grows in place (a card that ignores the mouse)
 
-21 scripts, 0 without a hover zoom
+22 scripts, 0 without a hover zoom

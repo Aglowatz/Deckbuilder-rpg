@@ -127,11 +127,20 @@ func test_the_five_equipment_picks_are_five_different_slots() -> void:
 	assert_eq(slots.size(), 5, "one piece for each slot")
 
 
-func test_the_whole_pool_is_offered_and_the_ban_lists_are_empty_in_data() -> void:
-	assert_eq(DraftEngine.equipment_pool(_content()).size(), GearCatalog.all_pieces(_content()).size(), "every piece of equipment is in the pool")
+## Fable big pass Nov 23: the owner's removals are the equipment ban list (Gotta-Go Galoshes, the pieces that hurt enemy units,
+## the pieces that only work outside battle); no item and no card is banned.
+func test_the_whole_pool_is_offered_but_the_owners_removals() -> void:
+	var banned: Dictionary = DraftRules.banned("banned_equipment")
+	assert_eq(DraftEngine.equipment_pool(_content()).size(), GearCatalog.all_pieces(_content()).size() - banned.size(), "every piece of equipment but the removals is in the pool")
+	assert_true(banned.has("gotta_go_galoshes"))
+	assert_true(banned.has("flamethrower"))
+	assert_true(banned.has("hall_pass_slippers"))
+	for piece: EquipmentData in DraftEngine.equipment_pool(_content()):
+		assert_false(banned.has(piece.id), "%s is banned" % piece.id)
 	assert_eq(DraftEngine.item_pool(_content()).size(), _content().items.size(), "every item is in the pool")
 	for key: String in ["banned_equipment", "banned_items", "banned_cards"]:
 		assert_true(DraftRules.data().has(key), "%s is in the data file" % key)
+	for key: String in ["banned_items", "banned_cards"]:
 		assert_eq(DraftRules.banned(key).size(), 0)
 
 
@@ -202,7 +211,9 @@ func test_the_deck_is_20_of_the_25_plus_15_basics_split_across_the_paths() -> vo
 	assert_false(DraftEngine.deck_ready(state), "19 cards is not a deck")
 	assert_true(DraftEngine.toggle_bench(state, state.bench[0]))
 	assert_true(DraftEngine.deck_ready(state))
-	assert_false(DraftEngine.toggle_bench(state, state.bench[0]), "a 21st card does not fit")
+	# Fable big pass Nov 23 (the owner: build it like the main deck builder): all 25 picks may be played, 35 is only the minimum
+	assert_true(DraftEngine.toggle_bench(state, state.bench[0]), "a 21st card fits: the deck may be bigger than the minimum")
+	assert_true(DraftEngine.deck_ready(state))
 
 
 func test_no_copy_limits_and_no_45_card_minimum() -> void:
@@ -270,6 +281,10 @@ func test_rivals_draft_with_the_same_system_and_their_decks_are_fixed_up() -> vo
 		assert_ne(DraftRivals.portrait_id(str(rival["name"])), "", "a rival is somebody with a portrait")
 		var deck: Deck = ZoneDecks.from_recipe(_content(), str(rival["name"]), rival["recipe"] as Dictionary)
 		assert_eq(deck.cards.size(), 35, "%s plays 35 cards" % rival["name"])
+		# Fable big pass Nov 23: a rival drafts a random Path of its own (one Path in a one-Path draft)
+		var rival_paths: Array[int] = []
+		rival_paths.assign(rival["paths"] as Array)
+		assert_eq(rival_paths.size(), 1)
 		var units: int = 0
 		var dear: int = 0
 		var basics: int = 0
@@ -279,11 +294,13 @@ func test_rivals_draft_with_the_same_system_and_their_decks_are_fixed_up() -> vo
 				continue
 			units += 1 if card.is_unit() else 0
 			dear += 1 if card.energy_value() >= 5 else 0
-			assert_true(DraftEngine.card_allowed(card, state.paths, false, false), "%s drafted from the same pool (%s)" % [rival["name"], card.id])
+			assert_true(DraftEngine.card_allowed(card, rival_paths, false, false), "%s drafted from the pool of its own Path (%s)" % [rival["name"], card.id])
 		assert_eq(basics, 15)
 		assert_gte(units, 9, "%s has enough units" % rival["name"])
 		assert_lte(dear, 5, "%s is not all dear cards" % rival["name"])
-		assert_eq(int(rival["hp"]), ProgressionTable.row(12).max_hp, "a rival has the player's base HP")
+		assert_eq(int(rival["hp"]), ProgressionTable.row(12).max_hp + int(DraftRules.rivals().get("hp_bonus", 0)), "a rival has the player's base HP plus the rules' bonus")
+		for id: Variant in rival["equipment"] as Array:
+			assert_lte(int(_content().equipment_piece(str(id)).rarity), DraftRules.rival_equipment_cap(DraftArena.KIND_ZONE), "%s wears nothing above the cap" % rival["name"])
 		var worn: Array = rival["equipment"] as Array
 		assert_eq(worn.size(), 5, "%s drafted five pieces of equipment, like the player" % rival["name"])
 		var slots: Dictionary = {}
@@ -329,10 +346,11 @@ func test_rewards_rise_with_wins_and_the_first_full_win_pays_much_more() -> void
 	assert_false(bool(DraftChallenges.reward(2, false, true)["keep_card"]))
 
 
-func test_the_fee_is_100_gold_and_the_first_attempt_is_free() -> void:
+## Fable big pass Nov 23 (the owner): entry is free, every time.
+func test_entry_is_free() -> void:
 	assert_eq(DraftChallenges.fee("zone:beefcake", {}), 0)
-	assert_eq(DraftChallenges.fee("zone:beefcake", {DraftChallenges.attempts_counter("zone:beefcake"): 1}), 100)
-	assert_eq(DraftChallenges.fee("zone:gourmand", {DraftChallenges.attempts_counter("zone:beefcake"): 1}), 0, "each challenge has its own free first attempt")
+	assert_eq(DraftChallenges.fee("zone:beefcake", {DraftChallenges.attempts_counter("zone:beefcake"): 5}), 0)
+	assert_eq(DraftChallenges.fee(DraftArena.OPEN_ID, {}), 0)
 
 
 func test_a_draft_fight_is_an_ordinary_duel_with_the_draft_deck() -> void:

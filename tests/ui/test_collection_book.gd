@@ -12,6 +12,11 @@ func before_each() -> void:
 func test_every_dungeon_foe_and_boss_has_an_entry() -> void:
 	var parsed: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/dungeons/dungeon_content.json")) as Dictionary
 	for dungeon_id: Variant in (parsed["dungeons"] as Dictionary).keys():
+		# Fable big pass Nov 23: a draft-only dungeon (the Shuffled Halls) is held by rival drafters, people with portraits, dealt
+		# in when the run starts; the names in its data are stand-ins
+		var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(str(dungeon_id))
+		if plan != null and plan.is_draft_only():
+			continue
 		var foes: Dictionary = ((parsed["dungeons"] as Dictionary)[dungeon_id] as Dictionary).get("foes", {}) as Dictionary
 		for foe: Variant in foes.values():
 			var name: String = str((foe as Dictionary)["name"]) if foe is Dictionary else str(foe)

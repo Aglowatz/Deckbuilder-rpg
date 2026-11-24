@@ -127,7 +127,10 @@ func test_a_dye_is_previewed_on_the_hero_bought_and_worn() -> void:
 	(screen.find_child("Preview_dye_2", true, false) as Button).pressed.emit()
 	await wait_frames(2)
 	assert_eq(screen.previewed_dye(), 2)
-	assert_eq(screen.find_children("*", "HeroPreview", true, false).size(), 1, "a dye is judged on the hero")
+	# Fable big pass Nov 23 (the owner): a dye is previewed on the Plain Cloak's own icon in that colour, not on the whole hero
+	assert_eq(screen._preview_icon.texture, IconArt.plain_cloak_texture(TailorScreen.PREVIEW_SIZE), "a dye is judged on the cloak icon")
+	assert_eq(screen._preview_icon.modulate, IconArt.plain_cloak_tint(2))
+	assert_true(screen._preview_icon.is_visible_in_tree())
 	assert_eq(Session.cosmetics.cloak_dye, Dye.NATURAL, "previewing dyes nothing")
 	var buy: Button = screen.find_child("Buy_dye_2", true, false) as Button
 	assert_eq(buy.text, "Buy")

@@ -342,6 +342,7 @@ static func road_kinds() -> Dictionary:
 	return {
 		"market_west": "cobble", "market_east": "cobble", "gate_road": "cobble", "champions": "cobble",
 		"south_road": "dirt", "grave_road": "dirt", "cave_path": "dirt", "elder_path": "dirt",
+		"shuffle_path": "cobble",  # Fable big pass Nov 23: the paved way from the square to the Shuffle House
 	}
 
 

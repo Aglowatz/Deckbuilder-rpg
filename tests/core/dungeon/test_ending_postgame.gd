@@ -111,7 +111,7 @@ func test_the_alchemists_tri_path_hook_opens() -> void:
 	assert_eq(Alchemy.max_craft_paths(Session.profile), 2)
 	Session.unlock_postgame()
 	assert_true(Alchemy.tri_path_unlocked(Session.profile))
-	assert_eq(Alchemy.max_craft_paths(Session.profile), 3)
+	assert_eq(Alchemy.max_craft_paths(Session.profile), 4, "Fable big pass Nov 23: three and four Paths after Primm")
 	assert_gt(Alchemy.tri_path_cards(Session.content, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER] as Array[Affinity.Type]).size(), 0, "the Beefcake/Gourmand/Refusemancer tri-Path cards exist")
 
 

@@ -28,4 +28,9 @@ func test_equipment_is_a_saving_goal() -> void:
 	assert_gte(Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 1), Economy.gear_price(EquipmentData.Rarity.COMMON, 4))
 	assert_gt(Economy.gear_price(EquipmentData.Rarity.RARE, 1), Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 4))
 	for entry: EquipmentVendorEntry in EquipmentVendorScreen.default_stock().entries:
+		if DraftGear.VENDOR_PIECES.has(entry.equipment_id):
+			# Fable big pass Nov 23 (the owner): the modest draft pieces are early and easy to get, well under a real piece's price
+			assert_lt(entry.price, 250, "%s is a cheap, modest piece" % entry.equipment_id)
+			assert_eq(entry.price, int(DraftGear.VENDOR_PIECES[entry.equipment_id]))
+			continue
 		assert_gte(entry.price, 250, "%s is a real purchase" % entry.equipment_id)

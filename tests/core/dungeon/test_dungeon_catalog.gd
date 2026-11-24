@@ -25,11 +25,11 @@ func before_each() -> void:
 func _map_of(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 	if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 		return TrialOfTheHollow.build_map()
-	return MainDungeons.build_map(blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id)
+	return MainDungeons.build_map(blueprint.id if (blueprint.is_side() or blueprint.is_postgame() or blueprint.is_draft_only()) else blueprint.zone_id)
 
 
 func test_every_dungeon_of_the_list_is_there() -> void:
-	assert_eq(DungeonCatalog.all().size(), 16, "the 13 dungeons of the sheet (with the Paste Works, Oct 21) plus the hand-made Path-ology Lab, Iron Cave (Gainlands v2) and Shattered Gallery (Nov 5)")
+	assert_eq(DungeonCatalog.all().size(), 17, "Fable big pass Nov 23: + the Shuffled Halls (a draft dungeon). the 13 dungeons of the sheet (with the Paste Works, Oct 21) plus the hand-made Path-ology Lab, Iron Cave (Gainlands v2) and Shattered Gallery (Nov 5)")
 	for id: String in NODE_COUNTS.keys():
 		var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(id)
 		assert_not_null(blueprint, id)

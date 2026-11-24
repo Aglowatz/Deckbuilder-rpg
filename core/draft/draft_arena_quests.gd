@@ -19,6 +19,8 @@ const HIGH_QUEST: String = "arena_high_rollers"
 const HALLS_QUEST: String = "arena_lost_in_the_halls"
 const MYSTERY_QUEST: String = "arena_spin_the_wheel"
 const DUNGEON_QUEST: String = "arena_dungeon_regular"
+## Quests whose card prize is a three- or four-Path card: each has a last step that waits for Primm's defeat.
+const PRIZES_AFTER_PRIMM: Array[String] = [HALLS_QUEST]
 const WHERE: String = "The Shuffle House, on the north-east corner of Crosspath's square"
 const AREA: String = "town"
 const SPOT: String = "shuffle_house"
@@ -75,7 +77,10 @@ static func quests() -> Array[QuestData]:
 	result.append(high)
 	# -- the Shuffled Halls: Octavia's own card is the prize
 	var halls: QuestData = _side(HALLS_QUEST, 85, "Lost in the Halls", "The Shuffled Halls run behind the Shuffle House's stage: eighteen rooms, one HP pool, Trey Pickett in the Auction Ring and Octavia Eightfold at the Big Wheel. Clear them.", open)
-	halls.objectives = [_step("Clear the Shuffled Halls (beat Octavia Eightfold)", Condition.flag(DraftChallenges.won_flag(DraftArena.HALLS_ID)))] as Array[QuestObjective]
+	# Octavia's card is of all four Paths, and no card of three or four Paths is handed out before Primm falls (`MultiPathLock`):
+	# the clear counts whenever it is made, the prize is handed over once the kingdom is free
+	halls.objectives = [_step("Clear the Shuffled Halls (beat Octavia Eightfold)", Condition.flag(DraftChallenges.won_flag(DraftArena.HALLS_ID))),
+		_step("Defeat Primm: Octavia's own card, a card of all four Paths, stays sealed until the Paths may mix", Condition.flag(str(MultiPathLock.FLAG_UNLOCKED)))] as Array[QuestObjective]
 	halls.reward_gold = 400
 	halls.reward_xp = 400
 	halls.reward_card_ids = [DraftRivals.OCTAVIA_CARD] as Array[String]

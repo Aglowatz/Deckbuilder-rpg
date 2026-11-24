@@ -284,14 +284,15 @@ func test_tool_triggers_for_the_attached_unit() -> void:
 	assert_eq(game.players[0].hand.size(), hand_before + 1, "Adventurer's Pack: when the attached unit dies, draw a card")
 
 
-func test_global_gains_returns_to_hand_when_the_attached_unit_dies() -> void:
+## Fable big pass Nov 23 (the owner): Global Gains Platinum Membership no longer comes back to the hand.
+func test_global_gains_does_not_return_to_hand_when_the_attached_unit_dies() -> void:
 	var game: GameState = _game()
 	_energy(game)
 	var unit: CardInstance = _unit(game, 0, 2, 2)
 	var membership: CardInstance = _play(game, "B-33")
 	assert_true(_activate(game, membership, 0, [unit.uid] as Array[int]))
 	game.destroy_unit(unit)
-	assert_true(game.players[0].hand.has(membership), "returned to your hand")
+	assert_false(game.players[0].hand.has(membership), "it does not come back to your hand")
 	assert_false(game.players[0].field.has(membership))
 
 

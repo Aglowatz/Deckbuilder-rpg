@@ -53,6 +53,9 @@ const DUNGEONS: Dictionary = {
 	# Overnight Nov 4-5, Part 5: The Shattered Gallery reuses the castle's cues and Primm's Reflection theme, played through the Music bus's
 	# mirror effect (AudioMix.set_mirror_music: a cold detuned chorus and a hair of pitch-down) - no new audio files
 	"S-GALLERY": {"exp": "MUS-CASTLE-EXP", "battle": "MUS-CASTLE-BATTLE", "boss": "MUS-PRIMM-02"},
+	# Fable big pass Nov 23: the Shuffled Halls borrows cues until it has its own - a card-game tune on the map, the Arena's
+	# for the tables and its elite cue for the champions and Octavia (no new audio files)
+	"D-SHUFFLE": {"exp": "MUS-MINIGAME-GOUR", "battle": "MUS-ARENA-BATTLE", "boss": "MUS-ARENA-ELITE"},
 }
 
 ## Battleboard ID (the battle's board) -> the dungeon whose battle cues it uses, or the cue itself (outside the dungeons).

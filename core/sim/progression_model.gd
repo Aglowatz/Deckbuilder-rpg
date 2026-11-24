@@ -20,6 +20,7 @@ const LEVELS: Dictionary = {
 	"zone:refusemancer": 16, "D-ROT": 17, "S-REF": 16,
 	"zone:final": 20, "S-CAP": 21, "S-PASTE": 23, "D-PC": 21,
 	"D-LAB": 25,
+	"D-SHUFFLE": 14,  # Fable big pass Nov 23: the Shuffled Halls open with three zones freed (a draft: the level only sets the HP)
 	"S-GALLERY": 26,  # Overnight Nov 4-5: The Shattered Gallery, the last postgame dungeon
 	"arena:1": 8, "arena:2": 13, "arena:3": 22,
 }

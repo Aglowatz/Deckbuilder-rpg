@@ -2087,22 +2087,30 @@
 				},
 				"9": {
 					"title": "The Lucky Stall",
-					"body": "A stall hung with charms: a rabbit's foot (the rabbit is fine, it says so on the tag), a horseshoe and a four-leaf clover pressed in a pack wrapper. A sign: ONE PER CUSTOMER. THEY ALL WORK. MOSTLY.",
+					"body": "A stall hung with charms: a rabbit's foot (the rabbit is fine, it says so on the tag), a horseshoe and a four-leaf clover pressed in a pack wrapper. A sign: ONE PER CUSTOMER. THEY ALL WORK. MOSTLY. LUCK IS NOT FREE.",
 					"choices": [
 						[
 							"Take the horseshoe",
-							"It is heavier than it looks. Your units hit a little harder for the rest of the run.",
-							"boon:Lucky Horseshoe|atk=1"
+							"It is heavier than it looks, and it drops on your foot at once (lose 3 HP). Your units hit a little harder for the rest of the run.",
+							"boon:Lucky Horseshoe|atk=1",
+							"damage:3"
 						],
 						[
-							"Take the clover",
-							"You tuck it into your sleeve. Your opening hand has one more card for the rest of the run.",
-							"boon:Four-Leaf Clover|draw=1"
+							"Buy the clover",
+							"Forty coins for a leaf. You tuck it into your sleeve: your opening hand has one more card for the rest of the run.",
+							"boon:Four-Leaf Clover|draw=1",
+							"pay:40"
 						],
 						[
 							"Take the rabbit's foot",
-							"It is warm, which is a little worrying. You have 4 more max HP for the rest of the run.",
-							"boon:Rabbit's Foot|max_hp=4"
+							"It is warm, which is a little worrying, and it kicks: in the next fight you skip your first card draw. You have 4 more max HP for the rest of the run.",
+							"boon:Rabbit's Foot|max_hp=4",
+							"curse:A Kick for Luck|first_draw=-1,next=1"
+						],
+						[
+							"Leave the charms alone",
+							"You make your own luck. The stallholder, who is not there, does not mind.",
+							"nothing"
 						]
 					]
 				},
@@ -2111,19 +2119,27 @@
 					"body": "A cart of cakes parked in the corridor, with one slice of everything already cut. A card in icing: FOR THE PERFORMERS. YOU ARE ABOUT TO BE ONE.",
 					"choices": [
 						[
-							"Take the sponge",
-							"Light as a first pick. Your units get +0/+1 for the rest of the run.",
-							"boon:A Slice of Sponge|def=1"
+							"Buy the sponge",
+							"Thirty coins in the tin. Light as a first pick: your units get +0/+1 for the rest of the run.",
+							"boon:A Slice of Sponge|def=1",
+							"pay:30"
 						],
 						[
-							"Take the fudge cake",
-							"Dense as a rulebook. You have 5 more max HP for the rest of the run.",
-							"boon:A Slice of Fudge Cake|max_hp=5"
+							"Buy the fudge cake",
+							"Fifty coins in the tin. Dense as a rulebook: you have 5 more max HP for the rest of the run.",
+							"boon:A Slice of Fudge Cake|max_hp=5",
+							"pay:50"
 						],
 						[
 							"Take the espresso tart",
-							"Your hands will not stop shuffling. You take the first turn in every fight for the rest of the run.",
-							"boon:Espresso Tart|first=1"
+							"It is free, and you find out why: your hands will not stop shuffling. You take the first turn in every fight for the rest of the run, and in the next fight the first card you play each turn costs 1 more.",
+							"boon:Espresso Tart|first=1",
+							"curse:The Jitters|first_cost=1,next=1"
+						],
+						[
+							"No cake before a show",
+							"You walk past the cart. It takes a great deal of character.",
+							"nothing"
 						]
 					]
 				},

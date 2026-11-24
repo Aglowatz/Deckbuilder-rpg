@@ -73,6 +73,8 @@ func test_reward_boxes_reveal_their_rows_one_by_one() -> void:
 	await wait_process_frames(2)
 	assert_true(popup.frame.is_revealing())
 	assert_true(_labels(popup).contains("NEW GEAR!"))
-	assert_true(_labels(popup).contains("Uncommon Boots"), "the gear's rarity is named")
+	# Fable big pass Nov 23: one display order everywhere - the slot and the rarity on one line under the name
+	assert_true(_labels(popup).contains(GearText.kind_line(Session.content.equipment_piece("hover_boots"))), "the gear's slot and rarity are named: %s" % _labels(popup))
+	assert_true(_labels(popup).contains("Uncommon"))
 	await wait_seconds(2.0)
 	assert_false(popup.frame.is_revealing(), "short: everything is in within about a second")

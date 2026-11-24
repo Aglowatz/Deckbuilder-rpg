@@ -95,7 +95,7 @@ func test_the_xp_trophy_and_the_galoshes_work_outside_battle() -> void:
 	Session.profile.equipment.append(_piece("participation_trophy"))
 	before = Session.profile.xp
 	Session.add_xp(100)
-	assert_eq(Session.profile.xp - before, 125, "+25 percent")
+	assert_eq(Session.profile.xp - before, 115, "+15 percent (Fable big pass Nov 23; it was 25)")
 	assert_eq(ExpansionGear.equipped_total(Session.profile, Modifier.Kind.OVERWORLD_SPEED_PERCENT), 0)
 	Session.profile.equipment.append(_piece("gotta_go_galoshes"))
 	assert_eq(ExpansionGear.equipped_total(Session.profile, Modifier.Kind.OVERWORLD_SPEED_PERCENT), 35)

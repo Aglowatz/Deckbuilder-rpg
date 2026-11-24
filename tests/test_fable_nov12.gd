@@ -68,8 +68,14 @@ func test_the_four_leaders_boons_are_what_the_dev_checkpoint_grants() -> void:
 func test_the_armory_offers_its_pieces_in_the_same_order() -> void:
 	var stock: EquipmentVendorData = EquipmentVendorScreen.default_stock()
 	var ids: Array[String] = []
+	var modest: Array[String] = []
 	for entry: EquipmentVendorEntry in stock.entries:
-		ids.append(entry.equipment_id)
+		# Fable big pass Nov 23: the cheap, modest draft pieces joined the rack; the older pieces keep their order among themselves
+		if DraftGear.VENDOR_PIECES.has(entry.equipment_id):
+			modest.append(entry.equipment_id)
+		else:
+			ids.append(entry.equipment_id)
+	assert_eq(modest.size(), DraftGear.VENDOR_PIECES.size(), "every modest draft piece is on the rack")
 	assert_eq(ids, [
 		"wicked_dagger", "extra_pocket", "travelers_boots", "solid_plate", "xray_goggles", "cardboard_cuirass", "saucepan_helmet",
 		"flamethrower", "earned_blade", "cheaters_dice", "hover_boots", "thorned_loincloth", "big_brain_beret",

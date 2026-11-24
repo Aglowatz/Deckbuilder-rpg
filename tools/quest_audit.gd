@@ -116,6 +116,14 @@ func _collect_generated() -> void:
 	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if plan.is_side() or plan.is_postgame():
 			_generated[str(SignatureCards.cleared_flag(plan.id))] = "SignatureCards.cleared_flag (GameSession.resolve_mini_dungeon)"
+	# Fable big pass Nov 23: a draft's books are named after the challenge and its kind (GameSession._pay_draft_rewards and
+	# _pay_draft_dungeon_rewards: the "won" flag of the challenge, the finished and won counters of its kind)
+	for kind: String in [DraftArena.KIND_ZONE, DraftArena.KIND_OPEN, DraftArena.KIND_PAIR, DraftArena.KIND_TRIO, DraftArena.KIND_QUAD, DraftArena.KIND_HIGH,
+			DraftArena.KIND_HALLS, DraftArena.KIND_MYSTERY, DraftArena.KIND_DUNGEON, DraftArena.KIND_DAILY]:
+		_generated["draft_finished:%s" % kind] = "GameSession: a draft of this kind finished"
+		_generated["draft_won_kind:%s" % kind] = "GameSession: a draft of this kind won"
+	for challenge_id: String in [DraftArena.OPEN_ID, DraftArena.QUAD_ID, DraftArena.HALLS_ID, DraftArena.MYSTERY_ID] + DraftArena.pair_ids() + DraftArena.trio_ids() + DraftArena.high_ids():
+		_generated[DraftChallenges.won_flag(challenge_id)] = "DraftChallenges.won_flag (GameSession: the draft won)"
 	for chest_id: String in NinjaBoss.CHEST_IDS:
 		_generated[NinjaBoss.secret_id(chest_id)] = "NinjaBoss.secret_id (Session.open_giant_chest)"
 	for zone_id: String in ZoneDefs.all_ids():
