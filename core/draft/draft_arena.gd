@@ -41,6 +41,10 @@ const KIND_HIGH: String = "high"
 const KIND_HALLS: String = "halls"
 const KIND_MYSTERY: String = "mystery"
 const KIND_DUNGEON: String = "dungeon"
+## Draft of the Day (docs/design/draft_mode.md): one table whose Paths, offers and rivals are worked out from the date, so every
+## player sees the same draft on the same day (no internet). Its id carries the date: "daily:20261123".
+const KIND_DAILY: String = "daily"
+const DAILY_PREFIX: String = "daily:"
 
 
 ## True once the house is open: its flag is set (the draft quest line's finale or the main quest set it), all four zone drafts
@@ -85,7 +89,41 @@ static func kind_of(challenge_id: String) -> String:
 		return KIND_MYSTERY
 	if challenge_id.begins_with(DUNGEON_PREFIX):
 		return KIND_DUNGEON
+	if challenge_id.begins_with(DAILY_PREFIX):
+		return KIND_DAILY
 	return ""
+
+
+## Today's Draft of the Day ("daily:YYYYMMDD" from the system clock, or from `date` = {"year", "month", "day"}).
+static func daily_id(date: Dictionary = {}) -> String:
+	var day: Dictionary = date if not date.is_empty() else Time.get_date_dict_from_system()
+	return "%s%04d%02d%02d" % [DAILY_PREFIX, int(day.get("year", 2026)), int(day.get("month", 1)), int(day.get("day", 1))]
+
+
+## The date number of a Draft of the Day (20261123), 0 for anything else.
+static func daily_number(challenge_id: String) -> int:
+	return int(challenge_id.substr(DAILY_PREFIX.length())) if challenge_id.begins_with(DAILY_PREFIX) else 0
+
+
+## The seed every player's Draft of the Day uses on that date (the same offers, the same rivals).
+static func daily_seed(challenge_id: String) -> int:
+	return maxi(1, hash(["draft of the day", daily_number(challenge_id)]) & 0x3fffffff)
+
+
+## The Paths of that day's draft: one Path before any zone is freed, one or two after, up to `most` after Primm - which ones is
+## the date's choice.
+static func daily_paths(challenge_id: String, most: int) -> Array[int]:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = daily_seed(challenge_id) + 17
+	var count: int = clampi(1 + rng.randi() % maxi(1, mini(most, 2 if most < 4 else 3)), 1, maxi(1, most))
+	var pool: Array[int] = PATHS.duplicate()
+	var chosen: Array[int] = []
+	while chosen.size() < count and not pool.is_empty():
+		var at: int = rng.randi() % pool.size()
+		chosen.append(pool[at])
+		pool.remove_at(at)
+	chosen.sort()
+	return chosen
 
 
 static func _set_id(prefix: String, paths: Array[int]) -> String:
@@ -179,6 +217,8 @@ static func locked_reason(challenge_id: String, flags: Dictionary) -> String:
 		return ""
 	if not is_open(flags):
 		return "The Shuffle House isn't open yet."
+	if kind_of(challenge_id) == KIND_DAILY:
+		return "" if challenge_id == daily_id() else "That day's draft is over."
 	var need: int = paths_needed(challenge_id)
 	if need > max_paths(flags):
 		return "Opens after Primm is defeated." if need >= 3 else "Opens when the first zone is freed."
@@ -200,6 +240,8 @@ static func title(challenge_id: String) -> String:
 	match kind_of(challenge_id):
 		KIND_OPEN:
 			return "The Open Draft"
+		KIND_DAILY:
+			return "Draft of the Day"
 		KIND_PAIR:
 			return "%s x %s" % [Affinity.display_name(fixed_paths(challenge_id)[0] as Affinity.Type), Affinity.display_name(fixed_paths(challenge_id)[1] as Affinity.Type)]
 		KIND_TRIO:
@@ -222,6 +264,8 @@ static func summary(challenge_id: String) -> String:
 	match kind_of(challenge_id):
 		KIND_OPEN:
 			return "Choose your Paths, draft a deck, and play three rival drafters. Repeatable."
+		KIND_DAILY:
+			return "Today's table: the Paths, the offers and the rivals are the same for everybody who sits down today. A new one every day."
 		KIND_PAIR, KIND_TRIO, KIND_QUAD:
 			return "Draft from %s and the Pathless cards, then win three fights against rivals who drafted the same Paths." % path_names(fixed_paths(challenge_id))
 		KIND_HIGH:

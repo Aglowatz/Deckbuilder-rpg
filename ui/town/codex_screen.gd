@@ -727,13 +727,13 @@ func _gear_tile(piece: EquipmentData, owned: bool, hint: String) -> Button:
 	name_label.size = Vector2(GEAR_TILE.x - 12, 40)
 	tile.add_child(name_label)
 	if owned:
-		var badge: Label = UIKit.label(EquipmentRarity.display_name(rarity), &"", 14, CardView.RARITY_COLORS[rarity], HORIZONTAL_ALIGNMENT_CENTER)
+		var badge: Label = UIKit.label(GearText.kind_line(piece), &"", 14, CardView.RARITY_COLORS[rarity], HORIZONTAL_ALIGNMENT_CENTER)  # slot and rarity (one display order, Nov 23)
 		badge.name = "GearRarity"
 		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		badge.position = Vector2(6, 126)
 		badge.size = Vector2(GEAR_TILE.x - 12, 20)
 		tile.add_child(badge)
-		var effect: Label = UIKit.label(piece.description, &"", 13, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		var effect: Label = UIKit.label(GearText.effect(piece), &"", 13, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		effect.name = "GearEffect"
 		effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		effect.max_lines_visible = 4

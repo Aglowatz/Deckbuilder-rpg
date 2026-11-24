@@ -752,11 +752,38 @@ static func draft(what: String, value: String, scene: Node) -> String:
 				return "Draft: table opened"
 			return "Draft: no table in this scene"
 		"start":
+			# `dev draft start <challenge>[=<paths>]`: "open=1,2" starts the Open Draft with Beefcake and Gourmand (Affinity numbers);
+			# without paths the hero's own Path (as many of the four as the challenge needs)
 			Session.close_draft()
-			var id: String = value if not value.is_empty() else "zone:beefcake"
+			var id: String = value.get_slice("=", 0) if not value.is_empty() else "zone:beefcake"
 			Session.counters.erase(DraftChallenges.attempts_counter(id))
-			var paths: Array[int] = [int(Session.profile.primary_affinity)] as Array[int]
-			return "Draft: %s started" % id if Session.start_draft(id, paths) else "Draft: %s could not start" % id
+			var paths: Array[int] = []
+			if value.contains("="):
+				for part: String in value.get_slice("=", 1).split(",", false):
+					paths.append(int(part))
+			else:
+				paths.append(int(Session.profile.primary_affinity))
+				var least: int = DraftArena.choice_range(id)[0]
+				for path: int in DraftArena.PATHS:
+					if paths.size() < least and not paths.has(path):
+						paths.append(path)
+			var problem: String = Session.draft_start_problem(id, paths)
+			return "Draft: %s started" % id if Session.start_draft(id, paths) else "Draft: %s could not start (%s)" % [id, problem]
+		"unlock":
+			# the Shuffle House opens (as if all four zone drafts were won)
+			Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
+			Session.offer_auto_quests()
+			return "Draft: the Shuffle House is open"
+		"enter":
+			return "Draft: into the dungeon" if Session.start_draft_dungeon() else "Draft: no dungeon to enter"
+		"clear", "leave":
+			if not Session.draft_dungeon_active:
+				return "Draft: not in a draft dungeon"
+			Session.finish_draft_dungeon(what == "clear")
+			return "Draft: dungeon %s" % ("cleared" if what == "clear" else "left")
+		"take":
+			# the dungeon pick on the table: `dev draft take 0` adds option 0, `dev draft take -1` passes
+			return "Draft: pick resolved" if Session.draft_dungeon_pick(int(value) if not value.is_empty() else 0, -1) else "Draft: no pick on the table" 
 		"pick":
 			return "Draft: picked %s" % value if Session.draft_pick(int(value)) else "Draft: no such option"
 		"autopick":

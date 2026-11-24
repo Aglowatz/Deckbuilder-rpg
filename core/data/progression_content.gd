@@ -26,6 +26,7 @@ static func equipment() -> Dictionary:
 	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max HP -2; whenever an enemy unit attacks you, it takes 1 damage.", [_mod(K.MAX_HP, -2), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
 	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
 	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn, and max HP -2.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1), _mod(K.MAX_HP, -2)], true))
+	GearText.split_all(result)  # Fable big pass Nov 23: no flavour inside the rules text (one display order on every screen)
 	return result
 
 
@@ -53,6 +54,7 @@ static func zone_equipment() -> Dictionary:
 	_add(result, pair)
 	Lieutenants.add_equipment(result)  # Oct 21: the four lieutenants' relics
 	result[EquipmentRarity.STARTER_BLADE] = EquipmentRarity.starter_blade()  # Overnight Oct 17: the armory quest's reward
+	GearText.split_all(result)  # Fable big pass Nov 23: no flavour inside the rules text (one display order on every screen)
 	return result
 
 

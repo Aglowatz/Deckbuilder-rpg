@@ -336,6 +336,7 @@ func _preview(item: CosmeticData, sound: bool = true) -> void:
 	_selected = item
 	_selected_dye = Dye.NATURAL
 	_show_hero(false)
+	_preview_icon.modulate = Color.WHITE
 	_preview_icon.texture = _icon_of(item, PREVIEW_SIZE)
 	_preview_name.text = item.display_name
 	_preview_kind.text = item.slot_name()
@@ -344,15 +345,23 @@ func _preview(item: CosmeticData, sound: bool = true) -> void:
 	_refresh()
 
 
-## Fix pass Nov 4 (Part 3.3): a dye's preview - the hero in the Plain Cloak in that colour (wearing their hat), turning on the plinth.
+## A dye's preview. Fable big pass Nov 23 (the owner: the hero's whole body with a hat looked bad): the Plain Cloak's own icon
+## (ICON-COS-PLAINCLOAK) in the chosen colour, large, like the other cloak styles. Without that icon the old preview stays: the
+## hero in the Plain Cloak in that colour, turning on the plinth (Fix pass Nov 4, Part 3.3).
 func preview_dye(index: int, sound: bool = true) -> void:
 	_selected = null
 	_selected_dye = index
-	_show_hero(true)
-	var look: CosmeticState = Session.cosmetics.duplicate_state()
-	look.cloak_id = ""
-	look.set_dye(CosmeticData.Slot.CLOAK, index)
-	_hero.set_look(look)
+	var cloak: Texture2D = IconArt.plain_cloak_texture(PREVIEW_SIZE)
+	if cloak != null:
+		_show_hero(false)
+		_preview_icon.texture = cloak
+		_preview_icon.modulate = IconArt.plain_cloak_tint(index)
+	else:
+		_show_hero(true)
+		var look: CosmeticState = Session.cosmetics.duplicate_state()
+		look.cloak_id = ""
+		look.set_dye(CosmeticData.Slot.CLOAK, index)
+		_hero.set_look(look)
 	_preview_name.text = "%s Dye" % Dye.dye_name(index)
 	_preview_kind.text = "On the %s" % PLAIN_CLOAK
 	if sound:

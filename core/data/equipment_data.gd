@@ -38,7 +38,6 @@ static func slot_name(value: Slot) -> String:
 
 ## New brief, Part B/C: the one shared hover tooltip text for an equipped piece - name and full
 ## effect - used identically by the character screen (and anywhere else that shows equipment).
+## Fable big pass Nov 23: the one display order (`GearText`): the name, the slot and rarity, what it does, the flavour text.
 func tooltip_text() -> String:
-	if flavor_text.is_empty():
-		return "%s\n%s" % [source_name, description]
-	return "%s\n%s\n%s" % [source_name, description, flavor_text]
+	return GearText.tooltip(self)

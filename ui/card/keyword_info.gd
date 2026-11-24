@@ -48,6 +48,50 @@ static func keyword_name(keyword: CardEnums.Keyword) -> String:
 	return str((KEYWORD_TEXT[keyword] as Array)[0])
 
 
+## Fable big pass Nov 23 (release plan item 17, the owner's answer of Nov 23): the Path a keyword belongs to, for its colour in
+## the Glossary. A keyword belongs to a Path when every one-Path card that carries it is of that Path and no Pathless card
+## carries it; a keyword on cards of several Paths (Flying, Swat, Overtime...) belongs to none and keeps the neutral colour.
+## Worked out from the card set, so a new card moves it by itself.
+static var _keyword_paths: Dictionary = {}
+
+
+static func keyword_path(keyword: CardEnums.Keyword, content: ContentSet = null) -> Affinity.Type:
+	if _keyword_paths.is_empty():
+		var source: ContentSet = content if content != null else Session.content
+		if source == null:
+			return Affinity.Type.NEUTRAL
+		_keyword_paths = keyword_paths(source)
+	return int(_keyword_paths.get(int(keyword), int(Affinity.Type.NEUTRAL))) as Affinity.Type
+
+
+## Keyword -> its one Path (NEUTRAL: shared, Pathless or on no one-Path card).
+static func keyword_paths(content: ContentSet) -> Dictionary:
+	var seen: Dictionary = {}
+	for card: CardData in content.all_collectible():
+		var own: Array[Affinity.Type] = card.paths()
+		if own.size() > 1:
+			continue  # a two-Path card says nothing about which of its Paths the keyword is
+		var path: int = int(own[0]) if own.size() == 1 else int(Affinity.Type.NEUTRAL)
+		for keyword: CardEnums.Keyword in card.keywords:
+			if not seen.has(int(keyword)):
+				seen[int(keyword)] = {}
+			(seen[int(keyword)] as Dictionary)[path] = true
+	var result: Dictionary = {}
+	for keyword: Variant in KEYWORD_TEXT.keys():
+		var paths: Dictionary = seen.get(int(keyword), {}) as Dictionary
+		var only: int = int(Affinity.Type.NEUTRAL)
+		if paths.size() == 1 and not paths.has(int(Affinity.Type.NEUTRAL)):
+			only = int(paths.keys()[0])
+		result[int(keyword)] = only
+	return result
+
+
+## The Glossary colour of a keyword's name: its Path's colour, or the neutral gold for a shared one.
+static func keyword_color(keyword: CardEnums.Keyword, content: ContentSet = null) -> Color:
+	var path: Affinity.Type = keyword_path(keyword, content)
+	return UIStyle.GOLD if path == Affinity.Type.NEUTRAL else UIStyle.affinity_text_color(path)
+
+
 static func keyword_description(keyword: CardEnums.Keyword) -> String:
 	return str((KEYWORD_TEXT[keyword] as Array)[1])
 

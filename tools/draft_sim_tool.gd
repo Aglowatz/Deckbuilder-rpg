@@ -139,10 +139,12 @@ func _rivals() -> void:
 			var player: PlayerSpec = _spec(state, state.equipment, state.items)
 			var rates: Array[float] = []
 			for i: int in range(state.rivals.size()):
+				var started: int = Time.get_ticks_msec()
 				var result: BalanceSim.Result = BalanceSim.run(content, player, _encounter(state.rivals[i], i), _games(), 5000 + seed_index * 31 + i)
 				wins[i] += result.wins
 				games[i] += result.games
 				rates.append(result.win_rate())
+				print("rivals %s seed %d vs %s (%s): %d/%d in %.1f s" % [zone_id, seed_index, str(state.rivals[i]["name"]), str(state.rivals[i].get("paths", [])), result.wins, result.games, float(Time.get_ticks_msec() - started) / 1000.0])
 			run_wins += _run_chance(rates)
 		var total_wins: int = wins[0] + wins[1] + wins[2]
 		var total_games: int = games[0] + games[1] + games[2]

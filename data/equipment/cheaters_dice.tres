@@ -12,8 +12,9 @@ value = 1
 [resource]
 script = ExtResource("3_b8cqj")
 id = "cheaters_dice"
-description = "They only ever land the way you need them to. You always go first."
+description = "You always go first."
 advanced = true
+flavor_text = "They only ever land the way you need them to."
 rarity = 1
 source_name = "Cheater's Dice"
 modifiers = Array[ExtResource("1_4ij37")]([SubResource("Resource_4yt2o")])

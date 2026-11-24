@@ -1,29 +1,22 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_lo6t5"]
-[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_am27r"]
-[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_sv023"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_0jf58"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_481dx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_lo6t5"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_am27r"]
 
-[sub_resource type="Resource" id="Resource_jitrs"]
-script = ExtResource("2_am27r")
-target = 1
-op = 9
-amount = 1
-
-[sub_resource type="Resource" id="Resource_pfm04"]
-script = ExtResource("1_lo6t5")
-kind = 21
-effect = SubResource("Resource_jitrs")
+[sub_resource type="Resource" id="Resource_sv023"]
+script = ExtResource("1_481dx")
+kind = 5
+value2 = 1
 
 [resource]
-script = ExtResource("4_0jf58")
+script = ExtResource("3_am27r")
 id = "tinkers_wrench"
 slot = 1
-description = "Whenever a unit enters under your control, gain 1 HP."
+description = "Your units get +0/+1."
 flavor_text = "Righty tighty, lefty loosey, and if neither works, hit it."
 rarity = 1
 tier = 2
 source = "Bertram's equipment stall, Crosspath, or a hidden chest"
 source_name = "Tinker's Wrench"
-modifiers = Array[ExtResource("1_lo6t5")]([SubResource("Resource_pfm04")])
+modifiers = Array[ExtResource("1_481dx")]([SubResource("Resource_sv023")])

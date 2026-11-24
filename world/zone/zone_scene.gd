@@ -1741,7 +1741,17 @@ func _talk_drafthost() -> void:
 	var key: String = DraftHost.line_key(Session.flags, Session.draft != null)
 	Session.set_flag(StringName(DraftHost.MET_FLAG))
 	Session.offer_auto_quests()
-	_say(DraftHost.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_draft({}), DraftHost.portrait_id())
+	# he announces the open Shuffle House once, then greets as usual
+	if key == "drafthost.arena":
+		if Session.flag(&"drafthost_told_house"):
+			key = "drafthost.return"
+		else:
+			Session.set_flag(&"drafthost_told_house")
+	var lines: Array[String] = (DungeonCatalog.text_lines(key) as Array[String]).duplicate()
+	# Fable big pass Nov 23: once a zone draft is won he says where the Shuffle House is and what opens it (until it is open)
+	if key == "drafthost.return" and DraftChallenges.zone_drafts_won(Session.flags) >= 1 and not DraftArena.is_open(Session.flags):
+		lines.append_array(DungeonCatalog.text_lines(DraftHost.HOUSE_HINT_KEY) as Array[String])
+	_say(DraftHost.SPEAKER, lines, func() -> void: _open_draft({}), DraftHost.portrait_id())
 
 
 func _open_draft(result: Dictionary) -> void:
@@ -1815,17 +1825,13 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 	if not offered.is_empty():
 		var quest: QuestData = offered[0]
 		var offer: Array[String] = story.get_lines("quest.%s.offer" % quest.id)
-		# Overnight Oct 22, Part 2: a long first talk splits - the introduction now, the favour on the next talk (the ! stays up).
+		# Fable big pass Nov 23 (the owner): ONE conversation - the introduction (the first time), the quest's own lines, and the quest
+		# is taken with its steps in the quest box when the talk ends. (Since Oct 22 a long first talk was split: the introduction
+		# first, the favour on a second talk. No more talking twice.)
 		var first: bool = not Session.flag(def.flag_met(npc_id))
 		var greeting: Array[String] = []
 		if first:
 			greeting = _greeting(npc_id)
-		if first and greeting.size() + offer.size() > FIRST_TALK_BOXES:
-			_say(speaker, greeting, func() -> void:
-				_hint_talk_again(speaker, "has a favour to ask")
-				if after.is_valid():
-					after.call(), portrait_npc)
-			return
 		_say(speaker, greeting + offer, func() -> void:
 			Session.start_quest(quest.id)
 			hud.clear_toast("has a favour to ask")  # Overnight Nov 10-11 (Part 1.9): the "Talk again" hint goes once the favour is taken

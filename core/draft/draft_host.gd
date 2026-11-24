@@ -20,6 +20,8 @@ const FINALE_QUEST: String = "draft_last_pick"
 ## Where he stands in each zone: by the zone's trivia corner, on the other side from Dex.
 const ANCHOR: String = "quiz"
 const OFFSET: Vector3 = Vector3(2.6, 0.0, 2.4)
+## His line while the Shuffle House is still closed and at least one zone draft is won: where it is and what opens it.
+const HOUSE_HINT_KEY: String = "drafthost.house"
 const ZONE_OFFSETS: Dictionary = {"refusemancer": Vector3(3.0, 0.0, 6.5)}
 
 
@@ -67,10 +69,10 @@ static func line_key(flags: Dictionary, has_draft: bool) -> String:
 static func quests() -> Array[QuestData]:
 	var result: Array[QuestData] = []
 	var intro: QuestData = _quest(INTRO_QUEST, 70, "Pick of Three",
-		"Trey Pickett keeps a draft table in every Path zone: twenty-five picks, one of three each, then three fights with what you picked. Sit down and play one draft to the end, win or lose.")
+		"Trey Pickett pushes his draft cart into every Path zone: twenty-five picks, one of three each, then three fights with what you picked. It costs nothing. Play one draft to the end, win or lose.")
 	intro.prerequisite = Condition.flag(MET_FLAG)
-	intro.objectives = [QuestObjective.make("Finish a draft at Trey Pickett's table (win or lose)", Condition.counter("draft_runs_finished", 1))
-		.at(QuestObjective.TargetKind.NPC, DraftChallenges.ZONES[0], SPOT_ID, "Trey Pickett, by the trivia corner of any Path zone")] as Array[QuestObjective]
+	intro.objectives = [QuestObjective.make("Finish a draft at Trey Pickett's cart (win or lose)", Condition.counter("draft_runs_finished", 1))
+		.at(QuestObjective.TargetKind.NPC, DraftChallenges.ZONES[0], SPOT_ID, "Trey Pickett's draft cart, near the entrance of any Path zone")] as Array[QuestObjective]
 	intro.reward_gold = 80
 	intro.reward_xp = 80
 	intro.reward_equipment_ids = [DraftGear.INTRO_REWARD] as Array[String]
@@ -84,22 +86,23 @@ static func quests() -> Array[QuestData]:
 		order += 1
 		quest.prerequisite = Condition.quest_completed(INTRO_QUEST)
 		quest.objectives = [QuestObjective.make("Win the %s Draft in %s (three wins)" % [path, place], Condition.flag(DraftChallenges.won_flag(DraftChallenges.zone_id_for(zone_id))))
-			.at(QuestObjective.TargetKind.NPC, zone_id, SPOT_ID, "Trey Pickett, by the trivia corner in %s" % place)] as Array[QuestObjective]
+			.at(QuestObjective.TargetKind.NPC, zone_id, SPOT_ID, "Trey Pickett's draft cart, near the entrance of %s" % place)] as Array[QuestObjective]
 		quest.reward_gold = 200
 		quest.reward_xp = 200
 		quest.reward_equipment_ids = [str(DraftGear.ZONE_REWARDS[zone_id])] as Array[String]
 		result.append(quest)
 	var finale: QuestData = _quest(FINALE_QUEST, order, "Last Pick, Best Pick",
-		"Four tables, four Paths. Win all four of Trey Pickett's zone drafts and he will put your name forward at the Crosspath draft arena.")
+		"Four carts, four Paths. Win all four of Trey Pickett's zone drafts and his aunt, Octavia Eightfold, opens the Shuffle House in Crosspath for you: the place where you choose your own Paths. (Three freed zones open it too.)")
 	finale.prerequisite = Condition.quest_completed(INTRO_QUEST)
 	var steps: Array[QuestObjective] = []
 	for zone_id: String in DraftChallenges.ZONES:
 		steps.append(QuestObjective.make("Win the %s Draft" % Affinity.display_name(ZoneEffects.path_of(zone_id)), Condition.flag(DraftChallenges.won_flag(DraftChallenges.zone_id_for(zone_id))))
-			.at(QuestObjective.TargetKind.NPC, zone_id, SPOT_ID, "Trey Pickett, by the trivia corner in %s" % str(DraftChallenges.ZONE_NAMES[zone_id])))
+			.at(QuestObjective.TargetKind.NPC, zone_id, SPOT_ID, "Trey Pickett's draft cart, near the entrance of %s" % str(DraftChallenges.ZONE_NAMES[zone_id])))
 	finale.objectives = steps
 	finale.reward_gold = 400
 	finale.reward_xp = 400
 	finale.reward_equipment_ids = [DraftGear.FINALE_REWARD] as Array[String]
+	finale.reward_card_ids = [DraftRivals.TREY_CARD] as Array[String]  # Fable big pass Nov 23: his own card (Trey Pickett, C-40)
 	finale.reward_unlock_flags = [DraftChallenges.ARENA_FLAG] as Array[String]
 	result.append(finale)
 	return result

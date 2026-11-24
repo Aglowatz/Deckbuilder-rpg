@@ -12,7 +12,9 @@ extends RefCounted
 ##      Bertram's Smithy                                                    Auntie Alembic
 ##              notice board          (open, low south side)          Rift Express
 ##                         S: Champions' Road (the Chapel | the inn; the Grave Road branches west)
-##   (Nov 18 day: the Deck Station is a card stall on the square, west of the Gate Road's mouth.)
+##   (Nov 18 day: the Deck Station is a card stall on the square. Nov 23: it stands on the fountain's south side, beside where the
+##   hero arrives; the Shuffle House stands ten metres behind the north-east corner across an open forecourt, in place of the
+##   north-east row house; a hedge closes the east side of the Secret Dealer's alley.)
 ##                                     the Undercroft cottage; the meadow road bends round it to the Gainlands
 
 const PLAZA: Vector3 = Vector3(25.2, 0.0, 12.47)
@@ -82,9 +84,10 @@ class Shop:
 	func front_extent() -> float:
 		return footprint.y * 0.5 if kind == "kit" else 1.0
 
-	## True when `pos` (x / z) lies inside the building footprint grown by `margin` metres (kit buildings only).
+	## True when `pos` (x / z) lies inside the building footprint grown by `margin` metres (kit buildings, and a hand-placed
+	## building that states its footprint: the Shuffle House).
 	func covers(pos: Vector3, margin: float = 0.0) -> bool:
-		if kind != "kit":
+		if kind != "kit" and footprint == Vector2.ZERO:
 			return false
 		var local: Vector3 = Basis(Vector3.UP, deg_to_rad(yaw)).inverse() * (pos - center)
 		return absf(local.x) <= footprint.x * 0.5 + margin and absf(local.z) <= footprint.y * 0.5 + margin
@@ -159,7 +162,11 @@ static func shops() -> Array[Shop]:
 	var north_face: float = PLAZA.z - FRONT_RING
 	# Oct 20, Part 4: the north-west corner house is Tilly Tonic's store room (its door starts the ghost fight; nobody walks in)
 	list.append(_kit(StoreroomGhosts.SPOT_ID, "home_b", 12.3, north_face - 3.4, 0.0, "Tilly's store room"))
-	list.append(_kit("", "home_a", 40.5, north_face - 3.0, 0.0, "Row house"))
+	# Fable big pass Nov 23: the Shuffle House (Octavia Eightfold's draft arena) stands on the north-east corner, set back behind a
+	# small forecourt, where a plain row house stood (`TownShuffleHouse`)
+	var house: Shop = _shop(TownShuffleHouse.KEY, "", TownShuffleHouse.CENTER, 0.0, 1.0, TownShuffleHouse.WIDTH * 0.5, TownShuffleHouse.DOOR, "The Shuffle House", "bare")
+	house.footprint = TownShuffleHouse.FOOTPRINT
+	list.append(house)
 	# --- West Market Street ---
 	list.append(_kit("", "home_b", 1.4, street_z - off - 3.4, 0.0, "Row house"))
 	list.append(_kit("", "home_a", -7.6, street_z - off - 3.0, 0.0, "Row house"))
@@ -204,6 +211,8 @@ static func roads() -> Dictionary:
 		# Crosspath pass, Part D: short paths to the doors that stand off the Gate Road
 		"cave_path": [Vector3(18.6, 0, -13.2), Vector3(11.4, 0, -12.0)],
 		"elder_path": [Vector3(25.2, 0, -8.6), Vector3(27.2, 0, -12.0)],
+		# Fable big pass Nov 23: from the square's north-east rim to the Shuffle House's door
+		"shuffle_path": TownShuffleHouse.PATH.duplicate(),
 		"champions": [Vector3(25.2, 0, 23.6), Vector3(25.2, 0, 30.0), Vector3(25.2, 0, 41.0)],
 		"south_road": [Vector3(25.2, 0, 41.0), Vector3(31.0, 0, 43.6), Vector3(34.4, 0, 50.0), Vector3(31.6, 0, 57.4), Vector3(27.2, 0, 62.4), Vector3(25.2, 0, 64.4), Vector3(25.2, 0, 65.6)],
 		"grave_road": [Vector3(25.2, 0, 26.7), Vector3(8.0, 0, 26.7), Vector3(-2.0, 0, 31.0), Vector3(-8.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],

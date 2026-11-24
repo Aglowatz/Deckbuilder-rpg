@@ -103,7 +103,11 @@ func show_tab(index: int) -> void:
 	for child: Node in _list.get_children():
 		child.queue_free()
 	for entry: Array in entries(_current):
-		_list.add_child(_row(str(entry[0]), str(entry[1]), str(entry[2]) if entry.size() > 2 else ""))
+		var row: HBoxContainer = _row(str(entry[0]), str(entry[1]), str(entry[2]) if entry.size() > 2 else "")
+		# Fable big pass Nov 23 (plan item 17): a keyword that belongs to one Path is written in that Path's colour
+		if TABS[clampi(_current, 0, TABS.size() - 1)] == "Keywords":
+			_colour_keyword(row, str(entry[0]))
+		_list.add_child(row)
 
 
 func current_tab() -> int:
@@ -161,12 +165,28 @@ static func resting_text() -> String:
 	return "Your HP is not restored between the fights of a dungeon. A dungeon's resting place offers a choice: heal 5 HP for a price (gold, a card out of your deck for this run, or a drawback in your next fight), or walk on. Only the Forgotten Cave and Primm's Castle still have a room that heals you in full."
 
 
+## The heading of a keyword's row in its Path's colour (shared keywords keep the neutral gold) with the Path named beside it.
+func _colour_keyword(row: HBoxContainer, title: String) -> void:
+	for keyword: Variant in KeywordInfo.KEYWORD_TEXT.keys():
+		if KeywordInfo.keyword_name(keyword as CardEnums.Keyword) != title:
+			continue
+		var path: Affinity.Type = KeywordInfo.keyword_path(keyword as CardEnums.Keyword)
+		var head: Label = row.find_child("Head", true, false) as Label
+		if head == null or path == Affinity.Type.NEUTRAL:
+			return
+		head.add_theme_color_override("font_color", KeywordInfo.keyword_color(keyword as CardEnums.Keyword))
+		head.text = "%s   (%s)" % [title, Affinity.display_name(path)]
+		head.set_meta(&"keyword_path", int(path))
+		return
+
+
 func _row(title: String, text: String, icon_id: String) -> HBoxContainer:
 	var row: HBoxContainer = UIKit.hbox(12)
 	if not icon_id.is_empty() and IconArt.has(icon_id):
 		row.add_child(IconArt.rect(icon_id, 34.0))
 	var box: VBoxContainer = UIKit.vbox(2)
 	var head: Label = UIKit.label(title, &"", 22, UIStyle.GOLD)
+	head.name = "Head"
 	head.add_theme_font_override("font", UIStyle.font_bold())
 	box.add_child(head)
 	var body: Label = UIKit.label(text, &"", 19, UIStyle.PARCHMENT)  # long reading on dark glass: a size up, and room between lines

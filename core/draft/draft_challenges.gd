@@ -35,6 +35,8 @@ static func exists(challenge_id: String) -> bool:
 	match DraftArena.kind_of(challenge_id):
 		DraftArena.KIND_OPEN, DraftArena.KIND_QUAD, DraftArena.KIND_HALLS, DraftArena.KIND_MYSTERY:
 			return true
+		DraftArena.KIND_DAILY:
+			return DraftArena.daily_number(challenge_id) > 20000000
 		DraftArena.KIND_PAIR:
 			return DraftArena.pair_ids().has(challenge_id)
 		DraftArena.KIND_TRIO:
@@ -121,8 +123,8 @@ static func start_problem(challenge_id: String, paths: Array[int], flags: Dictio
 	var locked: String = DraftArena.locked_reason(challenge_id, flags)
 	if not locked.is_empty():
 		return locked
-	if not fixed_paths(challenge_id).is_empty():
-		return ""
+	if not fixed_paths(challenge_id).is_empty() or DraftArena.kind_of(challenge_id) == DraftArena.KIND_DAILY:
+		return ""  # the Paths are the challenge's own (the Draft of the Day takes them from the date)
 	var bounds: Array[int] = DraftArena.choice_range(challenge_id)
 	var most: int = mini(bounds[1], max_open_paths(flags))
 	if paths.size() < bounds[0] or paths.is_empty():

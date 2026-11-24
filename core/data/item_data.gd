@@ -24,8 +24,6 @@ func backfires(roll: float) -> bool:
 ## New brief, Part B: the one shared hover tooltip text - name, full effect and targeting
 ## requirement - used identically by the battle item bar, the character screen and the item
 ## vendor, so all three always read the same for the same item.
+## Fable big pass Nov 23: the same order as equipment (`GearText`): the name, the kind line, what it does (with its targeting).
 func tooltip_text() -> String:
-	var text: String = "%s\n%s" % [display_name, description]
-	if effect != null:
-		text += "\n%s" % effect.target_requirement_text()
-	return text
+	return GearText.item_tooltip(self)

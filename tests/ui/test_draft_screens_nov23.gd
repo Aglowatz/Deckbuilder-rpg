@@ -134,7 +134,7 @@ func test_the_shuffle_house_menu_has_every_table_and_locks_by_the_story() -> voi
 	Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
 	var screen: OverlayScreen = await _open("")
 	assert_true(screen is DraftHubScreen)
-	assert_eq(screen.find_child("Tiles", true, false).get_child_count(), 15, "the Open Draft, six pairs, three and four Paths, three win-three tables, the Halls, Mystery Mini, the dungeon drafts")
+	assert_eq(screen.find_child("Tiles", true, false).get_child_count(), 18, "the Open Draft, six pairs, three and four Paths, three win-three tables, the Halls, Mystery Mini, the dungeon drafts")
 	assert_not_null((screen.find_child("HostPortrait", true, false) as TextureRect).texture, "Octavia Eightfold")
 	var pair_tile: Button = screen.find_child("Tile_pair_1_2", true, false) as Button
 	assert_not_null(pair_tile)

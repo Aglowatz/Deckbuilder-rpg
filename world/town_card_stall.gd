@@ -6,7 +6,10 @@ extends RefCounted
 ## hanging card sign (ENV-SIGN-CARDS) under the awning, three painted card backs (UI-CARDBACK-*) standing on the counter and sacks beside it. The map / minimap pin uses the deck icon and the screen label reads "Deck Station" (`TownScene`).
 
 ## The stall's centre and facing (yaw 0 = its front faces +z, the square and the camera). The interaction spot stands `DOOR` in front.
-const CENTER: Vector3 = Vector3(21.8, 0.0, 4.0)
+## Fable big pass Nov 23 (the owner: "move the Deck Station to the other side of the main fountain"): from the Gate Road's mouth on
+## the north-west (21.8, 4.0), where the fountain hid it from the arrival point, to the fountain's south side, four steps west of
+## where the hero arrives, facing the camera (the south-east is hidden by the inn's roof from the arrival camera).
+const CENTER: Vector3 = Vector3(21.0, 0.0, 20.0)
 const YAW: float = 0.0
 const DOOR: float = 2.1
 const CARD_BACKS: Array[String] = ["UI-CARDBACK-B", "UI-CARDBACK-N", "UI-CARDBACK-G", "UI-CARDBACK-R"]
@@ -24,7 +27,7 @@ static func build(root: Node3D, center: Vector3, yaw: float, obstacles: Array[Ve
 	_sign(holder)
 	_card_backs(holder)
 	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
-	# [local x, local z, radius]: the counter's two halves and the sacks on the right (the left side stays open: Tilly's door is there).
+	# [local x, local z, radius]: the counter's two halves and the sacks on the right.
 	for circle: Vector3 in [Vector3(-0.85, 0.2, 0.95), Vector3(0.85, 0.2, 0.95), Vector3(2.35, 0.25, 0.45)]:
 		var at: Vector3 = center + basis * Vector3(circle.x, 0.0, circle.y)
 		obstacles.append(Vector3(at.x, at.z, circle.z))

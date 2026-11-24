@@ -415,15 +415,16 @@ func _build_alley() -> void:
 		ModelKit.place(root, prop, item[1] as Vector3, float(item[2]), 1.0)
 		obstacles.append(Vector3((item[1] as Vector3).x, (item[1] as Vector3).z, 0.42))
 	# the hint: a stack of crates and a barrel on the corner by the mouth, and one lantern hanging under the north-east house's eave
-	var mouth: Vector3 = Vector3(alley.end.x + 0.35, 0.0, alley.end.y + 1.0)
+	# Fable big pass Nov 23: on Fenwick's corner (the west side of the mouth): the east side is the way to the Shuffle House now
+	var mouth: Vector3 = Vector3(alley.position.x - 0.45, 0.0, alley.end.y + 1.0)
 	for item: Array in [["crate", mouth, 15.0], ["crate_small", mouth + Vector3(0.05, 0.86, 0.0), -20.0], ["barrel", mouth + Vector3(0.1, 0, 1.1), 0.0]]:
 		var prop: Node3D = PropKit.make(str(item[0]), 3.2, 9)
 		ModelKit.place(root, prop, item[1] as Vector3, float(item[2]), 1.0)
 	obstacles.append(Vector3(mouth.x, mouth.z, 0.5))
 	obstacles.append(Vector3(mouth.x + 0.1, mouth.z + 1.1, 0.42))
 	var lantern: Node3D = PropKit.hanging_lantern()
-	ModelKit.place(root, lantern, Vector3(alley.end.x - 0.35, 2.55, alley.end.y - 0.6), 0.0, 0.85)
-	add_glow(Vector3(alley.end.x - 0.4, 0.0, alley.end.y - 0.8), 1.6, Color("ffb45a"), 0.12)
+	ModelKit.place(root, lantern, Vector3(alley.position.x + 0.35, 2.55, alley.end.y - 0.6), 0.0, 0.85)  # under Fenwick's eave (the north-east house is gone)
+	add_glow(Vector3(alley.position.x + 0.4, 0.0, alley.end.y - 0.8), 1.6, Color("ffb45a"), 0.12)
 	add_glow(Vector3(x, 0.0, counter_z + 1.4), 1.3, Color("ffb45a"), 0.06)
 
 
@@ -448,6 +449,9 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 			if shop.key == "deck":
 				TownCardStall.build(root, shop.center, shop.yaw, obstacles)
 				add_glow(shop.door_spot(), 1.4, Color("ffb45a"), 0.08)
+			if shop.key == TownShuffleHouse.KEY:
+				TownShuffleHouse.build(root, obstacles)  # Fable big pass Nov 23
+				add_glow(shop.door_spot(), 1.8, Color("ffc56a"), 0.1)
 			if shop.key == "well":
 				var well_cluster: Node3D = PropClusters.make("well_corner")
 				root.add_child(well_cluster)
@@ -462,6 +466,8 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 		"rift_station":
 			anchors["rift_station"] = shop.center
 			anchors["npc_rift_station"] = shop.center + Vector3(-2.0, 0.0, 0.9)
+		TownShuffleHouse.KEY:
+			anchors["npc_shuffle_house"] = TownShuffleHouse.host_spot()
 		"tailor":
 			anchors["npc_tailor"] = base + front * (shop.npc_offset() - 0.15) + right * 0.8
 			anchors["tailor_mannequin"] = base + front * (shop.npc_offset() - 0.1) - right * 1.2  # Fixes Oct 26: off the window wall (was -0.35)

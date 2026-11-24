@@ -261,7 +261,7 @@
 		"hook": "Octavia Eightfold: \"Everyone who is anyone has been lost in my halls at least once, darling.\"",
 		"map_id": "MAP-DRAFT",
 		"battleboard_id": "BB-SHUFFLE",
-		"_note": "Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md; the owner's decisions of Nov 23): hand-made, no sheet row. Played only as a draft (DraftArena.HALLS_DUNGEON). Room 1 (the Stage Door) is the hidden way in; rooms 1 to 18 of the plan are rooms 2 to 19 here. The Counting Room (19) is a treasure room with a door to the boss.",
+		"_note": "Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md; the owner's decisions of Nov 23): hand-made, no sheet row. Played only as a draft (DraftArena.HALLS_DUNGEON). Room 1 (the Stage Door) is the hidden way in; rooms 1 to 18 of the plan are rooms 2 to 19 here. The Counting Room (18) is a treasure room with a door to the boss (19, the Big Wheel).",
 		"nodes": [
 			{
 				"n": 1,
@@ -467,7 +467,7 @@
 				"x": 74,
 				"y": 23,
 				"next": [
-					18
+					19
 				],
 				"side": false,
 				"return_to": 0
@@ -480,8 +480,8 @@
 				"x": 75,
 				"y": 49,
 				"next": [
-					18,
-					19
+					19,
+					18
 				],
 				"side": false,
 				"return_to": 0
@@ -494,32 +494,32 @@
 				"x": 74,
 				"y": 75,
 				"next": [
-					19
+					18
 				],
 				"side": false,
 				"return_to": 0
 			},
 			{
 				"n": 18,
-				"name": "The Big Wheel",
-				"type": "boss",
-				"note": "",
-				"x": 92,
-				"y": 40,
-				"next": [],
-				"side": false,
-				"return_to": 0
-			},
-			{
-				"n": 19,
 				"name": "The Counting Room",
 				"type": "treasure",
 				"note": "",
 				"x": 91,
 				"y": 68,
 				"next": [
-					18
+					19
 				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 19,
+				"name": "The Big Wheel",
+				"type": "boss",
+				"note": "",
+				"x": 92,
+				"y": 40,
+				"next": [],
 				"side": false,
 				"return_to": 0
 			}

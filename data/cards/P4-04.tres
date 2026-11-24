@@ -21,6 +21,8 @@ The House Deals: when this unit enters, draw four cards.
 At the start of your turn, choose one: create an Iron, a Red Tape, an Ingredient or a Garbage."
 rarity = 3
 flavor_text = "Eight arms, four Paths, one house. The house always deals, darling."
+availability = 1
+availability_source = "The Shuffle House quest Lost in the Halls (clear the Shuffled Halls)"
 paths_all = Array[int]([1, 2, 3, 4])
 script_text = "kw swat
 enter => draw(4)

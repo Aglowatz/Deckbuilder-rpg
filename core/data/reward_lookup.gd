@@ -30,7 +30,7 @@ static func find(content: ContentSet, text: String) -> Variant:
 static func kind_text(thing: Variant) -> String:
 	if thing is EquipmentData:
 		var piece: EquipmentData = thing as EquipmentData
-		return "%s %s" % [EquipmentRarity.display_name(clampi(int(piece.rarity), 0, 3)), EquipmentData.slot_name(piece.slot)]
+		return GearText.kind_line(piece)  # "Relic  -  Uncommon": the slot, then the rarity (one display order, Nov 23)
 	if thing is ItemData:
 		return "Item"
 	if thing is CardData:
@@ -45,9 +45,10 @@ static func full_info(thing: Variant) -> String:
 	var lines: PackedStringArray = []
 	if thing is EquipmentData:
 		var piece: EquipmentData = thing as EquipmentData
-		lines.append("%s. %s" % [kind_text(piece), piece.description])
-		if not piece.flavor_text.is_empty():
-			lines.append("\"%s\"" % piece.flavor_text)
+		lines.append(kind_text(piece))
+		lines.append(GearText.effect(piece))
+		if not GearText.flavour(piece).is_empty():
+			lines.append("\"%s\"" % GearText.flavour(piece))
 		lines.append("It is in your gear now: open the Character page (C) to wear it.")
 	elif thing is ItemData:
 		var item: ItemData = thing as ItemData

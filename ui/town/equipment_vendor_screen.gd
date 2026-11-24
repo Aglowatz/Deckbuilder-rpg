@@ -105,7 +105,7 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	holder.add_child(column)
 	# Overnight Oct 29, Phase 2: the slot and the rarity (in the rarity colour) on one line, the effect readable on the tile, and a verdict against what is worn.
 	var rarity: int = clampi(int(piece.rarity), 0, 3)
-	var slot_label: Label = UIKit.label("???" if locked else "%s  %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], &"MutedLabel", 15, UIStyle.MUTED if locked else CardView.RARITY_COLORS[rarity].lerp(UIStyle.PARCHMENT, 0.2), HORIZONTAL_ALIGNMENT_CENTER)
+	var slot_label: Label = UIKit.label("???" if locked else GearText.kind_line(piece), &"MutedLabel", 15, UIStyle.MUTED if locked else CardView.RARITY_COLORS[rarity].lerp(UIStyle.PARCHMENT, 0.2), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(slot_label)
 	if not locked:
 		holder.add_theme_stylebox_override("panel", UIStyle.box(Color(0.08, 0.07, 0.1, 0.9), Color(CardView.RARITY_COLORS[rarity], 0.7), 2, 10))
@@ -143,13 +143,10 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	return holder
 
 
-## The effect without the flavour sentence a vendor piece carries in front of it ("A blade with a reputation... Your units get +1 attack.").
+## What the piece does. Fable big pass Nov 23: the flavour sentence the older pieces carried in front of their rules text lives in
+## their flavour text now (`GearText.split_lead_in`), so nothing is cut here any more.
 func _effect_text(piece: EquipmentData) -> String:
-	var text: String = piece.description
-	var cut: int = text.find(". ")
-	if piece.tier == 0 and cut > 0 and cut < text.length() - 2:
-		text = text.substr(cut + 2)
-	return text
+	return GearText.effect(piece)
 
 
 static func _verdict_color(word: String) -> Color:

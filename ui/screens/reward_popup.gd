@@ -86,7 +86,7 @@ func _fill_body() -> void:
 		things.add_child(item_tile)
 	for piece: EquipmentData in summary.equipment:
 		var rarity: int = clampi(int(piece.rarity), 0, 3)
-		var gear: Control = _icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "%s %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], piece.description, IconArt.has_equipment_icon(piece))
+		var gear: Control = _icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, GearText.kind_line(piece), GearText.effect(piece), IconArt.has_equipment_icon(piece))
 		# New gear glows in its rarity's colour (the same colours as cards).
 		(gear as PanelContainer).add_theme_stylebox_override("panel", UIStyle.box(Color(UIStyle.INK.r, UIStyle.INK.g, UIStyle.INK.b, 0.8), CardView.RARITY_COLORS[rarity], 3, 10))
 		gear.set_meta(&"highlight", CardView.RARITY_COLORS[rarity])

@@ -103,8 +103,28 @@ func _ready() -> void:
 		TipPanel.show_once(self, &"tip_map", "The dungeon map", map_tip_text(), Vector2(560, 800))
 	_play_pending_after_story.call_deferred()
 	_play_start_talk.call_deferred()
+	_show_draft_pick.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
 		_begin_boss_phase.call_deferred()
+
+
+## Fable big pass Nov 23: a dungeon draft's offer on the table (the pick of three after a fight, the Trade Counter, the Chained
+## Vault) opens over the map as the draft table; taking, swapping or passing closes it.
+func _show_draft_pick() -> void:
+	if not Session.draft_dungeon_active or Session.draft == null or Session.draft.offer.is_empty() or _modal != null:
+		return
+	var screen: DraftScreen = DraftScreen.new()
+	screen.name = "DraftPick"
+	screen.dungeon_mode = true
+	screen.covers_world = false
+	screen.z_index = 100
+	_modal = screen
+	add_child(screen)
+	screen.closed.connect(func() -> void:
+		if is_instance_valid(screen):
+			screen.queue_free()
+		_modal = null
+		_refresh_hp())
 
 
 ## Brief 10: between the final boss's phases the map plays the scene (`primm_p1` / `primm_p2`) and then starts the next duel.
@@ -257,7 +277,7 @@ func node_known(node: DungeonMap.MapNode) -> bool:
 
 
 ## Fable Nov 21 castle: the dungeons whose every room is shown from the start.
-const ROUTE_PLANNING: Array[String] = ["D-PC"]
+const ROUTE_PLANNING: Array[String] = ["D-PC", "D-SHUFFLE"]  # Fable big pass Nov 23: the Shuffled Halls' six columns are a route to plan
 
 
 ## Fix pass Nov 7 (item 14): the dungeons whose rooms show their type once a neighbouring room is cleared.

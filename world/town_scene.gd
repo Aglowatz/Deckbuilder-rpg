@@ -44,6 +44,7 @@ const NPC_IDS: Dictionary = {
 	"pack_vendor": "V-FENWICK", "tailor": "V-THREADWELL", "alchemist": "V-ALEMBIC", "arena": "NPC-BELLOWS",
 	"npc_beefcake": "NPC-BRONSON", "npc_gourmand": "NPC-GRAVOIS", "npc_refusemancer": "NPC-MULLIGAN", "npc_necrocrat": "NPC-PALLOR",
 	"hob": "NPC-HOB", "isla": "NPC-ISLA",
+	"octavia": DraftArena.NPC_ID,  # Fable big pass Nov 23: Octavia Eightfold at the Shuffle House's door
 }
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
@@ -656,6 +657,9 @@ func _build_actors() -> void:
 	elif not Session.arena_unlocked() and town.anchors.has("npc_arena"):
 		# Overnight Nov 19 (Part 6.9): one of Primm's guards turns the hero away until the Arena opens.
 		_add_npc("arena_guard", "Knight", town.anchors["npc_arena"] as Vector3, 200.0)
+	# Fable big pass Nov 23: Octavia Eightfold stands at the Shuffle House's door once it is open
+	if DraftArena.is_open(Session.flags) and town.anchors.has("npc_shuffle_house"):
+		_add_npc("octavia", "Mage", town.anchors["npc_shuffle_house"] as Vector3, 200.0)
 	_build_baker()
 	_build_strollers()
 	_build_standing_townsfolk()
@@ -1012,6 +1016,9 @@ func _build_spots() -> void:
 	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
 	# Brief 9, Part G: the Grand Clashatorium (chained until the first zone is free).
 	_add_spot("arena", StoryText.shared().text("town.arena.name"), town.anchors["arena"] as Vector3, 1.9)
+	# Fable big pass Nov 23: the Shuffle House (the draft arena). There from the start, named and on the map; it opens later.
+	if town.anchors.has(TownShuffleHouse.KEY):
+		_add_spot(TownShuffleHouse.KEY, "The Shuffle House", town.anchors[TownShuffleHouse.KEY] as Vector3, 2.3)
 	# New brief (third), Part E: the debug-only Dev Shrine - only constructed at all (so only ever
 	# present as an anchor here) when DevTools.shrine_enabled() said yes at builder time.
 	if town.anchors.has("dev_shrine"):
@@ -1427,6 +1434,8 @@ func _prompt_text(spot: Spot) -> String:
 			return StoryText.shared().text("travel.prompt")
 		"alchemist":
 			return "Browse Auntie Alembic's" if Session.alchemist_unlocked() else "Knock (the shop is closed)"
+		TownShuffleHouse.KEY:
+			return "Step into the Shuffle House" if DraftArena.is_open(Session.flags) else "Knock (the Shuffle House isn't open yet)"
 		"arena":
 			if town.hub_land:
 				return "Climb down the cellar hatch" if Session.arena_unlocked() else "The cellar hatch is chained shut"
@@ -1673,6 +1682,8 @@ func _interact(spot: Spot) -> void:
 			_talk_graveyard()
 		"arena":
 			_use_arena()
+		TownShuffleHouse.KEY:
+			_use_shuffle_house()
 		"rift_station":
 			_use_rift_station()
 		"alchemist":
@@ -3275,6 +3286,7 @@ const POI_KINDS: Dictionary = {
 	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "alchemist": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.VENDOR, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE, "arena": MapPoi.Kind.ARENA,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE, StoreroomGhosts.SPOT_ID: MapPoi.Kind.CHALLENGE,
+	TownShuffleHouse.KEY: MapPoi.Kind.DRAFT,  # Fable big pass Nov 23 (ICON-MAP-DRAFT)
 }
 
 
@@ -3475,11 +3487,80 @@ func _announce_new_unlocks() -> void:
 
 ## After an arena fight the town reopens the Arena screen with what happened.
 func _show_pending_arena_result() -> void:
+	if not Session.pending_draft_result.is_empty():
+		# Fable big pass Nov 23: back from a draft fight or a draft dungeon - the Shuffle House opens again on the result
+		var draft_result: Dictionary = Session.pending_draft_result
+		Session.pending_draft_result = {}
+		_open_draft(draft_result)
+		return
 	if Session.pending_arena_result.is_empty():
 		return
 	var result: Dictionary = Session.pending_arena_result
 	Session.pending_arena_result = {}
 	_open_arena(result)
+
+
+# ---- The Shuffle House (Fable big pass Nov 23, Part 4) ----------------------------------------------------------------------------
+
+
+## The Shuffle House's door: a pop-up while it is not open yet (how it opens, and that it is on the map), else Octavia Eightfold's
+## line for the moment and her menu.
+func _use_shuffle_house() -> void:
+	Session.open_shuffle_house_if_due()
+	if not DraftArena.is_open(Session.flags):
+		_shuffle_house_closed_popup()
+		return
+	if _npcs.has("octavia"):
+		_face_npc("octavia")
+	var key: String = "drafthouse.intro"
+	if Session.flag(StringName(DraftArena.MET_FLAG)):
+		key = "drafthouse.resume" if Session.draft != null else "drafthouse.return"
+	Session.set_flag(StringName(DraftArena.MET_FLAG))
+	Session.offer_auto_quests()
+	Session.refresh_quests()
+	var lines: Array[String] = (DungeonCatalog.text_lines(key) as Array[String]).duplicate()
+	# the main quest: she asks for one walk through the Shuffled Halls (win or lose), and says so once it is done
+	var quests: QuestLog = Session.quest_log
+	if quests != null and quests.is_active(DraftArenaQuests.MAIN_QUEST) and Session.counter("draft_halls_played") < 1 and Session.draft == null:
+		lines.append_array(DungeonCatalog.text_lines("drafthouse.mainquest") as Array[String])
+	elif quests != null and quests.is_completed(DraftArenaQuests.MAIN_QUEST) and not Session.flag(&"draft_mainquest_thanked"):
+		Session.set_flag(&"draft_mainquest_thanked")
+		lines = (DungeonCatalog.text_lines("drafthouse.mainquest_done") as Array[String]).duplicate()
+	if lines.is_empty():
+		_open_draft({})
+		return
+	dialogue.start(DraftArena.SPEAKER, lines, DraftArena.NPC_ID)
+	dialogue.finished.connect(func() -> void: _open_draft({}), CONNECT_ONE_SHOT)
+
+
+## "It isn't open yet": what opens it, how far along the player is, and where it stands (the owner, Nov 23).
+func _shuffle_house_closed_popup() -> void:
+	var won: int = DraftChallenges.zone_drafts_won(Session.flags)
+	var freed: int = Session.completed_zone_count()
+	var lines: Array[String] = [
+		"It opens when you have won all four of Trey Pickett's zone drafts (you have won %d of 4), or when three zones are free (%d of 3)." % [won, mini(freed, DraftArena.ZONES_TO_OPEN)],
+		"Trey keeps his draft cart near the entrance of every Path zone.",
+		"This is the place: the striped house on the north-east corner of Crosspath's square. It is marked on your map.",
+	]
+	var popup: AnnouncementScreen = AnnouncementScreen.make("The Shuffle House", "The doors are locked and the marquee is dark. It isn't open yet.", lines, UIStyle.GOLD)
+	popup.name = "ShuffleHouseClosed"
+	popup.sting = "none"
+	_locked = true
+	_overlay_layer.add_child(popup)
+	popup.finished.connect(func() -> void:
+		popup.queue_free()
+		_locked = false)
+
+
+## The draft screens in Crosspath: the Shuffle House's menu and the next-opponent reveal (`DraftHubScreen`), the picks, the deck
+## and the rewards (`DraftScreen`). Each asks to be reopened when the draft moves to the other's faces.
+func _open_draft(result: Dictionary) -> void:
+	if not Session.has_profile():
+		return
+	var screen: OverlayScreen = DraftHubScreen.for_state("", result)
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+	screen.connect(&"reopen", func() -> void: _open_draft.call_deferred({}))
 
 # ---- Screenshot helpers -----------------------------------------------------------------
 

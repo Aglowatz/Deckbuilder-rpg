@@ -790,7 +790,7 @@
 					"name": "The Pantry Mimic",
 					"deck": "gourmand_control",
 					"size": 33,
-					"hp": 36,
+					"hp": 28,
 					"icon": "delapouite/chef-toque",
 					"ai": "Balanced"
 				},
@@ -1930,6 +1930,226 @@
 				"11": "An Echo of the Rotheart, green glass that never stops growing.",
 				"13": "The Perfect Copy: your own deck, your own face, more HP and one extra card each turn."
 			}
+		},
+		"D-SHUFFLE": {
+			"_note": "Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md): the Shuffled Halls, played only as a draft. The fight rooms are held by rival drafters dealt in when the run starts (DraftRivals.build_halls; the names below are stand-ins for the map's data), Trey Pickett holds the Auction Ring (8), Dex Shufflewick the Roulette Pit (14) and Octavia Eightfold the Big Wheel (19). `draft_rooms`: the first choice of these rooms puts a draft offer on the table (trade = the Trade Counter: a multi-Path card for a card of the deck; vault = a card of the top two rarities).",
+			"defaults": {
+				"archetypes": [
+					"colorless_regime"
+				],
+				"icons": [
+					"delapouite/up-card"
+				],
+				"ais": [
+					"Balanced"
+				],
+				"infra": 15
+			},
+			"boss": {
+				"deck": "colorless_regime",
+				"extra": {},
+				"hp": 32,
+				"icon": "delapouite/up-card",
+				"infra": 15,
+				"setup_turns": 0
+			},
+			"foes": {
+				"2": "A House Drafter",
+				"3": "A House Drafter",
+				"5": "A House Drafter",
+				"7": "A House Drafter",
+				"10": "A House Drafter",
+				"12": "A House Drafter",
+				"15": "A House Drafter",
+				"8": {
+					"name": "Trey Pickett",
+					"deck": "colorless_regime",
+					"size": 30,
+					"hp": 24,
+					"infra": 15,
+					"ai": "Aggressive",
+					"icon": "delapouite/up-card"
+				},
+				"14": {
+					"name": "Dex Shufflewick",
+					"deck": "colorless_regime",
+					"size": 30,
+					"hp": 24,
+					"infra": 15,
+					"ai": "Balanced",
+					"icon": "delapouite/up-card"
+				},
+				"19": "Octavia Eightfold"
+			},
+			"draft_rooms": {
+				"4": "trade",
+				"13": "trade",
+				"11": "vault"
+			},
+			"blurbs": {
+				"2": "The left-hand gate. A drafter is waiting at the first table.",
+				"3": "The right-hand gate. A drafter is waiting at the first table.",
+				"4": "The Trade Counter: a card of two Paths (or a rare one) for a card of your deck.",
+				"5": "Somebody is taking tea in the garden, with a deck beside the pot.",
+				"6": "The house kettle is on. A cup costs a little; the free one costs something else.",
+				"7": "A quiet game in the back room. It will not stay quiet.",
+				"8": "A champion's table: Trey Pickett holds the Auction Ring. Harder, with a better prize.",
+				"9": "A stall of lucky charms. Take one; it lasts the whole run.",
+				"10": "The carousel turns, and somebody is dealing from one of the horses.",
+				"11": "A prize in chains. Taking it means carrying its curse to the end.",
+				"12": "The house rules, shelved floor to ceiling, and a drafter who has read them all.",
+				"13": "The Prize Tent: another Trade Counter, with a rabbit minding it.",
+				"14": "A champion's table: Dex Shufflewick runs the Roulette Pit. Harder, with a better prize.",
+				"15": "A shop of cards nobody is allowed to buy, and a drafter behind the till.",
+				"16": "Sofas, a candle, and the last cup of tea before the Big Wheel.",
+				"17": "Cake, on a cart. A slice before the show lasts the whole run.",
+				"18": "The house's takings, and a side door to the Big Wheel.",
+				"19": "Boss: Octavia Eightfold. The house always deals."
+			},
+			"events": {
+				"4": {
+					"title": "The Trade Counter",
+					"body": "A counter draped in velvet, three cards under glass, and a small brass sign: ONE OF OURS FOR ONE OF YOURS. Nobody is minding it. The glass lifts easily.",
+					"choices": [
+						[
+							"Look at the three cards",
+							"The glass lifts. Three cards, and each one wants a card of yours in its place.",
+							"hint:Trade a card of your deck for one of three"
+						],
+						[
+							"Walk on",
+							"You leave the glass down. The cards watch you go, as cards do.",
+							"nothing"
+						]
+					]
+				},
+				"13": {
+					"title": "The Prize Tent",
+					"body": "A striped tent stacked with prizes, and a large toy rabbit sitting behind a table with three cards on it. A sign round its neck reads: SWAPS ONLY. NO REFUNDS. THE RABBIT'S DECISION IS FINAL.",
+					"choices": [
+						[
+							"Look at the three cards",
+							"The rabbit says nothing, which you take as a yes.",
+							"hint:Trade a card of your deck for one of three"
+						],
+						[
+							"Walk on",
+							"The rabbit watches you leave. You are fairly sure it did not blink.",
+							"nothing"
+						]
+					]
+				},
+				"6": {
+					"title": "The House Kettle",
+					"body": "A copper kettle the size of a barrel sings over a little stove. A card on the table says HOUSE BLEND 60 GOLD, and under it, in smaller writing: YESTERDAY'S POT, FREE.",
+					"choices": [
+						[
+							"Buy a cup of the house blend",
+							"Sixty coins in the dish. It tastes of cinnamon and winning.",
+							"heal:6",
+							"pay:60"
+						],
+						[
+							"Drink yesterday's pot",
+							"It is free, it is warm, and it sits in your stomach like a bad hand: in the next fight you skip your first card draw.",
+							"heal:6",
+							"curse:Yesterday's Pot|first_draw=-1,next=1"
+						],
+						[
+							"Leave the kettle singing",
+							"You are not thirsty. The kettle sings on without you.",
+							"nothing"
+						]
+					]
+				},
+				"16": {
+					"title": "The Quiet Lounge",
+					"body": "Two velvet sofas, one candle and a tea tray. It is the only quiet room in the Shuffle House, and the last one before the Big Wheel. A little card on the tray: A PROPER SIT-DOWN, 80 GOLD. A QUICK PERCH, ON THE HOUSE.",
+					"choices": [
+						[
+							"Pay for a proper sit-down",
+							"Eighty coins, a whole pot of tea and ten minutes of nobody dealing you anything.",
+							"heal:8",
+							"pay:80"
+						],
+						[
+							"Take a quick perch",
+							"You sit on the arm of the sofa and it is nearly restful. You get up stiff: in the next fight the first card you play each turn costs 1 more.",
+							"heal:5",
+							"curse:Pins and Needles|first_cost=1,next=1"
+						],
+						[
+							"Stay on your feet",
+							"You walk through without sitting. The sofas look disappointed.",
+							"nothing"
+						]
+					]
+				},
+				"9": {
+					"title": "The Lucky Stall",
+					"body": "A stall hung with charms: a rabbit's foot (the rabbit is fine, it says so on the tag), a horseshoe and a four-leaf clover pressed in a pack wrapper. A sign: ONE PER CUSTOMER. THEY ALL WORK. MOSTLY.",
+					"choices": [
+						[
+							"Take the horseshoe",
+							"It is heavier than it looks. Your units hit a little harder for the rest of the run.",
+							"boon:Lucky Horseshoe|atk=1"
+						],
+						[
+							"Take the clover",
+							"You tuck it into your sleeve. Your opening hand has one more card for the rest of the run.",
+							"boon:Four-Leaf Clover|draw=1"
+						],
+						[
+							"Take the rabbit's foot",
+							"It is warm, which is a little worrying. You have 4 more max HP for the rest of the run.",
+							"boon:Rabbit's Foot|max_hp=4"
+						]
+					]
+				},
+				"17": {
+					"title": "The Dessert Cart",
+					"body": "A cart of cakes parked in the corridor, with one slice of everything already cut. A card in icing: FOR THE PERFORMERS. YOU ARE ABOUT TO BE ONE.",
+					"choices": [
+						[
+							"Take the sponge",
+							"Light as a first pick. Your units get +0/+1 for the rest of the run.",
+							"boon:A Slice of Sponge|def=1"
+						],
+						[
+							"Take the fudge cake",
+							"Dense as a rulebook. You have 5 more max HP for the rest of the run.",
+							"boon:A Slice of Fudge Cake|max_hp=5"
+						],
+						[
+							"Take the espresso tart",
+							"Your hands will not stop shuffling. You take the first turn in every fight for the rest of the run.",
+							"boon:Espresso Tart|first=1"
+						]
+					]
+				},
+				"11": {
+					"title": "The Chained Vault",
+					"body": "A cabinet wound in purple chain, and behind the glass three cards far too good to be left lying about. The padlock is open. A note hangs from it in Octavia's hand: TAKE ONE, DARLING. THE HOUSE TAKES A LITTLE BACK.",
+					"choices": [
+						[
+							"Take a card, and the house's share",
+							"The chain slides off like a ribbon. You choose a card, and feel the house lean on you: for the rest of the run enemy units get +1 attack.",
+							"curse:The House's Share|foe_atk=1",
+							"hint:A card of the top two rarities; enemy units get +1 attack for the rest of the run"
+						],
+						[
+							"Leave the chains alone",
+							"You walk past. The padlock clicks shut behind you, a little sulkily.",
+							"nothing"
+						]
+					]
+				}
+			},
+			"loot": {
+				"18": {
+					"gold": 120
+				}
+			}
 		}
 	},
 	"text": {
@@ -2223,18 +2443,19 @@
 			"Come and find me at my house once you've dried off. When you're ready for the roads, I'll send you out myself."
 		],
 		"drafthost.intro": [
-			"Stop right there. You have the look of somebody who has never been handed three cards and told to love one. Trey Pickett, travelling draft-master. I carry the table myself.",
-			"Here is the whole game. Twenty-five times I show you three cards, and you keep one. Along the way I offer you boots, hats and odd bottles. Then you play three people with whatever you ended up holding.",
-			"Your own deck stays in your bag, and so does everything you are wearing. At my table everybody starts with nothing and blames the shuffle. The first sitting is on the house."
+			"Step right up, friend, step right UP! You, with the honest face and the terrible poker face! Trey Pickett, travelling draft-master, card shark by trade and also, as you can plainly see, by birth. (ding!)",
+			"Here's the game, here's the WHOLE game! Twenty-five times I fan out three cards, and you keep one. Pick it, pick it, PICK IT! Somewhere in there I throw in boots, hats and a suspicious bottle or two. Then you play three rivals with whatever you're holding!",
+			"Your own deck stays in your bag, and so does everything you're wearing. Everybody at my cart starts with nothing and blames the shuffle. And it's free, friend, FREE! I make it back on the bell. (ding!)"
 		],
 		"drafthost.return": [
-			"Back for another sitting? Good. The cards have been asking after you, and the rivals have been practising their surprised faces."
+			"Going once, going twice, SOLD, to the champ who can't stay away! The cards have missed you, and the rivals have been practising their surprised faces. Pick it, pick it, PICK IT!"
 		],
 		"drafthost.resume": [
-			"Your draft is exactly where you left it. I have not looked at your picks. I have looked a little. Sit down."
+			"Your draft is right where you left it, champ. I haven't peeked at your picks. I've circled them a little, but that's just how I walk. Sit, sit, SIT!"
 		],
 		"drafthost.arena": [
-			"Four tables, four Paths, and you cleared every one. I have put your name forward at the Crosspath draft arena. They are still oiling the doors, so until they open, my table is yours."
+			"Would you look at that, would you LOOK at that! (ding ding DING!) My Auntie Octavia has thrown open the Shuffle House in Crosspath, north-east corner of the square, you can't miss it, it's the one that looks like a party. Choose your own Paths in there, champ!",
+			"Tell her her favourite nephew sent you. I'm her only nephew. Still counts! Meanwhile my cart is your cart. Pick it, pick it, PICK IT!"
 		],
 		"cardsharp.intro": [
 			"Ah, a card person! I can always tell, because you people check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp, and the best you'll meet this week.",
@@ -2275,6 +2496,27 @@
 		],
 		"cardsharp.quip.lose": [
 			"That's you out of moves, I'm afraid. It happens to the best of us, and it happened to me for years before I got good."
+		],
+		"drafthost.house": [
+			"Psst, champ! Win my cart in all four zones, or get three zones back on their feet, and my Auntie Octavia opens the Shuffle House in Crosspath. Big striped place, north-east corner of the square. That's where you pick your OWN Paths!"
+		],
+		"drafthouse.intro": [
+			"DARLING! Welcome, welcome, welcome to the Shuffle House, where the lights are bright, the cards are fresh, and the house always DEALS! Octavia Eightfold. Showwoman, dealer, proprietor, and aunt to a very loud shark.",
+			"My Trey taught you to pick one of three? Sweetie, I taught HIM. In here you choose your own Paths, sit at my tables, and when you're feeling brave you walk the Shuffled Halls behind the stage. Everyone who is anyone has been lost in there at least once.",
+			"On the one arm, glory. On the other seven, also glory! Now, what will it be? Don't be shy, darling, I have hands to spare."
+		],
+		"drafthouse.return": [
+			"Places, everyone! That means you, darling, you're the everyone. The tables are warm, and I have eight arms and nothing to do with six of them. What are we playing?"
+		],
+		"drafthouse.resume": [
+			"There you are, sweetie! Your draft is exactly where you left it. I kept an arm on it. Two, in fact. Shall we?"
+		],
+		"drafthouse.mainquest": [
+			"Three zones free! The whole kingdom is talking about you, darling, and when a kingdom talks it comes HERE to do it. I have had your name in lights since Tuesday.",
+			"So humour an old octopus. Draft a deck and walk my Shuffled Halls, just the once. You needn't win. You needn't even get far! You only have to go in. Nobody leaves the Shuffle House without a show."
+		],
+		"drafthouse.mainquest_done": [
+			"You went in! You came out! Applause, applause, eight hands of it! Whatever happened in there, darling, it happened with STYLE. The halls are yours whenever you want them, and so are my tables."
 		]
 	}
 }

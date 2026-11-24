@@ -88,8 +88,8 @@ static func add_all(result: Dictionary) -> void:
 	# -- Two utility pieces.
 	_add(result, "dog_eared_bookmark", "Dog-Eared Bookmark", S.RELIC, R.UNCOMMON, 2, "When a duel starts, draw 2 cards.", "",
 		"Saves your place. And sometimes your life.", [_eff(K.START_OF_DUEL_EFFECT, O.DRAW, 2, G.CONTROLLER)])
-	_add(result, "participation_trophy", "Participation Trophy", S.RELIC, R.COMMON, 1, "Gain 25% more XP from everything.", "",
-		"You showed up. That's basically winning. The trophy agrees.", [_mod(K.XP_BONUS_PERCENT, 25)])
+	_add(result, "participation_trophy", "Participation Trophy", S.RELIC, R.COMMON, 1, "Gain 15% more XP from everything.", "",
+		"You showed up. That's basically winning. The trophy agrees.", [_mod(K.XP_BONUS_PERCENT, 15)])  # Fable big pass Nov 23: 25 -> 15 (the owner)
 	# -- Movement.
 	_add(result, "gotta_go_galoshes", "Gotta-Go Galoshes", S.BOOTS, R.RARE, 2, "You walk 35% faster in the overworld.", "",
 		"For when you absolutely, positively have to be somewhere else. Now.", [_mod(K.OVERWORLD_SPEED_PERCENT, 35)])

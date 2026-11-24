@@ -4061,6 +4061,10 @@ func return_from_ending() -> void:
 ## granted, for the treasure screen to show.
 func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
 	var loot: Dictionary = node.treasure
+	if draft_dungeon_active:
+		# Fable big pass Nov 23: in a dungeon played as a draft a chest holds gold and a rest only (the hero there is the draft's
+		# stand-in: XP, items, cards and gear would be given to nobody)
+		loot = {"gold": int(loot.get("gold", 0)), "heal": int(loot.get("heal", 0)), "rolled": true}
 	var granted: Dictionary = {}
 	# Overnight Nov 4-5: treasure gold is a dungeon node's too (half, doubled back by the clear bonus); not in the tutorial cave
 	var gold_amount: int = EncounterRewards.dungeon_share(int(loot.get("gold", 0))) if counts_for_clear_bonus() else int(loot.get("gold", 0))
@@ -4357,6 +4361,9 @@ func start_draft(challenge_id: String, paths: Array[int]) -> bool:
 		return false
 	var fixed: Array[int] = DraftChallenges.fixed_paths(challenge_id)
 	var chosen: Array[int] = fixed if not fixed.is_empty() else paths.duplicate()
+	var daily: bool = DraftArena.kind_of(challenge_id) == DraftArena.KIND_DAILY
+	if daily:
+		chosen = DraftArena.daily_paths(challenge_id, DraftArena.max_paths(flags))  # the date's Paths, the same for everybody today
 	var fee: int = draft_fee(challenge_id)
 	if fee > 0 and not spend_gold(fee):
 		return false
@@ -4364,7 +4371,7 @@ func start_draft(challenge_id: String, paths: Array[int]) -> bool:
 	# two-Path cards once a zone is freed (a set two-Path challenge can only be started then); three- and four-Path cards after Primm
 	var two_ok: bool = chosen.size() >= 2 and DraftArena.max_paths(flags) >= 2
 	var multi_ok: bool = chosen.size() >= 3 and flag(MultiPathLock.FLAG_UNLOCKED)
-	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, rng.randi() % 1000000 + 1, two_ok, multi_ok)
+	draft = DraftEngine.start(content, challenge_id, chosen, profile.level, DraftArena.daily_seed(challenge_id) if daily else rng.randi() % 1000000 + 1, two_ok, multi_ok)
 	draft.fee_paid = fee
 	draft.dungeon_key = DraftArena.dungeon_key_of(challenge_id)
 	save_game()
@@ -4499,6 +4506,8 @@ func _pay_draft_rewards() -> Dictionary:
 	if draft.full_win():
 		bump_counter("draft_runs_won")
 		bump_counter("draft_won_kind:%s" % DraftArena.kind_of(draft.challenge_id))
+		if draft.losses == 0:
+			bump_counter("draft_flawless")  # the feat "Three and Oh"
 		set_flag(won_flag)
 	open_shuffle_house_if_due()
 	refresh_quests()
@@ -4512,6 +4521,8 @@ func open_shuffle_house_if_due() -> bool:
 		return false
 	set_flag(StringName(DraftChallenges.ARENA_FLAG))
 	offer_auto_quests()
+	if toasts != null:
+		toasts.show_toast("The Shuffle House has opened its doors: the striped house on the north-east corner of Crosspath's square.", UIStyle.GOLD, CardIcons.ui("fountain"))
 	return true
 
 

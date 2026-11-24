@@ -9,6 +9,50 @@ extends RefCounted
 const KIND_DIVIDER: String = "  -  "
 
 
+## The older pieces were written with a flavour sentence at the front of their rules text ("Alchemist's fire in a backpack tank.
+## At the start of your turn..."), so the effect and the flavour ran together on every screen (the owner's screenshot of Siphon's
+## Lens). `split_lead_in` moves that sentence to the flavour text, where the display order puts it last. Piece id -> the sentence.
+const LEAD_INS: Dictionary = {
+	"wicked_dagger": "A blade with a reputation it didn't earn honestly.",
+	"earned_blade": "It finally did something to deserve the stories.",
+	"flamethrower": "Alchemist's fire in a backpack tank.",
+	"extra_pocket": "Sewn in where no one thinks to look.",
+	"cheaters_dice": "They only ever land the way you need them to.",
+	"travelers_boots": "Worn thin by roads longer than this one.",
+	"hover_boots": "A finger's width of clearance, always.",
+	"solid_plate": "Unglamorous, unyielding.",
+	"thorned_loincloth": "Nobody enjoys being the one who has to remove this from a corpse.",
+	"xray_goggles": "Everything looks the same underneath.",
+	"big_brain_beret": "It itches, but it's undeniably working.",
+	"courier_lanyard": "Everything is routed exactly where you need it.",
+	"swole_belt": "Brace the core, brace the deck.",
+	"head_chef_ladle": "Heavy, battered and trusted by a hundred golems.",
+	"seed_satchel": "Every pocket holds something that wants to grow.",
+	"siphons_lens": "A glass lens from the draining chamber, ground to see all four Paths at once.",
+}
+
+
+## Moves a piece's flavour lead-in out of its rules text (once: a piece already split is left alone).
+static func split_lead_in(piece: EquipmentData) -> void:
+	if piece == null or not LEAD_INS.has(piece.id):
+		return
+	var lead: String = str(LEAD_INS[piece.id])
+	if not piece.description.begins_with(lead):
+		return
+	piece.description = piece.description.substr(lead.length()).strip_edges()
+	if not piece.description.is_empty():
+		piece.description = piece.description.substr(0, 1).to_upper() + piece.description.substr(1)
+	if piece.flavor_text.is_empty():
+		piece.flavor_text = lead
+	elif not piece.flavor_text.contains(lead):
+		piece.flavor_text = "%s %s" % [lead, piece.flavor_text]
+
+
+static func split_all(pieces: Dictionary) -> void:
+	for piece: Variant in pieces.values():
+		split_lead_in(piece as EquipmentData)
+
+
 static func name_of(piece: EquipmentData) -> String:
 	return piece.source_name if piece != null else ""
 

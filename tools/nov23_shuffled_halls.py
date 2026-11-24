@@ -25,11 +25,11 @@ ROOMS = {
     12: ('The Rules Library', 'battle', 0.580, 0.370, [15, 16]),
     13: ('The Prize Tent', 'event', 0.576, 0.606, [16, 17]),
     14: ('The Roulette Pit', 'elite', 0.580, 0.827, [17]),
-    15: ('The Card Shop', 'battle', 0.740, 0.231, [18]),
-    16: ('The Quiet Lounge', 'event', 0.746, 0.490, [18, 19]),
-    17: ('The Dessert Cart', 'event', 0.744, 0.750, [19]),
-    18: ('The Big Wheel', 'boss', 0.920, 0.400, []),
-    19: ('The Counting Room', 'treasure', 0.913, 0.683, [18]),
+    15: ('The Card Shop', 'battle', 0.740, 0.231, [19]),
+    16: ('The Quiet Lounge', 'event', 0.746, 0.490, [19, 18]),
+    17: ('The Dessert Cart', 'event', 0.744, 0.750, [18]),
+    18: ('The Counting Room', 'treasure', 0.913, 0.683, [19]),
+    19: ('The Big Wheel', 'boss', 0.920, 0.400, []),
 }
 
 
@@ -54,7 +54,7 @@ def main():
         'hook': 'Octavia Eightfold: "Everyone who is anyone has been lost in my halls at least once, darling."',
         'map_id': 'MAP-DRAFT',
         'battleboard_id': 'BB-SHUFFLE',
-        '_note': 'Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md; the owner\'s decisions of Nov 23): hand-made, no sheet row. Played only as a draft (DraftArena.HALLS_DUNGEON). Room 1 (the Stage Door) is the hidden way in; rooms 1 to 18 of the plan are rooms 2 to 19 here. The Counting Room (19) is a treasure room with a door to the boss.',
+        '_note': 'Fable big pass Nov 23 (docs/design/draft_dungeon_plan.md; the owner\'s decisions of Nov 23): hand-made, no sheet row. Played only as a draft (DraftArena.HALLS_DUNGEON). Room 1 (the Stage Door) is the hidden way in; rooms 1 to 18 of the plan are rooms 2 to 19 here. The Counting Room (18) is a treasure room with a door to the boss (19, the Big Wheel).',
         'nodes': [{'n': n, 'name': room[0], 'type': room[1], 'note': 'hidden' if room[1] == 'start' else '', 'x': int(round(room[2] * 100)), 'y': int(round(room[3] * 100)), 'next': room[4], 'side': False, 'return_to': 0}
             for n, room in sorted(ROOMS.items())],
     })

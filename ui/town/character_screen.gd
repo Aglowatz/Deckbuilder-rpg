@@ -950,14 +950,22 @@ func _equipment_detail(page: Control, worn: EquipmentData) -> void:
 	name_label.add_theme_font_override("font", UIStyle.font_title())
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(name_label)
-	var rarity_label: Label = UIKit.label(EquipmentRarity.display_name(int(piece.rarity)), &"", 21, UIStyle.PARCHMENT)
+	# Fable big pass Nov 23 (one display order): the name, the slot and rarity, what it does, the flavour text
+	var rarity_label: Label = UIKit.label(GearText.kind_line(piece), &"", 21, rarity_colour.lerp(UIStyle.PARCHMENT, 0.5))
 	rarity_label.name = "GearRarity"
 	column.add_child(rarity_label)
-	var effect: Label = UIKit.label(piece.description, &"", 21, UIStyle.PARCHMENT)
+	var effect: Label = UIKit.label(GearText.effect(piece), &"", 21, UIStyle.PARCHMENT)
 	effect.name = "GearEffect"
 	effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	effect.custom_minimum_size = Vector2(text_width, 0)
 	column.add_child(effect)
+	if not GearText.flavour(piece).is_empty():
+		var flavour: Label = UIKit.label(GearText.flavour(piece), &"", 17, UIStyle.MUTED)
+		flavour.name = "GearFlavour"
+		flavour.add_theme_font_override("font", UIStyle.font_italic())
+		flavour.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		flavour.custom_minimum_size = Vector2(text_width, 0)
+		column.add_child(flavour)
 	var blocked: String = "" if piece == worn else Session.why_not_equip(piece)
 	var status: Label = UIKit.label("Equipped" if piece == worn else (blocked if not blocked.is_empty() else "Not equipped"), &"", 21, UIStyle.GOOD if piece == worn else (Color("ff8a85") if not blocked.is_empty() else UIStyle.MUTED))
 	status.name = "GearStatus"
@@ -990,6 +998,10 @@ func _fit_gear_text(column: VBoxContainer, effect: Label, room: float) -> void:
 	while column.get_combined_minimum_size().y > room and font_size > 15:
 		font_size -= 1
 		effect.add_theme_font_size_override("font_size", font_size)
+	# the flavour line is the first thing to go when the text still does not fit (it stays in the piece's hover text)
+	var flavour: Label = column.get_node_or_null("GearFlavour") as Label
+	if flavour != null and column.get_combined_minimum_size().y > room:
+		flavour.visible = false
 	column.size = Vector2(column.custom_minimum_size.x, 0)
 
 

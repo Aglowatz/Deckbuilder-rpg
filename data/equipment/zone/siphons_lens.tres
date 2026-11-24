@@ -16,9 +16,9 @@ value = 1
 [resource]
 script = ExtResource("3_8ofnl")
 id = "siphons_lens"
-description = "A glass lens from the draining chamber, ground to see all four Paths at once. You draw an extra card each turn. Max HP -2."
+description = "You draw an extra card each turn. Max HP -2."
 advanced = true
-flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."
+flavor_text = "A glass lens from the draining chamber, ground to see all four Paths at once. It was built to measure a boy. It works much better on someone who is allowed to look back."
 rarity = 2
 source_name = "Siphon's Lens"
 modifiers = Array[ExtResource("1_oprte")]([SubResource("Resource_8glss"), SubResource("Resource_6omtt")])

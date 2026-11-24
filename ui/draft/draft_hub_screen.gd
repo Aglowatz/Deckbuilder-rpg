@@ -19,7 +19,7 @@ var result: Dictionary = {}
 
 const ZONE_BACKDROP: String = "VS-TREY"
 const HALL_BACKDROP: String = "UI-DRAFT-HALL"
-const TILE_SIZE: Vector2 = Vector2(232, 150)
+const TILE_SIZE: Vector2 = Vector2(196, 150)
 const TRIO: String = "trio"
 const DUNGEONS: String = "dungeons"
 
@@ -192,22 +192,27 @@ func _fill_arena() -> void:
 	column.add_child(rule)
 	var grid: GridContainer = GridContainer.new()
 	grid.name = "Tiles"
-	grid.columns = 5
+	grid.columns = 6
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
 	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(grid)
 	var pairs: Array[String] = DraftArena.pair_ids()
 	var highs: Array[String] = DraftArena.high_ids()
-	# three rows of five, the mock-up's order: the Open Draft and the house's own rooms on the left, the two-Path tables in the
-	# middle, the win-three tables on the right
-	var order: Array[String] = [DraftArena.OPEN_ID, pairs[0], pairs[1], pairs[2], highs[0],
-		DraftArena.HALLS_ID, pairs[3], pairs[4], pairs[5], highs[1],
-		DraftArena.MYSTERY_ID, TRIO, DraftArena.QUAD_ID, DUNGEONS, highs[2]]
+	# three rows of six, the mock-up's order: the Open Draft and the house's own rooms on the left, the two-Path tables in the
+	# middle, the win-three tables and the Draft of the Day on the right
+	var order: Array[String] = [DraftArena.OPEN_ID, pairs[0], pairs[1], pairs[2], highs[0], DraftArena.daily_id(),
+		DraftArena.HALLS_ID, pairs[3], pairs[4], pairs[5], highs[1], DraftArena.MYSTERY_ID,
+		DUNGEONS, TRIO, DraftArena.QUAD_ID, "", highs[2], ""]
 	if _selected.is_empty():
 		_selected = DraftArena.OPEN_ID
 	for id: String in order:
-		grid.add_child(_tile(id))
+		if id.is_empty():
+			var gap: Control = Control.new()
+			gap.custom_minimum_size = TILE_SIZE
+			grid.add_child(gap)
+		else:
+			grid.add_child(_tile(id))
 	column.add_child(_details())
 
 
@@ -239,7 +244,7 @@ func _tile(id: String) -> Control:
 		for trio: String in DraftArena.trio_ids():
 			won = won and Session.flag(StringName(DraftChallenges.won_flag(trio)))
 	var tile: Button = Button.new()
-	tile.name = "Tile_%s" % id.replace(":", "_").replace("+", "_")
+	tile.name = "Tile_%s" % (DraftArena.KIND_DAILY if DraftArena.kind_of(id) == DraftArena.KIND_DAILY else id.replace(":", "_").replace("+", "_"))
 	tile.custom_minimum_size = TILE_SIZE
 	tile.toggle_mode = true
 	tile.button_pressed = _tile_selected(id)
@@ -308,6 +313,8 @@ func _tile_picture(id: String, open: bool) -> Control:
 			return symbol
 		_:
 			paths = DraftArena.fixed_paths(id)
+			if DraftArena.kind_of(id) == DraftArena.KIND_DAILY:
+				paths = DraftArena.daily_paths(id, DraftArena.max_paths(Session.flags))
 			if paths.is_empty():
 				var count: int = DraftArena.choice_range(id)[0] if DraftArena.kind_of(id) == DraftArena.KIND_HIGH else 4
 				for i: int in range(count):
@@ -355,7 +362,13 @@ func _details() -> Control:
 			words.add_child(_choice_row("Which dungeon:", ids, func(choice: String) -> String:
 				var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(DraftArena.dungeon_key_of(choice))
 				return plan.dungeon_name if plan != null else choice))
-	if DraftChallenges.fixed_paths(id).is_empty():
+	if DraftArena.kind_of(id) == DraftArena.KIND_DAILY:
+		var today: HBoxContainer = UIKit.hbox(10)
+		today.name = "DailyPaths"
+		today.add_child(UIKit.label("Today's Paths:", &"", 24, GlassTheme.SECONDARY))
+		today.add_child(DraftKit.path_row(DraftArena.daily_paths(id, DraftArena.max_paths(Session.flags)), 52.0))
+		words.add_child(today)
+	elif DraftChallenges.fixed_paths(id).is_empty():
 		words.add_child(_path_choice(id))
 	var locked: String = DraftArena.locked_reason(id, Session.flags)
 	var note: String = _notice if not _notice.is_empty() else locked
@@ -457,6 +470,8 @@ func _reward_words(id: String) -> String:
 			return "A clear: %d gold, %d XP, a General Pack and %s; keep one card.%s" % [int(table.get("halls_clear_gold", 0)), int(table.get("halls_clear_xp", 0)), extra, "" if won else "  The first clear: a piece of draft equipment, a Gilded Pack and more gold on top."]
 		return "A clear: the dungeon's own clear rewards, plus %s; keep one card.  Every fight won pays a little even if the run ends." % extra
 	var paths: Array[int] = DraftChallenges.fixed_paths(id) if not DraftChallenges.fixed_paths(id).is_empty() else _paths
+	if DraftArena.kind_of(id) == DraftArena.KIND_DAILY:
+		paths = DraftArena.daily_paths(id, DraftArena.max_paths(Session.flags))
 	var full: Dictionary = DraftChallenges.reward(3, true, not won, id, paths, after_primm)
 	return "Three wins: %s%s; keep one card.  Fewer wins still pay gold and XP." % [DraftKit.reward_words(full), "" if won else " (the first time)"]
 
