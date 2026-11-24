@@ -1,0 +1,18 @@
+# Fable Nov 24: the lines of docs/dialogue/nov24_lines.csv that existed before the pass and were changed (node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov24_lines_ids.txt)
+data/dungeons/dungeon_content.json::drafthost.arena::0
+data/dungeons/dungeon_content.json::drafthost.house::0
+data/dungeons/dungeon_content.json::drafthouse.intro::1
+data/dungeons/dungeon_content.json::drafthouse.intro::2
+data/dungeons/dungeon_content.json::drafthouse.return::0
+data/dungeons/dungeon_content.json::drafthouse.mainquest_done::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/2::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/3::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/5::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/7::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/8::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/10::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/12::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/14::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/15::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/18::0
+data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/19::0

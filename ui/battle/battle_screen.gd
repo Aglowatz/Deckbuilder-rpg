@@ -652,12 +652,9 @@ func _play_new_events() -> void:
 		elif event.type == GameEvent.Type.SCRIPT_WARNING and script_banner != null:
 			script_banner.warn(event.detail)
 		if event.type == GameEvent.Type.HAND_REVEALED and event.player == 0:
-			# Fable big pass Nov 23 (Signal Reader): the opponent's hand, named on the banner (and kept in the battle log)
-			var seen: String = "Their hand is empty." if event.detail.is_empty() else "Their hand: %s." % ", ".join(event.detail.split("|"))
-			if script_banner != null:
-				script_banner.warn(seen)
-			else:
-				hud.announce(seen, 3.0)
+			# Fable Nov 24 (Part 5, Signal Reader): the opponent's hand as the actual cards, enlarged over the middle of the screen,
+			# closed with a click (it was a list of names on the banner; the battle log still keeps the names)
+			_show_hand_reveal(game.last_revealed_hand)
 		await board.present(event)
 		if tutorial != null:
 			tutorial.on_battle_event(event)
@@ -745,6 +742,7 @@ func _any_block_possible() -> bool:
 func _submit(action: GameAction) -> void:
 	if busy:
 		return
+	_close_hand_reveal()  # a seat played by a bot never clicks: the revealed hand goes away with the next action
 	if not game.apply_action(action):
 		Audio.sfx(&"ui_error")
 		_toast("That is not allowed right now")
@@ -2500,6 +2498,37 @@ func _show_peek() -> void:
 	peek_panel.lift = 40.0
 	peek_panel.chosen.connect(_peek_choice)
 	_peek_layer.add_child(peek_panel)
+
+
+## Fable Nov 24 (Part 5): Signal Reader's look at the opponent's hand - the cards themselves in a modal layer of their own (above
+## the board, the hand and the banners, the table dimmed behind them), until the player clicks. The game does not wait for it.
+var _reveal_layer: CanvasLayer = null
+var hand_reveal: HandRevealPanel = null
+
+
+func _show_hand_reveal(cards: Array[CardData]) -> void:
+	_close_hand_reveal()
+	_reveal_layer = CanvasLayer.new()
+	_reveal_layer.name = "HandRevealLayer"
+	_reveal_layer.layer = BattleHud.MODAL_LAYER
+	add_child(_reveal_layer)
+	var dim: ColorRect = ColorRect.new()
+	dim.name = "HandRevealDim"
+	dim.color = Color(0.02, 0.01, 0.04, 0.7)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UIKit.full_rect(dim)
+	_reveal_layer.add_child(dim)
+	hand_reveal = HandRevealPanel.make(cards, context.enemy_name if context != null else "")
+	hand_reveal.closed.connect(_close_hand_reveal)
+	_reveal_layer.add_child(hand_reveal)
+	Audio.sfx(&"ui_open")
+
+
+func _close_hand_reveal() -> void:
+	if _reveal_layer != null and is_instance_valid(_reveal_layer):
+		_reveal_layer.queue_free()
+	_reveal_layer = null
+	hand_reveal = null
 
 
 ## Overnight Nov 19 (Part 1.1): the waiting choice's panel (units on the table can also be clicked; see the CHOICE mode).

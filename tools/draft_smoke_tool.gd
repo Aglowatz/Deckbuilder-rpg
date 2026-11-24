@@ -6,7 +6,12 @@ extends RefCounted
 ##   Fable big pass Nov 23 (Part 9.2): the Shuffle House opens both ways (four zone drafts won; three zones freed) and the main
 ##            quest follows; an Open Draft at an arena table; the Shuffled Halls walked room by room (fights, the pick after
 ##            each, the Trade Counter, the Kettle, the buff rooms, Trey, Octavia); a Mystery Mini; a zone dungeon as a draft.
-##   Godot --headless --path . -s res://tools/draft_smoke.gd [-- --only=zones|house|halls|mystery|dungeon]
+##   Fable Nov 24 (Part 7): the four modes. A Classic Draft with two Paths (three opponents from the arena's cast, no Prismatic
+##            Pack) and a High Rollers Draft (the fee, the opponents' equipment); the Shuffled Halls with their hand-made dealers
+##            on a careful and a greedy route, and a run that cashes out at the Counting Halls; a Mystery Mini; a zone dungeon;
+##            and one run through each other large dungeon of the Dungeon Draft's list (Primm's Castle, the Path-ology Lab, the
+##            Shattered Gallery, Mount Swolympus).
+##   Godot --headless --path . -s res://tools/draft_smoke.gd [-- --only=zones|house|high|halls|cashout|mystery|dungeon|large] [--tries=N]
 ##   (bash tools/run_draft_smoke.sh)
 
 var checks: int = 0
@@ -39,15 +44,24 @@ func run() -> bool:
 		_house_opens_by_zone_drafts()
 		_house_opens_by_freed_zones()
 		_arena_table()
+	if _wanted("high"):
+		_high_rollers()
 	if _wanted("halls"):
 		# the Halls by two kinds of player: a careful one (the heal and the buff rooms, as few tables as the map allows) and a
 		# greedy one (every table and champion on the way, for the picks); --tries=N runs of each
 		_dungeon_run("halls careful", DraftArena.HALLS_ID, [int(Affinity.Type.BEEFCAKE), int(Affinity.Type.NECROCRAT)] as Array[int], tries, false, false)
 		_dungeon_run("halls greedy", DraftArena.HALLS_ID, [int(Affinity.Type.GOURMAND), int(Affinity.Type.REFUSEMANCER)] as Array[int], tries, true, false)
+	if _wanted("cashout"):
+		# a run that walks to the Counting Halls and cashes out: part of the prize, not a win
+		_dungeon_run("halls cash out", DraftArena.HALLS_ID, [int(Affinity.Type.BEEFCAKE)] as Array[int], tries, false, true, 18)
 	if _wanted("mystery"):
 		_dungeon_run("mystery", DraftArena.MYSTERY_ID, [int(Affinity.Type.GOURMAND)] as Array[int], 3)
 	if _wanted("dungeon"):
 		_dungeon_run("dungeon", "", [int(Affinity.Type.REFUSEMANCER)] as Array[int], 3)
+	if _wanted("large"):
+		# every other large dungeon of the Dungeon Draft's list, once each: the run must hold together from the door to the end
+		for key: String in [CapitalZone.ID, "D-LAB", "S-GALLERY", "S-BEEF"]:
+			_dungeon_run("large %s" % key, DraftArena.dungeon_id(key), [int(Affinity.Type.BEEFCAKE), int(Affinity.Type.GOURMAND)] as Array[int], 1)
 	print("draft_smoke: %s - %d checks, %d failed" % ["OK" if failed == 0 else "FAILED", checks, failed])
 	return failed == 0
 
@@ -175,11 +189,14 @@ func _house_opens_by_freed_zones() -> void:
 
 func _arena_table() -> void:
 	var paths: Array[int] = [int(Affinity.Type.BEEFCAKE), int(Affinity.Type.GOURMAND)] as Array[int]
-	check(Session.draft_start_problem(DraftArena.OPEN_ID, paths).is_empty(), "arena: the Open Draft takes two Paths (%s)" % Session.draft_start_problem(DraftArena.OPEN_ID, paths))
-	check(Session.start_draft(DraftArena.OPEN_ID, paths), "arena: the Open Draft starts")
-	_pick_all("arena open")
+	check(Session.draft_start_problem(DraftArena.CLASSIC_ID, paths).is_empty(), "arena: a Classic Draft takes two Paths (%s)" % Session.draft_start_problem(DraftArena.CLASSIC_ID, paths))
+	check(not Session.draft_start_problem(DraftArena.pair_ids()[0], paths).is_empty(), "arena: the separate two-Path tables are gone")
+	check(Session.draft_fee(DraftArena.CLASSIC_ID) == 0, "arena: Classic is free")
+	check(Session.start_draft(DraftArena.CLASSIC_ID, paths), "arena: the Classic Draft starts")
+	_pick_all("arena classic")
 	check(Session.draft_begin_run(), "arena: the run begins")
 	var draft: DraftState = Session.draft
+	_check_opponents("arena", draft, int(EquipmentData.Rarity.UNCOMMON))
 	var fights: int = 0
 	while not draft.is_finished() and fights < 6:
 		fights += 1
@@ -192,6 +209,58 @@ func _arena_table() -> void:
 		print("draft_smoke: arena fight %d vs %s: %s (%d-%d)" % [fights, context.enemy_name, "won" if context.won else "lost", draft.wins, draft.losses])
 	check(draft.is_finished(), "arena: the run ends")
 	check(int(draft.result.get("gold", 0)) > 0, "arena: something for every result")
+	check(not (draft.result.get("packs", []) as Array).has(PackRules.PRISMATIC_ID), "arena: Classic pays no Prismatic Pack")
+	if draft.full_win():
+		check(Session.flag(StringName(DraftArena.paths_goal_flag(draft.paths))), "arena: a Classic win with two Paths counts for that pair")
+	Session.close_draft()
+
+
+## Three different opponents from the arena's cast, each with a description, Paths of their own (never more than the story has
+## opened) and equipment no rarer than `cap`.
+func _check_opponents(label: String, draft: DraftState, cap: int) -> void:
+	var names: Dictionary = {}
+	for rival: Dictionary in draft.rivals:
+		names[str(rival["name"])] = true
+		check(not DraftRivals.portrait_id(str(rival["name"])).is_empty(), "%s: %s is one of the cast" % [label, str(rival["name"])])
+		check(not str(rival.get("title", "")).is_empty(), "%s: %s has a description for the next-opponent screen" % [label, str(rival["name"])])
+		check((rival.get("paths", []) as Array).size() >= 1 and (rival.get("paths", []) as Array).size() <= maxi(1, DraftArena.max_paths(Session.flags)), "%s: %s drafted Paths of their own (%s)" % [label, str(rival["name"]), str(rival.get("paths", []))])
+		for piece_id: Variant in rival.get("equipment", []) as Array:
+			check(int(Session.content.equipment_piece(str(piece_id)).rarity) <= cap, "%s: %s wears nothing above the cap (%s)" % [label, str(rival["name"]), str(piece_id)])
+	check(names.size() == 3, "%s: three different opponents (%s)" % [label, ", ".join(names.keys())])
+	print("draft_smoke: %s opponents: %s" % [label, ", ".join(names.keys())])
+
+
+## A High Rollers Draft: the fee at the door, opponents who may wear anything, and more gold than Classic for the same result.
+func _high_rollers() -> void:
+	_fresh(16)
+	for zone_id: String in ZoneDefs.ids().slice(0, DraftArena.ZONES_TO_OPEN):
+		Session.complete_zone(zone_id)
+	Session.open_shuffle_house_if_due()
+	var paths: Array[int] = [int(Affinity.Type.NECROCRAT), int(Affinity.Type.REFUSEMANCER)] as Array[int]
+	var fee: int = Session.draft_fee(DraftArena.HIGH_ID)
+	check(fee > 0, "high: there is an entry fee (%d)" % fee)
+	Session.gold = fee - 1
+	check(not Session.draft_start_problem(DraftArena.HIGH_ID, paths).is_empty(), "high: no seat without the fee")
+	Session.gold = fee + 50
+	check(Session.start_draft(DraftArena.HIGH_ID, paths), "high: the draft starts")
+	check(Session.gold == 50, "high: the fee is paid at the door")
+	_pick_all("high")
+	check(Session.draft_begin_run(), "high: the run begins")
+	var draft: DraftState = Session.draft
+	_check_opponents("high", draft, int(EquipmentData.Rarity.LEGENDARY))
+	var fights: int = 0
+	while not draft.is_finished() and fights < 6:
+		fights += 1
+		var context: BattleContext = Session.make_draft_battle()
+		Session._draft_real_profile = Session.profile
+		Session.profile = context.draft_profile
+		_play(context)
+		Session.resolve_draft_battle(context)
+		print("draft_smoke: high fight %d vs %s: %s (%d-%d)" % [fights, context.enemy_name, "won" if context.won else "lost", draft.wins, draft.losses])
+	check(draft.is_finished(), "high: the run ends at three wins or two losses")
+	check(draft.losses <= 2, "high: two losses end it, like Classic")
+	var classic: Dictionary = DraftChallenges.reward(draft.wins, draft.full_win(), false, DraftArena.CLASSIC_ID, paths, false)
+	check(int(draft.result.get("gold", 0)) > int(classic["gold"]), "high: more gold than Classic for the same result (%d against %d)" % [int(draft.result.get("gold", 0)), int(classic["gold"])])
 	Session.close_draft()
 
 
@@ -199,10 +268,20 @@ func _arena_table() -> void:
 
 
 ## A dungeon draft walked room by room, up to `tries` attempts until one is cleared. `challenge` "" = the first zone dungeon on offer.
-func _dungeon_run(label: String, challenge: String, paths: Array[int], attempts: int, greedy: bool = true, stop_at_clear: bool = true) -> void:
-	_fresh(16)
+## `cash_out_room` > 0: the run heads for that room (the Counting Halls) and cashes out there.
+func _dungeon_run(label: String, challenge: String, paths: Array[int], attempts: int, greedy: bool = true, stop_at_clear: bool = true, cash_out_room: int = 0) -> void:
+	_fresh(20 if label.begins_with("large") else 16)
 	for zone_id: String in ZoneDefs.ids().slice(0, DraftArena.ZONES_TO_OPEN):
 		Session.complete_zone(zone_id)
+	if label.begins_with("large"):
+		# the whole story behind the player: every zone and the Capital freed, every side and postgame dungeon cleared once
+		for zone_id: String in ZoneDefs.ids():
+			Session.complete_zone(zone_id)
+		Session.complete_zone(CapitalZone.ID)
+		for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+			if plan.is_side() or plan.is_postgame():
+				Session.set_flag(Session.side_cleared_flag(plan))
+		check(Session.draft_dungeon_keys().has(DraftArena.dungeon_key_of(challenge)), "%s: on the Dungeon Draft's list once cleared" % label)
 	if challenge == DraftArena.MYSTERY_ID:
 		# the wheel lands on a mini dungeon already cleared with the player's own deck
 		for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
@@ -243,6 +322,10 @@ func _dungeon_run(label: String, challenge: String, paths: Array[int], attempts:
 			if choices.is_empty():
 				break
 			var node: DungeonMap.MapNode = _choose(choices, greedy, Session.run.hp < Session.run.max_hp() * 0.7)
+			if cash_out_room > 0:
+				node = _toward(choices, cash_out_room, node)
+			if label.begins_with("halls") and attempt == 1 and rooms == 0:
+				check(Session.draft.rivals.is_empty(), "%s: the dealers are the dungeon's own, not drafted" % label)
 			rooms += 1
 			match node.kind:
 				DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE, DungeonMap.Kind.BOSS:
@@ -263,9 +346,22 @@ func _dungeon_run(label: String, challenge: String, paths: Array[int], attempts:
 				DungeonMap.Kind.EVENT, DungeonMap.Kind.RESCUE:
 					var event: DungeonEvent = MainDungeons.def(key).event(node.event_id)
 					if event != null:
-						var outcome: EventResolver.Result = Session.resolve_dungeon_event(event, 0)
+						# the Counting Halls: the first choice cashes out (only the run that came for it takes it)
+						var cashier: bool = key == DraftArena.HALLS_DUNGEON and node.number == 18
+						var outcome: EventResolver.Result = Session.resolve_dungeon_event(event, 1 if cashier and cash_out_room != node.number else 0)
 						if not outcome.ok:
 							outcome = Session.resolve_dungeon_event(event, event.choices.size() - 1)
+						if cashier:
+							check(Session.draft_cash_out_pending == (cash_out_room == node.number), "%s: the cashier pays out only when asked" % label)
+						if Session.draft_cash_out_pending:
+							var gold_before: int = Session.gold
+							var cash: Dictionary = Session.resolve_draft_dungeon(false, true)
+							check(bool(cash.get("cashed_out", false)) and Session.gold > gold_before, "%s: cashing out pays part of the prize (%s)" % [label, str(cash).substr(0, 160)])
+							check(not Session.draft.full_win() and not Session.flag(StringName(DraftChallenges.won_flag(DraftArena.HALLS_ID))), "%s: cashing out is not a win" % label)
+							check(not Session.draft_keep(Session.draft.cards[0]), "%s: no card to keep after a cash-out" % label)
+							print("draft_smoke: %s try %d room %d: cashed out with %s" % [label, attempt, node.number, str(cash).substr(0, 200)])
+							over = true
+							break
 						check(outcome.ok, "%s room %d: the event resolves (%s)" % [label, node.number, outcome.reason])
 						var kind: String = str(Session.draft.offer.get("kind", ""))
 						if kind == DraftEngine.KIND_DUNGEON_TRADE:
@@ -326,6 +422,32 @@ func _choose(choices: Array[DungeonMap.MapNode], greedy: bool, hurt: bool) -> Du
 			if int(node.kind) == wanted:
 				return node
 	return choices[0]
+
+
+## The door that leads to room `target` (that room itself when it is on offer); `fallback` when none does.
+func _toward(choices: Array[DungeonMap.MapNode], target: int, fallback: DungeonMap.MapNode) -> DungeonMap.MapNode:
+	var best: DungeonMap.MapNode = null
+	var fewest: int = 999
+	for node: DungeonMap.MapNode in choices:
+		if node.number == target:
+			return node
+		if _leads_to(node, target, 0):
+			var fights: int = _fights_ahead(node, 0)
+			if fights < fewest:
+				fewest = fights
+				best = node
+	return best if best != null else fallback
+
+
+func _leads_to(node: DungeonMap.MapNode, target: int, depth: int) -> bool:
+	if node == null or depth > 30:
+		return false
+	if node.number == target:
+		return true
+	for next_id: int in node.next:
+		if _leads_to(Session.dungeon_map.node(next_id), target, depth + 1):
+			return true
+	return false
 
 
 ## The fewest fights from `node` (itself counted) to the boss, the boss not counted.

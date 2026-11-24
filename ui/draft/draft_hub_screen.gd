@@ -201,7 +201,7 @@ func _fill_zone() -> void:
 func _house_words() -> String:
 	var won: int = DraftChallenges.zone_drafts_won(Session.flags)
 	if DraftArena.is_open(Session.flags):
-		return "Zone drafts won: %d of 4.  My aunt Octavia's Shuffle House is OPEN in Crosspath: choose your own Paths there, play the two-Path tables and walk the Shuffled Halls. %s" % [won, DraftArena.paths_rule_text(Session.flags)]
+		return "Zone drafts won: %d of 4.  My aunt Octavia's Shuffle House is OPEN in Crosspath: four games (Classic, Dungeon Draft, Mystery Mini, High Rollers) with your own choice of Paths, and the Shuffled Halls behind the stage. %s" % [won, DraftArena.paths_rule_text(Session.flags)]
 	return "Zone drafts won: %d of 4.  Win all four, or free three zones, and my aunt Octavia opens the Shuffle House in Crosspath. That is where you choose your own Paths. %s" % [won, DraftArena.paths_rule_text(Session.flags)]
 
 

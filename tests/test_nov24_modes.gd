@@ -584,7 +584,9 @@ func test_the_trade_counters_card_is_shown_whole_with_its_label_clear_of_it() ->
 	add_child_autofree(screen)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var tile: Button = screen.find_child("Swap0", true, false) as Button
+	var grid: Control = screen.find_child("SwapGrid", true, false) as Control
+	assert_gt(grid.get_child_count(), 10, "the deck's cards are listed to give one up")
+	var tile: Button = grid.get_child(0) as Button
 	assert_not_null(tile)
 	assert_eq(tile.tooltip_text, "", "no tooltip lies across the card any more")
 	assert_null(screen.find_child("SwapPreview", true, false))
@@ -850,8 +852,10 @@ func test_a_dealers_hp_is_measured_from_the_players_and_its_gear_shows() -> void
 		rope = rope or card.data.display_name == "Velvet Rope"
 	assert_true(rope, "the Velvet Rope is on Maurice's side")
 	Session.run.finish_encounter(context.game)
-	# skills: the tables play at normal level, the champions at elite, Octavia at boss
-	assert_eq(Session._skill_for_node(_halls_node(5)), AIPlayer.Skill.NORMAL)
+	# skills: each dealer plays as its block says - the gates at normal level, the champions at elite, Octavia at boss
+	assert_eq(Session._skill_for_node(_halls_node(2)), AIPlayer.Skill.NORMAL, "the gates play at normal level")
+	assert_eq(Session._skill_for_node(_halls_node(3)), AIPlayer.Skill.NORMAL)
+	assert_eq(Session._skill_for_node(_halls_node(5)), MainDungeons.skill_of(DraftArena.HALLS_DUNGEON, _halls_node(5).enemy_name, AIPlayer.Skill.NORMAL), "a dealer plays as its block says")
 	assert_eq(Session._skill_for_node(_halls_node(8)), AIPlayer.Skill.ELITE)
 	assert_eq(Session._skill_for_node(_halls_node(19)), AIPlayer.Skill.BOSS)
 
@@ -960,3 +964,26 @@ func test_a_scripted_rule_can_leave_both_seats_and_a_dealer_can_fold() -> void:
 	for rule: EncounterModifiers.Rule in EncounterModifiers.rules("\"Honest\" Hal Lowball"):
 		ante = ante or (rule.name == "The Ante" and not rule.is_enemy_side() and rule.harmful)
 	assert_true(ante)
+
+
+# ---- the pick of three after a Halls fight: a card met by the pointer while the table slides in stays on the page -------------------
+
+
+func test_a_card_hovered_while_its_screen_is_still_off_the_page_grows_where_it_stands() -> void:
+	var row: HBoxContainer = HBoxContainer.new()
+	add_child_autofree(row)
+	row.position = Vector2(300, 2600)  # the table has not slid in yet: far below the window
+	var tile: Button = Button.new()
+	tile.custom_minimum_size = CardView.SIZE * 0.9
+	row.add_child(tile)
+	await get_tree().process_frame
+	CardHoverZoom.set_height(tile, 640.0)
+	CardHoverZoom.zoom_in(tile)
+	assert_true(CardHoverZoom.is_zoomed(tile))
+	row.position = Vector2(300, 200)  # and now it has
+	var grown: Vector2 = tile.size * CardHoverZoom.factor_for(tile)
+	var top: float = tile.global_position.y + tile.pivot_offset.y * (1.0 - CardHoverZoom.factor_for(tile))
+	assert_gt(top, -200.0, "its grown top edge is near the page (it was thrown 2,000 px above it)")
+	assert_lt(top + grown.y, get_viewport().get_visible_rect().size.y + 400.0)
+	assert_between(tile.pivot_offset.y, -tile.size.y, tile.size.y * 2.0, "the pivot stays near the card")
+	CardHoverZoom.zoom_out(tile)

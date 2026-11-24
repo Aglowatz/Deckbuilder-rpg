@@ -1949,12 +1949,12 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the wheel lands on the Kitchen: Octavia gains 5 HP and a 4/4 Cake Golem rolls out from the wings.",
+			"text": "At half health the wheel lands on the Kitchen: Octavia gains 3 HP and a 4/4 Cake Golem rolls out from the wings.",
 			"line": "And again! ...The KITCHEN! Somebody wheel in the cake. No, the BIG cake. The one with the fists.",
 			"effects": [
 				{
 					"kind": "heal",
-					"amount": 5
+					"amount": 3
 				},
 				{
 					"kind": "summon",
@@ -1962,7 +1962,7 @@
 					"count": 1
 				}
 			],
-			"banner": "The wheel lands on the Kitchen: she gains 5 HP, and a 4/4 Cake Golem arrives."
+			"banner": "The wheel lands on the Kitchen: she gains 3 HP, and a 4/4 Cake Golem arrives."
 		},
 		{
 			"id": "wheel_tape",

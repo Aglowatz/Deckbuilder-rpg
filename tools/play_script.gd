@@ -719,6 +719,12 @@ func _dev(parts: PackedStringArray) -> void:
 					line += " layers %d mat %s transparency %.2f basis %s" % [mi.layers, str(mi.material_override), mi.transparency, str(mi.global_transform.basis)]
 				_say(line)
 			result = "find done"
+		"ctl":
+			# Fable Nov 24: debugging aid for the 2D side: `dev ctl <NodeName>` prints a Control's place, size, scale and pivot
+			for found: Node in get_tree().root.find_children(arg, "Control", true, false):
+				var c: Control = found as Control
+				_say("  ctl %s pos %s gpos %s size %s scale %s pivot %s z %d visible %s meta %s parent %s psize %s" % [c.name, str(c.position), str(c.global_position), str(c.size), str(c.scale), str(c.pivot_offset), c.z_index, str(c.is_visible_in_tree()), str(c.get_meta_list()), c.get_parent().name, str((c.get_parent() as Control).size) if c.get_parent() is Control else "-"])
+			result = "ctl done"
 		"reveal":
 			# Fable Nov 20 day: lift the fog of the current area (map shots with every marker on)
 			var scene_now: Node = get_tree().current_scene

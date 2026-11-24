@@ -144,8 +144,8 @@ attach
 host => stat(2,1)
 when(attached_combat_dmg_unit) => create(ingredient)
 
-== GB-11 @fb006f7fdea5  # Idiot Sandwich
-play t=unit.atk<=4 => plate(t); damage(ctl(t),2)
+== GB-11 @2b7dc73f3c30  # Idiot Sandwich
+play t=unit => plate(t); damage(ctl(t),2)
 
 == GB-12 @11353eee06df  # A Feast for the Eyes
 kw hustle

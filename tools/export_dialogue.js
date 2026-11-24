@@ -25,7 +25,8 @@ const PATH_CH = { beefcake: 2, gourmand: 3, necrocrat: 4, refusemancer: 5, final
 const ZONE_FILE_CH = { 'gainlands_story.tres': 2, 'gourmand_story.tres': 3, 'dna_story.tres': 4, 'refusemancer_story.tres': 5, 'capital_story.tres': 7 };
 // Where each dungeon of dungeon_content.json sits: [chapter, phase] (phase 2 = side dungeon, 3 = main dungeon); Crosspath's secrets use node 6.
 const DUNGEON_AT = { 'D-HOG': [2, 3], 'D-TTK': [3, 3], 'D-HFA': [4, 3], 'D-ROT': [5, 3], 'D-PC': [7, 3], 'D-LAB': [9, 3], 'S-IRON': [2, 2],
-	'S-BEEF': [9, 2], 'S-GOUR': [3, 2], 'S-NECRO': [4, 2], 'S-REF': [5, 2], 'S-CAP': [7, 2], 'S-PASTE': [7, 2], 'S-TOWN': [6, 1] };
+	'S-BEEF': [9, 2], 'S-GOUR': [3, 2], 'S-NECRO': [4, 2], 'S-REF': [5, 2], 'S-CAP': [7, 2], 'S-PASTE': [7, 2], 'S-TOWN': [6, 1],
+	'S-GALLERY': [9, 2], 'D-SHUFFLE': [6, 2] };  // Fable Nov 24: the Shattered Gallery and the Shuffled Halls (their dealers have mid-fight lines now)
 const MAIN_DUNGEON = { 2: 'D-HOG', 3: 'D-TTK', 4: 'D-HFA', 5: 'D-ROT', 7: 'D-PC' };
 const SIDE_DUNGEON = { iron: 'S-IRON', beef: 'S-BEEF', gour: 'S-GOUR', necro: 'S-NECRO', ref: 'S-REF', cap: 'S-CAP', town: 'S-TOWN' };
 const GATEKEEPER = { 'Brick Bronson': 'beefcake', 'Chef Fennel Gravois': 'gourmand', 'Prudence Pallor': 'necrocrat', 'Moss Mulligan': 'refusemancer' };
@@ -342,7 +343,7 @@ function battlePlace(name) {
 	if (/^arena:/.test(base)) return { ch: 1 };
 	if (BATTLE_PLACE[base]) return { ...BATTLE_PLACE[base] };
 	const hit = foeAt[base] || Object.entries(foeAt).find(([k]) => k.split(/, | - /)[0] === base.split(/, | - /)[0])?.[1];
-	if (hit) { const [ch, phase] = DUNGEON_AT[hit[0]]; return { ch, phase, node: hit[0] === 'S-TOWN' ? 6 : hit[1], area: hit[0] }; }
+	if (hit) { const [ch, phase] = DUNGEON_AT[hit[0]] || [9, 2]; return { ch, phase, node: hit[0] === 'S-TOWN' ? 6 : hit[1], area: hit[0] }; }
 	return { ch: 1 };
 }
 function battles() {

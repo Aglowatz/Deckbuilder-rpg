@@ -1,0 +1,308 @@
+# Fable Nov 24 (Part 7.2): the Shuffled Halls, first walk (continues halls_fresh.txt from its saved door): question marks on the
+# map, a real fight at the Velvet Gate, the pick of three, the Trade Counter (the card to give up shown whole), Trey at the
+# Auction Ring, the Rules Library, the Quiet Lounge and the Counting Halls' cash-out with its result pop-up.
+#   bash tools/play.sh docs/review/play_scripts/nov24/halls_run1.txt nov24_halls_run1 1200
+wait 6
+dev load nov24_halls_door
+wait 14
+skip_dialogue 10
+button Continue
+wait 1
+dev draft open
+wait 2
+shot r00_door
+button Enter
+wait 6
+button Got it
+wait 1
+shot r01_map_question_marks
+node Room_2
+wait 2
+shot r02_gate_brief
+button Continue
+wait 8
+shot r03_battle_start
+button Keep Hand
+wait 1
+pilot 10
+shot r04_mid_fight
+key Space
+wait 2
+key Space
+wait 2
+dev win
+wait 3
+dev win
+wait 6
+shot r05_fight_won
+button Continue
+wait 7
+move 1300,700
+wait 1
+shot r06_pick_of_three
+node Card0
+wait 1
+node TakePick
+wait 3
+shot r08_map_one_room_known
+node Room_4
+wait 2
+wait 2
+shot r09_trade_counter_room
+button Look at the three cards
+wait 3
+button Continue
+wait 4
+move 1300,760
+wait 1
+shot r10_trade_counter_offer
+node Card1
+wait 1
+move 248,605
+wait 1.5
+shot r11_trade_card_shown_whole
+move 298,726
+wait 1.5
+shot r11b_trade_card_shown_whole
+node Swap2
+wait 1
+shot r12_trade_chosen
+node TakePick
+wait 3
+shot r13_map_after_trade
+node Room_8
+wait 2
+shot r14_trey_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+wait 2
+shot r15_trey_fight
+dev win
+wait 6
+button Continue
+wait 7
+move 1300,700
+wait 1
+shot r16_pick_after_trey
+button Take nothing
+wait 3
+node Room_12
+wait 2
+shot r17_library_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+wait 2
+shot r18_library_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_16
+wait 2
+wait 2
+shot r19_quiet_lounge
+button Take a quick perch
+wait 3
+shot r20_lounge_result
+button Continue
+wait 2
+shot r21_map_before_counting
+node Room_18
+wait 2
+wait 2
+shot r22_counting_halls
+button Cash out and leave
+wait 3
+shot r23_cash_out_words
+dump
+button Continue
+wait 4
+shot r24_cash_out_result
+button Finish
+wait 3
+# ---- the second run, same sitting: the rooms stepped on before are known; every fight is booked as won; Octavia falls ----
+skip_dialogue 10
+dev goto shuffle_house
+wait 2
+key E
+wait 2
+skip_dialogue 20
+wait 2
+node Mode_halls
+wait 1
+shot s00_menu_second_time
+button Start
+wait 2
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+button Lock the deck
+wait 2
+button Enter
+wait 6
+shot s01_map_known_rooms
+dev autowin on
+node Room_3
+wait 2
+shot s_03_tinsel_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_03_tinsel_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_5
+wait 2
+shot s_05_tea_garden_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_05_tea_garden_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_8
+wait 2
+shot s_08_trey_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_08_trey_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_12
+wait 2
+shot s_12_library_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_12_library_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_15
+wait 2
+shot s_15_card_shop_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_15_card_shop_fight
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_19
+wait 2
+shot s_19_octavia_brief
+button Continue
+wait 8
+button Keep Hand
+wait 1
+shot s_19_octavia_fight
+dev win
+wait 6
+button Continue
+wait 7
+shot s20_after_octavia
+dump
+button Continue
+wait 4
+shot s21_after_octavia_2
+dump
+button Continue
+wait 4
+shot s22_after_octavia_3
+dump

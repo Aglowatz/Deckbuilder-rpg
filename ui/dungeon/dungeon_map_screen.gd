@@ -293,6 +293,7 @@ func _build_nodes() -> void:
 		available_ids.append(node.id)
 	for node: DungeonMap.MapNode in map.nodes:
 		var button: MapNodeButton = MapNodeButton.new()
+		button.name = "Room_%d" % node.number  # Fable Nov 24: a room has a name (play scripts click it: `node Room_3`)
 		button.fogged = not node_known(node)
 		button.ahead = fog_key() in ROUTE_PLANNING and map.reachable_from(map.current).has(node.id)
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))

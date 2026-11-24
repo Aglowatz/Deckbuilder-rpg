@@ -203,6 +203,7 @@ func _rooms() -> void:
 	for word: String in sets:
 		header.append(word.replace("+", " + ").capitalize())
 	header.append("All")
+	header.append("HP left after a win")
 	lines.append("| %s |" % " | ".join(header))
 	lines.append("|%s" % "---|".repeat(header.size()))
 	for room: int in rooms:
@@ -211,6 +212,7 @@ func _rooms() -> void:
 		var row: PackedStringArray = [str(room), encounter.title, fighter.paths_text, str(encounter.enemy_hp), EncounterSpec.kind_name(encounter.kind).to_lower()]
 		var all_wins: int = 0
 		var all_games: int = 0
+		var hp_left: int = 0
 		for word: String in sets:
 			var wins: int = 0
 			var games: int = 0
@@ -220,12 +222,14 @@ func _rooms() -> void:
 				var result: BalanceSim.Result = BalanceSim.run(content, player, encounter, _games(), 6100 + room * 37 + index * 11)
 				wins += result.wins
 				games += result.games
+				hp_left += result.hp_left_on_win
 				index += 1
 				print("room %d %s vs %s: %d/%d in %.1f s" % [room, encounter.enemy_name, word, result.wins, result.games, float(Time.get_ticks_msec() - started) / 1000.0])
 			row.append("%d%%" % _pct(wins, games))
 			all_wins += wins
 			all_games += games
 		row.append("**%d%%** (%d)" % [_pct(all_wins, all_games), all_games])
+		row.append("%.1f of %d" % [float(hp_left) / float(maxi(1, all_wins)), _base_hp()])
 		lines.append("| %s |" % " | ".join(row))
 	lines.append("")
 	lines.append("Each room alone at full HP. Aim: a regular table about 65 to 80 %, a champion about 55 to 65 %, Octavia about 45 to 55 % (a run strings several together on one pool of HP).")

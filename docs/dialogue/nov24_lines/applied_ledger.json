@@ -1,0 +1,121 @@
+[
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthost.arena::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Would you look at that, would you LOOK at that! (ding ding DING!) My Auntie Octavia has thrown open the Shuffle House in Crosspath, north-east corner of the square, you can't miss it, it's the one that looks like a party. Choose your own Paths in there, champ!",
+		"after": "Would you look at that, would you LOOK at that! (ding ding DING!) My Auntie Octavia has thrown open the Shuffle House in Crosspath, on the big lawn north-east of the square, up the cobbles past Pip's, you can't miss it, it's the one that looks like a party. Choose your own Paths in there, champ!"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthost.house::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Psst, champ! Win my cart in all four zones, or get three zones back on their feet, and my Auntie Octavia opens the Shuffle House in Crosspath. Big striped place, north-east corner of the square. That's where you pick your OWN Paths!",
+		"after": "Psst, champ! Win my cart in all four zones, or get three zones back on their feet, and my Auntie Octavia opens the Shuffle House in Crosspath. Big striped place on the lawn north-east of the square. That's where you pick your OWN Paths!"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthouse.intro::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "My Trey taught you to pick one of three? Sweetie, I taught HIM. In here you choose your own Paths, sit at my tables, and when you're feeling brave you walk the Shuffled Halls behind the stage. Everyone who is anyone has been lost in there at least once.",
+		"after": "My Trey taught you to pick one of three? Sweetie, I taught HIM. Tonight's bill is FOUR games! Classic: you choose your Paths, I choose your trouble. Dungeon Draft: a borrowed deck in a dungeon you already know. Mystery Mini: the wheel decides, and nobody argues with the wheel. And High Rollers, for people with gold and no sense whatsoever!"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthouse.intro::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "On the one arm, glory. On the other seven, also glory! Now, what will it be? Don't be shy, darling, I have hands to spare.",
+		"after": "And behind the stage, through a door all of its own: the Shuffled Halls. Everyone who is anyone has been lost in there at least once. On the one arm, glory. On the other seven, also glory! Now, what will it be? Don't be shy, darling, I have hands to spare."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthouse.return::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Places, everyone! That means you, darling, you're the everyone. The tables are warm, and I have eight arms and nothing to do with six of them. What are we playing?",
+		"after": "Places, everyone! That means you, darling, you're the everyone. Four games on the bill, one door behind the stage, and I have eight arms and nothing to do with six of them. What are we playing?"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::drafthouse.mainquest_done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "You went in! You came out! Applause, applause, eight hands of it! Whatever happened in there, darling, it happened with STYLE. The halls are yours whenever you want them, and so are my tables.",
+		"after": "You went in! You came out! Applause, applause, eight hands of it! Whatever happened in there, darling, it happened with STYLE. The halls are yours whenever you want them, and so are my four games. Beat the halls properly one day, and we shall talk about a very special card."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/2::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The left-hand gate. A drafter is waiting at the first table.",
+		"after": "The left-hand gate. Maurice, Head of Security, and a velvet rope that is not on the guest list either."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/3::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The right-hand gate. A drafter is waiting at the first table.",
+		"after": "The right-hand gate. Tilda Tinsel is loading the confetti cannon, and she does not ask before she fires."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/5::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "Somebody is taking tea in the garden, with a deck beside the pot.",
+		"after": "Madame Darjeeling is taking tea in the garden. She will pour you a cup. Then she will beat you with the pot."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/7::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "A quiet game in the back room. It will not stay quiet.",
+		"after": "A quiet game in the back room. \"Honest\" Hal Lowball deals, and the ante is yours to pay."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/8::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "A champion's table: Trey Pickett holds the Auction Ring. Harder, with a better prize.",
+		"after": "A champion's table: Trey Pickett holds the Auction Ring. Going once, going twice... Harder, with a better prize."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/10::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The carousel turns, and somebody is dealing from one of the horses.",
+		"after": "The carousel turns. Dizzy Lizzie's riders never stop, until the music does."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/12::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The house rules, shelved floor to ceiling, and a drafter who has read them all.",
+		"after": "The house rules, shelved floor to ceiling. Professor Fineprint has read them all, and is about to amend one."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/14::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "A champion's table: Dex Shufflewick runs the Roulette Pit. Harder, with a better prize.",
+		"after": "A champion's table: Dex Shufflewick runs the Roulette Pit. The wheel spins on his turns. Harder, with a better prize."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/15::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "A shop of cards nobody is allowed to buy, and a drafter behind the till.",
+		"after": "A shop of cards nobody is allowed to buy. Penny Sleeves is behind the till: you break it, you bought it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/18::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The house's takings, and a side door to the Big Wheel.",
+		"after": "The Counting Halls: cash out here and leave with part of the prize. Cashing out ends the run, and it is NOT a win."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-SHUFFLE/blurbs/19::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "Boss: Octavia Eightfold. The house always deals.",
+		"after": "Boss: Octavia Eightfold at the Big Wheel. The house always deals."
+	}
+]

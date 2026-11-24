@@ -1950,7 +1950,7 @@
 				"deck": "colorless_regime",
 				"extra": {},
 				"hp": 32,
-				"hp_vs_player": 4,
+				"hp_vs_player": 5,
 				"icon": "delapouite/carnival-mask",
 				"infra": 16,
 				"setup_turns": 1,
@@ -1996,21 +1996,22 @@
 					"icon": "delapouite/guards",
 					"skill": "normal",
 					"hp": 18,
-					"hp_vs_player": -9,
+					"hp_vs_player": -5,
 					"paths": "Beefcake",
 					"equipment": [
 						"tinkers_wrench"
 					],
 					"cards": {
-						"BAS-B": 13,
+						"BAS-B": 12,
 						"B-01": 2,
 						"B-05": 2,
 						"B-07": 2,
+						"B-06": 2,
 						"B-08": 2,
 						"B-09": 1,
 						"B-10": 2,
 						"B-11": 2,
-						"B-12": 1,
+						"B-12": 2,
 						"B-03": 2,
 						"B-14": 1
 					}
@@ -2021,23 +2022,24 @@
 					"icon": "delapouite/party-popper",
 					"skill": "normal",
 					"hp": 18,
-					"hp_vs_player": -9,
+					"hp_vs_player": -5,
 					"paths": "Refusemancer",
 					"equipment": [
 						"lucky_dice"
 					],
 					"cards": {
-						"BAS-R": 13,
+						"BAS-R": 12,
 						"R-06": 2,
-						"R-02": 2,
+						"R-02": 1,
 						"R-05": 2,
 						"R-35": 2,
 						"R-04": 1,
 						"R-07": 2,
 						"R-08": 2,
+						"R-09": 1,
 						"R-14": 1,
 						"R-19": 1,
-						"R-21": 1,
+						"R-21": 2,
 						"R-37": 1
 					}
 				},
@@ -2045,15 +2047,15 @@
 					"name": "Madame Darjeeling",
 					"ai": "Defensive",
 					"icon": "delapouite/coffee-cup",
-					"skill": "normal",
+					"skill": "elite",
 					"hp": 19,
-					"hp_vs_player": -8,
+					"hp_vs_player": -3,
 					"paths": "Gourmand",
 					"equipment": [
 						"steady_sandals"
 					],
 					"cards": {
-						"BAS-G": 13,
+						"BAS-G": 12,
 						"G-01": 2,
 						"G-06": 2,
 						"G-04": 2,
@@ -2065,27 +2067,28 @@
 						"G-05": 2,
 						"G-17": 1,
 						"G-25": 1,
-						"G-21": 1
+						"G-21": 1,
+						"G-22": 1
 					}
 				},
 				"7": {
 					"name": "\"Honest\" Hal Lowball",
 					"ai": "Defensive",
 					"icon": "lorc/poker-hand",
-					"skill": "normal",
+					"skill": "elite",
 					"hp": 19,
-					"hp_vs_player": -8,
+					"hp_vs_player": -3,
 					"paths": "Necrocrat",
 					"equipment": [
 						"rolled_rulebook"
 					],
 					"cards": {
-						"BAS-N": 13,
+						"BAS-N": 12,
 						"N-01": 2,
 						"N-02": 2,
 						"N-06": 2,
 						"N-05": 2,
-						"N-03": 1,
+						"N-03": 2,
 						"N-38": 1,
 						"N-15": 2,
 						"N-11": 1,
@@ -2101,7 +2104,7 @@
 					"icon": "faithtoken/card-pick",
 					"skill": "elite",
 					"hp": 24,
-					"hp_vs_player": -3,
+					"hp_vs_player": 2,
 					"paths": "Beefcake, Refusemancer and Pathless",
 					"equipment": [
 						"first_pick_fedora",
@@ -2128,54 +2131,56 @@
 					"name": "Dizzy Lizzie, Carousel Queen",
 					"ai": "Aggressive",
 					"icon": "lorc/flame-spin",
-					"skill": "normal",
+					"skill": "elite",
 					"hp": 19,
-					"hp_vs_player": -8,
+					"hp_vs_player": -5,
 					"paths": "Gourmand and Beefcake",
 					"equipment": [
 						"practice_foil"
 					],
 					"cards": {
-						"BAS-G": 7,
-						"BAS-B": 7,
+						"BAS-G": 6,
+						"BAS-B": 6,
 						"GB-01": 2,
 						"GB-02": 2,
-						"GB-03": 1,
+						"GB-03": 2,
 						"B-01": 2,
 						"B-06": 2,
 						"B-12": 2,
 						"G-01": 2,
 						"G-06": 1,
 						"GB-08": 1,
-						"B-20": 1
+						"B-20": 1,
+						"B-11": 1
 					}
 				},
 				"12": {
 					"name": "Professor Fineprint",
 					"ai": "Defensive",
 					"icon": "delapouite/scroll-quill",
-					"skill": "normal",
+					"skill": "elite",
 					"hp": 19,
-					"hp_vs_player": -8,
+					"hp_vs_player": -3,
 					"paths": "Necrocrat and Gourmand",
 					"equipment": [
 						"thinking_cap"
 					],
 					"cards": {
-						"BAS-N": 7,
-						"BAS-G": 7,
+						"BAS-N": 6,
+						"BAS-G": 6,
 						"GN-02": 2,
 						"GN-03": 1,
 						"N-02": 2,
 						"N-06": 2,
 						"G-04": 2,
-						"G-05": 1,
+						"G-05": 2,
 						"GN-09": 1,
 						"N-12": 1,
 						"G-17": 1,
 						"GN-17": 1,
 						"N-15": 1,
-						"G-07": 1
+						"G-07": 1,
+						"N-03": 1
 					}
 				},
 				"14": {
@@ -2184,7 +2189,7 @@
 					"icon": "delapouite/dice-six-faces-six",
 					"skill": "elite",
 					"hp": 24,
-					"hp_vs_player": -3,
+					"hp_vs_player": 0,
 					"paths": "Necrocrat, Refusemancer and Pathless",
 					"equipment": [
 						"cheaters_dice",
@@ -2212,28 +2217,29 @@
 					"name": "Penny Sleeves",
 					"ai": "Balanced",
 					"icon": "delapouite/shop",
-					"skill": "normal",
+					"skill": "elite",
 					"hp": 19,
-					"hp_vs_player": -8,
+					"hp_vs_player": -3,
 					"paths": "Beefcake and Necrocrat",
 					"equipment": [
 						"fair_play_badge"
 					],
 					"cards": {
-						"BAS-B": 7,
-						"BAS-N": 7,
+						"BAS-B": 6,
+						"BAS-N": 6,
 						"NB-02": 2,
 						"NB-17": 2,
 						"B-05": 2,
 						"N-02": 2,
 						"B-08": 1,
-						"B-11": 1,
+						"B-11": 2,
 						"N-05": 1,
 						"B-02": 1,
 						"N-08": 1,
 						"NB-09": 1,
 						"B-03": 1,
-						"N-15": 1
+						"N-15": 1,
+						"NB-01": 1
 					}
 				},
 				"19": "Octavia Eightfold"
@@ -2787,11 +2793,11 @@
 		],
 		"drafthouse.intro": [
 			"DARLING! Welcome, welcome, welcome to the Shuffle House, where the lights are bright, the cards are fresh, and the house always DEALS! Octavia Eightfold. Showwoman, dealer, proprietor, and aunt to a very loud shark.",
-			"My Trey taught you to pick one of three? Sweetie, I taught HIM. In here you choose your own Paths, sit at my tables, and when you're feeling brave you walk the Shuffled Halls behind the stage. Everyone who is anyone has been lost in there at least once.",
-			"On the one arm, glory. On the other seven, also glory! Now, what will it be? Don't be shy, darling, I have hands to spare."
+			"My Trey taught you to pick one of three? Sweetie, I taught HIM. Tonight's bill is FOUR games! Classic: you choose your Paths, I choose your trouble. Dungeon Draft: a borrowed deck in a dungeon you already know. Mystery Mini: the wheel decides, and nobody argues with the wheel. And High Rollers, for people with gold and no sense whatsoever!",
+			"And behind the stage, through a door all of its own: the Shuffled Halls. Everyone who is anyone has been lost in there at least once. On the one arm, glory. On the other seven, also glory! Now, what will it be? Don't be shy, darling, I have hands to spare."
 		],
 		"drafthouse.return": [
-			"Places, everyone! That means you, darling, you're the everyone. The tables are warm, and I have eight arms and nothing to do with six of them. What are we playing?"
+			"Places, everyone! That means you, darling, you're the everyone. Four games on the bill, one door behind the stage, and I have eight arms and nothing to do with six of them. What are we playing?"
 		],
 		"drafthouse.resume": [
 			"There you are, sweetie! Your draft is exactly where you left it. I kept an arm on it. Two, in fact. Shall we?"
@@ -2801,7 +2807,7 @@
 			"So humour an old octopus. Draft a deck and walk my Shuffled Halls, just the once. You needn't win. You needn't even get far! You only have to go in. Nobody leaves the Shuffle House without a show."
 		],
 		"drafthouse.mainquest_done": [
-			"You went in! You came out! Applause, applause, eight hands of it! Whatever happened in there, darling, it happened with STYLE. The halls are yours whenever you want them, and so are my tables."
+			"You went in! You came out! Applause, applause, eight hands of it! Whatever happened in there, darling, it happened with STYLE. The halls are yours whenever you want them, and so are my four games. Beat the halls properly one day, and we shall talk about a very special card."
 		]
 	}
 }

@@ -2672,9 +2672,17 @@ func shuffle_hand_into_deck(player_index: int) -> void:
 ## the card names (detail, "|"-separated) so the battle screen can show them to a human viewer. `other` = the owner seat.
 func reveal_hand(viewer: int, owner: int, source_uid: int = 0) -> void:
 	var names: PackedStringArray = []
+	var seen: Array[CardData] = []
 	for card: CardInstance in players[owner].hand:
 		names.append(card.data.display_name)
+		seen.append(card.data)
+	# Fable Nov 24 (Part 5): the cards themselves, for the battle screen's pop-up (the event's detail keeps the names for the log)
+	last_revealed_hand = seen
 	emit_event(GameEvent.Type.HAND_REVEALED, viewer, source_uid, owner, names.size(), 0, "|".join(names))
+
+
+## The cards of the hand most recently looked at with `reveal_hand` (Signal Reader), in hand order. Shown, never changed.
+var last_revealed_hand: Array[CardData] = []
 
 
 func shuffle_refuse_pile_into_deck(player_index: int) -> void:
