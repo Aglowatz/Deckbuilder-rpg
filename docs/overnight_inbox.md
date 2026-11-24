@@ -4,6 +4,29 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable big pass Nov 23 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov23_big_pass.md`. Tag `pre-big-pass-nov23`. Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov23b/`. Sim tables: `docs/design/sim/nov23/`.
+
+1. **How strong the table rivals are.** You said the AI may not get the powerful pieces in zone drafts, so rivals draft nothing above Uncommon. With that alone a sensible player won about 86 % of fights on the three draft seeds I measured first, so the rivals now play at boss level and have 12 more HP: 71 % on those three seeds, and 61 % on the part of the next three that fitted in a 20-minute batch (36 games: Beefcake 78 %, Gourmand 11 %). The seed moves the number far more than the tuning does (one tuning gave 82 % on seeds 0 to 2 and 41 % on seeds 3 to 5), so read it as "about 60 %, not measured tightly". Recommendation: **keep, and watch the playtesters.** One number moves it: `rivals.hp_bonus` in `data/draft/draft_rules.json` (4 HP is about 3 points).
+2. **How hard the Shuffled Halls are.** As first built, nobody cleared them (0 of 8 and 1 of 8 runs). Now the table drafters have 11 HP less than you and play at normal level, the two champions 4 less at elite level, Octavia 6 more at boss level: a careful run (one table, the Kettle and the buff rooms, then Octavia) clears **4 of 10**, a greedy run (every table and Trey, for the picks) **2 of 10**. The map lets a careful player reach Octavia after a single table. Recommendation: **keep for the playtest.** If that feels too thin, the fix is a second forced table (make the Lucky Stall or the Prize Tent a fight), not more HP.
+3. **"The arena's harder win-three drafts".** I built them as three tables (one Path, two Paths, all four): win all three fights, one loss ends the run, and the rivals draft from your whole equipment pool. If you meant something else by "win three", say what, and it is a data change. Recommendation: **keep.**
+4. **A brew of all four Paths can only copy a card you have earned.** Every four-Path card in the game is a prize (the Path-ology Lab, Primm's Castle, the Shuffled Halls), so the four-socket brew has an empty pool until you own one; the panel says so. Recommendation: **keep**, or ask for one or two plain four-Path cards that only the cauldron makes.
+5. **The store-room ghosts' art: I found nothing that had been removed.** No picture of theirs was ever in the game's history: no portrait, no Bestiary square; their Ghost tokens use the Hungry Ghost's card art, which still shows on the table (`p5_ghosts_*.jpg`). Their battle plate showed only a small ghost glyph, so it now wears the Hungry Ghost's picture. If you remember a specific picture (a portrait beside their lines at the door?), tell me which and I will look again, or add a portrait row to Batch 21. Recommendation: **look at the shots and say whether that is what was missing.**
+6. **Where things stand in Crosspath.** "The other side of the fountain" for the Deck Station is taken as the south side, four steps west of where you arrive (it stood north-west, hidden behind the fountain; south-east was tried and the inn's roof hid it). The Shuffle House stands on the north-east corner, ten metres back behind an open forecourt, where a plain row house stood. Recommendation: **keep both** (`p4_crosspath_*.jpg`, `p5_crosspath_square_after.jpg`).
+
+Smaller notes, no decision needed:
+- **Cardboard Cuirass** was already in the game (Max HP +2), so there are eleven new modest pieces, not twelve; it kept its effect and got the new icon.
+- **Octavia as the Halls' boss** plays a drafted two-Path deck with the whole equipment pool and a card more each turn; her own four-Path card is the prize of "Lost in the Halls", handed over once Primm is beaten (no card of three or four Paths is given before that).
+- **Dungeon drafts** are offered only for dungeons you have already cleared with your own deck, and Primm's Castle is not one of them (its allies and three-phase boss are built round the story run). In a draft dungeon chests hold gold only, an event that would give a card gives it to the draft deck for the run, and heal rooms cost real gold. A draft dungeon is not saved room by room: after a quit the draft waits at the dungeon's door.
+- **Signal Reader's** "look at the opponent's hand" shows the card names on a banner and in the battle log, not the cards themselves.
+- **Zone rivals keep their zone's faces** but draft random Paths, as you asked, so Rollo may turn up with a Necrocrat deck.
+- **The Shuffled Halls borrows its music** (a card-game tune on the map, the Arena's cues for the fights) and has no Bestiary entries for the table drafters (they are people with portraits).
+- **The farm hands waddle.** Their sprite set has no walk cycle, so the three who walk now do a small step-bob on their standing frames; Batch 21 asks for a walk cycle.
+- **Auntie Alembic's screen has no portrait stage on the left any more**: she is the centre of the screen.
+- **The castle with the 28 HP Mimic** (4 runs per Path and route, so read it loosely): the all-allies route is still at 13 % and the Mimic still ends most of those runs; the Flex-and-Safe-Room route rose from 41 to 63 %, the quiet south from 6 to 25 %.
+- **The rival sim is slow at boss-level play:** six seeds no longer fit one 20-minute batch (the batch was stopped at the limit, as the house rules say, and its finished fights were counted).
+
 ## Fable Nov 22 night - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov22_night.md`. Tag `pre-fable-nov22-night`. Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov22/`. Numbers: `docs/balance_report_nov21.md`, section 8.

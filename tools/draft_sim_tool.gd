@@ -242,6 +242,9 @@ func _items() -> void:
 	lines.append("")
 	lines.append("| Item | Win rate with it | Change |")
 	lines.append("|---|---:|---:|")
-	for item: ItemData in DraftEngine.item_pool(content):
+	var item_pool: Array[ItemData] = DraftEngine.item_pool(content)
+	var item_from: int = int(args.get("from", 0))
+	var item_to: int = mini(int(args.get("to", item_pool.size())), item_pool.size())
+	for item: ItemData in item_pool.slice(item_from, item_to):
 		var got: Array[int] = _measure(baselines, [] as Array[String], [item.id] as Array[String])
 		lines.append("| %s (`%s`) | %d%% | %+d |" % [item.display_name, item.id, _pct(got[0], got[1]), _pct(got[0], got[1]) - _pct(base_wins, base_games)])
