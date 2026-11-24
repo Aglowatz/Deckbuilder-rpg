@@ -131,10 +131,10 @@
 	"_deck_min_cards": "The player's draft deck needs at least deck_min_cards cards, Infrastructure included, and may hold at most deck_max_basics basic Infrastructure.",
 	"_entry_fee": "Every draft is free (the owner, Nov 23; it was 100 gold after the first attempt).",
 	"rival_equipment_cap": {
-		"default": "uncommon",
+		"default": "epic",
 		"high": "legendary"
 	},
-	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge: Uncommon everywhere (the player may still get Epic and Legendary pieces), except the arena's harder win-three tables (high), where rivals draft from the player's whole pool.",
+	"_rival_equipment_cap": "The rarest piece a rival may draft, by the kind of challenge (the owner, Nov 23: in zone drafts the AI may not get the most powerful pieces, the player may): Epic everywhere, so the four Legendary pieces are the player's alone, except the arena's harder win-three tables (high), where rivals draft from the player's whole pool. With the cap at Uncommon a sensible player won 86 % of fights (docs/design/sim/nov23/rivals_zone_v1.md).",
 	"high": {
 		"losses_to_finish": 1,
 		"hp_bonus": 0

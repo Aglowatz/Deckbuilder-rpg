@@ -15,6 +15,12 @@ var style: String = "full"
 ## ids) keep a drawn line while they are ahead; the painted ones show the walked and the next step only. Unset: every link is drawn.
 var painted_walkways: bool = false
 var drawn_links: Dictionary = {}
+## Fable big pass Nov 23 (Part 7): the traced line of each link ("from>to" in node ids -> points on the picture, 0..1;
+## `DungeonCatalog.curves`) and the picture's rectangle on the screen. A link with a row follows its painted walkway.
+var curves: Dictionary = {}
+var art_rect: Rect2 = Rect2()
+## The spacing of the points a traced line is drawn with (the dashes march over every fourth point).
+const CURVE_STEP: float = 9.0
 
 
 func setup(map: DungeonMap, point_of: Callable) -> void:
@@ -47,7 +53,7 @@ func _draw() -> void:
 			if style == "plan" and walked and node.id != 0 and not _map.is_cleared(node.id):
 				walked = false  # Fable Nov 22 night: on a map of crossing routes, a link out of a room the party never entered was not walked
 			var ahead: bool = node.id == _map.current and not walked
-			var points: PackedVector2Array = _trim(_curve(from, to), trim_radius)
+			var points: PackedVector2Array = _trim(link_points(node.id, next_id, from, to), trim_radius)
 			if points.size() < 2:
 				continue
 			var thin: float = 0.6 if style == "subtle" else 1.0
@@ -70,6 +76,60 @@ func _draw() -> void:
 				_dashes(points, Color(UIStyle.MUTED, 0.35), 4.0, false)
 			elif style == "subtle":
 				_dashes(points, Color(1, 1, 1, 0.22), 3.0, false)
+
+
+## The line from room `from_id` to room `to_id` on the screen: its traced walkway (smoothed, evenly spaced points) when the map has
+## one, else the old line between the two spots.
+func link_points(from_id: int, to_id: int, from: Vector2, to: Vector2) -> PackedVector2Array:
+	var key: String = "%d>%d" % [from_id, to_id]
+	if not curves.has(key) or art_rect.size.x <= 0.0:
+		return _curve(from, to)
+	var traced: PackedVector2Array = curves[key] as PackedVector2Array
+	var control: PackedVector2Array = PackedVector2Array()
+	for point: Vector2 in traced:
+		control.append(art_rect.position + point * art_rect.size)
+	# the ends are the rooms as they stand on the screen (a room may be nudged off its layout spot)
+	control[0] = from
+	control[control.size() - 1] = to
+	return spaced(smoothed(control), CURVE_STEP)
+
+
+## A Catmull-Rom curve through `control` (eight steps a span).
+static func smoothed(control: PackedVector2Array) -> PackedVector2Array:
+	if control.size() < 3:
+		return control
+	var result: PackedVector2Array = PackedVector2Array()
+	for i: int in range(control.size() - 1):
+		var p0: Vector2 = control[maxi(i - 1, 0)]
+		var p1: Vector2 = control[i]
+		var p2: Vector2 = control[i + 1]
+		var p3: Vector2 = control[mini(i + 2, control.size() - 1)]
+		for step: int in range(8):
+			var t: float = float(step) / 8.0
+			result.append(0.5 * ((2.0 * p1) + (-p0 + p2) * t + (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t * t + (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t * t * t))
+	result.append(control[control.size() - 1])
+	return result
+
+
+## `points` walked again in even steps of `step` pixels.
+static func spaced(points: PackedVector2Array, step: float) -> PackedVector2Array:
+	var result: PackedVector2Array = PackedVector2Array()
+	if points.size() < 2:
+		return points
+	result.append(points[0])
+	var carry: float = 0.0
+	for i: int in range(points.size() - 1):
+		var a: Vector2 = points[i]
+		var b: Vector2 = points[i + 1]
+		var length: float = a.distance_to(b)
+		var at: float = step - carry
+		while at <= length:
+			result.append(a.lerp(b, at / length))
+			at += step
+		carry = fmod(carry + length, step)
+	if result[result.size() - 1].distance_to(points[points.size() - 1]) > 0.5:
+		result.append(points[points.size() - 1])
+	return result
 
 
 func _curve(from: Vector2, to: Vector2) -> PackedVector2Array:

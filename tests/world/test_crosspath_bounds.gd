@@ -179,6 +179,9 @@ func test_townsfolk_routes_never_cross_a_building() -> void:
 	for spec: Dictionary in TownScene.STROLLERS:
 		specs.append({"plaza": _town.anchors[str(spec["anchor"])], "radius": float(spec["radius"]), "seed": int(spec["seed"]), "name": str(spec["anchor"])})
 	specs.append({"plaza": TownLayout.PLAZA, "radius": SpriteWanderer.RING_RADIUS, "seed": 11, "name": "baker"})
+	# Fable big pass Nov 23: the farm hands walk too
+	for spec: Dictionary in TownScene.FARM_WALKERS:
+		specs.append({"plaza": _town.anchors[str(spec["anchor"])], "radius": float(spec["radius"]), "seed": int(spec["seed"]), "name": "farmer by %s" % spec["anchor"]})
 	for spec: Dictionary in specs:
 		var wanderer: SpriteWanderer = SpriteWanderer.new()
 		wanderer.seed_value = int(spec["seed"])
@@ -219,3 +222,23 @@ func test_townsfolk_pool_and_standing_spots() -> void:
 		var pos: Vector3 = (_town.anchors[str(spec["anchor"])] as Vector3) + (spec["offset"] as Vector3)
 		assert_true(_town.npc_can_stand(pos), "%s by %s stands clear" % [spec["character"], spec["anchor"]])
 	assert_eq(looks.size(), TownScene.STANDING_TOWNSFOLK.size(), "every standing townsperson has a look of their own (set and tint)")
+
+
+## Fable big pass Nov 23 (the owner): one farm hand and one badger fewer in the square - its stroller and its standing townsperson
+## are sets nobody else in the square wears (Brindle the baker is the square's badger) - and no farm hand stands rooted any more.
+func test_the_square_has_one_badger_and_the_farmers_walk() -> void:
+	for spec: Dictionary in TownScene.STROLLERS:
+		if str(spec["anchor"]) == "plaza":
+			assert_ne(str(spec["character"]), "TOWNSFOLK_B", "the square's stroller is not a second badger")
+			assert_ne(str(spec["character"]), "VILLAGER")
+	var in_square: Array[String] = []
+	for spec: Dictionary in TownScene.STANDING_TOWNSFOLK:
+		assert_ne(str(spec["character"]), TownScene.FARM_CHARACTER, "no farm hand stands rooted")
+		if str(spec["anchor"]) == "plaza":
+			in_square.append(str(spec["character"]))
+	for spec: Dictionary in TownScene.STROLLERS:
+		if str(spec["anchor"]) == "plaza":
+			assert_does_not_have(in_square, str(spec["character"]), "the square's two townsfolk are different sets")
+	assert_eq(TownScene.FARM_WALKERS.size(), 3, "three farm hands, each with a loop")
+	for spec: Dictionary in TownScene.FARM_WALKERS:
+		assert_ne(str(spec["anchor"]), "plaza", "none of them in the square")

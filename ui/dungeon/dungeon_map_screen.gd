@@ -226,6 +226,9 @@ func _build_board() -> void:
 		var drawn: Dictionary = DungeonCatalog.drawn_links(_plan.id)
 		_paths.painted_walkways = bool(drawn["listed"])
 		_paths.drawn_links = drawn["links"] as Dictionary
+		# Fable big pass Nov 23 (Part 7): the lines follow the painted walkways
+		_paths.curves = DungeonCatalog.curves(_plan.id)
+		_paths.art_rect = _art_rect
 	add_child(_paths)
 
 

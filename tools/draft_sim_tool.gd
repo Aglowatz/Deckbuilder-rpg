@@ -20,6 +20,15 @@ func run() -> bool:
 		if raw.begins_with("--") and raw.contains("="):
 			args[raw.substr(2, raw.find("=") - 2)] = raw.substr(raw.find("=") + 1)
 	content = ContentLibrary.load_all()
+	# Fable big pass Nov 23: try a rival strength without editing the rules file (--hp=6 --skill=boss)
+	if args.has("hp"):
+		(DraftRules.data()["rivals"] as Dictionary)["hp_bonus"] = int(args["hp"])
+	if args.has("mirror"):
+		(DraftRules.data()["rivals"] as Dictionary)["random_paths"] = false  # the rivals draft the player's Paths, as in Phase 1
+	if args.has("cap"):
+		(DraftRules.data()["rival_equipment_cap"] as Dictionary)["default"] = str(args["cap"])
+	if args.has("skill"):
+		(DraftRules.data()["rivals"] as Dictionary)["skill"] = str(args["skill"])
 	var what: String = str(args.get("what", "rivals"))
 	lines.append("# Draft sim: %s (level %d, %d seeds, %d games per rival and seed)" % [what, _level(), _seeds(), _games()])
 	lines.append("")
@@ -134,7 +143,7 @@ func _rivals() -> void:
 		var wins: Array[int] = [0, 0, 0]
 		var games: Array[int] = [0, 0, 0]
 		var run_wins: float = 0.0
-		for seed_index: int in range(_seeds()):
+		for seed_index: int in range(int(args.get("seed_from", 0)), int(args.get("seed_from", 0)) + _seeds()):
 			var state: DraftState = _player_draft(zone_id, 100 + seed_index * 17)
 			var player: PlayerSpec = _spec(state, state.equipment, state.items)
 			var rates: Array[float] = []

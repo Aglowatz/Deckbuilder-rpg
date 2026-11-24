@@ -17,12 +17,21 @@ const SPOT_ID: String = "drafthost"
 const MET_FLAG: String = "drafthost_met"
 const INTRO_QUEST: String = "draft_pick_of_three"
 const FINALE_QUEST: String = "draft_last_pick"
-## Where he stands in each zone: by the zone's trivia corner, on the other side from Dex.
-const ANCHOR: String = "quiz"
+## Where he stands in each zone. Fable big pass Nov 23 (the owner): near where the hero arrives, not at Dex's elbow by the trivia
+## corner (he stood 36 to 57 m from the entrance, beside the other card table). `ZONE_SPOTS`: an offset from the zone's arrival
+## point ("spawn"), found with `tools/trey_spot_scan.gd` (open ground, 1.3 m clear all round, 3.2 m from anyone else). The Verdant
+## Dump: the first tier past the entrance bridge, on the left. A zone without a row keeps the old place by the trivia corner.
+const ANCHOR: String = "spawn"
+const FALLBACK_ANCHOR: String = "quiz"
 const OFFSET: Vector3 = Vector3(2.6, 0.0, 2.4)
+const ZONE_SPOTS: Dictionary = {
+	"beefcake": Vector3(5.0, 0.0, -15.5),
+	"gourmand": Vector3(-5.5, 0.0, -13.5),
+	"refusemancer": Vector3(-8.0, 0.0, -11.0),
+	"necrocrat": Vector3(4.0, 0.0, -8.0),
+}
 ## His line while the Shuffle House is still closed and at least one zone draft is won: where it is and what opens it.
 const HOUSE_HINT_KEY: String = "drafthost.house"
-const ZONE_OFFSETS: Dictionary = {"refusemancer": Vector3(3.0, 0.0, 6.5)}
 
 
 static func portrait_id() -> String:
@@ -34,7 +43,11 @@ static func sprite_key() -> String:
 
 
 static func offset_for(zone_id: String) -> Vector3:
-	return ZONE_OFFSETS.get(zone_id, OFFSET) as Vector3
+	return ZONE_SPOTS.get(zone_id, OFFSET) as Vector3
+
+
+static func anchor_for(zone_id: String) -> String:
+	return ANCHOR if ZONE_SPOTS.has(zone_id) else FALLBACK_ANCHOR
 
 
 static func zone_quest_id(zone_id: String) -> String:
@@ -43,14 +56,14 @@ static func zone_quest_id(zone_id: String) -> String:
 
 ## The zone entry and the talk spot ZoneDefs adds to each Path zone.
 static func npc_entry(zone_id: String = "") -> Dictionary:
-	var entry: Dictionary = {"id": SPOT_ID, "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": offset_for(zone_id), "yaw": -30.0}
+	var entry: Dictionary = {"id": SPOT_ID, "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": anchor_for(zone_id), "offset": offset_for(zone_id), "yaw": 0.0}
 	if sprite_key() == STAND_IN_SPRITE:
 		entry["tint"] = Color(0.8, 0.95, 1.2)  # only the stand-in is tinted: his own sprite (Batch 20) keeps its colours
 	return entry
 
 
 static func spot_entry(zone_id: String = "") -> Dictionary:
-	return {"id": SPOT_ID, "title": TITLE, "anchor": ANCHOR, "offset": offset_for(zone_id) + Vector3(-0.6, 0, 0), "radius": 1.8, "prompt": "Talk", "kind": SPOT_ID,
+	return {"id": SPOT_ID, "title": TITLE, "anchor": anchor_for(zone_id), "offset": offset_for(zone_id) + Vector3(0, 0, 0.6), "radius": 1.8, "prompt": "Talk", "kind": SPOT_ID,
 		"npc": SPOT_ID, "npc_id": NPC_ID, "speaker": SPEAKER}
 
 

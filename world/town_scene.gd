@@ -662,6 +662,7 @@ func _build_actors() -> void:
 		_add_npc("octavia", "Mage", town.anchors["npc_shuffle_house"] as Vector3, 200.0)
 	_build_baker()
 	_build_strollers()
+	_build_farm_walkers()
 	_build_standing_townsfolk()
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
@@ -793,6 +794,9 @@ func _build_barks() -> void:
 	for stroller: SpriteWanderer in _strollers:
 		npc_barks.register(stroller.sprite, "NPC-TOWNSFOLK")
 		_labels().register(stroller.sprite, "Townsfolk", "npc", false, stroller.sprite.head_height() + 0.3)
+	for farmer: SpriteWanderer in _farmers:
+		npc_barks.register(farmer.sprite, "NPC-TOWNSFOLK")
+		_labels().register(farmer.sprite, "Townsfolk", "npc", false, farmer.sprite.head_height() + 0.3)
 	for actor: SpriteActor in _standing_townsfolk:
 		npc_barks.register(actor, "NPC-TOWNSFOLK")
 		_labels().register(actor, "Townsfolk", "npc", false, actor.head_height() + 0.3)
@@ -809,9 +813,21 @@ const STROLLERS: Array[Dictionary] = [
 	{"anchor": "npc_elder", "radius": 3.8, "seed": 41, "tint": 0, "character": "TOWNSFOLK_C"},
 	# Phase 2 cycle 23: one more by the Arena gate (the rift station's loop crossed an unwalkable edge, so it has none)
 	{"anchor": "arena_gate", "radius": 3.6, "seed": 57, "tint": 0, "character": "TOWNSFOLK_B"},
-	{"anchor": "plaza", "radius": 5.2, "seed": 71, "tint": 2, "character": "TOWNSFOLK_B"},
+	# Fable big pass Nov 23 (the owner: too many badgers in the square, with Brindle the baker there already): the square's
+	# stroller is the old hare in a coat of his own, not a second badger
+	{"anchor": "plaza", "radius": 5.2, "seed": 71, "tint": 2, "character": "TOWNSFOLK_C"},
 	{"anchor": "market", "radius": 3.2, "seed": 89, "tint": 4, "character": "TOWNSFOLK_A"},
 ]
+## Fable big pass Nov 23 (the owner: the farmers get walk routes): the farm hands come to town no longer stand rooted - each walks a
+## small loop of his own (the well yard, the Arena gate, the market). Their set has no walk cycle, so they waddle
+## (`SpriteWanderer.waddle`: a small step-bob on the standing frames) until one is painted (docs/art/batch21.csv).
+const FARM_WALKERS: Array[Dictionary] = [
+	{"anchor": "well", "radius": 2.7, "seed": 29, "tint": Color(1.0, 1.0, 1.0)},
+	{"anchor": "arena_gate", "radius": 3.0, "seed": 63, "tint": Color(1.08, 0.97, 0.86)},
+	{"anchor": "market", "radius": 2.6, "seed": 97, "tint": Color(0.95, 1.06, 0.92)},
+]
+const FARM_CHARACTER: String = "DUMPWORKER"
+var _farmers: Array[SpriteWanderer] = []
 const STROLLER_FALLBACK: String = "VILLAGER"
 var _strollers: Array[SpriteWanderer] = []
 
@@ -823,11 +839,10 @@ var _strollers: Array[SpriteWanderer] = []
 ## both spots are farm hands come to town to sell (the mole set, its own tint each). Every other non-story set is someone with a name.
 ## Batch 12 (Nov 6): plus the three generic townsfolk walker sets (the strollers).
 const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER", "TOWNSFOLK_A", "TOWNSFOLK_B", "TOWNSFOLK_C"]
+## Fable big pass Nov 23: the square's farm hand is a market regular with her basket (nobody of her set walks the square), and the
+## three other farm hands walk (`FARM_WALKERS`).
 const STANDING_TOWNSFOLK: Array[Dictionary] = [
-	{"character": "DUMPWORKER", "anchor": "well", "offset": Vector3(-3.2, 0, 2.6), "yaw": 150.0, "tint": Color(1.0, 1.0, 1.0)},
-	{"character": "DUMPWORKER", "anchor": "plaza", "offset": Vector3(-6.5, 0, 5.5), "yaw": 210.0, "tint": Color(0.86, 0.92, 1.08)},
-	{"character": "DUMPWORKER", "anchor": "arena_gate", "offset": Vector3(-2.6, 0, 2.2), "yaw": 160.0, "tint": Color(1.08, 0.97, 0.86)},
-	{"character": "DUMPWORKER", "anchor": "market", "offset": Vector3(2.2, 0, 3.4), "yaw": 200.0, "tint": Color(0.95, 1.06, 0.92)},
+	{"character": "TOWNSFOLK_A", "anchor": "plaza", "offset": Vector3(-6.5, 0, 5.5), "yaw": 210.0, "tint": Color(0.86, 0.92, 1.08)},
 ]
 var _standing_townsfolk: Array[SpriteActor] = []
 
@@ -873,6 +888,28 @@ func _build_strollers() -> void:
 			stroller.queue_free()
 			continue
 		_strollers.append(stroller)
+
+
+func _build_farm_walkers() -> void:
+	if not SpriteLibrary.has_character(FARM_CHARACTER):
+		return
+	for spec: Dictionary in FARM_WALKERS:
+		if not town.anchors.has(str(spec["anchor"])):
+			continue
+		var farmer: SpriteWanderer = SpriteWanderer.new()
+		farmer.character = FARM_CHARACTER
+		farmer.name = "Farmer%d" % (_farmers.size() + 1)
+		farmer.seed_value = int(spec["seed"])
+		farmer.ring_radius = float(spec["radius"])
+		farmer.tint = spec["tint"] as Color
+		farmer.waddle = true
+		farmer.pace = 0.7
+		add_child(farmer)
+		farmer.setup(town, town.anchors[str(spec["anchor"])] as Vector3, null, Vector3.ZERO)
+		if farmer.sprite == null:
+			farmer.queue_free()
+			continue
+		_farmers.append(farmer)
 
 
 ## The walker set a STROLLERS entry is drawn with: its own set when imported with a walk cycle, else the badger villager; "" when neither exists.
@@ -3978,6 +4015,8 @@ func _update_sprite_npcs(delta: float) -> void:
 	if player != null:
 		for stroller: SpriteWanderer in _strollers:
 			stroller.tick(delta, player.position)
+		for farmer: SpriteWanderer in _farmers:
+			farmer.tick(delta, player.position)
 	if _baker == null or player == null:
 		return
 	_baker.frozen = talking and _talking_id == "baker"

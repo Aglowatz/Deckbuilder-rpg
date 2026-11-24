@@ -93,13 +93,14 @@ func kept_clear(p: Vector2, margin: float) -> bool:
 
 
 ## The wedge between the walkable floor and the low camera (south of it): nothing tall stands there, or the trees would fill the screen.
+## Fable big pass Nov 23: the camera's whole view (`OpeningForestLayout.in_view_wedge`), not three narrow lines.
 func _in_camera_wedge(p: Vector2) -> bool:
-	return layout.camera_side(p, 24.0)
+	return layout.in_view_wedge(p, 24.0, 18.0)
 
 
 ## Tallest a tree may be at `p`: on the camera's side of the floor, under about 3 m so the foreground never swallows the view; anywhere else, any height.
 func _height_cap(p: Vector2) -> float:
-	if layout.camera_side(p, 24.0):
+	if _in_camera_wedge(p):
 		return 3.0
 	return 1.0e9
 

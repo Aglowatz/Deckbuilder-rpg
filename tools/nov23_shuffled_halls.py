@@ -11,7 +11,7 @@ DUNGEON_ID = 'D-SHUFFLE'
 # Room 1 is the way in (not drawn: the two gates are the first choice). The Counting Room is the house's takings, one door before the boss.
 # n: (name, type, x, y as fractions of MAP-DRAFT (the pale landing disc under each room), next)
 ROOMS = {
-    1: ('The Stage Door', 'start', 0.020, 0.500, [2, 3]),
+    1: ('The Stage Door', 'start', 0.030, 0.500, [2, 3]),
     2: ('The Velvet Gate', 'battle', 0.077, 0.337, [4, 5]),
     3: ('The Tinsel Gate', 'battle', 0.077, 0.663, [5, 6]),
     4: ('The Trade Counter', 'event', 0.234, 0.231, [7, 8]),

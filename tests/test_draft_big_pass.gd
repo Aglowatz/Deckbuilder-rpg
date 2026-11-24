@@ -170,7 +170,7 @@ func test_rivals_draft_random_paths_one_each_in_a_single_path_draft() -> void:
 
 
 func test_zone_rivals_never_wear_the_strongest_pieces_but_the_win_three_tables_rivals_may() -> void:
-	assert_eq(DraftRules.rival_equipment_cap(DraftArena.KIND_ZONE), int(EquipmentData.Rarity.UNCOMMON))
+	assert_eq(DraftRules.rival_equipment_cap(DraftArena.KIND_ZONE), int(EquipmentData.Rarity.RARE), "Epic: only the Legendary pieces are barred")
 	assert_eq(DraftRules.rival_equipment_cap(DraftArena.KIND_HIGH), int(EquipmentData.Rarity.LEGENDARY))
 	var strong_at_high: int = 0
 	for seed_value: int in [21, 22, 23, 24, 25]:
@@ -178,7 +178,7 @@ func test_zone_rivals_never_wear_the_strongest_pieces_but_the_win_three_tables_r
 		var high: DraftState = DraftEngine.start(content, "high:1", [int(P.GOURMAND)] as Array[int], 12, seed_value)
 		for index: int in range(3):
 			for id: String in DraftRivals.draft(content, zone, DraftRivals.AGGRESSIVE, index, [int(P.GOURMAND)] as Array[int], DraftRules.rival_equipment_cap(DraftArena.KIND_ZONE)).equipment:
-				assert_lte(int(content.equipment_piece(id).rarity), int(EquipmentData.Rarity.UNCOMMON), "a zone rival wears nothing above Uncommon (%s)" % id)
+				assert_lte(int(content.equipment_piece(id).rarity), int(EquipmentData.Rarity.RARE), "a zone rival never wears a Legendary piece (%s)" % id)
 			for id: String in DraftRivals.draft(content, high, DraftRivals.AGGRESSIVE, index, [int(P.GOURMAND)] as Array[int], DraftRules.rival_equipment_cap(DraftArena.KIND_HIGH)).equipment:
 				strong_at_high += 1 if int(content.equipment_piece(id).rarity) >= int(EquipmentData.Rarity.RARE) else 0
 	assert_gt(strong_at_high, 0, "at the win-three tables the rivals draft from the player's whole pool")

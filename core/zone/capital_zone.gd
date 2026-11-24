@@ -62,6 +62,11 @@ const FLAG_SEED_PLANTED: StringName = &"cap_seed_planted"
 const FLAG_CASTLE_ENTERED: StringName = &"cap_castle_entered"
 ## Set when Primm is defeated: the facade is down, the rifts are sealed, the citizens are free.
 const FLAG_FREED: StringName = &"zone_final_completed"
+## Fable big pass Nov 23: where Primm's cell stands in the Crease after his defeat, from the hideout's arrival point (22, 150): the
+## east side of the hall, clear of the Rift Express (28, 146), the tunnel's mouth (39, 148) and Fig Sly's stall (31, 138).
+const PRIMM_CELL_OFFSET: Vector3 = Vector3(14.0, 0.0, -5.0)
+## The Rift Express's spot stays clear of the freed cast by this much.
+const RIFT_CLEARANCE: float = 3.5
 const SECRET_TUNNEL: String = "capital_old_joint_works"
 
 ## The correction fee charged when you wake at the hub.
@@ -155,13 +160,17 @@ static func build_def() -> ZoneDef:
 	def.gloom_tint = Color(0.5, 0.46, 0.58)
 	def.hub_anchor = "crease_spawn"
 	# The freed leaders stand in the Crease once Primm has fallen (their dialogue is the story keys `freed_npc.<id>`).
+	# Fable big pass Nov 23 (the owner: declutter the base after Primm, keep the rift clear, Primm behind bars): the six stood in one
+	# row across the middle of the hall, Archdruid Compostella on the Rift Express's spot and Primm two steps from it. The four
+	# leaders stand west of the map table now, the rift's side of the hall is empty, and Primm is in the cell in the east
+	# (`PRIMM_CELL_OFFSET`, CAP-PROP-PRIMM-CELL; `CapitalScene._build_primm_cell`) with his guard beside the door.
 	def.freed_npcs = [
-		{"id": "heartlift", "npc_id": "NPC-FLEX", "sprite": "FLEX_FREED", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
-		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "The Grand Chef", "speaker": "The Grand Chef"},
-		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
-		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
-		{"id": "primm", "npc_id": "NPC-PRIMM", "model": "Knight", "offset": Vector3(10.5, 0.0, -3.4), "yaw": 180.0, "tint": Color(0.72, 0.72, 0.8), "scale": 1.45, "name": "Primm, at work", "speaker": "Primm"},
-		{"id": "primm_guard", "sprite": "CAPITAL_GUARD", "model": "Knight", "offset": Vector3(8.8, 0.0, -2.4), "yaw": 150.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5, "name": "Primm's Guard", "speaker": "Guard"},
+		{"id": "heartlift", "npc_id": "NPC-FLEX", "sprite": "FLEX_FREED", "model": "Barbarian", "offset": Vector3(-10.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
+		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Rogue", "offset": Vector3(-6.5, 0.0, -2.7), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "The Grand Chef", "speaker": "The Grand Chef"},
+		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(-3.2, 0.0, -3.4), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
+		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(1.0, 0.0, -3.8), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
+		{"id": "primm", "npc_id": "NPC-PRIMM", "model": "Knight", "offset": PRIMM_CELL_OFFSET + Vector3(0.35, 0.0, 0.0), "yaw": 180.0, "tint": Color(0.72, 0.72, 0.8), "scale": 1.45, "name": "Primm, in his cell", "speaker": "Primm"},
+		{"id": "primm_guard", "sprite": "CAPITAL_GUARD", "model": "Knight", "offset": PRIMM_CELL_OFFSET + Vector3(-3.5, 0.0, 1.2), "yaw": 150.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5, "name": "Primm's Guard", "speaker": "Guard"},
 	] as Array[Dictionary]
 	def.npcs = [
 		{"id": "wren", "npc_id": "NPC-WREN", "model": "Mage", "anchor": "wren", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},

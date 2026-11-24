@@ -55,6 +55,7 @@ func test_the_wells_chest_can_be_walked_to_from_maren() -> void:
 	var maren: Vector3 = _town.anchors["npc_elder"] as Vector3
 	var walkable: Callable = func(at: Vector3) -> bool: return _town.is_walkable(at)
 	assert_lt(chest.distance_to(well), 4.0, "the small chest is beside the well")
+	assert_gt(chest.distance_to(well), 3.4, "Fable big pass Nov 23: far enough that the well and the chest never share a prompt (1.7 m + the chest's reach)")
 	assert_gt(chest.distance_to(well + Vector3(-2.2, 0.0, 0.6)), 2.5, "and not on the iron hatch")
 	assert_false(_town.is_walkable(chest), "the chest itself is solid")
 	var route: PackedVector3Array = WalkPlanner.route(walkable, _town.map_bounds(), maren, chest, 0.5, ChestKit.REACH - 0.3)

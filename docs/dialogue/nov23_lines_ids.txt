@@ -1,0 +1,17 @@
+# Fable big pass Nov 23: the lines of docs/dialogue/nov23_lines.csv (node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov23_lines_ids.txt)
+data/dungeons/dungeon_content.json::drafthost.arena::0
+data/dungeons/dungeon_content.json::drafthost.arena::1
+data/dungeons/dungeon_content.json::drafthost.house::0
+data/dungeons/dungeon_content.json::drafthost.intro::0
+data/dungeons/dungeon_content.json::drafthost.intro::1
+data/dungeons/dungeon_content.json::drafthost.intro::2
+data/dungeons/dungeon_content.json::drafthost.resume::0
+data/dungeons/dungeon_content.json::drafthost.return::0
+data/dungeons/dungeon_content.json::drafthouse.intro::0
+data/dungeons/dungeon_content.json::drafthouse.intro::1
+data/dungeons/dungeon_content.json::drafthouse.intro::2
+data/dungeons/dungeon_content.json::drafthouse.mainquest::0
+data/dungeons/dungeon_content.json::drafthouse.mainquest::1
+data/dungeons/dungeon_content.json::drafthouse.mainquest_done::0
+data/dungeons/dungeon_content.json::drafthouse.resume::0
+data/dungeons/dungeon_content.json::drafthouse.return::0

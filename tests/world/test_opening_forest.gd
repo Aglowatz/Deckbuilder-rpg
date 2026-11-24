@@ -111,6 +111,8 @@ func test_dressing_keeps_off_the_floor_and_the_camera_side() -> void:
 	for p: Vector2 in area.models.tree_points:
 		assert_gt(area.layout.floor_sdf(p), 0.9, "tree at %s stands off the floor" % str(p))
 		assert_false(area.layout.camera_side(p), "tree at %s is not between the camera and the floor" % str(p))
+		# Fable big pass Nov 23: nor anywhere in the camera's view south of the floor (a pine 25 degrees off the axis hid the camp)
+		assert_false(area.layout.in_view_wedge(p, 9.0, 14.0), "tree at %s is not in the camera's view of the floor" % str(p))
 	assert_gt(area.models.tree_points.size(), 60, "a dense forest edge")
 	assert_gt(area.models.fern_count, 120, "ferns and undergrowth at the edges")
 	assert_gt(area.models.flagstone_count, 20, "flagstones along the path")
@@ -178,3 +180,17 @@ func test_the_lab_is_far_south_behind_brambles_until_the_postgame_opens_a_straig
 	var heading: Vector2 = (line[line.size() - 1] - line[0]).normalized()
 	for k: int in range(line.size() - 1):
 		assert_gt((line[k + 1] - line[k]).normalized().dot(heading), 0.95, "a fairly straight path south")
+
+
+## Fable big pass Nov 23 (the owner's ref_opening_tree.png): the view wedge is as wide as the camera sees - a spot 8 m south and 6 m
+## east of the camp (off the old three narrow lines) is inside it, a spot north of the floor is not.
+func test_the_view_wedge_covers_the_cameras_whole_view() -> void:
+	var area: StartingAreaBuilder = _built()
+	var camp: Vector3 = area.layout.mark("bedroll")
+	var south_east: Vector2 = Vector2(camp.x + 6.0, camp.z + 8.0)
+	if area.layout.floor_sdf(south_east) > 0.0:
+		assert_true(area.layout.in_view_wedge(south_east), "south-east of the camp is in the camera's view")
+	var south_west: Vector2 = Vector2(camp.x - 6.0, camp.z + 8.0)
+	if area.layout.floor_sdf(south_west) > 0.0:
+		assert_true(area.layout.in_view_wedge(south_west), "south-west of the camp is in the camera's view")
+	assert_false(area.layout.in_view_wedge(Vector2(camp.x, camp.z - 60.0)), "far north of everything is not")

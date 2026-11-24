@@ -638,7 +638,8 @@ var kit_lights: Array[OmniLight3D] = []
 
 ## Fable Nov 21 (Part 1.5): the key of "The Door Under the Well" has a small chest of its own beside the Old Well (it lay in Shiro
 ## Swindle's prank chest, which cost 50 gold and started his questline). The offset is from the well's anchor: the hatch is on the other side.
-const WELL_KEY_CHEST_OFFSET: Vector3 = Vector3(0.7, 0.0, 2.5)
+## Fable big pass Nov 23 (the owner): further from the well - at 2.6 m the chest and the well shared one "E" (the well's reach is 1.7 m); 3.9 m now.
+const WELL_KEY_CHEST_OFFSET: Vector3 = Vector3(2.2, 0.0, 3.2)
 const WELL_KEY_CHEST_SCALE: float = ChestKit.SCALE * 1.25
 var well_key_chest_node: Node3D
 

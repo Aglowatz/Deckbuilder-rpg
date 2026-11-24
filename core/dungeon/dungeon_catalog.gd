@@ -299,6 +299,41 @@ static func drawn_links(dungeon_id: String) -> Dictionary:
 	return result
 
 
+## Fable big pass Nov 23 (Part 7): the line of each link over the painted map, following the painted walkway (`map_layout.json`,
+## key "curves", traced by tools/map_curves.py): "from>to" in node ids (number - 1) -> the points of the line on the picture
+## (0..1). A link without a row is drawn straight, as before.
+static func curves(dungeon_id: String) -> Dictionary:
+	_load()
+	var result: Dictionary = {}
+	var all_curves: Variant = _layout.get("curves", {})
+	if not (all_curves is Dictionary) or not ((all_curves as Dictionary).get(dungeon_id) is Dictionary):
+		return result
+	var rows: Dictionary = (all_curves as Dictionary)[dungeon_id] as Dictionary
+	for key: Variant in rows.keys():
+		var parts: PackedStringArray = str(key).split(">")
+		if parts.size() != 2 or not (rows[key] is Array):
+			continue
+		var points: PackedVector2Array = PackedVector2Array()
+		for point: Variant in rows[key] as Array:
+			if point is Array and (point as Array).size() >= 2:
+				points.append(Vector2(float((point as Array)[0]), float((point as Array)[1])))
+		if points.size() >= 2:
+			result["%d>%d" % [int(parts[0]) - 1, int(parts[1]) - 1]] = points
+	return result
+
+
+## The links of a dungeon the painting has no walkway for (the tracer's list: a tidy arc is drawn; a Batch 21 redo row asks for
+## the walkway), as "from>to" in room numbers.
+static func curve_gaps(dungeon_id: String) -> Array[String]:
+	_load()
+	var result: Array[String] = []
+	var all_curves: Variant = _layout.get("curves", {})
+	if all_curves is Dictionary and (all_curves as Dictionary).get(dungeon_id) is Dictionary:
+		for key: Variant in ((all_curves as Dictionary)[dungeon_id] as Dictionary).get("_missing", []) as Array:
+			result.append(str(key))
+	return result
+
+
 ## How the paths between nodes are drawn over this dungeon's painted map: "full", "subtle" (default), "highlight", "plan" (every link, for the castle's route planning) or "none" (`map_layout.json`, key "paths").
 static func path_style(dungeon_id: String) -> String:
 	_load()

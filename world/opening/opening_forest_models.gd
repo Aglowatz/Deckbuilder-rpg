@@ -499,7 +499,7 @@ func _trunks() -> void:
 		Vector3(-8.6, -10.8, 0.6), Vector3(-3.8, -13.6, 0.5), Vector3(-9.6, -6.0, 0.55), Vector3(17.4, -12.0, 0.6), Vector3(12.4, -5.6, 0.5), Vector3(19.0, -18.0, 0.65)]
 	for spot: Vector3 in spots:
 		var p: Vector2 = Vector2(spot.x, spot.y)
-		if layout.floor_sdf(p) < spot.z + 0.6 or layout.camera_side(p) or _near_cliff(p):
+		if layout.floor_sdf(p) < spot.z + 0.6 or layout.in_view_wedge(p, 9.0, 14.0) or _near_cliff(p):
 			continue
 		var r: float = spot.z
 		var height: float = _rng.randf_range(22.0, 28.0)
@@ -527,8 +527,8 @@ func _tree_cards() -> void:
 			var d: float = layout.floor_sdf(p)
 			if d < 1.4 or d > 13.0:
 				continue
-			if layout.camera_side(p, 12.0):
-				continue
+			if layout.in_view_wedge(p, 12.0, 18.0):
+				continue  # Fable big pass Nov 23: the whole view, not three narrow lines (the pine in front of the lens)
 			if _near_cliff(p):
 				continue
 			var kind: String = kinds[_rng.randi() % kinds.size()]

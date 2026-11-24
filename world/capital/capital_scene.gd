@@ -198,12 +198,63 @@ func _build_completion_state() -> void:
 	if Session.flag(CapitalZone.FLAG_FREED):
 		var hub: Vector3 = builder.anchor("crease_spawn")
 		_build_freed_npcs(hub)
+		_build_primm_cell(hub)
 	_build_lieutenants()
 	_build_hob()
 	# Sound pass: the first time the hero is back with the gate won, the great gate winds open with a hollow boom (once per save; a cosmetic flag nothing else reads).
 	if Session.flag(CapitalZone.FLAG_GATE_OPEN) and not Session.flag(&"sfx_gate_heard"):
 		Session.set_flag(&"sfx_gate_heard")
 		get_tree().create_timer(1.4).timeout.connect(func() -> void: Audio.sfx(&"gate_big"))
+
+
+## Fable big pass Nov 23 (Part 5.4): Primm stands behind bars. The painted cell (CAP-PROP-PRIMM-CELL, Batch 20) is one opaque
+## picture, so it is drawn in three layers: the whole cell, Primm standing on the cell's floor, and the bars alone in front of him
+## (`assets/art/derived/CAP-PROP-PRIMM-CELL-BARS.webp`, cut from the same picture by tools/art/primm_cell_bars.py). Without the
+## art nothing is built and Primm stands in the open as before.
+const PRIMM_CELL_ID: String = "CAP-PROP-PRIMM-CELL"
+const PRIMM_CELL_BARS: String = "res://assets/art/derived/CAP-PROP-PRIMM-CELL-BARS.webp"
+const PRIMM_CELL_HEIGHT: float = 3.7
+## The cell's painted floor above the ground, as a share of the picture's height (Primm's feet stand on it).
+const PRIMM_CELL_FLOOR: float = 0.125
+const PRIMM_CELL_LAYER_GAP: float = 0.12
+var primm_cell: Node3D
+var primm_cell_bars: MeshInstance3D
+
+
+func _build_primm_cell(hub: Vector3) -> void:
+	var at: Vector3 = hub + CapitalZone.PRIMM_CELL_OFFSET
+	at.y = builder.height_at(at)
+	primm_cell = KitPieces.stand(self, PRIMM_CELL_ID, at + Vector3(0.0, 0.0, -PRIMM_CELL_LAYER_GAP), PRIMM_CELL_HEIGHT, false, 1.25)
+	if primm_cell == null:
+		return
+	var body: MeshInstance3D = primm_cell.get_node_or_null("Body") as MeshInstance3D
+	if body != null and body.material_override is ShaderMaterial and ResourceLoader.exists(PRIMM_CELL_BARS):
+		primm_cell_bars = body.duplicate() as MeshInstance3D
+		primm_cell_bars.name = "Bars"
+		var front: ShaderMaterial = (body.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+		front.set_shader_parameter("card_tex", load(PRIMM_CELL_BARS) as Texture2D)
+		KitFoliage.register_card_material(front)
+		primm_cell_bars.material_override = front
+		primm_cell.add_child(primm_cell_bars)
+		primm_cell_bars.position = body.position + Vector3(0.0, 0.0, PRIMM_CELL_LAYER_GAP * 2.0)
+	# Primm stands on the cell's floor, between the two layers
+	var primm: Node3D = _npcs.get("primm") as Node3D
+	if primm != null:
+		primm.position.y = at.y + PRIMM_CELL_HEIGHT * PRIMM_CELL_FLOOR
+		primm.position.z = at.z
+	# the cell is solid: a row of blockers along its front (the hero talks to Primm through the bars)
+	var half: float = PRIMM_CELL_HEIGHT * EnvKit.aspect(PRIMM_CELL_ID) * 0.5
+	var x: float = -half + 0.5
+	while x <= half - 0.5:
+		builder.add_blocker(at + Vector3(x, 0.0, -0.35), 0.6)
+		x += 0.8
+	var lamp: OmniLight3D = OmniLight3D.new()
+	lamp.name = "CellLamp"
+	lamp.light_color = Color(1.0, 0.72, 0.42)
+	lamp.light_energy = 0.9
+	lamp.omni_range = 6.0
+	lamp.position = at + Vector3(half * 0.55, 2.4, 0.9)
+	add_child(lamp)
 
 
 func _station_layer() -> int:

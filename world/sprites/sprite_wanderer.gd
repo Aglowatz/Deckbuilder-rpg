@@ -18,6 +18,13 @@ var ring_radius: float = RING_RADIUS
 var tint: Color = Color.WHITE
 ## While true the wanderer stands still (the hero is talking to them).
 var frozen: bool = false
+## Fable big pass Nov 23: a set with no walk cycle (the farm hand) waddles - a small step-bob on its standing frames while it moves.
+var waddle: bool = false
+## Walking speed as a share of SPEED (a farm hand with a pitchfork is in no hurry).
+var pace: float = 1.0
+const WADDLE_HEIGHT: float = 0.05
+const WADDLE_RATE: float = 8.5
+var _waddle_time: float = 0.0
 var _town: TownBuilder
 var _points: Array[Vector3] = []
 var _links: Array[PackedInt32Array] = []
@@ -183,7 +190,7 @@ func tick(delta: float, player_pos: Vector3) -> void:
 	var target: Vector3 = _points[_next]
 	var to_target: Vector3 = target - _pos
 	to_target.y = 0.0
-	var step: float = SPEED * delta
+	var step: float = SPEED * pace * delta
 	# Stop politely when the hero stands in the way.
 	var ahead: Vector3 = _pos + to_target.normalized() * 0.9
 	if Vector2(ahead.x - player_pos.x, ahead.z - player_pos.z).length() < 0.7:
@@ -199,3 +206,6 @@ func tick(delta: float, player_pos: Vector3) -> void:
 	else:
 		_pos += to_target.normalized() * step
 	sprite.follow(_pos, delta)
+	if waddle:
+		_waddle_time += delta
+		sprite.position.y = _pos.y + absf(sin(_waddle_time * WADDLE_RATE)) * WADDLE_HEIGHT

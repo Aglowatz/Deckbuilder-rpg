@@ -123,6 +123,25 @@ func camera_side(p: Vector2, reach: float = 9.0) -> bool:
 	return false
 
 
+## Fable big pass Nov 23 (the owner's ref_opening_tree.png): `camera_side` is three narrow lines (20 degrees either side of straight
+## south), from before the camera was pulled back and lowered (Nov 20). A painted pine 25 degrees off that axis stood right in
+## front of the lens and hid the hero, the Rescuer and the cave. This is the camera's whole view: `camera_side` out to `reach`,
+## and out to `wide_reach` metres south of the floor about 45 degrees either side. Nothing tall grows inside it.
+const VIEW_SPREAD: Array[float] = [-1.0, -0.7, 0.7, 1.0]
+
+
+func in_view_wedge(p: Vector2, reach: float = 24.0, wide_reach: float = 18.0) -> bool:
+	if camera_side(p, reach):
+		return true
+	var d: float = 1.0
+	while d <= wide_reach:
+		for side: float in VIEW_SPREAD:
+			if floor_sdf(p + Vector2(side * d, -d)) <= 0.0:
+				return true
+		d += 1.0
+	return false
+
+
 ## True when the self-talk at the treeline should stay quiet at `p` (the nook and the secrets are for exploring).
 func is_quiet(p: Vector2) -> bool:
 	for circle: Vector3 in QUIET:
