@@ -5,7 +5,9 @@ data/dungeons/postgame_dungeons.json and its fitted room spots into data/dungeon
 import io
 import json
 import os
+import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 DUNGEON_ID = 'D-SHUFFLE'
 # Room 1 is the way in (not drawn: the two gates are the first choice). The Counting Room is the house's takings, one door before the boss.
@@ -62,22 +64,17 @@ def main():
     layout_path = os.path.join(ROOT, 'data', 'dungeons', 'map_layout.json')
     layout = io.open(layout_path, encoding='utf-8', newline='').read()
     newline = '\r\n' if '\r\n' in layout else '\n'
-    spots = '{%s}' % ', '.join('"%d": [%.3f, %.3f]' % (n, room[2], room[3]) for n, room in sorted(ROOMS.items()))
-    marker = '\t"%s": ' % DUNGEON_ID
-    lines = [line for line in layout.split(newline) if not line.startswith(marker)]
-    # the last "}" closes the file: put the row before it, with a comma on the row above
-    end = max(i for i, line in enumerate(lines) if line.strip() == '}')
-    above = end - 1
-    while lines[above].strip() == '':
-        above -= 1
-    if not lines[above].rstrip().endswith(','):
-        lines[above] = lines[above].rstrip() + ','
-    lines.insert(end, marker + spots)
-    layout = newline.join(lines)
-    if '"%s": "' % DUNGEON_ID not in layout:
-        layout = layout.replace('"S-GALLERY": "highlight"', '"S-GALLERY": "highlight",%s\t\t"%s": "highlight"' % (newline, DUNGEON_ID), 1)
-    json.loads(layout)
-    io.open(layout_path, 'w', encoding='utf-8', newline='').write(layout)
+    # the layout file as data (tools/map_curves.py keeps its compact look); the traced curves of the Halls are left alone, so
+    # run `python tools/map_curves.py --only=D-SHUFFLE` after moving a room
+    from map_curves import compact
+    data = json.loads(layout)
+    known = data.get(DUNGEON_ID, {}) if isinstance(data.get(DUNGEON_ID), dict) else {}
+    data[DUNGEON_ID] = {str(n): (known[str(n)] if str(n) in known and n != 1 else [round(room[2], 3), round(room[3], 3)]) for n, room in sorted(ROOMS.items())}
+    data.setdefault('paths', {})[DUNGEON_ID] = data.get('paths', {}).get(DUNGEON_ID, 'highlight')
+    out = compact(json.dumps(data, indent='	', ensure_ascii=False))
+    io.open(layout_path, 'w', encoding='utf-8', newline='').write(out.replace('
+', newline) + (newline if layout.endswith('
+') else ''))
     print('D-SHUFFLE: %d rooms written' % len(ROOMS))
 
 

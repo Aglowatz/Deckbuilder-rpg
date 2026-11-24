@@ -1173,7 +1173,7 @@ func _process(delta: float) -> void:
 		Session.pending_draft_result = {}
 		_open_draft(draft_result)
 		world_active = false
-	elif world_active and not Session.pending_popups.is_empty():
+	elif world_active and not Session.pending_popups.is_empty() and not _screenshot_args.has("nopopups"):  # --nopopups: a shot of the place, not of the reward pop-ups its flags queue
 		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)
 		_open_overlay(popup)
 		popup.finished.connect(_close_overlay)

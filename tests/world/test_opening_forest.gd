@@ -112,7 +112,7 @@ func test_dressing_keeps_off_the_floor_and_the_camera_side() -> void:
 		assert_gt(area.layout.floor_sdf(p), 0.9, "tree at %s stands off the floor" % str(p))
 		assert_false(area.layout.camera_side(p), "tree at %s is not between the camera and the floor" % str(p))
 		# Fable big pass Nov 23: nor anywhere in the camera's view south of the floor (a pine 25 degrees off the axis hid the camp)
-		assert_false(area.layout.in_view_wedge(p, 9.0, 14.0), "tree at %s is not in the camera's view of the floor" % str(p))
+		assert_false(area.layout.in_view_wedge(p, 30.0, 30.0), "tree at %s is not in the camera's view of the floor" % str(p))
 	assert_gt(area.models.tree_points.size(), 60, "a dense forest edge")
 	assert_gt(area.models.fern_count, 120, "ferns and undergrowth at the edges")
 	assert_gt(area.models.flagstone_count, 20, "flagstones along the path")
