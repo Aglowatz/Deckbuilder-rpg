@@ -147,6 +147,20 @@ func _run_line(line: String) -> void:
 				_say("  node %s: clicked at %s" % [rest, named.get_global_rect().get_center()])
 				await driver.click(named.get_global_rect().get_center())
 				await driver.frames(4)
+		"hover":
+			# Fable Nov 24: `hover <Name>` - the pointer enters the first visible Control with that node name (its mouse_entered
+			# signal: the harness's own mouse does not leave one control for another, so a hover view cannot be shot with `move`)
+			var hovered: Control = null
+			for candidate: Node in get_tree().root.find_children(rest, "Control", true, false):
+				if (candidate as Control).is_visible_in_tree():
+					hovered = candidate as Control
+					break
+			if hovered == null:
+				_say("  hover %s: NOT FOUND" % rest)
+			else:
+				hovered.mouse_entered.emit()
+				await driver.frames(6)
+				_say("  hover %s: entered" % rest)
 		"shot":
 			await _shot(rest if not rest.is_empty() else "shot")
 		"clickcard":

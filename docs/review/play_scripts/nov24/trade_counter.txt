@@ -1,0 +1,40 @@
+# Fable Nov 24 (Part 3): the Trade Counter's card to give up, shown whole, enlarged and on top, with "Swap X out" clear of it
+# (continues from the saved door of halls_fresh.txt).
+#   bash tools/play.sh docs/review/play_scripts/nov24/trade_counter.txt nov24_trade_counter 600
+wait 6
+dev load nov24_halls_door
+wait 14
+skip_dialogue 10
+button Continue
+wait 1
+dev draft open
+wait 2
+button Enter
+wait 6
+button Got it
+wait 1
+dev autowin on
+node Room_2
+wait 2
+button Continue
+wait 8
+button Keep Hand
+wait 1
+dev win
+wait 6
+button Continue
+wait 7
+button Take nothing
+wait 3
+node Room_4
+wait 4
+button Look at the three cards
+wait 3
+button Continue
+wait 5
+hover Swap2
+wait 1
+shot trade_card_to_give_up_shown_whole
+hover Swap12
+wait 1
+shot trade_card_to_give_up_shown_whole_2

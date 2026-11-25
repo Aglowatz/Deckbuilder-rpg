@@ -14,6 +14,10 @@ dev encounter town:roamer
 wait 7
 button Keep Hand
 wait 10
+button Skip tips
+wait 1
+button Skip tips
+wait 1
 shot 00_my_turn
 dev energy
 dev hand C-39

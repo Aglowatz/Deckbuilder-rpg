@@ -10,6 +10,25 @@ dev freed beefcake
 dev travel town
 wait 16
 skip_dialogue 20
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+skip_dialogue 20
+dev essence beefcake 30
+dev essence gourmand 30
 dev goto alchemist
 wait 2
 pad a

@@ -66,7 +66,11 @@ static func art_id(entry_name: String) -> String:
 
 
 ## Fable big pass Nov 23 (Batch 20): pictures filed under a shorter id than the enemy's full name.
-const ART_IDS: Dictionary = {"Trey Pickett": "BST-TREY", "Octavia Eightfold": "BST-OCTAVIA"}
+const ART_IDS: Dictionary = {"Trey Pickett": "BST-TREY", "Octavia Eightfold": "BST-OCTAVIA",
+	# Fable Nov 24: the Shuffled Halls' hand-made dealers, under the ids of their Batch 21 rows (docs/art/batch21.csv)
+	"Maurice, Head of Security": "BST-MAURICE", "Tilda Tinsel, Confetti Cannoneer": "BST-TILDA", "Madame Darjeeling": "BST-DARJEELING",
+	"\"Honest\" Hal Lowball": "BST-HAL", "Dizzy Lizzie, Carousel Queen": "BST-LIZZIE", "Professor Fineprint": "BST-FINEPRINT",
+	"Penny Sleeves": "BST-PENNY"}
 
 
 ## The world-sprite character key of an enemy: "FOE-" + the same slug as its Bestiary picture ("Quota Spotter" -> "FOE-QUOTA-SPOTTER").
