@@ -1,0 +1,108 @@
+{
+ "id": "MUS-SHUFFLE-BOSS",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 184,
+ "meter": "4/4",
+ "profile": "orchestral",
+ "bars": 96,
+ "seconds": 125.22,
+ "loop_seconds": 125.217,
+ "lufs": -20.1,
+ "true_peak": -5.9,
+ "lra": 5.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A the deal (riff)",
+   "bar": 0,
+   "bars": 16,
+   "start_s": 0.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "B the back room (casino tune)",
+   "bar": 16,
+   "bars": 16,
+   "start_s": 20.9,
+   "lufs": -20.2
+  },
+  {
+   "section": "C half-time",
+   "bar": 32,
+   "bars": 8,
+   "start_s": 41.7,
+   "lufs": -23.9
+  },
+  {
+   "section": "build",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 52.2,
+   "lufs": -21.3
+  },
+  {
+   "section": "drop",
+   "bar": 48,
+   "bars": 24,
+   "start_s": 62.6,
+   "lufs": -18.8
+  },
+  {
+   "section": "D glitch",
+   "bar": 72,
+   "bars": 16,
+   "start_s": 93.9,
+   "lufs": -21.1
+  },
+  {
+   "section": "A the deal again",
+   "bar": 88,
+   "bars": 8,
+   "start_s": 114.8,
+   "lufs": -19.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 32.0,
+   "form": "glitched (saw lead, half-time)",
+   "ch": "lead"
+  }
+ ],
+ "notes": 9115,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-BOSS\\MUS-SHUFFLE-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-BOSS\\MUS-SHUFFLE-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHUFFLE-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -0.44,
+  "wrap_step": 0.00849,
+  "p999_step": 0.07614,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "The boss version of MUS-SHUFFLE-BATTLE: E minor, 184 BPM, timpani, choir, organ, 16th hats, the hook loud on the calliope."
+ ]
+}

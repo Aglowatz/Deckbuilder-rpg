@@ -1291,6 +1291,7 @@ func _exit_tree() -> void:
 	if _graveyard_music != 0:
 		Audio.pop_music(_graveyard_music, 0.8)
 		_graveyard_music = 0
+	_stop_shuffle_music()
 
 
 func _process(delta: float) -> void:
@@ -3605,8 +3606,23 @@ func _open_draft(result: Dictionary) -> void:
 		return
 	var screen: OverlayScreen = DraftHubScreen.for_state("", result)
 	_open_overlay(screen)
-	screen.closed.connect(_close_overlay)
+	# Fable Nov 25: the house's own music lies over the town's while its screens are open (the menu, the picks, the deck: one
+	# push for all of them, so the tune does not start again each time the draft moves from one screen to the next)
+	if _shuffle_music == 0:
+		_shuffle_music = Audio.push_music(StringName(MusicDirector.shuffle_house()), 1.2, false)
+	screen.closed.connect(func() -> void:
+		_close_overlay()
+		_stop_shuffle_music())
 	screen.connect(&"reopen", func() -> void: _open_draft.call_deferred({}))
+
+
+var _shuffle_music: int = 0
+
+
+func _stop_shuffle_music() -> void:
+	if _shuffle_music != 0:
+		Audio.pop_music(_shuffle_music, 1.2)
+		_shuffle_music = 0
 
 # ---- Screenshot helpers -----------------------------------------------------------------
 

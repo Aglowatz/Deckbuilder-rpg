@@ -92,6 +92,19 @@
 			"duration": 3.6,
 			"gameplay": true
 		},
+		"STG-WIN-SHUFFLE-BOSS": {
+			"name": "Boss down (MUS-SHUFFLE-BOSS)",
+			"kind": "sting",
+			"file": "res://assets/audio/stings/STG-WIN-SHUFFLE-BOSS.wav",
+			"loop": false,
+			"bus": "Music",
+			"volume_db": 0.4,
+			"zone": "",
+			"category": "Sting",
+			"use": "Winning the battle that plays MUS-SHUFFLE-BOSS: its climax (61.2 s in), cut by tools/cut_stings.js",
+			"duration": 3.6,
+			"gameplay": true
+		},
 		"STG-WIN-SIPHON-BOSS": {
 			"name": "Boss down (MUS-SIPHON-BOSS)",
 			"kind": "sting",

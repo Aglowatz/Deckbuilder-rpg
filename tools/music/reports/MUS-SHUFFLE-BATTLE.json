@@ -1,0 +1,114 @@
+{
+ "id": "MUS-SHUFFLE-BATTLE",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 172,
+ "meter": "4/4",
+ "profile": "orchestral",
+ "bars": 96,
+ "seconds": 133.95,
+ "loop_seconds": 133.953,
+ "lufs": -20.1,
+ "true_peak": -3.6,
+ "lra": 4.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A the deal (riff)",
+   "bar": 0,
+   "bars": 16,
+   "start_s": 0.0,
+   "lufs": -20.2
+  },
+  {
+   "section": "B the back room (casino tune)",
+   "bar": 16,
+   "bars": 16,
+   "start_s": 22.3,
+   "lufs": -20.2
+  },
+  {
+   "section": "C half-time",
+   "bar": 32,
+   "bars": 8,
+   "start_s": 44.7,
+   "lufs": -23.2
+  },
+  {
+   "section": "build",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 55.8,
+   "lufs": -19.8
+  },
+  {
+   "section": "drop",
+   "bar": 48,
+   "bars": 24,
+   "start_s": 67.0,
+   "lufs": -19.0
+  },
+  {
+   "section": "D glitch",
+   "bar": 72,
+   "bars": 16,
+   "start_s": 100.5,
+   "lufs": -20.9
+  },
+  {
+   "section": "A the deal again",
+   "bar": 88,
+   "bars": 8,
+   "start_s": 122.8,
+   "lufs": -20.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 32.0,
+   "form": "glitched (saw lead, half-time)",
+   "ch": "lead"
+  }
+ ],
+ "notes": 7427,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-BATTLE\\MUS-SHUFFLE-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-BATTLE\\MUS-SHUFFLE-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHUFFLE-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.46,
+  "wrap_step": 0.00787,
+  "p999_step": 0.07688,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [
+    64,
+    65,
+    66,
+    70,
+    71
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "The house hook (HOOK_MINOR) on the calliope over the drop, bars 64-71; the casino tune in B and D."
+ ]
+}

@@ -53,9 +53,9 @@ const DUNGEONS: Dictionary = {
 	# Overnight Nov 4-5, Part 5: The Shattered Gallery reuses the castle's cues and Primm's Reflection theme, played through the Music bus's
 	# mirror effect (AudioMix.set_mirror_music: a cold detuned chorus and a hair of pitch-down) - no new audio files
 	"S-GALLERY": {"exp": "MUS-CASTLE-EXP", "battle": "MUS-CASTLE-BATTLE", "boss": "MUS-PRIMM-02"},
-	# Fable big pass Nov 23: the Shuffled Halls borrows cues until it has its own - a card-game tune on the map, the Arena's
-	# for the tables and its elite cue for the champions and Octavia (no new audio files)
-	"D-SHUFFLE": {"exp": "MUS-MINIGAME-GOUR", "battle": "MUS-ARENA-BATTLE", "boss": "MUS-ARENA-ELITE"},
+	# Fable Nov 25 (the owner's decision 6): the Shuffle House's own music - techno carnival-casino on the Halls' map and in the
+	# house's menu, fast electronic combat music for the fights, its most intense version for Octavia at the Big Wheel
+	"D-SHUFFLE": {"exp": "MUS-SHUFFLE-EXP", "battle": "MUS-SHUFFLE-BATTLE", "boss": "MUS-SHUFFLE-BOSS"},
 }
 
 ## Battleboard ID (the battle's board) -> the dungeon whose battle cues it uses, or the cue itself (outside the dungeons).
@@ -140,6 +140,25 @@ static func capital_area(area_id: String, flags: Dictionary, inside: bool) -> St
 	return "MUS-CAP-RESTORED" if (restored and inside) else ("MUS-CAP-FACADE-EXP" if inside else "MUS-CAP-OUT-EXP")
 
 
+# ---- The Shuffle House (Fable Nov 25) -------------------------------------------------------------------
+
+const SHUFFLE_BOARD: String = "BB-SHUFFLE"
+
+
+## The Shuffle House's menu, its draft table and the Shuffled Halls' map.
+static func shuffle_house() -> String:
+	return "MUS-SHUFFLE-EXP"
+
+
+## A fight in the Shuffle House or the Shuffled Halls; the boss (Octavia Eightfold) has the most intense version.
+static func shuffle_battle(boss: bool) -> String:
+	return "MUS-SHUFFLE-BOSS" if boss else "MUS-SHUFFLE-BATTLE"
+
+
+static func _zone_draft(context: BattleContext) -> bool:
+	return context.draft and Session.draft != null and DraftChallenges.is_zone(Session.draft.challenge_id)
+
+
 # ---- Dungeons and battles -----------------------------------------------------------------------------
 
 
@@ -184,6 +203,10 @@ static func for_battle(context: BattleContext, flags: Dictionary = {}) -> String
 	if PATHS.has(context.town_npc_id):
 		return str((PATHS[context.town_npc_id] as Dictionary)["battle"])
 	var board: String = board_id(context)
+	# Fable Nov 25: a fight on the house table (BB-SHUFFLE) in the Shuffle House or the Shuffled Halls has the house's own combat
+	# music. A zone draft at Trey's cart is played on the same table but is not in the house: it keeps its zone's song.
+	if board == SHUFFLE_BOARD and not _zone_draft(context):
+		return shuffle_battle(context.is_boss)
 	if context.zone_id == CapitalZone.ID or board == "BB-CAP-OUT" or board == "BB-CAP-IN":
 		return _capital_battle(context, board)
 	if BOARD_DUNGEON.has(board):

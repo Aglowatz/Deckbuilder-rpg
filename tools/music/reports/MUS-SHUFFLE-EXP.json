@@ -1,0 +1,99 @@
+{
+ "id": "MUS-SHUFFLE-EXP",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 128,
+ "meter": "4/4",
+ "profile": "orchestral",
+ "bars": 64,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -6.1,
+ "lra": 5.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "bed",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.6
+  },
+  {
+   "section": "A the house hook",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.5,
+   "lufs": -21.1
+  },
+  {
+   "section": "B the back room",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 37.5,
+   "lufs": -19.3
+  },
+  {
+   "section": "breakdown",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 67.5,
+   "lufs": -22.3
+  },
+  {
+   "section": "A again, with the saw lead",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 82.5,
+   "lufs": -18.3
+  },
+  {
+   "section": "bed",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 112.5,
+   "lufs": -23.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 40.0,
+   "form": "stated (glockenspiel, breakdown)",
+   "ch": "glock"
+  }
+ ],
+ "notes": 4262,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-EXP\\MUS-SHUFFLE-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHUFFLE-EXP\\MUS-SHUFFLE-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHUFFLE-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.55,
+  "wrap_step": 0.00707,
+  "p999_step": 0.07607,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}
