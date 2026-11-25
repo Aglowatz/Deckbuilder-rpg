@@ -5,7 +5,7 @@ extends RefCounted
 ##   1. Classic Draft      choose your Paths (within the unlock rule), draft, play three random opponents. No Prismatic Packs.
 ##                         The Draft of the Day sits under it (one table a day, the same for everybody).
 ##   2. Dungeon Draft      draft, then play a LARGE dungeon you have cleared in the main game (every zone's main dungeon, Primm's
-##                         Castle, the Path-ology Lab, Mount Swolympus, the Shattered Gallery; the Shuffled Halls after their first
+##                         Castle, the Path-ology Lab, the Shattered Gallery (Mount Swolympus is Mystery Mini's only, Nov 25); the Halls after their first
 ##                         clear), or a random one of them. Pays Prismatic Packs.
 ##   3. Mystery Mini       draft, then a random mini dungeon (three encounters). Pays a pack of that dungeon's Path.
 ##   4. High Rollers Draft an entry fee; a Classic Draft whose opponents may wear every piece of equipment you may. Pays more
@@ -327,6 +327,30 @@ static func choice_range(challenge_id: String) -> Array[int]:
 	return [0, 0]
 
 
+## Fable Nov 25 ("Random" beside the Path toggles): a random allowed set of Paths for a challenge the player chooses the Paths
+## of - how many is random within the challenge's own range and the story's rule (one before a zone is freed, up to two after,
+## up to four after Primm), which ones is random among the four. Sorted in the menu's order. [] for a challenge with fixed Paths.
+static func random_paths(challenge_id: String, flags: Dictionary, rng: RandomNumberGenerator = null) -> Array[int]:
+	var result: Array[int] = []
+	var bounds: Array[int] = choice_range(challenge_id)
+	if not fixed_paths(challenge_id).is_empty() or bounds[1] <= 0:
+		return result
+	var most: int = maxi(1, mini(bounds[1], max_paths(flags)))
+	var least: int = clampi(bounds[0], 1, most)
+	var dice: RandomNumberGenerator = rng
+	if dice == null:
+		dice = RandomNumberGenerator.new()
+		dice.randomize()
+	var pool: Array[int] = [int(Affinity.Type.BEEFCAKE), int(Affinity.Type.GOURMAND), int(Affinity.Type.REFUSEMANCER), int(Affinity.Type.NECROCRAT)]
+	var count: int = dice.randi_range(least, most)
+	while result.size() < count and not pool.is_empty():
+		var index: int = dice.randi_range(0, pool.size() - 1)
+		result.append(pool[index])
+		pool.remove_at(index)
+	result.sort()
+	return result
+
+
 ## The number of Paths a challenge needs at least (for the lock).
 static func paths_needed(challenge_id: String) -> int:
 	var fixed: Array[int] = fixed_paths(challenge_id)
@@ -397,7 +421,7 @@ static func summary(challenge_id: String) -> String:
 		KIND_HALLS:
 			return "The house's own dungeon. Draft a deck, then walk six of its eighteen rooms on one HP pool. Every table has its own dealer and its own house rule; after each fight, pick one of three cards. My nephew is in there somewhere, and I am at the end."
 		KIND_MYSTERY:
-			return "Draft a deck, then the wheel picks a mini dungeon: three fights on one HP pool, a pick of three after each. It pays a pack of that dungeon's Path."
+			return "Draft a deck, then the wheel picks a mini dungeon: three fights on one HP pool, a pick of three after each. It pays a Path Pack: the pack of that dungeon's Path."
 		KIND_DUNGEON:
 			var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(dungeon_key_of(challenge_id))
 			return "Draft a deck, then play %s with it on one HP pool. After each fight, pick one of three cards. Its usual clear rewards, a Prismatic Pack on top, and you keep one card." % (plan.dungeon_name if plan != null else "the dungeon")

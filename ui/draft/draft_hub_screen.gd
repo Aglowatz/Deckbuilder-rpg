@@ -44,6 +44,9 @@ var limit_popup: PopupFrame = null
 var result_popup: RewardPopup = null
 const PAGE_MARGIN: float = 96.0
 var _paths: Array[int] = []
+## Fable Nov 25 (the owner's item 17): "Random" beside the Path toggles. While it is on the house picks the Paths when the
+## draft starts: a random allowed set, within the story's rule and the mode's Path count (`DraftArena.random_paths`).
+var random_paths: bool = false
 var _notice: String = ""
 var _review: bool = false
 
@@ -206,7 +209,16 @@ func _house_words() -> String:
 	return "Zone drafts won: %d of 4.  Win all four, or free three zones, and my aunt Octavia opens the Shuffle House in Crosspath. That is where you choose your own Paths. %s" % [won, DraftArena.paths_rule_text(Session.flags)]
 
 
+## Fable Nov 25 (the owner's item 15): a host whose dialogue portrait is cut off at the knees stands whole in the menu, on the
+## floor of her panel (her full-body picture, made by tools/art/octavia_full.py from her talking world sprite).
+const FULL_BODY: Dictionary = {DraftArena.NPC_ID: "res://assets/art/derived/NPC-OCTAVIA-FULL.webp"}
+const HOST_FLOOR: float = 16.0
+
+
 func _host_portrait(portrait_id: String, width: float) -> Control:
+	var whole: String = str(FULL_BODY.get(portrait_id, ""))
+	if not whole.is_empty() and ResourceLoader.exists(whole):
+		return _host_full_body(load(whole) as Texture2D, width)
 	var picture: TextureRect = TextureRect.new()
 	picture.name = "HostPortrait"
 	picture.texture = Portraits.texture_for(portrait_id) if Portraits.has_portrait(portrait_id) else null
@@ -218,7 +230,61 @@ func _host_portrait(portrait_id: String, width: float) -> Control:
 	return picture
 
 
+## The host whole: the figure as large as the panel allows, its feet on the panel's floor (never floating, never cut), with a
+## soft shadow on the floor under it.
+func _host_full_body(texture: Texture2D, width: float) -> Control:
+	var stage: Control = Control.new()
+	stage.name = "HostStage"
+	stage.custom_minimum_size = Vector2(width, 0)
+	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var gradient: Gradient = Gradient.new()
+	gradient.offsets = PackedFloat32Array([0.0, 0.6, 1.0])
+	gradient.colors = PackedColorArray([Color(0.0, 0.0, 0.0, 0.55), Color(0.0, 0.0, 0.0, 0.3), Color(0.0, 0.0, 0.0, 0.0)])
+	var blob: GradientTexture2D = GradientTexture2D.new()
+	blob.gradient = gradient
+	blob.fill = GradientTexture2D.FILL_RADIAL
+	blob.fill_from = Vector2(0.5, 0.5)
+	blob.fill_to = Vector2(0.5, 0.0)
+	blob.width = 128
+	blob.height = 32
+	var floor_shadow: TextureRect = TextureRect.new()
+	floor_shadow.name = "HostFloorShadow"
+	floor_shadow.texture = blob
+	floor_shadow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	floor_shadow.stretch_mode = TextureRect.STRETCH_SCALE
+	floor_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(floor_shadow)
+	var picture: TextureRect = TextureRect.new()
+	picture.name = "HostPortrait"
+	picture.texture = texture
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_SCALE
+	picture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(picture)
+	var place: Callable = func() -> void: place_host(stage, picture, floor_shadow)
+	stage.resized.connect(place)
+	place.call_deferred()
+	return stage
+
+
+## Fits the whole figure into its stage and stands it on the stage's floor.
+static func place_host(stage: Control, picture: TextureRect, floor_shadow: TextureRect) -> void:
+	if picture.texture == null or stage.size.y <= 0.0:
+		return
+	var ratio: float = picture.texture.get_size().y / maxf(picture.texture.get_size().x, 1.0)
+	var height: float = minf(stage.size.x * ratio, stage.size.y - HOST_FLOOR - 8.0)
+	var size: Vector2 = Vector2(height / ratio, height)
+	picture.size = size
+	picture.position = Vector2((stage.size.x - size.x) * 0.5, stage.size.y - HOST_FLOOR - size.y)
+	floor_shadow.size = Vector2(size.x * 0.86, 44.0)
+	floor_shadow.position = Vector2((stage.size.x - floor_shadow.size.x) * 0.5, stage.size.y - HOST_FLOOR - 26.0)
+
+
 func _start(id: String) -> void:
+	if random_paths and DraftArena.fixed_paths(id).is_empty():
+		_paths = DraftArena.random_paths(id, Session.flags)
 	_notice = Session.draft_start_problem(id, _paths)
 	if _notice.is_empty() and Session.start_draft(id, _paths):
 		Audio.sfx(&"ui_confirm")
@@ -406,7 +472,7 @@ func _mode_tile(mode: String) -> Control:
 	emblem.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(emblem)
 	box.add_child(_ribbon(DraftArena.mode_title(mode), 24, lit))
-	var pitch: Label = UIKit.label(DraftArena.mode_pitch(mode), &"", 19, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	var pitch: Label = UIKit.label(DraftArena.mode_pitch(mode), &"", 20, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	pitch.name = "Pitch"
 	pitch.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	pitch.vertical_alignment = VERTICAL_ALIGNMENT_TOP
@@ -422,7 +488,7 @@ func _mode_tile(mode: String) -> Control:
 
 
 const EMBLEM_HEIGHT: float = 104.0
-const PITCH_LINE: float = 22.0
+const PITCH_LINE: float = 23.0
 
 
 ## One line of a mode tile: a gold heading and its value ("Entry Fee: Free", "Rewards: Path Packs").
@@ -430,12 +496,12 @@ func _tile_line(node_name: String, heading: String, value: String, colour: Color
 	var line: HBoxContainer = UIKit.hbox(6)
 	line.name = node_name
 	line.alignment = BoxContainer.ALIGNMENT_CENTER
-	line.custom_minimum_size = Vector2(0, 24)
-	var head: Label = UIKit.label(heading, &"", 18, DraftKit.MARQUEE)
+	line.custom_minimum_size = Vector2(0, 26)
+	var head: Label = UIKit.label(heading, &"", 20, DraftKit.MARQUEE)
 	head.name = "Heading"
 	head.add_theme_font_override("font", UIStyle.font_bold())
 	line.add_child(head)
-	var words: Label = UIKit.label(value, &"", 18, colour)
+	var words: Label = UIKit.label(value, &"", 20, colour)
 	words.name = "Value"
 	words.add_theme_font_override("font", UIStyle.font_bold())
 	line.add_child(words)
@@ -684,7 +750,7 @@ func _dungeon_choice() -> Control:
 	var box: VBoxContainer = UIKit.vbox(4)
 	box.name = "DungeonChoice"
 	if keys.is_empty():
-		var none: Label = DraftKit.text("No large dungeon cleared yet. Clear one with your own deck first: every zone's main dungeon counts, and the big ones beyond (Primm's Castle, the Path-ology Lab, Mount Swolympus, the Shattered Gallery).", 23, GlassTheme.CAUTION)
+		var none: Label = DraftKit.text("No large dungeon cleared yet. Clear one with your own deck first: every zone's main dungeon counts, and the big ones beyond (Primm's Castle, the Path-ology Lab, the Shattered Gallery).", 23, GlassTheme.CAUTION)
 		none.name = "NoDungeons"
 		box.add_child(none)
 		return box
@@ -735,7 +801,10 @@ func _path_choice(id: String) -> Control:
 	var box: VBoxContainer = UIKit.vbox(4)
 	box.name = "PathChoice"
 	var how_many: String = str({1: "one", 2: "one or two", 3: "up to three", 4: "up to four"}.get(most, "one"))
-	var caption: Label = UIKit.label("Your Paths: switch on %s.  (%d on)" % [how_many, _paths.size()], &"", 22, GlassTheme.SECONDARY)
+	var words: String = "Your Paths: switch on %s.  (%d on)" % [how_many, _paths.size()]
+	if random_paths:
+		words = "Your Paths: Random.  The house picks %s when you start." % ("one Path" if most <= 1 else "%s Paths" % how_many)
+	var caption: Label = UIKit.label(words, &"", 22, GlassTheme.SECONDARY)
 	caption.name = "PathCaption"
 	box.add_child(caption)
 	var row: HBoxContainer = UIKit.hbox(10)
@@ -743,11 +812,66 @@ func _path_choice(id: String) -> Control:
 	box.add_child(row)
 	for path: int in DraftKit.PATH_ORDER:
 		row.add_child(_path_toggle(path))
+	row.add_child(_random_toggle())
 	return box
 
 
+const RANDOM_TOGGLE: Vector2 = Vector2(176, 92)
+const RANDOM_COLOUR: Color = Color("c9a23a")
+
+
+## "Random", next to the four Paths and in their style: a rectangle that is lit while it is on, with a pair of dice.
+func _random_toggle() -> Button:
+	var on: bool = random_paths
+	var toggle: Button = Button.new()
+	toggle.name = "PathToggle_random"
+	toggle.custom_minimum_size = RANDOM_TOGGLE
+	toggle.toggle_mode = true
+	toggle.button_pressed = on
+	toggle.tooltip_text = "Random Paths: %s" % ("on - the house picks your Paths when you start. Click to choose them yourself." if on else "off - click and the house picks your Paths when you start.")
+	for state: String in ["normal", "hover", "pressed", "focus", "disabled", "hover_pressed"]:
+		var fill: Color = RANDOM_COLOUR.darkened(0.3) if on else Color(RANDOM_COLOUR.darkened(0.8), 0.92)
+		if state.begins_with("hover") or state == "focus":
+			fill = fill.lightened(0.1)
+		var box: StyleBoxFlat = UIStyle.box(fill, Color.WHITE if state == "focus" else (DraftKit.MARQUEE if on else Color(0.5, 0.5, 0.56)), 5 if on else 2, 14)
+		box.set_content_margin_all(6.0)
+		if on:
+			box.shadow_color = Color(RANDOM_COLOUR.lightened(0.3), 0.55)
+			box.shadow_size = 9
+		toggle.add_theme_stylebox_override(state, box)
+	var line: HBoxContainer = UIKit.hbox(8)
+	line.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 8)
+	line.alignment = BoxContainer.ALIGNMENT_CENTER
+	toggle.add_child(line)
+	var dice: TextureRect = CardIcons.glyph(CardIcons.named("delapouite/dice-six-faces-six"), Color.WHITE if on else Color(1, 1, 1, 0.55), Vector2(44, 44))
+	dice.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	line.add_child(dice)
+	var words: VBoxContainer = UIKit.vbox(-4)
+	words.alignment = BoxContainer.ALIGNMENT_CENTER
+	line.add_child(words)
+	var name_label: Label = UIKit.label("Random", &"", 24, Color.WHITE if on else Color("b9b4c4"))
+	name_label.name = "PathName"
+	name_label.add_theme_font_override("font", UIStyle.font_bold())
+	words.add_child(name_label)
+	var state_label: Label = UIKit.label("ON" if on else "off", &"", 20, DraftKit.MARQUEE if on else Color("8d8aa6"))
+	state_label.name = "State"
+	state_label.add_theme_font_override("font", UIStyle.font_bold())
+	words.add_child(state_label)
+	ignore_mouse(toggle)
+	toggle.pressed.connect(toggle_random)
+	return toggle
+
+
+## Switches Random on or off. On: the four Paths go dark (the house picks at Start). Off: the Paths chosen before are back.
+func toggle_random() -> void:
+	random_paths = not random_paths
+	_notice = ""
+	Audio.sfx(&"ui_confirm" if random_paths else &"ui_select")
+	_refresh()
+
+
 func _path_toggle(path: int) -> Button:
-	var on: bool = _paths.has(path)
+	var on: bool = _paths.has(path) and not random_paths
 	var colour: Color = UIStyle.affinity_color(path as Affinity.Type)
 	var toggle: Button = Button.new()
 	toggle.name = "PathToggle_%d" % path
@@ -782,7 +906,7 @@ func _path_toggle(path: int) -> Button:
 	name_label.name = "PathName"
 	name_label.add_theme_font_override("font", UIStyle.font_bold())
 	words.add_child(name_label)
-	var state_label: Label = UIKit.label("ON" if on else "off", &"", 20, DraftKit.MARQUEE if on else Color("8d8aa6"))
+	var state_label: Label = UIKit.label("?" if random_paths else ("ON" if on else "off"), &"", 20, DraftKit.MARQUEE if on else Color("8d8aa6"))
 	state_label.name = "State"
 	state_label.add_theme_font_override("font", UIStyle.font_bold())
 	words.add_child(state_label)
@@ -796,7 +920,12 @@ func toggle_path(path: int) -> void:
 	var id: String = selected_challenge()
 	var most: int = _most_paths(DraftArena.CLASSIC_ID if id.is_empty() or id == RANDOM else id)
 	_notice = ""
-	if _paths.has(path):
+	if random_paths:
+		# choosing a Path yourself ends Random: that Path is the choice
+		random_paths = false
+		_paths = [path] as Array[int]
+		Audio.sfx(&"ui_confirm")
+	elif _paths.has(path):
 		_paths.erase(path)
 		Audio.sfx(&"ui_select")
 	elif _paths.size() < most:
@@ -907,7 +1036,7 @@ func reward_preview(id: String) -> Dictionary:
 					extras.append("A piece of draft equipment")
 			DraftArena.KIND_MYSTERY:
 				gold = DungeonBuilder.SIDE_REPEAT_GOLD
-				extras.append("A pack of the dungeon's Path")
+				extras.append("Path Pack")  # Nov 25 (the owner): Mystery Mini's reward reads "Path Packs" (a pack of the mini's Path)
 			_:
 				extras.append("The dungeon's own clear rewards")
 				packs.append(extra_pack)

@@ -27,7 +27,8 @@ const WIDTH: float = 9.0
 const FOOTPRINT: Vector2 = Vector2(11.6, 10.4)
 const DOOR: float = 2.7
 ## Where Octavia stands when the house is open: beside the steps, on the apron.
-const HOST_OFFSET: Vector3 = Vector3(3.5, 0.0, 3.0)
+## (y: the top of the cobbles, so the hem of her gown rests on the apron and her shadow lies on it)
+const HOST_OFFSET: Vector3 = Vector3(3.5, 0.07, 3.0)
 ## The sign posts: where the door path leaves the square's rim, and where it reaches the lawn.
 const SIGN_POST: Vector3 = Vector3(37.2, 0.0, -0.1)
 const SIGN_POST_LAWN: Vector3 = Vector3(43.7, 0.0, -3.2)

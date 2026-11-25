@@ -10,7 +10,7 @@ extends RefCounted
 ##            Pack) and a High Rollers Draft (the fee, the opponents' equipment); the Shuffled Halls with their hand-made dealers
 ##            on a careful and a greedy route, and a run that cashes out at the Counting Halls; a Mystery Mini; a zone dungeon;
 ##            and one run through each other large dungeon of the Dungeon Draft's list (Primm's Castle, the Path-ology Lab, the
-##            Shattered Gallery, Mount Swolympus).
+##            Shattered Gallery).
 ##   Godot --headless --path . -s res://tools/draft_smoke.gd [-- --only=zones|house|high|halls|cashout|mystery|dungeon|large] [--tries=N]
 ##   (bash tools/run_draft_smoke.sh)
 
@@ -60,7 +60,7 @@ func run() -> bool:
 		_dungeon_run("dungeon", "", [int(Affinity.Type.REFUSEMANCER)] as Array[int], 3)
 	if _wanted("large"):
 		# every other large dungeon of the Dungeon Draft's list, once each: the run must hold together from the door to the end
-		for key: String in [CapitalZone.ID, "D-LAB", "S-GALLERY", "S-BEEF"]:
+		for key: String in [CapitalZone.ID, "D-LAB", "S-GALLERY"]:  # Nov 25: Mount Swolympus (S-BEEF) is Mystery Mini's only
 			_dungeon_run("large %s" % key, DraftArena.dungeon_id(key), [int(Affinity.Type.BEEFCAKE), int(Affinity.Type.GOURMAND)] as Array[int], 1)
 	print("draft_smoke: %s - %d checks, %d failed" % ["OK" if failed == 0 else "FAILED", checks, failed])
 	return failed == 0

@@ -53,6 +53,12 @@
 		"hall_pass_slippers",
 		"participation_trophy"
 	],
+	"rival_equipment_only_at": {
+		"hover_boots": [
+			"high"
+		]
+	},
+	"_rival_equipment_only_at": "Pieces an OPPONENT may draft only at the kinds of challenge listed (the player's own offers are not touched). The owner, Nov 25: Hover Boots only for opponents at the High Rollers table (high) - never in a zone draft, Classic, the Draft of the Day, a Dungeon Draft, Mystery Mini or the Shuffled Halls.",
 	"banned_items": [],
 	"banned_cards": [],
 	"_banned": "The ban lists of draft mode. Equipment (the owner's rules of Nov 23): Gotta-Go Galoshes; every piece that damages enemy units or gives them minus toughness (the Flamethrower, the Thorned Loincloth, Clipwell's Golden Shears, the Gladiator's Net); every piece that only works outside battle (Hall Pass Slippers, the Participation Trophy, the Galoshes). tests/test_draft_big_pass.gd checks that no piece left in the pool breaks these rules. Items and cards: empty; the sims propose (docs/design/draft_balance.md), the owner decides.",
@@ -183,14 +189,12 @@
 			"default": 100
 		},
 		"_foe_hp_percent": "Rebalance for drafted decks: every foe's HP in a dungeon played as a draft, in percent, by dungeon key ('default' for the rest). Set from the sims (docs/design/draft_balance.md).",
-		"large_extra": [
-			"S-BEEF"
-		],
-		"_large_extra": "Dungeons the Dungeon Draft lists although they have three encounters (the owner's list of Nov 24 names Mount Swolympus). Every other three-encounter dungeon is Mystery Mini's.",
+		"large_extra": [],
+		"_large_extra": "Dungeons the Dungeon Draft lists although they have three encounters. Empty since Nov 25: the owner put Mount Swolympus (S-BEEF) in the Mystery Mini pool only, so every three-encounter dungeon is Mystery Mini's.",
 		"_halls": "The Shuffled Halls' encounters are hand-made and static since Nov 24 (data/dungeons/dungeon_content.json, D-SHUFFLE; tools/nov24_shuffled_halls.py): each dealer's deck, equipment, skill and HP (measured from the player's base HP: hp_vs_player) are in its own block."
 	},
 	"entry_fees": {
-		"high": 200
+		"high": 100
 	},
-	"_entry_fees": "A kind of challenge with a fee of its own, charged on every attempt (the general entry_fee and first_attempt_free are not for it). high = the High Rollers Draft: 200 gold (the owner's default of Nov 24; an owner decision)."
+	"_entry_fees": "A kind of challenge with a fee of its own, charged on every attempt (the general entry_fee and first_attempt_free are not for it). high = the High Rollers Draft: 100 gold (the owner's decision of Nov 25; it was 200)."
 }

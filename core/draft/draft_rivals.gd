@@ -195,7 +195,8 @@ static func draft(content: ContentSet, state: DraftState, personality: String, i
 			var slot: int = DraftEngine._next_slot(content, rival)
 			var best_id: String = ""
 			var best_rarity: int = -1
-			var offered: Array[String] = DraftEngine.equipment_offer(content, rival, slot, gear_cap)
+			# Nov 25: a piece opponents may only get at another kind of table is never offered to this one (Hover Boots: High Rollers only)
+			var offered: Array[String] = DraftEngine.equipment_offer(content, rival, slot, gear_cap, DraftRules.rival_equipment_excluded(DraftArena.kind_of(state.challenge_id)))
 			for id: String in offered:
 				var piece: EquipmentData = content.equipment_piece(id)
 				if piece != null and int(piece.rarity) > best_rarity:

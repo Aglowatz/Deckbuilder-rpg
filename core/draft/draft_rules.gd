@@ -167,6 +167,19 @@ static func dungeon_rewards() -> Dictionary:
 	return found as Dictionary if found is Dictionary else {}
 
 
+## The pieces an opponent may NOT draft in a challenge of `kind` (id -> true): those the rules allow opponents only at other
+## kinds ("rival_equipment_only_at"; Nov 25: Hover Boots only at the High Rollers table).
+static func rival_equipment_excluded(kind: String) -> Dictionary:
+	var result: Dictionary = {}
+	var table: Variant = data().get("rival_equipment_only_at", {})
+	if table is Dictionary:
+		for id: Variant in (table as Dictionary).keys():
+			var kinds: Variant = (table as Dictionary)[id]
+			if kinds is Array and not (kinds as Array).has(kind):
+				result[str(id)] = true
+	return result
+
+
 ## The rarest piece of equipment a rival may draft in a challenge of `kind` (DraftArena.KIND_*).
 static func rival_equipment_cap(kind: String) -> int:
 	var table: Dictionary = section("rival_equipment_cap")

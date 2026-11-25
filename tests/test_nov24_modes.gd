@@ -153,22 +153,22 @@ func test_classic_never_pays_a_prismatic_pack() -> void:
 func test_high_rollers_has_an_entry_fee_every_time() -> void:
 	_open_house()
 	var paths: Array[int] = [int(P.NECROCRAT)]
-	assert_eq(Session.draft_fee(DraftArena.HIGH_ID), 200, "the owner's default")
-	assert_eq(DraftRules.entry_fee_for(DraftArena.KIND_HIGH), 200)
+	assert_eq(Session.draft_fee(DraftArena.HIGH_ID), 100, "the owner's decision of Nov 25 (it was 200)")
+	assert_eq(DraftRules.entry_fee_for(DraftArena.KIND_HIGH), 100)
 	assert_eq(Session.draft_fee(DraftArena.CLASSIC_ID), 0, "Classic stays free")
 	assert_eq(Session.draft_fee(DraftArena.MYSTERY_ID), 0)
 	assert_eq(Session.draft_fee(DraftArena.HALLS_ID), 0)
-	Session.gold = 150
-	assert_string_contains(Session.draft_start_problem(DraftArena.HIGH_ID, paths), "200")
+	Session.gold = 90
+	assert_string_contains(Session.draft_start_problem(DraftArena.HIGH_ID, paths), "100")
 	assert_false(Session.start_draft(DraftArena.HIGH_ID, paths), "no seat without the fee")
-	assert_eq(Session.gold, 150)
+	assert_eq(Session.gold, 90)
 	Session.gold = 500
 	assert_true(Session.start_draft(DraftArena.HIGH_ID, paths))
-	assert_eq(Session.gold, 300, "the fee is paid at the door")
-	assert_eq(Session.draft.fee_paid, 200)
+	assert_eq(Session.gold, 400, "the fee is paid at the door")
+	assert_eq(Session.draft.fee_paid, 100)
 	Session.close_draft()
 	assert_true(Session.start_draft(DraftArena.HIGH_ID, paths))
-	assert_eq(Session.gold, 100, "and again on the second attempt: no free first seat")
+	assert_eq(Session.gold, 300, "and again on the second attempt: no free first seat")
 
 
 func test_high_rollers_pays_more_than_classic_prismatic_included() -> void:
@@ -214,7 +214,8 @@ func test_the_dungeon_draft_lists_the_large_dungeons_cleared_once() -> void:
 	assert_ne(Session.draft_start_problem(DraftArena.dungeon_id("beefcake"), [int(P.BEEFCAKE)] as Array[int]), "")
 	_free(["beefcake"] as Array[String])
 	assert_eq(Session.draft_dungeon_keys(), ["beefcake"] as Array[String], "a freed zone's main dungeon")
-	# Primm's Castle after Primm; the postgame dungeons and Mount Swolympus once cleared; the other minis are Mystery Mini's
+	# Primm's Castle after Primm; the postgame dungeons once cleared; every mini is Mystery Mini's - Mount Swolympus (S-BEEF) too
+	# (the owner, Nov 25: "in the Mystery Mini pool only")
 	assert_false(Session.draft_dungeon_keys().has(CapitalZone.ID))
 	Session.flags[str(ZoneCompletion.flag_name(CapitalZone.ID))] = true
 	assert_true(Session.draft_dungeon_keys().has(CapitalZone.ID), "Primm's Castle once it is cleared")
@@ -222,10 +223,11 @@ func test_the_dungeon_draft_lists_the_large_dungeons_cleared_once() -> void:
 		if plan.is_side() or plan.is_postgame():
 			Session.set_flag(Session.side_cleared_flag(plan))
 	var keys: Array[String] = Session.draft_dungeon_keys()
-	for id: String in ["D-LAB", "S-GALLERY", "S-BEEF"]:
+	for id: String in ["D-LAB", "S-GALLERY"]:
 		assert_true(keys.has(id), "%s is on the list" % id)
-	for id: String in ["S-GOUR", "S-NECRO", "S-REF", "S-TOWN", "S-IRON", "S-CAP", "S-PASTE"]:
+	for id: String in ["S-BEEF", "S-GOUR", "S-NECRO", "S-REF", "S-TOWN", "S-IRON", "S-CAP", "S-PASTE"]:
 		assert_false(keys.has(id), "%s is a mini dungeon: Mystery Mini's" % id)
+	assert_true(Session.draft_mystery_pool().has("S-BEEF"), "Mount Swolympus is on Mystery Mini's wheel")
 	# the Shuffled Halls after their first clear
 	assert_false(keys.has(DraftArena.HALLS_DUNGEON))
 	Session.set_flag(StringName(DraftChallenges.won_flag(DraftArena.HALLS_ID)))
@@ -481,8 +483,8 @@ func test_the_start_button_starts_the_chosen_mode_with_the_chosen_paths() -> voi
 	screen._refresh()
 	await get_tree().process_frame
 	assert_eq(screen.selected_challenge(), DraftArena.HIGH_ID)
-	assert_string_contains((screen.find_child("FeeLine", true, false) as Label).text, "200")
-	assert_string_contains((screen.find_child("Start", true, false) as Button).text, "200", "the Start button names the fee")
+	assert_string_contains((screen.find_child("FeeLine", true, false) as Label).text, "100")
+	assert_string_contains((screen.find_child("Start", true, false) as Button).text, "100", "the Start button names the fee")
 	var gold: int = Session.gold
 	(screen.find_child("Start", true, false) as Button).pressed.emit()
 	assert_not_null(Session.draft)
@@ -490,7 +492,7 @@ func test_the_start_button_starts_the_chosen_mode_with_the_chosen_paths() -> voi
 	var want: Array[int] = [int(P.GOURMAND), int(P.REFUSEMANCER)]
 	want.sort()
 	assert_eq(Session.draft.paths, want)
-	assert_eq(Session.gold, gold - 200)
+	assert_eq(Session.gold, gold - 100)
 	Session.close_draft()
 	# the Dungeon Draft: nothing to start until a large dungeon is cleared; then Random and the list
 	screen._mode = DraftArena.MODE_DUNGEON

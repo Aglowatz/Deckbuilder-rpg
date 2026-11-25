@@ -83,8 +83,9 @@ static func card_pool(content: ContentSet, state: DraftState) -> Array[CardData]
 
 ## Every piece of equipment in the game minus the ban list, by slot. With `paths` (a draft's Paths): also minus the pieces that
 ## only help a Path the draft does not have (the Hustle Headband in a Necrocrat draft would be a dud).
-static func equipment_pool(content: ContentSet, slot: int = -1, paths: Array[int] = [], max_rarity: int = 99) -> Array[EquipmentData]:
-	var banned: Dictionary = DraftRules.banned("banned_equipment")
+## `excluded` (id -> true): more pieces to leave out (what an opponent may not draft at this kind of table).
+static func equipment_pool(content: ContentSet, slot: int = -1, paths: Array[int] = [], max_rarity: int = 99, excluded: Dictionary = {}) -> Array[EquipmentData]:
+	var banned: Dictionary = DraftRules.banned("banned_equipment").merged(excluded)
 	var pool: Array[EquipmentData] = []
 	for piece: EquipmentData in GearCatalog.all_pieces(content):
 		if piece == null or banned.has(piece.id) or (slot >= 0 and int(piece.slot) != slot) or int(piece.rarity) > max_rarity:
@@ -318,9 +319,9 @@ static func _next_slot(content: ContentSet, state: DraftState) -> int:
 
 ## Three different pieces of `slot`, weighted by rarity (weak pieces common, strong ones rare). Pieces already offered in this
 ## draft are left out unless the slot has too few others; `max_rarity` caps what a rival may be shown (`DraftRules.rival_equipment_cap`).
-static func equipment_offer(content: ContentSet, state: DraftState, slot: int, max_rarity: int = 99) -> Array[String]:
+static func equipment_offer(content: ContentSet, state: DraftState, slot: int, max_rarity: int = 99, excluded: Dictionary = {}) -> Array[String]:
 	var rng: RandomNumberGenerator = _rng(state, 1)
-	var pool: Array[EquipmentData] = equipment_pool(content, slot, state.paths, max_rarity)
+	var pool: Array[EquipmentData] = equipment_pool(content, slot, state.paths, max_rarity, excluded)
 	var fresh: Array[EquipmentData] = []
 	for piece: EquipmentData in pool:
 		if not state.offered_equipment.has(piece.id):

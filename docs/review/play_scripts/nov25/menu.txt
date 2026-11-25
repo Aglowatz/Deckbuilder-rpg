@@ -1,0 +1,42 @@
+# Fable Nov 25 (Part 4): the Shuffle House's menu - Octavia whole, the four tiles aligned, "Entry Fee:" and "Rewards:", the
+# 100 gold High Rollers fee, Random beside the Path toggles (mouse and controller).
+#   bash tools/play.sh docs/review/play_scripts/nov25/menu.txt nov25_menu
+#   SHOT_RES=1224x842 bash tools/play.sh docs/review/play_scripts/nov25/menu.txt nov25_menu_narrow   (the owner's window)
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 16
+dev gold 2500
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev travel town
+wait 16
+skip_dialogue 20
+dev draft unlock
+dev draft open
+wait 3
+shot menu_1_classic
+node PathToggle_random
+wait 1
+shot menu_1_classic_random_on
+node PathToggle_2
+wait 1
+shot menu_1_classic_random_off_again
+node Mode_dungeon
+wait 1
+shot menu_2_dungeon
+node Mode_mystery
+wait 1
+shot menu_3_mystery
+node Mode_high
+wait 1
+shot menu_4_high_rollers
+node Mode_halls
+wait 1
+shot menu_5_halls
+# (the controller is covered by tests/test_nov25_shuffle_house_menu.gd: confirm on the focused Random toggle)
+node Mode_classic
+wait 1
+dump

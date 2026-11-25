@@ -362,10 +362,34 @@ func _fill_deck(draft: DraftState) -> void:
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
 	scroll.add_child(grid)
-	for index: int in range(draft.cards.size()):
+	# Fable Nov 25 (the owner's item 18): sorted by cost, low to high, then by name (a tile keeps the name of its pick)
+	for index: int in deck_order(draft):
 		grid.add_child(_deck_card(draft, index))
 	grid.queue_sort.call_deferred()  # the first row was laid out before the scroll bar took its width
 	split.add_child(_deck_panel(draft))
+
+
+## The order the drafted cards are shown in when the deck is picked: by cost (generic energy plus pips), low to high, then by
+## name, then in the order they were drafted. Returns the picks' indices.
+static func deck_order(draft: DraftState) -> Array[int]:
+	var rows: Array[Dictionary] = []
+	for index: int in range(draft.cards.size()):
+		var card: CardData = Session.card_by_id(draft.cards[index])
+		rows.append({"index": index, "cost": card_cost(card), "name": card.display_name.to_lower() if card != null else ""})
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		if int(a["cost"]) != int(b["cost"]):
+			return int(a["cost"]) < int(b["cost"])
+		if str(a["name"]) != str(b["name"]):
+			return str(a["name"]) < str(b["name"])
+		return int(a["index"]) < int(b["index"]))
+	var order: Array[int] = []
+	for row: Dictionary in rows:
+		order.append(int(row["index"]))
+	return order
+
+
+static func card_cost(card: CardData) -> int:
+	return card.generic_cost + card.colored_pips.size() if card != null else 0
 
 
 func _deck_card(draft: DraftState, index: int) -> Control:
