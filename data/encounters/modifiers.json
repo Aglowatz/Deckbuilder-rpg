@@ -874,7 +874,8 @@
 			],
 			"token_keywords": [
 				"wallflower"
-			]
+			],
+			"token_art": "res://assets/art/cards/TOK-VELVETROPE.webp"
 		}
 	],
 	"Tilda Tinsel, Confetti Cannoneer": [
@@ -890,7 +891,8 @@
 				1,
 				1
 			],
-			"token_keywords": []
+			"token_keywords": [],
+			"token_art": "res://assets/art/cards/TOK-CONFETTI.webp"
 		}
 	],
 	"Madame Darjeeling": [

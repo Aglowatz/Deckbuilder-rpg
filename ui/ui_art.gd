@@ -187,7 +187,7 @@ const LARGE_IDS: Array[String] = ["UI-INFO-PAGE", "UI-MAP-FRAME", "UI-GLASS-STRI
 
 
 static func _keeps_canvas(id: String) -> bool:
-	if KEEP_CANVAS_IDS.has(id):
+	if KEEP_CANVAS_IDS.has(id) or id.begins_with(MODE_EMBLEM_PREFIX):
 		return true
 	if id == "UI-PACK-SHELF":
 		return false  # Import Nov 8: the shelf board is a strip in a 3:2 canvas - trimmed to the board
@@ -196,7 +196,15 @@ static func _keeps_canvas(id: String) -> bool:
 	return id.begins_with("UI-FRAME-") or id.begins_with("UI-CARDBACK-") or id.begins_with("UI-PACK-") or id.begins_with("UI-BG-") or id.begins_with("MG-BG-")
 
 
+## Batch 21 (Nov 25): the four mode emblems of the Shuffle House menu keep their 3:2 canvas (one framing for all four, so the
+## tiles line up) and are stored at the size asked for.
+const MODE_EMBLEM_PREFIX: String = "UI-DRAFT-MODE-"
+const MAX_SIDE_EMBLEM: int = 768
+
+
 static func _max_side(id: String) -> int:
+	if id.begins_with(MODE_EMBLEM_PREFIX):
+		return MAX_SIDE_EMBLEM
 	if LARGE_IDS.has(id):
 		return MAX_SIDE_BACKGROUND
 	if id.begins_with("UI-BG-") or id.begins_with("MG-BG-") or id == "UI-PACK-SHELF" or id == "UI-NODE-BANNER":

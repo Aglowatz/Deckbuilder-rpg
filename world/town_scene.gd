@@ -905,7 +905,8 @@ func _build_farm_walkers() -> void:
 		farmer.seed_value = int(spec["seed"])
 		farmer.ring_radius = float(spec["radius"])
 		farmer.tint = spec["tint"] as Color
-		farmer.waddle = true
+		# Batch 21 (Nov 25): the painted walk cycle; the step-bob stays only as the fallback for a set without one
+		farmer.waddle = (SpriteLibrary.info(FARM_CHARACTER).get("walk_dirs", []) as Array).is_empty()
 		farmer.pace = 0.7
 		add_child(farmer)
 		farmer.setup(town, town.anchors[str(spec["anchor"])] as Vector3, null, Vector3.ZERO)

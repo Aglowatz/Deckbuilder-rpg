@@ -17,6 +17,7 @@ per map in docs/overnight_shots/nov23b/maps/ (the picture, the spots, the curves
     python tools/map_curves.py --fit      also move the spots onto the painted landings
     python tools/map_curves.py --check    only draw the check pictures from the data as it is
     python tools/map_curves.py --only=D-HOG,S-BEEF
+    python tools/map_curves.py --out=docs/overnight_shots/nov25/maps     where the check pictures go
 """
 import csv
 import heapq
@@ -51,6 +52,13 @@ WAY_COLOURS = {
 DETOUR_LIMIT = 1.7
 # A room that is never shown (the Halls' stage door, the run's hidden first step): its links get no line and no redo row.
 HIDDEN_ROOMS = {'D-SHUFFLE': [1]}
+# Batch 21 (Nov 25): walkways the painting shows that the tracer still doubts (the Test Kitchen's stair from landing 10 to 12 ends
+# behind a row of lamps; the Halls' new carpet from the Counting Room to the Big Wheel starts behind the pavilion's roof). Their
+# traced route is kept, never the drawn arc.
+PAINTED_ANYWAY = {'D-TTK': ['9>10'], 'D-SHUFFLE': ['18>19']}
+# A link laid by hand along its painted walkway (points between the two spots, on the picture, 0..1): the tracer cannot follow
+# the Test Kitchen's stair from landing 10 to 12 under its row of hanging lamps.
+BY_HAND = {'D-TTK': {'10>12': [[0.7956, 0.3105], [0.8216, 0.3789], [0.8398, 0.4219]]}}
 
 
 def load_dungeons():
@@ -312,6 +320,10 @@ def draw_check(dungeon_id, name, image, spots, curves, missing):
         draw.text((x - 3 if len(str(number)) < 2 else x - 6, y - 6), str(number), fill=(255, 255, 255, 255))
     draw.rectangle([0, 0, 640, 26], fill=(0, 0, 0, 170))
     draw.text((8, 7), '%s  %s   cyan: follows the painting   red: no painted walkway (%d)' % (dungeon_id, name, len(missing)), fill=(255, 255, 255, 255))
+    global OUT
+    for arg in sys.argv[1:]:
+        if arg.startswith('--out='):
+            OUT = os.path.join(ROOT, arg[6:])
     os.makedirs(OUT, exist_ok=True)
     picture.save(os.path.join(OUT, 'map_%s.jpg' % dungeon_id), quality=86)
 
@@ -358,7 +370,10 @@ def main():
                     continue
                 path, off, detour = grid.route(spots[str(a)], spots[str(b)])
                 key = '%d>%d' % (a, b)
-                if off > OFF_LIMIT or detour > DETOUR_LIMIT or key in unpainted:
+                if key in BY_HAND.get(dungeon_id, {}):
+                    curves[key] = [list(spots[str(a)])] + BY_HAND[dungeon_id][key] + [list(spots[str(b)])]
+                    continue
+                if (off > OFF_LIMIT or detour > DETOUR_LIMIT or key in unpainted) and key not in PAINTED_ANYWAY.get(dungeon_id, []):
                     curves[key] = arc(spots[str(a)], spots[str(b)])
                     missing.append(key)
                 else:

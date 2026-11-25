@@ -101,6 +101,22 @@ func _add_life() -> void:
 		var pos: Vector3 = Vector3(at.x, float(height.call(at.x, at.y)), at.y)
 		var npc: Node3D
 		# Art import Oct 29: the three farmhands are the painted mole set (SPR-DUMPWORKER) with a slight tint each; the 3D model is the fallback.
+		if index == WORKER_WALKER and _worker_can_walk():
+			# Batch 21 (Nov 25): the first farm hand walks a beat along his terrace with his painted walk cycle (four directions). He
+			# stops for the hero (`SpriteStroller`), so he needs no blocker; a beat point that is not clear is skipped.
+			var walker: SpriteStroller = SpriteStroller.new()
+			walker.character = WORKER_SET
+			walker.tint = (w[3] as Color).lerp(Color.WHITE, WORKER_TINT_KEEP)
+			walker.name = "Worker_%d" % (index + 1)
+			for offset: Vector3 in WORKER_BEAT:
+				walker.pace.append(offset)
+			walker.home_facing = Vector3(sin(deg_to_rad(float(w[2]))), 0.0, cos(deg_to_rad(float(w[2]))))
+			add_child(walker)
+			walker.setup(pos, func(p: Vector3) -> bool: return heap.is_walkable(p, 0.3) and absf(float(height.call(p.x, p.z)) - pos.y) < 0.15, 2125)
+			_strollers.append(walker)
+			if npc_barks != null:
+				npc_barks.register_lines(walker.sprite, str(w[5]), story.get_lines(str(w[5])))
+			continue
 		if SpriteLibrary.has_character(WORKER_SET):
 			npc = NpcSprites.make_actor(WORKER_SET, (w[3] as Color).lerp(Color.WHITE, WORKER_TINT_KEEP))
 			npc.name = "Worker_%d" % (index + 1)
@@ -124,6 +140,13 @@ func _add_life() -> void:
 ## The farmhands' painted set (art import Oct 29) and how much of the white each keeps of its old tint (a slight shade, not a new colour).
 const WORKER_SET: String = "DUMPWORKER"
 const WORKER_TINT_KEEP: float = 0.55
+## Batch 21 (Nov 25): which of the three walks (the others stand at their work), and his beat as offsets from his post.
+const WORKER_WALKER: int = 0
+const WORKER_BEAT: Array[Vector3] = [Vector3(2.6, 0.0, 0.0), Vector3(2.6, 0.0, 1.6), Vector3(-1.4, 0.0, 1.6), Vector3(-1.4, 0.0, 0.0), Vector3.ZERO]
+
+
+func _worker_can_walk() -> bool:
+	return SpriteLibrary.has_character(WORKER_SET) and not (SpriteLibrary.info(WORKER_SET).get("walk_dirs", []) as Array).is_empty()
 
 
 ## The kit clusters, reeds and fungus (`HeapDressing`, Art Part D) over the generic grass carpet.

@@ -21,7 +21,7 @@ var result: Dictionary = {}
 
 const ZONE_BACKDROP: String = "VS-TREY"
 const HALL_BACKDROP: String = "UI-DRAFT-HALL"
-const MODE_TILE: Vector2 = Vector2(318, 250)
+const MODE_TILE: Vector2 = Vector2(318, 268)
 const DOOR_HEIGHT: float = 92.0
 const PATH_TOGGLE: Vector2 = Vector2(216, 92)
 ## The menu's choices beside the four modes of `DraftArena.MODES`, and the Dungeon Draft's Random option.
@@ -387,59 +387,103 @@ func _tag(words: String, colour: Color) -> PanelContainer:
 	return tag
 
 
-## One of the four modes: its emblem, its name on a ribbon, one line of pitch and its tag.
+## One of the four modes: its emblem, its name on a ribbon, its pitch, then "Entry Fee:" and "Rewards:" on a line each.
+## Fable Nov 25 (the owner: Mystery Mini sat lower than the others): every tile has the same rows at the same heights, laid from
+## the top - the emblem's box, the ribbon (one type size for all four), a pitch box of a fixed number of lines, the two lines.
 func _mode_tile(mode: String) -> Control:
 	var lit: bool = _mode == mode
 	var tile: Button = _frame_button("Mode_%s" % mode, _tile, lit, false)
 	tile.tooltip_text = DraftArena.mode_title(mode)
 	tile.pressed.connect(func() -> void: _choose_mode(mode))
-	var box: VBoxContainer = UIKit.vbox(6)
+	var box: VBoxContainer = UIKit.vbox(4)
+	box.name = "Rows"
 	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 10)
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.alignment = BoxContainer.ALIGNMENT_BEGIN
 	tile.add_child(box)
 	var emblem: Control = _mode_emblem(mode)
+	emblem.name = "Emblem"
+	emblem.custom_minimum_size = Vector2(_tile.x - 40.0, EMBLEM_HEIGHT)
 	emblem.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(emblem)
-	box.add_child(_ribbon(DraftArena.mode_title(mode), 28 if DraftArena.mode_title(mode).length() <= 14 else 23, lit))
-	var pitch: Label = UIKit.label(DraftArena.mode_pitch(mode), &"", 21, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	box.add_child(_ribbon(DraftArena.mode_title(mode), 24, lit))
+	var pitch: Label = UIKit.label(DraftArena.mode_pitch(mode), &"", 19, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	pitch.name = "Pitch"
 	pitch.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	pitch.custom_minimum_size = Vector2(_tile.x - 44.0, 0)
+	pitch.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	pitch.add_theme_constant_override("line_spacing", -3)
+	var lines: int = 2 if _tile.x >= 300.0 else 3
+	pitch.max_lines_visible = lines
+	pitch.custom_minimum_size = Vector2(_tile.x - 44.0, PITCH_LINE * float(lines))
 	box.add_child(pitch)
-	box.add_child(_tag(_mode_tag(mode), _mode_tag_colour(mode)))
+	box.add_child(_tile_line("EntryFee", "Entry Fee:", mode_fee_words(mode), DraftKit.MARQUEE if mode == DraftArena.MODE_HIGH else Color("9fe6b0")))
+	box.add_child(_tile_line("Rewards", "Rewards:", mode_reward_words(mode), DraftKit.CREAM))
 	ignore_mouse(tile)
 	return tile
 
 
-func _mode_tag(mode: String) -> String:
+const EMBLEM_HEIGHT: float = 104.0
+const PITCH_LINE: float = 22.0
+
+
+## One line of a mode tile: a gold heading and its value ("Entry Fee: Free", "Rewards: Path Packs").
+func _tile_line(node_name: String, heading: String, value: String, colour: Color) -> Control:
+	var line: HBoxContainer = UIKit.hbox(6)
+	line.name = node_name
+	line.alignment = BoxContainer.ALIGNMENT_CENTER
+	line.custom_minimum_size = Vector2(0, 24)
+	var head: Label = UIKit.label(heading, &"", 18, DraftKit.MARQUEE)
+	head.name = "Heading"
+	head.add_theme_font_override("font", UIStyle.font_bold())
+	line.add_child(head)
+	var words: Label = UIKit.label(value, &"", 18, colour)
+	words.name = "Value"
+	words.add_theme_font_override("font", UIStyle.font_bold())
+	line.add_child(words)
+	return line
+
+
+## What a mode costs to enter, in words ("Free", "100 gold").
+func mode_fee_words(mode: String) -> String:
+	if mode == DraftArena.MODE_HIGH:
+		return "%d gold" % Session.draft_fee(DraftArena.HIGH_ID)
+	return "Free"
+
+
+## What a mode pays for a full win, in two words. Mystery Mini pays a pack of the mini's Path: "Path Packs" (the owner, Nov 25).
+## The Dungeon Draft and High Rollers pay Prismatic Packs, which are Gilded Packs until Primm is beaten.
+func mode_reward_words(mode: String) -> String:
 	match mode:
-		DraftArena.MODE_CLASSIC:
-			return "Free - Path Packs"
-		DraftArena.MODE_DUNGEON:
-			return "Free - Prismatic Packs" if Session.flag(MultiPathLock.FLAG_UNLOCKED) else "Free - Gilded Packs"
-		DraftArena.MODE_MYSTERY:
-			return "Free - a pack of its Path"
-	return "Entry: %d gold" % Session.draft_fee(DraftArena.HIGH_ID)
+		DraftArena.MODE_CLASSIC, DraftArena.MODE_MYSTERY:
+			return "Path Packs"
+	return "Prismatic Packs" if Session.flag(MultiPathLock.FLAG_UNLOCKED) else "Gilded Packs"
 
 
-func _mode_tag_colour(mode: String) -> Color:
-	return DraftKit.MARQUEE if mode == DraftArena.MODE_HIGH else Color("9fe6b0")
+## Batch 21 (Nov 25): the painted emblem of each mode (UI-DRAFT-MODE-*; one 3:2 canvas for all four, so they sit alike).
+const MODE_EMBLEMS: Dictionary = {DraftArena.MODE_CLASSIC: "UI-DRAFT-MODE-CLASSIC", DraftArena.MODE_DUNGEON: "UI-DRAFT-MODE-DUNGEON",
+	DraftArena.MODE_MYSTERY: "UI-DRAFT-MODE-MYSTERY", DraftArena.MODE_HIGH: "UI-DRAFT-MODE-HIGH"}
 
 
-## The picture of a mode: the four Paths fanned out for Classic, a castle for the Dungeon Draft, the wheel's question mark for
-## Mystery Mini, a pile of coins for High Rollers.
+## The picture of a mode: its painted emblem; without the art, the drawn stand-ins of Nov 24 (the four Paths fanned out, a
+## castle, a question mark, a pile of coins).
 func _mode_emblem(mode: String) -> Control:
+	var art_id: String = str(MODE_EMBLEMS.get(mode, ""))
+	if not art_id.is_empty() and UiArt.has(art_id):
+		var picture: TextureRect = TextureRect.new()
+		picture.texture = UiArt.texture(art_id)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		return picture
 	match mode:
 		DraftArena.MODE_CLASSIC:
 			var fan: HBoxContainer = UIKit.hbox(-8)
+			fan.alignment = BoxContainer.ALIGNMENT_CENTER
 			for path: int in DraftKit.PATH_ORDER:
 				fan.add_child(DraftKit.path_badge(path, 62.0))
 			return fan
 		DraftArena.MODE_MYSTERY:
 			var mark: Label = UIKit.label("?", &"", 78, DraftKit.MARQUEE, HORIZONTAL_ALIGNMENT_CENTER)
 			mark.add_theme_font_override("font", UIStyle.font_title())
-			mark.custom_minimum_size = Vector2(0, 72)
 			return mark
 	var key: String = "delapouite/castle" if mode == DraftArena.MODE_DUNGEON else "delapouite/coins-pile"
 	return CardIcons.glyph(CardIcons.named(key), DraftKit.MARQUEE, Vector2(76, 76))

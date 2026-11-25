@@ -13,7 +13,8 @@ const STATUS: String = "res://docs/art/art_status.md"
 const FORBIDDEN_FOLDERS: Array[String] = ["pending review", "superseded"]
 ## Batch 19 (Fable Nov 22 night): card-format pictures that belong to no card ID: the tokens an encounter rule dresses by "token_art"
 ## (the Captured Trainee and the Spotless Statue of Primm's Castle).
-const EXTRA_ART: Dictionary = {"T-PC-TRAINEE": "Captured Trainee", "T-PC-STATUE": "Spotless Statue"}
+const EXTRA_ART: Dictionary = {"T-PC-TRAINEE": "Captured Trainee", "T-PC-STATUE": "Spotless Statue",
+	"TOK-VELVETROPE": "Velvet Rope (token)", "TOK-CONFETTI": "Confetti Critter", "TOK-HOUSESECURITY": "House Security"}  # Batch 21: the Shuffled Halls' tokens
 
 
 func _init() -> void:

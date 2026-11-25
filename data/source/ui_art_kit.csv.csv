@@ -112,3 +112,7 @@ UI-ALEMBIC-BREW,Auntie Alembic's brewing scene,Screen pieces,"The centre of the 
 UI-ALEMBIC-JAR,Empty glass essence jar,Screen pieces,"The four essence jars in Auntie Alembic's shop (the game draws the liquid behind the glass)","512x640 PNG, transparent","See docs/art/batch19.csv (Batch 19, Nov 22).",,Approved
 UI-DRAFT-BG,Draft pick table (baize),Screen pieces,"Behind the three offered cards on the draft pick screen","1920x1080 PNG","See docs/art/batch20.csv (Batch 20, Nov 23).",,Approved
 UI-DRAFT-HALL,The Shuffle House hall,Screen pieces,"The backdrop of the Shuffle House's arena menu","1920x1080 PNG","See docs/art/batch20.csv (Batch 20, Nov 23).",,Approved
+UI-DRAFT-MODE-CLASSIC,Classic Draft (mode tile emblem),Screen pieces,"The Shuffle House menu, the Classic Draft tile","768x512 PNG, transparent","See docs/art/batch21.csv (Batch 21, Nov 25).",,Approved
+UI-DRAFT-MODE-DUNGEON,Dungeon Draft (mode tile emblem),Screen pieces,"The Shuffle House menu, the Dungeon Draft tile","768x512 PNG, transparent","See docs/art/batch21.csv (Batch 21, Nov 25).",,Approved
+UI-DRAFT-MODE-MYSTERY,Mystery Mini (mode tile emblem),Screen pieces,"The Shuffle House menu, the Mystery Mini tile","768x512 PNG, transparent","See docs/art/batch21.csv (Batch 21, Nov 25).",,Approved
+UI-DRAFT-MODE-HIGH,High Rollers Draft (mode tile emblem),Screen pieces,"The Shuffle House menu, the High Rollers Draft tile","768x512 PNG, transparent","See docs/art/batch21.csv (Batch 21, Nov 25).",,Approved

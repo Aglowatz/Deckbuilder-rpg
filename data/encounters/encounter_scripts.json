@@ -1540,7 +1540,8 @@
 						2,
 						2
 					],
-					"token_keywords": []
+					"token_keywords": [],
+					"token_art": "res://assets/art/cards/TOK-HOUSESECURITY.webp"
 				}
 			],
 			"banner": "Two 2/2 House Security join Maurice."

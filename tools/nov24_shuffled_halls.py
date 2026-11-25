@@ -115,8 +115,15 @@ def rule(name, text, icon, kind, **more):
     return made
 
 
+# Batch 21 (Nov 25): the Halls' three tokens have pictures of their own (they borrowed the Schmuck, the Rat and the Militia)
+TOKEN_ART = {'Velvet Rope': 'TOK-VELVETROPE', 'Confetti Critter': 'TOK-CONFETTI', 'House Security': 'TOK-HOUSESECURITY'}
+
+
 def token(name, base, stats, keywords=None):
-    return {'token': base, 'token_name': name, 'token_stats': stats, 'token_keywords': keywords or []}
+    made = {'token': base, 'token_name': name, 'token_stats': stats, 'token_keywords': keywords or []}
+    if name in TOKEN_ART:
+        made['token_art'] = 'res://assets/art/cards/%s.webp' % TOKEN_ART[name]
+    return made
 
 
 RULES = {

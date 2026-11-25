@@ -354,7 +354,8 @@ func _ready() -> void:
 	_build_fast_travel()
 	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	LoadTiming.mark("zone: player, NPCs, spots")
-	_build_enemies()
+	if not _screenshot_args.has("noroamers"):  # Nov 25: `--noroamers=true` keeps roaming enemies out of a shot
+		_build_enemies()
 	LoadTiming.mark("zone: enemies")
 	_build_sign_spots()
 	_build_zone_extras()

@@ -56,7 +56,8 @@ func test_links_without_a_painted_walkway_are_listed_for_the_artist() -> void:
 		listed += DungeonCatalog.curve_gaps(blueprint.id).size()
 	var rows: PackedStringArray = FileAccess.get_file_as_string("res://docs/art/map_walkways_missing.csv").strip_edges().split("\n")
 	assert_eq(rows.size() - 1, listed, "docs/art/map_walkways_missing.csv has a row for each")
-	assert_has(DungeonCatalog.curve_gaps("D-SHUFFLE"), "18>19", "the Counting Room's side door has no carpet in the painting")
+	# Batch 21 (Nov 25) painted the last two: the Test Kitchen's walkway 9-10 and the Halls' carpet from the Counting Room
+	assert_eq(listed, 0, "every link of every painted map follows a painted walkway")
 
 
 func test_the_screen_line_runs_from_room_to_room_in_even_steps() -> void:
