@@ -18,7 +18,8 @@ func test_the_draft_pictures_are_imported() -> void:
 		assert_true(MapArt.has_map(id), id)
 	assert_not_null(Battleboards.texture_for("draft"), "the house table (BB-SHUFFLE) is the board of every draft fight")
 	assert_eq(Battleboards.board_for("draft"), "BB-SHUFFLE")
-	for id: String in ["TOWN-HERO-SHUFFLEHOUSE", "TOWN-SIGN-SHUFFLEHOUSE"]:
+	# Nov 25: the painted house card (TOWN-HERO-SHUFFLEHOUSE) left the game when the 3D house was built; the sign stays
+	for id: String in ["TOWN-SIGN-SHUFFLEHOUSE"]:
 		assert_true(ResourceLoader.exists("res://assets/art/zone_kits/town/%s.webp" % id), id)
 	assert_true(ResourceLoader.exists("res://assets/art/zone_kits/final/CAP-PROP-PRIMM-CELL.webp"), "Primm's cell")
 

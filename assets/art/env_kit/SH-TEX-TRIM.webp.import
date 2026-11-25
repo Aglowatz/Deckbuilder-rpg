@@ -2,22 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkjv04xy1h6ol"
-path.bptc="res://.godot/imported/TOWN-HERO-SHUFFLEHOUSE.webp-9ce35dce3d842e696e727a3ab6284731.bptc.ctex"
+uid="uid://ciyaxlyj2ry00"
+path="res://.godot/imported/SH-TEX-TRIM.webp-4fb6f74f396115f36ab21c0db817f16d.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/zone_kits/town/TOWN-HERO-SHUFFLEHOUSE.webp"
-dest_files=["res://.godot/imported/TOWN-HERO-SHUFFLEHOUSE.webp-9ce35dce3d842e696e727a3ab6284731.bptc.ctex"]
+source_file="res://assets/art/env_kit/SH-TEX-TRIM.webp"
+dest_files=["res://.godot/imported/SH-TEX-TRIM.webp-4fb6f74f396115f36ab21c0db817f16d.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=1
+compress/high_quality=false
 compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -37,5 +36,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=1024
+process/size_limit=0
 detect_3d/compress_to=1
