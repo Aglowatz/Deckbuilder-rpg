@@ -27,7 +27,10 @@ Smaller notes, no decision needed:
 - **The pick screen's missing third card** was the window: in a window squarer than 16:9 the canvas is narrower (about 1,570 px in yours) and the third card was pushed off the page. The cards are sized to the window now, and the Shuffle House menu too. A second cause turned up in the playthroughs: the pick of three after a Halls fight could lose its first card when the pointer rested where that card slides in. Fixed as well.
 - **The Path toggles** could not be clicked because the round badge inside each one swallowed the click. They are big rectangles now and are tested with real mouse clicks and with the controller's confirm in every mode.
 - **Seven new dealers have no portrait** (a game icon stands in on the battle plate): Batch 21 has a row for each, for three token pictures, for four mode emblems and for a texture sheet of the house's back and roof.
-- **Two sim batches hit the 20-minute limit** and were logged: the first Classic batch was cut to smaller batches and rerun whole; one High Rollers batch stopped at 31 of 36 sets and is tallied from its log (`table_high_2.md`).
+- **Four sim batches hit the 20-minute limit** and were logged: the first Classic batch was cut to smaller batches and rerun whole; one High Rollers batch and two zone-rival batches are tallied from their logs (`table_high_2.md`, `zone_rivals_summary.md`).
+- **The ban tables are finished:** all 51 Common and Uncommon pieces and the 18 items. Nothing new reaches +20, so there is no new ban to decide (`ban_summary.md`).
+- **Gourmand is the weak Path in a draft:** 43 % against the zone drafts' rivals (the others 61 to 69 %) and 1 win in 12 against Octavia. I changed nothing; it is worth a look after the playtest.
+- **The sign walkway probe works again** (it was an old standalone script that could no longer compile, not a fault in the game). It reports two D.N.A. signs as floating, both on the stone front of the lift bank (`p6_dna_sign_*.jpg`). They look mounted, so I left them; say so if either looks wrong to you.
 
 ## Fable big pass Nov 23 - yours to decide (the safest choice was taken)
 

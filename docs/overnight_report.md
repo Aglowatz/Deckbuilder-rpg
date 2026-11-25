@@ -8,8 +8,9 @@ is four modes and the Halls' own door, every pick shows three cards, the Trade C
 centred result pop-up, and the Shuffled Halls are ten hand-made fights with a cash-out room and question marks for rooms not
 yet seen. Signal Reader shows the real cards, three Gourmand cards cost 1 less, and Idiot Sandwich plates any unit. The test
 suite is green (3,820 of 3,823 in the final run, and the one failing test fixed and passing since), all eight walk smokes, the probes, the draft smoke and the four story bots pass, and 1.0.0 is
-exported (812 MB, checked). Not done: the ban tables for the Common and Uncommon pieces and for the items (five hours of sims;
-see "What's left"), the Halls' own music (your call, inbox 6), and two D.N.A. signs the repaired sign probe now reports.
+exported (812 MB, checked). Everything left over from the big pass is done too, the five hours of ban tables included
+(nothing new to ban). Open: the Halls' own music (your call, inbox 6), and two D.N.A. signs the repaired sign probe reports,
+which look mounted to me and which I left alone.
 
 | Part | Done | Where to look |
 |---|---|---|
@@ -18,7 +19,7 @@ see "What's left"), the Halls' own music (your call, inbox 6), and two D.N.A. si
 | 3 Draft screens and opponents | yes | `p3_*` shots; `ui/draft/draft_screen.gd`, `core/draft/draft_rivals.gd` |
 | 4 Static Shuffled Halls | yes | `p4_*` shots; `tools/nov24_shuffled_halls.py`; `halls_summary.md` |
 | 5 Cards | yes | `p5_*` shots; `tests/test_nov24_cards.gd` |
-| 6 What was left from the big pass | all but the long ban tables and the music | below |
+| 6 What was left from the big pass | all but the music (yours) and the art | below |
 | 7 Sims, playthroughs, checks, build | yes | below |
 
 ## Part 1 - the Shuffle House is a building, further right and back
@@ -169,10 +170,10 @@ The card sheet, the card text, the Glossary ("Plate" says any unit; a new entry 
 | The sign walkway probe | **Repaired.** It was out of date, not broken by a pass: an old-style standalone script that can no longer compile, because the sign classes it names now reach the game's autoloads. It is a launcher scene now (`tools/sign_walkway_probe.tscn`), like the walk smokes. Result: Crosspath 7 signs, the Gainlands 9, the Buffet 13, the Dump 33, the Capital 58, all clear; **the D.N.A. 23 signs, 2 reported as floating** (at (49.0, 16.8) over the mini-dungeon lift and at (43.1, 14.5)). I did not move them: the D.N.A.'s walls were cut for the camera on Nov 18 to 20, so "nothing solid behind it" may be the cut wall and not the sign. In the shots (`p6_dna_sign_*.jpg`) both sit on the stone front of the lift bank and look mounted, so I read them as the probe not knowing those blocks, and left them where they are. |
 | Rewards against the economy | **Done:** `modes_economy.md`, above under Part 2. |
 | Bomb in the Pack by itself | **Done:** Beefcake drafts with one copy in place of their weakest pick win 72 % against 73 % without (60 games each): no effect by itself. `card_bomb_in_the_pack.md`. |
-| Rival strength, a longer measurement | **Done for the tables** (288 Classic games: 72 %; Nov 23 guessed 60 %). The zone drafts' rivals were not re-measured: the table batches used that sim time (a drafted deck takes three sets of games of 25 to 35 s each, twelve decks to a 20-minute batch). `bash tools/run_draft_table_sims.sh rivals` runs it in four batches. |
+| Rival strength, a longer measurement | **Done.** The tables: 72 % of fights won at Classic (288 games), 62 % at High Rollers (268). The zone drafts: **58 %** over 432 games (Beefcake 63, Necrocrat 61, Refusemancer 69, **Gourmand 43**), which agrees with the "about 60 %" of Nov 23; the batches still swing from 44 to 74 %. Two of those four batches hit the 20-minute limit and are tallied from their logs (`zone_rivals_summary.md`). |
 | In-game shots of every dungeon map | **Done:** 17 maps in `docs/overnight_shots/nov24b/maps/` (`bash tools/nov24_map_shots.sh`). |
 | A pad-in-hand check of Alembic's screen | **Done,** by script with the controller only (`p6_alembic_pad_*.jpg`): A talks through her first lines and opens the screen, the stick moves the focus round the sockets, A switches a Path on, the focus says what a jar holds and why Brew is greyed out, B closes the screen. No fault found. |
-| Ban tables for the Common and Uncommon pieces and for the items | **Running as this is written** (started 20:45 on Nov 24; about five hours in 20-minute batches, the Common and Uncommon pieces first, then the items). Tables land in `docs/design/sim/nov24/ban_gear_*.md` and `ban_items_*.md`; the log is `_logs/nov24/ban_sims.log`. This row is replaced when they finish. |
+| Ban tables for the Common and Uncommon pieces and for the items | **Done.** All 51 Common and Uncommon pieces and all 18 items, one at a time on the same decks and seeds (48 games each; 19 batches, none over the limit). **Nothing new to ban:** no piece reaches +20 (Pocket Hourglass and Wicked Dagger +19, Dog-Eared Bookmark and Practice Foil +17) and no item does (Firebrand Charm, Power Wraps and Silence Powder +15). Read anything under about 10 points as noise at this sample. The Epic and Legendary list of Nov 23 stands, Elastic Waistband of Victory first at +35. All 74 pieces and the items in one ranking: `ban_summary.md` (`python tools/nov24_ban_summary.py`). |
 | The Halls' own music | **Open, yours** (inbox 6). |
 | A walk cycle for the farm hand, two missing walkways | **Open, art** (Batch 21 rows of Nov 23). |
 
@@ -198,12 +199,13 @@ The card sheet, the card text, the Glossary ("Plate" says any unit; a new entry 
 - **Walk smokes, all eight pass:** Crosspath, the hub, the Gainlands, the Buffet, the Verdant Dump, the D.N.A., the Capital,
   the reach walk; and the opening-forest smoke. The hub smoke failed once on a race in the smoke itself (it teleports between
   roads faster than the blocked-road toast's 3.5 s cooldown) and passes with that taken out.
-- **Probes:** NPC visibility **158 checks, 0 failed**; fade probe 7 places, 0 script errors; quest hand-in passes; sign
+- **Probes:** NPC visibility **158 checks, 0 failed**; fade probe 7 places, 0 script errors; quest hand-in **32 passed, 0 failed**; sign
   walkway as under Part 6.
 - **Story bots, one per Path, one after another:** Beefcake, Gourmand, Necrocrat, Refusemancer each **119 steps, 119 passed, 0
   failed, 0 script errors**.
 - **Sims:** all in batches with a fresh process and a 20-minute limit: the Halls' rooms twice and four routes (14 batches),
-  Classic and High Rollers before and after Primm (8 batches), Bomb in the Pack (1).
+  Classic and High Rollers before and after Primm (8 batches), Bomb in the Pack (1), the ban tables (19), the zone rivals (4).
+  Four batches in all hit the limit; each is logged and tallied from its log.
 
 ## The zip
 
@@ -233,9 +235,8 @@ texture sheet for the house's back and roof).
 
 ## What's left
 
-- **Ban tables for the Common and Uncommon pieces and for the items:** running as this is written; see Part 6.
 - **The two D.N.A. signs** the repaired probe reports: look at the shots, then move them or teach the probe about cut walls.
-- **The zone drafts' rivals** were not re-measured (only the tables were).
+- **Gourmand is the weak Path in a draft:** 43 % against the zone rivals and 1 win in 12 against Octavia. Not changed (a balance decision); worth a look after the playtest.
 - **The Halls' own music** (inbox 6); the house's back and roof textures, the dealers' pictures, the mode emblems (Batch 21).
 - **The Dungeon Draft's large dungeons** are playable but only smoke-tested for one attempt each; no sim says how often a
   draft deck clears Primm's Castle or the Lab.

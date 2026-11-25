@@ -83,6 +83,25 @@ Merged by `python tools/nov24_ban_summary.py` from the batch tables of `docs/des
 
 **At +20 or more:** Elastic Waistband of Victory (+35), Glass Jaw Gauntlets (+29), Siphon's Lens (+27), Big Brain Beret (+25), Curve-Topper Boots (+23), Draft Champion's Laurels (+23), The Bomb Rare (+23), Blade of Earned Reputation (+21).
 
-## Items (0)
+## Items (18)
 
-No item table yet.
+| Item | Win rate with it | Change | Batch |
+|---|---:|---:|---|
+| Firebrand Charm (`firebrand_charm`) | 63% | +15 | `nov24/ban_items_04.md` |
+| Power Wraps (`power_wraps`) | 63% | +15 | `nov24/ban_items_08.md` |
+| Silence Powder (`silence_powder`) | 63% | +15 | `nov24/ban_items_12.md` |
+| Binding Chains (`binding_chains`) | 58% | +10 | `nov24/ban_items_00.md` |
+| Sharpening Stone (`sharpening_stone`) | 58% | +10 | `nov24/ban_items_12.md` |
+| Summoning Charm (`summoning_charm`) | 58% | +10 | `nov24/ban_items_12.md` |
+| Iron Ration (`iron_ration`) | 56% | +8 | `nov24/ban_items_08.md` |
+| Hearty Pot Pie (`hearty_pie`) | 54% | +6 | `nov24/ban_items_04.md` |
+| Scroll of Insight (`scroll_of_insight`) | 54% | +6 | `nov24/ban_items_08.md` |
+| Healing Salve (`healing_salve`) | 50% | +2 | `nov24/ban_items_04.md` |
+| Reckless Tonic (`reckless_tonic`) | 50% | +2 | `nov24/ban_items_08.md` |
+| Vitality Charm (`vitality_charm`) | 50% | +2 | `nov24/ban_items_16.md` |
+| Bag of Rubbish (`bag_of_rubbish`) | 48% | +0 | `nov24/ban_items_00.md` |
+| Blank Form (`blank_form`) | 48% | +0 | `nov24/ban_items_00.md` |
+| Energy Draught (`energy_draught`) | 48% | +0 | `nov24/ban_items_00.md` |
+| Ward Sigil (`ward_sigil`) | 48% | +0 | `nov24/ban_items_16.md` |
+| Spice Pouch (`spice_pouch`) | 46% | -2 | `nov24/ban_items_12.md` |
+| Grave Dust (`grave_dust`) | 44% | -4 | `nov24/ban_items_04.md` |
