@@ -85,6 +85,9 @@ func _ready() -> void:
 	_build_board()
 	_build_hud()
 	_build_nodes()
+	if _screenshot_args.has("scroll"):  # `--scroll=top|bottom|<pixels>`: a shot of a scrolling map at that place
+		var where: String = str(_screenshot_args["scroll"])
+		set_scroll(0.0 if where == "top" else (_scroll_max if where == "bottom" else float(where)))
 	_refresh_hp()
 	_build_dungeon_extras()
 	_dialogue = DialogueBox.new()
@@ -101,8 +104,9 @@ func _ready() -> void:
 		# Fix pass Nov 7: the tip sits low (item 5, C1 F4: at y 140 it was under the title scroll) and states the dungeon rule (owner
 		# decision D2) and the no-cost defeat (D1).
 		TipPanel.show_once(self, &"tip_map", "The dungeon map", map_tip_text(), Vector2(560, 800))
-	_play_pending_after_story.call_deferred()
-	_play_start_talk.call_deferred()
+	if not _screenshot_args.has("quiet"):  # `--quiet=true`: a shot of the bare map (no story scene, no after-fight event)
+		_play_pending_after_story.call_deferred()
+		_play_start_talk.call_deferred()
 	_show_draft_pick.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
 		_begin_boss_phase.call_deferred()
@@ -219,7 +223,7 @@ func _build_board() -> void:
 		_build_placeholder_board()
 	_paths = MapPaths.new()
 	_paths.position = Vector2.ZERO
-	_paths.size = Vector2(1920, 1080)
+	_paths.size = Vector2(1920.0, maxf(1080.0, _art_rect.end.y))
 	_paths.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_paths.style = DungeonCatalog.path_style(_plan.id) if _plan != null else "full"
 	if _plan != null and _art != null:
@@ -229,7 +233,7 @@ func _build_board() -> void:
 		# Fable big pass Nov 23 (Part 7): the lines follow the painted walkways
 		_paths.curves = DungeonCatalog.curves(_plan.id)
 		_paths.art_rect = _art_rect
-	add_child(_paths)
+	_map_parent().add_child(_paths)
 
 
 func _build_placeholder_board() -> void:
@@ -269,7 +273,7 @@ func node_known(node: DungeonMap.MapNode) -> bool:
 		return true
 	# Fable Nov 21 castle (Part 2): the castle's whole map is known from the gate - working out the best route (the allies, the heals,
 	# the treasure, the hard fights) is the game there.
-	if fog_key() in ROUTE_PLANNING:
+	if fog_key() in ROUTE_PLANNING and not _screenshot_args.has("fog"):  # `--fog=true`: a shot of the map as a fogged dungeon shows it
 		return true
 	# Fix pass Nov 7 (item 14, C4b F3): the castle's 20-odd rooms show their type once a neighbour is cleared (no more "???" all the way up).
 	# Fix pass Nov 7 (item 10, C4c F12): the castle's boss node is always shown as what it is (the Model Room), never "???".
@@ -297,10 +301,11 @@ func _build_nodes() -> void:
 		button.fogged = not node_known(node)
 		button.ahead = fog_key() in ROUTE_PLANNING and map.reachable_from(map.current).has(node.id)
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))
-		add_child(button)
+		_map_parent().add_child(button)
+		button.focus_entered.connect(_keep_in_view.bind(node.id))
 		button.position = _node_position(node) - Vector2(MapNodeButton.DIAMETER, MapNodeButton.DIAMETER) * 0.5
 		button.visible = not node.hidden
-		if map.nodes.size() > DENSE_NODE_COUNT:
+		if _dense():
 			button.scale = Vector2.ONE * DENSE_NODE_SCALE
 		button.hovered.connect(_on_node_hovered)
 		button.unhovered.connect(func(_id: int) -> void:
@@ -308,17 +313,20 @@ func _build_nodes() -> void:
 			_show_default_info())
 		button.chosen.connect(_on_node_chosen)
 		_buttons[node.id] = button
-	if map.nodes.size() > DENSE_NODE_COUNT:
+	if _dense():
 		_paths.trim_radius = 62.0 * DENSE_NODE_SCALE
 	_paths.setup(map, func(id: int) -> Vector2: return (_buttons[id] as MapNodeButton).center_point())
 	_marker = _make_marker()
-	add_child(_marker)
+	_map_parent().add_child(_marker)
 	var from_id: int = int(Session.flags.get("map_marker", 0)) if Session.in_dungeon() else 0
 	if from_id >= map.nodes.size() or not _screenshot_args.is_empty():
 		from_id = map.current
 	_marker.position = (_buttons[from_id] as MapNodeButton).center_point() - _marker.size * 0.5 - Vector2(0, 62)
 	Session.flags["map_marker"] = map.current
+	# Fable Nov 25: a scrolling map opens on the party's room and follows the marker as it walks on
+	scroll_to_node(from_id)
 	if from_id != map.current:
+		scroll_to_node(map.current, 0.9, 0.4)
 		var target: Vector2 = (_buttons[map.current] as MapNodeButton).center_point() - _marker.size * 0.5 - Vector2(0, 62)
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_interval(0.4)
@@ -823,6 +831,9 @@ func pad_first_focus() -> Control:
 ## Overnight Nov 4-5, Part 2.4: no deck changes inside a dungeon - the run is played with the deck it entered with (the Deck button, the B
 ## hotkey and the in-dungeon Deck Station are gone; cards won here go to the collection, except in the tutorial cave, where they join the deck).
 func _unhandled_input(event: InputEvent) -> void:
+	if _scroll_key(event):
+		get_viewport().set_input_as_handled()
+		return
 	# Fix pass Nov 7 (item 13, C7 F4): Esc closes the open Rules panel (the topmost thing) before anything else.
 	if _rules_panel != null and _rules_panel.visible and _modal == null and UiInput.is_back(event):
 		get_viewport().set_input_as_handled()
@@ -910,7 +921,16 @@ func _build_art() -> void:
 	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(black)
 	_art_rect = fit_rect(_art.get_size())
+	if is_scroll_map(_art.get_size()):
+		_art_rect = scroll_rect(_art.get_size())
+		_scroll_max = maxf(0.0, _art_rect.size.y - 1080.0)
 	_build_side_bands()
+	if _scroll_max > 0.0:
+		_map_layer = Control.new()
+		_map_layer.name = "MapLayer"
+		_map_layer.size = Vector2(1920.0, _art_rect.size.y)
+		_map_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_map_layer)
 	var picture: TextureRect = TextureRect.new()
 	picture.name = "MapArt"
 	picture.texture = _art
@@ -922,7 +942,9 @@ func _build_art() -> void:
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# Graphics Tier 1, Part 4: the painted map takes its zone's grade (BattleGrade, half strength), like the battleboard.
 	picture.material = BattleGrade.material_for(Session.zone_run.zone_id if Session.zone_run != null else "")
-	add_child(picture)
+	_map_parent().add_child(picture)
+	if _map_layer != null:
+		_build_scroll_bar()
 
 
 ## Overnight Oct 17 (Phase 2 cycle 11): a map narrower than the screen left flat black bands either side (where the HUD sits). They now show a dark,
@@ -958,7 +980,7 @@ func _build_side_bands() -> void:
 		shadow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		shadow.stretch_mode = TextureRect.STRETCH_SCALE
 		shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		shadow.size = Vector2(edge, _art_rect.size.y)
+		shadow.size = Vector2(edge, minf(_art_rect.size.y, 1080.0))
 		shadow.position = Vector2(_art_rect.position.x - edge if side == 0 else _art_rect.end.x, _art_rect.position.y)
 		add_child(shadow)
 
@@ -1037,7 +1059,8 @@ func _place_info(node: DungeonMap.MapNode) -> void:
 	_info_panel.reset_size()
 	var anchor: Vector2 = _node_position(node)
 	var x: float = clampf(anchor.x - _info_panel.size.x * 0.5, _art_rect.position.x + 8.0, _art_rect.end.x - _info_panel.size.x - 8.0)
-	var y: float = 70.0 if node.position.y > 0.5 else 1080.0 - _info_panel.size.y - 12.0
+	var low: bool = (anchor.y - _scroll > 540.0) if scrolls() else node.position.y > 0.5
+	var y: float = 70.0 if low else 1080.0 - _info_panel.size.y - 12.0
 	_info_panel.position = Vector2(x, y)
 
 
@@ -1095,3 +1118,234 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"dungeon_rules") and _rules_panel != null and _modal == null:
 		_toggle_rules()
 		get_viewport().set_input_as_handled()
+
+
+# ---- A map taller than the screen scrolls (Fable Nov 25: Primm's Castle, MAP-PC, a portrait cutaway of 22 rooms) ------------------
+# The picture, the path lines, the rooms and the party marker sit in one layer (`MapLayer`) that moves up and down; the HUD, the
+# node info and every pop-up stay on the screen. Mouse wheel, a drag on the map, the arrow keys / W S / Page Up / Page Down /
+# Home / End and the controller's right stick all scroll it; moving the focus to a room with the pad brings that room into view.
+# The map opens on the party's room and follows the marker when it walks on.
+
+## The width a portrait map is shown at (its height then runs past the screen): wide enough that rooms and lines are easy to read.
+const SCROLL_MAP_WIDTH: float = 1240.0
+const SCROLL_WHEEL_STEP: float = 140.0
+const SCROLL_SPEED: float = 1100.0
+const SCROLL_DRAG_START: float = 8.0
+## How near the top or bottom edge a focused room may sit before the map scrolls to it.
+const SCROLL_EDGE: float = 170.0
+var _map_layer: Control
+var _scroll: float = 0.0
+var _scroll_max: float = 0.0
+var _scroll_tween: Tween
+var _scroll_thumb: Panel
+var _scroll_track: Panel
+var _drag_from: Vector2 = Vector2.INF
+var _drag_scroll: float = 0.0
+var _dragging: bool = false
+
+
+## A picture clearly taller than it is wide scrolls; every other map is shown whole (`fit_rect`).
+static func is_scroll_map(size: Vector2) -> bool:
+	return size.y > size.x * 1.15
+
+
+## Where a scrolling map's picture lies in its layer: centred, SCROLL_MAP_WIDTH wide, from the top.
+static func scroll_rect(size: Vector2) -> Rect2:
+	return Rect2((1920.0 - SCROLL_MAP_WIDTH) * 0.5, 0.0, SCROLL_MAP_WIDTH, SCROLL_MAP_WIDTH * size.y / size.x)
+
+
+func scrolls() -> bool:
+	return _map_layer != null and _scroll_max > 0.0
+
+
+func scroll_offset() -> float:
+	return _scroll
+
+
+func scroll_range() -> float:
+	return _scroll_max
+
+
+func _map_parent() -> Control:
+	return _map_layer if _map_layer != null else self
+
+
+## A crowded map draws its rooms smaller; a scrolling map has the room for full-size ones.
+func _dense() -> bool:
+	return map.nodes.size() > DENSE_NODE_COUNT and not scrolls()
+
+
+func set_scroll(value: float) -> void:
+	_scroll = clampf(value, 0.0, _scroll_max)
+	if _map_layer != null:
+		_map_layer.position.y = -_scroll
+	_update_scroll_bar()
+	if _hovered_id >= 0 and _info_panel != null and _info_panel.visible and map.node(_hovered_id) != null:
+		_place_info(map.node(_hovered_id))
+
+
+## The scroll that puts room `id` in the middle of the screen (as near as the picture's ends allow).
+func scroll_for_node(id: int) -> float:
+	var button: MapNodeButton = _buttons.get(id) as MapNodeButton
+	if button == null:
+		return _scroll
+	return clampf(button.center_point().y - 540.0, 0.0, _scroll_max)
+
+
+func scroll_to_node(id: int, seconds: float = 0.0, delay: float = 0.0) -> void:
+	if not scrolls():
+		return
+	_stop_scroll_tween()
+	var target: float = scroll_for_node(id)
+	if seconds <= 0.0:
+		set_scroll(target)
+		return
+	_scroll_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	if delay > 0.0:
+		_scroll_tween.tween_interval(delay)
+	_scroll_tween.tween_method(set_scroll, _scroll, target, seconds)
+
+
+func _stop_scroll_tween() -> void:
+	if _scroll_tween != null and _scroll_tween.is_valid():
+		_scroll_tween.kill()
+	_scroll_tween = null
+
+
+## The player scrolls by hand: the follow-the-marker glide stops at once.
+func scroll_by(amount: float) -> void:
+	if not scrolls():
+		return
+	_stop_scroll_tween()
+	set_scroll(_scroll + amount)
+
+
+## The pad's focus landed on a room: bring it into view if it is at an edge or off the screen.
+func _keep_in_view(id: int) -> void:
+	if not scrolls() or not InputDevice.using_pad():
+		return
+	var button: MapNodeButton = _buttons.get(id) as MapNodeButton
+	if button == null:
+		return
+	var on_screen: float = button.center_point().y - _scroll
+	if on_screen < SCROLL_EDGE or on_screen > 1080.0 - SCROLL_EDGE:
+		scroll_to_node(id, 0.25)
+
+
+func _scroll_blocked() -> bool:
+	return not scrolls() or _modal != null or (_dialogue != null and _dialogue.visible) or (_rules_panel != null and _rules_panel.visible)
+
+
+## Page Up / Page Down / Home / End (the arrow keys, W / S and the right stick are read every frame in `_process`).
+func _scroll_key(event: InputEvent) -> bool:
+	if _scroll_blocked() or not (event is InputEventKey) or not (event as InputEventKey).pressed:
+		return false
+	match (event as InputEventKey).keycode:
+		KEY_PAGEUP:
+			scroll_by(-540.0)
+		KEY_PAGEDOWN:
+			scroll_by(540.0)
+		KEY_HOME:
+			scroll_by(-_scroll_max)
+		KEY_END:
+			scroll_by(_scroll_max)
+		_:
+			return false
+	return true
+
+
+func _input(event: InputEvent) -> void:
+	if _scroll_blocked():
+		_drag_from = Vector2.INF
+		_dragging = false
+		return
+	if event is InputEventMouseButton:
+		var click: InputEventMouseButton = event as InputEventMouseButton
+		if click.pressed and click.button_index == MOUSE_BUTTON_WHEEL_UP:
+			scroll_by(-SCROLL_WHEEL_STEP)
+			get_viewport().set_input_as_handled()
+		elif click.pressed and click.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			scroll_by(SCROLL_WHEEL_STEP)
+			get_viewport().set_input_as_handled()
+		elif click.button_index == MOUSE_BUTTON_LEFT or click.button_index == MOUSE_BUTTON_MIDDLE:
+			if click.pressed:
+				# a drag starts on the map itself, never on a room or a button (a click there is a click)
+				var over: Control = get_viewport().gui_get_hovered_control()
+				var on_button: bool = over is BaseButton or over is MapNodeButton or (over != null and over.get_parent() is BaseButton)
+				_drag_from = Vector2.INF if on_button else click.position
+				_drag_scroll = _scroll
+				_dragging = false
+			else:
+				_drag_from = Vector2.INF
+				_dragging = false
+	elif event is InputEventMouseMotion and _drag_from != Vector2.INF:
+		var motion: InputEventMouseMotion = event as InputEventMouseMotion
+		if motion.button_mask & (MOUSE_BUTTON_MASK_LEFT | MOUSE_BUTTON_MASK_MIDDLE) == 0:
+			_drag_from = Vector2.INF
+			_dragging = false
+			return
+		if not _dragging and absf(motion.position.y - _drag_from.y) > SCROLL_DRAG_START:
+			_dragging = true
+		if _dragging:
+			_stop_scroll_tween()
+			set_scroll(_drag_scroll - (motion.position.y - _drag_from.y))
+			get_viewport().set_input_as_handled()
+
+
+func _process(delta: float) -> void:
+	if _scroll_blocked():
+		return
+	var push: float = scroll_push()
+	if push != 0.0:
+		scroll_by(push * SCROLL_SPEED * delta)
+
+
+## How hard the keys and the right stick push the map this frame (-1 up .. 1 down). The arrow keys scroll only while nothing has
+## the focus (with the pad's focus on a room they move the focus, and the map follows it).
+func scroll_push() -> float:
+	var push: float = 0.0
+	var stick: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	if absf(stick) > 0.3:
+		push += stick
+	if get_viewport().gui_get_focus_owner() == null:
+		if Input.is_physical_key_pressed(KEY_UP) or Input.is_physical_key_pressed(KEY_W):
+			push -= 1.0
+		if Input.is_physical_key_pressed(KEY_DOWN) or Input.is_physical_key_pressed(KEY_S):
+			push += 1.0
+	return clampf(push, -1.0, 1.0)
+
+
+## A slim scroll bar beside the picture and one line that says how to scroll.
+func _build_scroll_bar() -> void:
+	_scroll_track = Panel.new()
+	_scroll_track.name = "MapScrollTrack"
+	_scroll_track.position = Vector2(_art_rect.end.x + 18.0, 110.0)
+	_scroll_track.size = Vector2(10.0, 860.0)
+	_scroll_track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_scroll_track.add_theme_stylebox_override("panel", UIStyle.box(Color(0.03, 0.02, 0.07, 0.7), Color(UIStyle.GOLD_DIM, 0.7), 1, 5))
+	add_child(_scroll_track)
+	_scroll_thumb = Panel.new()
+	_scroll_thumb.name = "MapScrollThumb"
+	_scroll_thumb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_scroll_thumb.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.GOLD, UIStyle.GOLD.darkened(0.5), 1, 5))
+	_scroll_track.add_child(_scroll_thumb)
+	var hint: Label = UIKit.label("", &"", 18, UIStyle.PARCHMENT)
+	hint.name = "MapScrollHint"
+	hint.text = "Right stick: scroll the map" if InputDevice.using_pad() else "Mouse wheel, drag or arrow keys: scroll the map"
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.custom_minimum_size = Vector2(240.0, 0.0)
+	hint.position = Vector2(_art_rect.end.x + 40.0, 950.0)
+	hint.modulate.a = 0.85
+	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(hint)
+	_update_scroll_bar()
+
+
+func _update_scroll_bar() -> void:
+	if _scroll_thumb == null or _scroll_track == null or _scroll_max <= 0.0:
+		return
+	var share: float = 1080.0 / (1080.0 + _scroll_max)
+	var height: float = _scroll_track.size.y * share
+	_scroll_thumb.size = Vector2(_scroll_track.size.x, height)
+	_scroll_thumb.position = Vector2(0.0, (_scroll_track.size.y - height) * (_scroll / _scroll_max))
+

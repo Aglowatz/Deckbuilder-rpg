@@ -122,7 +122,7 @@ func test_every_exit_follows_the_layout() -> void:
 			assert_eq(_row_of(target.number), row + 1, "%s -> %s is one row on" % [node.title, target.title])
 			assert_gt(target.id, node.id, "and forward")
 			if target.kind != K.BOSS:
-				assert_gt(target.position.x, node.position.x, "%s -> %s goes right on the painted map" % [node.title, target.title])
+				assert_lt(target.position.y, node.position.y, "%s -> %s climbs on the painted map (Nov 25: the portrait cutaway)" % [node.title, target.title])
 		if node.kind != K.START:
 			assert_gte(_map.incoming(node.id).size(), 1, "%s can be reached" % node.title)
 		assert_eq(node.return_to, -1, "%s: nothing doubles back" % node.title)

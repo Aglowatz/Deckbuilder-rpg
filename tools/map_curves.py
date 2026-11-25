@@ -58,6 +58,30 @@ HIDDEN_ROOMS = {'D-SHUFFLE': [1]}
 PAINTED_ANYWAY = {'D-TTK': ['9>10'], 'D-SHUFFLE': ['18>19']}
 # A link laid by hand along its painted walkway (points between the two spots, on the picture, 0..1): the tracer cannot follow
 # the Test Kitchen's stair from landing 10 to 12 under its row of hanging lamps.
+# Batch 21 (Nov 25): Primm's Castle (MAP-PC, the portrait cutaway) is all one marble: its stairs cannot be told from its walls by
+# colour, and they are painted as a lattice of crossing flights between the storeys, not as one flight for each link. So its
+# links are not traced. Each one is a stair line from landing to landing, parallel to the painted flights (which run straight
+# and diagonal between the storeys), with its two ends eased upright (STAIR_BEND of the climb; STAIR_RUN would first run it
+# sideways along the gallery - tried, and it read worse); a link straight up is a straight flight, as the middle stairs are. The spots are still fitted to the painted landings (--fit).
+STAIR_MAPS = {'D-PC'}
+STAIR_BEND = 0.18
+STAIR_RUN = 0.0
+STAIR_POINTS = 10
+
+
+def stair(a, b):
+    climb = abs(b[1] - a[1])
+    p1 = (a[0] + (b[0] - a[0]) * STAIR_RUN, a[1])
+    p2 = (b[0], b[1] + climb * STAIR_BEND)
+    points = []
+    for step in range(STAIR_POINTS + 1):
+        s = step / float(STAIR_POINTS)
+        x = (1 - s) ** 3 * a[0] + 3 * (1 - s) ** 2 * s * p1[0] + 3 * (1 - s) * s ** 2 * p2[0] + s ** 3 * b[0]
+        y = (1 - s) ** 3 * a[1] + 3 * (1 - s) ** 2 * s * p1[1] + 3 * (1 - s) * s ** 2 * p2[1] + s ** 3 * b[1]
+        points.append([round(x, 4), round(y, 4)])
+    return points
+
+
 BY_HAND = {'D-TTK': {'10>12': [[0.7956, 0.3105], [0.8216, 0.3789], [0.8398, 0.4219]]}}
 
 
@@ -370,6 +394,9 @@ def main():
                     continue
                 path, off, detour = grid.route(spots[str(a)], spots[str(b)])
                 key = '%d>%d' % (a, b)
+                if dungeon_id in STAIR_MAPS:
+                    curves[key] = stair(spots[str(a)], spots[str(b)])
+                    continue
                 if key in BY_HAND.get(dungeon_id, {}):
                     curves[key] = [list(spots[str(a)])] + BY_HAND[dungeon_id][key] + [list(spots[str(b)])]
                     continue

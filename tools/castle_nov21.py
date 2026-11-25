@@ -9,29 +9,32 @@ import csv, io, json, os, sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
 # number, name, CSV type, note, row, (x, y) on the painted map (0..1), exits
+# Nov 25 (Batch 21, the portrait MAP-PC): the spots are the painted landings as tools/map_curves.py --fit found them, except
+# the Castle Gate, which stands in its gateway (its landing is at the picture's bottom edge, where the room's disc and name
+# would be cut off). Do not run --fit on D-PC again without putting the gate back.
 ROOMS = [
-    (1, "Castle Gate", "Start", "story: Elowen is seized on Plume's orders", 0, (0.062, 0.428), [2, 3]),
-    (2, "Gilded Pantry", "Elite", "the Pantry Mimic; the Grand Chef's recipe", 1, (0.183, 0.287), [4, 5]),
-    (3, "Courtyard of Perfect Hedges", "Battle", "", 1, (0.178, 0.635), [5, 6, 7]),
-    (4, "Gourmand Wing: the Doppelganger's Lab Notes", "Event", "", 2, (0.311, 0.237), [8, 9]),
-    (5, "Portrait Gallery", "Battle", "", 2, (0.303, 0.442), [8, 9]),
-    (6, "Grand Foyer", "Event", "", 2, (0.307, 0.651), [9, 10]),
-    (7, "Garden of Uniform Flowers", "Full Heal", "heal for a cost", 2, (0.305, 0.844), [9, 10]),
-    (8, "Beefcake Wing: Coup Orders Barracks", "Battle", "ally room: Grandmaster Flex", 3, (0.433, 0.264), [11, 12]),
-    (9, "Hall of Mirrors", "Elite", "", 3, (0.426, 0.468), [11, 12, 13]),
-    (10, "Correction Ward Cells", "Event", "free prisoners for a boon", 3, (0.433, 0.666), [12, 13]),
-    (11, "Necrocrat Wing: Notarized Archives", "Elite", "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture", 4, (0.561, 0.263), [14, 15]),
-    (12, "Ministry of Correction", "Battle", "", 4, (0.556, 0.474), [14, 15, 16]),
-    (13, "Mirror Maze", "Deck Challenge", "", 4, (0.555, 0.669), [16, 17]),
-    (14, "Refusemancer Wing: the Corrupted Seed Vault", "Battle", "ally room: Archdruid Compostella", 5, (0.686, 0.235), [18, 19]),
-    (15, "Archive of Good Intentions", "Event", "Primm's journals; young Maren's letter", 5, (0.685, 0.444), [19, 20]),
-    (16, "Resistance Safe Room", "Full Heal", "", 5, (0.686, 0.650), [19, 20]),
-    (17, "Royal Kitchens", "Treasure", "", 5, (0.677, 0.846), [20, 21]),
-    (18, "Primm's Private Gallery", "Treasure", "the painted-over royal portrait", 6, (0.808, 0.234), [22]),
-    (19, "Royal Stair", "Elite", "", 6, (0.811, 0.451), [22]),
-    (20, "Clocktower Balcony", "Elite", "", 6, (0.814, 0.653), [22]),
-    (21, "Royal Vault", "Treasure", "", 6, (0.810, 0.853), [22]),
-    (22, "The Model Room", "Boss", "", 7, (0.948, 0.488), []),
+    (1, "Castle Gate", "Start", "story: Elowen is seized on Plume's orders", 0, (0.500, 0.948), [2, 3]),
+    (2, "Gilded Pantry", "Elite", "the Pantry Mimic; the Grand Chef's recipe", 1, (0.243, 0.882), [4, 5]),
+    (3, "Courtyard of Perfect Hedges", "Battle", "", 1, (0.762, 0.874), [5, 6, 7]),
+    (4, "Gourmand Wing: the Doppelganger's Lab Notes", "Event", "", 2, (0.136, 0.779), [8, 9]),
+    (5, "Portrait Gallery", "Battle", "", 2, (0.347, 0.775), [8, 9]),
+    (6, "Grand Foyer", "Event", "", 2, (0.632, 0.767), [9, 10]),
+    (7, "Garden of Uniform Flowers", "Full Heal", "heal for a cost", 2, (0.872, 0.754), [9, 10]),
+    (8, "Beefcake Wing: Coup Orders Barracks", "Battle", "ally room: Grandmaster Flex", 3, (0.173, 0.640), [11, 12]),
+    (9, "Hall of Mirrors", "Elite", "", 3, (0.501, 0.635), [11, 12, 13]),
+    (10, "Correction Ward Cells", "Event", "free prisoners for a boon", 3, (0.844, 0.641), [12, 13]),
+    (11, "Necrocrat Wing: Notarized Archives", "Elite", "ally room: Agnes; Percival Plume, his memo reveals Elowen's capture", 4, (0.179, 0.520), [14, 15]),
+    (12, "Ministry of Correction", "Battle", "", 4, (0.498, 0.512), [14, 15, 16]),
+    (13, "Mirror Maze", "Deck Challenge", "", 4, (0.819, 0.513), [16, 17]),
+    (14, "Refusemancer Wing: the Corrupted Seed Vault", "Battle", "ally room: Archdruid Compostella", 5, (0.137, 0.375), [18, 19]),
+    (15, "Archive of Good Intentions", "Event", "Primm's journals; young Maren's letter", 5, (0.380, 0.373), [19, 20]),
+    (16, "Resistance Safe Room", "Full Heal", "", 5, (0.631, 0.369), [19, 20]),
+    (17, "Royal Kitchens", "Treasure", "", 5, (0.869, 0.373), [20, 21]),
+    (18, "Primm's Private Gallery", "Treasure", "the painted-over royal portrait", 6, (0.130, 0.216), [22]),
+    (19, "Royal Stair", "Elite", "", 6, (0.379, 0.221), [22]),
+    (20, "Clocktower Balcony", "Elite", "", 6, (0.634, 0.219), [22]),
+    (21, "Royal Vault", "Treasure", "", 6, (0.875, 0.217), [22]),
+    (22, "The Model Room", "Boss", "", 7, (0.500, 0.105), []),
 ]
 
 # Batch 19 (Fable Nov 22 night): the repainted MAP-PC has a landing spot for every room (the coordinates above are their centres) and a
@@ -73,22 +76,17 @@ def write_csv():
 
 
 def write_layout():
+    """Nov 25: the file is kept compact by tools/map_curves.py, so the rooms are written through the same writer (the text
+    surgery of Nov 21 no longer found its anchors). The castle's `drawn_links` stay as the file has them."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import map_curves
     path = os.path.join(ROOT, 'data', 'dungeons', 'map_layout.json')
-    text = io.open(path, encoding='utf-8').read()
-    start = text.index('"D-PC": {', text.index('"S-GALLERY": "highlight"'))
-    end = text.index('}', start) + 1
-    cells = ['"%d": [%.3f, %.3f]' % (number, x, y) for number, _n, _k, _note, _row, (x, y), _e in ROOMS]
-    lines = [", ".join(cells[i:i + 7]) for i in range(0, len(cells), 7)]
-    block = '"D-PC": {\n\t\t' + ",\n\t\t".join(lines) + '\n\t}'
-    text = text[:start] + block + text[end:]
-    drawn = '"drawn_links": {"D-PC": [%s]}' % ", ".join("[%d, %d]" % link for link in DRAWN_LINKS)
-    if '"drawn_links"' in text:
-        at = text.index('"drawn_links"')
-        text = text[:at] + drawn + text[text.index(']}', at) + 2:]
-    else:
-        at = text.index('"paths": {')
-        text = text[:at] + drawn + ',\n\t' + text[at:]
-    io.open(path, 'w', encoding='utf-8', newline='\n').write(text)
+    text = io.open(path, encoding='utf-8', newline='').read()
+    newline = chr(13) + chr(10) if chr(13) in text else chr(10)
+    layout = json.loads(text)
+    layout['D-PC'] = {str(number): [round(x, 3), round(y, 3)] for number, _n, _k, _note, _row, (x, y), _e in ROOMS}
+    out = map_curves.compact(json.dumps(layout, indent=chr(9), ensure_ascii=False))
+    io.open(path, 'w', encoding='utf-8', newline='').write(out.replace(chr(10), newline) + (newline if text.endswith(chr(10)) else ''))
 
 
 REGIME = ["necrocrat", "gourmand"]

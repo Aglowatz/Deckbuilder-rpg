@@ -28,19 +28,21 @@ func test_every_castle_room_sits_on_a_fitted_spot() -> void:
 	var seen: Array[Vector2] = []
 	for node: DungeonCatalog.BlueprintNode in plan.nodes:
 		assert_true(fitted.has(str(node.number)), "room %d is fitted" % node.number)
-		assert_true(node.position.x > 0.03 and node.position.x < 0.97 and node.position.y > 0.1 and node.position.y < 0.9, "room %d is on the painting" % node.number)
+		assert_true(node.position.x > 0.03 and node.position.x < 0.97 and node.position.y > 0.05 and node.position.y < 0.97, "room %d is on the painting" % node.number)
 		for other: Vector2 in seen:
 			assert_gt(node.position.distance_to(other), 0.1, "no two rooms share a landing spot")
 		seen.append(node.position)
-		# every link leads right on the painting, like its walkways
+		# Batch 21 (Nov 25): the new painting is a portrait cutaway (the gate at the bottom), so every link climbs
 		for target: int in node.next:
-			assert_gt(plan.node(target).position.x, node.position.x, "%d -> %d leads right" % [node.number, target])
+			assert_lt(plan.node(target).position.y, node.position.y, "%d -> %d climbs" % [node.number, target])
 
 
 func test_only_the_links_without_a_painted_walkway_keep_a_drawn_line() -> void:
 	assert_eq(DungeonCatalog.path_style("D-PC"), "plan")
 	var drawn: Dictionary = DungeonCatalog.drawn_links("D-PC")
-	assert_true(bool(drawn["listed"]))
+	# Batch 21 (Nov 25): the portrait painting shows a lattice of stairs, not a walkway for each link, so the castle is no longer
+	# listed: as a route-planning map it draws every link (tests/test_castle_map_nov25.gd)
+	assert_false(bool(drawn["listed"]))
 	var links: Dictionary = drawn["links"] as Dictionary
 	assert_eq(links.size(), DRAWN.size())
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find("D-PC")

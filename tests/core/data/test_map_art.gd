@@ -67,6 +67,7 @@ func test_the_source_folder_is_configured() -> void:
 
 
 const WIDE_MAPS: Array[String] = ["MAP-S-GALLERY"]
+const TALL_MAPS: Array[String] = ["MAP-PC"]
 
 
 func test_every_dungeon_has_its_painted_3_2_map() -> void:
@@ -77,7 +78,9 @@ func test_every_dungeon_has_its_painted_3_2_map() -> void:
 		if texture != null:
 			# Batch 15: the Shattered Gallery's repainted map is 16:9 (never cropped; the screen fits either shape whole)
 			var wanted: float = 16.0 / 9.0 if blueprint.map_id in WIDE_MAPS else 1.5
-			assert_almost_eq(float(texture.get_width()) / float(texture.get_height()), wanted, 0.01, "%s is %s" % [blueprint.map_id, "16:9" if blueprint.map_id in WIDE_MAPS else "3:2"])
+			if blueprint.map_id in TALL_MAPS:
+				wanted = 2.0 / 3.0  # Batch 21 (Nov 25): Primm's Castle is a portrait cutaway that scrolls
+			assert_almost_eq(float(texture.get_width()) / float(texture.get_height()), wanted, 0.01, "%s is %s" % [blueprint.map_id, "16:9" if blueprint.map_id in WIDE_MAPS else "3:2 (2:3 for a tall map)"])
 	assert_null(MapArt.texture_for("MAP-NOWHERE"))
 
 
@@ -125,11 +128,13 @@ func test_the_map_screen_shows_the_picture_and_puts_every_node_on_it() -> void:
 		var screen: DungeonMapScreen = DungeonMapScreen.new()
 		add_child_autofree(screen)
 		await wait_frames(3)
-		var picture: TextureRect = screen.get_node_or_null("MapArt") as TextureRect
+		# Nov 25: a scrolling map (the castle) keeps its picture and rooms in a layer of their own
+		var holder: Node = screen.get_node_or_null("MapLayer") if screen.scrolls() else screen
+		var picture: TextureRect = holder.get_node_or_null("MapArt") as TextureRect
 		assert_not_null(picture, "%s shows its painted map" % key)
 		if picture != null:
-			assert_eq(picture.size, Vector2(1620, 1080))
-			for child: Node in screen.get_children():
+			assert_eq(picture.size, DungeonMapScreen.scroll_rect(Vector2(1024, 1536)).size if screen.scrolls() else Vector2(1620, 1080))
+			for child: Node in holder.get_children():
 				if child is MapNodeButton:
 					var button: MapNodeButton = child as MapNodeButton
 					assert_true(Rect2(picture.position, picture.size).has_point(button.center_point()), "%s: %s sits on the map" % [key, button.map_node.title])
