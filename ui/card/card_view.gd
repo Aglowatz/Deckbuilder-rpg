@@ -459,8 +459,38 @@ func art_rect() -> Rect2:
 ## (`below`) instead of behind it - heads used to sit under the plate.
 func _art_window(rect: Rect2, below: float) -> Rect2:
 	if mode != Mode.COMPACT:
-		return rect
+		# Fable Nov 25: the painting starts lower on a full card (CardArt.DEFAULT_SHIFT, per card in card_focus.json)
+		var shift: float = art_shift()
+		return Rect2(rect.position.x, rect.position.y + shift, rect.size.x, rect.size.y - shift)
 	return Rect2(rect.position.x, below, rect.size.x, rect.end.y - below)
+
+
+## How far the painting is moved down on this card (card units): 0 on the battlefield (its art already starts below the plate) and
+## for a borrowed picture.
+func art_shift() -> float:
+	if mode == Mode.COMPACT or data == null or data.id == "" or not data.art_override.is_empty():
+		return 0.0
+	return float(CardArt.focus_for(data.id)["shift"])
+
+
+## The strip a shifted painting leaves at the top of `rect`, filled with the painting's own top edge stretched down (no seam
+## of a second copy, nothing of the subject repeated).
+func _add_top_strip(rect: Rect2) -> void:
+	var shift: float = art_shift()
+	if shift <= 0.0:
+		return
+	var edge: Texture2D = CardArt.top_edge(data.id, thumb_art)
+	if edge == null:
+		return
+	var strip: TextureRect = TextureRect.new()
+	strip.name = "ArtTopStrip"
+	strip.texture = edge
+	strip.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	strip.stretch_mode = TextureRect.STRETCH_SCALE
+	strip.position = rect.position
+	strip.size = Vector2(rect.size.x, shift + 1.0)
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(strip)
 
 
 ## The card's painting cut for a `window` (CardArt.cropped: anchored near the top, per-card focus overrides); null = no art yet.
@@ -479,6 +509,7 @@ func _build_art() -> void:
 	var window: Rect2 = art_rect()
 	var art_texture: Texture2D = _cropped_art(window.size)
 	if art_texture != null:
+		_add_top_strip(Rect2(window.position.x, window.position.y - art_shift(), window.size.x, window.size.y))
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture
 		# expand_mode first: with the default mode the minimum size is the texture's own (768x1152) and would clamp the size below.
@@ -1105,7 +1136,9 @@ func _build_framed_art() -> void:
 	var window: Rect2 = art_rect()
 	var art_texture: Texture2D = _cropped_art(window.size)
 	if art_texture != null:
+		_add_top_strip(Rect2(window.position.x, window.position.y - art_shift(), window.size.x, window.size.y))
 		var picture: TextureRect = TextureRect.new()
+		picture.name = "ArtPicture"
 		picture.texture = art_texture
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		picture.stretch_mode = TextureRect.STRETCH_SCALE

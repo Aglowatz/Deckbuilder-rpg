@@ -1,3 +1,5 @@
 {
-	"_comment": "Per-card art crop overrides (UI + economy fixes Oct 22, Part 3). card id -> {focus: 0-1, the height of the painting to keep in the middle of a cropped window (0 = top, default 0.3), zoom: >= 1, extra zoom on top of the display's own}. Read by CardArt.focus_for; review with tools/card_crop_sheet.gd (docs/art/card_crops/)."
+	"_comment": "Per-card art crop overrides (UI + economy fixes Oct 22, Part 3). card id -> {focus: 0-1, the height of the painting to keep in the middle of a cropped window (0 = top, default 0.3), zoom: >= 1, extra zoom on top of the display's own, shift: card units (of 450) the painting starts lower on a full card (default CardArt.DEFAULT_SHIFT, 30; Fable Nov 25)}. Read by CardArt.focus_for; review with tools/card_crop_sheet.gd (docs/art/card_crops/; --scale=0.9 for a close look).",
+	"P4-04": {"shift": 46, "_why": "Octavia's feather and turban reach the top edge (Nov 25 contact sheets)"},
+	"T-18": {"shift": 44, "_why": "the Golem's chef hat reaches the top edge (Nov 25 contact sheets)"}
 }

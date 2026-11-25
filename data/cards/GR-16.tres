@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_sw5sc")
 id = "GR-16"
-display_name = "Ratatouille, Rodent de Cuisine"
+display_name = "Rodent De Cuisine"
 color = 2
 color2 = 3
 generic_cost = 2

@@ -631,7 +631,7 @@ func test_signal_reader_shows_the_opponents_hand() -> void:
 	assert_eq(game.players[1].hand.size(), 2, "nothing moves")
 
 
-func test_first_pick_peeks_three_and_draws() -> void:
+func test_first_pick_peeks_and_draws() -> void:
 	var game: GameState = _game_with_energy([int(P.BEEFCAKE)], 2)
 	var pick: CardInstance = GameFactory.add_to_hand(game, 0, _card("C-37"))
 	var deck: int = game.players[0].deck.size()

@@ -10,9 +10,9 @@ display_name = "First Pick"
 type = 2
 generic_cost = 1
 defense = 0
-rules_text = "Peek 3, then draw a card."
+rules_text = "Peek 1, then draw a card."
 rarity = 1
 flavor_text = "One of three. It is always one of three."
-script_text = "play => peek(3); draw(1)"
-rules_hash = "5fabba48d189"
+script_text = "play => peek(1); draw(1)"
+rules_hash = "005c1bc27d46"
 image_description = "Batch 20 (docs/art/batch20.csv, DR-01)."

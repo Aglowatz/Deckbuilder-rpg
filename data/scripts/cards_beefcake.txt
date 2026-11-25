@@ -114,9 +114,10 @@ when(unit_enters:mine:hustle) => pump(trig,2,1,eot)
 kw bulldoze
 costmod ? distinct_atk(unit.mine)>=5 => cost_set(0,B)
 
-== B-33 @108672593d7a  # Global Gains Platinum Membership
+== B-33 @3925b9482283  # Global Gains Platinum Membership
 attach | pay(1)
-sot => buff(host,1); kw_grant(host,hustle,perm); kw_grant(host,overtime,perm); kw_grant(host,bulldoze,perm)
+host => kw(hustle,overtime,bulldoze)
+sot => buff(host,1)
 
 == B-34 @ca21311c71bc  # Hammer Thrower
 act t=unit|opp | overexert => damage(t,atk(self),self)

@@ -101,7 +101,13 @@ static var _focus: Dictionary = {}
 static var _focus_loaded: bool = false
 
 
-## {"focus": float, "zoom": float} for `card_id` (the default when the card has no override).
+## Fable Nov 25 (the owner's item 10: card names covered the heads): on a full card the painting starts this many card units
+## (of 450) lower in its window, so the head sits under the name bar, not behind it; the painting's bottom (behind the rules
+## panel) is what is given up. A card can override it with "shift" in data/art/card_focus.json (0 = the painting at the top).
+const DEFAULT_SHIFT: float = 30.0
+
+
+## {"focus": float, "zoom": float, "shift": float} for `card_id` (the default when the card has no override).
 static func focus_for(card_id: String) -> Dictionary:
 	if not _focus_loaded:
 		_focus_loaded = true
@@ -115,7 +121,19 @@ static func focus_for(card_id: String) -> Dictionary:
 				if entry is Dictionary:
 					_focus[str(key)] = entry
 	var override: Dictionary = _focus.get(card_id, {}) as Dictionary
-	return {"focus": clampf(float(override.get("focus", DEFAULT_FOCUS)), 0.0, 1.0), "zoom": maxf(1.0, float(override.get("zoom", 1.0)))}
+	return {"focus": clampf(float(override.get("focus", DEFAULT_FOCUS)), 0.0, 1.0), "zoom": maxf(1.0, float(override.get("zoom", 1.0))),
+		"shift": clampf(float(override.get("shift", DEFAULT_SHIFT)), 0.0, 120.0)}
+
+
+## The thin top edge of a painting (its first rows), stretched by the card view over the strip the shift leaves above the art.
+static func top_edge(card_id: String, small: bool = false) -> Texture2D:
+	var full: Texture2D = thumb(card_id) if small else texture(card_id)
+	if full == null:
+		return null
+	var atlas: AtlasTexture = AtlasTexture.new()
+	atlas.atlas = full
+	atlas.region = Rect2(0.0, 0.0, full.get_width(), maxf(2.0, full.get_height() * 0.012))
+	return atlas
 
 
 ## The part of a `texture_size` picture shown in a window of `window` aspect: as large as fits (times 1/`zoom`), centred

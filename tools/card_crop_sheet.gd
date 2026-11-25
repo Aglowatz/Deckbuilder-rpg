@@ -88,7 +88,7 @@ func _card(id: String) -> CardData:
 
 func _cell_size() -> Vector2:
 	var spec: Dictionary = KINDS[_kinds[_kind_index]] as Dictionary
-	var picture: Vector2 = spec["size"] as Vector2 if spec.has("size") else CARD_SIZE * float(spec["scale"])
+	var picture: Vector2 = spec["size"] as Vector2 if spec.has("size") else CARD_SIZE * _scale(spec)
 	return picture + Vector2(GAP, GAP + LABEL_H)
 
 
@@ -131,7 +131,7 @@ func _build_page() -> void:
 			var card_view: GDScript = load("res://ui/card/card_view.gd") as GDScript
 			var view: Control = card_view.call("create", card, int(spec["mode"])) as Control
 			holder.add_child(view)
-			card_view.call("fit", view, float(spec["scale"]))
+			card_view.call("fit", view, _scale(spec))
 		var label: Label = Label.new()
 		label.text = "%s %s" % [card.id, card.display_name]
 		label.clip_text = true
@@ -148,3 +148,8 @@ func _save_page() -> void:
 	var path: String = "%s/%s_%d.jpg" % [folder, _kinds[_kind_index], _page + 1]
 	image.save_jpg(ProjectSettings.globalize_path(path), 0.82)
 	print("card_crop_sheet: saved %s" % path)
+
+
+## Nov 25: `--scale=1.0` draws the cards larger than their kind's own size (a close look at one card's art).
+func _scale(spec: Dictionary) -> float:
+	return float(_args.get("scale", spec.get("scale", 1.0)))

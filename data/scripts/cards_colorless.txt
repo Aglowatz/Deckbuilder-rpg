@@ -166,8 +166,8 @@ enter => create(iron)
 enter a=unit.mine b=unit.opp => brawl(a,b)
 when(combat_kill:mine) => pump(trig,1,0,eot)
 
-== C-37 @5fabba48d189  # First Pick
-play => peek(3); draw(1)
+== C-37 @005c1bc27d46  # First Pick
+play => peek(1); draw(1)
 
 == C-38 @37ec383fe731  # Wheel the Table
 play => wheel(4)

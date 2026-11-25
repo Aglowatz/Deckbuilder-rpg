@@ -276,9 +276,9 @@
 					"choices": [
 						[
 							"Eat the glowing stew",
-							"It is delicious and almost certainly cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.",
+							"It is delicious and almost certainly cursed: it burns all the way down. You feel strong and slightly sticky, and your units will not stop smelling of gravy.",
 							"boon:Corrupted Feast|max_hp=3,atk=1",
-							"damage:2"
+							"damage:5"
 						],
 						[
 							"Take only the sealed jars",

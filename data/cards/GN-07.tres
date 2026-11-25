@@ -10,13 +10,13 @@ display_name = "The Haunted Buffet"
 type = 4
 color = 2
 color2 = 4
-generic_cost = 2
+generic_cost = 1
 colored_pips = Array[int]([2, 4])
 defense = 0
-rules_text = "Use two Ingredients: create a 1/1 Hungry Ghost token with Flying. Do this only once per turn."
+rules_text = "Use an Ingredient: create a 1/1 Hungry Ghost token with Flying. Do this only once per turn."
 rarity = 1
 flavor_text = "All you can eat. Forever."
 paths_all = Array[int]([2, 4])
-script_text = "act once | use(ingredient,2) => create(T-19)"
-rules_hash = "7d01b5e8e15a"
+script_text = "act once | use(ingredient,1) => create(T-19)"
+rules_hash = "d6e1790e3577"
 image_description = "An eerie, candlelit buffet table piled with food, translucent ghosts floating up out of the serving dishes with napkins tucked in."

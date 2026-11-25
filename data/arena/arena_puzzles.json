@@ -10,7 +10,7 @@
 				"player": {
 					"hp": 6,
 					"infrastructure": {
-						"B": 4,
+						"B": 5,
 						"N": 3
 					},
 					"field": {
@@ -48,7 +48,7 @@
 			],
 			"synergy": "Reinstate a Beefcake heavy hitter with Hustle (Vigor Mortis), and its 5 attack switches on a Beefcake payoff (Flex on 'Em deals 4 instead of 2) before it swings with Bulldoze.",
 			"solution": [
-				"Play Vigor Mortis on Beefy Bouncer in your Refuse Pile: he returns as a 5/4 with Bulldoze and Hustle (4 energy).",
+				"Play Vigor Mortis on Beefy Bouncer in your Refuse Pile: he returns as a 5/4 with Bulldoze and Hustle (5 energy; Vigor Mortis costs 3 and both Paths since Nov 25, so the position has a fifth Beefcake Infrastructure).",
 				"Play Flex on 'Em: you control a unit with 5 attack, so it deals 4 (3 energy; 8 -> 4 HP).",
 				"Attack with Beefy Bouncer and Gym Bro. If the Militia blocks the Bouncer, Bulldoze carries 3 over it and Gym Bro adds 1; if it blocks Gym Bro, the Bouncer deals 5. Either way at least 4."
 			],

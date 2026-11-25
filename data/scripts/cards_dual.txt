@@ -51,7 +51,7 @@ trap(attacks:opp) => plate(trig); create(garbage)
 kw swat
 die => create(garbage,2); create(ingredient,2)
 
-== GR-16 @01c2d6dc215b  # Ratatouille, Rodent de Cuisine
+== GR-16 @01c2d6dc215b  # Rodent De Cuisine
 aura(unit.mine.tok:T-02) => stat(1,1)
 act | exhaust, destroy(unit.mine.tok:T-02,2), use(ingredient,2) => create(T-18)
 
@@ -74,8 +74,8 @@ trap(unit_enters:opp:def<=2) => destroy(trig); create(ingredient)
 == GN-06 @ed293a0a7810  # Soul Food Kitchen
 when(unit_dies:mine) => create(ingredient)
 
-== GN-07 @7d01b5e8e15a  # The Haunted Buffet
-act once | use(ingredient,2) => create(T-19)
+== GN-07 @d6e1790e3577  # The Haunted Buffet
+act once | use(ingredient,1) => create(T-19)
 
 == GN-08 @617c8dee2a14  # Staff Appreciation Dinner
 aura(token.mine) => stat(1,0)
