@@ -1,0 +1,27 @@
+# Fable Nov 24 (Part 5): Signal Reader in a live duel: the opponent's hand as enlarged cards over the middle of the screen,
+# closed with a click.
+#   bash tools/play.sh docs/review/play_scripts/nov24/signal_reader.txt nov24_signal_reader
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 12
+skip_dialogue 10
+button Continue
+wait 1
+dev encounter town:roamer
+wait 7
+button Keep Hand
+wait 10
+shot 00_my_turn
+dev energy
+dev hand C-39
+wait 1
+dev play C-39
+wait 3
+shot 01_signal_reader_hand_shown
+dump
+click 960 300
+wait 2
+shot 02_closed_by_a_click

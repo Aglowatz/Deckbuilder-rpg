@@ -11,7 +11,7 @@ for area in $areas; do
 		start) scene="res://scenes/starting_area.tscn" ;;
 		*) scene="res://scenes/${area}_zone.tscn" ;;
 	esac
-	out=$(timeout 240 "$GODOT" --path . --resolution 960x540 $GODOT_ARGS -s res://tools/sign_walkway_probe.gd -- --scene="$scene" --label="$area" $PROBE_ARGS 2>&1 | grep -E "^sign_walkway|SCRIPT ERROR")
+	out=$(timeout 240 "$GODOT" --path . --resolution 960x540 $GODOT_ARGS res://tools/sign_walkway_probe.tscn -- --scene="$scene" --label="$area" $PROBE_ARGS 2>&1 | grep -E "^sign_walkway|SCRIPT ERROR")
 	echo "$out"
 	echo "$out" | grep -q "problems=0" || status=1
 done

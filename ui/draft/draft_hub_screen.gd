@@ -73,6 +73,7 @@ func _exit_tree() -> void:
 			popup.queue_free()
 	limit_popup = null
 	result_popup = null
+	super._exit_tree()
 
 
 ## The controller starts on the chosen mode's tile in the menu (not on the Close button); the other faces start as usual.

@@ -62,6 +62,9 @@ func _blocked_road(town: TownScene, zone_id: String) -> TownScene:
 	var mouth: Vector3 = town.town.anchors["portal_%s_mouth" % zone_id] as Vector3
 	var out: Vector3 = TownBuilder.PORTAL_OUT[zone_id] as Vector3
 	_teleport(town, mouth - out * 7.0)
+	# Fable Nov 24: the blocked-road toast has a 3.5 s cooldown; on a fast run the next road was reached inside the last
+	# road's cooldown and the old toast was read (the gourmand road, after the necrocrat one). A player never teleports.
+	town.set("_portal_toast_cooldown", 0.0)
 	await driver.frames(4)
 	await _walk_to(town, mouth + out * 1.0, 0.6, 4.0, false)
 	await driver.seconds(0.6)

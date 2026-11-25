@@ -1,4 +1,4 @@
-extends SceneTree
+extends Node
 ## Fixes Oct 27, Part 3: does any sign stand in a walkway or float? Loads one area (windowed, like a play session) and checks every sign in it (every icon
 ## sign picture, IconSign.NODE_NAME, and the board it is on) against the area's own `is_walkable`:
 ##   - "wall"   : something solid right behind its face (a wall, a building, a stall) - mounted, fine;
@@ -8,7 +8,10 @@ extends SceneTree
 ##                walkway, with nothing behind it - a problem;
 ##   - "floats" : nothing behind it and nothing under it (hanging in the air over the floor, a path or a drop) - a problem.
 ## Lines "sign_walkway: <label> <verdict> <node path> at (x, y, z)", then "sign_walkway_summary: <label> signs=<n> problems=<n>".
-##   Godot --path . -s res://tools/sign_walkway_probe.gd -- --scene=res://scenes/dna_zone.tscn [--label=dna]    (all areas: bash tools/run_sign_walkway_probe.sh)
+##   Godot --path . res://tools/sign_walkway_probe.tscn -- --scene=res://scenes/dna_zone.tscn [--label=dna]    (all areas: bash tools/run_sign_walkway_probe.sh)
+## Fable Nov 24: it was a `-s` SceneTree script, and those cannot compile against the autoloads (Session, GameLog) that the sign
+## classes it names now reach: every run ended in "no walkable area found" before a single sign was checked. It is the main
+## scene's script now (tools/sign_walkway_probe.tscn), so the game's autoloads are there, like the walk smokes' launchers.
 
 ## How far behind a sign's face to look for something solid (its board's own thickness and a hand's width).
 const BEHIND: Array[float] = [0.12, 0.25, 0.4]
@@ -19,41 +22,44 @@ var _args: Dictionary = {}
 var _scene: Node
 var _wait: int = 300
 var _started: bool = false
+var _done: bool = false
 var _patience: int = 3000
 var _settle: int = 120
 
 
-func _initialize() -> void:
+func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--"):
 			var parts: PackedStringArray = arg.substr(2).split("=", true, 1)
 			_args[parts[0]] = parts[1] if parts.size() > 1 else "true"
-	root.size = Vector2i(960, 540)
+	get_tree().root.size = Vector2i(960, 540)
 
 
-func _process(_delta: float) -> bool:
+func _process(_delta: float) -> void:
+	if _done:
+		return
 	if not _started:
 		_started = true
-		root.get_node("Session").set("save_enabled", false)
+		get_tree().root.get_node("Session").set("save_enabled", false)
 		_scene = (load(str(_args.get("scene", "res://scenes/town.tscn"))) as PackedScene).instantiate()
 		if _scene.has_method("screenshot_prepare"):
 			_scene.call("screenshot_prepare", _args)
-		root.add_child(_scene)
-		return false
+		get_tree().root.add_child(_scene)
+		return
 	_wait -= 1
 	if _wait > 0:
-		return false
-	# Fable Nov 24: the areas build in stages now (the town since v0.4.2, the zones since the performance pass), so 300 frames
-	# is not always enough for the walkable area to exist: wait for it (up to 3,000 more frames), then two more seconds.
+		return
+	# The areas build in stages (the town since v0.4.2, the zones since the performance pass), so 300 frames is not always
+	# enough for the walkable area to exist: wait for it (up to 3,000 more frames), then two more seconds.
 	if _area() == null and _patience > 0:
 		_patience -= 1
-		return false
-	if _settle > 0 and _patience < 3000:
+		return
+	if _settle > 0:
 		_settle -= 1
-		return false
+		return
+	_done = true
 	_check()
-	quit(0)
-	return true
+	get_tree().quit(0)
 
 
 func _area() -> Object:

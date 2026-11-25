@@ -1652,7 +1652,8 @@
 					"count": 2
 				}
 			],
-			"banner": "Hal draws two cards."
+			"banner": "Hal draws two cards.",
+			"warn": "Next turn: Hal deals himself two off the bottom (he draws two cards)."
 		}
 	],
 	"Trey Pickett": [

@@ -197,7 +197,7 @@ SCRIPTS = {
         trigger('marked', 'A Marked Deck', 'faithtoken/card-random', {'type': 'turn', 'turn': 5},
                 "On his turn 5 Hal deals himself two off the bottom: he draws two cards.",
                 "Would you look at that. Two aces. In this light they could be anything, really.", "Hal draws two cards.",
-                [{'kind': 'draw', 'count': 2}]),
+                [{'kind': 'draw', 'count': 2}], "Next turn: Hal deals himself two off the bottom (he draws two cards)."),
     ],
     TREY: [
         trigger('once', 'Going Once...', 'delapouite/trumpet', {'type': 'turn', 'turn': 3},
