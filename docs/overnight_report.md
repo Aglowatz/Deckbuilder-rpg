@@ -1,3 +1,256 @@
+# Fable Nov 24 - report: the Shuffle House as a building, four modes, hand-made Shuffled Halls, the card changes
+
+Brief: `docs/prompts/fable_nov24_shuffle_house.md`. Start tag `pre-nov24-shuffle`. Shots: `docs/overnight_shots/nov24b/`.
+Sim tables: `docs/design/sim/nov24/`. Your decisions: `docs/overnight_inbox.md`, "Fable Nov 24" (six, each with a recommendation).
+
+**In one paragraph.** All seven parts are done. The Shuffle House is a real building in Crosspath's back-right lawn, its menu
+is four modes and the Halls' own door, every pick shows three cards, the Trade Counter shows the card whole, a run ends in a
+centred result pop-up, and the Shuffled Halls are ten hand-made fights with a cash-out room and question marks for rooms not
+yet seen. Signal Reader shows the real cards, three Gourmand cards cost 1 less, and Idiot Sandwich plates any unit. The test
+suite is green (3,820 of 3,823 in the final run, and the one failing test fixed and passing since), all eight walk smokes, the probes, the draft smoke and the four story bots pass, and 1.0.0 is
+exported (812 MB, checked). Not done: the ban tables for the Common and Uncommon pieces and for the items (five hours of sims;
+see "What's left"), the Halls' own music (your call, inbox 6), and two D.N.A. signs the repaired sign probe now reports.
+
+| Part | Done | Where to look |
+|---|---|---|
+| 1 The house as a building | yes | `p1_*` shots; `world/town_shuffle_house.gd` |
+| 2 Four modes | yes | `p2_*` shots; `ui/draft/draft_hub_screen.gd`, `core/draft/draft_arena.gd` |
+| 3 Draft screens and opponents | yes | `p3_*` shots; `ui/draft/draft_screen.gd`, `core/draft/draft_rivals.gd` |
+| 4 Static Shuffled Halls | yes | `p4_*` shots; `tools/nov24_shuffled_halls.py`; `halls_summary.md` |
+| 5 Cards | yes | `p5_*` shots; `tests/test_nov24_cards.gd` |
+| 6 What was left from the big pass | all but the long ban tables and the music | below |
+| 7 Sims, playthroughs, checks, build | yes | below |
+
+## Part 1 - the Shuffle House is a building, further right and back
+
+- **Where:** centre (47.4, -11.4), in the open lawn of Crosspath's back-right corner: 5.8 m further right than before, its
+  body reaching 6 m further back. Octavia stands at its door, the sign post marks the mouth of the path, and the quest marker,
+  the map icon, the arrival toast and Trey's two lines that say where it is all follow (`world/town_shuffle_house.gd`).
+- **A real building:** a round plinth, walls, a valance, an eave, the big top and its cap as solid half-round geometry behind
+  the painted front, two turrets, a foundation and a contact shadow. It is 12 m tall and stands on the ground from every
+  camera. The painted card is still the face; the body, back and roof are plain colour until the texture sheet of Batch 21.
+- **The path:** six points from the loop lane to the door, kept clear of trees, props and chests (two birches and a pine were
+  taken out to open the view; no chest had to move).
+- **Seen from the square:** the big top and flags show over Pip's roof from the fountain, and the whole face once you step into
+  the path. Further right than this and Pip's roof hides it altogether (inbox 3).
+- **Shots:** `p1_before_*` and `p1_after_*` from the square and from the path, at the default, steepest and low cameras, with a
+  top view and a plan.
+- **Checks:** `tests/test_nov24_shuffle_house_building.gd` (6 tests); the Crosspath walk smoke passes; the NPC visibility probe
+  sees Octavia (158 checks, 0 failed); the fade probe has 0 script errors and nothing but tall occluders can fade; the sign
+  walkway probe finds Crosspath's 7 signs clear of the paths.
+
+## Part 2 - the menu is four modes
+
+| Mode | What it is | Fee | Ends at | Pays (replay, by wins 0/1/2/3) | A full win also pays |
+|---|---|---:|---|---|---|
+| **Classic Draft** | Draft 25 from the Paths you switch on (up to the story's limit), three opponents. Draft of the Day sits under it. | none | 3 wins or 2 losses | 20 / 45 / 80 / 140 gold, 10 / 25 / 45 / 80 XP | a Path Pack (no Prismatic) |
+| **Dungeon Draft** | A draft deck through a large dungeon you have cleared once, the Shuffled Halls after their first clear, or Random. | none | the dungeon's end, or a lost fight | gold and XP for each fight won | the dungeon's own clear rewards and a **Prismatic Pack** |
+| **Mystery Mini** | A three-encounter dungeon the house picks. | none | the mini's end, or a lost fight | gold and XP for each fight won | a pack **of the mini's Path** |
+| **High Rollers Draft** | A Classic Draft whose opponents can draft every piece of equipment. | **200 gold** (data: `entry_fees.high`) | 3 wins or 2 losses | 60 / 140 / 260 / 480 gold, 20 / 45 / 80 / 140 XP | a **Prismatic Pack** |
+
+A first full win at Classic and at High Rollers (once each per save) adds 300 gold, 200 XP and a Gilded Pack, and every full
+win lets you keep one card of the drafted deck.
+
+- **The Shuffled Halls have their own door** on the menu, apart from the four modes. Beating them is a side quest, "Lost in
+  the Halls"; playing them once (win, lose or cash out) is the step of the main Shuffle House quest.
+- **Gone:** the seventeen separate tiles (the two-Path tables, Three Paths, Four Paths, the three win-three tables, "Maps").
+  A save that had won some of them keeps that progress: a Classic or High Rollers win with a pair, a trio or all four Paths
+  ticks the goal the old table did.
+- **The arena quests are rewritten** for the four modes (`core/draft/draft_arena_quests.gd`).
+- **The Path toggles work.** They could not be clicked because the round badge inside each one swallowed the click. They are
+  big rectangles now (216 x 92), and switching on one Path too many opens a pop-up that says how many the story allows.
+  Tested with real mouse clicks and with the controller's confirm in every mode (`tests/test_nov24_modes.gd`, 27 tests).
+- **Prismatic Packs before Primm** are paid as Gilded Packs, and the menu says so (inbox 2).
+- **Shots:** `p2_before_menu_*` (yours and Nov 23's), `p2_after_menu_*` for each mode at 16:9, `p2_after_narrow_menu_*` in your
+  narrower window, `p2_after_menu_7_pad` with the controller.
+
+### The modes against the economy (the model: `modes_economy.md`)
+
+| A replayed run of | Fights won | Net gold | Packs (shop price) | Worth per hour |
+|---|---|---:|---:|---:|
+| Classic Draft | 72 % a fight (288 games) | 113 | 103 | 585 |
+| High Rollers Draft | 62 % a fight (268 games) | 122 after the fee | 204 | 896 |
+| Dungeon Draft, a zone dungeon | about 60 % of runs cleared | 285 | 330 | 828 |
+| Mystery Mini | about 70 % cleared | 178 | 105 | 864 |
+| The Shuffled Halls | 33 % cleared | 104 | 165 | 708 |
+| The Halls, cashing out | | 80 | 50 | 397 |
+| *for scale: a replayed main dungeon with your own deck* | | 300 | 150 | 675 |
+| *a replayed side dungeon* | | 200 | 150 | 1,500 |
+
+- **High Rollers against Classic:** on the same drafted decks the opponents' better equipment costs the player ten points a
+  fight (72 % to 62 % before Primm; 72 % to 55 % with three and four Paths after). The fee is paid back in gold alone from
+  about 42 % a fight, so at 62 % a run nets about 120 gold and half a Prismatic Pack. It is worth half again as much as
+  Classic, for a harder table and 200 gold at risk.
+- **No mode beats the game's own gold farm** (a replayed side dungeon); drafting is a way to play for packs, not a faster farm.
+- **The Dungeon Draft and Mystery Mini rates are loose:** they come from the smoke's few runs, not from a sim.
+- **Two batches hit the 20-minute limit** (house rule) and are logged in `_logs/nov24/table_sims.log`: the first Classic batch
+  (30 drafts) was cut into batches of 12 and rerun whole; one High Rollers batch stopped at 31 of its 36 sets and is tallied
+  from its log (`table_high_2.md`).
+
+## Part 3 - the draft's screens and the opponents
+
+- **Three cards on every pick.** The missing third card was the window: in a window squarer than 16:9 the canvas is narrower
+  (about 1,570 px in yours) and the third card was pushed off the page. The cards are sized to the window now
+  (`p3_pick_three_cards_narrow_window.jpg`). A pick that really has fewer than three says so in words.
+- **A second cause, found by the scripted playthrough:** the pick of three after a Halls fight lost its first card when the
+  pointer rested where that card slides in. The hover zoom measured the card while the table was still off the page and threw
+  it 2,000 px away. A card that is not on the page yet no longer grows (`ui/card/card_hover_zoom.gd`, with a test).
+- **The Trade Counter** shows the card under the pointer whole, enlarged and on top, in a layer of its own, with "Swap X out"
+  as a label clear of the card (`p3_after_trade_counter_card_shown_whole.jpg`; yours before: `p3_before_trade_counter_owner.png`).
+- **The result is a standard centred pop-up:** wins and losses, the rewards as icons with their names, the kept card as a card,
+  and a Finish button (`p3_result_popup_high_rollers.jpg`, `p3_result_popup_cash_out.jpg`). After a full win you first choose
+  the card to keep; that list no longer clips the card under the pointer or lays a tooltip across it.
+- **The opponents** keep their tendencies and their one-line description. They come from a cast of 36 (the shopkeepers and
+  townsfolk of Crosspath, the friendly folk of the four zones), three at random each run, and their Paths and decks are
+  random too: nothing the player switches on decides them.
+
+## Part 4 - the Shuffled Halls are hand-made
+
+Every fight is preset: a fixed deck in the dealer's own Paths, fixed equipment, and abilities of their own, whatever Paths the
+player drafted. A dealer's HP is the player's base HP plus a fixed number (a draft is played at base HP); 23 at level 16 here.
+
+| Room | Dealer | Paths | Deck (cards) | Wears | The twist | Won at full HP |
+|---|---|---|---:|---|---|---:|
+| 2 The Velvet Gate | Maurice, Head of Security | Beefcake | 32 | Tinker's Wrench | Starts behind a 0/4 Velvet Rope (Wallflower); calls two 2/2 House Security when three of his units have died. | 100 % |
+| 3 The Tinsel Gate | Tilda Tinsel, Confetti Cannoneer | Refusemancer | 30 | Lucky Dice | A 1/1 Confetti Critter every third turn; a Grand Finale (+1/+0) at half health. | 83 % |
+| 5 The Tea Garden | Madame Darjeeling | Gourmand | 31 | Steady Sandals | Gains 1 HP a turn; pours YOU a cup on her turn 4 (you gain 3 HP); the Second Pot (4 HP and a 4/4 Cake Golem) at 40 %. | 100 % |
+| 7 The Back-Room Table | "Honest" Hal Lowball | Necrocrat | 30 | Rolled-Up Rulebook | The Ante: your first card each turn costs 1 more. He deals himself two on turn 5, and folds at 30 % if you hold three units. | 94 % |
+| 8 The Auction Ring (champion) | Trey Pickett | Beefcake, Refusemancer, Pathless | 34 | First-Pick Fedora, Card-Sleeve Gauntlets | Going once (turn 3), going twice (turn 5): your strongest ready units sit out. SOLD on turn 7. | 71 % |
+| 10 The Carousel | Dizzy Lizzie, Carousel Queen | Gourmand, Beefcake | 30 | Practice Foil | Her units have Hustle. On her turn 4 the music stops: her whole side stands down for a turn. | 90 % |
+| 12 The Rules Library | Professor Fineprint | Necrocrat, Gourmand | 30 | Thinking Cap | Rule 1, both sides: units enter exhausted. On his turn 4 he amends it to Rule 2. | 99 % |
+| 14 The Roulette Pit (champion) | Dex Shufflewick | Necrocrat, Refusemancer, Pathless | 32 | Cheater's Dice, Shuffle Slippers | Always goes first. The wheel spins on his turns 3, 5 and 7. | 86 % |
+| 15 The Card Shop | Penny Sleeves | Beefcake, Necrocrat | 30 | Fair-Play Badge | Everything is sleeved (+0/+1). You break it, you bought it: 3 damage to you when three of her units have died. | 94 % |
+| 19 The Big Wheel (boss) | Octavia Eightfold | all four | 36 | Dealer's Visor, Pathwork Waistcoat | The House Deals (an extra card each turn). The wheel spins at 75 %, 50 % and 25 % health. | **33 %** |
+
+Each number is 72 games (two drafts for each of six Path sets: the four single Paths, Beefcake + Necrocrat, Gourmand +
+Refusemancer). The whole table by the player's Paths is `halls_summary.md`; every dealer's twist in full is in
+`docs/design/draft_mode.md`.
+
+**Whole runs** (36 each; HP carries from room to room, which is why a run is far harder than its rooms):
+
+| Route | Cleared |
+|---|---:|
+| Careful: a gate, the House Kettle, the Lucky Stall, the Prize Tent, the Quiet Lounge, Octavia | **33 %** |
+| Middle: Maurice, Madame Darjeeling, the Lucky Stall, Professor Fineprint, the Quiet Lounge, Octavia | **36 %** |
+| Greedy: every table for the picks, no heal, Trey on the way | **19 %** |
+| Champions: Tilda, the Kettle, Dizzy Lizzie, Dex, the Dessert Cart, Octavia | **14 %** |
+
+That is where you kept the Halls on Nov 23 (4 of 10 and 2 of 10). The runs end at Octavia most often, and a Gourmand draft
+does worst against her (1 win in 12 at full HP). The pick of three after each fight is not in the sim, so a real run is a
+little easier (inbox 5).
+
+- **The Counting Halls (room 18) is an optional cash-out:** 120 gold, 80 XP and a General Pack on top of the gold for the
+  fights won. It ends the run, it is not a win (no clear, no kept card, no first-clear prize), and it no longer sends you on
+  to the Big Wheel anyway. The room's description and the choice's hint both say so.
+- **Rooms you have not stepped on are question marks**, on the map and in the room's name; a room stays known in later runs
+  (`p4_map_after_question_marks.jpg`, `p4_map_second_run_known_rooms.jpg`). The map before: `map_D-SHUFFLE` of Nov 23 in
+  `docs/overnight_shots/nov23b/`.
+- **Shots:** `p4_room02_*` to `p4_room19_*` (every room), the map at four moments, `p4_room18_*` and `p4_cash_out_result.jpg`.
+- **Two gaps the test suite found, closed:** the eight new dealers had no Bestiary page for their signature moves, and Hal's
+  turn-5 move had no one-line warning.
+
+## Part 5 - cards
+
+| Card | Change |
+|---|---|
+| Signal Reader (C-39) | Shows the opponent's actual cards, enlarged, over the middle of the screen; a click, Enter, Space, E, Escape or the controller closes it (`p5_signal_reader_hand_as_cards.jpg`). The battle log still gets the names. |
+| Plate It (G-20) | Costs 2 and a Gourmand energy (was 3 and one). |
+| Staff Appreciation Dinner (GN-08) | Costs 1, a Gourmand and a Necrocrat energy (was 2 and both). |
+| Dinner Is Served (G-16) | Costs 1 and a Gourmand energy (was 2 and one). |
+| Idiot Sandwich (GB-11) | "Plate target unit. Deal 2 damage to its controller." (no attack limit). |
+
+The card sheet, the card text, the Glossary ("Plate" says any unit; a new entry "Look at a hand") and
+`tests/test_nov24_cards.gd` (8 tests) all carry the changes.
+
+## Part 6 - what was left from the big pass
+
+| Item | State |
+|---|---|
+| The sign walkway probe | **Repaired.** It was out of date, not broken by a pass: an old-style standalone script that can no longer compile, because the sign classes it names now reach the game's autoloads. It is a launcher scene now (`tools/sign_walkway_probe.tscn`), like the walk smokes. Result: Crosspath 7 signs, the Gainlands 9, the Buffet 13, the Dump 33, the Capital 58, all clear; **the D.N.A. 23 signs, 2 reported as floating** (at (49.0, 16.8) over the mini-dungeon lift and at (43.1, 14.5)). I did not move them: the D.N.A.'s walls were cut for the camera on Nov 18 to 20, so "nothing solid behind it" may be the cut wall and not the sign. In the shots (`p6_dna_sign_*.jpg`) both sit on the stone front of the lift bank and look mounted, so I read them as the probe not knowing those blocks, and left them where they are. |
+| Rewards against the economy | **Done:** `modes_economy.md`, above under Part 2. |
+| Bomb in the Pack by itself | **Done:** Beefcake drafts with one copy in place of their weakest pick win 72 % against 73 % without (60 games each): no effect by itself. `card_bomb_in_the_pack.md`. |
+| Rival strength, a longer measurement | **Done for the tables** (288 Classic games: 72 %; Nov 23 guessed 60 %). The zone drafts' rivals were not re-measured: the table batches used that sim time (a drafted deck takes three sets of games of 25 to 35 s each, twelve decks to a 20-minute batch). `bash tools/run_draft_table_sims.sh rivals` runs it in four batches. |
+| In-game shots of every dungeon map | **Done:** 17 maps in `docs/overnight_shots/nov24b/maps/` (`bash tools/nov24_map_shots.sh`). |
+| A pad-in-hand check of Alembic's screen | **Done,** by script with the controller only (`p6_alembic_pad_*.jpg`): A talks through her first lines and opens the screen, the stick moves the focus round the sockets, A switches a Path on, the focus says what a jar holds and why Brew is greyed out, B closes the screen. No fault found. |
+| Ban tables for the Common and Uncommon pieces and for the items | **Running as this is written** (started 20:45 on Nov 24; about five hours in 20-minute batches, the Common and Uncommon pieces first, then the items). Tables land in `docs/design/sim/nov24/ban_gear_*.md` and `ban_items_*.md`; the log is `_logs/nov24/ban_sims.log`. This row is replaced when they finish. |
+| The Halls' own music | **Open, yours** (inbox 6). |
+| A walk cycle for the farm hand, two missing walkways | **Open, art** (Batch 21 rows of Nov 23). |
+
+## Part 7 - checks
+
+- **Tests:** `bash tools/run_tests.sh --min-free=1200`, 48 shards. First run: 3,818 of 3,823, three failing, all from this
+  pass and all closed (the dealers' Bestiary pages, Hal's warning, a missing `super` call on the menu screen). Final run:
+  **3,820 of 3,823, 1 failing, 2 pending**; that one (the new dealers were not on the Bestiary picture request list) is fixed
+  and passes (61 of 61 in the rerun of the fixed files, before the export). Real saves untouched.
+- **Scripted playthroughs** (windowed, real clicks; fights booked as won after a few real turns; `docs/review/play_scripts/nov24/`):
+  - Classic Draft with two Paths: menu, 25 picks, three opponents, three fights, keep a card, result pop-up (`p7_classic_*`).
+  - High Rollers: the 200 gold fee paid, three fights, result with the Gilded Packs that stand in for Prismatic before Primm (`p7_high_*`).
+  - Mystery Mini: the wheel picked the Waiting Room of Eternity, three rooms, cleared, paid a Necrocrat Pack (`p7_mystery_*`).
+  - Dungeon Draft: the House of Gains from the menu, its first rooms and a treasure room (`p7_dungeon_*`); the full clear is in the draft smoke.
+  - The Shuffled Halls from a fresh save: Octavia's welcome, question marks, a real fight at the Velvet Gate, the pick of
+    three, the Trade Counter, Trey, the Rules Library, the Quiet Lounge, the cash-out and its pop-up; then a second run in the
+    same sitting with the rooms of the first run known, cleared against Octavia, the first-clear prize and the kept card
+    (`p4_*`, `p7_halls_*`). A third script visits every other room.
+- **Draft smoke** (`bash tools/run_draft_smoke.sh`): **585 checks, 0 failed**: a zone draft in each zone, the four modes, the
+  opponents' cast and Paths, the Halls on two routes and the cash-out, a Mystery Mini, the House of Gains cleared, and one
+  attempt each at Primm's Castle, the Path-ology Lab, the Shattered Gallery and Mount Swolympus as a Dungeon Draft (all four
+  lost on the way; they start and pay correctly).
+- **Walk smokes, all eight pass:** Crosspath, the hub, the Gainlands, the Buffet, the Verdant Dump, the D.N.A., the Capital,
+  the reach walk; and the opening-forest smoke. The hub smoke failed once on a race in the smoke itself (it teleports between
+  roads faster than the blocked-road toast's 3.5 s cooldown) and passes with that taken out.
+- **Probes:** NPC visibility **158 checks, 0 failed**; fade probe 7 places, 0 script errors; quest hand-in passes; sign
+  walkway as under Part 6.
+- **Story bots, one per Path, one after another:** Beefcake, Gourmand, Necrocrat, Refusemancer each **119 steps, 119 passed, 0
+  failed, 0 script errors**.
+- **Sims:** all in batches with a fresh process and a 20-minute limit: the Halls' rooms twice and four routes (14 batches),
+  Classic and High Rollers before and after Primm (8 batches), Bomb in the Pack (1).
+
+## The zip
+
+`builds/TheWaywardPath-v1.0.0-windows.zip`, **812 MB** (812,499,444 bytes), exported with `PLAYTEST_BUILD=1 bash tools/export_windows.sh 1.0.0`
+after the fixes above. **Not uploaded anywhere.**
+
+- The pack was verified by the export script: 897 MB, 15,200 files, every checksum matches, 97 baked shaders. It is over the
+  750 MB budget of `docs/build_size_policy.md`, as the last build was (812 MB zipped then too).
+- The export needed no low-memory switch (2,955 MB free at the start, peak 2,004 MB).
+- **The exported smoke passed** (`bash tools/run_release_smoke_exported.sh`: PASSED (1.0.0)), and the three exported play
+  scripts (`exported_rc1_a`, `b`, `c` with `tools/play_exported.sh`) each ran to the end with 0 script errors.
+
+## Dialogue
+
+New and changed lines: `docs/dialogue/nov24_lines.csv` (113 lines: 17 changed, 96 new). To put the changed lines back as
+they were:
+
+    node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov24_lines_ids.txt
+
+The brand-new lines (the dealers' mid-fight lines, the Counting Halls' room) are in the CSV with an empty "Current line"; they
+belong to new encounters and go away with those, not with `--revert`. Trey and Octavia keep their voices.
+
+## New art needs
+
+`docs/art/batch21.csv`: 16 new rows (eight Bestiary squares for the dealers, three token pictures, four mode emblems, a
+texture sheet for the house's back and roof).
+
+## What's left
+
+- **Ban tables for the Common and Uncommon pieces and for the items:** running as this is written; see Part 6.
+- **The two D.N.A. signs** the repaired probe reports: look at the shots, then move them or teach the probe about cut walls.
+- **The zone drafts' rivals** were not re-measured (only the tables were).
+- **The Halls' own music** (inbox 6); the house's back and roof textures, the dealers' pictures, the mode emblems (Batch 21).
+- **The Dungeon Draft's large dungeons** are playable but only smoke-tested for one attempt each; no sim says how often a
+  draft deck clears Primm's Castle or the Lab.
+
+## Your decisions (inbox, "Fable Nov 24")
+
+1. The High Rollers fee, 200 gold: breaks even at 42 % a fight, players win 62 %. **Keep 200.**
+2. Prismatic Packs from drafts are Gilded Packs until Primm falls. **Keep.**
+3. Where the house stands and how much of it shows from the square. **Keep.**
+4. Mount Swolympus is on the Dungeon Draft list and on Mystery Mini's wheel. **Keep both.**
+5. The Halls at 33 to 36 % on the safe routes, Octavia 33 % at full HP. **Keep for the playtest**; her HP is one number.
+6. The Halls' own music: **say "carnival-casino, go"**, or give a reference.
+
+---
+
 # Fable big pass Nov 23 - report: Batch 20, the Shuffle House and the Shuffled Halls, the draft feedback, the world list, map lines, Auntie Alembic
 
 Brief: `docs/prompts/fable_nov23_big_pass.md`. Start tag `pre-big-pass-nov23`. Questions: `docs/overnight_inbox.md`, "Fable big
