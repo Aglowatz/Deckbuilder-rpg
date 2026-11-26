@@ -1,0 +1,107 @@
+# Fable Nov 25 (Part 8.2): Primm's Castle from the gate to the Model Room on the new portrait map (MAP-PC, Batch 21). The map
+# scrolls (it opens on the party's room and follows it); every step is a real click on the next room (`node Room_<n>`), the
+# rooms behind are walked by decree (`dev travel route`) so the run does not depend on winning each fight.
+#   bash tools/play.sh docs/review/play_scripts/nov25/castle.txt nov25_castle 1200
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 22
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev freed refusemancer
+dev travel dungeon D-PC
+wait 9
+skip_dialogue 30
+wait 1
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_01_gate_scrolled_to_bottom
+dump
+# step 2: click room 3
+node Room_3
+wait 3
+shot castle_02_clicked_room_3
+key Escape
+wait 1
+dev travel route D-PC 3
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_02_map_after_room_3
+# step 3: click room 6
+node Room_6
+wait 3
+shot castle_03_clicked_room_6
+key Escape
+wait 1
+dev travel route D-PC 3,6
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_03_map_after_room_6
+# step 4: click room 9
+node Room_9
+wait 3
+shot castle_04_clicked_room_9
+key Escape
+wait 1
+dev travel route D-PC 3,6,9
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_04_map_after_room_9
+# step 5: click room 12
+node Room_12
+wait 3
+shot castle_05_clicked_room_12
+key Escape
+wait 1
+dev travel route D-PC 3,6,9,12
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_05_map_after_room_12
+# step 6: click room 16
+node Room_16
+wait 3
+shot castle_06_clicked_room_16
+key Escape
+wait 1
+dev travel route D-PC 3,6,9,12,16
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_06_map_after_room_16
+# step 7: click room 19
+node Room_19
+wait 3
+shot castle_07_clicked_room_19
+key Escape
+wait 1
+dev travel route D-PC 3,6,9,12,16,19
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_07_map_after_room_19
+# step 8: click room 22
+node Room_22
+wait 3
+shot castle_08_clicked_room_22
+key Escape
+wait 1
+dump

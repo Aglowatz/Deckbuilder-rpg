@@ -3,6 +3,7 @@
 # drafted, and with one copy of the card in place of its weakest pick, against the same rivals on the same seeds). Each card is
 # measured twice, AFTER the change (the data as it is) and BEFORE it (the card files of the tag pre-nov25, swapped in for the
 # run and put back after), one Godot process per batch with a 20-minute limit (a batch over the limit is killed and logged).
+# The decks are Classic Draft decks (--challenge=open: the card mode reads a Path set only for a Shuffle House table).
 #   bash tools/run_nov25_card_sims.sh [games=4] [seeds=5]
 # Tables: docs/design/sim/nov25/card_<id>_<after|before>.md; log: _logs/nov25/card_sims.log
 cd "$(dirname "$0")/.."
@@ -24,7 +25,7 @@ measure() {
 	local tag="$1"
 	for row in $CARDS; do
 		IFS='|' read -r id paths most level <<< "$row"
-		run "card_${id}_$tag" --what=card --card=$id --paths=$paths --max_paths=$most --level=$level
+		run "card_${id}_$tag" --what=card --challenge=open --card=$id --paths=$paths --max_paths=$most --level=$level
 	done
 }
 measure after

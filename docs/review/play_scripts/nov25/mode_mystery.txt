@@ -1,0 +1,193 @@
+# Fable Nov 25 (Part 8.2): a Mystery Mini.
+#   bash tools/play.sh docs/review/play_scripts/nov25/mode_mystery.txt nov25_mode_mystery 1800
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 16
+dev gold 2500
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev travel town
+wait 16
+skip_dialogue 20
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+skip_dialogue 20
+dev draft unlock
+dev draft open
+wait 3
+node Mode_mystery
+wait 1
+shot mystery_01_menu
+button Start
+wait 3
+shot mystery_02_first_pick
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+shot mystery_03_deck
+button Lock the deck
+wait 3
+shot mystery_04_run_page
+dump
+button Enter
+wait 7
+button Got it
+wait 1
+shot mystery_05_map
+dump
+node Room_1
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+shot mystery_06_after_room_1
+node Room_2
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+node Room_3
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+shot mystery_06_after_room_3
+node Room_4
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+wait 3
+move 1700,1000
+wait 1
+shot mystery_07_end
+dump
+node KeepGrid
+wait 3
+shot mystery_08_result
+dump
+button Finish
+wait 3

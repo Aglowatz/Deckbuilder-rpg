@@ -1,0 +1,38 @@
+# Fable Nov 25 (Part 8.2): walk to the new 3D Shuffle House and go in. The hero starts at the square's sign post (goto), walks up
+# the cobbled path with the keys (W / D held), and presses E at the door.
+#   bash tools/play.sh docs/review/play_scripts/nov25/walk_shuffle_house.txt nov25_walk_house 600
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 16
+dev gold 1500
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev travel town
+wait 16
+skip_dialogue 20
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+skip_dialogue 20
+dev draft unlock
+dev goto shuffle_house
+wait 1
+hold S 1.6
+wait 0.5
+shot walk_01_on_the_path
+hold W 1.0
+wait 0.5
+shot walk_02_at_the_steps
+key E
+wait 3
+skip_dialogue 6
+shot walk_03_inside_the_menu
+dump

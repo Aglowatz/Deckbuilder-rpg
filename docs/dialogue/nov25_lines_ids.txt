@@ -1,0 +1,2 @@
+# Fable Nov 25: the lines of docs/dialogue/nov25_lines.csv that existed before the pass and were changed (node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov25_lines_ids.txt)
+data/dungeons/dungeon_content.json::dungeons/D-TTK/events/7/choices/0::1

@@ -1,0 +1,9 @@
+[
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-TTK/events/7/choices/0::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "It is delicious and almost certainly cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.",
+		"after": "It is delicious and almost certainly cursed: it burns all the way down. You feel strong and slightly sticky, and your units will not stop smelling of gravy."
+	}
+]
