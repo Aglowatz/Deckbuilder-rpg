@@ -1,3 +1,344 @@
+# Fable Nov 25 + Nov 25 night - one report: Batch 21, the castle map, the 3D Shuffle House, music and cards; then full foe hands, the Gallery, postgame teeth, health for every Path, the encounter library
+
+Briefs: `docs/prompts/fable_nov25_castle_shufflehouse.md` (tag `pre-nov25`, shots `docs/overnight_shots/nov25/`) and
+`docs/prompts/fable_nov25_night.md` (tag `pre-nov25-night`, shots `docs/overnight_shots/nov25n/`, sims `docs/design/sim/nov25n/`).
+Your decisions: `docs/overnight_inbox.md`, "Fable Nov 25 + Nov 25 night" (six, each with a recommendation).
+
+**In one paragraph.** Both briefs are done, every part. The day's seven parts brought in Batch 21, put Primm's Castle on its new
+scrolling map, built the Shuffle House in 3D from SH-CONCEPT, gave it three original tracks and made the card changes. The night's
+parts added the fight panel's line and the Shuffle House doorstep, moved and remade the Cracked Mirror, gave every postgame and draft foe
+a full 8-card hand, gave the Gallery's Echoes their originals' rules and the Silver Reserve a choice of three boons, gave ten postgame
+foes their own rules, added healing to every Path (six reworks, five new cards) and built an encounter library of curses, deck checks,
+a boon NPC and patrols. The final check pass: **all tests pass** (the full sharded run found 9 failures, all old tests meeting tonight's
+content plus one real bug, all fixed, below), the draft smoke, the eight walk smokes, the forest smoke, three of four probes (the
+fourth reports the same two D.N.A. signs as on Nov 24), **all four story bots (119 of 119 steps each)** and the doorstep playthrough.
+**1.0.0 is exported** (826 MB) and checked. The thing to look at first: **the postgame is now very hard in the sims** (decision 1).
+
+| Part | Done | Where to look |
+|---|---|---|
+| 1 Batch 21 (29 pictures) | yes | below; `nov25/p1_*` |
+| 2 Primm's Castle on its new map (item 13) | yes | `nov25/castle/p2_*` |
+| 3 The Shuffle House in 3D (item 14) | yes | `nov25/p3_*` |
+| 4 Octavia, the menu, the draft screens (items 15-18, 11; decisions 1, 4) | yes | `nov25/p4_*` |
+| 5 Music for the Shuffle House (decision 6) | yes | `Music Review/Batch 09 Shuffle House` |
+| 6 Cards and the Test Kitchen (items 1-7, 10, 12) | yes | `nov25/p6_*`, `docs/art/card_crops/nov25_*` |
+| 7 What Nov 24 left | yes (the D.N.A. signs are yours) | below |
+| 8 Checks, tests, build, report | yes | "Checks and build" |
+| A-G (the night) | yes | "Nov 25 night" |
+
+## Part 1 - Batch 21 imported (29 pictures)
+
+All 29 approved files were copied from `Pending Review/Batch 21` to their Approved folders (`tools/art/batch21_copy.py`; the
+five files they replace went to `Superseded/Batch 21 replaced/`) and imported with the usual importers.
+
+| Picture | Where it is now |
+|---|---|
+| DR-06, NB-17 | Table Captain (GN-17) and Iron Filing Clerk (NB-17) card art |
+| 8 BST squares | each Shuffled Halls dealer's battle plate and Bestiary page (the game icons are gone) |
+| TOK-VELVETROPE / CONFETTI / HOUSESECURITY | the Halls' three tokens wear their own pictures (were the Schmuck, the Rat, the Militia) |
+| 4 UI-DRAFT-MODE emblems | the four mode tiles (one 3:2 canvas for all four, 768 px) |
+| MAP-TTK, MAP-DRAFT | the two maps; the new walkway 9-10 and the Counting Room-Big Wheel carpet are traced like the rest; **no drawn arc is left on any map** (`docs/art/map_walkways_missing.csv` is empty) |
+| SPR-DUMPWORKER-WALK x4 | sliced into 16 frames on the set's own canvas (`tools/art/batch21_sprites.py`; the side views mirrored, the set looks left); Crosspath's three farm hands walk with them, and the first farm hand of the Verdant Dump now walks a beat on his terrace |
+| MAP-PC | Part 2 |
+| SH-CONCEPT, SH-TEX x4 | Part 3 |
+
+- **Fringe:** measured on every cut-out and sprite sheet: no green or magenta edge pixels; faint stray alpha (under 10 %) dropped.
+- **Shots:** `p1_batch21_files_before_after.jpg` (every file as it sits in the game, the replaced ones before and after),
+  `p1_farmhand_walk_frames.jpg`, `p1_after_dump_farmhand_walking.jpg`, `p1_after_crosspath_farmhand.jpg`,
+  `maps/ingame_D-TTK.jpg`, `maps/ingame_D-SHUFFLE.jpg` (and `maps/before_*`).
+- `docs/art/batch21.csv` marks every row In Game; the TOWN-HERO-SHUFFLEHOUSE-BACK row is Superseded (you sent SH-CONCEPT and the four textures instead).
+- Test: `tests/test_batch21_import.gd`.
+
+## Part 2 - Primm's Castle on its new map (item 13)
+
+- **The map:** MAP-PC is the portrait cutaway, the gate at the bottom, the Model Room at the top. The 22 rooms keep their names,
+  encounters and events and the 41 links of `plan-primm-castle-v2.jpg` (a test checks the list link by link). Each room sits on
+  its painted landing (fitted to the painting by `tools/map_curves.py --fit`), except the **Castle Gate, which stands in its
+  gateway** (its landing is the strip at the picture's bottom edge, where the disc and name were cut off).
+- **The lines:** the painting is one white marble with a lattice of crossing stairs between the storeys, not one painted flight
+  per link, so the walkway tracer could not follow it. Each link is a **stair line** from landing to landing with its ends eased
+  upright, and the castle draws its route lines again (as a route-planning map it showed only the unpainted links before).
+  **Differences from the plan:** none in the rooms or links; the painting's flights do not match the plan's links one for one,
+  so the drawn lines cross the painted stairs rather than run on top of them.
+- **Scrolling:** a portrait map is shown 1,240 px wide (rooms at full size, not the 78 % of the old crowded map) and scrolls:
+  mouse wheel, drag on the map, arrow keys / W S / Page Up / Page Down / Home / End, and the controller's right stick; moving the
+  pad's focus to a room brings it into view. It opens on the party's room and follows the marker when it walks on. A scroll bar
+  and a one-line hint sit beside it. Fog and question marks work as elsewhere (`--fog=true` shows it).
+- **The duplicate nodes: the cause was in the picture.** The Batch 20 repaint of MAP-PC had been made from a screenshot of the
+  game, with the room medallions painted into it, so a second set of rooms showed under the real ones (`p2_before_castle_map_nov24.jpg`).
+  The new painting has plain landings. There was no second layer or double-built node in the code; a test now holds **every
+  dungeon map to one node per room, none overlapping**, and the castle's landings to plain stone.
+- **Old saves:** a dungeon run is not written to a save (a loaded save starts outside and the castle from its gate); what a save
+  keeps of the castle is its fog and the marker's room, by node id, and the ids are unchanged (room number - 1), so they point
+  at the same rooms (tested with a save round trip).
+- **Shots:** `castle/p2_castle_full_map.jpg`, `p2_castle_opens_at_the_gate_scrolled_bottom.jpg`, `p2_castle_scrolled_top.jpg`,
+  `p2_castle_mid_run.jpg`, `p2_castle_with_fog.jpg`.
+- Tests: `tests/test_castle_map_nov25.gd` (11), and the Nov 19-22 castle and map tests updated for a map that climbs instead of
+  running right.
+
+## Part 3 - the Shuffle House as a real 3D building (item 14)
+
+Built to SH-CONCEPT (`world/town_shuffle_house.gd`):
+- a two-storey half-timbered body, 9 m wide and 5 m deep, on a stone foundation: **SH-TEX-FRONT** on the front (the arched
+  double door, the card fan, two stained-glass windows), **SH-TEX-SIDE** on both sides and twice across the back;
+- three stone steps to the door;
+- a **big-top roof with real volume**: a sagging striped tent (**SH-TEX-ROOF**) from an overhanging eave to a gold cap, the
+  scalloped marquee valance (**SH-TEX-TRIM**) on all four eaves, a gold rail;
+- two half-timbered turrets with striped cones (SH-TEX-ROOF) and flags, a card weathervane with a red pennant on the peak;
+- a cobbled apron with four flower beds, a soft shadow under the whole footprint, the kit's lit material (the sun shades it,
+  it casts a shadow), and **126 marquee bulbs** (one draw call) that glow and twinkle gently.
+- **The flat card is gone** from the scene, the town kit and the game's files. The building stands where it stood: the door spot,
+  the sign, the quest marker, the map icon and the interaction spot did not move. Octavia stands beside the steps.
+- **One fix on the way:** at first the body was 6.4 m deep and its back wall reached the loop lane behind the house; it is 5 m
+  now, 1.6 m short of the lane (a test caught it).
+- **Shots:** `p3_concept_beside_the_3d_house.jpg`, `p3_after_path_default.jpg`, `p3_after_path_steepest.jpg`,
+  `p3_after_square_default.jpg`, `p3_after_square_steepest.jpg`, `p3_after_side_classic_far.jpg`, `p3_after_door_low_camera.jpg`,
+  and `p3_before_*` (Nov 24's).
+- Tests: `tests/test_shuffle_house_3d_nov25.gd` (8), `tests/test_nov24_shuffle_house_building.gd` (place, path, lawn, signs).
+
+## Part 4 - Octavia, the menu, the draft screens (items 15 to 18, 11; decisions 1 and 4)
+
+| Item | Done |
+|---|---|
+| 15 Octavia | In the menu she **stands whole on the floor of her panel**, with a floor shadow (a full-body picture made from her talking world sprite, `tools/art/octavia_full.py`; her portrait stops at the knees). In the world her hem rests on the apron's cobbles and the sprite's own ground shadow lies under her. Shots `p4_after_menu_*`, `p4_after_octavia_in_the_world.jpg`. |
+| 16 The boxes | One layout for all four: emblem, title (one size), text (a fixed height), **"Entry Fee:" and "Rewards:" on a line each**, on the same lines in every box (a test measures each row in each box). Mystery Mini's reward reads **Path Packs**. |
+| Decision 1 | **High Rollers: 100 gold** (data, the box, the Start button, tests). |
+| Decision 4 | **Mount Swolympus: Mystery Mini only** (off the Dungeon Draft list and its text). |
+| 17 Random | A **Random** toggle after the four Path toggles, in their style. While it is on the Paths show "?" and the house picks a random allowed set at Start (the story's rule and the mode's Path count); a click on a Path ends it. Tested with mouse clicks and the controller's confirm. |
+| 18 Deck picker | Sorted by cost, low to high, then by name. |
+| 11 Hover Boots | Only opponents at the High Rollers table can draft them (`rival_equipment_only_at` in the rules); no hand-made foe wears them. Tested over 120 opponents per table kind. |
+
+Shots: `p4_after_menu_1_classic.jpg` ... `p4_after_menu_5_halls.jpg`, `p4_after_menu_1_classic_random_on.jpg`, the same in your
+narrower window (`p4_after_narrow_menu_*`), and Nov 24's `p4_before_menu_*`. Tests: `tests/test_nov25_shuffle_house_menu.gd` (10).
+
+## Part 5 - music for the Shuffle House (decision 6)
+
+Three original tracks, **composed as scores in the game's own toolkit** (`tools/music/scores/_shuffle.py` holds the three new
+themes: the house hook, the back-room tune, the battle riff; `MUS-SHUFFLE-*.py` the tracks), rendered to OGG with **FluidSynth
+2.6 and the FluidR3_GM soundfont (MIT licence)**, the same chain as the rest of the soundtrack, and loudness-matched to the other
+loops (-20 LUFS, true peak under -3.5 dB). No existing soundtrack was copied or sampled; the Crossroads motif (the game's own)
+appears once in each.
+
+| Track | Where | How it sounds |
+|---|---|---|
+| MUS-SHUFFLE-EXP "Step right up" (128 BPM, Bb major, 120 s) | the house's screens (one push for the menu, picks and deck), the Halls' map | techno carnival-casino: a four-on-the-floor kick with the bass and an organ on the off-beats, the hook on a **calliope**, brass stabs, a **slot-machine chime** on glockenspiel and celesta, the sly minor back-room tune in the middle |
+| MUS-SHUFFLE-BATTLE "All in" (172 BPM, G minor, 134 s) | fights on the house table in the Shuffle House and the Halls | pounding electronic kit, heavy rolling synth bass, the riff on two detuned saw leads; **it starts on the hit**, no intro; a half-time passage, a build and a drop where the hook comes in on the calliope |
+| MUS-SHUFFLE-BOSS "The house always deals" (184 BPM, E minor, 125 s) | Octavia at the Big Wheel | the same fight at its most intense: lower, faster, straight 16th hats, timpani and orchestra hits on every section, a choir, an organ doubling the riff, the hook loud on the calliope |
+
+A zone draft at Trey's cart is played on the same table but keeps its zone's song. Previews are in `Music Review/Batch 09 Shuffle House`.
+Test: `tests/audio/test_shuffle_music_nov25.gd`.
+
+## Part 6 - cards and the Test Kitchen (items 1 to 7, 10, 12)
+
+| Card | Change |
+|---|---|
+| First Pick (C-37) | "Peek 1, then draw a card." |
+| The Haunted Buffet (GN-07) | 1(G)(N) (was 2); "Use an Ingredient: ..." (was two) |
+| Final Meal Request (GN-10) | (G)(N) (was 1) |
+| Rodent De Cuisine (GR-16) | renamed from "Ratatouille, Rodent de Cuisine"; same id, so saves, decks and the collection keep it; no glossary entry, quest, dialogue line or Bestiary page named it |
+| Vigor Mortis (NB-03) | 3(N)(B) (was 2) |
+| Circle of Life Insurance (GRN-03) | 1(G)(R)(N) (was 2) |
+| Global Gains Platinum Membership (B-33) | "Attached unit has Hustle, Overtime and Bulldoze. At the start of your turn, put a buff on attached unit." The keywords are a static grant of the tool, so they hold from the moment it is attached (a unit that came down this turn can attack) and move with it. |
+| The Corrupted Pantry (Test Kitchen, room 7) | the stew costs **5 HP** (was 2); its text says it burns. I read "the corrupted pantry effect" as this room's HP cost (the only HP effect in it); the zone rule "Corrupted Food" (healing heals 1 less) is unchanged. |
+
+- **One knock-on:** the Arena puzzle "Back from the Dead, Back to the Gym" spent exactly 7 energy with the old Vigor Mortis. It has
+  a fifth Beefcake Infrastructure now; the solver proves it still has exactly one solution.
+- **Card art (item 10):** on every full card (hand, deck builder, picks, rewards, Bestiary, shops: all draw the same card face) the
+  painting starts **30 card units lower** (of 450; `CardArt.DEFAULT_SHIFT`), so the head sits under the name bar; the strip above
+  is the painting's own top edge stretched, so nothing is repeated. Per-card overrides in `data/art/card_focus.json` (`shift`):
+  Octavia Eightfold (46) and the Chef's Masterpiece Golem (44), whose hat tips still reached the bar. The battlefield card already
+  started its art below its plate and is unchanged. **Every card checked** on contact sheets: `docs/art/card_crops/nov25_before/`
+  and `nov25_after/` (6 pages each), close-ups in `nov25_close/` and `nov25_close2/`; `p6_card_art_before_top_after_bottom.jpg`.
+- Tests: `tests/test_nov25_cards.gd` (6), `tests/ui/test_card_art_shift_nov25.gd` (3).
+
+## Part 7 - what Nov 24 left
+
+| Nov 24's "what's left" | State |
+|---|---|
+| The Halls' own music | **Done** (Part 5). |
+| A walk cycle for the farm hand, two missing walkways | **Done** (Part 1, Batch 21). |
+| Two D.N.A. signs the probe calls floating | **Open, yours** (they look mounted; no change without your word). |
+
+Nothing else was on the list.
+
+## Checks and build (Part 8 and the night's final pass)
+
+One Godot at a time throughout; tests in shards of 10 with `--min-free=1200`; the story bots one after another.
+
+| Check | Result |
+|---|---|
+| GUT, full sharded run (488 scripts, 49 shards) | 3,891 of 3,902 passed, 9 failing, 2 risky/pending. The 9: card counts (the five new cards), the drawback and choice-count rules of event rooms, the zone heal-room template, the castle's lasting boons, spoken lines for scripted beats (all tonight's content against older rules; fixed in the content where the rule was right, in the test where the test only counted), one **real bug** (`BoonText.is_curse` called "no spells", "no traps" and "one card a turn" boons, fixed), and the compile-all test meeting two temporary copies of mine in `_tmp_tools/` (deleted). After the fixes: those 12 test files and **every dungeon, Nov 24 and Nov 25 night test file (58 files, 542 tests) pass**, and the compile-all test passes. |
+| Draft smoke | OK, 568 checks, 0 failed (its one Lab run and one Gallery run lost, as expected with full foe hands) |
+| Walk smokes (Crosspath, hub, Gainlands, Buffet, Dump, D.N.A., Capital, reach) | all OK (reach: 38 targets, 0 failed) |
+| Opening forest smoke | OK |
+| NPC visibility probe | 158 checks, 0 failed |
+| Fade probe | 0 things other than tall occluders fade, 0 script errors |
+| Quest hand-in probe | 32 passed, 0 failed |
+| Sign walkway probe | the same two D.N.A. signs as Nov 24 (on the lift bank's stone front; decision 5); Dump and Capital 0 problems |
+| Story bots, one after another | Beefcake, Gourmand, Necrocrat, Refusemancer: **119 of 119 steps each, 0 script errors** |
+| Doorstep playthrough (`docs/review/play_scripts/nov25n/exits.txt`) | done, shots in `docs/overnight_shots/nov25n/plays/` |
+| Card sims (night, Parts A and F) | `docs/design/sim/nov25n/health_cards_summary.md` |
+| Real saves | untouched by every test run (20 files checked). Earlier in the day your own game wrote the real saves (it was open); nothing of mine wrote them. |
+
+**Build.** `PLAYTEST_BUILD=1 EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0` -> **EXPORT OK**:
+**`builds/TheWaywardPath-v1.0.0-windows.zip`, 826 MB** (826,403,829 bytes; Nov 24's was 812 MB: Batch 21, the three tracks, the 3D
+house's textures). `run_release_smoke_exported.sh` **PASSED (1.0.0)**; on a fresh test pack the three `play_exported.sh` checks
+(`exported_rc1_a`, `_b`, `_c`) all ran to "done" with **0 SCRIPT ERROR**. Nothing was uploaded.
+
+**Dialogue.** The day's lines: `docs/dialogue/nov25_lines.csv`; the night's: `docs/dialogue/nov25_night_lines.csv`. To undo the
+rewritten lines: `node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov25_lines_ids.txt` and
+`node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov25_night_lines_ids.txt` (brand-new lines go with their encounters, by git).
+
+## Nov 25 night - Parts A to G
+
+Brief: `docs/prompts/fable_nov25_night.md`. Start tag `pre-nov25-night`. Shots: `docs/overnight_shots/nov25n/`. Sim tables:
+`docs/design/sim/nov25n/`. Dialogue: `docs/dialogue/nov25_night_lines.csv` (every line written or rewritten tonight, including a
+spoken line for each new postgame and Echo beat; revert the rewritten ones with
+`node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov25_night_lines_ids.txt`).
+
+| Part | Done | Where to look |
+|---|---|---|
+| A Quick fixes | yes | `pA_*`; `tests/test_nov25n_quick_fixes.gd` |
+| B The Cracked Mirror | yes | `pB_*`; `tests/test_nov25n_cracked_mirror.gd` |
+| C Full opening hands | yes | `core/game/opponent_hands.gd`; `tests/test_nov25n_opponent_hands.gd` |
+| D Gallery Echoes, Silver Reserve | yes | `pD_*`; `gallery_echo_rules.md`, `gallery_boons.md`; `tests/test_nov25n_gallery.gd` |
+| E Postgame encounters | yes (the level of difficulty is yours: decision 1) | `pE_*`; `postgame_rules.md`, `postgame_runs.md` |
+| F Health for every Path | yes | `docs/design/health_by_path.md`, `health_cards_summary.md`; `tests/test_nov25n_postgame_and_health.gd` |
+| G Encounter library | yes, postgame and zone dungeons; not the side dungeons (no event rooms) | `pG_*`; `docs/design/encounter_upgrades.md`, `encounter_library.md`; `tests/test_nov25n_encounter_library.gd` |
+
+### Part A - quick fixes
+- **The fight panel** reads "These rules are in play:", centred (`ui/widgets/rules_brief.gd`). Shot `pA_before_the_fight_lab_orderly.jpg`.
+- **Out of the Shuffle House onto its doorstep.** Every way out (closing the menu, a draft won or lost, a dungeon draft over, the
+  Halls' cash-out, back from a draft fight) puts you 0.7 m in front of the door, facing out down the path
+  (`TownShuffleHouse.exit_spot()` / `exit_facing()`; `GameSession._back_to_shuffle_house`). A zone draft at Trey's cart leaves you at
+  the cart, as before. Checked with the play script `docs/review/play_scripts/nov25n/exits.txt` (shots in `nov25n/plays/`).
+- **Cards:** Membership Cancellation (NB-06) costs 1(N)(B) (1 less) and reads "Destroy target tool or wonder."; Resting in Peace
+  Clause (N-19) shuffles 5 Clauses; Counterweight (B-19) deals 5. Tests for each.
+
+### Part B - the Cracked Mirror
+- **Moved** from the castle door to the **top of Grave Row**, under the castle wall (34.5, 9.5): a spot nothing used, on the walk to
+  the castle, clear of the house kits (checked from above). The castle door is free again (`pB_after_castle_door_spot_free.jpg`).
+- **New look** (`CapitalProps.gallery_mirror()`): a gilt frame with a crest and claw feet on a stone plinth, the glass a shader with a
+  slow sheen, a lit crack and a soft pulse, a faint glow and shards at its foot. Row `CAP-PROP-CRACKED-MIRROR` in `docs/art/batch22.csv`
+  for painted art.
+- **Quest text** rewritten everywhere it named the place (the offer, the active line, the dungeon intro, the map, the ending's thanks).
+- **Shots:** `pB_before_mirror_at_the_castle_door.jpg`, `pB_before_mirror_close.jpg`, `pB_after_mirror_at_the_top_of_grave_row.jpg`,
+  `pB_after_mirror_close.jpg`, `pB_after_mirror_side.jpg`.
+
+### Part C - postgame and draft foes hold 8
+- Every foe in the Path-ology Lab, the Shattered Gallery, Mount Swolympus, the Vault's Warden and every draft (all four modes, the
+  Halls, zone drafts) **holds 8 cards when its first turn begins**: dealt 8 when it goes first, 7 when its turn opens with a draw, and
+  topped up after any opening discard or start-of-duel effect (`GameOptions.foe_first_turn_hand`).
+- **A sensible mix:** at least 3 Infrastructure and 4 plays (a hidden soft mulligan on the game's seeded RNG: `HandSmoother.ensure_plays`).
+- Swolympus and the Lab first, as asked; then the Gallery, the Warden, drafts. Bosses hold the same 8 (a bigger boss hand was too much in
+  the sims). The Iron Cave is not postgame (it is the Gainlands' early cave), so it is unchanged.
+- One honest edge: a draft rival whose gear spends a card at the start of its turn holds 7 after it; the 8 were in hand when the turn began.
+- Test: `tests/test_nov25n_opponent_hands.gd` (each kind of foe, going first and second, the mix, the top-up).
+
+### Part D - the Gallery's Echoes and the Silver Reserve
+- **Each Echo keeps its own twisted rule and gains its original's**: Quota's +1 attack, Clench's reinforcements every 5th turn,
+  Plume's +1/+1, Mortimer's temps every 2nd turn and +1/+0, the Doppelganger's starting Ingredient and +1/+1, Clipwell's +1/+1, the
+  Rotheart's +2/+2, plus the originals' scripted beats (a draw, a brownout, a deadline, Form 27-B, the mask, the topiaries, the roots)
+  without their late "faltering" beats: an Echo does not falter. The full list: `gallery_echo_rules.md`. **Harder, not softer**: every
+  Echo also opens on a full hand. I first raised the originals' numbers too; no simulated run got past the fourth room, so they use the
+  originals' strength.
+- **The Silver Reserve** is a choice of 1 of 3 boons drawn from 9, for the rest of the run (no more +40 max HP). Shot
+  `pD_silver_reserve_choice.jpg`. The nine and how each did (fights won of 8, 12 runs each, reference decks):
+
+| Boon | Effect | Fights won |
+|---|---|---:|
+| Thick Glass | +30 max HP | 2.2 |
+| A Head Start | start each fight with an Infrastructure from your deck in play | 2.2 |
+| A Second Look | draw an extra card each turn | 1.7 |
+| Polished Guard | your units +0/+2 | 1.6 |
+| Silvered Edge | your units +1/+1 | 1.6 |
+| The First Reflection | the first unit you play each fight gets +3/+3 | 1.6 |
+| A Full Purse | start each fight with one of each resource | 1.5 |
+| Mending Light | heal 8 at the start of each fight | 1.5 |
+| A Steady Hand | two more cards in your opening hand, and you go first | 1.3 |
+
+  With 12 runs each, a gap under ~0.5 is noise: the nine are close, Thick Glass and Head Start a little ahead.
+
+### Part E - postgame encounters with teeth
+- **Ten postgame foes got rules of their own or a new scripted beat**, each set different: the Intake Orderly's forms (the first card each
+  turn costs 1 more) and sedation on turn 3; the Escaped Specimen's brood every 3rd turn and shed skin; the Hybrid's ingredients and
+  Toro; the Assistant's field notes, weenies and Leviathan; the Antechamber Sentry's blast doors and lockdown; the Failed Experiment's
+  spurt; the Drain Warden's overdrain; the Rival Lifter's warm-up and second set; the Squat Rack Sentinel's safety bar, golems and rack
+  pull; the Ancient Spotter's chalk. List: `postgame_rules.md`.
+- **The "Before the fight" panel** lists every rule, its badge red when it hurts you (a harmful rule on your side used to show green:
+  fixed). Shots `pA_before_the_fight_lab_orderly.jpg`, `pE_before_the_fight_lab_boss.jpg`, `pE_before_the_fight_swolympus.jpg`,
+  `pD_before_the_fight_echo_quota.jpg`.
+- **Sims per fight and per run**: below.
+
+### Postgame and Gallery win rates
+Whole runs (`postgame_runs.md`): one HP pool through the dungeon's fights in order, the dungeon's own heals, a strong player of the
+right level (each Path's reference deck and gear, or four drafted decks) played by the planning AI. Not modelled: event boons, treasure,
+card picks, a human's judgement.
+
+| Dungeon | Before tonight (cleared, fights won) | Tonight | Per fight tonight (won / reached) |
+|---|---|---|---|
+| Shattered Gallery (Silver Reserve: Thick Glass) | 8 %, 5.3 of 8 | 0 %, 2.2 of 8 | Quota 12/12, Clench 12/12, Plume 2/12, Mortimer 0/2 |
+| Path-ology Lab, long route | 0 %, 3.3 of 7 | 0 %, 0.9 of 7 | Specimen 8/12, Failed Experiment 1/8, ... |
+| Path-ology Lab, short route | 8 %, 2.0 of 3 | 0 %, 0.5 of 3 | Orderly 4/12, Sentry 2/4, Siphon 0/2 |
+| Mount Swolympus | 33 %, 2.2 of 3 | 0 %, 1.6 of 3 | Lifter 12/12, Sentinel 7/12, Spotter 0/7 |
+| The Warden of the Four Seals (one fight) | - | 50 % | |
+
+**What this says.** The postgame was already hard for the sim's player before tonight; the full 8-card hands (Part C, your rule) are
+what moves it most: measured one at a time, the hands cost the Gallery about three fights a run, the Echoes' and Part E's rules less
+than one. Lowering foe HP to 60 % barely helped: runs are lost to HP worn down across fights with few heals. The sim's player is weaker
+than a careful human and takes no event boons, so the real game is easier than these numbers, but not by enough to call this
+balanced. **Decision 1.**
+
+### Part F - health for every Path
+Before tonight Beefcake had no card that restores HP, Necrocrat and Refusemancer one each. After it: **Beefcake 3, Necrocrat 4,
+Refusemancer 4, Gourmand 5, Pathless 6** (plus multi-Path cards). Six weak, unused cards were reworked to heal (Hulking Hauler gains 3
+when it enters; Snack Bar: pay 1, gain 2; I've Made a Huge Mistake heals for the destroyed unit's defense; Push Broom gives Nourish;
+Compost Bin and Mulch Mole eat garbage for HP), and **five new Common cards** joined packs, shops, rewards and drafts: Cool-Down
+Stretch, Soul Collector, Compost Tea, Bone Broth Cook, Field Bandages, each wearing a related card's art until theirs is painted (rows in
+`docs/art/batch22.csv`). Full before/after: `docs/design/health_by_path.md`. Draft sims (`health_cards_summary.md`): no card swings a deck
+more than 5 points either way, and Hulking Hauler is less of a drag than before (-11 to -5); the sims sit near the ceiling (94 % without
+the card), so they show nothing is broken rather than how much each helps.
+
+### Part G - the encounter library
+Audit and plan: `docs/design/encounter_upgrades.md` (in short: half the zone fights are a deck and nothing else, the same archetypes
+recur, and no event before tonight asked what was in your deck). Library: `docs/design/encounter_library.md`.
+
+| Type | What it does | Where |
+|---|---|---|
+| Curse you can play around | no spells / traps / tools / wonders, one card a turn, or your troops -2 defence; each on a choice that pays for it | Gallery 3 (troops -2 def), Gallery 12 (no spells, +1/+1), castle 6 (no traps and +6 max HP, three fights), castle 4 (one card a turn and draw 1 more, two fights) |
+| Path roll-call (deck check) | enough units of the Path: a boon for the dungeon; too few: an HP hit | Test Kitchen 10 (the head chef, Gourmand), House of Gains 5 (Beefcake), Hall 8 (Necrocrat), Rotheart 7 (Refusemancer) |
+| Specimen Trial (deck check) | a random unit is revealed; strong enough: a boon; too weak: every copy shredded for this run | Lab 4 |
+| Boon NPC | the hedge-wizard: your first Trap each turn is set twice, for 3 HP | Lab 7 |
+| Patrol | every Wonder (Gallery 6) or every Tool (Hall 12, for 120 gold) shredded for the run | Gallery 6, Hall 12 |
+
+Every choice says in brackets what it checks and what's at stake; the result shows what was found. A shredded card comes back after
+the run and the save never loses it (tested). The zone heal rooms keep their Nov 21 template (heal 5 for a cost, or nothing) and no
+event room has more than four choices: the final check pass caught my first placements breaking both (a Vow of Silence in the House of
+Gains' heal room, a Taste-Test Rex as a fifth choice), so those two are out and the castle's oath lasts three fights rather than to Primm
+(Nov 21 cut the castle's lasting boons). Shots: `pG_*` (nine panels). Test: `tests/test_nov25n_encounter_library.gd`.
+
+## What's left
+- **The side dungeons** (Swolympus and the seven three-fight caves) have no event room, so the library could not reach them; one node on
+  each painted map would.
+- **The zone dungeons' plain fights** still share archetypes (`beefcake_bruisers` three times in the House of Gains); the next step is a
+  rule set each, as the postgame got.
+- **Postgame difficulty** under full hands (decision 1).
+- **Two D.N.A. signs** the probe calls floating (from Nov 24; decision 5).
+- **Art:** Batch 22 rows for the five new cards and the mirror.
+- **Long choice hints on some older event choices** (e.g. the Test Kitchen's "Compare the handwriting", the castle's "Count the
+  reflections") run past the panel's edge, as they did before tonight; a `hint:` token each would shorten them.
+
+## Your decisions (inbox, "Fable Nov 25 + Nov 25 night")
+
+1. **Postgame difficulty with full foe hands**: play a Gallery and a Lab run first; if they match the sims, keep the 8 cards and halve the biggest postgame stat rules and raise the two heals.
+2. **The Corrupted Pantry**: read as the room's stew (5 HP); keep.
+3. **The castle's stair lines** cross the painted lattice; keep (or a repaint, one flight per link).
+4. **The card art shift** (30 of 450 units); keep.
+5. **Two D.N.A. signs** the probe calls floating; leave.
+6. **The Cracked Mirror at the top of Grave Row**; keep.
+
+---
+
 # Fable Nov 24 - report: the Shuffle House as a building, four modes, hand-made Shuffled Halls, the card changes
 
 Brief: `docs/prompts/fable_nov24_shuffle_house.md`. Start tag `pre-nov24-shuffle`. Shots: `docs/overnight_shots/nov24b/`.

@@ -4,6 +4,25 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 25 + Nov 25 night - yours to decide (the safest choice was taken)
+
+Briefs: `docs/prompts/fable_nov25_castle_shufflehouse.md` (tag `pre-nov25`) and `docs/prompts/fable_nov25_night.md` (tag `pre-nov25-night`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov25/`, `docs/overnight_shots/nov25n/`. Sims: `docs/design/sim/nov25n/`.
+
+1. **How hard the postgame is with full foe hands.** I followed your rule exactly: every postgame and draft foe holds 8 cards when its first turn begins. In whole-run sims (a strong player of the right level, the planning AI, no event boons) nobody clears the Shattered Gallery (2.2 fights of 8 won on average; it was 8 % and 5.3 of 8 before tonight), the Lab (0.9 of 7) or Mount Swolympus (1.6 of 3; it was 33 %); the Vault's Warden is won half the time. Measured one at a time, the hands do most of this; the Echoes' and the new postgame rules add less than a fight; lower foe HP barely helps (runs are lost to HP worn down across fights). A careful human with event boons does better than the sim, but not that much better. Recommendation: **play one Gallery run and one Lab run yourself first.** If they feel as the sims say, keep the 8 cards and soften around them: halve the biggest postgame stat rules (the Ancient Spotter's +5/+4, the Failed Experiment's +2/+2, the Rotheart Echo's +2/+2) and make the Gallery's Quiet Frame and the Lab's break room heal more (12 -> 20, 5 -> 12). Each is one number in `tools/nov25n_postgame_rules.py`, `tools/nov25n_gallery_echoes.py` or the dungeon data.
+2. **The Corrupted Pantry (item 7).** I read "the corrupted pantry effect" as the Test Kitchen room 7 stew's HP cost (now 5 HP, was 2; the only HP effect in that room). The zone rule "Corrupted Food" (healing heals 1 less) is unchanged. Recommendation: **keep**, or tell me you meant the zone rule.
+3. **The castle map's stair lines.** MAP-PC paints one white marble lattice of crossing stairs, not one flight per link, so the tracer could not follow it: each of the 41 links is drawn as a stair line from landing to landing and crosses the painted stairs instead of running on them (`nov25/castle/p2_castle_full_map.jpg`). Recommendation: **keep**; a repaint with one flight per link would let the lines sit on the stairs.
+4. **The card art shift (item 10).** On every full card the painting now starts 30 card units lower (of 450) so heads sit under the name bar, with two per-card overrides; every card was checked on contact sheets (`docs/art/card_crops/nov25_before/` and `nov25_after/`). Recommendation: **keep**; any card that looks wrong is one number in `data/art/card_focus.json`.
+5. **Two D.N.A. signs the probe calls floating** (from Nov 24; both on the stone front of the lift bank, `nov24b/p6_dna_sign_*.jpg`). They look mounted to me and I left them. Recommendation: **leave them**, unless one looks wrong to you.
+6. **Where the Cracked Mirror stands.** At the top of Grave Row under the castle wall (34.5, 9.5), on the walk to the castle, since the spot by the castle door is taken by the door itself; it has a new gilt frame and a glowing cracked glass (`nov25n/pB_after_*`). Recommendation: **keep**; the painted art row is `CAP-PROP-CRACKED-MIRROR` in `docs/art/batch22.csv`.
+
+Smaller notes, no decision needed:
+- **Bosses hold 8 like everyone else**, not more: a bigger boss hand made the bosses unwinnable in the sims. A draft rival whose gear spends a card at the start of its turn holds 7 after it (8 when the turn began).
+- **The Echoes use their originals' numbers**, not higher: my first, stronger version left no simulated run alive past the fourth room. They are still harder than the originals: their own twisted rule on top, a full hand, no faltering beats.
+- **The Silver Reserve's nine boons are close** in the sims (1.3 to 2.2 fights won; Thick Glass and A Head Start lead, A Steady Hand trails); with 12 runs each, gaps under about 0.5 are noise.
+- **The encounter library stays out of the zone heal rooms** (their Nov 21 template holds) and no event room has more than four choices. The side dungeons have no event rooms, so the library could not reach them without a new node on seven painted maps.
+- **High Rollers costs 100 gold** and **Mount Swolympus is Mystery Mini only**, as you decided.
+- **Art for Batch 22:** the five new health cards wear related cards' art until theirs is painted (rows in `docs/art/batch22.csv`), as does the mirror.
+
 ## Fable Nov 24 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov24_shuffle_house.md`. Tag `pre-nov24-shuffle`. Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov24b/`. Sim tables: `docs/design/sim/nov24/`.
