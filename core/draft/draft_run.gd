@@ -1,5 +1,7 @@
 class_name DraftRun
 extends RefCounted
+## Nov 25 night (Part C): preloaded (a new class is not in the class cache until the next import).
+const OPPONENT_HANDS = preload("res://core/game/opponent_hands.gd")
 ## Draft mode, Phase 1: the run after the draft. Three fights against the three rivals, each at full HP, until 3 wins or 2
 ## losses. The player fights as a separate person: the base HP and hand size of their level, only the drafted equipment and the
 ## drafted items (one charge of each per fight), the 35-card draft deck. The main game's loadout is never touched: the fight is
@@ -48,7 +50,9 @@ static func enemy_setup(content: ContentSet, rival: Dictionary) -> PlayerSetup:
 	var extra: Array[ModifierSource] = []
 	if bool(rival.get("boss", false)):
 		extra.append(house_rule())
-	return PlayerSetup.create(deck, profile, extra, str(rival.get("name", "Rival")))
+	var setup: PlayerSetup = PlayerSetup.create(deck, profile, extra, str(rival.get("name", "Rival")))
+	OPPONENT_HANDS.apply(setup, bool(rival.get("boss", false)))  # Nov 25 night (Part C): a draft rival opens with a full hand
+	return setup
 
 
 ## Octavia Eightfold's rule as the boss of the Shuffled Halls: one more card each turn.
@@ -83,6 +87,7 @@ static func build_game(content: ContentSet, state: DraftState, profile: PlayerPr
 	options.rng_seed = seed_value
 	options.first_player = -1
 	options.free_mulligan = true
+	OPPONENT_HANDS.apply_options(options)  # Nov 25 night (Part C.2): and a sensible mix of Infrastructure and plays
 	var player: PlayerSetup = PlayerSetup.create(DraftEngine.build_deck(content, state), profile, [] as Array[ModifierSource], "You")
 	var game: GameState = GameState.new(options)
 	game.add_player(player)

@@ -29,9 +29,9 @@ host => stat(1,0); kw(toxic)
 == N-09 @186406e84ad7  # Red Tape Dispenser
 act | exhaust, pay(1) => create(redtape)
 
-== N-10 @a62369035fda  # Push Broom of Undeath
+== N-10 @7de0d838a046  # Push Broom of Undeath
 attach
-host => stat(0,1)
+host => stat(0,1); kw(nourish)
 when(attached_attacks) => destroy(pick(resource.opp)); destroy(pick(resource.opp))
 
 == N-11 @2102315dacea  # Late Fee
@@ -59,12 +59,12 @@ play t=refuse.unit.mine => to_hand(t); create(contract)
 playcost | use(redtape|contract)
 play => draw(2)
 
-== N-19 @923b0bef8da6  # Resting In Peace Clause
-play => shuffle_into(opp,T-12,2)
+== N-19 @fc6085778644  # Resting In Peace Clause
+play => shuffle_into(opp,T-12,5)
 
-== N-20 @dbd09c35cd63  # I've Made a Huge Mistake
+== N-20 @4999470b8962  # I've Made a Huge Mistake
 playcost | destroy(unit.mine)
-play => draw(2); create(redtape)
+play => draw(2); gain(me,$paid_def)
 
 == N-21 @b8a82453515c  # Become Useful at Work
 playcost | destroy(unit.mine)
@@ -126,3 +126,8 @@ play t=unit => if(on_path(t,B),{destroy(t)},{pump(t,-2,0,next)})
 
 == N-38 @fb8cb4dcfb5d  # Hazmat Intern
 kw toxic
+
+== N-39 @48dd7c9d3c5e  # Soul Collector
+kw flying
+enter => lose(opp,2); gain(me,2)
+

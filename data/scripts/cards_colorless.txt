@@ -178,3 +178,7 @@ enter => reveal_hand(opp)
 == C-40 @e1262ebf6bd6  # Trey Pickett
 enter => peek(3)
 sot => choose({draw(1)},{gain(me,2)},{buff(self,1)})
+
+== C-41 @5c540bd3fbb6  # Field Bandages
+act | destroy_self => gain(me,3); draw(1)
+

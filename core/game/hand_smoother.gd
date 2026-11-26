@@ -61,6 +61,35 @@ static func ensure_infrastructure(
 	return swaps
 
 
+## Nov 25 night (Part C.2): the other side of the floor - while the hand holds fewer than `floor` cards that are NOT infrastructure, a random
+## infrastructure card in the hand goes back into the deck for a random non-infrastructure card from it (a flooded hand can act). The
+## deck is reshuffled when anything was swapped. Returns the number of swaps.
+static func ensure_plays(
+	hand: Array[CardInstance], deck: Array[CardInstance], floor: int, rng: RandomNumberGenerator
+) -> int:
+	var swaps: int = 0
+	while hand.size() - count_infrastructure(hand) < mini(floor, hand.size()):
+		var deck_plays: Array[int] = []
+		for i: int in range(deck.size()):
+			if deck[i].data != null and not deck[i].data.is_infrastructure():
+				deck_plays.append(i)
+		var hand_infra: Array[int] = []
+		for i: int in range(hand.size()):
+			if hand[i].data != null and hand[i].data.is_infrastructure():
+				hand_infra.append(i)
+		if deck_plays.is_empty() or hand_infra.is_empty():
+			break
+		var di: int = deck_plays[rng.randi_range(0, deck_plays.size() - 1)]
+		var hi: int = hand_infra[rng.randi_range(0, hand_infra.size() - 1)]
+		var incoming: CardInstance = deck[di]
+		deck[di] = hand[hi]
+		hand[hi] = incoming
+		swaps += 1
+	if swaps > 0:
+		RngUtil.shuffle(deck, rng)
+	return swaps
+
+
 ## Returns whichever hand's infrastructure count is closer to `target_infrastructure` (ties -> `first`).
 static func pick_closest(
 	first: Array[CardInstance],

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mw5k7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_viqih"]
+
+[resource]
+script = ExtResource("2_viqih")
+id = "G-36"
+display_name = "Bone Broth Cook"
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+attack = 1
+defense = 3
+keywords = Array[int]([6])
+rules_text = "Nourish.
+
+When this unit enters, create an Ingredient."
+flavor_text = "Simmered for three days. Do not ask whose bones."
+paths_all = Array[int]([2])
+script_text = "kw nourish
+enter => create(ingredient)"
+rules_hash = "2af57deeedc8"
+image_description = "A cheerful round cook stirring a huge copper pot of golden broth over a fire, ladle raised, a bundle of herbs tucked behind one ear."

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7gmvt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_w04sf"]
+
+[resource]
+script = ExtResource("2_w04sf")
+id = "N-39"
+display_name = "Soul Collector"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+attack = 2
+defense = 3
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+When this unit enters, your opponent loses 2 HP and you gain 2 HP."
+flavor_text = "Every soul is filed in triplicate. One copy is for you."
+paths_all = Array[int]([4])
+script_text = "kw flying
+enter => lose(opp,2); gain(me,2)"
+rules_hash = "48dd7c9d3c5e"
+image_description = "A hooded skeletal clerk with a ledger and a lantern, drifting over a desk, a thin ribbon of light flowing from a startled adventurer into the ledger."

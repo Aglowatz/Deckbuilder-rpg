@@ -173,10 +173,13 @@ func test_additional_costs_destroy_a_unit_or_use_resources() -> void:
 	assert_false(game.can_play_card(0, mistake.uid), "needs a unit to destroy")
 	var victim: CardInstance = _unit(game, 0, 2, 3)
 	assert_true(game.can_play_card(0, mistake.uid))
+	game.players[0].max_hp = 40
+	game.players[0].hp = 10
+	var hp_before: int = game.players[0].hp
 	assert_true(game.play_card(0, mistake.uid))
 	assert_false(game.players[0].field.has(victim), "Destroy a unit you control")
 	assert_eq(game.players[0].hand.size(), hand_before + 2, "Draw 2 cards")
-	assert_eq(_count(game, 0, KIND.RED_TAPE), 1)
+	assert_eq(game.players[0].hp, hp_before + 3, "Nov 25 night (Part F): and gain HP equal to its defense (it made a Red Tape)")
 	var game2: GameState = _game()
 	_energy(game2)
 	var toro: CardInstance = GameFactory.add_to_hand(game2, 0, CardSet.card("G-27"))

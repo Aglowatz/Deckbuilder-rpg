@@ -78,16 +78,16 @@ func test_unstable_rift_and_banner() -> void:
 	assert_eq(unit.damage, 2, "Unstable Rift deals 2 damage to a random unit")
 
 
-func test_snack_bar_pumps_each_unit_only_once_per_turn() -> void:
+func test_snack_bar_heals_once_per_turn() -> void:
+	# Nov 25 night (Part F): Snack Bar is a Beefcake heal now - "Pay 1: gain 2 HP. Do this only once per turn." (it pumped a unit +2/+0)
 	var game: GameState = _game()
 	_energy(game)
+	game.players[0].max_hp = 40
+	game.players[0].hp = 10
 	var bar: CardInstance = _field(game, 0, "B-23")
-	var a: CardInstance = _unit(game, 0, 2, 2)
-	var b: CardInstance = _unit(game, 0, 2, 2)
-	assert_true(_activate(game, bar, 0, [a.uid] as Array[int]))
-	assert_eq(game.get_attack(a), 4)  # Overnight Nov 7-8 (approved): Snack Bar gives +2/+0
-	assert_false(_activate(game, bar, 0, [a.uid] as Array[int]), "each unit can be targeted only once per turn")
-	assert_true(_activate(game, bar, 0, [b.uid] as Array[int]))
+	assert_true(_activate(game, bar))
+	assert_eq(game.players[0].hp, 12)
+	assert_false(_activate(game, bar), "once per turn")
 
 
 func test_ultimate_cardio_machine_gives_hustle_to_entering_units() -> void:
@@ -532,7 +532,7 @@ func test_resting_in_peace_clause_springs_when_the_opponent_draws_it() -> void:
 		if card.data.id == "T-12":
 			clauses += 1
 			assert_eq(card.creator, 0, "remembers who made it")
-	assert_eq(clauses, 2)
+	assert_eq(clauses, 5, "five Clauses (Nov 25 night; it was two)")
 	game.players[1].deck.append(game.players[1].deck.pop_at(game.players[1].deck.find(_first_clause(game))))
 	var hand_before: int = game.players[1].hand.size()
 	game.draw_cards(1, 1)

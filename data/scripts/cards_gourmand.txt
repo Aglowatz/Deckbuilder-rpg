@@ -110,3 +110,8 @@ play => create(ingredient); peek(1); draw(1)
 
 == G-35 @d0a4391c2733  # Pest Control
 play t=unit => if(on_path(t,R),{plate(t)},{send_back(t)})
+
+== G-36 @2af57deeedc8  # Bone Broth Cook
+kw nourish
+enter => create(ingredient)
+

@@ -93,6 +93,12 @@
 							"Walk on",
 							"You leave the sand exactly as it was raked.",
 							"nothing"
+						],
+						[
+							"Take the vow of the quiet mat",
+							"You lie down on the silent mat and promise it peace. You wake up rested, and with a strange reluctance to say anything at all.",
+							"heal:8",
+							"curse:Vow of Silence|ban_spell=1,next=2"
 						]
 					]
 				},
@@ -118,6 +124,11 @@
 							"heal:3",
 							"card:B-01",
 							"curse:Jelly Legs|slow=1,next=1"
+						],
+						[
+							"Show the coach your roster",
+							"A whistle blows. The ghost of a coach with a clipboard looks over your lifters one by one.",
+							"check_units:beefcake,7,4|Coach's Pick|def=1"
 						]
 					]
 				},
@@ -267,6 +278,11 @@
 							"Leave the fridge alone",
 							"You put the kettle back where it was and go.",
 							"nothing"
+						],
+						[
+							"Cook for the head chef's tasting",
+							"The head chef appears from nowhere with a spoon and a very long face. \"Show me your brigade,\" he says, and counts your cooks.",
+							"check_units:gourmand,6,5|Head Chef's Nod|atk=1"
 						]
 					]
 				},
@@ -321,6 +337,11 @@
 							"Leave the archives alone",
 							"You leave the archives as you found them. Some doors are better left closed.",
 							"nothing"
+						],
+						[
+							"Feed a unit to the Taste-Test Rex",
+							"In the back of the archive a test-kitchen dinosaur in a hairnet is waiting to judge something. It sniffs whoever you send.",
+							"reveal_unit:3|Rex Approved|atk=1"
 						]
 					]
 				}
@@ -506,6 +527,11 @@
 							"card:N-15",
 							"heal:1",
 							"curse:Put on Hold|slow=1,next=1"
+						],
+						[
+							"Submit your deck for audit",
+							"The clerk takes your deck, licks a thumb and counts the dead. \"Staffing levels,\" he murmurs, \"are being reviewed.\"",
+							"check_units:necrocrat,6,4|Clean Audit|max_hp=4"
 						]
 					]
 				},
@@ -535,6 +561,12 @@
 							"Leave the shredder alone",
 							"You back away from the shredder. It hums, disappointed.",
 							"nothing"
+						],
+						[
+							"Let the night patrol inspect your Tools",
+							"A patrol of clerks with torches confiscates every Tool you carry \"for processing\" and, in fairness, pays a filing fee for the trouble.",
+							"shred_type:tool",
+							"gold:120"
 						]
 					]
 				}
@@ -692,6 +724,11 @@
 							"heal:2",
 							"card:R-01",
 							"lose:1"
+						],
+						[
+							"Sort the pool's junk into bins",
+							"You roll up your sleeves and sort. The pool watches to see whether you know your own kind.",
+							"check_units:refusemancer,6,4|Sorted|draw=1"
 						]
 					]
 				},
@@ -903,6 +940,12 @@
 							"The smile comes out perfect, which is horrifying, and your face stays like that for a while. The next guard waves you through to go first, and whoever you send out first is too busy smiling to hit properly.",
 							"boon:Perfect Smile|first=1,next=1",
 							"curse:Stuck Smile|first_unit_atk=-2,next=1"
+						],
+						[
+							"Follow the Doppelganger's schedule",
+							"You find its timetable: one task at a time, very quickly, all day. For the next two fights you will be the same.",
+							"boon:On Schedule|draws=1,next=2",
+							"curse:One Thing at a Time|one_card=1,next=2"
 						]
 					]
 				},
@@ -927,6 +970,12 @@
 							"There is always one more reflection than there should be. You wave, he waves a moment too late, and you know where to look for him next time. Then the extra one steps out of the floor and goes to tell someone.",
 							"boon:Seen Him First|draw=1,next=1",
 							"curse:One Reflection Too Many|foe_unit=16,next=1"
+						],
+						[
+							"Swear the Regime's oath of order",
+							"You put a hand on the portrait and swear to keep things tidy. You feel stronger and strangely unable to leave anything lying around for anyone.",
+							"boon:Oath of Order|max_hp=6",
+							"curse:No Traps Allowed|ban_trap=1"
 						]
 					]
 				},
@@ -1565,10 +1614,9 @@
 					"body": "A glass gallery looks down on the cells: a kettle, a cracked mug, and a corkboard of notes about one subject. The newest notes are only a count of days.",
 					"choices": [
 						[
-							"Read the notes on the Subject",
-							"The notes on the Subject show how they planned to beat you. You use it in the next fight, and the paper cuts you twice.",
-							"boon:Know Your Enemy|atk=1,next=1",
-							"damage:2"
+							"Put a unit through the Specimen Trial",
+							"Behind the glass a very large, very old lizard opens one eye. The clipboard on the wall says SPECIMEN TRIAL: ONE SUBJECT, ONE ROUND. You send someone in.",
+							"reveal_unit:4|Passed the Trial|atk=1,def=1"
 						],
 						[
 							"Drink the Path-ologists' tea",
@@ -1601,9 +1649,9 @@
 							"curse:Feedback|foe_hp=3"
 						],
 						[
-							"Tear out the straps",
-							"You tear out the straps, and feel stronger for it. The buckles bite on the way out.",
-							"boon:Never Again|max_hp=3",
+							"Free the hedge-wizard strapped in beside it",
+							"You tear the straps loose and a small furious wizard in a hospital gown climbs out, rubbing his wrists. \"Traps,\" he says. \"I do traps. Set one and I will set it again.\" The straps bite you on the way.",
+							"boon:The Wizard's Echo|trap_copy=1",
 							"damage:3"
 						]
 					]
@@ -1838,8 +1886,8 @@
 						],
 						[
 							"Leave it on the rack",
-							"You walk past. For the rest of the gallery, every reflection you pass is lifting it for you, slightly better.",
-							"curse:Second Thoughts|max_hp=-6"
+							"You walk past. For the rest of the gallery every reflection you pass is lifting it for you, and your own troops feel thinner for it.",
+							"curse:Brittle Glass|def=-2"
 						],
 						[
 							"Break it for the silver",
@@ -1861,8 +1909,8 @@
 						],
 						[
 							"Refuse to sign",
-							"The frame lets out a long, disappointed sigh, and the glass at your back cuts you on the way past.",
-							"damage:4"
+							"A patrol of reflected clerks marches out of the frame to process your refusal. They stamp every Wonder you carry VOID and feed it to the glass. The frame thanks you for your cooperation.",
+							"shred_type:wonder"
 						],
 						[
 							"Sign someone else's name",
@@ -1901,9 +1949,9 @@
 					"choices": [
 						[
 							"Look it in the eye",
-							"It looks back, and for a second you can't tell which of you blinked. You take some of its certainty with you, and it takes some of your strength.",
-							"boon:Know Yourself|atk=1",
-							"curse:Seen Through|max_hp=-8"
+							"You hold its gaze until it blinks. You come away knowing yourself a little better, and the glass keeps your voice: no spell will leave your lips while you are in here.",
+							"boon:Know Yourself|atk=1,def=1",
+							"curse:Silent Glass|ban_spell=1"
 						],
 						[
 							"Turn your back on it",
@@ -1920,7 +1968,7 @@
 				}
 			},
 			"blurbs": {
-				"1": "The mirror at the castle door, cracked from the inside. Beyond it the air is cold and smells of polish.",
+				"1": "The mirror they carried out to Grave Row, cracked from the inside. Beyond it the air is cold and smells of polish.",
 				"2": "An Echo of Vivienne Quota, timing you to the second. Enemy units here enter with +1 attack.",
 				"4": "An Echo of Chancellor Clench, at the height of his reign. He starts with Iron already in hand.",
 				"5": "An Echo of Percival Plume, with perfectly good news. From here on the first card you play each turn costs 1 more.",

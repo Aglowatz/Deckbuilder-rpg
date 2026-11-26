@@ -1,8 +1,9 @@
 # Card scripts: Refusemancer. Format and vocabulary: docs/card_pipeline.md.
 # Header: "== CARD-ID @hash   # name" (the hash is the sheet's rules text when the card was scripted; tools/import_cards --stamp refreshes it).
 
-== R-01 @db62407c6624  # Mulch Mole
+== R-01 @bc70d293d7b8  # Mulch Mole
 act | exhaust => add(R)
+act once | eat => gain(me,1)
 
 == R-02 @2d96b9afc045  # Dumpster Diver
 act | exhaust => create(garbage)
@@ -29,8 +30,9 @@ act | eat => pump(self,2,2,eot)
 kw swat
 enter => create(garbage)
 
-== R-10 @c7cb991f05cf  # Community Compost Bin
+== R-10 @018632ead3ab  # Community Compost Bin
 sot ? count(garbage)==0 => create(garbage)
+act once | eat => gain(me,2)
 
 == R-11 @86aa2eb89aab  # Raised Bed
 act t=unit.mine once | use(garbage) => buff(t,1)
@@ -117,3 +119,8 @@ act | eat => kw_grant(self,bulldoze,eot)
 
 == R-37 @1a08a787ac3c  # Late-Pick Hero
 static => selfstat(min(count(refuse.card.mine),4),min(count(refuse.card.mine),4))
+
+== R-38 @a2f4bc6078c0  # Compost Tea
+playcost | use(garbage,2)
+play => gain(me,5)
+

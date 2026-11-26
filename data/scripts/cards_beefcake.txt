@@ -40,8 +40,9 @@ kw bulldoze
 == B-12 @a866391f7101  # Leg Day Survivor
 kw hustle
 
-== B-13 @a866391f7101  # Hulking Hauler
+== B-13 @56c0a52bcae4  # Hulking Hauler
 kw hustle
+enter => gain(me,3)
 
 == B-14 @3c6596de85fc  # Weight Belt
 attach
@@ -62,8 +63,8 @@ attach
 host => stat(2,1)
 when(attached_attacks) t=tool => may({destroy(t)})
 
-== B-19 @5b9dec23e035  # Counterweight
-trap(attacks:opp) => damage(trig,3)
+== B-19 @f910d87a7a46  # Counterweight
+trap(attacks:opp) => damage(trig,5)
 
 == B-20 @6397bfbf2898  # Dry Scoop
 play t=unit => pump(t,1,0,eot); kw_grant(t,hustle,eot)
@@ -76,8 +77,8 @@ play ?! exists(unit.mine.atk>=5) => damage(opp,2)
 attach | pay(1)
 boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})
 
-== B-23 @3c9bb733e89c  # Snack Bar
-act t=unit.fresh | pay(1) => pump(t,2,0,eot)
+== B-23 @9634eef47186  # Snack Bar
+act once | pay(1) => gain(me,2)
 
 == B-24 @c518e49f2bdf  # Overclocked Mill Worker
 kw overtime
@@ -135,3 +136,7 @@ boc => may({use(iron); pump(all(unit.mine.other),1,0,eot); kw_grant(all(unit.min
 
 == B-38 @2ccd128c13c0  # Bomb in the Pack
 play => damage(all(unit.opp),4)
+
+== B-39 @8dd4c7bb8157  # Cool-Down Stretch
+play => gain(me,4); create(iron)
+

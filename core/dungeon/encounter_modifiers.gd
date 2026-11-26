@@ -305,6 +305,17 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.MIRROR_FIRST_UNIT, 1))  # Overnight Nov 4-5: The Shattered Gallery's Perfect Form
 		"start_of_turn_resources":
 			made.append(CardBuilder.modifier(Modifier.Kind.START_OF_TURN_RESOURCES, int(spec.get("count", 1)), Modifier.ANY_COLOR, _resource_of(spec)))
+		# Nov 25 night (Parts E and G): a head start of Infrastructure in play, a card type the side may not play, the trap copy
+		"starting_infrastructure":
+			made.append(CardBuilder.modifier(Modifier.Kind.STARTING_INFRASTRUCTURE, maxi(1, int(spec.get("count", 1)))))
+		"ban_type":
+			var banned: String = str(spec.get("type", "")).to_lower()
+			if not DungeonBuilder.BANNABLE_TYPES.has(banned):
+				_problems.append("%s: cannot ban '%s'" % [key, banned])
+			else:
+				made.append(CardBuilder.modifier(Modifier.Kind.BANNED_CARD_TYPE, int(DungeonBuilder.BANNABLE_TYPES[banned])))
+		"copy_first_trap":
+			made.append(CardBuilder.modifier(Modifier.Kind.COPY_FIRST_TRAP, 1))
 		_:
 			_problems.append("%s: unknown rule kind '%s'" % [key, kind])
 			return null

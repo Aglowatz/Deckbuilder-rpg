@@ -1,0 +1,21 @@
+# Fable Nov 25: the lines of docs/dialogue/nov25_night_lines.csv that existed before the pass and were changed (node tools/apply_dialogue_pass.js --revert=docs/dialogue/nov25_night_lines_ids.txt)
+core/quests/quest_definitions.gd::_after_the_fall::1
+core/quests/quest_definitions.gd::_after_the_fall::3
+core/quests/quest_definitions.gd::_after_the_fall::6
+core/quests/zone_quest_definitions.gd::_gallery_line::4
+core/quests/zone_quest_definitions.gd::_gallery_line::5
+core/quests/zone_quest_definitions.gd::_gallery_line::7
+core/quests/zone_quest_definitions.gd::_gallery_quest::1
+core/quests/zone_quest_definitions.gd::_gallery_quest::2
+core/quests/zone_quest_definitions.gd::TARGETS::34
+data/story/capital_story.tres::quest.cracks_in_the_glass.offer::1
+data/story/capital_story.tres::quest.cracks_in_the_glass.active::0
+data/story/capital_story.tres::ending.thanks.line.2::0
+data/dungeons/dungeon_content.json::dungeons/S-GALLERY/blurbs/1::0
+data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/3/choices/1::1
+data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/6/choices/1::1
+data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/12/choices/0::1
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/0::0
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/0::1
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/choices/2::0
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/choices/2::1

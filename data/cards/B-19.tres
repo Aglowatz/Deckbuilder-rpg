@@ -12,9 +12,9 @@ color = 1
 generic_cost = 2
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "When an opposing unit attacks, deal 3 damage to it."
+rules_text = "When an opposing unit attacks, deal 5 damage to it."
 flavor_text = "What goes up..."
 paths_all = Array[int]([1])
-script_text = "trap(attacks:opp) => damage(trig,3)"
-rules_hash = "5b9dec23e035"
+script_text = "trap(attacks:opp) => damage(trig,5)"
+rules_hash = "f910d87a7a46"
 image_description = "A giant counterweight dropping from a mill's rope pulley onto an attacking creature, a Beefcake holding the cut rope with a smirk."

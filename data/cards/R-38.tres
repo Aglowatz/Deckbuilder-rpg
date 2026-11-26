@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_l2o31"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_p1sr3"]
+
+[resource]
+script = ExtResource("2_p1sr3")
+id = "R-38"
+display_name = "Compost Tea"
+type = 2
+color = 3
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "As an additional cost to play this, use two Garbage.
+
+Gain 5 HP."
+flavor_text = "Smells like a landfill. Tastes like a second chance."
+paths_all = Array[int]([3])
+script_text = "playcost | use(garbage,2)
+play => gain(me,5)"
+rules_hash = "a2f4bc6078c0"
+image_description = "A dented tin mug of dark steaming tea brewed from a bucket of compost, a raccoon in an apron pouring it with great ceremony, flies politely waiting."

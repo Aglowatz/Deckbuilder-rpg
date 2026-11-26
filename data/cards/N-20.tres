@@ -14,10 +14,10 @@ colored_pips = Array[int]([4])
 defense = 0
 rules_text = "As an additional cost to play this, destroy a unit you control.
 
-Draw 2 cards and create a Red Tape."
+Draw two cards and gain HP equal to the destroyed unit's defense."
 flavor_text = "Regret: now with paperwork."
 paths_all = Array[int]([4])
 script_text = "playcost | destroy(unit.mine)
-play => draw(2); create(redtape)"
-rules_hash = "dbd09c35cd63"
+play => draw(2); gain(me,$paid_def)"
+rules_hash = "4999470b8962"
 image_description = "A guilty-looking ghost clerk staring at a shredder that has just eaten an important document, a single scrap fluttering away."

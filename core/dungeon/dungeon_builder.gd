@@ -6,6 +6,8 @@ extends RefCounted
 
 const K := DungeonMap.Kind
 const BOSS_MARKER: String = "PRIMM_BOSS"
+## Nov 25 night (Part G): the card types a curse may ban ("ban_spell=1"), as CardEnums.CardType ordinals.
+const BANNABLE_TYPES: Dictionary = {"spell": CardEnums.CardType.SPELL, "tool": CardEnums.CardType.TOOL, "trap": CardEnums.CardType.TRAP, "wonder": CardEnums.CardType.WONDER}
 const DEFAULT_REWARD_GOLD: int = Economy.MAIN_FIRST_CLEAR_GOLD
 const DEFAULT_REWARD_XP: int = 150
 const SIDE_REWARD_GOLD: int = Economy.SIDE_FIRST_CLEAR_GOLD  # Overnight Oct 29: 100 (was 30, noise next to the nodes)
@@ -244,6 +246,21 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 		"hint":
 			# Fable Nov 20: "hint:<words>" is the choice's own bracket text (it replaces the list made from the outcomes)
 			return DungeonEvent.hint_text(arg)
+		# Nov 25 night (Part G): "check_units:gourmand,5,5|Head Chef's Nod|atk=1" (path, units needed, HP lost on a fail | the boon),
+		# "reveal_unit:4|Passed the Trial|atk=1" (attack needed | the boon), "shred_type:wonder"
+		"check_units":
+			var check: PackedStringArray = arg.split("|", true, 1)
+			var numbers: PackedStringArray = check[0].split(",")
+			if numbers.size() < 3 or check.size() < 2:
+				return null
+			return DungeonEvent.check_units(numbers[0].strip_edges(), int(numbers[1]), int(numbers[2]), boon_from(check[1]))
+		"reveal_unit":
+			var reveal: PackedStringArray = arg.split("|", true, 1)
+			if reveal.size() < 2:
+				return null
+			return DungeonEvent.reveal_unit(int(reveal[0]), boon_from(reveal[1]))
+		"shred_type":
+			return DungeonEvent.shred_type(arg.strip_edges().to_lower())
 	return null
 
 
@@ -288,6 +305,24 @@ static func boon_from(spec: String) -> ModifierSource:
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(stats["first_cost"])))
 	if stats.has("first_infra"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED, 1))
+	# Nov 25 night (Part D, the Silver Reserve's boons; Part G, the encounter library): "draws=1" (one more card each turn), "each_res=1"
+	# (start each fight with one of each resource: Iron, Red Tape, an Ingredient, Garbage), "infra=1" (start each fight with an
+	# Infrastructure from the deck in play), "ban=spell|tool|trap|wonder" as "ban_spell=1"... (you may not play that type), "one_card=1"
+	# (one non-Infrastructure card a turn), "trap_copy=1" (the first Trap you set each turn is set twice).
+	if stats.has("draws"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.EXTRA_DRAWS, int(stats["draws"])))
+	if stats.has("each_res"):
+		for kind: ResourceKind.Kind in [ResourceKind.Kind.IRON, ResourceKind.Kind.RED_TAPE, ResourceKind.Kind.INGREDIENT, ResourceKind.Kind.GARBAGE]:
+			modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_RESOURCES, int(stats["each_res"]), Modifier.ANY_COLOR, int(kind)))
+	if stats.has("infra"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.STARTING_INFRASTRUCTURE, int(stats["infra"])))
+	for banned: String in BANNABLE_TYPES:
+		if stats.has("ban_" + banned):
+			modifiers.append(CardBuilder.modifier(Modifier.Kind.BANNED_CARD_TYPE, int(BANNABLE_TYPES[banned])))
+	if stats.has("one_card"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, maxi(int(stats["one_card"]), 1)))
+	if stats.has("trap_copy"):
+		modifiers.append(CardBuilder.modifier(Modifier.Kind.COPY_FIRST_TRAP, 1))
 	var foe: bool = stats.has("foe_atk") or stats.has("foe_def") or stats.has("foe_hp") or stats.has("foe_unit") or stats.has("foe_draw") or stats.has("foe_first_unit")
 	if stats.has("foe_draw"):
 		modifiers.append(CardBuilder.modifier(Modifier.Kind.OPENING_HAND_SIZE, int(stats["foe_draw"])))

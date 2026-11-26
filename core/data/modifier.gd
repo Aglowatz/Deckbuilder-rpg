@@ -184,6 +184,16 @@ enum Kind {
 	## Fable Nov 21 castle (Part 3, Grandmaster Flex joins the fight): the token in `tokens[0]` enters the owner's field, ready, at the
 	## start of the owner's `value`-th own turn - once. See `GameState._fire_timed_summons`.
 	ARRIVING_UNIT,
+	## Nov 25 night (Part D, a Silver Reserve boon; Part E, a postgame foe's head start): at the start of every duel `value` Infrastructure
+	## cards from the owner's deck go straight into play, ready (`GameState._put_infrastructure_from_deck`). Added last so saved kinds keep
+	## their numbers.
+	STARTING_INFRASTRUCTURE,
+	## Nov 25 night (Part G, the dungeon curses "no tools / no spells / no traps"): the owner may not play cards of CardEnums.CardType
+	## `value` (presence per type). See `GameState.can_play_card`.
+	BANNED_CARD_TYPE,
+	## Nov 25 night (Part G, the boon NPC "the wizard prisoner"): the first Trap the owner sets each turn is set twice (a copy of it is set
+	## too, while there is room). See `GameState._echo_first_trap`.
+	COPY_FIRST_TRAP,
 }
 
 ## `color` value meaning "matches every card".

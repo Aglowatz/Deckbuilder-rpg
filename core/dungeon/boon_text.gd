@@ -136,7 +136,19 @@ static func modifier_text(modifier: Modifier, enemy: bool = false) -> String:
 		Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED:
 			return "your first unit enters exhausted"
 		Modifier.Kind.STARTING_RESOURCES:
-			return "start with %d Iron" % modifier.value if modifier.value2 == int(ResourceKind.Kind.IRON) else "start with %d extra resources" % modifier.value
+			var resource_name: String = {int(ResourceKind.Kind.IRON): "Iron", int(ResourceKind.Kind.RED_TAPE): "Red Tape", int(ResourceKind.Kind.INGREDIENT): "Ingredient", int(ResourceKind.Kind.GARBAGE): "Garbage"}.get(modifier.value2, "extra resources")
+			return ("the enemy starts with %d %s" if enemy else "start with %d %s") % [modifier.value, resource_name]
+		# Nov 25 night (Parts D, E and G): the new boons and curses in words
+		Modifier.Kind.EXTRA_DRAWS:
+			return "" if modifier.value == 0 else ("the enemy draws %d extra card%s each turn" if enemy else "draw %d extra card%s each turn") % [modifier.value, "" if modifier.value == 1 else "s"]
+		Modifier.Kind.STARTING_INFRASTRUCTURE:
+			return ("the enemy starts with %d Infrastructure in play" if enemy else "start with %d Infrastructure in play") % modifier.value
+		Modifier.Kind.BANNED_CARD_TYPE:
+			return "you may not play %ss" % str(CardEnums.CardType.keys()[clampi(modifier.value, 0, CardEnums.CardType.size() - 1)]).to_lower()
+		Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN:
+			return "you may play only %d card%s a turn (Infrastructure aside)" % [modifier.value, "" if modifier.value == 1 else "s"]
+		Modifier.Kind.COPY_FIRST_TRAP:
+			return "the first Trap you set each turn is set twice"
 		Modifier.Kind.MAX_HP:
 			return "" if modifier.value == 0 else "%s max HP" % _signed(modifier.value)
 		Modifier.Kind.STARTING_HP:
@@ -166,8 +178,12 @@ static func _numbers(modifier: Modifier) -> Array[int]:
 			return [-modifier.value] as Array[int]  # a lower cost helps
 		Modifier.Kind.FIRST_UNIT_STAT_CHANGE:
 			return [modifier.value, modifier.value2] as Array[int]
-		Modifier.Kind.MAX_HP, Modifier.Kind.STARTING_HP, Modifier.Kind.HP_GAIN_BONUS, Modifier.Kind.OPENING_HAND_SIZE, Modifier.Kind.STARTING_RESOURCES:
+		Modifier.Kind.MAX_HP, Modifier.Kind.STARTING_HP, Modifier.Kind.HP_GAIN_BONUS, Modifier.Kind.OPENING_HAND_SIZE, Modifier.Kind.STARTING_RESOURCES, Modifier.Kind.EXTRA_DRAWS, Modifier.Kind.STARTING_INFRASTRUCTURE:
 			return [modifier.value] as Array[int]
+		Modifier.Kind.BANNED_CARD_TYPE, Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN:
+			return [-1] as Array[int]  # a restriction: always a curse
+		Modifier.Kind.COPY_FIRST_TRAP:
+			return [1] as Array[int]
 	return [] as Array[int]
 
 

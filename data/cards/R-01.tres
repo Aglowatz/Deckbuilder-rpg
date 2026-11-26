@@ -10,9 +10,12 @@ display_name = "Mulch Mole"
 color = 3
 colored_pips = Array[int]([3])
 defense = 2
-rules_text = "Exhaust: add (R)."
+rules_text = "Exhaust: add (R).
+
+Eat garbage: gain 1 HP. Do this only once per turn."
 flavor_text = "Digs it."
 paths_all = Array[int]([3])
-script_text = "act | exhaust => add(R)"
-rules_hash = "db62407c6624"
+script_text = "act | exhaust => add(R)
+act once | eat => gain(me,1)"
+rules_hash = "bc70d293d7b8"
 image_description = "A chubby mole wearing tiny patched overalls and a leaf hat, popping out of a steaming compost heap and holding up a glowing seed, wildflowers sprouting around it."

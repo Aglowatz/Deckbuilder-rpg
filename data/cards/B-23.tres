@@ -11,10 +11,10 @@ type = 4
 color = 1
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Pay 1: target unit gets +2/+0 until the end of your turn. Each unit can be targeted only once per turn."
+rules_text = "Pay 1: gain 2 HP. Do this only once per turn."
 rarity = 1
 flavor_text = "Oops, all protein bars"
 paths_all = Array[int]([1])
-script_text = "act t=unit.fresh | pay(1) => pump(t,2,0,eot)"
-rules_hash = "3c9bb733e89c"
+script_text = "act once | pay(1) => gain(me,2)"
+rules_hash = "9634eef47186"
 image_description = "A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait."

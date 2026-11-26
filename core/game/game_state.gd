@@ -204,6 +204,9 @@ func _deal_opening_hand(player: PlayerState) -> void:
 	elif player.index != options.opening_infrastructure_seat and options.foe_opening_infrastructure_floor > 0:
 		# Fable Nov 21 (Part 2.6): the foe's opening hand holds at least two Infrastructure too (off in the tutorial cave)
 		HandSmoother.ensure_infrastructure(hand, player.deck, options.foe_opening_infrastructure_floor, rng)
+	if player.index != options.opening_infrastructure_seat and options.foe_opening_play_floor > 0:
+		# Nov 25 night (Part C.2): and enough plays - a postgame or draft foe is never dealt a hand of nothing but Infrastructure
+		HandSmoother.ensure_plays(hand, player.deck, options.foe_opening_play_floor, rng)
 	for card: CardInstance in hand:
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")
@@ -255,8 +258,59 @@ func _begin_playing() -> void:
 			if modifier.kind == Modifier.Kind.STARTING_UNITS and modifier.value > 0 and not modifier.tokens.is_empty() and modifier.tokens[0] != null:
 				for _copy: int in range(modifier.value):
 					create_stated_token(index, modifier.tokens[0])
+			# Nov 25 night (Part D/E): a seat that starts with Infrastructure in play (a Silver Reserve boon, a postgame foe's head start)
+			if modifier.kind == Modifier.Kind.STARTING_INFRASTRUCTURE and modifier.value > 0:
+				for _copy: int in range(modifier.value):
+					_put_infrastructure_from_deck(index)
 	mark_placed_before_duel()
 	_begin_turn()
+
+
+## Nov 25 night (Part G, a dungeon curse): true when a BANNED_CARD_TYPE rule forbids `player_index` to play cards of this type.
+func is_type_banned(player_index: int, data: CardData) -> bool:
+	if data == null:
+		return false
+	for modifier: Modifier in players[player_index].modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.BANNED_CARD_TYPE and modifier.value == int(data.type):
+			return true
+	return false
+
+
+## Nov 25 night (Part G, the wizard prisoner's boon): the first Trap a player with COPY_FIRST_TRAP sets each turn is set a second time
+## (a token copy, face down), while there is room for it.
+func _echo_first_trap(player_index: int, card: CardInstance) -> void:
+	var player: PlayerState = players[player_index]
+	if not player.modifiers.has(Modifier.Kind.COPY_FIRST_TRAP) or player.trap_copied_turn == turn or player.traps.size() >= player.max_traps:
+		return
+	player.trap_copied_turn = turn
+	var copy: CardInstance = create_instance(card.data, player_index)
+	copy.face_down = true
+	player.traps.append(copy)
+	emit_event(GameEvent.Type.TRAP_SET, player_index, copy.uid, 0, 0, player.traps.size())
+
+
+## Nov 25 night: the first Infrastructure card down the seat's deck goes straight into play, ready (it does not count as the turn's
+## Infrastructure play). A plainer one (no abilities) is taken first. False when the deck has none.
+func _put_infrastructure_from_deck(player_index: int) -> bool:
+	var player: PlayerState = players[player_index]
+	var pick: int = -1
+	for index: int in range(player.deck.size() - 1, -1, -1):
+		var data: CardData = player.deck[index].data
+		if data == null or not data.is_infrastructure():
+			continue
+		if pick < 0 or data.abilities().is_empty():
+			pick = index
+			if data.abilities().is_empty():
+				break
+	if pick < 0:
+		return false
+	var card: CardInstance = player.deck[pick]
+	player.deck.remove_at(pick)
+	player.infrastructure.append(card)
+	card.exhausted = false
+	emit_event(GameEvent.Type.INFRASTRUCTURE_PLAYED, player_index, card.uid, 0, 1, player.infrastructure.size())
+	_infrastructure_entered(card)
+	return true
 
 
 ## Fix pass Nov 4 (Part 1.3): every unit already on the table that would have Just Arrived (it entered like a played card) keeps them
@@ -634,6 +688,8 @@ func can_play_card(player_index: int, uid: int, targets: Array[int] = [] as Arra
 		return false
 	if card.data.is_unit() and player.modifiers.has(Modifier.Kind.NO_UNIT_PLAYS):
 		return false
+	if is_type_banned(player_index, card.data):
+		return false
 	if player.non_infrastructure_play_cap >= 0 and player.non_infrastructure_plays_this_turn >= player.non_infrastructure_play_cap:
 		return false
 	if type_played_this_turn(player_index, card.data):
@@ -723,6 +779,7 @@ func play_card(
 			player.traps.append(card)
 			emit_event(GameEvent.Type.TRAP_SET, player_index, uid, 0, 0, player.traps.size())
 			fire_game_event("plays", {"card": card, "player": player_index})
+			_echo_first_trap(player_index, card)
 	check_state()
 	return true
 

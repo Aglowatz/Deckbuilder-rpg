@@ -8,7 +8,11 @@ extends RefCounted
 
 ## LOSE_CARD (Fix pass Nov 4 (B)): a random non-basic card leaves the run's deck for the rest of this run (it is back after the run).
 ## HINT (Fable Nov 20): no effect; its `event_id` is the choice's own bracket text.
-enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT, LOSE_CARD, HINT }
+## Nov 25 night (Part G, the encounter library): CHECK_UNITS - a deck-building check: `event_id` "path,count,damage"; with at least `count`
+## units of that Path in the run's deck the player gets `boon` for the rest of the dungeon, otherwise loses `damage` HP. REVEAL_UNIT - a
+## random unit of the run's deck is shown: attack at least `amount` gives `boon`, less and EVERY copy of it leaves the deck for this run.
+## SHRED_TYPE - every card of the type in `event_id` ("wonder", "tool"...) leaves the run's deck for this run (back after the run).
+enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT, LOSE_CARD, HINT, CHECK_UNITS, REVEAL_UNIT, SHRED_TYPE }
 
 
 class Outcome:
@@ -40,7 +44,18 @@ class Outcome:
 				return "a random card leaves your deck for this run"
 			OutcomeKind.NEXT:
 				return "continue..."
+			OutcomeKind.CHECK_UNITS:
+				var parts: PackedStringArray = event_id.split(",")
+				return "if your deck has %s or more %s units: %s; if not, lose %s HP" % [parts[1], parts[0].capitalize(), _boon_words(), parts[2]]
+			OutcomeKind.REVEAL_UNIT:
+				return "a random unit of your deck is revealed: attack %d or more, %s; less, every copy of it leaves your deck for this run" % [amount, _boon_words()]
+			OutcomeKind.SHRED_TYPE:
+				return "every %s in your deck is shredded for this run" % event_id.capitalize()
 		return ""
+
+	## The boon of a check, in the words of a choice button ("Head Chef's Nod: your units get +1 attack").
+	func _boon_words() -> String:
+		return "%s (%s)" % [boon.source_name, BoonText.short(boon)] if boon != null else "a boon"
 
 	## A boon whose numbers are all negative is a curse on the run (shown as one on the choice button).
 	func _is_curse() -> bool:
@@ -152,6 +167,26 @@ static func card(card_id: String) -> Outcome:
 
 static func lose_card() -> Outcome:
 	return _outcome(OutcomeKind.LOSE_CARD)
+
+
+## Nov 25 night (Part G): the encounter library's checks and patrols (see OutcomeKind).
+static func check_units(path_word: String, count: int, damage_amount: int, reward: ModifierSource) -> Outcome:
+	var outcome: Outcome = _outcome(OutcomeKind.CHECK_UNITS, count)
+	outcome.event_id = "%s,%d,%d" % [path_word, count, damage_amount]
+	outcome.boon = reward
+	return outcome
+
+
+static func reveal_unit(min_attack: int, reward: ModifierSource) -> Outcome:
+	var outcome: Outcome = _outcome(OutcomeKind.REVEAL_UNIT, min_attack)
+	outcome.boon = reward
+	return outcome
+
+
+static func shred_type(type_word: String) -> Outcome:
+	var outcome: Outcome = _outcome(OutcomeKind.SHRED_TYPE)
+	outcome.event_id = type_word
+	return outcome
 
 
 static func next(event_id: String) -> Outcome:

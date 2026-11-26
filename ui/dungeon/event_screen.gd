@@ -98,6 +98,10 @@ func _choose(index: int) -> void:
 		result_text = result_text.replace("{card}", result.lost_cards[0].display_name)  # Fix pass Nov 4 (B): the result names the card that left
 	var text: Label = card.line(result_text, NodeCard.INK, 23)
 	text.name = "EventResult"
+	# Nov 25 night (Part G): what a check or a patrol found (passed or failed, what was revealed, what was shredded)
+	for note: String in result.notes:
+		var found: Label = card.line(note, NodeCard.INK_SOFT, 21, true)
+		found.name = "EventCheck"
 	for entry: Array in summary_chips(result):
 		card.chip(str(entry[0]), str(entry[1]), entry[2] as Color)
 	if result.hp_delta > 0:

@@ -108,8 +108,20 @@ func _ready() -> void:
 		_play_pending_after_story.call_deferred()
 		_play_start_talk.call_deferred()
 	_show_draft_pick.call_deferred()
+	_offer_silver_reserve.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
 		_begin_boss_phase.call_deferred()
+
+
+## Nov 25 night (Part D.2): the Shattered Gallery's Silver Reserve - at the Cracked Frame, before the first fight, the player picks one of
+## three boons (drawn from `ShatteredGallery.SILVER_BOONS` by the run's seed). It lasts for the run, so it is offered once.
+func _offer_silver_reserve() -> void:
+	if Session.dungeon_key != ShatteredGallery.DUNGEON_ID or run == null or ShatteredGallery.has_silver(run) or _modal != null:
+		return
+	if not _screenshot_args.is_empty() and not _screenshot_args.has("silver"):
+		return
+	var start: DungeonMap.MapNode = map.nodes[0] if not map.nodes.is_empty() else null
+	_open_modal(EventScreen.make(ShatteredGallery.silver_event(Session.silver_seed()), Session.dungeon_key), start.id if start != null else 0)
 
 
 ## Fable big pass Nov 23: a dungeon draft's offer on the table (the pick of three after a fight, the Trade Counter, the Chained

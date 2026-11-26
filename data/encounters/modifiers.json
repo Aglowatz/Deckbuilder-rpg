@@ -220,6 +220,14 @@
 			"kind": "stat",
 			"atk": 5,
 			"def": 4
+		},
+		{
+			"name": "Base Camp Chalk",
+			"text": "The Spotter starts the fight with an Infrastructure already in play.",
+			"icon": "delapouite/mammoth",
+			"kind": "starting_infrastructure",
+			"count": 1,
+			"nov25n": true
 		}
 	],
 	"The Itamae Supreme": [
@@ -639,6 +647,15 @@
 			"icon": "delapouite/alarm-clock",
 			"kind": "first_turn_draw",
 			"count": 1
+		},
+		{
+			"name": "Stopwatch, Silvered",
+			"text": "Quota's Echo's units get +2 attack. The stopwatch in the glass runs fast.",
+			"icon": "delapouite/alarm-clock",
+			"kind": "stat",
+			"atk": 2,
+			"def": 0,
+			"postgame": true
 		}
 	],
 	"Echo of Chancellor Clench": [
@@ -657,6 +674,15 @@
 			"kind": "starting_tokens",
 			"token": "T-16",
 			"count": 2
+		},
+		{
+			"name": "Reinforcements, Silvered",
+			"text": "Every fourth turn of his, a 2/2 Patchwork Body marches in (the original waited for every fifth).",
+			"icon": "delapouite/strong-man",
+			"kind": "timed_summon",
+			"token": "T-21",
+			"every": 4,
+			"postgame": true
 		}
 	],
 	"Echo of Percival Plume": [
@@ -666,6 +692,15 @@
 			"icon": "delapouite/trumpet",
 			"kind": "extra_draws",
 			"count": 1
+		},
+		{
+			"name": "Positive Spin, Silvered",
+			"text": "Plume's Echo's units get +1/+2. The press release has been polished.",
+			"icon": "delapouite/scroll-quill",
+			"kind": "stat",
+			"atk": 1,
+			"def": 2,
+			"postgame": true
 		}
 	],
 	"Echo of Mortimer Grimsby": [
@@ -685,6 +720,24 @@
 			"harmful": true,
 			"kind": "first_card_cost",
 			"amount": 1
+		},
+		{
+			"name": "Temp Agency, Silvered",
+			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.",
+			"icon": "delapouite/shambling-zombie",
+			"kind": "timed_summon",
+			"token": "T-10",
+			"every": 2,
+			"postgame": true
+		},
+		{
+			"name": "Temp Agency, Silvered",
+			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.",
+			"icon": "delapouite/shambling-zombie",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1,
+			"postgame": true
 		}
 	],
 	"Echo of the Doppelganger": [
@@ -695,6 +748,24 @@
 			"kind": "starting_tokens",
 			"token": "T-03",
 			"count": 2
+		},
+		{
+			"name": "Mise en Place, Silvered",
+			"text": "Starts the duel with 2 Ingredients, on top of its two Sashimi Weenies.",
+			"icon": "delapouite/chef-toque",
+			"kind": "starting_resources",
+			"resource": "ingredient",
+			"count": 2,
+			"postgame": true
+		},
+		{
+			"name": "Plated Just So, Silvered",
+			"text": "The Echo's units get +2/+1. Every reflected dish is plated just so.",
+			"icon": "delapouite/fork-knife-spoon",
+			"kind": "stat",
+			"atk": 2,
+			"def": 1,
+			"postgame": true
 		}
 	],
 	"Echo of Hortensia Clipwell": [
@@ -712,6 +783,16 @@
 			],
 			"every": 2,
 			"count": 1
+		},
+		{
+			"name": "Royal Groundskeeper, Silvered",
+			"text": "Clipwell's Echo's units get +2/+1 (her Topiaries do not: they stay 1/2).",
+			"icon": "lorc/leaf-swirl",
+			"kind": "stat",
+			"atk": 2,
+			"def": 1,
+			"non_tokens": true,
+			"postgame": true
 		}
 	],
 	"Echo of the Rotheart": [
@@ -737,6 +818,15 @@
 			"kind": "stat",
 			"atk": 0,
 			"def": 1
+		},
+		{
+			"name": "Rot Takes Root, Silvered",
+			"text": "The Echo's units get +2/+2 more. The rot in the glass is still feeding.",
+			"icon": "cathelineau/tree-face",
+			"kind": "stat",
+			"atk": 2,
+			"def": 2,
+			"postgame": true
 		}
 	],
 	"The Perfect Copy": [
@@ -984,6 +1074,142 @@
 			"icon": "lorc/scroll-unfurled",
 			"kind": "extra_draws",
 			"count": 1
+		}
+	],
+	"Intake Orderly": [
+		{
+			"name": "Pre-Filed",
+			"text": "The Orderly starts the fight with 2 Infrastructure already in play. The paperwork was done before you arrived.",
+			"icon": "delapouite/full-folder",
+			"kind": "starting_infrastructure",
+			"count": 2,
+			"nov25n": true
+		},
+		{
+			"name": "Intake Forms",
+			"text": "The first card you play each turn costs 1 more. Please fill in every box.",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"harmful": true,
+			"kind": "first_card_cost",
+			"amount": 1,
+			"nov25n": true
+		}
+	],
+	"Escaped Specimen": [
+		{
+			"name": "Feral Brood",
+			"text": "Every second turn of its, a 2/1 Specimen Spawn crawls out of the vents.",
+			"icon": "lorc/acid-blob",
+			"kind": "timed_summon",
+			"token": "T-22",
+			"token_name": "Specimen Spawn",
+			"token_keywords": [],
+			"token_stats": [
+				2,
+				1
+			],
+			"every": 2,
+			"nov25n": true
+		},
+		{
+			"name": "Feral",
+			"text": "The Specimen's units get +1/+0.",
+			"icon": "lorc/acid-blob",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0,
+			"nov25n": true
+		}
+	],
+	"Hybrid Specimen": [
+		{
+			"name": "Two Natures",
+			"text": "The Hybrid draws an extra card each turn.",
+			"icon": "lorc/acid-blob",
+			"kind": "extra_draws",
+			"count": 1,
+			"nov25n": true
+		},
+		{
+			"name": "Grafted Pantry",
+			"text": "The Hybrid starts the fight with 3 Ingredients.",
+			"icon": "delapouite/chef-toque",
+			"kind": "starting_resources",
+			"resource": "ingredient",
+			"count": 3,
+			"nov25n": true
+		}
+	],
+	"Siphon's Research Assistant": [
+		{
+			"name": "Field Notes",
+			"text": "At the start of each of its turns the Assistant gets an Ingredient.",
+			"icon": "delapouite/scroll-quill",
+			"kind": "start_of_turn_resources",
+			"resource": "ingredient",
+			"count": 1,
+			"nov25n": true
+		}
+	],
+	"Antechamber Sentry": [
+		{
+			"name": "Last Line",
+			"text": "The Sentry always takes the first turn.",
+			"icon": "delapouite/temporary-shield",
+			"kind": "always_first",
+			"nov25n": true
+		},
+		{
+			"name": "Blast Doors",
+			"text": "The Sentry starts with two 0/4 Blast Doors on the field (Wallflower: they block, they never attack).",
+			"icon": "delapouite/temporary-shield",
+			"kind": "starting_tokens",
+			"token": "T-23",
+			"token_name": "Blast Door",
+			"count": 2,
+			"nov25n": true
+		}
+	],
+	"Rival Lifter at Base Camp": [
+		{
+			"name": "Pre-Workout",
+			"text": "The Rival draws two extra cards on its first turn, and its units get +1/+0.",
+			"icon": "delapouite/strong-man",
+			"kind": "first_turn_draw",
+			"count": 2,
+			"nov25n": true
+		},
+		{
+			"name": "Pre-Workout",
+			"text": "The Rival draws two extra cards on its first turn, and its units get +1/+0.",
+			"icon": "delapouite/strong-man",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0,
+			"nov25n": true
+		}
+	],
+	"Squat Rack Sentinel": [
+		{
+			"name": "Safety Bar",
+			"text": "The Sentinel starts with a 0/4 Safety Bar on the field (Wallflower: it blocks, it never attacks).",
+			"icon": "delapouite/weight-lifting-up",
+			"kind": "starting_tokens",
+			"token": "T-23",
+			"token_name": "Safety Bar",
+			"count": 1,
+			"nov25n": true
+		},
+		{
+			"name": "Gym Golems",
+			"text": "Every third turn of its, a 2/2 Gym Golem steps off the rack.",
+			"icon": "delapouite/weight-lifting-up",
+			"kind": "timed_summon",
+			"token": "T-21",
+			"token_name": "Gym Golem",
+			"every": 3,
+			"nov25n": true
 		}
 	]
 }

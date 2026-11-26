@@ -63,6 +63,8 @@ var first_unit_exhaust_done: bool = false
 ## FIRST_INFRASTRUCTURE_ENTER_EXHAUSTED has already exhausted an Infrastructure this duel.
 var draw_penalty_used: int = 0
 var first_infrastructure_exhaust_done: bool = false
+## Nov 25 night (Part G, the wizard prisoner): the turn number on which this player's first Trap was copied (COPY_FIRST_TRAP); -1 = never.
+var trap_copied_turn: int = -1
 ## The Shattered Gallery's Perfect Form (MIRROR_FIRST_UNIT) already copied a unit for the opponent this turn.
 var unit_mirrored_this_turn: bool = false
 ## Overnight Nov 7-8, Part 6.3: the first non-Infrastructure card of this turn has been played (DRAW_COPY_FIRST_PLAY).
@@ -181,6 +183,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.first_unit_exhaust_done = first_unit_exhaust_done
 	copy.draw_penalty_used = draw_penalty_used
 	copy.first_infrastructure_exhaust_done = first_infrastructure_exhaust_done
+	copy.trap_copied_turn = trap_copied_turn
 	copy.unit_mirrored_this_turn = unit_mirrored_this_turn
 	copy.first_play_done_this_turn = first_play_done_this_turn
 	copy.enemy_enter_effect_done_this_turn = enemy_enter_effect_done_this_turn

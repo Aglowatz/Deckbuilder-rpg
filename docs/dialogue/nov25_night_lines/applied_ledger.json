@@ -1,0 +1,142 @@
+[
+	{
+		"id": "core/quests/quest_definitions.gd::_after_the_fall::1",
+		"file": "core/quests/quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Two things are still unfinished. Something is locked away under the forest where you woke, and the cracked mirror by the castle door shows rooms that should not be there.",
+		"after": "Two things are still unfinished. Something is locked away under the forest where you woke, and the cracked mirror at the top of Grave Row shows rooms that should not be there."
+	},
+	{
+		"id": "core/quests/quest_definitions.gd::_after_the_fall::3",
+		"file": "core/quests/quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Under the forest: ask Rip at Crosspath's Rift Station, then take the Rift Express to the forest. The Gallery: the cracked mirror beside the castle door",
+		"after": "Under the forest: ask Rip at Crosspath's Rift Station, then take the Rift Express to the forest. The Gallery: the cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "core/quests/quest_definitions.gd::_after_the_fall::6",
+		"file": "core/quests/quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "The cracked mirror by the castle door",
+		"after": "The cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_gallery_line::4",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Look into the cracked mirror by the castle door",
+		"after": "Look into the cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_gallery_line::5",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Beside the castle door, at the top of the Palace Approach",
+		"after": "In the yard at the top of Grave Row, under the castle wall"
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_gallery_line::7",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Through the cracked mirror by the castle door",
+		"after": "Through the cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_gallery_quest::1",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Wren says one of the mirrors at the castle door has cracked from the inside, and it is still showing a kingdom that never was. Go and look.",
+		"after": "Wren says a mirror carried out of the castle to Grave Row has cracked from the inside, and it is still showing a kingdom that never was. Go and look."
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_gallery_quest::2",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Look into the cracked mirror at the castle door",
+		"after": "Look into the cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::TARGETS::34",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "The cracked mirror beside the castle door",
+		"after": "The cracked mirror at the top of Grave Row"
+	},
+	{
+		"id": "data/story/capital_story.tres::quest.cracks_in_the_glass.offer::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "One of them, by the castle door, cracked from the inside last night, and I did not like what I saw behind it. Will you go and look, so that it can be written down by someone who was there?",
+		"after": "One of them cracked from the inside last night. The guards carried it out of the castle and left it in the yard at the top of Grave Row, under the castle wall, and nobody will stand near it. I did not like what I saw behind it. Will you go and look, so that it can be written down by someone who was there?"
+	},
+	{
+		"id": "data/story/capital_story.tres::quest.cracks_in_the_glass.active::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "It is the mirror by the castle door, the one that cracked from the inside. Go and look into it, and then come back and tell me I imagined it. I would be glad to strike the entry out.",
+		"after": "It is the cracked mirror at the top of Grave Row, the one they carried out of the castle. Go and look into it, and then come back and tell me I imagined it. I would be glad to strike the entry out."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.thanks.line.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "At the castle door: a cracked mirror, and the Shattered Gallery behind it.",
+		"after": "At the top of Grave Row: a cracked mirror, and the Shattered Gallery behind it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/S-GALLERY/blurbs/1::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The mirror at the castle door, cracked from the inside. Beyond it the air is cold and smells of polish.",
+		"after": "The mirror they carried out to Grave Row, cracked from the inside. Beyond it the air is cold and smells of polish."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/3/choices/1::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "You walk past. For the rest of the gallery, every reflection you pass is lifting it for you, slightly better.",
+		"after": "You walk past. For the rest of the gallery every reflection you pass is lifting it for you, and your own troops feel thinner for it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/6/choices/1::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "The frame lets out a long, disappointed sigh, and the glass at your back cuts you on the way past.",
+		"after": "A patrol of reflected clerks marches out of the frame to process your refusal. They stamp every Wonder you carry VOID and feed it to the glass. The frame thanks you for your cooperation."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/12/choices/0::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "It looks back, and for a second you can't tell which of you blinked. You take some of its certainty with you, and it takes some of your strength.",
+		"after": "You hold its gaze until it blinks. You come away knowing yourself a little better, and the glass keeps your voice: no spell will leave your lips while you are in here."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/0::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(choice button)",
+		"before": "Read the notes on the Subject",
+		"after": "Put a unit through the Specimen Trial"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/0::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "The notes on the Subject show how they planned to beat you. You use it in the next fight, and the paper cuts you twice.",
+		"after": "Behind the glass a very large, very old lizard opens one eye. The clipboard on the wall says SPECIMEN TRIAL: ONE SUBJECT, ONE ROUND. You send someone in."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/choices/2::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(choice button)",
+		"before": "Tear out the straps",
+		"after": "Free the hedge-wizard strapped in beside it"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/choices/2::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "You tear out the straps, and feel stronger for it. The buckles bite on the way out.",
+		"after": "You tear the straps loose and a small furious wizard in a hospital gown climbs out, rubbing his wrists. \"Traps,\" he says. \"I do traps. Set one and I will set it again.\" The straps bite you on the way."
+	}
+]

@@ -1,4 +1,6 @@
 extends Node
+## Nov 25 night (Part C): preloaded (a new class is not in the class cache until the next import).
+const OPPONENT_HANDS = preload("res://core/game/opponent_hands.gd")
 ## The running game's shared state: content, the player's profile/collection/deck, gold, story
 ## flags, and the current dungeon run. Everything here is plain data that SaveSystem stores.
 
@@ -2065,6 +2067,10 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	# Rebalance Part E: the foe's one-sided encounter rules - the enemy side is already on its seat (`enemy_setup`), the player side goes here.
 	if phase == null:
 		player_rules = EncounterModifiers.merge_player_rules(player_rules, node.enemy_name)
+	# Nov 25 night (Part C): a foe of a postgame dungeon or a dungeon draft opens with a full hand (a boss one more) of a sensible mix
+	if draft_dungeon_active or ((mini_active or main_dungeon_active) and OPPONENT_HANDS.is_postgame_dungeon(dungeon_key)):
+		OPPONENT_HANDS.apply(enemy, node.kind == DungeonMap.Kind.BOSS)
+		OPPONENT_HANDS.apply_options(options)
 	var game: GameState = run.start_encounter(enemy, zone_source, options, player_rules)
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
 	var allies: Array[RuleBadges.Badge] = []
@@ -2463,9 +2469,12 @@ func make_vault_battle() -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = -1
 	options.rng_seed = rng.randi() % 1000000 + 1
+	OPPONENT_HANDS.apply_options(options)  # Nov 25 night (Part C): the vault's Warden is a postgame boss too
 	var game: GameState = GameState.new(options)
 	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
-	game.add_player(VaultGuardian.enemy_setup(content))
+	var warden: PlayerSetup = VaultGuardian.enemy_setup(content)
+	OPPONENT_HANDS.apply(warden, true)
+	game.add_player(warden)
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
@@ -3075,6 +3084,21 @@ func enter_zone(zone_id: String) -> void:
 
 ## Set just before a rift trip: the next scene puts the hero at that scene's Rift Station instead of its usual spawn (read once).
 var arrive_at_station: bool = false
+## Nov 25 night (Part A.2): set when a Shuffle House draft sends the player back to Crosspath (a fight of a table draft, the end of a
+## dungeon draft, a cash-out, a loss): the town puts the hero on the house's doorstep, facing out (read once by TownScene).
+var arrive_at_shuffle_house: bool = false
+
+
+## Nov 25 night (Part D.2): the seed of the Shattered Gallery's Silver Reserve offer for this run (the run object lives for one walk
+## through the dungeon, and a dungeon run is never saved, so the three boons stay the same however often the map reopens).
+func silver_seed() -> int:
+	return int(run.get_instance_id() & 0x7fffffff) if run != null else 0
+
+
+## A Shuffle House draft (not one of Trey's zone drafts) is about to go back to Crosspath: arrive at its door.
+func _back_to_shuffle_house(challenge_id: String) -> void:
+	if not DraftChallenges.is_zone(challenge_id):
+		arrive_at_shuffle_house = true
 
 
 func fast_travel_unlocked(station_id: String) -> bool:
@@ -3628,8 +3652,8 @@ func enter_mini_dungeon(dungeon_id: String = "") -> void:
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
 	if plan.id == ShatteredGallery.DUNGEON_ID:
-		# Overnight Nov 4-5, Part 5: the Gallery starts at full HP with its Silver Reserve (more max life), then nothing heals
-		run.dungeon_sources.append(ShatteredGallery.silver_reserve())
+		# Overnight Nov 4-5, Part 5: the Gallery starts at full HP, then nothing heals. Nov 25 night (Part D.2): its Silver Reserve is a
+		# choice now (1 of 3 boons), made at the Cracked Frame when the map opens (`DungeonMapScreen`, `ShatteredGallery.silver_event`)
 		run.hp = run.max_hp()
 	AudioMix.set_mirror_music(plan.id == ShatteredGallery.DUNGEON_ID)  # Overnight Nov 4-5: the Gallery hears the castle's music in a mirror
 	mini_active = true
@@ -4497,10 +4521,12 @@ func _complete_draft_battle(context: BattleContext) -> void:
 	if draft_dungeon_active:
 		_complete_draft_dungeon_battle(context)
 		return
+	var challenge: String = draft.challenge_id if draft != null else ""
 	resolve_draft_battle(context)
 	if in_zone():
 		SceneManager.change_scene(zone_def().scene_path)
 	else:
+		_back_to_shuffle_house(challenge)
 		SceneManager.go_to_town()
 
 
@@ -4624,7 +4650,7 @@ func prepare_draft_dungeon() -> bool:
 		sources.append(DungeonRules.player_source(dungeon_key))
 	run = DungeonRun.enter(profile, deck, sources)
 	if dungeon_key == ShatteredGallery.DUNGEON_ID:
-		run.dungeon_sources.append(ShatteredGallery.silver_reserve())
+		pass  # Nov 25 night (Part D.2): the Silver Reserve is chosen at the Cracked Frame (1 of 3 boons), as in a story run
 	run.hp = run.max_hp()
 	AudioMix.set_mirror_music(dungeon_key == ShatteredGallery.DUNGEON_ID)
 	mini_active = true
@@ -4672,8 +4698,10 @@ func prepare_draft_dungeon() -> bool:
 ## A fight of a draft dungeon is over: a loss ends the run; a win clears the room and, unless it was the boss, puts three cards
 ## on the table (the pick is made on the map: add one, swap one in, or pass).
 func _complete_draft_dungeon_battle(context: BattleContext) -> void:
+	var challenge: String = draft.challenge_id if draft != null else ""
 	var over: Dictionary = resolve_draft_dungeon_battle(context)
 	if bool(over.get("over", false)):
+		_back_to_shuffle_house(challenge)
 		SceneManager.go_to_town()
 	else:
 		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
@@ -4741,14 +4769,18 @@ func resolve_draft_dungeon(cleared: bool, cashed_out: bool = false) -> Dictionar
 
 
 func finish_draft_dungeon(cleared: bool) -> void:
+	var challenge: String = draft.challenge_id if draft != null else ""
 	resolve_draft_dungeon(cleared)
+	_back_to_shuffle_house(challenge)
 	SceneManager.go_to_town()
 
 
 ## Fable Nov 24 (Part 4): cashing out at the Counting Halls - the run ends here with part of the prize (`rewards.dungeon.
 ## halls_cash_out` in the rules file) and it is NOT a win: no clear, no card to keep, no first-clear prize, no "won" flag.
 func finish_draft_cash_out() -> void:
+	var challenge: String = draft.challenge_id if draft != null else ""
 	resolve_draft_dungeon(false, true)
+	_back_to_shuffle_house(challenge)
 	SceneManager.go_to_town()
 
 

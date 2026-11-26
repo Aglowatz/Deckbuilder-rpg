@@ -235,8 +235,8 @@ play t=unit|opp => damage(t,$paid_atk)
 == NB-05 @2ad075553522  # Squatter's Rights
 play t=infra.opp => steal(t,perm); create(iron)
 
-== NB-06 @a2fe2833eea2  # Membership Cancellation
-play t=tool => set(c,ctl(t)); destroy(t); lose($c,2)
+== NB-06 @c006fc815298  # Membership Cancellation
+play t=tool|wonder => destroy(t)
 
 == NB-07 @55b9625cbea4  # Ball and Chain
 attach

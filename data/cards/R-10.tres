@@ -12,9 +12,12 @@ color = 3
 generic_cost = 1
 colored_pips = Array[int]([3])
 defense = 0
-rules_text = "At the start of your turn, if you control no Garbage, create a Garbage."
+rules_text = "At the start of your turn, if you control no Garbage, create a Garbage.
+
+Eat garbage: gain 2 HP. Do this only once per turn."
 flavor_text = "Leave a scrap, take a scrap."
 paths_all = Array[int]([3])
-script_text = "sot ? count(garbage)==0 => create(garbage)"
-rules_hash = "c7cb991f05cf"
+script_text = "sot ? count(garbage)==0 => create(garbage)
+act once | eat => gain(me,2)"
+rules_hash = "018632ead3ab"
 image_description = "A cheerful hand-painted wooden compost bin covered in flowers and doodles, steam rising from it, with rats and goats politely waiting in line."

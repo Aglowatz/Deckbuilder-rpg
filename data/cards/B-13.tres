@@ -13,9 +13,12 @@ colored_pips = Array[int]([1])
 attack = 6
 defense = 5
 keywords = Array[int]([2])
-rules_text = "Hustle."
+rules_text = "Hustle.
+
+When this unit enters, gain 3 HP."
 flavor_text = "Transportation? He IS the transportation."
 paths_all = Array[int]([1])
-script_text = "kw hustle"
-rules_hash = "a866391f7101"
+script_text = "kw hustle
+enter => gain(me,3)"
+rules_hash = "56c0a52bcae4"
 image_description = "An enormous Beefcake carrying an entire wagon full of passengers on his back while running along a dirt road, dust billowing behind."

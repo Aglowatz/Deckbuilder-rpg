@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4bld2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4i5un"]
+
+[resource]
+script = ExtResource("2_4i5un")
+id = "B-39"
+display_name = "Cool-Down Stretch"
+type = 2
+color = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Gain 4 HP. Create an Iron."
+flavor_text = "Stretch it out. Hydrate. Then go again."
+paths_all = Array[int]([1])
+script_text = "play => gain(me,4); create(iron)"
+rules_hash = "8dd4c7bb8157"
+image_description = "A Beefcake lifter in a sweatband stretching on a mat beside a rack, a towel round the neck and a water flask glowing faintly, steam rising off the shoulders."

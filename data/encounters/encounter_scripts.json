@@ -1262,6 +1262,25 @@
 				}
 			],
 			"banner": "A 1/1 Discarded Sample crawls out."
+		},
+		{
+			"id": "pg_spurt",
+			"name": "Growth Spurt",
+			"icon": "lorc/acid-blob",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On its 4th turn the Experiment has a growth spurt: two 2/2 Patchwork Bodies split off it.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-21",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: a growth spurt (two 2/2 units split off).",
+			"banner": "Two 2/2 Patchwork Bodies split off the Experiment."
 		}
 	],
 	"The Drain Warden": [
@@ -1287,6 +1306,27 @@
 			],
 			"warn": "Next turn: the drain cycle runs (you lose 2, it heals 2).",
 			"banner": "You take 2 damage; the Drain Warden heals 2."
+		},
+		{
+			"id": "pg_overdrain",
+			"name": "Overdrain",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "hp_below",
+				"pct": 40
+			},
+			"text": "Low on power the Warden overdrains: you take 3 damage and it heals 3.",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 3
+				},
+				{
+					"kind": "heal",
+					"amount": 3
+				}
+			],
+			"banner": "Overdrain: you take 3 damage; the Warden heals 3."
 		}
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
@@ -1987,6 +2027,368 @@
 				}
 			],
 			"banner": "The wheel lands on Red Tape: your two strongest ready units are exhausted, and she draws two."
+		}
+	],
+	"Echo of Vivienne Quota": [
+		{
+			"id": "echo_review",
+			"name": "Efficiency Review",
+			"icon": "delapouite/alarm-clock",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Quota's Echo reviews her numbers: she draws two cards.",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 2
+				}
+			],
+			"banner": "Quota's Echo draws two cards."
+		}
+	],
+	"Echo of Chancellor Clench": [
+		{
+			"id": "echo_brownout",
+			"name": "Brownout",
+			"icon": "lorc/hourglass",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On his 4th turn Clench's Echo cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: Clench's Echo cuts the power (your two strongest units cannot block).",
+			"banner": "The lights go out: your two strongest ready units are exhausted."
+		},
+		{
+			"id": "echo_forms",
+			"name": "DROP AND GIVE ME FORMS",
+			"icon": "delapouite/belt-armor",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Clench's Echo pulls the emergency reserve: he gains 3 Iron.",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "iron",
+					"count": 3
+				}
+			],
+			"banner": "Clench's Echo gains 3 Iron."
+		}
+	],
+	"Echo of Percival Plume": [
+		{
+			"id": "echo_spin",
+			"name": "Positive Spin",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Plume's Echo announces that he is fine: he heals 5.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 5
+				}
+			],
+			"banner": "Plume's Echo heals 5."
+		},
+		{
+			"id": "echo_deadline",
+			"open": true,
+			"name": "Filing Deadline",
+			"icon": "delapouite/alarm-clock",
+			"when": {
+				"type": "turn",
+				"turn": 12
+			},
+			"text": "When Plume's 12th turn begins the office closes and you lose the duel. Win before then.",
+			"effects": [
+				{
+					"kind": "defeat_foe"
+				}
+			],
+			"warn": "Next turn: the filing deadline. Win now, or the office closes and the duel is lost.",
+			"banner": "The filing day is over. The office is closed."
+		}
+	],
+	"Echo of Mortimer Grimsby": [
+		{
+			"id": "echo_form",
+			"name": "Mortimer Files a Form",
+			"icon": "delapouite/full-folder",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On his 3rd turn Mortimer's Echo files Form 27-B twice: two 1/1 Filing Clerks are hired to process it.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-10",
+					"count": 2,
+					"token_name": "Filing Clerk"
+				}
+			],
+			"warn": "Next turn: Mortimer's Echo files Form 27-B (two clerks are hired).",
+			"banner": "Two 1/1 Filing Clerks are hired."
+		}
+	],
+	"Echo of the Doppelganger": [
+		{
+			"id": "echo_mask",
+			"name": "The Mask Slips",
+			"icon": "delapouite/carnival-mask",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Echo's mask slips, and nothing changes underneath: three 1/1 Sashimi Weenies are rushed out.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-03",
+					"count": 3
+				}
+			],
+			"banner": "Three 1/1 Sashimi Weenies are rushed out."
+		}
+	],
+	"Echo of Hortensia Clipwell": [
+		{
+			"id": "echo_topiary",
+			"name": "Regulation Topiary",
+			"icon": "lorc/leaf-swirl",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Clipwell's Echo trims three topiaries into guards: three 1/2 Topiaries join her.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-22",
+					"count": 3,
+					"token_name": "Topiary",
+					"token_keywords": [],
+					"token_stats": [
+						1,
+						2
+					]
+				}
+			],
+			"banner": "Three Topiaries join Clipwell's Echo."
+		}
+	],
+	"Echo of the Rotheart": [
+		{
+			"id": "echo_roots",
+			"name": "The Roots Spread",
+			"icon": "delapouite/tree-roots",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the roots spread: three 1/1 Sporelings sprout and the Echo's units get +0/+1.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-22",
+					"count": 3
+				},
+				{
+					"kind": "buff",
+					"atk": 0,
+					"def": 1
+				}
+			],
+			"banner": "Three Sporelings sprout; the Echo's units get +0/+1."
+		}
+	],
+	"Intake Orderly": [
+		{
+			"id": "pg_sedation",
+			"name": "Sedation Round",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On its 3rd turn the Orderly does the sedation round: your two strongest ready units are exhausted and cannot block that turn.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: the sedation round (your two strongest units cannot block).",
+			"banner": "Sedation round: your two strongest ready units are exhausted."
+		}
+	],
+	"Escaped Specimen": [
+		{
+			"id": "pg_shed",
+			"name": "Shed Skin",
+			"icon": "lorc/acid-blob",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Specimen sheds its skin: it heals 5 and its units get +1/+1.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 5
+				},
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 1
+				}
+			],
+			"banner": "The Specimen heals 5; its units get +1/+1."
+		}
+	],
+	"Hybrid Specimen": [
+		{
+			"id": "pg_splice",
+			"name": "Splice",
+			"icon": "lorc/acid-blob",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On its 5th turn the Hybrid splices in a Toro Toro (4/6, Bulldoze, Swat), straight onto the field.",
+			"effects": [
+				{
+					"kind": "card",
+					"card": "G-27",
+					"to": "field"
+				}
+			],
+			"warn": "Next turn: the Hybrid splices in a Toro Toro (4/6).",
+			"banner": "A Toro Toro is spliced in."
+		}
+	],
+	"Siphon's Research Assistant": [
+		{
+			"id": "pg_samples",
+			"name": "Lab Samples",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On its 3rd turn the Assistant opens the sample fridge: two 1/1 Sashimi Weenies join it.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-03",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: the sample fridge opens (two 1/1 units).",
+			"banner": "Two 1/1 Sashimi Weenies join the Assistant."
+		},
+		{
+			"id": "pg_project",
+			"name": "The Big Project",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "turn",
+				"turn": 6
+			},
+			"text": "On its 6th turn the Assistant's big project wakes up: a Landfill Leviathan (7/7) arrives on its field.",
+			"effects": [
+				{
+					"kind": "card",
+					"card": "R-36",
+					"to": "field"
+				}
+			],
+			"warn": "Next turn: the big project wakes up (a 7/7 Landfill Leviathan).",
+			"banner": "The big project wakes up: a 7/7 Landfill Leviathan."
+		}
+	],
+	"Antechamber Sentry": [
+		{
+			"id": "pg_lockdown",
+			"name": "Lockdown",
+			"icon": "delapouite/temporary-shield",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the antechamber goes into lockdown: the Sentry's units get +2/+0 for the rest of the fight.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Lockdown",
+						"text": "Lockdown: the Sentry's units get +2/+0.",
+						"icon": "delapouite/temporary-shield",
+						"kind": "stat",
+						"atk": 2,
+						"def": 0
+					}
+				}
+			],
+			"banner": "Lockdown: the Sentry's units get +2/+0."
+		}
+	],
+	"Rival Lifter at Base Camp": [
+		{
+			"id": "pg_second_set",
+			"name": "Second Set",
+			"icon": "delapouite/strong-man",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Rival goes for a second set: it heals 4 and its units get +1/+0.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 4
+				},
+				{
+					"kind": "buff",
+					"atk": 1,
+					"def": 0
+				}
+			],
+			"banner": "Second set: the Rival heals 4; its units get +1/+0."
+		}
+	],
+	"Squat Rack Sentinel": [
+		{
+			"id": "pg_rack_pull",
+			"name": "Rack Pull",
+			"icon": "delapouite/weight-lifting-up",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On its 4th turn the Sentinel drops the bar: your strongest ready unit is exhausted and cannot block that turn.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 1
+				}
+			],
+			"warn": "Next turn: the Sentinel drops the bar (your strongest unit cannot block).",
+			"banner": "Your strongest ready unit is pinned under the bar."
 		}
 	]
 }
