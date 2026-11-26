@@ -38,7 +38,7 @@ wait 6
 button Continue
 wait 4
 skip_dialogue 10
-dev encounter Scarecrow
+dev encounter Overgrown
 wait 6
 button Keep Hand
 wait 3
