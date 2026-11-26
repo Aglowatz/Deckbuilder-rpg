@@ -117,3 +117,10 @@ func test_the_new_cards_heal_and_are_in_the_card_sources() -> void:
 	for card: CardData in draft_pool:
 		ids.append(card.id)
 	assert_true(ids.has("G-36"), "Bone Broth Cook is in a Gourmand draft's pool")
+
+
+func test_a_harmful_rule_on_your_side_reads_red() -> void:
+	for badge: RuleBadges.Badge in RuleBadges.for_encounter(EncounterModifiers.rules("Intake Orderly")):
+		if badge.name == "Intake Forms":
+			assert_false(badge.good)
+			assert_eq(badge.color(), Color("e8625a"), "the first card costs 1 more: a red rule, not a green one")

@@ -46,16 +46,31 @@ class Outcome:
 				return "continue..."
 			OutcomeKind.CHECK_UNITS:
 				var parts: PackedStringArray = event_id.split(",")
-				return "if your deck has %s or more %s units: %s; if not, lose %s HP" % [parts[1], parts[0].capitalize(), _boon_words(), parts[2]]
+				return "%s+ %s units: %s; fewer: lose %s HP" % [parts[1], parts[0].capitalize(), _boon_words(), parts[2]]
 			OutcomeKind.REVEAL_UNIT:
-				return "a random unit of your deck is revealed: attack %d or more, %s; less, every copy of it leaves your deck for this run" % [amount, _boon_words()]
+				return "a random unit is revealed. Attack %d+: %s; less: all its copies leave your deck for this run" % [amount, _boon_words()]
 			OutcomeKind.SHRED_TYPE:
 				return "every %s in your deck is shredded for this run" % event_id.capitalize()
 		return ""
 
 	## The boon of a check, in the words of a choice button ("Head Chef's Nod: your units get +1 attack").
 	func _boon_words() -> String:
-		return "%s (%s)" % [boon.source_name, BoonText.short(boon)] if boon != null else "a boon"
+		if boon == null:
+			return "a boon"
+		var bits: PackedStringArray = []
+		for modifier: Modifier in boon.modifiers:
+			match modifier.kind:
+				Modifier.Kind.STAT_CHANGE:
+					bits.append("your units +%d/+%d" % [modifier.value, modifier.value2])
+				Modifier.Kind.MAX_HP:
+					bits.append("+%d max HP" % modifier.value)
+				Modifier.Kind.OPENING_HAND_SIZE:
+					bits.append("+%d opening card" % modifier.value)
+				Modifier.Kind.EXTRA_DRAWS:
+					bits.append("+%d draw a turn" % modifier.value)
+				_:
+					bits.append(BoonText.modifier_text(modifier))
+		return "%s for the dungeon" % ", ".join(bits)
 
 	## A boon whose numbers are all negative is a curse on the run (shown as one on the choice button).
 	func _is_curse() -> bool:

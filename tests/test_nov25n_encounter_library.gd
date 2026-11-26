@@ -29,7 +29,7 @@ func _event(tokens: Array) -> DungeonEvent:
 
 func test_a_path_roll_call_rewards_enough_units_and_costs_hp_otherwise() -> void:
 	var event: DungeonEvent = _event(["check_units:gourmand,6,5|Head Chef's Nod|atk=1"])
-	assert_string_contains(event.choices[0].hint(), "6 or more Gourmand units")
+	assert_string_contains(event.choices[0].hint(), "6+ Gourmand units")
 	assert_string_contains(event.choices[0].hint(), "lose 5 HP")
 	var cooks: DungeonRun = _run(_deck(7, Affinity.Type.GOURMAND))
 	var passed: EventResolver.Result = EventResolver.resolve(event, 0, cooks, null, 0)

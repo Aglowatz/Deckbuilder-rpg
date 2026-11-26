@@ -19,17 +19,17 @@ shot() {
 	fi
 }
 shot pD_silver_reserve_choice --dungeon=S-GALLERY --silver=true --wait=4
-shot pA_before_the_fight_lab_orderly --dungeon=D-LAB --open=brief --wait=4
-shot pE_before_the_fight_lab_boss --dungeon=D-LAB --open=brief --brief_boss=true --wait=4
-shot pE_before_the_fight_swolympus --dungeon=S-BEEF --open=brief --wait=4
-shot pD_before_the_fight_echo_quota --dungeon=S-GALLERY --open=brief --wait=4
+shot pA_before_the_fight_lab_orderly --dungeon=D-LAB --open=brief --quiet=true --wait=4
+shot pE_before_the_fight_lab_boss --dungeon=D-LAB --open=brief --brief_boss=true --quiet=true --wait=4
+shot pE_before_the_fight_swolympus --dungeon=S-BEEF --open=brief --quiet=true --wait=4
+shot pD_before_the_fight_echo_quota --dungeon=S-GALLERY --open=brief --quiet=true --wait=4
 shot pG_L1_gallery_weight_of_glass --dungeon=S-GALLERY --open=event --event_id=dg_s_gallery_3 --wait=4
 shot pG_L8_gallery_reflected_patrol --dungeon=S-GALLERY --open=event --event_id=dg_s_gallery_6 --wait=4
 shot pG_L2_gallery_silent_glass --dungeon=S-GALLERY --open=event --event_id=dg_s_gallery_12 --wait=4
-shot pG_L6_lab_specimen_trial --dungeon=D-LAB --open=event --event_id=dg_d_lab_4 --wait=4
-shot pG_L7_lab_hedge_wizard --dungeon=D-LAB --open=event --event_id=dg_d_lab_7 --wait=4
+shot pG_L6_lab_specimen_trial --dungeon=D-LAB --open=event --event_id=dg_d_lab_4 --quiet=true --wait=4
+shot pG_L7_lab_hedge_wizard --dungeon=D-LAB --open=event --event_id=dg_d_lab_7 --quiet=true --wait=4
 shot pG_L5_ttk_head_chef --dungeon=D-TTK --open=event --event_id=dg_d_ttk_9 --wait=4
 shot pG_L6_ttk_taste_test_rex --dungeon=D-TTK --open=event --event_id=dg_d_ttk_10 --wait=4
 shot pG_L10_hog_coach --dungeon=D-HOG --open=event --event_id=dg_d_hog_5 --wait=4
 shot pG_L9_hfa_night_patrol --dungeon=D-HFA --open=event --event_id=dg_d_hfa_12 --wait=4
-shot pG_L3_castle_oath_of_order --dungeon=D-PC --open=event --event_id=dg_d_pc_6 --wait=4
+shot pG_L3_castle_oath_of_order --dungeon=D-PC --open=event --event_id=dg_d_pc_6 --quiet=true --wait=4

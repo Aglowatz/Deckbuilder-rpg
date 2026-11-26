@@ -49,9 +49,10 @@ class Badge:
 		return good
 
 	func color() -> Color:
-		if kind == "zone_buff" or kind == "boon" or kind == "ally" or (kind == "encounter" and (side == SIDE_PLAYER or good)):
+		# Nov 25 night: a harmful rule on the player's side ("the first card you play each turn costs 1 more") is a bad rule: red, not green
+		if kind == "zone_buff" or kind == "boon" or kind == "ally" or (kind == "encounter" and good):
 			return Color("6fbf73")
-		if kind == "zone_debuff" or kind == "capital" or kind == "curse" or (kind == "encounter" and side == SIDE_ENEMY):
+		if kind == "zone_debuff" or kind == "capital" or kind == "curse" or kind == "encounter":
 			return Color("e8625a")
 		if kind == "scripted":
 			return SCRIPTED_COLOR
