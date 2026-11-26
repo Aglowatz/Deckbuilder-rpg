@@ -792,6 +792,14 @@ static func draft(what: String, value: String, scene: Node) -> String:
 				Session.draft_pick(0)
 				count += 1
 			return "Draft: %d picks made" % count
+		"gear", "item":
+			# Nov 26 day: `dev draft gear extra_pocket` / `dev draft item healing_salve` - into the draft's own kit (a play script's draft fight)
+			if Session.draft == null:
+				return "Draft: none open"
+			var list: Array[String] = Session.draft.equipment if what == "gear" else Session.draft.items
+			if not list.has(value):
+				list.insert(0, value)  # first, so it sits in the first item slot
+			return "Draft: %s %s added" % [what, value]
 		"lock":
 			return "Draft: deck locked, rivals drafted" if Session.draft_begin_run() else "Draft: the deck is not ready"
 		"fight":

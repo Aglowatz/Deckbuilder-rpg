@@ -1,0 +1,60 @@
+# Nov 26 day (Part F.2): one fight per zone dungeon with its new rules on the battle board (badge row), played a while by the pilot.
+# The Expediter's turn-4 Staff Meal (a new scripted beat) is the last one.
+#   bash tools/play.sh docs/review/play_scripts/nov26/zone_rules.txt nov26_zone_rules 1500
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 14
+dev encounter Brawler
+wait 6
+button Keep Hand
+wait 3
+shot zone_hog_cell_block_brawler
+pilot 25
+shot zone_hog_cell_block_brawler_later
+dev win
+wait 6
+button Continue
+wait 4
+skip_dialogue 10
+dev encounter Frozen
+wait 6
+button Keep Hand
+wait 3
+shot zone_ttk_frozen_line_cook
+dev win
+wait 6
+button Continue
+wait 4
+skip_dialogue 10
+dev encounter Intake
+wait 6
+button Keep Hand
+wait 3
+shot zone_hfa_intake_clerk
+dev win
+wait 6
+button Continue
+wait 4
+skip_dialogue 10
+dev encounter Scarecrow
+wait 6
+button Keep Hand
+wait 3
+shot zone_rot_overgrown_scarecrow
+pilot 40
+shot zone_rot_scarecrow_later
+dev win
+wait 6
+button Continue
+wait 4
+skip_dialogue 10
+dev encounter Expediter
+wait 6
+button Keep Hand
+wait 3
+shot zone_ttk_expediter
+pilot 90
+shot zone_ttk_expediter_staff_meal
+dump

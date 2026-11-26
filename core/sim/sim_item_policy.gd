@@ -23,10 +23,21 @@ static func act(game: GameState, player_index: int, items: Dictionary, content: 
 		var wanted: bool = false
 		match item.effect.op:
 			CardEnums.EffectOp.GAIN_HP:
-				wanted = player.hp <= LOW_HP or (player.hp <= player.max_hp / 2 and player.max_hp - player.hp >= item.effect.amount)
+				# Nov 26 day (Part E): HP carries from fight to fight, so a heal is worth most whenever none of it is wasted (it was
+				# held for half health and often went unused); a low hero still drinks at once
+				wanted = player.hp <= LOW_HP or player.max_hp - player.hp >= item.effect.amount
 			CardEnums.EffectOp.DEAL_DAMAGE:
-				target = _best_enemy_unit(game, player_index, item, func(unit: CardInstance) -> bool: return game.get_defense(unit) - unit.damage <= item.effect.amount)
+				var foe: PlayerState = game.players[1 - player_index]
+				var face: int = Targets.player(1 - player_index)
+				if foe.hp <= item.effect.amount and game.legal_targets(player_index, item.effect, 0).has(face):
+					target = face  # Part E: finish the foe
+				else:
+					target = _best_enemy_unit(game, player_index, item, func(unit: CardInstance) -> bool: return game.get_defense(unit) - unit.damage <= item.effect.amount)
 				wanted = target != 0
+			CardEnums.EffectOp.ADD_ENERGY:
+				# Part E: the Energy Draught, when one more energy of a Path makes a card in hand playable that was not
+				target = _energy_path(game, player_index)
+				wanted = target >= 0
 			CardEnums.EffectOp.SEND_BACK:
 				target = _best_enemy_unit(game, player_index, item, func(unit: CardInstance) -> bool: return game.get_attack(unit) >= 4 or game.get_defense(unit) >= 5)
 				wanted = target != 0
@@ -51,6 +62,25 @@ static func act(game: GameState, player_index: int, items: Dictionary, content: 
 			used_this_turn[id] = true
 			return true
 	return false
+
+
+## Part E: the Path whose one extra energy lets a card in hand be played now (-1 when none does).
+static func _energy_path(game: GameState, player_index: int) -> int:
+	var player: PlayerState = game.players[player_index]
+	var before: Dictionary = {}
+	for card: CardInstance in player.hand:
+		before[card.uid] = game.can_play_card(player_index, card.uid)
+	for path: Affinity.Type in game.item_path_choices(player_index):
+		player.pool.append(path)
+		var helps: bool = false
+		for card: CardInstance in player.hand:
+			if not bool(before[card.uid]) and not card.data.is_infrastructure() and game.can_play_card(player_index, card.uid):
+				helps = true
+				break
+		player.pool.pop_back()
+		if helps:
+			return int(path)
+	return -1
 
 
 static func _best_enemy_unit(game: GameState, player_index: int, item: ItemData, accept: Callable) -> int:

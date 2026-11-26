@@ -1,0 +1,33 @@
+# Nov 26 day (Part F.2): Primm's Castle map with straight lines from room to room (Part A), at the gate and after two rooms.
+#   bash tools/play.sh docs/review/play_scripts/nov26/castle_lines.txt nov26_castle_lines 600
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 22
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev freed refusemancer
+dev travel dungeon D-PC
+wait 9
+skip_dialogue 30
+wait 1
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_lines_01_gate
+dev travel route D-PC 3
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_lines_02_after_room_3
+dev travel route D-PC 6
+wait 6
+skip_dialogue 30
+button Got it
+wait 1
+skip_dialogue 10
+shot castle_lines_03_after_room_6

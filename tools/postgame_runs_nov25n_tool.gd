@@ -71,12 +71,24 @@ func run() -> bool:
 	for player: PlayerSpec in players:
 		if extra_hp != 0:
 			player.extra_sources.append(CardBuilder.modifier_source("Measured extra HP", ModifierSource.SourceKind.BOON, [CardBuilder.modifier(Modifier.Kind.MAX_HP, extra_hp)] as Array[Modifier]))
-		if boon != "" and dungeon == ShatteredGallery.DUNGEON_ID:
+		if boon != "" and boon != "best" and dungeon == ShatteredGallery.DUNGEON_ID:
 			var source: ModifierSource = ShatteredGallery.silver_boon(boon)
 			if source != null:
 				player.extra_sources.append(source)
+		var picked_source: ModifierSource = null
 		for run_index: int in range(runs):
 			total += 1
+			# Nov 26 day (Part E): `--boon=best` - the Silver Reserve as a careful player meets it: the three boons this run offers, the
+			# one that measured strongest (BOON_RANK, from docs/design/sim/nov25n/gallery_boons.md) taken
+			var run_boon: String = boon
+			if boon == "best" and dungeon == ShatteredGallery.DUNGEON_ID:
+				run_boon = _best_boon(ShatteredGallery.silver_offer(seed_value + run_index * 31 + total))
+				if picked_source != null:
+					player.extra_sources.erase(picked_source)
+				picked_source = ShatteredGallery.silver_boon(run_boon)
+				if picked_source != null:
+					player.extra_sources.append(picked_source)
+				boons_taken[run_boon] = int(boons_taken.get(run_boon, 0)) + 1
 			var hp: int = 0
 			var max_hp: int = 0
 			var items: Dictionary = player.items.duplicate()
@@ -89,7 +101,7 @@ func run() -> bool:
 					continue
 				var encounter: EncounterSpec = step as EncounterSpec
 				reached[encounter.id] = int(reached.get(encounter.id, 0)) + 1
-				if boon == "mend" and hp > 0 and max_hp > 0:
+				if run_boon == "mend" and hp > 0 and max_hp > 0:
 					hp = mini(max_hp, hp + 8)
 				var scratch: BalanceSim.Result = BalanceSim.Result.new()
 				scratch.encounter = encounter
@@ -112,6 +124,13 @@ func run() -> bool:
 		var seen: int = int(reached.get(encounter.id, 0))
 		per_fight.append("%s %s" % [encounter.enemy_name.get_slice(",", 0), ("%d/%d" % [int(won.get(encounter.id, 0)), seen]) if seen > 0 else "-"])
 	var label: String = boon if boon != "" else "-"
+	if not boons_taken.is_empty():
+		var bits: PackedStringArray = []
+		for id: Variant in boons_taken.keys():
+			bits.append("%s %d" % [str(id), int(boons_taken[id])])
+		label += " (%s)" % ", ".join(bits)
+	if str(args.get("label", "")) != "":
+		label += " [%s]" % str(args["label"])
 	if not BalanceSim.full_opponent_hands:
 		label += " (hands as before)"
 	if extra_hp != 0:
@@ -169,11 +188,19 @@ func _players(last: EncounterSpec, decks: String, seed_value: int) -> Array[Play
 						best = value
 						choice = i
 			elif str(state.offer["kind"]) == DraftEngine.KIND_EQUIPMENT:
-				var top: int = -1
+				# Nov 26 day (Part E): gear that suits the deck - rarity, plus pieces whose Path-bound modifiers name a drafted Path,
+				# minus pieces built for a Path the deck does not have (it used to take the rarest piece, whatever it did)
+				var top: float = -1000.0
 				for i: int in range(options.size()):
 					var piece: EquipmentData = content.equipment_piece(str(options[i]))
-					if piece != null and int(piece.rarity) > top:
-						top = int(piece.rarity)
+					if piece == null:
+						continue
+					var value: float = float(int(piece.rarity))
+					for modifier: Modifier in piece.modifiers:
+						if modifier.color != Modifier.ANY_COLOR:
+							value += 1.5 if state.paths.has(modifier.color) else -3.0
+					if value > top:
+						top = value
 						choice = i
 			DraftEngine.pick(content, state, choice)
 		DraftEngine.lock_deck(state)
@@ -184,6 +211,18 @@ func _players(last: EncounterSpec, decks: String, seed_value: int) -> Array[Play
 			spec.items[str(id)] = 1
 		result.append(spec)
 	return result
+
+
+## Part E: the strongest of the offered Silver Reserve boons (fights won on average, Nov 25 night: thick and start 2.2, look 1.7 ...).
+const BOON_RANK: Array[String] = ["thick", "start", "look", "guard", "edge", "first", "mend", "purse", "hand"]
+var boons_taken: Dictionary = {}
+
+
+func _best_boon(offer: Array[String]) -> String:
+	for id: String in BOON_RANK:
+		if offer.has(id):
+			return id
+	return offer[0] if not offer.is_empty() else "thick"
 
 
 func _path_of(word: String) -> int:

@@ -113,6 +113,7 @@ func setup(game_state: GameState, profile: PlayerProfile) -> void:
 		button.flat = true
 		UIKit.full_rect(button)
 		button.mouse_filter = Control.MOUSE_FILTER_PASS
+		button.name = "ItemSlot_%d" % i  # Nov 26 day: play scripts click it (`node ItemSlot_0`)
 		var index: int = i
 		button.pressed.connect(func() -> void: _on_pressed(index))
 		slot.add_child(button)
