@@ -1985,8 +1985,9 @@ func _close_path_chooser() -> void:
 
 func _use_energy_item(item: ItemData, path: Affinity.Type) -> void:
 	_close_path_chooser()
+	var before: int = game.item_uses_this_battle(0, item)
 	_use_item(item, int(path))
-	if game.item_used(0, item):
+	if game.item_uses_this_battle(0, item) > before and not game.last_item_backfired:  # Nov 26 day: with the Extra Pocket an item is not "used" after one go
 		_toast("+1 %s energy this turn." % Affinity.display_name(path))
 
 
@@ -2010,11 +2011,18 @@ func _use_item(item: ItemData, target: int) -> void:
 	_drive()
 
 
+## Nov 26 day (Part B): why an item cannot be used again this fight (once, or twice with the Extra Pocket).
+static func why_item_spent(per_fight: int) -> String:
+	if per_fight <= 1:
+		return "Each item works once per battle"
+	return "Each item works %s per battle (Extra Pocket): this one is used up for this fight" % ("twice" if per_fight == 2 else "%d times" % per_fight)
+
+
 func _why_not_usable(item: ItemData) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only use items in your main phase"
 	if game.item_used(0, item):
-		return "Each item works once per battle"
+		return why_item_spent(game.players[0].item_uses_per_battle)
 	return "There is no legal target"
 
 
@@ -2791,6 +2799,7 @@ func _retry_primm() -> void:
 func _continue() -> void:
 	finished.emit(context.won)
 	if context.practice:
+		Session.end_item_battle()  # Nov 26 day (Part B): an item kept for a second use goes with the fight
 		SceneManager.go_to_town()
 	else:
 		Session.complete_battle(context)

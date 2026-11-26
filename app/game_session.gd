@@ -796,11 +796,27 @@ func add_item(item: ItemData, charges: int = 1) -> void:
 func use_equipped_item(game: GameState, player_index: int, item: ItemData, target: int = 0) -> bool:
 	if profile == null or not profile.is_item_equipped(item):
 		return false
+	var before: int = game.item_uses_this_battle(player_index, item)
 	if not game.use_item(player_index, item, target):
 		return false
-	profile.spend_item_charge(item)
+	# Nov 26 day (Part B): with the Extra Pocket (two uses of each item per fight) the first use of an item in a fight spends a copy and
+	# the second is the Pocket's, free - so it works whether the player owns one copy or several. A last copy stays in its slot until
+	# its second use or the end of the fight.
+	var per_fight: int = game.players[player_index].item_uses_per_battle
+	if before == 0:
+		profile.spend_item_charge(item, per_fight > 1)
+	if before + 1 >= per_fight:
+		profile.release_held_items(item)
 	save_game()
 	return true
+
+
+## Nov 26 day (Part B): a fight is over - items kept in their slots for a second use go now (their last copy was spent).
+func end_item_battle() -> void:
+	if profile != null:
+		profile.release_held_items()
+	if _draft_real_profile != null:
+		_draft_real_profile.release_held_items()
 
 
 ## New brief, Part F: buys one unit of `item` from a vendor (spends gold, grants the item via
@@ -1369,7 +1385,7 @@ func from_dict(data: Dictionary) -> bool:
 	for entry: Variant in data.get("owned_items", []) as Array:
 		var entry_dict: Dictionary = entry as Dictionary
 		var owned_item: ItemData = content.item(str(entry_dict.get("id", "")))
-		if owned_item != null:
+		if owned_item != null and int(entry_dict.get("uses_left", owned_item.uses)) > 0:  # Nov 26 day: a last copy saved mid-fight is spent
 			loaded.owned_items.append(owned_item)
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	for id: Variant in data.get("equipped_items", []) as Array:
@@ -2187,6 +2203,7 @@ static func _append_badge(context: BattleContext, badge: RuleBadges.Badge) -> vo
 
 
 func start_battle(context: BattleContext) -> void:
+	end_item_battle()  # Nov 26 day (Part B): nothing held over from an earlier fight
 	if context.game != null and not context.practice:
 		feats.watch(context.game)
 	pending_battle = context
@@ -3634,6 +3651,7 @@ func prepare_primm_retry(context: BattleContext) -> bool:
 
 
 func retry_primm_fight(context: BattleContext) -> void:
+	end_item_battle()
 	if prepare_primm_retry(context):
 		start_battle(make_dungeon_battle(dungeon_map.boss()))
 
@@ -4896,6 +4914,7 @@ func record_victory(context: BattleContext) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	end_item_battle()
 	if context.draft:
 		_complete_draft_battle(context)  # Draft mode: its own books (no victory record, no world pick; the real profile comes back first)
 		return

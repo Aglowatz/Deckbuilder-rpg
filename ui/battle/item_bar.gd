@@ -159,13 +159,16 @@ func refresh() -> void:
 		icon.texture = IconArt.item_texture(item, SLOT_SIZE.x * 0.62)  # its own ICON-ITEM-* once imported, else the old silhouette
 		icon.visible = true
 		icon.modulate = Color(1, 1, 1, 1.0)
-		fit_badge(badge, "x%d" % _profile.item_uses_left(item))
+		fit_badge(badge, badge_text(item))
 		badge.visible = true
 		var usable: bool = game != null and game.can_use_item(0, item)
 		if usable != _usable[i]:
 			any_usable_changed = true
 		_usable[i] = usable
 		slot.tooltip_text = item.tooltip_text()
+		if uses_per_fight() > 1:
+			slot.tooltip_text += "
+Uses left this fight: %d (the Extra Pocket: the first use spends a copy, the second is free)." % uses_left_this_fight(item)
 		if usable:
 			slot.add_theme_stylebox_override("panel", _slot_style(USABLE_FILL, UIStyle.GOLD, 3, 10, Color(1.12, 1.08, 1.0) if painted_slots() else Color(1.35, 1.15, 0.8), true))
 		else:
@@ -173,6 +176,27 @@ func refresh() -> void:
 			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, IDLE_BORDER, 2, 0, Color(0.72, 0.72, 0.78) if painted_slots() else Color.WHITE, true))
 	if any_usable_changed:
 		_restart_pulse()
+
+
+## Nov 26 day (Part B): how many times each item can be used in this fight (2 with the Extra Pocket); 1 outside a fight.
+func uses_per_fight() -> int:
+	if game == null or game.players.is_empty():
+		return 1
+	return game.players[0].item_uses_per_battle
+
+
+## The uses of `item` left in this fight.
+func uses_left_this_fight(item: ItemData) -> int:
+	if game == null:
+		return 1
+	return maxi(0, uses_per_fight() - game.item_uses_this_battle(0, item))
+
+
+## The number on an item's button: the copies owned ("x3"); with the Extra Pocket in a fight, the uses left this fight ("2", then "1").
+func badge_text(item: ItemData) -> String:
+	if uses_per_fight() > 1:
+		return str(uses_left_this_fight(item))
+	return "x%d" % _profile.item_uses_left(item)
 
 
 ## A gentle, looping border-glow pulse on every currently-usable slot, so a usable item actually

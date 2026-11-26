@@ -156,7 +156,7 @@ enum Kind {
 	## Overnight Nov 4-5, Part 5 (The Shattered Gallery's "Perfect Form"): the first unit the OWNER plays from hand each turn is copied onto the
 	## opponent's field as a token copy (`GameState._mirror_first_unit`). Presence; added last so saved kinds keep their numbers.
 	MIRROR_FIRST_UNIT,
-	## Overnight Nov 7-8, Part 2.6 (Extra Pocket): value = extra uses of each equipped item per battle (each use still spends a charge).
+	## Overnight Nov 7-8, Part 2.6 (Extra Pocket): value = extra uses of each equipped item per battle (Nov 26 day: only the first use in a fight spends a charge; a last copy stays for the second).
 	ITEM_USES_PER_BATTLE,
 	## Overnight Nov 7-8, Part 6.3 (the Cardsharp's prize): once each turn, when the owner plays their first non-Infrastructure card, they draw
 	## a copy of that card from their deck if one is there (`GameState._echo_first_play`). Presence.

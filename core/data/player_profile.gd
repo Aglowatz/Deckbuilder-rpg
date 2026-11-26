@@ -291,18 +291,51 @@ func normalize_item_slots() -> void:
 ## Spends one charge of an owned item without applying its effect - the caller already applied
 ## it (e.g. an in-battle use, GameState.use_item). Removes (and unequips) the item once its uses
 ## run out. Shared by use_item() above and the in-battle path (Session.use_equipped_item).
-func spend_item_charge(item: ItemData) -> void:
+## Nov 26 day (Part B): `hold` keeps a last copy in its slot (0 charges) for the rest of the fight, so equipment that allows a second
+## use of each item per fight (the Extra Pocket) still has the item to use; `release_held_items` drops it when the fight ends.
+func spend_item_charge(item: ItemData, hold: bool = false) -> void:
 	if item == null:
 		return
 	var remaining: int = item_uses_left(item) - 1
-	item_uses_remaining[item.id] = remaining
+	item_uses_remaining[item.id] = maxi(0, remaining)
 	if remaining <= 0:
-		var slot: int = slot_of_item(item)
-		if slot >= 0:
-			spent_item_slots[str(slot)] = item.id
-		owned_items.erase(item)
-		item_uses_remaining.erase(item.id)
-		unequip_item_id(item)
+		if hold:
+			held_for_battle[item.id] = true
+			return
+		_drop_spent_item(item)
+
+
+## Nov 26 day (Part B): the items kept in their slots for a second use this fight though their last copy is spent (item id -> true).
+## Never saved: a save loads an item with no charges left as spent.
+var held_for_battle: Dictionary = {}
+
+
+## Whether `item` is a spent last copy kept only for this fight's second use.
+func is_item_held(item: ItemData) -> bool:
+	return item != null and held_for_battle.has(item.id)
+
+
+## Nov 26 day (Part B): the fight is over (or the item's last use this fight is made): every held item with no charges left goes.
+## `only` limits it to one item.
+func release_held_items(only: ItemData = null) -> void:
+	for id: Variant in held_for_battle.keys():
+		if only != null and str(id) != only.id:
+			continue
+		held_for_battle.erase(id)
+		for owned: ItemData in owned_items.duplicate():
+			if owned.id == str(id) and item_uses_left(owned) <= 0:
+				_drop_spent_item(owned)
+				break
+
+
+func _drop_spent_item(item: ItemData) -> void:
+	var slot: int = slot_of_item(item)
+	if slot >= 0:
+		spent_item_slots[str(slot)] = item.id
+	owned_items.erase(item)
+	item_uses_remaining.erase(item.id)
+	held_for_battle.erase(item.id)
+	unequip_item_id(item)
 
 
 # ---- Card packs -------------------------------------------------------------------------------
