@@ -128,7 +128,7 @@ func test_a_synthetic_map_reports_its_structure() -> void:
 
 
 ## Overnight Oct 23, Part 2: the main-dungeon foes that play two Paths on purpose.
-const TWO_PATH_FOES: Array[String] = ["Executive Elevator Operator", "Cannon-Blender Gunner", "Hive of Mutant Bees", "Rot Tunnel Horror"]
+const TWO_PATH_FOES: Array[String] = ["Executive Elevator Operator", "Cannon-Blender Gunner", "Hive of Mutant Bees", "Rot Tunnel Horror", "Cell Block Brawler"]  # Nov 26 day: the Brawler plays necrocrat_beefcake (the House of Gains' third beefcake_bruisers broken up)
 
 
 func test_every_battle_has_a_themed_legal_enemy_deck() -> void:

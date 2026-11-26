@@ -2416,6 +2416,7 @@
 					"amount": 3
 				}
 			],
+			"warn": "Next turn: staff meal comes out of the pass (you heal 3).",
 			"banner": "Staff meal: you heal 3.",
 			"line": "Staff meal's up! Eat it before it gets cold. Even you. Especially you."
 		}
@@ -2480,6 +2481,7 @@
 					"amount": 3
 				}
 			],
+			"warn": "Next turn: the thorns thin out ahead (a clearing: you heal 3).",
 			"banner": "A clearing in the maze: you heal 3.",
 			"line": "*The thorns part for a moment. There's a patch of sun and a clean puddle.*"
 		}

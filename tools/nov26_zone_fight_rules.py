@@ -63,7 +63,7 @@ FOES = {
     ], [
         {'id': 'zf_staff_meal', 'name': 'Staff Meal', 'icon': 'delapouite/fork-knife-spoon', 'when': {'type': 'turn', 'turn': 4},
          'text': 'On its 4th turn the pass sends out staff meal: you heal 3.', 'effects': [{'kind': 'foe_heal', 'amount': 3}],
-         'banner': 'Staff meal: you heal 3.'},
+         'warn': 'Next turn: staff meal comes out of the pass (you heal 3).', 'banner': 'Staff meal: you heal 3.'},
     ], 'it hits harder; decks that heal gain more (and a staff meal on its 4th turn)'),
     # ---- The Hall of Final Approvals (Necrocrat) -------------------------------------------------------------------------------------
     'Intake Clerk': ('D-HFA', 3, [
@@ -103,7 +103,7 @@ FOES = {
     ], [
         {'id': 'zf_clearing', 'name': 'A Clearing', 'icon': 'delapouite/tree-roots', 'when': {'type': 'turn', 'turn': 5},
          'text': 'On its 5th turn you find a clearing in the maze: you heal 3.', 'effects': [{'kind': 'foe_heal', 'amount': 3}],
-         'banner': 'A clearing in the maze: you heal 3.'},
+         'warn': 'Next turn: the thorns thin out ahead (a clearing: you heal 3).', 'banner': 'A clearing in the maze: you heal 3.'},
     ], 'small attackers bleed on the thorns; big tramplers cut through'),
     'Rot Tunnel Horror': ('D-ROT', 11, [
         {'name': 'Bad Air', 'text': 'No one can use Garbage in this fight. The tunnel air spoils it.', 'icon': 'lorc/skull-crack', 'side': 'player', 'harmful': True, 'kind': 'block_resource', 'resource': 'garbage'},
