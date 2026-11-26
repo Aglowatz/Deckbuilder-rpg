@@ -25,7 +25,7 @@ static func citizen_name(index: int) -> String:
 ## Fix pass Nov 7 (item 14): where each Crease service shaft comes up (its door's label and prompt).
 const SHAFT_PLACES: Dictionary = {
 	"plaza": "the Gate Plaza", "reek": "the Reek", "grave": "Grave Row", "hungry": "the Hungry Quarter", "transit": "the Transit Yards",
-	"approach": "the Palace Approach (the castle and the cracked mirror)",
+	"approach": "the Palace Approach (the castle)",
 }
 const NPC_FIG: String = "Fig Sly"
 const NPC_KESTREL: String = "Kestrel"

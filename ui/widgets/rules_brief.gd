@@ -10,6 +10,8 @@ signal continued
 
 const FIGHT_PREFIX: String = "Before the fight: "
 const ENTER_PREFIX: String = "Entering "
+## Nov 25 night (Part A.1): the owner's line over the rule rows, centred (it went on to promise that the badges stay on screen in the fight).
+const NOTE_RULES: String = "These rules are in play:"
 ## Rule colours for dark ink on the vellum body (the badges' own colours are made for dark panels).
 const SCRIPTED_INK: Color = Color("6a3fa0")
 
@@ -66,7 +68,7 @@ static func split_title(title: String) -> Array[String]:
 static func note_text(rules: Array[RuleBadges.Badge]) -> String:
 	for badge: RuleBadges.Badge in rules:
 		if not badge.hidden:
-			return "These rules are in play. The same icons stay on screen during the fight."
+			return NOTE_RULES
 	return "No special rules here, but this foe has a surprise."
 
 

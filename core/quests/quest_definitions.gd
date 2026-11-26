@@ -99,7 +99,7 @@ static func _under_the_forest() -> QuestData:
 ## Overnight Nov 17 (inbox Nov 16, item 13; the late critics: "nothing tracks the ending after Primm"): from Primm's fall the tracker keeps
 ## one clear goal. "The City Gathers" starts with his fall and is tracked: see the ending (it plays at once, through the credits), then
 ## join the gathering at the end of Grave Row (Old Hob, the royal funeral). After the funeral "After the Fall" is tracked: one step with
-## two parts, the prisoner under the forest (Rip's station in town, then the hatch in the forest) and the cracked mirror by the castle door
+## two parts, the prisoner under the forest (Rip's station in town, then the hatch in the forest) and the cracked mirror at the top of Grave Row
 ## (the Shattered Gallery), each marked on the maps until it is done.
 const CITY_GATHERS: String = "city_gathers"
 const AFTER_THE_FALL: String = "after_the_fall"
@@ -132,16 +132,16 @@ static func _after_the_fall() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 8
 	quest.title = "After the Fall"
-	quest.summary = "Two things are still unfinished. Something is locked away under the forest where you woke, and the cracked mirror by the castle door shows rooms that should not be there."
+	quest.summary = "Two things are still unfinished. Something is locked away under the forest where you woke, and the cracked mirror at the top of Grave Row shows rooms that should not be there."
 	quest.auto_give = true
 	quest.prerequisite = Condition.flag(FLAG_FUNERAL_SEEN)
 	var freed: Condition = Condition.flag(str(PathologyLab.FLAG_RESCUER_FREED))
 	var gallery: Condition = Condition.flag(str(ShatteredGallery.FLAG_CLEARED))
 	var step: QuestObjective = QuestObjective.make("Free the prisoner under the forest, and clear the Shattered Gallery", Condition.all_of([freed, gallery] as Array[Condition]))
-	step.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Under the forest: ask Rip at Crosspath's Rift Station, then take the Rift Express to the forest. The Gallery: the cracked mirror beside the castle door")
+	step.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Under the forest: ask Rip at Crosspath's Rift Station, then take the Rift Express to the forest. The Gallery: the cracked mirror at the top of Grave Row")
 	step.part(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Rip's Rift Station (the way to the forest)", Condition.any_of([Condition.flag(FLAG_FOREST_ARRIVED), freed] as Array[Condition]))
 	step.part(QuestObjective.TargetKind.SPOT, Areas.START, "lab", "The hatch under the forest", freed)
-	step.part(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "The cracked mirror by the castle door", gallery)
+	step.part(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "The cracked mirror at the top of Grave Row", gallery)
 	quest.objectives = [step] as Array[QuestObjective]
 	quest.reward_gold = 300
 	quest.reward_xp = 200

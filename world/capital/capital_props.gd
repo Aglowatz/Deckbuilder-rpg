@@ -790,46 +790,65 @@ static func recipe_card() -> Node3D:
 # ---- The castle approach, checkpoints, outskirts -----------------------------------------------------
 
 
-## Overnight Nov 4-5, Part 5: the way into The Shattered Gallery - a tall gilt mirror leaning by the castle door, its glass silvered and cracked
-## from the inside, with a faint cold light behind the cracks. Primitives only (no new art).
+## Overnight Nov 4-5, Part 5: the way into The Shattered Gallery - a tall gilt mirror, its glass silvered and cracked from the inside.
+## Nov 25 night (Part B): a new look from what the game already has (the owner's painted prop is Batch 22's CAP-PROP-CRACKED-MIRROR):
+## a gilt frame with a crest and claw feet on a stone plinth, the glass one pane drawn by `assets/shaders/cracked_mirror.gdshader` (a deep
+## silvered blue, a slow sheen sweeping across it, cracks radiating from an impact point that pulse gently, broken rings round it), a cold
+## glow behind it and a few fallen shards glinting at its feet.
+const MIRROR_SHADER: String = "res://assets/shaders/cracked_mirror.gdshader"
+
+
 static func gallery_mirror() -> Node3D:
 	var root: Node3D = Node3D.new()
 	var gold: Material = M.shiny(M.GOLD, 0.3)
-	B.box(root, Vector3(1.9, 0.2, 0.22), gold, Vector3(0, 3.1, 0))
-	B.box(root, Vector3(1.9, 0.2, 0.22), gold, Vector3(0, 0.1, 0))
+	var stone: Material = M.shiny(M.STONE_GRAY, 0.5)
+	# the plinth and the claw feet
+	B.box(root, Vector3(2.5, 0.28, 0.9), stone, Vector3(0, 0.14, 0))
+	B.box(root, Vector3(2.2, 0.08, 0.7), M.shiny(M.STONE_DARK, 0.5), Vector3(0, 0.32, 0))
 	for side: float in [-1.0, 1.0]:
-		B.box(root, Vector3(0.2, 3.2, 0.22), gold, Vector3(side * 0.85, 1.6, 0))
-	# Fable Nov 12 (Part 2.7, the late critic's "the cracked mirror is a white placeholder quad"): the glass is a dark backing with nine
-	# shards of deep mirror-blue set a little askew, each its own shade (one missing, one catching the light), instead of one pale glowing
-	# pane that the toon grade turned white.
-	B.box(root, Vector3(1.5, 2.8, 0.04), M.flat(Color(0.07, 0.08, 0.13)), Vector3(0, 1.6, 0.0))
-	var shades: Array[Color] = [Color(0.2, 0.3, 0.46), Color(0.3, 0.42, 0.6), Color(0.16, 0.24, 0.4), Color(0.42, 0.56, 0.74), Color(0.24, 0.34, 0.52), Color(0.14, 0.2, 0.34), Color(0.34, 0.46, 0.66), Color(0.2, 0.28, 0.44), Color(0.62, 0.76, 0.9)]
-	for row: int in range(3):
-		for column: int in range(3):
-			var index: int = row * 3 + column
-			if index == 5:
-				continue  # the missing shard: the dark backing shows
-			var glass: StandardMaterial3D = StandardMaterial3D.new()
-			glass.albedo_color = shades[index]
-			glass.roughness = 0.2
-			glass.emission_enabled = true
-			glass.emission = shades[index].lightened(0.3)
-			glass.emission_energy_multiplier = 0.9 if index == 8 else 0.22
-			var shard_piece: MeshInstance3D = B.box(root, Vector3(0.47, 0.9, 0.03), glass, Vector3(-0.5 + 0.5 * float(column), 0.68 + 0.93 * float(row), 0.03 + 0.004 * float(index % 3)))
-			shard_piece.rotation_degrees = Vector3(float((index * 7) % 5) - 2.0, float((index * 5) % 7) - 3.0, float((index * 3) % 5) - 2.0)
-	var crack: StandardMaterial3D = StandardMaterial3D.new()
-	crack.albedo_color = Color(0.05, 0.06, 0.1)
-	crack.emission_enabled = true
-	crack.emission = Color(0.7, 0.85, 1.0)
-	crack.emission_energy_multiplier = 1.6
-	for line: Vector4 in [Vector4(0.0, 1.9, 0.9, 30.0), Vector4(0.15, 1.5, 0.7, -50.0), Vector4(-0.2, 2.2, 0.6, 75.0), Vector4(0.1, 1.2, 0.5, 10.0), Vector4(-0.3, 1.7, 0.5, -20.0)]:
-		var shard: MeshInstance3D = B.box(root, Vector3(0.025, line.z, 0.02), crack, Vector3(line.x, line.y, 0.06))
-		shard.rotation_degrees.z = line.w
+		B.box(root, Vector3(0.32, 0.22, 0.4), gold, Vector3(side * 0.9, 0.46, 0.0))
+	# the frame: rails, stiles with a bead, and a crest of three steps and a finial
+	B.box(root, Vector3(2.0, 0.22, 0.24), gold, Vector3(0, 3.42, 0))
+	B.box(root, Vector3(2.0, 0.22, 0.24), gold, Vector3(0, 0.56, 0))
+	for side: float in [-1.0, 1.0]:
+		B.box(root, Vector3(0.22, 3.0, 0.24), gold, Vector3(side * 0.89, 2.0, 0))
+		B.box(root, Vector3(0.06, 2.7, 0.3), M.glow(M.GOLD, 0.5), Vector3(side * 0.76, 2.0, 0.02))
+	for step: int in range(3):
+		B.box(root, Vector3(1.4 - 0.4 * float(step), 0.14, 0.2), gold, Vector3(0, 3.6 + 0.14 * float(step), 0))
+	B.box(root, Vector3(0.18, 0.18, 0.18), M.glow(M.GOLD, 1.0), Vector3(0, 4.1, 0)).rotation_degrees = Vector3(0, 0, 45)
+	# the glass: one pane with the shimmer and the cracks
+	B.box(root, Vector3(1.56, 2.86, 0.04), M.flat(Color(0.05, 0.06, 0.1)), Vector3(0, 2.0, -0.01))
+	var pane: MeshInstance3D = MeshInstance3D.new()
+	pane.name = "MirrorGlass"
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(1.52, 2.8)
+	pane.mesh = quad
+	var shader: Shader = load(MIRROR_SHADER) as Shader
+	if shader != null:
+		var glass: ShaderMaterial = ShaderMaterial.new()
+		glass.shader = shader
+		pane.material_override = glass
+	else:
+		pane.material_override = M.flat(Color(0.2, 0.3, 0.46))
+	pane.position = Vector3(0, 2.0, 0.025)
+	pane.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(pane)
+	# fallen shards at its feet, catching the light
+	var shard_glass: StandardMaterial3D = StandardMaterial3D.new()
+	shard_glass.albedo_color = Color(0.3, 0.42, 0.6)
+	shard_glass.emission_enabled = true
+	shard_glass.emission = Color(0.7, 0.85, 1.0)
+	shard_glass.emission_energy_multiplier = 0.9
+	for piece: Vector4 in [Vector4(-0.7, 0.62, 30.0, 0.22), Vector4(0.45, 0.75, -40.0, 0.16), Vector4(0.95, 0.55, 75.0, 0.12), Vector4(-0.25, 0.95, 10.0, 0.1), Vector4(-1.1, 0.7, -65.0, 0.14)]:
+		var bit: MeshInstance3D = B.box(root, Vector3(piece.w, 0.015, piece.w * 0.7), shard_glass, Vector3(piece.x, 0.02, piece.y))
+		bit.rotation_degrees = Vector3(0, piece.z, 0)
+	# the cold glow behind the cracks
 	var light: OmniLight3D = OmniLight3D.new()
+	light.name = "MirrorGlow"
 	light.light_color = Color(0.7, 0.85, 1.0)
-	light.light_energy = 1.2
-	light.omni_range = 4.0
-	light.position = Vector3(0, 1.8, 0.8)
+	light.light_energy = 1.5
+	light.omni_range = 5.0
+	light.position = Vector3(0, 2.2, 0.9)
 	root.add_child(light)
 	return root
 

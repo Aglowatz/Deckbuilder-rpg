@@ -89,6 +89,20 @@ static func door_spot() -> Vector3:
 	return CENTER + Vector3(0.0, 0.0, DOOR)
 
 
+## Nov 25 night (Part A.2): where the hero stands on leaving the house (its menu, a draft's fight or run, a loss): on the cobbles a
+## step in front of the stairs, facing out along the door path.
+const EXIT_STEP: float = 0.7
+
+
+static func exit_spot() -> Vector3:
+	return door_spot() + Vector3(0.0, 0.0, EXIT_STEP)
+
+
+## A point down the door path: the hero faces it (out of the house, toward the loop lane).
+static func exit_facing() -> Vector3:
+	return PATH[PATH.size() - 3]
+
+
 static func host_spot() -> Vector3:
 	return CENTER + HOST_OFFSET
 

@@ -1,0 +1,195 @@
+# Nov 25 night (Part A.2): every way out of the Shuffle House puts the hero on its doorstep, facing out. (1) The menu, closed with Esc.
+# (2) A whole Mystery Mini to its end (the run ends in the dungeon and comes back to Crosspath).
+#   bash tools/play.sh docs/review/play_scripts/nov25n/exits.txt nov25n_exits 1800
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev level 16
+dev gold 2500
+dev freed beefcake
+dev freed gourmand
+dev freed necrocrat
+dev travel town
+wait 16
+skip_dialogue 20
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+button Continue
+wait 1.5
+skip_dialogue 20
+dev draft unlock
+dev goto fountain
+wait 1
+shot exit_00_at_the_fountain
+dev draft open
+wait 3
+shot exit_01_menu_open
+key Escape
+wait 2
+shot exit_02_menu_closed_on_the_doorstep
+dump
+dev draft open
+wait 3
+node Mode_mystery
+wait 1
+button Start
+wait 3
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+button Take
+wait 0.5
+wait 1
+button Lock the deck
+wait 3
+button Enter
+wait 7
+button Got it
+wait 1
+node Room_1
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+node Room_2
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+node Room_3
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+node Room_4
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+wait 6
+button Keep Hand
+wait 1
+dev win
+wait 6
+skip_dialogue 12
+button Continue
+wait 6
+button Take nothing
+wait 2
+wait 3
+move 1700,1000
+wait 1
+node KeepGrid
+wait 3
+button Finish
+wait 12
+skip_dialogue 12
+wait 2
+shot exit_03_back_from_the_mystery_mini
+dump

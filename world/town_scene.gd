@@ -605,6 +605,12 @@ func _build_actors() -> void:
 	if Session.has_town_return_position:
 		spawn = Session.town_return_position
 		Session.has_town_return_position = false
+	# Nov 25 night (Part A.2): back from a Shuffle House draft (a fight, a dungeon draft's end, a cash-out, a loss): on its doorstep, facing out
+	var faces_out_of_house: bool = false
+	if Session.arrive_at_shuffle_house:
+		Session.arrive_at_shuffle_house = false
+		spawn = TownShuffleHouse.exit_spot()
+		faces_out_of_house = true
 	var faces_square: bool = false
 	if Session.cave_exit_pending and town.anchors.has("npc_elder"):
 		# Playtest v0.4.0 Part C: out of the Forgotten Cave the Wanderer stands at the north end of town, right beside Elder Maren's door.
@@ -624,6 +630,8 @@ func _build_actors() -> void:
 	player.setup(town, "Hero", spawn)
 	if faces_square:
 		player.face(TownLayout.PLAZA)
+	if faces_out_of_house:
+		player.face(TownShuffleHouse.exit_facing())
 	if _maren_return > 0:
 		player.face(town.anchors["npc_elder"] as Vector3)
 	player.speed_multiplier = 1.35  # the town is spread out: a brisker walk
@@ -2024,6 +2032,9 @@ func resume_after_battle() -> void:
 	if Session.has_town_return_position and player != null:
 		player.position = Session.town_return_position
 		Session.has_town_return_position = false
+	if Session.arrive_at_shuffle_house:
+		Session.arrive_at_shuffle_house = false
+		_step_out_of_shuffle_house()
 	for enemy: ZoneEnemy in enemies.duplicate():
 		if Session.town_roamer_is_down(enemy.instance_id):
 			enemies.erase(enemy)
@@ -3612,11 +3623,22 @@ func _open_draft(result: Dictionary) -> void:
 		_shuffle_music = Audio.push_music(StringName(MusicDirector.shuffle_house()), 1.2, false)
 	screen.closed.connect(func() -> void:
 		_close_overlay()
-		_stop_shuffle_music())
+		_stop_shuffle_music()
+		_step_out_of_shuffle_house())
 	screen.connect(&"reopen", func() -> void: _open_draft.call_deferred({}))
 
 
 var _shuffle_music: int = 0
+
+
+## Nov 25 night (Part A.2): out of the Shuffle House's screens the hero stands on its doorstep, facing out to the path.
+func _step_out_of_shuffle_house() -> void:
+	if player == null:
+		return
+	player.position = TownShuffleHouse.exit_spot()
+	player.face(TownShuffleHouse.exit_facing())
+	if _camera != null:
+		_camera.position = player.position + CameraRig.shape(camera_offset)
 
 
 func _stop_shuffle_music() -> void:

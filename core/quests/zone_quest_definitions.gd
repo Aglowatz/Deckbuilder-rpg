@@ -61,7 +61,7 @@ const TARGETS: Dictionary = {
 	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
 	# Fable Nov 21 (Part 1.5): the key has a small chest of its own beside the Old Well (Nov 20 had it in Shiro Swindle's prank chest)
 	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", WELL_KEY_SPOT, "The small chest beside the Old Well, west of the market square: on the other side of the well from the iron hatch"]],
-	"cracks_in_the_glass": [[QuestObjective.TargetKind.SPOT, "final", "gallery_mirror", "The cracked mirror beside the castle door"]],
+	"cracks_in_the_glass": [[QuestObjective.TargetKind.SPOT, "final", "gallery_mirror", "The cracked mirror at the top of Grave Row"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
 const EXTRA_REWARDS: Dictionary = {"gain_power": {"equipment": ["kettlebell_locket"]}}
@@ -672,7 +672,7 @@ const WAY_IN_ORDER: int = 372
 
 
 ## Fix pass Nov 7 (item 14, C5 F4): the Shattered Gallery's own line in the postgame - given at once, with a pin at every step: find Wren in
-## the Crease, look into the cracked mirror at the castle door (Wren's "Cracks in the Glass" opens the glass), clear the Gallery.
+## the Crease, look into the cracked mirror at the top of Grave Row (Wren's "Cracks in the Glass" opens the glass), clear the Gallery.
 const GALLERY_LINE: String = "the_shattered_gallery"
 
 
@@ -688,22 +688,22 @@ static func _gallery_line() -> QuestData:
 	quest.objectives = [
 		QuestObjective.make("Find Wren in the Crease: knock at the manhole on the Gate Plaza", Condition.any_of([Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)), Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN)] as Array[Condition]))
 			.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "manhole", "The suspicious manhole on the Gate Plaza, inside the Capital's wall"),
-		QuestObjective.make("Look into the cracked mirror by the castle door", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))
-			.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "Beside the castle door, at the top of the Palace Approach"),
+		QuestObjective.make("Look into the cracked mirror at the top of Grave Row", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))
+			.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "In the yard at the top of Grave Row, under the castle wall"),
 		QuestObjective.make("Clear the Shattered Gallery", Condition.flag(str(ShatteredGallery.FLAG_CLEARED)))
-			.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "gallery_mirror", "Through the cracked mirror by the castle door"),
+			.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "gallery_mirror", "Through the cracked mirror at the top of Grave Row"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 150
 	return quest
 
 
-## Overnight Nov 4-5, Part 5: Wren's postgame errand. Looking into the cracked mirror at the castle door finishes it (no hand-in) and opens
+## Overnight Nov 4-5, Part 5: Wren's postgame errand. Looking into the cracked mirror at the top of Grave Row finishes it (no hand-in) and opens
 ## The Shattered Gallery (S-GALLERY); the mirror itself starts the quest for a player who never asked Wren.
 static func _gallery_quest() -> QuestData:
 	var quest: QuestData = _side(SIDE_GALLERY, ShatteredGallery.DUNGEON_ID, 370, "Cracks in the Glass", CapitalZone.NPC_WREN,
-		"Wren says one of the mirrors at the castle door has cracked from the inside, and it is still showing a kingdom that never was. Go and look.",
-		[QuestObjective.make("Look into the cracked mirror at the castle door", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))], Condition.postgame())
+		"Wren says a mirror carried out of the castle to Grave Row has cracked from the inside, and it is still showing a kingdom that never was. Go and look.",
+		[QuestObjective.make("Look into the cracked mirror at the top of Grave Row", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))], Condition.postgame())
 	quest.turn_in_npc = ""
 	quest.reward_gold = 60
 	quest.reward_xp = 60

@@ -732,17 +732,22 @@ func _ask_quota_battle() -> void:
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
-## Overnight Nov 4-5, Part 5: after Primm, a cracked mirror leans by the castle door - the way into The Shattered Gallery.
-const GALLERY_MIRROR_OFFSET: Vector3 = Vector3(-3.4, 0.0, 0.8)
+## Overnight Nov 4-5, Part 5: after Primm, a cracked mirror - the way into The Shattered Gallery. Nov 25 night (Part B): it stood by the
+## castle door; it stands in the open yard at the top of Grave Row now, under the castle wall (the guards carried it out of the castle), on ground that nothing
+## in the freed city uses: off the routes (1.4 m from the lane, so it is found), clear of every NPC, quest spot, prop, sign, chest and
+## the celebration's crowd (`tools/nov25n_mirror_spot_probe.gd`, then checked in shots). It faces south, down the yard.
+const GALLERY_MIRROR_SPOT: Vector3 = Vector3(34.5, 0.0, 9.5)
+const GALLERY_MIRROR_YAW: float = 0.0
 
 
 func _build_gallery_mirror() -> void:
 	if not Session.flag(&"primm_defeated"):
 		return
-	var at: Vector3 = builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET
+	var at: Vector3 = GALLERY_MIRROR_SPOT
 	var mirror: Node3D = CapitalProps.gallery_mirror()
 	mirror.name = "GalleryMirror"
 	mirror.position = at
+	mirror.rotation_degrees.y = GALLERY_MIRROR_YAW
 	add_child(mirror)
 	_add_spot("gallery_mirror", "A Cracked Mirror", at + Vector3(0.0, 0.0, 1.0), 1.8, "Look into the cracked mirror", false, "zone", {"act": "gallery"})
 
@@ -751,7 +756,7 @@ func _build_gallery_mirror() -> void:
 func _extra_pois() -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	if Session.flag(&"primm_defeated"):
-		var mirror: MapPoi = MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)")
+		var mirror: MapPoi = MapPoi.make(MapPoi.Kind.MINI_DUNGEON, GALLERY_MIRROR_SPOT, "The Shattered Gallery (the cracked mirror)")
 		mirror.dungeon_id = ShatteredGallery.DUNGEON_ID  # Day pass Nov 9: the map's level hint
 		result.append(mirror)
 	if Session.quest_log != null and Session.quest_log.is_active(QuestDefinitions.UNDER_CAPITAL) and not Session.flag(CapitalZone.FLAG_HUB_KNOWN):
