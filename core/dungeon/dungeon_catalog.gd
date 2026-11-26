@@ -103,6 +103,8 @@ static var _layout: Dictionary = {}
 static var _content: Dictionary = {}
 static var _text: Dictionary = {}
 static var _loaded: bool = false
+## Nov 26 day (Part A): how many times the traced curves or the painted-walkway list were read (tests check drawing never reads them).
+static var curve_reads: int = 0
 
 
 static func reset() -> void:
@@ -288,6 +290,7 @@ static func side_unlock_flag(dungeon_id: String) -> StringName:
 ## `listed` is false when the dungeon has no such list (then every link is drawn, as before the repaint).
 static func drawn_links(dungeon_id: String) -> Dictionary:
 	_load()
+	curve_reads += 1
 	var result: Dictionary = {"listed": false, "links": {}}
 	var all_lists: Variant = _layout.get("drawn_links", {})
 	if not (all_lists is Dictionary) or not (all_lists as Dictionary).has(dungeon_id):
@@ -304,6 +307,7 @@ static func drawn_links(dungeon_id: String) -> Dictionary:
 ## (0..1). A link without a row is drawn straight, as before.
 static func curves(dungeon_id: String) -> Dictionary:
 	_load()
+	curve_reads += 1
 	var result: Dictionary = {}
 	var all_curves: Variant = _layout.get("curves", {})
 	if not (all_curves is Dictionary) or not ((all_curves as Dictionary).get(dungeon_id) is Dictionary):

@@ -1,6 +1,6 @@
 class_name MapPaths
 extends Control
-## Draws the curved paths between map nodes: gold for walked paths, marching dashes for the
+## Draws the straight paths between map nodes (Nov 26 day: no more curves): gold for walked paths, marching dashes for the
 ## path ahead, dim for locked ones.
 
 var _map: DungeonMap
@@ -62,8 +62,8 @@ func _draw() -> void:
 				draw_polyline(points, UIStyle.GOLD, 6.0 * thin, true)
 			elif ahead:
 				_dashes(points, UIStyle.GOLD.lightened(0.2), 7.0 * thin, true)
-			elif style == "plan" and painted_walkways and not drawn_links.has("%d>%d" % [node.id, next_id]):
-				pass  # the painting shows this walkway itself
+			elif style == "plan" and painted_walkways and FOLLOW_CURVES and not drawn_links.has("%d>%d" % [node.id, next_id]):
+				pass  # the painting shows this walkway itself (off with the curves, Nov 26: every link gets its line)
 			elif style == "plan":
 				# Fable Nov 21 castle: a route-planning map draws every link - the ones still ahead of the party as a pale line on a dark
 				# edge (they do not follow the painting's own paths), the ones it can no longer take very faintly.
@@ -78,12 +78,20 @@ func _draw() -> void:
 				_dashes(points, Color(1, 1, 1, 0.22), 3.0, false)
 
 
-## The line from room `from_id` to room `to_id` on the screen: its traced walkway (smoothed, evenly spaced points) when the map has
-## one, else the old line between the two spots.
+## Nov 26 day (Part A): every link is drawn as one straight line from room to room, on every map (the zone dungeons, the minis, the
+## postgame, the castle, the Halls, the drafts). The owner saw traced lines wander off the walkways; the path-curve system (the traced
+## curves, the castle's stair lines, the fitted walkways) is off for drawing. Its data stays in `map_layout.json` ("curves") and the
+## code below stays, in case it returns: set FOLLOW_CURVES and give the map screen its curves again.
+const FOLLOW_CURVES: bool = false
+
+
+## The line from room `from_id` to room `to_id` on the screen: a straight segment, walked in even steps (so the dashes march).
 func link_points(from_id: int, to_id: int, from: Vector2, to: Vector2) -> PackedVector2Array:
+	if not FOLLOW_CURVES:
+		return straight_points(from, to)
 	var key: String = "%d>%d" % [from_id, to_id]
 	if not curves.has(key) or art_rect.size.x <= 0.0:
-		return _curve(from, to)
+		return straight_points(from, to)
 	var traced: PackedVector2Array = curves[key] as PackedVector2Array
 	var control: PackedVector2Array = PackedVector2Array()
 	for point: Vector2 in traced:
@@ -92,6 +100,14 @@ func link_points(from_id: int, to_id: int, from: Vector2, to: Vector2) -> Packed
 	control[0] = from
 	control[control.size() - 1] = to
 	return spaced(smoothed(control), CURVE_STEP)
+
+
+## The straight segment from `from` to `to` in 40 even steps: every point on the one line.
+static func straight_points(from: Vector2, to: Vector2) -> PackedVector2Array:
+	var straight: PackedVector2Array = PackedVector2Array()
+	for step: int in range(41):
+		straight.append(from.lerp(to, float(step) / 40.0))
+	return straight
 
 
 ## A Catmull-Rom curve through `control` (eight steps a span).
@@ -130,22 +146,6 @@ static func spaced(points: PackedVector2Array, step: float) -> PackedVector2Arra
 	if result[result.size() - 1].distance_to(points[points.size() - 1]) > 0.5:
 		result.append(points[points.size() - 1])
 	return result
-
-
-func _curve(from: Vector2, to: Vector2) -> PackedVector2Array:
-	if style == "highlight" or style == "subtle" or style == "plan":
-		# Over a painted map the line only marks the way: straight, so it follows the painted path.
-		var straight: PackedVector2Array = PackedVector2Array()
-		for step: int in range(41):
-			straight.append(from.lerp(to, float(step) / 40.0))
-		return straight
-	var mid: Vector2 = (from + to) * 0.5 + Vector2(0.0, (to.x - from.x) * 0.06)
-	var control: Vector2 = mid + Vector2(0.0, (to.y - from.y) * 0.25)
-	var points: PackedVector2Array = PackedVector2Array()
-	for step: int in range(41):
-		var t: float = float(step) / 40.0
-		points.append(from.lerp(control, t).lerp(control.lerp(to, t), t))
-	return points
 
 
 func _trim(points: PackedVector2Array, radius: float) -> PackedVector2Array:

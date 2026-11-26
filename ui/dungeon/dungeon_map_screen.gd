@@ -239,12 +239,14 @@ func _build_board() -> void:
 	_paths.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_paths.style = DungeonCatalog.path_style(_plan.id) if _plan != null else "full"
 	if _plan != null and _art != null:
-		var drawn: Dictionary = DungeonCatalog.drawn_links(_plan.id)
-		_paths.painted_walkways = bool(drawn["listed"])
-		_paths.drawn_links = drawn["links"] as Dictionary
-		# Fable big pass Nov 23 (Part 7): the lines follow the painted walkways
-		_paths.curves = DungeonCatalog.curves(_plan.id)
 		_paths.art_rect = _art_rect
+		# Nov 26 day (Part A): straight lines from room to room on every map. The traced curves and the painted-walkway list
+		# (Fable big pass Nov 23, Batch 19) are no longer read for drawing; see MapPaths.FOLLOW_CURVES to bring them back.
+		if MapPaths.FOLLOW_CURVES:
+			var drawn: Dictionary = DungeonCatalog.drawn_links(_plan.id)
+			_paths.painted_walkways = bool(drawn["listed"])
+			_paths.drawn_links = drawn["links"] as Dictionary
+			_paths.curves = DungeonCatalog.curves(_plan.id)
 	_map_parent().add_child(_paths)
 
 

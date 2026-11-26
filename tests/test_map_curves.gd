@@ -60,7 +60,8 @@ func test_links_without_a_painted_walkway_are_listed_for_the_artist() -> void:
 	assert_eq(listed, 0, "every link of every painted map follows a painted walkway")
 
 
-func test_the_screen_line_runs_from_room_to_room_in_even_steps() -> void:
+func test_the_screen_line_is_straight_even_with_a_traced_curve() -> void:
+	# Nov 26 day (Part A): the traced data stays in the repo, but drawing ignores it - every link is one straight line.
 	var paths: MapPaths = MapPaths.new()
 	add_child_autofree(paths)
 	paths.style = "highlight"
@@ -69,16 +70,10 @@ func test_the_screen_line_runs_from_room_to_room_in_even_steps() -> void:
 	var from: Vector2 = Vector2(250.0, 850.0)
 	var to: Vector2 = Vector2(850.0, 450.0)
 	var line: PackedVector2Array = paths.link_points(0, 1, from, to)
+	assert_false(MapPaths.FOLLOW_CURVES)
 	assert_eq(line[0], from)
-	assert_lt(line[line.size() - 1].distance_to(to), 1.0)
-	var bent: bool = false
-	for i: int in range(1, line.size() - 1):
-		assert_lt(line[i].distance_to(line[i - 1]), MapPaths.CURVE_STEP * 1.6, "even steps")
-		var along: float = (line[i] - from).dot((to - from).normalized())
-		var off: float = (line[i] - (from + (to - from).normalized() * along)).length()
-		if off > 30.0:
-			bent = true
-	assert_true(bent, "the line leaves the straight between the rooms to follow the walkway")
-	var straight: PackedVector2Array = paths.link_points(3, 4, from, to)
-	assert_eq(straight.size(), 41, "a link without a traced line is drawn straight, as before")
-	assert_lt(straight[20].distance_to(from.lerp(to, 0.5)), 0.5)
+	assert_lt(line[line.size() - 1].distance_to(to), 0.5)
+	for point: Vector2 in line:
+		var along: float = (point - from).dot((to - from).normalized())
+		var off: float = (point - (from + (to - from).normalized() * along)).length()
+		assert_lt(off, 0.5, "on the straight between the rooms")
