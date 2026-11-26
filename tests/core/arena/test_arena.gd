@@ -140,7 +140,7 @@ func test_a_puzzle_starts_on_its_preset_board() -> void:
 	assert_eq(game.players[0].hp, int((preset["player"] as Dictionary)["hp"]))
 	assert_eq(game.players[0].hand.size(), 4)
 	assert_eq(game.players[0].refuse_pile.size(), 3, "the Refuse Pile is part of the board")
-	assert_eq(game.players[0].infrastructure.size(), 7)
+	assert_eq(game.players[0].infrastructure.size(), 8, "five Beefcake and three Necrocrat (Nov 25: a fifth Beefcake for the dearer Vigor Mortis)")
 	assert_eq(game.players[1].field.size(), 1)
 	assert_eq(game.active, 0, "the player moves first")
 	var silver: GameState = _puzzle_game("arena_hold_the_line")

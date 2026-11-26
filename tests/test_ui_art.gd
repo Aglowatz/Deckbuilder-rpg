@@ -4,7 +4,7 @@ extends GutTest
 
 func test_the_kit_csv_lists_the_55_ui_ids() -> void:
 	var known: Dictionary = UiArt.known_ids()
-	assert_eq(known.size(), 107)  # Batch 20 (Nov 23): + UI-DRAFT-HALL and one more draft piece. Batch 19 (Nov 22): + UI-ALEMBIC-BREW and UI-ALEMBIC-JAR. Batch 18 (Nov 20): + the 14 stained-glass pieces, - the 3 retired backgrounds (UI-BG-MENU, -WORLDMAP, -QUESTLOG). Batch 17 (Nov 18): + UI-PACK-GILDED-B and the 18 card-game pieces (MG-BG-PASS ... MG-PROP-STAMP-REJECTED). Batch 16: + the three gilded packs per Path. Batch 15: + the match table, Dex's card back, two battle item slots, four locked packs, the pop-up banner. Import Nov 8: + UI-BG-PACKS, UI-BG-WARDROBE, UI-CAULDRON, UI-PACK-SHELF, MG-BG-CLASSROOM, MG-BG-GYM
+	assert_eq(known.size(), 111)  # Batch 21 (Nov 25): + the four mode emblems UI-DRAFT-MODE-*. Batch 20 (Nov 23): + UI-DRAFT-HALL and one more draft piece. Batch 19 (Nov 22): + UI-ALEMBIC-BREW and UI-ALEMBIC-JAR. Batch 18 (Nov 20): + the 14 stained-glass pieces, - the 3 retired backgrounds (UI-BG-MENU, -WORLDMAP, -QUESTLOG). Batch 17 (Nov 18): + UI-PACK-GILDED-B and the 18 card-game pieces (MG-BG-PASS ... MG-PROP-STAMP-REJECTED). Batch 16: + the three gilded packs per Path. Batch 15: + the match table, Dex's card back, two battle item slots, four locked packs, the pop-up banner. Import Nov 8: + UI-BG-PACKS, UI-BG-WARDROBE, UI-CAULDRON, UI-PACK-SHELF, MG-BG-CLASSROOM, MG-BG-GYM
 	assert_true(known.has("UI-FRAME-B"))
 	assert_true(known.has("UI-PACK-GENERAL-2"))
 	assert_true(known.has("MG-BG-CLASSROOM"), "minigame backgrounds go through the UI importer")
@@ -54,7 +54,8 @@ func test_cards_use_the_original_full_art_face_unless_the_frame_overlays_are_on(
 	var plain: CardView = CardView.create(card)
 	add_child_autofree(plain)
 	assert_false(plain._framed)
-	assert_eq(plain.art_rect().size, CardView.SIZE - Vector2(10, 10), "full art fills the card inside its thin border")
+	# Nov 25: the painting starts CardArt's shift lower (card names covered heads); the strip above it is its top edge
+	assert_eq(plain.art_rect().size, CardView.SIZE - Vector2(10, 10 + plain.art_shift()), "full art fills the card inside its thin border, below the shift")
 	UiArt.set_card_frame_overlays(true)
 	var framed: CardView = CardView.create(card)
 	add_child_autofree(framed)

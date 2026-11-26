@@ -172,7 +172,8 @@ func test_art_picture_is_sized_to_the_card_not_to_the_texture() -> void:
 		add_child_autofree(view)
 		var picture: TextureRect = null
 		for child: Node in view.get_children():
-			if child is TextureRect and (child as TextureRect).texture != null and not (child as TextureRect).texture is GradientTexture2D:
+			# Nov 25: skip the strip a shifted painting leaves above it (the painting's top edge stretched)
+			if child is TextureRect and str(child.name) != "ArtTopStrip" and (child as TextureRect).texture != null and not (child as TextureRect).texture is GradientTexture2D:
 				picture = child as TextureRect
 				break
 		assert_not_null(picture, "the art picture exists")
