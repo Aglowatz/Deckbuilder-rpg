@@ -77,7 +77,7 @@ func test_each_token_reads_its_own_numbers_and_curses_are_curses() -> void:
 			var signed: String = ("+%d" % value) if value > 0 else str(value)
 			# Overnight Nov 19 (Part 5): the new choice-node effects read in words too ("next" is the duration, "slow" has no number).
 			if kv[0] == "next":
-				assert_true(text.contains("next fight"), "%s -> %s" % [token, text])
+				assert_true(text.contains("next fight") if value == 1 else text.contains("next %d fights" % value), "%s -> %s" % [token, text])
 				continue
 			# Fable Nov 19 (Part 5.2): "the enemy starts with a <unit> on the field" (the number is the token's, not a stat)
 			if kv[0] == "foe_unit" or kv[0] == "foe_units":
@@ -94,6 +94,11 @@ func test_each_token_reads_its_own_numbers_and_curses_are_curses() -> void:
 			var nov21: Dictionary = {"first_unit_atk": "the first unit you play", "first_unit_def": "the first unit you play", "first_draw": "skip your first card draw", "first_cost": "the first card you play each turn costs", "first_infra": "first infrastructure enters exhausted", "foe_draw": "the enemy starts with", "foe_first_unit": "the enemy's first unit gets"}
 			if nov21.has(kv[0]):
 				assert_true(text.to_lower().contains(str(nov21[kv[0]])), "%s -> %s" % [token, text])
+				continue
+			# Nov 25 night (Parts D and G): the new boon and curse keys read in words
+			var nov25n: Dictionary = {"ban_spell": "you may not play spells", "ban_trap": "you may not play traps", "ban_tool": "you may not play tools", "ban_wonder": "you may not play wonders", "one_card": "only 1 card a turn", "trap_copy": "set twice", "draws": "extra card", "each_res": "start with", "infra": "infrastructure in play"}
+			if nov25n.has(kv[0]):
+				assert_true(text.to_lower().contains(str(nov25n[kv[0]])), "%s -> %s" % [token, text])
 				continue
 			var words: String = {"max_hp": "max HP", "atk": "attack", "def": "defense", "start_hp": "HP at the start of each fight", "draw": "card", "foe_atk": "attack", "foe_def": "defense", "foe_hp": "HP", "iron": "Iron"}[kv[0]]
 			if kv[0] == "iron":

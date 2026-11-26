@@ -48,7 +48,8 @@ plain fights, opponents starting on 5 cards (Part C), the Gallery's Echoes witho
    - Every choice says in brackets what it checks and what is at stake before the player commits; the result shows what was found.
      A shredded card is back after the run (`DungeonRun.deck_after_run`); the save never loses it.
 3. **Where**: postgame first (the Gallery's rooms 3, 6 and 12; the Lab's 4 and 7), then each zone dungeon (one Path roll-call in each
-   of the four, a Specimen Trial in the Test Kitchen, a patrol in the Hall, two curses in the castle, one in the House of Gains).
+   of the four, the Gourmand one the head chef of the Test Kitchen; a patrol in the Hall; two curses in the castle). The zone heal rooms keep
+   their Nov 21 template (heal 5 for a cost, or nothing) and no event room has more than four choices.
 
 ## What is left
 

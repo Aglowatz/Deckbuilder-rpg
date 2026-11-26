@@ -65,6 +65,20 @@ FOES = {
     ], []),
 }
 
+# What each foe says when its new beat fires (every shipped scripted event has a line: tests/core/dungeon/test_encounter_scripts.gd)
+LINES = {
+    'pg_sedation': "Lights out, everyone. Doctor's orders. Well, the doctor's assistant's orders.",
+    'pg_shed': "*The Specimen wriggles out of its old skin, looking very pleased with itself.*",
+    'pg_splice': "One part bull, one part sushi, all parts experiment. Hold still!",
+    'pg_samples': "Oh, the samples are out of the fridge again. They do that.",
+    'pg_project': "Professor said never to wake it. The professor isn't here.",
+    'pg_lockdown': "LOCKDOWN. NO ONE PASSES. NOT EVEN ME, AND I WORK HERE.",
+    'pg_spurt': "*Blorp.* There are two of it now. It looks surprised too.",
+    'pg_overdrain': "The meter says empty. The meter is about to say full.",
+    'pg_second_set': "That was the warm-up. Now for the real set!",
+    'pg_rack_pull': "Spotter's away! Mind your toes!",
+}
+
 
 def load(path):
     return json.load(io.open(path, encoding='utf-8'))
@@ -85,6 +99,9 @@ def main():
         added = [dict(r, nov25n=True) for r in rules]
         mods[foe] = kept + added
         old_events = [e for e in scripts.get(foe, []) if not str(e.get('id', '')).startswith('pg_')]
+        for event in events:
+            if event['id'] in LINES:
+                event['line'] = LINES[event['id']]
         scripts[foe] = old_events + events
         rule_text = ['%s: %s' % (r['name'], r['text']) for r in kept] + ['**%s: %s**' % (r['name'], r['text']) for r in added]
         event_text = [e.get('text', '') for e in old_events] + ['**%s**' % e['text'] for e in events]

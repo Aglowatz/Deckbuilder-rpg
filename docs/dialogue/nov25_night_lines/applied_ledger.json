@@ -56,6 +56,34 @@
 		"after": "Look into the cracked mirror at the top of Grave Row"
 	},
 	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-TTK/events/10/choices/1::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(choice button)",
+		"before": "Photograph the blueprints",
+		"after": "Cook for the head chef's tasting"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-TTK/events/10/choices/1::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "The blueprints are worth good money. The flash powder takes your eyebrows, and you will be seeing spots when the next fight starts.",
+		"after": "The head chef appears from nowhere with a spoon and a very long face. \"Show me your brigade,\" he says, and counts your cooks."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-HFA/events/12/choices/0::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(choice button)",
+		"before": "Shred a spare appeal",
+		"after": "Let the night patrol inspect your Tools"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-HFA/events/12/choices/0::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "The shredder pays well for a spare appeal. It also takes the tips of your fingers, and they don't grow back in here.",
+		"after": "A patrol of clerks with torches confiscates every Tool you carry \"for processing\" and, in fairness, pays a filing fee for the trouble."
+	},
+	{
 		"id": "core/quests/zone_quest_definitions.gd::TARGETS::34",
 		"file": "core/quests/zone_quest_definitions.gd",
 		"speaker": "(Quest Log)",

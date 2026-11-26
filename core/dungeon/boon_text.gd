@@ -33,6 +33,9 @@ static func is_curse(source: ModifierSource) -> bool:
 			return true
 		if modifier.kind == Modifier.Kind.FIRST_CARD_COST_CHANGE and modifier.value > 0:
 			return true
+		# Nov 25 night (Part G): a banned card type and one card a turn are drawbacks whatever their numbers
+		if modifier.kind == Modifier.Kind.BANNED_CARD_TYPE or modifier.kind == Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN:
+			return true
 	var any_negative: bool = false
 	for modifier: Modifier in source.modifiers:
 		for number: int in _numbers(modifier):

@@ -93,13 +93,6 @@
 							"Walk on",
 							"You leave the sand exactly as it was raked.",
 							"nothing"
-						],
-						[
-							"Take the vow of the quiet mat",
-							"You lie down on the silent mat and promise it peace. You wake up rested, and with a strange reluctance to say anything at all.",
-							"heal:8",
-							"curse:Vow of Silence|ban_spell=1,next=2",
-							"hint:heal 8; no spells in the next two fights"
 						]
 					]
 				},
@@ -279,11 +272,6 @@
 							"Leave the fridge alone",
 							"You put the kettle back where it was and go.",
 							"nothing"
-						],
-						[
-							"Cook for the head chef's tasting",
-							"The head chef appears from nowhere with a spoon and a very long face. \"Show me your brigade,\" he says, and counts your cooks.",
-							"check_units:gourmand,6,5|Head Chef's Nod|atk=1"
 						]
 					]
 				},
@@ -329,20 +317,14 @@
 							"curse:Flash Burn|first_infra=1,next=1"
 						],
 						[
-							"Pocket the recipe marked DO NOT SERVE",
-							"You pocket the recipe marked DO NOT SERVE. It is heavy with guilt, and you keep reaching for it instead of your cards.",
-							"card:G-17",
-							"curse:Do Not Serve|draw=-1"
+							"Cook for the head chef's tasting",
+							"The head chef appears from nowhere with a spoon and a very long face. \"Show me your brigade,\" he says, and counts your cooks.",
+							"check_units:gourmand,6,5|Head Chef's Nod|atk=1"
 						],
 						[
 							"Leave the archives alone",
 							"You leave the archives as you found them. Some doors are better left closed.",
 							"nothing"
-						],
-						[
-							"Feed a unit to the Taste-Test Rex",
-							"In the back of the archive a test-kitchen dinosaur in a hairnet is waiting to judge something. It sniffs whoever you send.",
-							"reveal_unit:3|Rex Approved|atk=1"
 						]
 					]
 				}
@@ -541,10 +523,11 @@
 					"body": "Rows of paper shredders chew through the day's denied appeals. A sign reads: SHRED ONE THING, RECEIVE ONE THING. Another, in smaller letters, reads: THINGS INCLUDE YOU.",
 					"choices": [
 						[
-							"Shred a spare appeal",
-							"The shredder pays well for a spare appeal. It also takes the tips of your fingers, and they don't grow back in here.",
-							"gold:70",
-							"curse:Paper Cuts|max_hp=-4"
+							"Let the night patrol inspect your Tools",
+							"A patrol of clerks with torches confiscates every Tool you carry \"for processing\" and, in fairness, pays a filing fee for the trouble.",
+							"shred_type:tool",
+							"gold:120",
+							"hint:gain 120 gold; every Tool in your deck is shredded for this run"
 						],
 						[
 							"Shred your own number",
@@ -562,13 +545,6 @@
 							"Leave the shredder alone",
 							"You back away from the shredder. It hums, disappointed.",
 							"nothing"
-						],
-						[
-							"Let the night patrol inspect your Tools",
-							"A patrol of clerks with torches confiscates every Tool you carry \"for processing\" and, in fairness, pays a filing fee for the trouble.",
-							"shred_type:tool",
-							"gold:120",
-							"hint:gain 120 gold; every Tool in your deck is shredded for this run"
 						]
 					]
 				}
@@ -977,9 +953,9 @@
 						[
 							"Swear the Regime's oath of order",
 							"You put a hand on the portrait and swear to keep things tidy. You feel stronger and strangely unable to leave anything lying around for anyone.",
-							"boon:Oath of Order|max_hp=6",
-							"curse:No Traps Allowed|ban_trap=1",
-							"hint:+6 max HP; no traps, for the dungeon"
+							"boon:Oath of Order|max_hp=6,next=3",
+							"curse:No Traps Allowed|ban_trap=1,next=3",
+							"hint:next three fights: +6 max HP, but no traps"
 						]
 					]
 				},

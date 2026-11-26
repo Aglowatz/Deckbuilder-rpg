@@ -20,7 +20,7 @@ func test_the_sheets_are_fully_scripted_with_only_supported_mechanics() -> void:
 
 
 func test_counts_and_ids() -> void:
-	assert_eq(CardSet.all_cards().size(), 337, "Fable big pass Nov 23: + the eight draft cards (DR-01..08). 312 cards in the sheet + 14 new (Cards Oct 27) + Hazmat Intern (Oct 28) + Baron Quadzilla and Announcer Grand Bellows (Nov 19)")
+	assert_eq(CardSet.all_cards().size(), 342, "Nov 25 night: + five health cards (B-39, N-39, R-38, G-36, C-41). Fable big pass Nov 23: + the eight draft cards (DR-01..08). 312 cards in the sheet + 14 new (Cards Oct 27) + Hazmat Intern (Oct 28) + Baron Quadzilla and Announcer Grand Bellows (Nov 19)")
 	assert_eq(CardSet.all_tokens().size(), 29, "25 sheet tokens (T-24 and T-25 since Oct 21) + 3 Design-Guidance-only resources")
 	var seen: Dictionary = {}
 	for card: CardData in CardSet.all_cards():

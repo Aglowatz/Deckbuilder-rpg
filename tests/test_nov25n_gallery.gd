@@ -23,13 +23,22 @@ func test_every_echo_carries_its_originals_rule_and_events() -> void:
 		assert_true(EncounterScripts.has_script(echo), "%s has its original's scripted events" % echo)
 	# harder, never softer: no Echo falters near the end (the originals' -1/-0 beats are not carried over)
 	var scripts: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/encounters/encounter_scripts.json")) as Dictionary
+	var other_lines: Array[String] = []
+	for key: String in scripts.keys():
+		if not ECHOES.has(key) and scripts[key] is Array:
+			for event: Variant in scripts[key] as Array:
+				if event is Dictionary and (event as Dictionary).has("line"):
+					other_lines.append(str((event as Dictionary)["line"]))
 	for echo: String in ECHOES:
 		for event: Variant in scripts.get(echo, []) as Array:
 			for effect: Variant in (event as Dictionary).get("effects", []) as Array:
 				var rule: Dictionary = (effect as Dictionary).get("rule", {}) as Dictionary
 				assert_false(int(rule.get("atk", 0)) < 0, "%s: no event weakens the Echo" % echo)
 				assert_ne(str((effect as Dictionary).get("kind", "")), "remove_rule", "%s: no event takes a rule away" % echo)
-			assert_false((event as Dictionary).has("line"), "%s: the original's spoken line stays with the original" % echo)
+			# each Echo speaks its own line through the glass; the originals' lines stay theirs
+			var line: String = str((event as Dictionary).get("line", ""))
+			assert_false(line.is_empty(), "%s: speaks when its beat fires" % echo)
+			assert_false(other_lines.has(line), "%s: its line is its own, not the original's" % echo)
 
 
 func test_the_echoes_carry_their_originals_numbers() -> void:

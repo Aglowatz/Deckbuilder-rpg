@@ -18,7 +18,8 @@ func _is_good(token: String) -> bool:
 
 func _is_bad(token: String) -> bool:
 	var kind: String = token.split(":")[0]
-	if kind in ["damage", "pay", "lose"]:
+	# Nov 25 night (Part G): a patrol's shredding (every card of a type gone for the run) is a drawback
+	if kind in ["damage", "pay", "lose", "shred_type"]:
 		return true
 	if kind == "curse" or kind == "boon":
 		return BoonText.is_curse(DungeonBuilder.boon_from(token.substr(5)))

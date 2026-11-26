@@ -7,6 +7,10 @@ core/quests/zone_quest_definitions.gd::_gallery_line::5
 core/quests/zone_quest_definitions.gd::_gallery_line::7
 core/quests/zone_quest_definitions.gd::_gallery_quest::1
 core/quests/zone_quest_definitions.gd::_gallery_quest::2
+data/dungeons/dungeon_content.json::dungeons/D-TTK/events/10/choices/1::0
+data/dungeons/dungeon_content.json::dungeons/D-TTK/events/10/choices/1::1
+data/dungeons/dungeon_content.json::dungeons/D-HFA/events/12/choices/0::0
+data/dungeons/dungeon_content.json::dungeons/D-HFA/events/12/choices/0::1
 core/quests/zone_quest_definitions.gd::TARGETS::34
 data/story/capital_story.tres::quest.cracks_in_the_glass.offer::1
 data/story/capital_story.tres::quest.cracks_in_the_glass.active::0

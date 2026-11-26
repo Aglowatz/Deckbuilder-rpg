@@ -1280,7 +1280,8 @@
 				}
 			],
 			"warn": "Next turn: a growth spurt (a 2/2 unit splits off).",
-			"banner": "A 2/2 Patchwork Body splits off the Experiment."
+			"banner": "A 2/2 Patchwork Body splits off the Experiment.",
+			"line": "*Blorp.* There are two of it now. It looks surprised too."
 		}
 	],
 	"The Drain Warden": [
@@ -1326,7 +1327,8 @@
 					"amount": 2
 				}
 			],
-			"banner": "Overdrain: you take 2 damage; the Warden heals 2."
+			"banner": "Overdrain: you take 2 damage; the Warden heals 2.",
+			"line": "The meter says empty. The meter is about to say full."
 		}
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
@@ -2045,7 +2047,8 @@
 					"count": 1
 				}
 			],
-			"banner": "Quota's Echo draws a card."
+			"banner": "Quota's Echo draws a card.",
+			"line": "Efficiency... efficiency... the numbers in here only ever go up."
 		}
 	],
 	"Echo of Chancellor Clench": [
@@ -2065,7 +2068,8 @@
 				}
 			],
 			"warn": "Next turn: Clench's Echo cuts the power (your two strongest units cannot block).",
-			"banner": "The lights go out: your two strongest ready units are exhausted."
+			"banner": "The lights go out: your two strongest ready units are exhausted.",
+			"line": "Power to the glass. Only to the glass."
 		},
 		{
 			"id": "echo_forms",
@@ -2083,7 +2087,8 @@
 					"count": 2
 				}
 			],
-			"banner": "Clench's Echo gains 2 Iron."
+			"banner": "Clench's Echo gains 2 Iron.",
+			"line": "Reserve funds, reflected. There is always more on this side."
 		}
 	],
 	"Echo of Percival Plume": [
@@ -2102,7 +2107,8 @@
 					"amount": 2
 				}
 			],
-			"banner": "Plume's Echo heals 2."
+			"banner": "Plume's Echo heals 2.",
+			"line": "I'm fine. I'm fine. I'm fine. That's the message."
 		},
 		{
 			"id": "echo_deadline",
@@ -2120,7 +2126,8 @@
 				}
 			],
 			"warn": "Next turn: the filing deadline in the glass. Win now, or the duel is lost.",
-			"banner": "The filing day is over. The office is closed."
+			"banner": "The filing day is over. The office is closed.",
+			"line": "The office in the glass never opens late. It only ever closes."
 		}
 	],
 	"Echo of Mortimer Grimsby": [
@@ -2142,7 +2149,8 @@
 				}
 			],
 			"warn": "Next turn: Mortimer's Echo files Form 27-B (a clerk is hired).",
-			"banner": "A 1/1 Filing Clerk is hired."
+			"banner": "A 1/1 Filing Clerk is hired.",
+			"line": "Form 27-B, mirrored. Please sign it backwards."
 		}
 	],
 	"Echo of the Doppelganger": [
@@ -2162,7 +2170,8 @@
 					"count": 2
 				}
 			],
-			"banner": "Two 1/1 Sashimi Weenies are rushed out."
+			"banner": "Two 1/1 Sashimi Weenies are rushed out.",
+			"line": "Under the mask there's another mask. Under that, dinner."
 		}
 	],
 	"Echo of Hortensia Clipwell": [
@@ -2188,7 +2197,8 @@
 					]
 				}
 			],
-			"banner": "Two Topiaries join Clipwell's Echo."
+			"banner": "Two Topiaries join Clipwell's Echo.",
+			"line": "Trim, trim, trim. Even the hedges in here are reflections."
 		}
 	],
 	"Echo of the Rotheart": [
@@ -2213,7 +2223,8 @@
 					"def": 1
 				}
 			],
-			"banner": "Two Sporelings sprout; the Echo's units get +0/+1."
+			"banner": "Two Sporelings sprout; the Echo's units get +0/+1.",
+			"line": "The roots go deeper on this side of the glass."
 		}
 	],
 	"Intake Orderly": [
@@ -2233,7 +2244,8 @@
 				}
 			],
 			"warn": "Next turn: the sedation round (your two strongest units cannot block).",
-			"banner": "Sedation round: your two strongest ready units are exhausted."
+			"banner": "Sedation round: your two strongest ready units are exhausted.",
+			"line": "Lights out, everyone. Doctor's orders. Well, the doctor's assistant's orders."
 		}
 	],
 	"Escaped Specimen": [
@@ -2252,7 +2264,8 @@
 					"amount": 3
 				}
 			],
-			"banner": "The Specimen heals 3."
+			"banner": "The Specimen heals 3.",
+			"line": "*The Specimen wriggles out of its old skin, looking very pleased with itself.*"
 		}
 	],
 	"Hybrid Specimen": [
@@ -2273,7 +2286,8 @@
 				}
 			],
 			"warn": "Next turn: the Hybrid splices in a Toro Toro (4/6).",
-			"banner": "A Toro Toro is spliced in."
+			"banner": "A Toro Toro is spliced in.",
+			"line": "One part bull, one part sushi, all parts experiment. Hold still!"
 		}
 	],
 	"Siphon's Research Assistant": [
@@ -2294,7 +2308,8 @@
 				}
 			],
 			"warn": "Next turn: the sample fridge opens (two 1/1 units).",
-			"banner": "Two 1/1 Sashimi Weenies join the Assistant."
+			"banner": "Two 1/1 Sashimi Weenies join the Assistant.",
+			"line": "Oh, the samples are out of the fridge again. They do that."
 		},
 		{
 			"id": "pg_project",
@@ -2313,7 +2328,8 @@
 				}
 			],
 			"warn": "Next turn: the big project wakes up (a 7/7 Landfill Leviathan).",
-			"banner": "The big project wakes up: a 7/7 Landfill Leviathan."
+			"banner": "The big project wakes up: a 7/7 Landfill Leviathan.",
+			"line": "Professor said never to wake it. The professor isn't here."
 		}
 	],
 	"Antechamber Sentry": [
@@ -2339,7 +2355,8 @@
 					}
 				}
 			],
-			"banner": "Lockdown: the Sentry's units get +2/+0."
+			"banner": "Lockdown: the Sentry's units get +2/+0.",
+			"line": "LOCKDOWN. NO ONE PASSES. NOT EVEN ME, AND I WORK HERE."
 		}
 	],
 	"Rival Lifter at Base Camp": [
@@ -2358,7 +2375,8 @@
 					"amount": 4
 				}
 			],
-			"banner": "Second set: the Rival heals 4."
+			"banner": "Second set: the Rival heals 4.",
+			"line": "That was the warm-up. Now for the real set!"
 		}
 	],
 	"Squat Rack Sentinel": [
@@ -2378,7 +2396,8 @@
 				}
 			],
 			"warn": "Next turn: the Sentinel drops the bar (your strongest unit cannot block).",
-			"banner": "Your strongest ready unit is pinned under the bar."
+			"banner": "Your strongest ready unit is pinned under the bar.",
+			"line": "Spotter's away! Mind your toes!"
 		}
 	]
 }

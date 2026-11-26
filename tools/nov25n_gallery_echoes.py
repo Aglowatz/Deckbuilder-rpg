@@ -3,7 +3,7 @@
   - the rules of the main-game fight it echoes (data/encounters/modifiers.json), at the original's strength (a first version with
     raised numbers left no simulated run alive past the fourth room: docs/design/sim/nov25n/postgame_runs.md);
   - the original's scripted mid-fight events (data/encounters/encounter_scripts.json) that make the fight harder; the original's late "faltering" beats (its units get -1/-0 near the end) are left out: an Echo does not falter;
-  - no spoken lines: the originals' lines are theirs (the banner still says what happened).
+  - their own lines, said through the glass (the originals' lines are theirs): `ECHO_LINES`.
 Writes both files in place and docs/design/sim/nov25n/gallery_echo_rules.md (the list for the report). Idempotent: rules it added are
 marked "postgame": true and replaced on every run.
     python tools/nov25n_gallery_echoes.py"""
@@ -71,6 +71,19 @@ SCRIPT_KEEP = {
     'Echo of the Rotheart': {'roots': {'text': "At half health the roots spread: two 1/1 Sporelings sprout and the Echo's units get +0/+1.", 'banner': "Two Sporelings sprout; the Echo's units get +0/+1."}},
 }
 
+# What each Echo says when a carried beat fires: the original's habit, warped by the glass (every shipped scripted event has a line)
+ECHO_LINES = {
+    'echo_review': "Efficiency... efficiency... the numbers in here only ever go up.",
+    'echo_brownout': "Power to the glass. Only to the glass.",
+    'echo_forms': "Reserve funds, reflected. There is always more on this side.",
+    'echo_spin': "I'm fine. I'm fine. I'm fine. That's the message.",
+    'echo_deadline': "The office in the glass never opens late. It only ever closes.",
+    'echo_form': "Form 27-B, mirrored. Please sign it backwards.",
+    'echo_mask': "Under the mask there's another mask. Under that, dinner.",
+    'echo_topiary': "Trim, trim, trim. Even the hedges in here are reflections.",
+    'echo_roots': "The roots go deeper on this side of the glass.",
+}
+
 
 def load(path):
     return json.load(io.open(path, encoding='utf-8'))
@@ -112,6 +125,7 @@ def main():
                     if effect.get('kind') == 'summon':
                         effect['count'] = count
             copy_event['id'] = 'echo_' + event['id']
+            copy_event['line'] = ECHO_LINES[copy_event['id']]
             carried.append(copy_event)
         scripts[echo] = carried
         names = sorted({r['name'] for r in own})
