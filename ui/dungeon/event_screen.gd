@@ -74,12 +74,35 @@ func _show_event() -> void:
 			IconArt.button_icon(button, "ICON-GOLD", 28.0)
 		button.pressed.connect(_choose.bind(index))
 		card.content.add_child(button)
+		fit_choice(button)
 		button.focus_mode = Control.FOCUS_ALL
 		_buttons.append(button)
 	for button: FancyButton in _buttons:
 		if not button.disabled:
 			button.call_deferred(&"grab_focus")
 			break
+
+
+## Nov 26 day (Part D1): the padding and icon room a choice button keeps beside its words.
+const CHOICE_PADDING: float = 56.0
+const CHOICE_ICON_ROOM: float = 40.0
+
+
+## The width a choice's words need on one line, with the button's padding (and its gold icon).
+static func choice_width(text: String, font: Font, font_size: int, has_icon: bool) -> float:
+	return font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + CHOICE_PADDING + (CHOICE_ICON_ROOM if has_icon else 0.0)
+
+
+## Nov 26 day (Part D1): a choice too long for one line wraps inside its button (the button grows taller) instead of running past
+## the panel's edge, as the Test Kitchen's "Compare the handwriting" and the castle's "Count the reflections" did.
+static func fit_choice(button: Button) -> void:
+	var font: Font = button.get_theme_font(&"font")
+	var font_size: int = button.get_theme_font_size(&"font_size")
+	if font == null:
+		return
+	if choice_width(button.text, font, font_size, button.icon != null) > button.custom_minimum_size.x:
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
 func _choose(index: int) -> void:

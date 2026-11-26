@@ -98,11 +98,37 @@ class Choice:
 			var text: String = outcome.describe()
 			if not text.is_empty():
 				parts.append(text)
+		var joined: String = ", ".join(parts)
+		if joined.length() <= LONG_HINT:
+			return joined
+		# Nov 26 day (Part D1): a long hint (a boon-or-curse gamble, mostly) ran past the event panel. Keep what it does, drop the
+		# boons' names and the stock phrases ("for the rest of the dungeon" -> "for the dungeon"); the button wraps what is left.
+		parts.clear()
+		for outcome: Outcome in outcomes:
+			var text: String = outcome.describe()
+			if outcome.kind == OutcomeKind.BOON and outcome.boon != null:
+				text = "%s: %s" % ["curse" if outcome._is_curse() else "boon", BoonText.short(outcome.boon)]
+			if not text.is_empty():
+				parts.append(DungeonEvent.compact(text))
 		return ", ".join(parts)
 
 
+## Nov 26 day (Part D1): a choice hint longer than this is shortened (Choice.hint).
+const LONG_HINT: int = 110
+const COMPACT_WORDS: Array[Array] = [
+	[" for the rest of the dungeon", " for the dungeon"], [" in the next fight", " next fight"], ["your units get ", "your units "],
+	["the enemy's units get ", "enemy units "], ["the enemy starts with ", "the foe starts with "], [" on the field", ""],
+	["the enemy starts ", "the foe starts "]]
+
 var id: String = ""
 var choices: Array[Choice] = []
+
+
+## A hint's words, shortened for a long choice button (see COMPACT_WORDS).
+static func compact(text: String) -> String:
+	for pair: Array in COMPACT_WORDS:
+		text = text.replace(str(pair[0]), str(pair[1]))
+	return text
 
 
 static func make(event_id: String) -> DungeonEvent:

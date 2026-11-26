@@ -4,6 +4,15 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 26 day - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov26_day.md` (tag `pre-nov26`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov26/`. Sims: `docs/design/sim/nov26/`. Fight list: `docs/design/zone_fight_rules.md`.
+
+1. **Extra Pocket with one copy.** "Each item twice per fight, even with one copy" is built as: the first use spends the copy, the second use is free, and the item leaves its slot when the fight ends (or at once if the second use is never made). Two copies plus the Pocket: two uses in one fight cost one copy. Safest reading of "with one copy or more"; say if the second use should also spend a copy when you have one.
+2. **Elites and bosses keep their rule sets.** Part C gave every ordinary fight a new rule plus a counterweight. The elites, bosses and Primm already had sets (the Oct 19 and Nov 21 wiring), so they were kept rather than doubled. Two elites got a new scripted beat (Expediter, Elevator Operator). Say if any boss should get more.
+3. **Two foe decks swapped to break repeats.** House of Gains room 8 (Cell Block Brawler) now uses `necrocrat_beefcake` instead of a third `beefcake_bruisers`. Castle room 5 (Gallery Curator) now uses `gourmand_refusemancer`. Both are existing decks; their levels were not touched.
+4. **The sims' absolute clear rates are low** (House of Gains 14-24 %, the others 36-52 %; the castle 3-45 % by route). The sim's player is weaker than a careful human, so treat these as before/after comparisons, not as targets.
+
 ## Fable Nov 25 + Nov 25 night - yours to decide (the safest choice was taken)
 
 Briefs: `docs/prompts/fable_nov25_castle_shufflehouse.md` (tag `pre-nov25`) and `docs/prompts/fable_nov25_night.md` (tag `pre-nov25-night`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov25/`, `docs/overnight_shots/nov25n/`. Sims: `docs/design/sim/nov25n/`.

@@ -1,0 +1,2 @@
+# Nov 26 day: the lines of docs/dialogue/nov26_lines.csv that existed before the pass and were changed through the dialogue importer: none
+# (the new rules and beats are new; the Extra Pocket text lives in data/equipment/extra_pocket.tres - revert it with git if wanted)

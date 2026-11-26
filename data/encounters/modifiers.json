@@ -18,6 +18,25 @@
 			"kind": "stat",
 			"atk": 1,
 			"def": 0
+		},
+		{
+			"name": "Lights Out",
+			"text": "You may play at most 2 cards a turn (Infrastructure does not count). The guards count heads.",
+			"icon": "delapouite/prisoner",
+			"side": "player",
+			"harmful": true,
+			"kind": "max_plays",
+			"count": 2,
+			"nov26": true
+		},
+		{
+			"name": "Care Package",
+			"text": "You start with one more card in your opening hand.",
+			"icon": "delapouite/scroll-quill",
+			"side": "player",
+			"kind": "opening_hand",
+			"count": 1,
+			"nov26": true
 		}
 	],
 	"Chancellor Clench, Iron Regent": [
@@ -1184,6 +1203,373 @@
 			"token_name": "Gym Golem",
 			"every": 4,
 			"nov25n": true
+		}
+	],
+	"Treadmill Sprinter": [
+		{
+			"name": "Treadmill",
+			"text": "The Sprinter's units have Hustle: they can attack the turn they arrive.",
+			"icon": "darkzaitzev/running-ninja",
+			"kind": "keyword",
+			"keyword": "hustle",
+			"nov26": true
+		},
+		{
+			"name": "Interval Training",
+			"text": "Your units with Hustle get +1 attack. Keep up!",
+			"icon": "darkzaitzev/running-ninja",
+			"side": "player",
+			"kind": "keyword_stat",
+			"keyword": "hustle",
+			"atk": 1,
+			"nov26": true
+		}
+	],
+	"Courtyard Lifter": [
+		{
+			"name": "Heavy Plates",
+			"text": "The Lifter's units get +0/+2.",
+			"icon": "delapouite/weight-lifting-up",
+			"kind": "stat",
+			"atk": 0,
+			"def": 2,
+			"nov26": true
+		},
+		{
+			"name": "Free Weights",
+			"text": "Your Beefcake cards cost 1 less. The courtyard is open to all.",
+			"icon": "delapouite/weight-lifting-up",
+			"side": "player",
+			"kind": "cost_change",
+			"path": "beefcake",
+			"amount": -1,
+			"nov26": true
+		}
+	],
+	"Trophy Hall Honor Guard": [
+		{
+			"kind": "starting_tokens",
+			"token": "T-23",
+			"token_name": "Trophy Case",
+			"token_stats": [
+				0,
+				4
+			],
+			"count": 1,
+			"name": "Display Case",
+			"text": "The Guard starts with a 0/4 Trophy Case on the field (Wallflower: it blocks, it never attacks).",
+			"icon": "delapouite/temporary-shield",
+			"nov26": true
+		},
+		{
+			"name": "Hall of Fame",
+			"text": "Your units with Flying get +1 attack. Champions fly over the cases.",
+			"icon": "lorc/feathered-wing",
+			"side": "player",
+			"kind": "keyword_stat",
+			"keyword": "flying",
+			"atk": 1,
+			"nov26": true
+		}
+	],
+	"Prep Station Sous-Chef": [
+		{
+			"name": "Prepped",
+			"text": "The Sous-Chef starts the fight with 2 Ingredients.",
+			"icon": "delapouite/chef-toque",
+			"kind": "starting_resources",
+			"resource": "ingredient",
+			"count": 2,
+			"nov26": true
+		},
+		{
+			"name": "Staff Meal",
+			"text": "You start the fight with 2 Ingredients as well. Help yourself.",
+			"icon": "delapouite/chef-toque",
+			"side": "player",
+			"kind": "starting_resources",
+			"resource": "ingredient",
+			"count": 2,
+			"nov26": true
+		}
+	],
+	"Frozen Line Cook": [
+		{
+			"kind": "starting_tokens",
+			"token": "T-23",
+			"token_name": "Ice Block",
+			"token_stats": [
+				0,
+				4
+			],
+			"count": 2,
+			"name": "Walk-In Cooler",
+			"text": "The Cook starts with two 0/4 Ice Blocks on the field (Wallflower: they block, they never attack).",
+			"icon": "delapouite/ice-golem",
+			"nov26": true
+		},
+		{
+			"name": "Defrost",
+			"text": "You start with one more card in your opening hand.",
+			"icon": "delapouite/ice-golem",
+			"side": "player",
+			"kind": "opening_hand",
+			"count": 1,
+			"nov26": true
+		}
+	],
+	"Assembly Line Golem": [
+		{
+			"name": "Quality Control",
+			"text": "Each unit that attacks the Golem takes 1 damage. Every unit is inspected.",
+			"icon": "delapouite/stamper",
+			"kind": "retaliate",
+			"amount": 1,
+			"nov26": true
+		},
+		{
+			"name": "Overtime Shift",
+			"text": "You draw an extra card on your first turn.",
+			"icon": "delapouite/coffee-cup",
+			"side": "player",
+			"kind": "first_turn_draw",
+			"count": 1,
+			"nov26": true
+		}
+	],
+	"Expediter of the Pass": [
+		{
+			"name": "Plate Up",
+			"text": "The Expediter's units get +1/+0. Hot plates, coming through.",
+			"icon": "delapouite/fork-knife-spoon",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0,
+			"nov26": true
+		},
+		{
+			"name": "Tasting Spoon",
+			"text": "Whenever you gain HP, you gain 1 more.",
+			"icon": "delapouite/fork-knife-spoon",
+			"side": "player",
+			"kind": "hp_gain_bonus",
+			"amount": 1,
+			"nov26": true
+		}
+	],
+	"Intake Clerk": [
+		{
+			"name": "Forms Only",
+			"text": "You cannot play Tools in this fight. The form has no box for them.",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"harmful": true,
+			"kind": "ban_type",
+			"type": "tool",
+			"nov26": true
+		},
+		{
+			"name": "Expedited",
+			"text": "Your units get +1/+0.",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0,
+			"nov26": true
+		}
+	],
+	"Returns Clerk": [
+		{
+			"name": "Refund Policy",
+			"text": "At the start of its turn the Clerk heals 1.",
+			"icon": "delapouite/scroll-quill",
+			"kind": "start_of_turn_heal",
+			"amount": 1,
+			"nov26": true
+		},
+		{
+			"name": "Receipt Kept",
+			"text": "You start the fight with a Contract (pay 1, use it: exhaust target unit).",
+			"icon": "delapouite/scroll-quill",
+			"side": "player",
+			"kind": "starting_resources",
+			"resource": "contract",
+			"count": 1,
+			"nov26": true
+		}
+	],
+	"Resurrection Permits Zombie": [
+		{
+			"name": "Burial Fees Waived",
+			"text": "Your Necrocrat cards cost 1 less.",
+			"icon": "lorc/tombstone",
+			"side": "player",
+			"kind": "cost_change",
+			"path": "necrocrat",
+			"amount": -1,
+			"nov26": true
+		}
+	],
+	"Executive Elevator Operator": [
+		{
+			"name": "Express Lift",
+			"text": "Your units with Flying get +1 attack. The shaft goes all the way up.",
+			"icon": "delapouite/elevator",
+			"side": "player",
+			"kind": "keyword_stat",
+			"keyword": "flying",
+			"atk": 1,
+			"nov26": true
+		}
+	],
+	"Overgrown Scarecrow": [
+		{
+			"name": "Crows",
+			"text": "Every third turn of its, a 1/1 Crow with Flying flaps in.",
+			"icon": "lorc/feathered-wing",
+			"kind": "timed_summon",
+			"token": "T-22",
+			"token_name": "Crow",
+			"token_keywords": [
+				"FLYING"
+			],
+			"every": 3,
+			"nov26": true
+		},
+		{
+			"name": "Shoo!",
+			"text": "Your units with Swat get +1 attack. Swatters can block flyers.",
+			"icon": "lorc/feathered-wing",
+			"side": "player",
+			"kind": "keyword_stat",
+			"keyword": "swat",
+			"atk": 1,
+			"nov26": true
+		}
+	],
+	"Mutant Mushroom Troop": [
+		{
+			"name": "Spore Cloud",
+			"text": "At the start of its turn, you take 1 damage.",
+			"icon": "delapouite/mushrooms-cluster",
+			"kind": "start_of_turn_damage",
+			"amount": 1,
+			"nov26": true
+		},
+		{
+			"name": "Fungal Feast",
+			"text": "Your tokens get +1/+1.",
+			"icon": "delapouite/mushrooms-cluster",
+			"side": "player",
+			"kind": "token_stats",
+			"atk": 1,
+			"def": 1,
+			"nov26": true
+		}
+	],
+	"Thorn Maze Stalker": [
+		{
+			"name": "Thorns",
+			"text": "Each unit that attacks the Stalker takes 1 damage.",
+			"icon": "delapouite/tree-roots",
+			"kind": "retaliate",
+			"amount": 1,
+			"nov26": true
+		},
+		{
+			"name": "Hedge Cutter",
+			"text": "Your units with Bulldoze get +1 attack.",
+			"icon": "delapouite/tree-roots",
+			"side": "player",
+			"kind": "keyword_stat",
+			"keyword": "bulldoze",
+			"atk": 1,
+			"nov26": true
+		}
+	],
+	"Rot Tunnel Horror": [
+		{
+			"name": "Bad Air",
+			"text": "No one can use Garbage in this fight. The tunnel air spoils it.",
+			"icon": "lorc/skull-crack",
+			"side": "player",
+			"harmful": true,
+			"kind": "block_resource",
+			"resource": "garbage",
+			"nov26": true
+		},
+		{
+			"name": "Fresh Draught",
+			"text": "At the start of your turn you heal 1.",
+			"icon": "lorc/leaf-swirl",
+			"side": "player",
+			"kind": "start_of_turn_heal",
+			"amount": 1,
+			"nov26": true
+		}
+	],
+	"Hedge Trimmer Guard": [
+		{
+			"name": "Pruning Shears",
+			"text": "The Guard's units have Sucker Punch: they deal combat damage first.",
+			"icon": "lorc/leaf-swirl",
+			"kind": "keyword",
+			"keyword": "sucker_punch",
+			"nov26": true
+		},
+		{
+			"name": "Overgrowth",
+			"text": "Your units get +0/+1.",
+			"icon": "lorc/leaf-swirl",
+			"side": "player",
+			"kind": "stat",
+			"atk": 0,
+			"def": 1,
+			"nov26": true
+		}
+	],
+	"Gallery Curator": [
+		{
+			"name": "Do Not Touch",
+			"text": "You cannot play Wonders in this fight. Please do not touch the exhibits.",
+			"icon": "delapouite/portrait",
+			"side": "player",
+			"harmful": true,
+			"kind": "ban_type",
+			"type": "wonder",
+			"nov26": true
+		},
+		{
+			"name": "Audio Guide",
+			"text": "You draw an extra card on your first turn.",
+			"icon": "delapouite/portrait",
+			"side": "player",
+			"kind": "first_turn_draw",
+			"count": 1,
+			"nov26": true
+		}
+	],
+	"Ministry Clerk": [
+		{
+			"name": "Correction Quota",
+			"text": "You may play at most 3 cards a turn (Infrastructure does not count).",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"harmful": true,
+			"kind": "max_plays",
+			"count": 3,
+			"nov26": true
+		},
+		{
+			"name": "Approved Stamp",
+			"text": "Your Pathless cards cost 1 less.",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"kind": "cost_change",
+			"path": "neutral",
+			"amount": -1,
+			"nov26": true
 		}
 	]
 }

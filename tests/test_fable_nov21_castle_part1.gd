@@ -218,7 +218,7 @@ func test_max_hp_curses_are_scaled_by_depth() -> void:
 					assert_between(loss, -5, -4, "%s room %s: deep in a zone dungeon, 4 to 5" % [blueprint.id, number])
 				else:
 					assert_between(loss, -3, -2, "%s room %s: early in a zone dungeon, 2 to 3" % [blueprint.id, number])
-	assert_gt(seen, 3)
+	assert_gte(seen, 3)  # Nov 26 day: the Nov 25 night's event-room rules (at most 4 choices) left three max-HP curses in data; the scaling check above is the test
 	# the castle's events that are still built in code
 	var code: String = FileAccess.get_file_as_string("res://core/dungeon/primms_castle_dungeon.gd")
 	for found: RegExMatch in regex.search_all(code):

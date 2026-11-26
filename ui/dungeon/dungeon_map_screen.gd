@@ -881,6 +881,10 @@ func _open_from_screenshot(what: String) -> void:
 		"brief":
 			# Fable Nov 12c (Part B): the pre-fight panel of the next open fight (or of the boss with --brief_boss)
 			var target: DungeonMap.MapNode = map.boss() if _screenshot_args.has("brief_boss") else null
+			# Nov 26 day: `--brief_room=N` - the panel of room N (the dungeon list's number)
+			for candidate: DungeonMap.MapNode in map.nodes:
+				if target == null and candidate.number == int(_screenshot_args.get("brief_room", -1)):
+					target = candidate
 			for candidate: DungeonMap.MapNode in map.nodes:
 				if target == null and DungeonMap.is_battle_kind(candidate.kind) and not map.is_cleared(candidate.id):
 					target = candidate

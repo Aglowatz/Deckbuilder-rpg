@@ -58,7 +58,7 @@
 				},
 				"8": {
 					"name": "Cell Block Brawler",
-					"deck": "beefcake_bruisers",
+					"deck": "necrocrat_beefcake",
 					"hp": 16,
 					"size": 28,
 					"infra": 12
@@ -821,7 +821,7 @@
 				},
 				"5": {
 					"name": "Gallery Curator",
-					"deck": "colorless_regime",
+					"deck": "gourmand_refusemancer",
 					"size": 32,
 					"hp": 25,
 					"mixed": [

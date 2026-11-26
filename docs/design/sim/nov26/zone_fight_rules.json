@@ -1,0 +1,261 @@
+[
+	{
+		"dungeon": "D-HOG",
+		"room": 2,
+		"foe": "Treadmill Sprinter",
+		"idea": "a race: slow decks get run over, fast (Hustle) decks hit harder",
+		"rules_before": [],
+		"rules_added": [
+			"Treadmill: The Sprinter's units have Hustle: they can attack the turn they arrive.",
+			"Interval Training: Your units with Hustle get +1 attack. Keep up!"
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-HOG",
+		"room": 3,
+		"foe": "Courtyard Lifter",
+		"idea": "tough blockers; Beefcake cards come cheaper",
+		"rules_before": [],
+		"rules_added": [
+			"Heavy Plates: The Lifter's units get +0/+2.",
+			"Free Weights: Your Beefcake cards cost 1 less. The courtyard is open to all."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-HOG",
+		"room": 8,
+		"foe": "Cell Block Brawler",
+		"idea": "swarms of cheap cards are capped; big single plays are not (and a deck change: necrocrat_beefcake, the prison guards)",
+		"rules_before": [
+			"Smuggled Weights: He has been curling contraband plates under his bunk for years. The Brawler's units get +1 attack."
+		],
+		"rules_added": [
+			"Lights Out: You may play at most 2 cards a turn (Infrastructure does not count). The guards count heads.",
+			"Care Package: You start with one more card in your opening hand."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-HOG",
+		"room": 11,
+		"foe": "Trophy Hall Honor Guard",
+		"idea": "a wall for ground attackers; flyers go over it",
+		"rules_before": [],
+		"rules_added": [
+			"Display Case: The Guard starts with a 0/4 Trophy Case on the field (Wallflower: it blocks, it never attacks).",
+			"Hall of Fame: Your units with Flying get +1 attack. Champions fly over the cases."
+		],
+		"events_before": [
+			"At half health a reserve guard steps off a pedestal: a 1/1 Reserve Guard joins."
+		],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-TTK",
+		"room": 2,
+		"foe": "Prep Station Sous-Chef",
+		"idea": "both sides start with Ingredients: a Gourmand deck makes better use of them",
+		"rules_before": [],
+		"rules_added": [
+			"Prepped: The Sous-Chef starts the fight with 2 Ingredients.",
+			"Staff Meal: You start the fight with 2 Ingredients as well. Help yourself."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-TTK",
+		"room": 3,
+		"foe": "Frozen Line Cook",
+		"idea": "walls for ground attackers; flyers, Elusive units and direct damage go round them",
+		"rules_before": [],
+		"rules_added": [
+			"Walk-In Cooler: The Cook starts with two 0/4 Ice Blocks on the field (Wallflower: they block, they never attack).",
+			"Defrost: You start with one more card in your opening hand."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-TTK",
+		"room": 8,
+		"foe": "Assembly Line Golem",
+		"idea": "swarms of 1-defence units pay for attacking; big units shrug it off",
+		"rules_before": [],
+		"rules_added": [
+			"Quality Control: Each unit that attacks the Golem takes 1 damage. Every unit is inspected.",
+			"Overtime Shift: You draw an extra card on your first turn."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-TTK",
+		"room": 12,
+		"foe": "Expediter of the Pass",
+		"idea": "it hits harder; decks that heal gain more (and a staff meal on its 4th turn)",
+		"rules_before": [],
+		"rules_added": [
+			"Plate Up: The Expediter's units get +1/+0. Hot plates, coming through.",
+			"Tasting Spoon: Whenever you gain HP, you gain 1 more."
+		],
+		"events_before": [],
+		"events_added": [
+			"On its 4th turn the pass sends out staff meal: you heal 3."
+		]
+	},
+	{
+		"dungeon": "D-HFA",
+		"room": 3,
+		"foe": "Intake Clerk",
+		"idea": "Tool decks are refused at the desk; unit decks are waved through faster",
+		"rules_before": [],
+		"rules_added": [
+			"Forms Only: You cannot play Tools in this fight. The form has no box for them.",
+			"Expedited: Your units get +1/+0."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-HFA",
+		"room": 4,
+		"foe": "Returns Clerk",
+		"idea": "a slow grind punishes slow decks; a Contract to stop its best blocker",
+		"rules_before": [],
+		"rules_added": [
+			"Refund Policy: At the start of its turn the Clerk heals 1.",
+			"Receipt Kept: You start the fight with a Contract (pay 1, use it: exhaust target unit)."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-HFA",
+		"room": 9,
+		"foe": "Resurrection Permits Zombie",
+		"idea": "trading units feeds it more; a Necrocrat deck pays less",
+		"rules_before": [],
+		"rules_added": [
+			"Burial Fees Waived: Your Necrocrat cards cost 1 less."
+		],
+		"events_before": [],
+		"events_added": [
+			"When two of its units have died, a permit is granted: two 1/1 Zombie Temps climb back up."
+		]
+	},
+	{
+		"dungeon": "D-HFA",
+		"room": 13,
+		"foe": "Executive Elevator Operator",
+		"idea": "win before the lift reaches the top; flyers get there first",
+		"rules_before": [],
+		"rules_added": [
+			"Express Lift: Your units with Flying get +1 attack. The shaft goes all the way up."
+		],
+		"events_before": [],
+		"events_added": [
+			"On its 4th turn the lift reaches the executive floors: the Operator's units get +1/+1."
+		]
+	},
+	{
+		"dungeon": "D-ROT",
+		"room": 2,
+		"foe": "Overgrown Scarecrow",
+		"idea": "flyers come in over a slow deck; units that can swat them get stronger",
+		"rules_before": [],
+		"rules_added": [
+			"Crows: Every third turn of its, a 1/1 Crow with Flying flaps in.",
+			"Shoo!: Your units with Swat get +1 attack. Swatters can block flyers."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-ROT",
+		"room": 3,
+		"foe": "Mutant Mushroom Troop",
+		"idea": "a clock against slow decks; token decks grow faster",
+		"rules_before": [],
+		"rules_added": [
+			"Spore Cloud: At the start of its turn, you take 1 damage.",
+			"Fungal Feast: Your tokens get +1/+1."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-ROT",
+		"room": 8,
+		"foe": "Thorn Maze Stalker",
+		"idea": "small attackers bleed on the thorns; big tramplers cut through",
+		"rules_before": [],
+		"rules_added": [
+			"Thorns: Each unit that attacks the Stalker takes 1 damage.",
+			"Hedge Cutter: Your units with Bulldoze get +1 attack."
+		],
+		"events_before": [],
+		"events_added": [
+			"On its 5th turn you find a clearing in the maze: you heal 3."
+		]
+	},
+	{
+		"dungeon": "D-ROT",
+		"room": 11,
+		"foe": "Rot Tunnel Horror",
+		"idea": "a Garbage plan stalls; any deck heals a little each turn",
+		"rules_before": [],
+		"rules_added": [
+			"Bad Air: No one can use Garbage in this fight. The tunnel air spoils it.",
+			"Fresh Draught: At the start of your turn you heal 1."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-PC",
+		"room": 3,
+		"foe": "Hedge Trimmer Guard",
+		"idea": "its units strike first; sturdier units survive it",
+		"rules_before": [],
+		"rules_added": [
+			"Pruning Shears: The Guard's units have Sucker Punch: they deal combat damage first.",
+			"Overgrowth: Your units get +0/+1."
+		],
+		"events_before": [],
+		"events_added": []
+	},
+	{
+		"dungeon": "D-PC",
+		"room": 5,
+		"foe": "Gallery Curator",
+		"idea": "Wonder decks are turned away at the rope; everyone gets the audio guide (and a deck change: gourmand_refusemancer)",
+		"rules_before": [],
+		"rules_added": [
+			"Do Not Touch: You cannot play Wonders in this fight. Please do not touch the exhibits.",
+			"Audio Guide: You draw an extra card on your first turn."
+		],
+		"events_before": [],
+		"events_added": [
+			"At half health the Curator restores a portrait: it heals 3."
+		]
+	},
+	{
+		"dungeon": "D-PC",
+		"room": 12,
+		"foe": "Ministry Clerk",
+		"idea": "a cap on very wide turns; Pathless cards come cheaper",
+		"rules_before": [],
+		"rules_added": [
+			"Correction Quota: You may play at most 3 cards a turn (Infrastructure does not count).",
+			"Approved Stamp: Your Pathless cards cost 1 less."
+		],
+		"events_before": [],
+		"events_added": []
+	}
+]
