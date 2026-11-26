@@ -3,13 +3,13 @@ extends GutTest
 ## Reserve is a choice of 1 of 3 boons at the Cracked Frame instead of +40 max HP for everyone.
 
 const ECHOES: Dictionary = {
-	"Echo of Vivienne Quota": "Stopwatch, Silvered",
-	"Echo of Chancellor Clench": "Reinforcements, Silvered",
-	"Echo of Percival Plume": "Positive Spin, Silvered",
-	"Echo of Mortimer Grimsby": "Temp Agency, Silvered",
-	"Echo of the Doppelganger": "Plated Just So, Silvered",
-	"Echo of Hortensia Clipwell": "Royal Groundskeeper, Silvered",
-	"Echo of the Rotheart": "Rot Takes Root, Silvered",
+	"Echo of Vivienne Quota": "Stopwatch, Reflected",
+	"Echo of Chancellor Clench": "Reinforcements, Reflected",
+	"Echo of Percival Plume": "Positive Spin, Reflected",
+	"Echo of Mortimer Grimsby": "Temp Agency, Reflected",
+	"Echo of the Doppelganger": "Plated Just So, Reflected",
+	"Echo of Hortensia Clipwell": "Royal Groundskeeper, Reflected",
+	"Echo of the Rotheart": "Rot Takes Root, Reflected",
 }
 
 
@@ -32,16 +32,16 @@ func test_every_echo_carries_its_originals_rule_and_events() -> void:
 			assert_false((event as Dictionary).has("line"), "%s: the original's spoken line stays with the original" % echo)
 
 
-func test_the_echoes_are_stronger_than_their_originals() -> void:
-	assert_eq(_stat("Echo of Vivienne Quota").x, 2, "Quota +1 -> +2 attack")
-	assert_eq(_stat("Echo of Percival Plume"), Vector2i(1, 2))
-	assert_eq(_stat("Echo of the Doppelganger"), Vector2i(2, 1))
+func test_the_echoes_carry_their_originals_numbers() -> void:
+	assert_eq(_stat("Echo of Vivienne Quota").x, 1, "Quota's +1 attack")
+	assert_eq(_stat("Echo of Percival Plume"), Vector2i(1, 1))
+	assert_eq(_stat("Echo of the Doppelganger"), Vector2i(1, 1))
 	var clench: Array = JSON.parse_string(FileAccess.get_file_as_string("res://data/encounters/modifiers.json"))["Echo of Chancellor Clench"]
 	var every: int = 0
 	for rule: Variant in clench:
 		if str((rule as Dictionary).get("kind", "")) == "timed_summon":
 			every = int((rule as Dictionary).get("every", 0))
-	assert_eq(every, 4, "reinforcements every fourth turn (the original: fifth)")
+	assert_eq(every, 5, "reinforcements every fifth turn, as for Clench")
 
 
 func _stat(echo: String) -> Vector2i:

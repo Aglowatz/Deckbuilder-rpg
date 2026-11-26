@@ -25,6 +25,10 @@ var foe_opening_infrastructure_floor: int = 2
 ## Nov 25 night (Part C.2): the AI seat's opening hand also holds at least this many cards that are not infrastructure (a flooded hand
 ## swaps infrastructure back for plays). Set with a higher infrastructure floor by `OpponentHands` for postgame and draft foes. 0 = off.
 var foe_opening_play_floor: int = 0
+## Nov 25 night (Part C, the owner: "at least 8 cards when their first turn begins"): the AI seat is dealt enough that it holds this many
+## when its first turn begins - this many when it goes first, one less (plus its extra draws) when its first turn starts with a draw.
+## 0 = off.
+var foe_first_turn_hand: int = 0
 ## Overnight Nov 9-10 (RC1 critic #2, the first fights drag): the Forgotten Cave's FLOOD GUARD. While seat `flood_guard_seat` already
 ## holds this many infrastructure (in play + in hand), an infrastructure it draws is swapped for the next non-infrastructure card down its
 ## deck (deterministic, no RNG). 0 = off (every other fight).
@@ -48,6 +52,7 @@ func clone() -> GameOptions:
 	copy.opening_infrastructure_floor = opening_infrastructure_floor
 	copy.foe_opening_infrastructure_floor = foe_opening_infrastructure_floor
 	copy.foe_opening_play_floor = foe_opening_play_floor
+	copy.foe_first_turn_hand = foe_first_turn_hand
 	copy.opening_infrastructure_seat = opening_infrastructure_seat
 	copy.flood_guard = flood_guard
 	copy.flood_guard_seat = flood_guard_seat

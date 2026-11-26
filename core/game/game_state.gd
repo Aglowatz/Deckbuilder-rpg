@@ -179,6 +179,10 @@ func _pick_first_player() -> int:
 
 func _deal_opening_hand(player: PlayerState) -> void:
 	var hand: Array[CardInstance] = []
+	if player.index != options.opening_infrastructure_seat and options.foe_first_turn_hand > 0:
+		# Nov 25 night (Part C): enough that the foe holds `foe_first_turn_hand` cards when its first turn begins
+		var turn_draw: int = 0 if first_player == player.index else 1 + maxi(0, player.modifiers.sum(Modifier.Kind.EXTRA_DRAWS))
+		player.opening_hand_size = maxi(player.opening_hand_size, options.foe_first_turn_hand - turn_draw)
 	if player.index == options.scripted_hand_player and not options.scripted_opening_hand.is_empty():
 		# Fable pass Nov 1: the first duel's teaching hand - the scripted ids first (each pulled from the deck), the rest drawn as usual.
 		for id: String in options.scripted_opening_hand:
@@ -262,6 +266,16 @@ func _begin_playing() -> void:
 			if modifier.kind == Modifier.Kind.STARTING_INFRASTRUCTURE and modifier.value > 0:
 				for _copy: int in range(modifier.value):
 					_put_infrastructure_from_deck(index)
+	# Nov 25 night (Part C): a postgame or draft foe still holds its full hand after any opening discard (a start-of-duel effect that
+	# costs it a card is made good from its deck)
+	if options.foe_first_turn_hand > 0:
+		for index: int in range(players.size()):
+			if index == options.opening_infrastructure_seat:
+				continue
+			var turn_draw: int = 0 if first_player == index else 1 + maxi(0, players[index].modifiers.sum(Modifier.Kind.EXTRA_DRAWS))
+			var short: int = options.foe_first_turn_hand - turn_draw - players[index].hand.size()
+			if short > 0:
+				draw_cards(index, short)
 	mark_placed_before_duel()
 	_begin_turn()
 

@@ -1,5 +1,5 @@
 extends GutTest
-## Nov 25 night (Part C): postgame and draft opponents hold at least 8 cards when their first turn begins (a boss at least 9), in a
+## Nov 25 night (Part C): postgame and draft opponents hold at least 8 cards when their first turn begins, in a
 ## sensible mix of Infrastructure and plays, and the game wires it in for postgame dungeons, dungeon drafts, table drafts and the vault.
 
 const HANDS = preload("res://core/game/opponent_hands.gd")
@@ -71,8 +71,7 @@ func test_mount_swolympus_and_the_lab_no_longer_start_on_five() -> void:
 		var plain: PlayerSetup = MainDungeons.enemy_setup(content, map.boss(), key)
 		assert_eq(plain.profile.base_opening_hand(), 5, "%s's boss alone would start on 5" % key)
 		HANDS.apply(plain, true)
-		assert_eq(plain.profile.base_opening_hand(), 8)
-		assert_gte(_first_turn_hand(plain, 3).size(), 9, "%s's boss opens with at least 9" % key)
+		assert_gte(_first_turn_hand(plain, 3).size(), HANDS.opening_size(true), "%s's boss opens with a full hand" % key)
 		for node: DungeonMap.MapNode in map.nodes:
 			if DungeonMap.is_battle_kind(node.kind) and node.kind != DungeonMap.Kind.BOSS and not node.enemy_name.is_empty():
 				var foe: PlayerSetup = MainDungeons.enemy_setup(content, node, key)
@@ -89,8 +88,10 @@ func test_every_draft_rival_opens_with_a_full_hand() -> void:
 		for rival: Dictionary in DraftRivals.build_all(content, state):
 			var setup: PlayerSetup = DraftRun.enemy_setup(content, rival)
 			var boss: bool = bool(rival.get("boss", false))
+			# a rival whose own drafted gear spends a card as its turn begins (a start-of-turn effect) held the full hand when the turn began
+			var spends: int = 1 if setup.modifiers.has(Modifier.Kind.START_OF_TURN_EFFECT) else 0
 			var hand: Array[CardInstance] = _first_turn_hand(setup, 77)
-			assert_gte(hand.size(), HANDS.opening_size(boss), "%s at the %s table holds %d" % [str(rival.get("name", "?")), challenge, hand.size()])
+			assert_gte(hand.size(), HANDS.opening_size(boss) - spends, "%s at the %s table holds %d" % [str(rival.get("name", "?")), challenge, hand.size()])
 			checked += 1
 	assert_gte(checked, 4, "rivals checked: %d" % checked)
 
@@ -118,3 +119,23 @@ func test_a_flooded_hand_swaps_infrastructure_for_plays() -> void:
 	assert_eq(HandSmoother.ensure_plays(hand, deck, 4, rng), 4)
 	assert_eq(HandSmoother.count_infrastructure(hand), 4)
 	assert_eq(hand.size(), 8)
+
+
+func test_a_foe_going_second_is_dealt_seven_and_holds_eight_after_its_draw() -> void:
+	var content: ContentSet = _content()
+	var map: DungeonMap = MainDungeons.build_map("S-BEEF")
+	var setup: PlayerSetup = MainDungeons.enemy_setup(content, map.boss(), "S-BEEF")
+	HANDS.apply(setup, true)
+	var options: GameOptions = GameOptions.new()
+	options.rng_seed = 9
+	options.first_player = 0
+	options.free_mulligan = false
+	HANDS.apply_options(options)
+	var game: GameState = GameState.new(options)
+	game.add_player(PlayerSetup.create(setup.deck, null, [] as Array[ModifierSource], "You"))
+	game.add_player(setup)
+	game.start()
+	var extra: int = maxi(0, game.players[1].modifiers.sum(Modifier.Kind.EXTRA_DRAWS))
+	assert_eq(game.players[1].hand.size(), HANDS.MIN_HAND - 1 - extra, "dealt one short: its turn begins with a draw")
+	GameFactory.pass_turn(game)
+	assert_gte(game.players[1].hand.size(), HANDS.MIN_HAND, "8 when its first turn begins")

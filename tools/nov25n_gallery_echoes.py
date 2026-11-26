@@ -1,9 +1,8 @@
-"""Nov 25 night (Part D.1): the Shattered Gallery's Echoes bring their originals' special rules with them, in a postgame version (harder,
-never softer). Each Echo keeps its own twisted rule and gains:
-  - the rules of the main-game fight it echoes (data/encounters/modifiers.json), with the numbers raised (written out here by hand so
-    the text and the numbers agree);
-  - the original's scripted mid-fight events (data/encounters/encounter_scripts.json) that make the fight harder, sharper (earlier,
-    bigger); the original's late "faltering" beats (its units get -1/-0 near the end) are left out: an Echo does not falter;
+"""Nov 25 night (Part D.1): the Shattered Gallery's Echoes bring their originals' special rules with them. The fight is harder than the original
+(the Echo's own twisted rule on top, more HP, a full opening hand: Part C), never softer. Each Echo keeps its own twisted rule and gains:
+  - the rules of the main-game fight it echoes (data/encounters/modifiers.json), at the original's strength (a first version with
+    raised numbers left no simulated run alive past the fourth room: docs/design/sim/nov25n/postgame_runs.md);
+  - the original's scripted mid-fight events (data/encounters/encounter_scripts.json) that make the fight harder; the original's late "faltering" beats (its units get -1/-0 near the end) are left out: an Echo does not falter;
   - no spoken lines: the originals' lines are theirs (the banner still says what happened).
 Writes both files in place and docs/design/sim/nov25n/gallery_echo_rules.md (the list for the report). Idempotent: rules it added are
 marked "postgame": true and replaced on every run.
@@ -31,45 +30,45 @@ ORIGINAL = {
 # The originals' rules, postgame: what each Echo gains (on top of its own twisted rule)
 RULES = {
     'Echo of Vivienne Quota': [
-        {'name': 'Stopwatch, Silvered', 'text': "Quota's Echo's units get +2 attack. The stopwatch in the glass runs fast.", 'icon': 'delapouite/alarm-clock', 'kind': 'stat', 'atk': 2, 'def': 0},
+        {'name': 'Stopwatch, Reflected', 'text': "Quota's Echo's units get +1 attack, as hers did. Every second counts, and the glass is counting.", 'icon': 'delapouite/alarm-clock', 'kind': 'stat', 'atk': 1, 'def': 0},
     ],
     'Echo of Chancellor Clench': [
-        {'name': 'Reinforcements, Silvered', 'text': "Every fourth turn of his, a 2/2 Patchwork Body marches in (the original waited for every fifth).", 'icon': 'delapouite/strong-man', 'kind': 'timed_summon', 'token': 'T-21', 'every': 4},
+        {'name': 'Reinforcements, Reflected', 'text': "Every fifth turn of his, a 2/2 Patchwork Body marches in, as it did for him.", 'icon': 'delapouite/strong-man', 'kind': 'timed_summon', 'token': 'T-21', 'every': 5},
     ],
     'Echo of Percival Plume': [
-        {'name': 'Positive Spin, Silvered', 'text': "Plume's Echo's units get +1/+2. The press release has been polished.", 'icon': 'delapouite/scroll-quill', 'kind': 'stat', 'atk': 1, 'def': 2},
+        {'name': 'Positive Spin, Reflected', 'text': "Plume's Echo's units get +1/+1, as his did. Everything hits harder in a press release.", 'icon': 'delapouite/scroll-quill', 'kind': 'stat', 'atk': 1, 'def': 1},
     ],
     'Echo of Mortimer Grimsby': [
-        {'name': 'Temp Agency, Silvered', 'text': "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.", 'icon': 'delapouite/shambling-zombie', 'kind': 'timed_summon', 'token': 'T-10', 'every': 2},
-        {'name': 'Temp Agency, Silvered', 'text': "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.", 'icon': 'delapouite/shambling-zombie', 'kind': 'stat', 'atk': 1, 'def': 1},
+        {'name': 'Temp Agency, Reflected', 'text': "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0, as Mortimer's did.", 'icon': 'delapouite/shambling-zombie', 'kind': 'timed_summon', 'token': 'T-10', 'every': 2},
+        {'name': 'Temp Agency, Reflected', 'text': "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0, as Mortimer's did.", 'icon': 'delapouite/shambling-zombie', 'kind': 'stat', 'atk': 1, 'def': 0},
     ],
     'Echo of the Doppelganger': [
-        {'name': 'Mise en Place, Silvered', 'text': 'Starts the duel with 2 Ingredients, on top of its two Sashimi Weenies.', 'icon': 'delapouite/chef-toque', 'kind': 'starting_resources', 'resource': 'ingredient', 'count': 2},
-        {'name': 'Plated Just So, Silvered', 'text': "The Echo's units get +2/+1. Every reflected dish is plated just so.", 'icon': 'delapouite/fork-knife-spoon', 'kind': 'stat', 'atk': 2, 'def': 1},
+        {'name': 'Mise en Place, Reflected', 'text': 'Starts the duel with an Ingredient, on top of its two Sashimi Weenies.', 'icon': 'delapouite/chef-toque', 'kind': 'starting_resources', 'resource': 'ingredient', 'count': 1},
+        {'name': 'Plated Just So, Reflected', 'text': "The Echo's units get +1/+1. Every reflected dish is plated just so.", 'icon': 'delapouite/fork-knife-spoon', 'kind': 'stat', 'atk': 1, 'def': 1},
     ],
     'Echo of Hortensia Clipwell': [
-        {'name': 'Royal Groundskeeper, Silvered', 'text': "Clipwell's Echo's units get +2/+1 (her Topiaries do not: they stay 1/2).", 'icon': 'lorc/leaf-swirl', 'kind': 'stat', 'atk': 2, 'def': 1, 'non_tokens': True},
+        {'name': 'Royal Groundskeeper, Reflected', 'text': "Clipwell's Echo's units get +1/+1 (her Topiaries do not: they stay 1/2).", 'icon': 'lorc/leaf-swirl', 'kind': 'stat', 'atk': 1, 'def': 1, 'non_tokens': True},
     ],
     'Echo of the Rotheart': [
-        {'name': 'Rot Takes Root, Silvered', 'text': "The Echo's units get +2/+2 more. The rot in the glass is still feeding.", 'icon': 'cathelineau/tree-face', 'kind': 'stat', 'atk': 2, 'def': 2},
+        {'name': 'Rot Takes Root, Reflected', 'text': "The Echo's units get +2/+2 more, as Compostella's did. The rot in the glass is still feeding.", 'icon': 'cathelineau/tree-face', 'kind': 'stat', 'atk': 2, 'def': 2},
     ],
 }
 
 # The originals' scripted events to carry over (by id) and how the postgame version differs
 SCRIPT_KEEP = {
-    'Echo of Vivienne Quota': {'review': {'effects': [{'kind': 'draw', 'count': 2}], 'text': "At half health Quota's Echo reviews her numbers: she draws two cards.", 'banner': "Quota's Echo draws two cards."}},
+    'Echo of Vivienne Quota': {'review': {'text': "At half health Quota's Echo reviews her numbers: she draws a card.", 'banner': "Quota's Echo draws a card."}},
     'Echo of Chancellor Clench': {
-        'brownout': {'when': {'type': 'turn', 'turn': 4}, 'text': "On his 4th turn Clench's Echo cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.", 'warn': "Next turn: Clench's Echo cuts the power (your two strongest units cannot block)."},
-        'forms': {'effects': [{'kind': 'resources', 'resource': 'iron', 'count': 3}], 'text': "At half health Clench's Echo pulls the emergency reserve: he gains 3 Iron.", 'banner': "Clench's Echo gains 3 Iron."},
+        'brownout': {'text': "On his 5th turn Clench's Echo cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.", 'warn': "Next turn: Clench's Echo cuts the power (your two strongest units cannot block)."},
+        'forms': {'text': "At half health Clench's Echo pulls the emergency reserve: he gains 2 Iron.", 'banner': "Clench's Echo gains 2 Iron."},
     },
     'Echo of Percival Plume': {
-        'spin': {'effects': [{'kind': 'heal', 'amount': 5}], 'text': "At half health Plume's Echo announces that he is fine: he heals 5.", 'banner': "Plume's Echo heals 5."},
-        'deadline': {},
+        'spin': {'text': "At half health Plume's Echo announces that he is fine: he heals 2.", 'banner': "Plume's Echo heals 2."},
+        'deadline': {'text': "When the Echo's 12th turn begins the office in the glass closes and you lose the duel. Win before then.", 'warn': "Next turn: the filing deadline in the glass. Win now, or the duel is lost."},
     },
-    'Echo of Mortimer Grimsby': {'form': {'when': {'type': 'turn', 'turn': 3}, 'effects': [{'kind': 'summon', 'token': 'T-10', 'count': 2, 'token_name': 'Filing Clerk'}], 'text': "On his 3rd turn Mortimer's Echo files Form 27-B twice: two 1/1 Filing Clerks are hired to process it.", 'warn': "Next turn: Mortimer's Echo files Form 27-B (two clerks are hired).", 'banner': 'Two 1/1 Filing Clerks are hired.'}},
-    'Echo of the Doppelganger': {'mask': {'effects': [{'kind': 'summon', 'token': 'T-03', 'count': 3}], 'text': "At half health the Echo's mask slips, and nothing changes underneath: three 1/1 Sashimi Weenies are rushed out.", 'banner': 'Three 1/1 Sashimi Weenies are rushed out.'}},
-    'Echo of Hortensia Clipwell': {'topiary': {'text': "At half health Clipwell's Echo trims three topiaries into guards: three 1/2 Topiaries join her.", 'banner': "Three Topiaries join Clipwell's Echo.", 'count': 3}},
-    'Echo of the Rotheart': {'roots': {'text': "At half health the roots spread: three 1/1 Sporelings sprout and the Echo's units get +0/+1.", 'banner': "Three Sporelings sprout; the Echo's units get +0/+1.", 'count': 3}},
+    'Echo of Mortimer Grimsby': {'form': {'text': "On his 4th turn Mortimer's Echo files Form 27-B: a 1/1 Filing Clerk is hired to process it.", 'warn': "Next turn: Mortimer's Echo files Form 27-B (a clerk is hired)."}},
+    'Echo of the Doppelganger': {'mask': {'effects': [{'kind': 'summon', 'token': 'T-03', 'count': 2}], 'text': "At half health the Echo's mask slips, and nothing changes underneath: two 1/1 Sashimi Weenies are rushed out.", 'banner': 'Two 1/1 Sashimi Weenies are rushed out.'}},
+    'Echo of Hortensia Clipwell': {'topiary': {'text': "At half health Clipwell's Echo trims two topiaries into guards: two 1/2 Topiaries join her.", 'banner': "Two Topiaries join Clipwell's Echo."}},
+    'Echo of the Rotheart': {'roots': {'text': "At half health the roots spread: two 1/1 Sporelings sprout and the Echo's units get +0/+1.", 'banner': "Two Sporelings sprout; the Echo's units get +0/+1."}},
 }
 
 

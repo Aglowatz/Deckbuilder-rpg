@@ -2,6 +2,8 @@ class_name BalanceSim
 extends RefCounted
 ## Nov 25 night (Part C): preloaded (a new class is not in the class cache until the next import).
 const OPPONENT_HANDS = preload("res://core/game/opponent_hands.gd")
+## Nov 25 night: a measuring switch for the postgame sims (`--hands=off`): false seats postgame foes as before tonight.
+static var full_opponent_hands: bool = true
 ## Rebalance Part B: the headless balance simulator. The AI plays full battles (a `PlayerSpec` against an `EncounterSpec`) many times
 ## and reports the win rate, the average length in player turns, the HP left, and which cards mattered (win rate when the card was
 ## played vs overall). Supports the player's level, equipment, consumables (spent by `SimItemPolicy`) and the encounter's one-sided
@@ -133,7 +135,7 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 		FirstDuel.apply(options, deck)
 	if encounter.group == "tutorial":
 		options.foe_opening_infrastructure_floor = 0  # Fable Nov 21 (Part 2.6): as in the game, the cave's foes get no floor
-	if not encounter.dungeon_key.is_empty() and OPPONENT_HANDS.is_postgame_dungeon(encounter.dungeon_key):
+	if full_opponent_hands and not encounter.dungeon_key.is_empty() and OPPONENT_HANDS.is_postgame_dungeon(encounter.dungeon_key):
 		# Nov 25 night (Part C): as in the game, a postgame foe opens with a full hand (a boss one more) of a sensible mix
 		OPPONENT_HANDS.apply(enemy, encounter.kind == EncounterSpec.Kind.BOSS)
 		OPPONENT_HANDS.apply_options(options)

@@ -1271,16 +1271,16 @@
 				"type": "turn",
 				"turn": 4
 			},
-			"text": "On its 4th turn the Experiment has a growth spurt: two 2/2 Patchwork Bodies split off it.",
+			"text": "On its 4th turn the Experiment has a growth spurt: a 2/2 Patchwork Body splits off it.",
 			"effects": [
 				{
 					"kind": "summon",
 					"token": "T-21",
-					"count": 2
+					"count": 1
 				}
 			],
-			"warn": "Next turn: a growth spurt (two 2/2 units split off).",
-			"banner": "Two 2/2 Patchwork Bodies split off the Experiment."
+			"warn": "Next turn: a growth spurt (a 2/2 unit splits off).",
+			"banner": "A 2/2 Patchwork Body splits off the Experiment."
 		}
 	],
 	"The Drain Warden": [
@@ -1315,18 +1315,18 @@
 				"type": "hp_below",
 				"pct": 40
 			},
-			"text": "Low on power the Warden overdrains: you take 3 damage and it heals 3.",
+			"text": "Low on power the Warden overdrains: you take 2 damage and it heals 2.",
 			"effects": [
 				{
 					"kind": "damage",
-					"amount": 3
+					"amount": 2
 				},
 				{
 					"kind": "heal",
-					"amount": 3
+					"amount": 2
 				}
 			],
-			"banner": "Overdrain: you take 3 damage; the Warden heals 3."
+			"banner": "Overdrain: you take 2 damage; the Warden heals 2."
 		}
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
@@ -2038,14 +2038,14 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health Quota's Echo reviews her numbers: she draws two cards.",
+			"text": "At half health Quota's Echo reviews her numbers: she draws a card.",
 			"effects": [
 				{
 					"kind": "draw",
-					"count": 2
+					"count": 1
 				}
 			],
-			"banner": "Quota's Echo draws two cards."
+			"banner": "Quota's Echo draws a card."
 		}
 	],
 	"Echo of Chancellor Clench": [
@@ -2055,9 +2055,9 @@
 			"icon": "lorc/hourglass",
 			"when": {
 				"type": "turn",
-				"turn": 4
+				"turn": 5
 			},
-			"text": "On his 4th turn Clench's Echo cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.",
+			"text": "On his 5th turn Clench's Echo cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.",
 			"effects": [
 				{
 					"kind": "exhaust_foes",
@@ -2075,15 +2075,15 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health Clench's Echo pulls the emergency reserve: he gains 3 Iron.",
+			"text": "At half health Clench's Echo pulls the emergency reserve: he gains 2 Iron.",
 			"effects": [
 				{
 					"kind": "resources",
 					"resource": "iron",
-					"count": 3
+					"count": 2
 				}
 			],
-			"banner": "Clench's Echo gains 3 Iron."
+			"banner": "Clench's Echo gains 2 Iron."
 		}
 	],
 	"Echo of Percival Plume": [
@@ -2095,14 +2095,14 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health Plume's Echo announces that he is fine: he heals 5.",
+			"text": "At half health Plume's Echo announces that he is fine: he heals 2.",
 			"effects": [
 				{
 					"kind": "heal",
-					"amount": 5
+					"amount": 2
 				}
 			],
-			"banner": "Plume's Echo heals 5."
+			"banner": "Plume's Echo heals 2."
 		},
 		{
 			"id": "echo_deadline",
@@ -2113,13 +2113,13 @@
 				"type": "turn",
 				"turn": 12
 			},
-			"text": "When Plume's 12th turn begins the office closes and you lose the duel. Win before then.",
+			"text": "When the Echo's 12th turn begins the office in the glass closes and you lose the duel. Win before then.",
 			"effects": [
 				{
 					"kind": "defeat_foe"
 				}
 			],
-			"warn": "Next turn: the filing deadline. Win now, or the office closes and the duel is lost.",
+			"warn": "Next turn: the filing deadline in the glass. Win now, or the duel is lost.",
 			"banner": "The filing day is over. The office is closed."
 		}
 	],
@@ -2130,19 +2130,19 @@
 			"icon": "delapouite/full-folder",
 			"when": {
 				"type": "turn",
-				"turn": 3
+				"turn": 4
 			},
-			"text": "On his 3rd turn Mortimer's Echo files Form 27-B twice: two 1/1 Filing Clerks are hired to process it.",
+			"text": "On his 4th turn Mortimer's Echo files Form 27-B: a 1/1 Filing Clerk is hired to process it.",
 			"effects": [
 				{
 					"kind": "summon",
 					"token": "T-10",
-					"count": 2,
+					"count": 1,
 					"token_name": "Filing Clerk"
 				}
 			],
-			"warn": "Next turn: Mortimer's Echo files Form 27-B (two clerks are hired).",
-			"banner": "Two 1/1 Filing Clerks are hired."
+			"warn": "Next turn: Mortimer's Echo files Form 27-B (a clerk is hired).",
+			"banner": "A 1/1 Filing Clerk is hired."
 		}
 	],
 	"Echo of the Doppelganger": [
@@ -2154,15 +2154,15 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the Echo's mask slips, and nothing changes underneath: three 1/1 Sashimi Weenies are rushed out.",
+			"text": "At half health the Echo's mask slips, and nothing changes underneath: two 1/1 Sashimi Weenies are rushed out.",
 			"effects": [
 				{
 					"kind": "summon",
 					"token": "T-03",
-					"count": 3
+					"count": 2
 				}
 			],
-			"banner": "Three 1/1 Sashimi Weenies are rushed out."
+			"banner": "Two 1/1 Sashimi Weenies are rushed out."
 		}
 	],
 	"Echo of Hortensia Clipwell": [
@@ -2174,12 +2174,12 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health Clipwell's Echo trims three topiaries into guards: three 1/2 Topiaries join her.",
+			"text": "At half health Clipwell's Echo trims two topiaries into guards: two 1/2 Topiaries join her.",
 			"effects": [
 				{
 					"kind": "summon",
 					"token": "T-22",
-					"count": 3,
+					"count": 2,
 					"token_name": "Topiary",
 					"token_keywords": [],
 					"token_stats": [
@@ -2188,7 +2188,7 @@
 					]
 				}
 			],
-			"banner": "Three Topiaries join Clipwell's Echo."
+			"banner": "Two Topiaries join Clipwell's Echo."
 		}
 	],
 	"Echo of the Rotheart": [
@@ -2200,12 +2200,12 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the roots spread: three 1/1 Sporelings sprout and the Echo's units get +0/+1.",
+			"text": "At half health the roots spread: two 1/1 Sporelings sprout and the Echo's units get +0/+1.",
 			"effects": [
 				{
 					"kind": "summon",
 					"token": "T-22",
-					"count": 3
+					"count": 2
 				},
 				{
 					"kind": "buff",
@@ -2213,7 +2213,7 @@
 					"def": 1
 				}
 			],
-			"banner": "Three Sporelings sprout; the Echo's units get +0/+1."
+			"banner": "Two Sporelings sprout; the Echo's units get +0/+1."
 		}
 	],
 	"Intake Orderly": [
@@ -2245,19 +2245,14 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the Specimen sheds its skin: it heals 5 and its units get +1/+1.",
+			"text": "At half health the Specimen sheds its skin: it heals 3.",
 			"effects": [
 				{
 					"kind": "heal",
-					"amount": 5
-				},
-				{
-					"kind": "buff",
-					"atk": 1,
-					"def": 1
+					"amount": 3
 				}
 			],
-			"banner": "The Specimen heals 5; its units get +1/+1."
+			"banner": "The Specimen heals 3."
 		}
 	],
 	"Hybrid Specimen": [
@@ -2356,19 +2351,14 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the Rival goes for a second set: it heals 4 and its units get +1/+0.",
+			"text": "At half health the Rival goes for a second set: it heals 4.",
 			"effects": [
 				{
 					"kind": "heal",
 					"amount": 4
-				},
-				{
-					"kind": "buff",
-					"atk": 1,
-					"def": 0
 				}
 			],
-			"banner": "Second set: the Rival heals 4; its units get +1/+0."
+			"banner": "Second set: the Rival heals 4."
 		}
 	],
 	"Squat Rack Sentinel": [

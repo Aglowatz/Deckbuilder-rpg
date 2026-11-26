@@ -6,8 +6,9 @@ extends RefCounted
 ## PLAY_FLOOR other cards (a hidden soft mulligan on the game's seeded RNG, like the floor every foe has had since Nov 21).
 
 const MIN_HAND: int = 8
-## A boss holds one more (the owner: "bosses can have more").
-const BOSS_EXTRA: int = 1
+## The owner: "bosses can have more". Measured: with one more the postgame bosses were all but unbeatable for a strong deck
+## (docs/design/sim/nov25n/postgame_runs.md), so a boss holds the same minimum; the knob stays.
+const BOSS_EXTRA: int = 0
 const INFRA_FLOOR: int = 3
 const PLAY_FLOOR: int = 4
 const SOURCE_NAME: String = "A Full Hand"
@@ -32,7 +33,8 @@ static func apply(setup: PlayerSetup, boss: bool = false) -> void:
 		return
 	if setup.profile == null:
 		setup.profile = PlayerProfile.new()
-	setup.profile.opening_hand_size = maxi(setup.profile.opening_hand_size, MIN_HAND)
+	# the opening hand itself is sized by the game when it knows who goes first (`GameOptions.foe_first_turn_hand`): 8 when the foe goes
+	# first, 7 and its turn draw when it goes second - the owner's "at least 8 cards when their first turn begins"
 	setup.profile.max_hand_size = maxi(setup.profile.max_hand_size, PlayerProfile.DEFAULT_MAX_HAND_SIZE)
 	var extra: int = opening_size(boss) - PlayerProfile.MAX_OPENING_HAND
 	if extra > 0 and not _has_extra(setup):
@@ -48,6 +50,7 @@ static func apply_options(options: GameOptions) -> void:
 		return
 	options.foe_opening_infrastructure_floor = maxi(options.foe_opening_infrastructure_floor, INFRA_FLOOR)
 	options.foe_opening_play_floor = maxi(options.foe_opening_play_floor, PLAY_FLOOR)
+	options.foe_first_turn_hand = maxi(options.foe_first_turn_hand, MIN_HAND)
 
 
 static func _has_extra(setup: PlayerSetup) -> bool:

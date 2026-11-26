@@ -16,19 +16,17 @@ REPORT = os.path.join(ROOT, 'docs', 'design', 'sim', 'nov25n', 'postgame_rules.m
 # foe -> (dungeon, room, rules to add, scripted events to add)
 FOES = {
     'Intake Orderly': ('D-LAB', 2, [
-        {'name': 'Pre-Filed', 'text': 'The Orderly starts the fight with 2 Infrastructure already in play. The paperwork was done before you arrived.', 'icon': 'delapouite/full-folder', 'kind': 'starting_infrastructure', 'count': 2},
+        {'name': 'Pre-Filed', 'text': 'The Orderly starts the fight with an Infrastructure already in play. The paperwork was done before you arrived.', 'icon': 'delapouite/full-folder', 'kind': 'starting_infrastructure', 'count': 1},
         {'name': 'Intake Forms', 'text': 'The first card you play each turn costs 1 more. Please fill in every box.', 'icon': 'delapouite/stamper', 'side': 'player', 'harmful': True, 'kind': 'first_card_cost', 'amount': 1},
     ], [
         {'id': 'pg_sedation', 'name': 'Sedation Round', 'icon': 'lorc/bubbling-flask', 'when': {'type': 'turn', 'turn': 3}, 'text': 'On its 3rd turn the Orderly does the sedation round: your two strongest ready units are exhausted and cannot block that turn.', 'effects': [{'kind': 'exhaust_foes', 'count': 2}], 'warn': 'Next turn: the sedation round (your two strongest units cannot block).', 'banner': 'Sedation round: your two strongest ready units are exhausted.'},
     ]),
     'Escaped Specimen': ('D-LAB', 3, [
-        {'name': 'Feral Brood', 'text': 'Every second turn of its, a 2/1 Specimen Spawn crawls out of the vents.', 'icon': 'lorc/acid-blob', 'kind': 'timed_summon', 'token': 'T-22', 'token_name': 'Specimen Spawn', 'token_keywords': [], 'token_stats': [2, 1], 'every': 2},
-        {'name': 'Feral', 'text': "The Specimen's units get +1/+0.", 'icon': 'lorc/acid-blob', 'kind': 'stat', 'atk': 1, 'def': 0},
+        {'name': 'Feral Brood', 'text': 'Every third turn of its, a 1/1 Specimen Spawn crawls out of the vents.', 'icon': 'lorc/acid-blob', 'kind': 'timed_summon', 'token': 'T-22', 'token_name': 'Specimen Spawn', 'token_keywords': [], 'token_stats': [1, 1], 'every': 3},
     ], [
-        {'id': 'pg_shed', 'name': 'Shed Skin', 'icon': 'lorc/acid-blob', 'when': {'type': 'hp_below', 'pct': 50}, 'text': 'At half health the Specimen sheds its skin: it heals 5 and its units get +1/+1.', 'effects': [{'kind': 'heal', 'amount': 5}, {'kind': 'buff', 'atk': 1, 'def': 1}], 'banner': 'The Specimen heals 5; its units get +1/+1.'},
+        {'id': 'pg_shed', 'name': 'Shed Skin', 'icon': 'lorc/acid-blob', 'when': {'type': 'hp_below', 'pct': 50}, 'text': 'At half health the Specimen sheds its skin: it heals 3.', 'effects': [{'kind': 'heal', 'amount': 3}], 'banner': 'The Specimen heals 3.'},
     ]),
     'Hybrid Specimen': ('D-LAB', 8, [
-        {'name': 'Two Natures', 'text': 'The Hybrid draws an extra card each turn.', 'icon': 'lorc/acid-blob', 'kind': 'extra_draws', 'count': 1},
         {'name': 'Grafted Pantry', 'text': 'The Hybrid starts the fight with 3 Ingredients.', 'icon': 'delapouite/chef-toque', 'kind': 'starting_resources', 'resource': 'ingredient', 'count': 3},
     ], [
         {'id': 'pg_splice', 'name': 'Splice', 'icon': 'lorc/acid-blob', 'when': {'type': 'turn', 'turn': 5}, 'text': 'On its 5th turn the Hybrid splices in a Toro Toro (4/6, Bulldoze, Swat), straight onto the field.', 'effects': [{'kind': 'card', 'card': 'G-27', 'to': 'field'}], 'warn': 'Next turn: the Hybrid splices in a Toro Toro (4/6).', 'banner': 'A Toro Toro is spliced in.'},
@@ -46,20 +44,19 @@ FOES = {
         {'id': 'pg_lockdown', 'name': 'Lockdown', 'icon': 'delapouite/temporary-shield', 'when': {'type': 'hp_below', 'pct': 50}, 'text': "At half health the antechamber goes into lockdown: the Sentry's units get +2/+0 for the rest of the fight.", 'effects': [{'kind': 'rule', 'rule': {'name': 'Lockdown', 'text': "Lockdown: the Sentry's units get +2/+0.", 'icon': 'delapouite/temporary-shield', 'kind': 'stat', 'atk': 2, 'def': 0}}], 'banner': "Lockdown: the Sentry's units get +2/+0."},
     ]),
     'The Failed Experiment': ('D-LAB', 5, [], [
-        {'id': 'pg_spurt', 'name': 'Growth Spurt', 'icon': 'lorc/acid-blob', 'when': {'type': 'turn', 'turn': 4}, 'text': 'On its 4th turn the Experiment has a growth spurt: two 2/2 Patchwork Bodies split off it.', 'effects': [{'kind': 'summon', 'token': 'T-21', 'count': 2}], 'warn': 'Next turn: a growth spurt (two 2/2 units split off).', 'banner': 'Two 2/2 Patchwork Bodies split off the Experiment.'},
+        {'id': 'pg_spurt', 'name': 'Growth Spurt', 'icon': 'lorc/acid-blob', 'when': {'type': 'turn', 'turn': 4}, 'text': 'On its 4th turn the Experiment has a growth spurt: a 2/2 Patchwork Body splits off it.', 'effects': [{'kind': 'summon', 'token': 'T-21', 'count': 1}], 'warn': 'Next turn: a growth spurt (a 2/2 unit splits off).', 'banner': 'A 2/2 Patchwork Body splits off the Experiment.'},
     ]),
     'The Drain Warden': ('D-LAB', 13, [], [
-        {'id': 'pg_overdrain', 'name': 'Overdrain', 'icon': 'lorc/bubbling-flask', 'when': {'type': 'hp_below', 'pct': 40}, 'text': 'Low on power the Warden overdrains: you take 3 damage and it heals 3.', 'effects': [{'kind': 'damage', 'amount': 3}, {'kind': 'heal', 'amount': 3}], 'banner': 'Overdrain: you take 3 damage; the Warden heals 3.'},
+        {'id': 'pg_overdrain', 'name': 'Overdrain', 'icon': 'lorc/bubbling-flask', 'when': {'type': 'hp_below', 'pct': 40}, 'text': 'Low on power the Warden overdrains: you take 2 damage and it heals 2.', 'effects': [{'kind': 'damage', 'amount': 2}, {'kind': 'heal', 'amount': 2}], 'banner': 'Overdrain: you take 2 damage; the Warden heals 2.'},
     ]),
     'Rival Lifter at Base Camp': ('S-BEEF', 1, [
-        {'name': 'Pre-Workout', 'text': 'The Rival draws two extra cards on its first turn, and its units get +1/+0.', 'icon': 'delapouite/strong-man', 'kind': 'first_turn_draw', 'count': 2},
-        {'name': 'Pre-Workout', 'text': 'The Rival draws two extra cards on its first turn, and its units get +1/+0.', 'icon': 'delapouite/strong-man', 'kind': 'stat', 'atk': 1, 'def': 0},
+        {'name': 'Pre-Workout', 'text': 'The Rival draws an extra card on its first turn.', 'icon': 'delapouite/strong-man', 'kind': 'first_turn_draw', 'count': 1},
     ], [
-        {'id': 'pg_second_set', 'name': 'Second Set', 'icon': 'delapouite/strong-man', 'when': {'type': 'hp_below', 'pct': 50}, 'text': 'At half health the Rival goes for a second set: it heals 4 and its units get +1/+0.', 'effects': [{'kind': 'heal', 'amount': 4}, {'kind': 'buff', 'atk': 1, 'def': 0}], 'banner': 'Second set: the Rival heals 4; its units get +1/+0.'},
+        {'id': 'pg_second_set', 'name': 'Second Set', 'icon': 'delapouite/strong-man', 'when': {'type': 'hp_below', 'pct': 50}, 'text': 'At half health the Rival goes for a second set: it heals 4.', 'effects': [{'kind': 'heal', 'amount': 4}], 'banner': 'Second set: the Rival heals 4.'},
     ]),
     'Squat Rack Sentinel': ('S-BEEF', 2, [
         {'name': 'Safety Bar', 'text': 'The Sentinel starts with a 0/4 Safety Bar on the field (Wallflower: it blocks, it never attacks).', 'icon': 'delapouite/weight-lifting-up', 'kind': 'starting_tokens', 'token': 'T-23', 'token_name': 'Safety Bar', 'count': 1},
-        {'name': 'Gym Golems', 'text': 'Every third turn of its, a 2/2 Gym Golem steps off the rack.', 'icon': 'delapouite/weight-lifting-up', 'kind': 'timed_summon', 'token': 'T-21', 'token_name': 'Gym Golem', 'every': 3},
+        {'name': 'Gym Golems', 'text': 'Every fourth turn of its, a 2/2 Gym Golem steps off the rack.', 'icon': 'delapouite/weight-lifting-up', 'kind': 'timed_summon', 'token': 'T-21', 'token_name': 'Gym Golem', 'every': 4},
     ], [
         {'id': 'pg_rack_pull', 'name': 'Rack Pull', 'icon': 'delapouite/weight-lifting-up', 'when': {'type': 'turn', 'turn': 4}, 'text': 'On its 4th turn the Sentinel drops the bar: your strongest ready unit is exhausted and cannot block that turn.', 'effects': [{'kind': 'exhaust_foes', 'count': 1}], 'warn': 'Next turn: the Sentinel drops the bar (your strongest unit cannot block).', 'banner': 'Your strongest ready unit is pinned under the bar.'},
     ]),

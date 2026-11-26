@@ -649,11 +649,11 @@
 			"count": 1
 		},
 		{
-			"name": "Stopwatch, Silvered",
-			"text": "Quota's Echo's units get +2 attack. The stopwatch in the glass runs fast.",
+			"name": "Stopwatch, Reflected",
+			"text": "Quota's Echo's units get +1 attack, as hers did. Every second counts, and the glass is counting.",
 			"icon": "delapouite/alarm-clock",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 1,
 			"def": 0,
 			"postgame": true
 		}
@@ -676,12 +676,12 @@
 			"count": 2
 		},
 		{
-			"name": "Reinforcements, Silvered",
-			"text": "Every fourth turn of his, a 2/2 Patchwork Body marches in (the original waited for every fifth).",
+			"name": "Reinforcements, Reflected",
+			"text": "Every fifth turn of his, a 2/2 Patchwork Body marches in, as it did for him.",
 			"icon": "delapouite/strong-man",
 			"kind": "timed_summon",
 			"token": "T-21",
-			"every": 4,
+			"every": 5,
 			"postgame": true
 		}
 	],
@@ -694,12 +694,12 @@
 			"count": 1
 		},
 		{
-			"name": "Positive Spin, Silvered",
-			"text": "Plume's Echo's units get +1/+2. The press release has been polished.",
+			"name": "Positive Spin, Reflected",
+			"text": "Plume's Echo's units get +1/+1, as his did. Everything hits harder in a press release.",
 			"icon": "delapouite/scroll-quill",
 			"kind": "stat",
 			"atk": 1,
-			"def": 2,
+			"def": 1,
 			"postgame": true
 		}
 	],
@@ -722,8 +722,8 @@
 			"amount": 1
 		},
 		{
-			"name": "Temp Agency, Silvered",
-			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.",
+			"name": "Temp Agency, Reflected",
+			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0, as Mortimer's did.",
 			"icon": "delapouite/shambling-zombie",
 			"kind": "timed_summon",
 			"token": "T-10",
@@ -731,12 +731,12 @@
 			"postgame": true
 		},
 		{
-			"name": "Temp Agency, Silvered",
-			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+1.",
+			"name": "Temp Agency, Reflected",
+			"text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0, as Mortimer's did.",
 			"icon": "delapouite/shambling-zombie",
 			"kind": "stat",
 			"atk": 1,
-			"def": 1,
+			"def": 0,
 			"postgame": true
 		}
 	],
@@ -750,20 +750,20 @@
 			"count": 2
 		},
 		{
-			"name": "Mise en Place, Silvered",
-			"text": "Starts the duel with 2 Ingredients, on top of its two Sashimi Weenies.",
+			"name": "Mise en Place, Reflected",
+			"text": "Starts the duel with an Ingredient, on top of its two Sashimi Weenies.",
 			"icon": "delapouite/chef-toque",
 			"kind": "starting_resources",
 			"resource": "ingredient",
-			"count": 2,
+			"count": 1,
 			"postgame": true
 		},
 		{
-			"name": "Plated Just So, Silvered",
-			"text": "The Echo's units get +2/+1. Every reflected dish is plated just so.",
+			"name": "Plated Just So, Reflected",
+			"text": "The Echo's units get +1/+1. Every reflected dish is plated just so.",
 			"icon": "delapouite/fork-knife-spoon",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 1,
 			"def": 1,
 			"postgame": true
 		}
@@ -785,11 +785,11 @@
 			"count": 1
 		},
 		{
-			"name": "Royal Groundskeeper, Silvered",
-			"text": "Clipwell's Echo's units get +2/+1 (her Topiaries do not: they stay 1/2).",
+			"name": "Royal Groundskeeper, Reflected",
+			"text": "Clipwell's Echo's units get +1/+1 (her Topiaries do not: they stay 1/2).",
 			"icon": "lorc/leaf-swirl",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 1,
 			"def": 1,
 			"non_tokens": true,
 			"postgame": true
@@ -820,8 +820,8 @@
 			"def": 1
 		},
 		{
-			"name": "Rot Takes Root, Silvered",
-			"text": "The Echo's units get +2/+2 more. The rot in the glass is still feeding.",
+			"name": "Rot Takes Root, Reflected",
+			"text": "The Echo's units get +2/+2 more, as Compostella's did. The rot in the glass is still feeding.",
 			"icon": "cathelineau/tree-face",
 			"kind": "stat",
 			"atk": 2,
@@ -1079,10 +1079,10 @@
 	"Intake Orderly": [
 		{
 			"name": "Pre-Filed",
-			"text": "The Orderly starts the fight with 2 Infrastructure already in play. The paperwork was done before you arrived.",
+			"text": "The Orderly starts the fight with an Infrastructure already in play. The paperwork was done before you arrived.",
 			"icon": "delapouite/full-folder",
 			"kind": "starting_infrastructure",
-			"count": 2,
+			"count": 1,
 			"nov25n": true
 		},
 		{
@@ -1099,38 +1099,21 @@
 	"Escaped Specimen": [
 		{
 			"name": "Feral Brood",
-			"text": "Every second turn of its, a 2/1 Specimen Spawn crawls out of the vents.",
+			"text": "Every third turn of its, a 1/1 Specimen Spawn crawls out of the vents.",
 			"icon": "lorc/acid-blob",
 			"kind": "timed_summon",
 			"token": "T-22",
 			"token_name": "Specimen Spawn",
 			"token_keywords": [],
 			"token_stats": [
-				2,
+				1,
 				1
 			],
-			"every": 2,
-			"nov25n": true
-		},
-		{
-			"name": "Feral",
-			"text": "The Specimen's units get +1/+0.",
-			"icon": "lorc/acid-blob",
-			"kind": "stat",
-			"atk": 1,
-			"def": 0,
+			"every": 3,
 			"nov25n": true
 		}
 	],
 	"Hybrid Specimen": [
-		{
-			"name": "Two Natures",
-			"text": "The Hybrid draws an extra card each turn.",
-			"icon": "lorc/acid-blob",
-			"kind": "extra_draws",
-			"count": 1,
-			"nov25n": true
-		},
 		{
 			"name": "Grafted Pantry",
 			"text": "The Hybrid starts the fight with 3 Ingredients.",
@@ -1174,19 +1157,10 @@
 	"Rival Lifter at Base Camp": [
 		{
 			"name": "Pre-Workout",
-			"text": "The Rival draws two extra cards on its first turn, and its units get +1/+0.",
+			"text": "The Rival draws an extra card on its first turn.",
 			"icon": "delapouite/strong-man",
 			"kind": "first_turn_draw",
-			"count": 2,
-			"nov25n": true
-		},
-		{
-			"name": "Pre-Workout",
-			"text": "The Rival draws two extra cards on its first turn, and its units get +1/+0.",
-			"icon": "delapouite/strong-man",
-			"kind": "stat",
-			"atk": 1,
-			"def": 0,
+			"count": 1,
 			"nov25n": true
 		}
 	],
@@ -1203,12 +1177,12 @@
 		},
 		{
 			"name": "Gym Golems",
-			"text": "Every third turn of its, a 2/2 Gym Golem steps off the rack.",
+			"text": "Every fourth turn of its, a 2/2 Gym Golem steps off the rack.",
 			"icon": "delapouite/weight-lifting-up",
 			"kind": "timed_summon",
 			"token": "T-21",
 			"token_name": "Gym Golem",
-			"every": 3,
+			"every": 4,
 			"nov25n": true
 		}
 	]
