@@ -1,15 +1,15 @@
-Estimated export payload: **884.6 MB** (7824 source files)
+Estimated export payload: **897.8 MB** (7896 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
-| audio: music/ambience | 123 | 295.0 |
-| other images | 1078 | 236.2 |
-| world textures (TEX/ENV/DEC, kit) | 153 | 79.3 |
-| other (scripts, scenes, data) | 1265 | 71.9 |
-| UI and icons | 1828 | 48.2 |
-| world test art (assets/art/world_test) | 1497 | 41.8 |
-| card art | 706 | 23.7 |
-| audio: sfx | 503 | 17.5 |
+| audio: music/ambience | 126 | 303.8 |
+| other images | 1086 | 236.1 |
+| world textures (TEX/ENV/DEC, kit) | 157 | 82.1 |
+| other (scripts, scenes, data) | 1268 | 72.0 |
+| UI and icons | 1832 | 48.6 |
+| world test art (assets/art/world_test) | 1533 | 42.6 |
+| card art | 719 | 24.2 |
+| audio: sfx | 504 | 17.6 |
 | portraits | 136 | 16.3 |
 | backgrounds/key art | 56 | 13.9 |
 | 3D models | 310 | 10.4 |
@@ -19,7 +19,7 @@ Estimated export payload: **884.6 MB** (7824 source files)
 | world: normal/roughness maps | 54 | 4.5 |
 | vendor screens | 15 | 2.4 |
 | fonts | 5 | 0.6 |
-| **Total** | 7824 | **884.6** |
+| **Total** | 7896 | **897.8** |
 
 ### 30 largest files (packed size)
 
@@ -42,6 +42,7 @@ Estimated export payload: **884.6 MB** (7824 source files)
 | 3.1 | `assets/audio/music/MUS-TITLE.ogg` |
 | 3.1 | `assets/audio/music/MUS-CAP-OUT-EXP.ogg` |
 | 3.1 | `assets/audio/music/MUS-PANDA-BOSS.ogg` |
+| 3.1 | `assets/audio/music/MUS-SHUFFLE-BATTLE.ogg` |
 | 3.1 | `assets/audio/music/MUS-NECRO-FREED.ogg` |
 | 3.0 | `assets/audio/music/MUS-CAP-RESTORED.ogg` |
 | 3.0 | `assets/audio/music/MUS-BEEF-EXP.ogg` |
@@ -54,4 +55,3 @@ Estimated export payload: **884.6 MB** (7824 source files)
 | 3.0 | `assets/audio/music/MUS-REF-BATTLE.ogg` |
 | 2.9 | `assets/audio/music/MUS-WAIT-BOSS.ogg` |
 | 2.9 | `assets/audio/music/MUS-BEEF-DUN-EXP.ogg` |
-| 2.9 | `assets/audio/music/MUS-REF-DUN-EXP.ogg` |
