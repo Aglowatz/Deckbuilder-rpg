@@ -12,6 +12,9 @@ extends RefCounted
 const H = preload("res://world/heap/heap_materials.gd")
 
 const IDS: Array[String] = ["DUMP-HERO-ROTHEART", "DUMP-HERO-JUNK-MOUNTAIN", "DUMP-HERO-WINDMILL", "DUMP-HERO-TRASH-PANDA-THRONE", "DUMP-HERO-COMMONS-GREENHOUSE"]
+## Nov 26 night (Part A): the entrance bridge's gate posts and the bunting's sag (lifted so Brother Bramble's plate shows at the low camera)
+const BRIDGE_GATE_H: float = 4.0
+const BRIDGE_BUNTING_SAG: float = 0.45
 const MOSS: Color = Color("7c8f45")
 const RUST: Color = Color("b5552d")
 const GOLD: Color = Color("e3a857")
@@ -1203,8 +1206,9 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 		mesh.tube("rust_dark", Vector3(0.0, -4.0, z), Vector3(0.0, -0.3, z), 0.32, 8, true)
 		mesh.box("rust_dark", Vector3(0.0, -0.75, z), Vector3(width + 0.2, 0.22, 0.4), Basis.IDENTITY, 0.0)
 	# the gate at the land end (the art pass: open, so the Commons shows through it): two mossy plank posts on a pair of tyres, vines up them, a sagging
-	# rope of rag bunting between their tops
-	var gate_h: float = 3.4
+	# rope of rag bunting between their tops. Nov 26 night (Part A): the posts 0.6 m taller and the rope sags less (0.45 m), so the bunting
+	# sits about half a metre higher and no longer hides Brother Bramble's name plate from the low camera (the NPC visibility probe)
+	var gate_h: float = BRIDGE_GATE_H
 	for side: float in [-1.0, 1.0]:
 		var foot: Vector3 = Vector3(side * (half + 0.55), 0.0, 0.4)
 		for index: int in range(2):
@@ -1221,7 +1225,7 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	_materials(line)
 	for index: int in range(sag + 1):
 		var t: float = float(index) / float(sag)
-		var point: Vector3 = Vector3(lerpf(-(half + 0.55), half + 0.55, t), gate_h - 0.15 - sin(t * PI) * 0.7, 0.5)
+		var point: Vector3 = Vector3(lerpf(-(half + 0.55), half + 0.55, t), gate_h - 0.15 - sin(t * PI) * BRIDGE_BUNTING_SAG, 0.5)
 		if index > 0:
 			line.tube("rope", previous_point, point, 0.04, 4, false)
 			var at: Vector3 = (previous_point + point) * 0.5

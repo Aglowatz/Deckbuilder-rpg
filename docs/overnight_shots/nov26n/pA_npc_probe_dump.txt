@@ -1,0 +1,17 @@
+npc_visibility_probe: ok    refusemancer: Brother Bramble, Warden of the Stream (50.0, 125.3; lens (50.0, 5.6, 138.4)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Brother Bramble, Warden of the Stream (50.0, 125.3; lens (50.0, 2.8, 136.0)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Granny Gristle's Compost Grange (62.0, 116.0; lens (62.0, 5.6, 129.9)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Granny Gristle's Compost Grange (62.0, 116.0; lens (62.0, 2.8, 127.5)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Billie Muckfoot, Animal Handler (35.6, 122.6; lens (35.6, 5.6, 135.6)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Billie Muckfoot, Animal Handler (35.6, 122.6; lens (35.6, 2.8, 133.2)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Druid Thistlewick, Keeper of the Dump (34.0, 82.0; lens (34.0, 8.6, 95.1)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Druid Thistlewick, Keeper of the Dump (34.0, 82.0; lens (34.0, 5.8, 92.6)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Recycle Rhonda, Fair Judge (60.0, 84.0; lens (60.0, 8.6, 97.2)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Recycle Rhonda, Fair Judge (60.0, 84.0; lens (60.0, 5.8, 94.7)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Dex Shufflewick, Travelling Cardsharp (40.0, 86.0; lens (40.0, 8.400001, 99.1)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Dex Shufflewick, Travelling Cardsharp (40.0, 86.0; lens (40.0, 5.6, 96.6)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Trey Pickett, Travelling Draft-Master (42.0, 133.0; lens (42.0, 5.8, 146.1)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Trey Pickett, Travelling Draft-Master (42.0, 133.0; lens (42.0, 2.9, 143.6)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Old Hob (56.0, 126.0; lens (56.0, 5.6, 139.0)) at the default camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: ok    refusemancer: Old Hob (56.0, 126.0; lens (56.0, 2.8, 136.6)) at the low camera - feet ok, chest ok, head ok, plate ok
+npc_visibility_probe: OK - 16 checks, 0 failed
