@@ -342,10 +342,9 @@ func _pocket() -> void:
 	var baselines: Array[Dictionary] = _baselines()
 	var bare: Array[int] = _measure(baselines, [] as Array[String], [] as Array[String])
 	var plain: Array[int] = _measure(baselines, [] as Array[String], items)
-	# the sim's item policy does not read the Pocket, so its effect is given directly: every item twice (the Pocket worn too)
-	var doubled: Array[String] = items.duplicate()
-	doubled.append_array(items)
-	var pocket: Array[int] = _measure(baselines, ["extra_pocket"] as Array[String], doubled)
+	# Nov 27 day: the sim's item policy now makes the Pocket's free second use itself (SimItemPolicy.second_use_free), so the Pocket is
+	# simply worn with the same items
+	var pocket: Array[int] = _measure(baselines, ["extra_pocket"] as Array[String], items)
 	lines.append("The same draft decks and rivals on the same seeds; items: %s (one copy each)." % ", ".join(items))
 	lines.append("")
 	lines.append("| Kit | Win rate | Games |")

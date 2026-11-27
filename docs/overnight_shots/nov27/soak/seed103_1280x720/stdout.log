@@ -1,0 +1,228 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+play: soak: seed 103, limit 180 s, window (1280, 720), loading screens true
+play:   [1] click FancyButton 'Credits' (@Button@110)
+play:   [2] click FancyButton 'Settings' (@Button@109)
+play:   [3] key J
+play:   [4] click FancyButton 'Settings' (@Button@109)
+play:   [5] key E
+play:   [6] click FancyButton 'Settings' (@Button@109)
+play:   [7] click FancyButton 'Close' (CloseCredits)
+load_timing: title 632 ms (slowest step: fade out 302 ms); worst frame in the first 5 s after the fade-in: 454 ms (at 0.9 s)
+play:   [8] click FancyButton 'Credits' (@Button@110)
+play:   [9] click FancyButton 'Settings' (@Button@109)
+play:   [10] click FancyButton 'Credits' (@Button@110)
+play:   [11] key M
+play: soak: segment dungeon (1) at 10 s
+play:   state: Gourmand level 6 gold 1652
+play:   Travel: D-PC
+load_timing: dungeon_map 1964 ms (slowest step: change_scene_to_file 839 ms); worst frame in the first 5 s after the fade-in: 49 ms (at 4.4 s)
+play:   [29] click FancyButton 'Rules (R)' (RulesButton)
+play:   [30] click MapNodeButton 'Room_5' (Room_5)
+play:   [31] key Enter
+play:   [32] click MapNodeButton 'Room_12' (Room_12)
+play:   [33] click MapNodeButton 'Room_4' (Room_4)
+play:   [34] key Escape
+play:   [35] click MapNodeButton 'Room_2' (Room_2)
+play:   [39] click FancyButton 'Continue' (BriefContinue)
+play:   [40] click FancyButton 'Retreat' (@Button@339)
+play:   [41] battle: The Pantry Mimic
+play: ISSUE offscreen [dungeon step 41]: Label '@Label@609' (@Label@609) runs off the screen ([P: (350.306, 439.2625), S: (1662.388, 126.4751)])
+load_timing: battle 1208 ms (slowest step: frame 2 593 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 4.6 s)
+play:   [41] battle extra: FancyButton 'Got it' (@Button@683)
+play: ISSUE offscreen [dungeon step 41]: FancyButton 'Confirm Blocks (1)  [Space]' (@Button@605) runs off the screen ([P: (1627.16, 897.36), S: (333.84, 68.64)])
+play:   battle: decided by decree (win; mode 4, busy true, over true)
+play:   [42] click CardView '@Control@812' (@Control@812)
+play:   [43] click CardView '@Control@1556' (@Control@1556)
+play:   [44] click Button '' (Badge_Well_Fed)
+play:   [45] click Button '' (ItemSlot_2)
+play:   [46] click FancyButton 'Speed: 1x' (SpeedToggle)
+play:   [47] click FancyButton 'Speed: 1.5x' (SpeedToggle)
+play:   [48] click Button '' (Badge_Perfect_Order)
+play:   [49] click Button '' (Badge_Well_Fed)
+play:   [50] key E
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+play:   [56] click FancyButton 'Continue' (@Button@17126)
+play:   [57] click FancyButton 'Continue' (@Button@17126)
+play:   [58] click FancyButton 'Continue' (@Button@17165)
+play:   [59] click FancyButton 'Continue' (@Button@17165)
+play:   [60] click FancyButton 'Continue' (@Button@17191)
+play:   [61] click FancyButton 'Continue' (@Button@17191)
+play:   [62] click FancyButton 'Continue' (@Button@17191)
+load_timing: capital_zone 8890 ms (slowest step: zone: builder 3511 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 4.8 s)
+play:   [63] click FancyButton 'Continue' (@Button@17227)
+play:   [64] click FancyButton 'Continue' (@Button@17227)
+play:   [65] click FancyButton 'Continue' (@Button@17253)
+play:   [66] click FancyButton 'Continue' (@Button@17279)
+play:   [67] click FancyButton 'Continue' (@Button@17279)
+play:   [68] click FancyButton 'Continue' (@Button@17315)
+play:   [69] click FancyButton 'Continue' (@Button@17315)
+play:   [70] click Button '] ▸' (QuestNext)
+play:   [71] click Button '◂ [' (QuestPrev)
+play:   [72] click Button '] ▸' (QuestNext)
+play:   [73] click Button '◂ [' (QuestPrev)
+play:   [74] click Button '▾ The City Gathers' (TrackerHeader)
+play:   [75] click Button '▸ The City Gathers' (TrackerHeader)
+play:   [76] click Button '◂ [' (QuestPrev)
+play:   [78] click Button '◂ [' (QuestPrev)
+play:   [79] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [80] click FancyButton 'Menu' (MenuButton)
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Character (C)' (Menu_Character) runs off the screen ([P: (1699.015, 427.695), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Deck (B)' (Menu_Deck) runs off the screen ([P: (1699.015, 478.725), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Quests (J)' (Menu_Quests) runs off the screen ([P: (1699.015, 529.755), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Packs (P)' (Menu_Packs) runs off the screen ([P: (1699.015, 580.785), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Wardrobe (T)' (Menu_Wardrobe) runs off the screen ([P: (1699.015, 631.815), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Glossary' (Menu_Glossary) runs off the screen ([P: (1699.015, 682.845), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Feats' (Menu_Feats) runs off the screen ([P: (1699.015, 733.875), S: (225.855, 45.36)])
+play: ISSUE offscreen [dungeon step 80]: FancyButton 'Settings' (Menu_Settings) runs off the screen ([P: (1699.015, 784.905), S: (225.855, 45.36)])
+play:   [81] key 2
+play:   [82] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [83] click Button '◂ [' (QuestPrev)
+play:   [84] click FancyButton 'Feats' (Menu_Feats)
+play:   [85] click FancyButton 'Menu' (MenuButton)
+play:   [86] click Button '◂ [' (QuestPrev)
+play:   [87] click Button '◂ [' (QuestPrev)
+play:   [88] click FancyButton 'Back' (FeatsBack)
+play:   [89] click FancyButton 'Load Game' (LoadButton)
+play: ISSUE overlap [dungeon step 89]: FancyButton 'Quit Game' (QuitGameButton) and FancyButton 'Back' (@Button@17676) overlap (99% of the smaller)
+play:   [90] key Enter
+play:   [91] click FancyButton 'Resume' (@Button@17664)
+play:   [92] click FancyButton 'Feats' (FeatsButton)
+play:   [93] click Button '▾ Dungeon Regular' (TrackerHeader)
+play:   [94] click Button '] ▸' (QuestNext)
+play:   [95] click FancyButton 'Menu' (MenuButton)
+play: soak: segment dungeon (2) at 118 s
+play:   state: Refusemancer level 21 gold 1141
+play:   Travel: D-TTK
+play:   [96] click FancyButton 'Rules (R)' (RulesButton)
+play:   [97] click MapNodeButton 'Room_8' (Room_8)
+play:   [98] click MapNodeButton 'Room_12' (Room_12)
+play:   [99] click FancyButton 'Tip: The dungeon map' (@Button@17867)
+play:   [100] click FancyButton 'Retreat' (@Button@17781)
+play:   [101] click FancyButton 'Retreat' (@Button@17876)
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 558 cards
+play:   [102] click Button '' (Badge_Well_Fed)
+play:   [103] click Button '' (Badge_Well_Fed)
+play:   [104] click Button '' (Badge_Well_Fed)
+play:   [105] click CardView '@Control@18639' (@Control@18639)
+play:   [106] key K
+play:   [107] click Button '' (Badge_Well_Fed)
+play:   [108] click Button '' (Badge_Dress_Code_Violation)
+play:   [109] click Button '' (Badge_Well_Fed)
+play:   [110] click Button '' (Badge_Well_Fed)
+play:   [111] click Button '' (Badge_Dress_Code_Violation)
+play:   [112] click FancyButton 'Menu' (MenuButton)
+load_timing: buffet_zone 4447 ms (slowest step: zone: builder 1632 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 1.7 s)
+play:   [113] click Button '' (Badge_Dress_Code_Violation)
+play:   [114] click FancyButton 'Wardrobe (T)' (Menu_Wardrobe)
+play:   [115] click FancyButton '' (@Button@18702)
+play:   [117] click FancyButton 'Menu' (MenuButton)
+play:   [118] click Button '' (Badge_Well_Fed)
+play:   [119] click FancyButton 'Character (C)' (Menu_Character)
+play:   [120] click Button '' (ItemSlot_2)
+play:   [121] click Button '' (EquipSlot_armor)
+play:   [122] click Button '' (EquipSlot_weapon)
+play:   [123] click Button '' (EquipSlot_boots)
+play:   [124] click Button '' (EquipSlot_helm)
+play:   [125] click Button '' (EquipSlot_armor)
+play:   [126] click Button '' (ItemSlot_3)
+play:   [127] click Button '' (EquipSlot_relic)
+play:   [129] click Button '' (Inventory_reckless_tonic)
+play:   [130] click Button '' (EquipSlot_boots)
+play:   [131] click Button '' (EquipSlot_helm)
+play:   [132] key Escape
+play:   [133] click Button '' (ItemSlot_3)
+play:   [134] click FancyButton '' (@Button@18737)
+play:   [135] click Button '' (Badge_Dress_Code_Violation)
+play:   [136] click FancyButton 'Menu' (MenuButton)
+play:   [137] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [138] click FancyButton '' (@Button@18833)
+play:   [139] click Button '' (Badge_Well_Fed)
+play:   [140] key C
+play:   [141] click Button '' (EquipSlot_boots)
+play:   [142] click Button '' (ItemSlot_0)
+play:   [143] click Button '' (EquipSlot_helm)
+play:   [144] click Button '' (EquipSlot_helm)
+play:   [145] click Button '' (EquipSlot_helm)
+play:   [146] click Button '' (ItemSlot_3)
+play:   [147] click Button '' (ItemSlot_1)
+play:   [148] click FancyButton 'Unequip' (DetailButton)
+play:   [150] click Button '' (EquipSlot_armor)
+play:   [151] click Button '' (ItemSlot_3)
+play:   [152] key C
+play:   [153] click FancyButton 'Menu' (MenuButton)
+play:   [154] click FancyButton 'Deck (B)' (Menu_Deck)
+play:   [155] click FancyButton '+' (Plus)
+play:   [156] click CardView '@Control@19490' (@Control@19490)
+play:   [157] click Button 'Unit' (@Button@19008)
+play:   [158] click Button 'Uncommon' (@Button@19023)
+play:   [159] click Button '0-1' (@Button@19016)
+play:   [160] click Button 'Beefcake' (@Button@19002)
+play:   [161] key 2
+play:   [162] click FancyButton '+' (Plus)
+play:   [163] click FancyButton '+' (Plus)
+play:   [165] click FancyButton '+' (Plus)
+play:   [166] click FancyButton '-' (Minus)
+play:   [167] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [169] click FancyButton '+' (Plus)
+play:   [170] click FancyButton '' (@Button@18990)
+play:   [171] click Button 'All Paths' (@Button@19000)
+play:   [172] click Button 'Spell' (@Button@19009)
+play:   [173] click FancyButton '+' (Plus)
+play:   [174] click FancyButton '+' (Plus)
+play:   [175] click FancyButton '+' (Plus)
+play:   [176] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [177] click FancyButton 'Save Deck' (@Button@19040)
+play:   [178] click FancyButton '' (@Button@20354)
+play:   [179] click FancyButton '+' (Plus)
+play:   [180] click Button 'All types' (@Button@19007)
+play:   [181] click FancyButton '' (@Button@20362)
+play:   [182] click Button 'New' (@Button@19028)
+play:   [183] click FancyButton 'Cancel' (@Button@20418)
+play:   [184] key I
+play:   [185] click Button 'New' (@Button@19028)
+play:   [186] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [187] click FancyButton '+' (Plus)
+play:   [188] click FancyButton '+' (Plus)
+play:   [189] click Button 'Beefcake' (@Button@19002)
+play:   [190] click Button '0-1' (@Button@19016)
+play:   [192] click FancyButton '' (@Button@20540)
+play:   [193] click FancyButton 'Discard changes' (@Button@20569)
+play:   [194] click FancyButton '' (@Button@18990)
+play: soak: done, 194 steps, 11 distinct issues
+play: play: done
+ERROR: 4 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 28 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 4 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: 63 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 8 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 2 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 8 RIDs of type "StorageBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 2 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 29 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 856 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 42 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

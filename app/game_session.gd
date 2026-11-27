@@ -209,10 +209,17 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		profile = CampaignStart.new_profile(content, color)
 		# Stand in for the 3 tutorial reward picks (Part C), so the fast-forwarded state is a
 		# real, legal 45-card deck exactly like finishing the trial for real would leave it.
-		var picks: Array[CardData] = ElementChoice.offer_for(content, color).sample_cards.duplicate()
-		profile.owned_cards.append_array(picks)
-		profile.intro_dungeon_cleared = true
+		# Nov 27 day (the soak bot): only the picks the copy caps allow, as the real rewards give them (`add_cards`). The starter already
+		# holds three copies of some of the sample cards (Beefcake's B-05, three Refusemancer cards), so the fourth copy made an
+		# illegal state that the first load trimmed (to_dict -> from_dict -> to_dict lost a card from the deck and the collection).
+		var picks: Array[CardData] = []
 		deck = CampaignStart.starter_deck(content, color)
+		for card: CardData in ElementChoice.offer_for(content, color).sample_cards:
+			var in_deck: int = deck.cards.filter(func(other: CardData) -> bool: return other.id == card.id).size()
+			if card.is_unlimited() or (profile.owned_copies(card.id) < copy_cap(card) and in_deck < deck_cap(card)):
+				picks.append(card)
+				profile.owned_cards.append(card)
+		profile.intro_dungeon_cleared = true
 		deck.cards.append_array(picks)
 		deck.deck_name = DECK_NAME
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)

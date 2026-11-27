@@ -90,3 +90,43 @@ func test_the_world_menu_list_stays_on_the_screen() -> void:
 	for button: Node in panel.find_children("Menu_*", "Control", true, false):
 		assert_true((button as Control).get_global_rect().end.x <= width, "%s on the screen" % button.name)
 	assert_true(panel.position.x <= TownHud.MENU_X, "it only ever moves left")
+
+
+## Part B (the Extra Pocket measured): the sim's item policy follows the game's rule - with the Pocket the second use of an item in a duel
+## is free, even when its only copy was spent by the first; without it the second use never happens. Sim only.
+func test_the_sim_makes_the_pockets_free_second_use() -> void:
+	var content: ContentSet = Session.content
+	for pocket: bool in [false, true]:
+		var game: GameState = GameFactory.blank_game(5)
+		GameFactory.add_infrastructure_cards(game, 0, 3)
+		game.players[0].item_uses_per_battle = 2 if pocket else 1
+		var items: Dictionary = {"healing_salve": 1}
+		game.players[0].hp = 3
+		assert_true(SimItemPolicy.act(game, 0, items, content, {}), "the first heal (pocket %s)" % str(pocket))
+		assert_eq(int(items["healing_salve"]), 0, "the first use spends the copy")
+		game.players[0].hp = 3
+		var second: bool = SimItemPolicy.act(game, 0, items, content, {})
+		assert_eq(second, pocket, "a second heal with the last copy gone only with the Pocket")
+		assert_eq(int(items["healing_salve"]), 0, "the second use is free (the bag never goes below 0)")
+		assert_eq(game.players[0].hp, 7 if pocket else 3)
+		assert_false(SimItemPolicy.act(game, 0, items, content, {}), "never a third use")
+
+
+## Soak seed 1: a save written and loaded back lost a card (deck 48 -> 47, collection 29 -> 28). The fast-forwarded game (`ensure_game`,
+## used by the tools, the bots and most tests) added the trial's sample picks past the copy cap - the starter already held three of
+## Beefcake's B-05 and of three Refusemancer cards - and the first load trimmed the fourth into essence. Every Path's fast-forwarded game
+## now writes, loads and writes again the same deck, collection and essence.
+func test_a_fast_forwarded_game_loads_back_the_same() -> void:
+	var saving: bool = Session.save_enabled
+	Session.save_enabled = false
+	for path: Affinity.Type in Affinity.colored_types():
+		Session.profile = null
+		Session.ensure_game(path)
+		var before: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
+		assert_true(Session.from_dict(before.duplicate(true)), "%s loads" % Affinity.display_name(path))
+		var after: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
+		for key: String in ["deck", "owned", "decks", "gold"]:
+			assert_eq(JSON.stringify(after[key]), JSON.stringify(before[key]), "%s: %s comes back the same" % [Affinity.display_name(path), key])
+		assert_true(CopyCaps.excess(Session.profile.owned_cards, Session.profile.level).is_empty(), "nothing over a copy cap")
+		assert_gte(Session.deck.size(), DeckValidator.MIN_DECK_SIZE, "still a legal deck")
+	Session.save_enabled = saving

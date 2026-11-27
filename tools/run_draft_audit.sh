@@ -38,4 +38,9 @@ run late_trios_a "$(join open beefcake+gourmand+necrocrat beefcake+gourmand+refu
 run late_trios_b "$(join open beefcake+necrocrat+refusemancer gourmand+necrocrat+refusemancer)" 23
 run late_quad "$(join open $QUAD),$(join high $QUAD)" 23
 run late_high "$(join high beefcake+gourmand+necrocrat gourmand+necrocrat+refusemancer)" 23
+# Nov 27 day (Part C): what Nov 26 night did not reach - the four other High Rollers pairs and the other two High Rollers trios
+# (late_trios_b and late_high above were never run either). Run them with: bash tools/run_draft_audit.sh 8 1 <name>
+run high_pairs_b "$(join high beefcake+gourmand beefcake+refusemancer)" 18
+run high_pairs_c "$(join high gourmand+necrocrat necrocrat+refusemancer)" 18
+run late_high_b "$(join high beefcake+gourmand+refusemancer beefcake+necrocrat+refusemancer)" 23
 echo "$(date +%H:%M:%S) all audit batches finished" >> "$LOG"

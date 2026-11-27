@@ -14,10 +14,16 @@ static func act(game: GameState, player_index: int, items: Dictionary, content: 
 	var ids: Array = items.keys()
 	ids.sort()
 	for id: Variant in ids:
-		if int(items[id]) <= 0 or used_this_turn.has(id):
+		if used_this_turn.has(id):
 			continue
 		var item: ItemData = content.item(str(id))
-		if item == null or item.effect == null or not game.can_use_item(player_index, item):
+		if item == null or item.effect == null:
+			continue
+		# Nov 27 day (Part B): the Extra Pocket's second use of an item in a duel is free, even when its copy is gone (the game's rule since
+		# Nov 26 day); the bag was charged for both uses, so the sim never made the second use with one copy
+		if int(items[id]) <= 0 and not second_use_free(game, player_index, item):
+			continue
+		if not game.can_use_item(player_index, item):
 			continue
 		var target: int = 0
 		var wanted: bool = false
@@ -58,10 +64,17 @@ static func act(game: GameState, player_index: int, items: Dictionary, content: 
 		if not wanted:
 			continue
 		if game.use_item(player_index, item, target):
-			items[id] = int(items[id]) - 1
+			if game.item_uses_this_battle(player_index, item) <= 1:
+				items[id] = int(items[id]) - 1  # the first use of a duel spends a copy; a second (the Extra Pocket) is free
 			used_this_turn[id] = true
 			return true
 	return false
+
+
+## True when `item` was used once this duel and the player may use each item twice (the Extra Pocket): that second use costs no copy.
+static func second_use_free(game: GameState, player_index: int, item: ItemData) -> bool:
+	var uses: int = game.item_uses_this_battle(player_index, item)
+	return uses >= 1 and uses < game.players[player_index].item_uses_per_battle
 
 
 ## Part E: the Path whose one extra energy lets a card in hand be played now (-1 when none does).

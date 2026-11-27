@@ -284,6 +284,8 @@ func _save_roundtrip() -> void:
 	var again: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
 	var diffs: Array[String] = _diff(before, again, "")
 	if not diffs.is_empty():
+		_dump_json("save_before_%d.json" % _step, before)
+		_dump_json("save_after_%d.json" % _step, again)
 		_issue("save", "to_dict -> from_dict -> to_dict differs: %s" % ", ".join(diffs.slice(0, 8)), "save:dict:" + ",".join(diffs.slice(0, 3)))
 	var name: String = "soak_%d" % seed_value
 	_say("  save: %s" % DevActions.save_snapshot(name))
@@ -299,10 +301,17 @@ func _save_roundtrip() -> void:
 		_say("  save: round trip ok")
 
 
+func _dump_json(file_name: String, data: Dictionary) -> void:
+	var file: FileAccess = FileAccess.open(ProjectSettings.globalize_path("%s/%s" % [_out_dir, file_name]), FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify(data, "	", true))
+		file.close()
+
+
 ## The parts of a save a load must keep exactly (not the clock, the location or the "last seen" bookkeeping).
 func _stable(data: Dictionary) -> Dictionary:
 	var keep: Dictionary = {}
-	for key: String in ["level", "xp", "gold", "deck", "owned_cards", "owned_equipment", "equipped", "items", "flags", "quests", "completed_quests", "deck_box", "essence", "primary_affinity", "counters"]:
+	for key: String in ["level", "xp", "gold", "deck", "decks", "active_deck", "owned", "owned_equipment", "equipped", "equipped_items", "owned_items", "packs", "flags", "quests", "completed_quests", "cleared_dungeons", "essence", "primary", "cosmetics", "postgame", "found_secrets", "earned_cards"]:
 		if data.has(key):
 			keep[key] = data[key]
 	return JSON.parse_string(JSON.stringify(keep)) as Dictionary
@@ -728,7 +737,7 @@ func _check_layout() -> void:
 	for node: Node in start.find_children("*", "", true, false):
 		if node is Control:
 			var control: Control = node as Control
-			if not control.is_visible_in_tree() or control.modulate.a < 0.05 or _in_scroll(control) or _fading(control):
+			if not control.is_visible_in_tree() or control.modulate.a < 0.05 or _in_scroll(control) or _fading(control) or _in_card(control):
 				continue
 			var rect: Rect2 = control.get_global_rect()
 			var has_text: bool = (control is Button and not (control as Button).text.strip_edges().is_empty()) or (control is Label and not (control as Label).text.strip_edges().is_empty())
@@ -777,6 +786,16 @@ func _near_relatives(a: Node, b: Node) -> bool:
 				walk = walk.get_parent() if walk != null else null
 			return false
 		up = up.get_parent()
+	return false
+
+
+## A card's own labels (a hand card peeks over the bottom edge by design).
+func _in_card(control: Control) -> bool:
+	var node: Node = control
+	while node != null:
+		if node.get_script() != null and str(node.get_script().get_global_name()) == "CardView":
+			return true
+		node = node.get_parent()
 	return false
 
 

@@ -1,0 +1,331 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+play: soak: seed 102, limit 180 s, window (1280, 720), loading screens false
+play:   [1] click FancyButton 'Settings' (@Button@113)
+play:   [2] click OptionButton 'Unlimited' (FrameCapOptions)
+play:   [3] click OptionButton 'Light' (FogQualityOptions)
+play:   [4] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [5] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [6] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [7] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [8] click FancyButton 'Display' (TabDisplay)
+play:   [9] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [10] click CheckButton 'Reduce flashing effects' (ReduceFlashingCheck)
+load_timing: title 671 ms (slowest step: fade in 311 ms); worst frame in the first 5 s after the fade-in: 91 ms (at 0.9 s)
+play:   [11] click FancyButton 'Controls' (TabControls)
+play:   [12] click FancyButton 'Down' (Slot1)
+play:   [13] click FancyButton 'Done' (SettingsBack)
+play:   [14] click FancyButton 'Load Game' (@Button@112)
+play: ISSUE overlap [title step 14]: FancyButton 'Credits' (@Button@114) and FancyButton 'Delete' (Delete) overlap (77% of the smaller)
+play:   [15] click FancyButton 'Copy' (Copy)
+play:   [16] click FancyButton 'Copy here' (CopyHere)
+play:   [17] click FancyButton 'Copy' (@Button@591)
+play:   [18] click FancyButton 'Play' (Play)
+play:   [19] key 1
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   [20] key E
+play:   [21] key 1
+play:   [22] click Button '▾ Under the Forest' (TrackerHeader)
+play:   [23] click FancyButton 'Menu' (MenuButton)
+play: ISSUE offscreen [title step 23]: FancyButton 'Character (C)' (Menu_Character) runs off the screen ([P: (1699.015, 427.695), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Deck (B)' (Menu_Deck) runs off the screen ([P: (1699.015, 478.725), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Quests (J)' (Menu_Quests) runs off the screen ([P: (1699.015, 529.755), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Packs (P)' (Menu_Packs) runs off the screen ([P: (1699.015, 580.785), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Wardrobe (T)' (Menu_Wardrobe) runs off the screen ([P: (1699.015, 631.815), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Glossary' (Menu_Glossary) runs off the screen ([P: (1699.015, 682.845), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Feats' (Menu_Feats) runs off the screen ([P: (1699.015, 733.875), S: (225.855, 45.36)])
+play: ISSUE offscreen [title step 23]: FancyButton 'Settings' (Menu_Settings) runs off the screen ([P: (1699.015, 784.905), S: (225.855, 45.36)])
+play: soak: segment save (1) at 22 s
+play:   [25] click Button '▾ Under the Forest' (TrackerHeader)
+play:   [26] click FancyButton 'Deck (B)' (Menu_Deck)
+play:   [27] click Button 'Any rarity' (@Button@2510)
+play:   [28] click FancyButton '' (@Button@2620)
+play:   save: Snapshot saved: soak_102
+play:   load: Snapshot loaded: soak_102
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   [29] click Button '▸ Under the Forest' (TrackerHeader)
+play:   [30] click FancyButton 'Menu' (MenuButton)
+play:   save: round trip ok
+play:   [31] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [32] click FancyButton 'Open' (Open_general_1)
+play:   [33] click FancyButton 'Open' (Open_general_1)
+play:   [34] key Tab
+load_timing: town 4971 ms (slowest step: look rig: scenery 1018 ms); worst frame in the first 5 s after the fade-in: 190 ms (at 3.4 s)
+play:   [35] click FancyButton '' (@Button@8361)
+play: soak: segment newgame (1) at 36 s
+world_look: generic scenery at (3.95, 0.0, -8.2), scale 1.00
+load_timing: starting_area 3612 ms (slowest step: painted: base material 2688 ms); worst frame in the first 5 s after the fade-in: 45 ms (at 4.9 s)
+play:   [53] key 2
+play:   [54] click Button '' (@Button@9001)
+play:   [56] key I
+play:   [57] click Button '' (@Button@8658)
+play:   [58] key 2
+play:   [59] click Button '' (@Button@8884)
+play:   [60] click Button '' (@Button@8884)
+play:   [61] click Button '' (@Button@8658)
+play:   [62] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [63] click Button '' (@Button@8771)
+play:   [64] click Button '' (@Button@9001)
+play:   [65] click Button '' (@Button@8884)
+play:   [66] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [67] click Button '' (@Button@8771)
+play:   [68] key K
+play:   [69] click Button '' (@Button@8771)
+play:   [70] click FancyButton 'More' (@Button@9109)
+play:   [71] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [72] click Button '' (@Button@8771)
+play:   [73] click Button '' (@Button@8771)
+play:   [74] click Button '' (@Button@8884)
+play:   [75] click Button '' (@Button@9001)
+play:   [76] key M
+play:   [77] click FancyButton 'Less' (@Button@9109)
+play:   [78] click Button '' (@Button@8771)
+play:   [79] click FancyButton 'More' (@Button@9109)
+play:   [80] click Button '' (@Button@8771)
+play:   [81] click FancyButton 'Begin as Gourmand' (@Button@9110)
+play:   [86] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [87] click CardView '@Control@9700' (@Control@9700)
+play:   [88] click Button 'Uncommon' (@Button@9158)
+play:   [89] click Button 'Tool' (@Button@9147)
+play:   [90] click FancyButton 'Rename' (RenameDeck)
+play:   [94] click Button 'Any cost' (@Button@9150)
+play:   [95] click FancyButton '-' (Minus)
+play:   [96] click FancyButton '-' (Minus)
+play:   [97] click Button 'Wonder' (@Button@9146)
+play:   [98] click FancyButton '-' (Minus)
+play:   [99] click FancyButton '-' (Minus)
+play:   [100] click Button 'All types' (@Button@9142)
+play:   [102] click Button 'Gourmand' (@Button@9138)
+play:   [103] click Button 'Refusemancer' (@Button@9139)
+play:   [104] key Enter
+play:   [105] click Button '3' (@Button@9153)
+play:   [106] click FancyButton '' (@Button@10050)
+play:   [107] click FancyButton '+' (Plus)
+play:   [108] click FancyButton '-' (Minus)
+play:   [109] click FancyButton '+' (Plus)
+play:   [110] click Button 'Beefcake' (@Button@9137)
+play:   [111] click FancyButton '+' (Plus)
+play:   [112] key M
+play:   [113] key 1
+play:   [114] click FancyButton '' (@Button@10318)
+play:   [115] click Button 'Unit' (@Button@9143)
+play:   [116] click FancyButton '-' (Minus)
+play:   [117] click Button 'Tool' (@Button@9147)
+play:   [118] click Button 'All Paths' (@Button@9135)
+play:   [119] click Button '4+' (@Button@9154)
+play:   [120] click FancyButton '-' (Minus)
+play:   [121] click Button 'Epic' (@Button@9159)
+play:   [122] click FancyButton '' (Slot6)
+play:   [123] click FancyButton '-' (Minus)
+play:   [124] click FancyButton '-' (Minus)
+play:   [125] click FancyButton '+' (Plus)
+play:   [126] click FancyButton '-' (Minus)
+play:   [128] click Button 'Refusemancer' (@Button@9139)
+play:   [129] click Button 'Tool' (@Button@9147)
+play:   [130] click Button 'Necrocrat' (@Button@9140)
+play:   [131] click FancyButton 'OK' (@Button@11108)
+play:   [132] click Button 'Wonder' (@Button@9146)
+play:   [133] click FancyButton '-' (Minus)
+play:   [134] click FancyButton '-' (Minus)
+play:   [135] click FancyButton '-' (Minus)
+play:   [136] click FancyButton '+' (Plus)
+play:   [137] click FancyButton '-' (Minus)
+play:   [138] click FancyButton '-' (Minus)
+play:   [139] click FancyButton '-' (Minus)
+play:   [140] click Button 'Legendary' (@Button@9160)
+play:   [141] key I
+play:   [142] click FancyButton '+' (Plus)
+play:   [143] click FancyButton '-' (Minus)
+play:   [144] click FancyButton '' (@Button@12255)
+play:   [145] click Button 'Uncommon' (@Button@9158)
+play:   [146] click Button 'Beefcake' (@Button@9137)
+play:   [147] click FancyButton 'OK' (@Button@12299)
+play:   [148] click FancyButton '' (@Button@9125)
+play:   [149] click FancyButton 'Save' (@Button@12308)
+play:   [150] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [151] click FancyButton '' (Slot1)
+play:   [152] click FancyButton 'Cover' (BoxCoverCard)
+play:   [153] key I
+play:   [155] click FancyButton '' (Slot10)
+play:   [156] click Button 'Trap' (@Button@12401)
+play:   [157] click CardView '@Control@12833' (@Control@12833)
+play:   [158] key I
+play:   [159] click Button 'Refusemancer' (@Button@12395)
+play:   [160] click Button 'Uncommon' (@Button@12414)
+play:   [161] click FancyButton 'Cover' (BoxCoverCard)
+play:   [162] click CardView '@Control@13820' (@Control@13820)
+play:   [163] click FancyButton '' (@Button@13546)
+play:   [164] click FancyButton '' (@Button@13642)
+play:   [165] click Button 'Beefcake' (@Button@12393)
+play:   [166] click FancyButton '+' (Plus)
+play:   [167] click FancyButton '-' (Minus)
+play:   [168] click FancyButton 'Fill Infrastructure' (@Button@12433)
+play:   [169] click Button 'Infrastructure' (@Button@12404)
+play:   [170] click Button 'Unit' (@Button@12399)
+play:   [171] click FancyButton 'Reset' (@Button@12432)
+play:   [172] click Button '0-1' (@Button@12407)
+play:   [174] key I
+play:   [175] click FancyButton '+' (Plus)
+play:   [176] click FancyButton '' (@Button@13642)
+play:   [177] click FancyButton '-' (Minus)
+play:   [178] click Button 'All types' (@Button@12398)
+play:   [180] click FancyButton 'Cover' (BoxCoverCard)
+play:   [181] key Tab
+play:   [182] click FancyButton 'Copy' (BoxCopy)
+play:   [183] click FancyButton '' (@Button@13526)
+play:   [184] click Button 'Pathless' (@Button@12392)
+play:   [185] click Button 'Tool' (@Button@12403)
+play:   [186] key C
+play:   [187] click Button 'Any' (@Button@12418)
+play:   [188] click FancyButton '-' (Minus)
+play:   [189] click Button 'All Paths' (@Button@12391)
+play:   [190] click FancyButton '-' (Minus)
+play:   [191] click Button 'Any rarity' (@Button@12412)
+play:   [192] click CardView '@Control@12795' (@Control@12795)
+play:   [193] click CardView '@Control@12647' (@Control@12647)
+play:   [194] click CardView '@Control@12535' (@Control@12535)
+play:   [195] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [196] click FancyButton '+' (Plus)
+play:   [197] click FancyButton 'Rename' (RenameDeck)
+play:   [198] click FancyButton '+' (Plus)
+play:   [199] click Button 'Trap' (@Button@12401)
+play:   [200] click CardView '@Control@12983' (@Control@12983)
+play:   [201] click FancyButton '+' (Plus)
+play:   [202] click CardView '@Control@12983' (@Control@12983)
+play:   [203] click FancyButton '-' (Minus)
+play:   [204] click CardView '@Control@12647' (@Control@12647)
+play:   [205] key Enter
+play:   [206] click FancyButton '+' (Plus)
+play:   [208] click FancyButton '-' (Minus)
+play:   [209] click Button '2' (@Button@12408)
+play:   [210] key E
+play:   [211] click CardView '@Control@12795' (@Control@12795)
+play:   [212] click Button 'All Paths' (@Button@12391)
+play:   [214] click CardView '@Control@12647' (@Control@12647)
+play:   [215] click FancyButton '-' (Minus)
+play:   [216] click Button 'Common' (@Button@12413)
+play:   [217] click FancyButton '-' (Minus)
+play:   [218] click FancyButton '+' (Plus)
+play:   [219] click FancyButton '' (@Button@15628)
+play:   [220] click FancyButton '' (@Button@12381)
+play:   [221] click FancyButton '-' (Minus)
+play:   [222] click Button 'Any' (@Button@12418)
+play:   [223] click FancyButton '' (@Button@15814)
+play:   [224] click FancyButton 'Keep editing' (@Button@15902)
+play:   [225] click CardView '@Control@12945' (@Control@12945)
+play:   [226] click FancyButton 'Rename' (RenameDeck)
+play:   [227] click FancyButton '+' (Plus)
+play:   [228] click Button 'Beefcake' (@Button@12393)
+play:   [229] click Button 'Spell' (@Button@12400)
+play:   [230] click Button 'Spell' (@Button@12400)
+play:   [231] click FancyButton '' (Slot3)
+play:   [232] click FancyButton '' (@Button@12381)
+play:   [233] click Button 'Any cost' (@Button@12406)
+play:   [234] click Button 'Gourmand' (@Button@12394)
+play:   [235] key K
+play:   [236] click FancyButton '+' (Plus)
+play:   [237] click FancyButton 'Save Deck' (@Button@12431)
+play:   [238] key I
+play:   [240] click FancyButton '+' (Plus)
+play:   [241] click FancyButton 'Copy' (BoxCopy)
+play:   [242] click Button 'Refusemancer' (@Button@12395)
+play:   [243] click Button 'Epic' (@Button@12415)
+play:   [244] key Escape
+play:   [245] click FancyButton '-' (Minus)
+play:   [246] key Escape
+play:   [247] key C
+play:   [248] click FancyButton 'Discard' (AlternativeButton)
+play:   [249] click FancyButton 'Deck (B)' (@Button@8608)
+play:   [250] click CardView '@Control@16635' (@Control@16635)
+play:   [251] click FancyButton 'OK' (@Button@16872)
+play:   [252] click FancyButton '+' (Plus)
+play:   [253] click FancyButton '-' (Minus)
+play:   [254] click FancyButton '-' (Minus)
+play:   [255] click Button 'Refusemancer' (@Button@16047)
+play:   [256] click Button 'Uncommon' (@Button@16066)
+play:   [257] click FancyButton '-' (Minus)
+play:   [258] click FancyButton '' (@Button@17299)
+play:   [259] click FancyButton '' (@Button@17283)
+play:   [260] click FancyButton 'Discard changes' (@Button@17356)
+play:   [261] click Button 'Any cost' (@Button@16058)
+play:   [262] click Button 'Gourmand' (@Button@16046)
+play:   [263] click FancyButton 'OK' (@Button@17404)
+play:   [264] click Button 'Infrastructure' (@Button@16056)
+play:   [265] click Button 'Tool' (@Button@16055)
+play:   [266] click Button 'Uncommon' (@Button@16066)
+play:   [267] click Button '4+' (@Button@16062)
+play:   [268] click FancyButton 'Rename' (RenameDeck)
+play:   [269] click FancyButton '' (Slot7)
+play:   [270] click Button 'Epic' (@Button@16067)
+play:   [271] click Button 'Unit' (@Button@16051)
+play:   [273] click FancyButton '' (Slot6)
+play:   [274] click Button 'Uncommon' (@Button@16066)
+play:   [275] click Button 'Pathless' (@Button@16044)
+play:   [276] click FancyButton '' (Slot4)
+play:   [277] click Button '3' (@Button@16061)
+play:   [278] click Button 'Epic' (@Button@16067)
+play:   [279] click Button '4+' (@Button@16062)
+play:   [280] click Button 'Trap' (@Button@16053)
+play:   [281] click Button 'Gourmand' (@Button@16046)
+play:   [282] click FancyButton 'OK' (@Button@17464)
+play:   [283] click Button 'Gourmand' (@Button@16046)
+play:   [284] click FancyButton 'OK' (@Button@17472)
+play:   [285] click Button 'Common' (@Button@16065)
+play: soak: done, 285 steps, 9 distinct issues
+play: play: done
+ERROR: 2 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 4 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 3 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 31 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: 58 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 4 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 3 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 4 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 16 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 36 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 121 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 6 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

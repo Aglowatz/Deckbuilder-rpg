@@ -1,0 +1,98 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+play: soak: seed 101, limit 180 s, window (1280, 720), loading screens true
+play:   [2] click FancyButton 'Settings' (@Button@113)
+play:   [3] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [4] click FancyButton 'Text' (TabText)
+play:   [5] key K
+play:   [6] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [7] click FancyButton 'Text' (TabText)
+play:   [8] click OptionButton 'Normal' (TooltipTextOptions)
+load_timing: title 665 ms (slowest step: fade in 308 ms); worst frame in the first 5 s after the fade-in: 99 ms (at 1.4 s)
+play:   [9] click FancyButton 'Text' (TabText)
+play:   [10] click OptionButton 'Normal' (TooltipTextOptions)
+play:   [11] click OptionButton 'Normal' (DialogueTextOptions)
+play:   [12] click OptionButton 'Normal' (CardTextOptions)
+play:   [13] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [14] click OptionButton '1x' (BattleSpeedOptions)
+play:   [15] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [16] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [17] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [18] click FancyButton 'Audio' (TabAudio)
+play: soak: segment dungeon (1) at 13 s
+play:   state: Beefcake level 19 gold 432
+play:   Travel: D-LAB
+play:   [23] click MapNodeButton 'Room_14' (Room_14)
+play:   [24] click MapNodeButton 'Room_3' (Room_3)
+play:   [25] click FancyButton 'Continue' (BriefContinue)
+play:   [26] battle: Escaped Specimen
+play: ISSUE offscreen [dungeon step 26]: Label '@Label@936' (@Label@936) runs off the screen ([P: (650.574, 1054.017), S: (84.68, 31.9)])
+load_timing: battle 1308 ms (slowest step: frame 2 705 ms); worst frame in the first 5 s after the fade-in: 59 ms (at 3.2 s)
+play:   [26] battle extra: FancyButton 'End / Turn' (@Button@810)
+play:   battle: decided by decree (win)
+play:   [27] battle: Escaped Specimen
+play:   battle: decided by decree (win)
+play:   [28] battle: Escaped Specimen
+play:   battle: decided by decree (win)
+play:   [29] battle: Escaped Specimen
+play:   battle: decided by decree (loss)
+play: soak: segment zone (1) at 161 s
+play:   state: Beefcake level 21 gold 2414
+play:   zone refusemancer
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 1351 cards
+play:   spot animal_2: goto animal_2 at (33.0, 0.0, 133.3)
+play:   [32] click FancyButton 'Menu' (MenuButton)
+play: ISSUE offscreen [zone step 32]: FancyButton 'Character (C)' (Menu_Character) runs off the screen ([P: (1699.015, 427.695), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Deck (B)' (Menu_Deck) runs off the screen ([P: (1699.015, 478.725), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Quests (J)' (Menu_Quests) runs off the screen ([P: (1699.015, 529.755), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Packs (P)' (Menu_Packs) runs off the screen ([P: (1699.015, 580.785), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Wardrobe (T)' (Menu_Wardrobe) runs off the screen ([P: (1699.015, 631.815), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Glossary' (Menu_Glossary) runs off the screen ([P: (1699.015, 682.845), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Feats' (Menu_Feats) runs off the screen ([P: (1699.015, 733.875), S: (225.855, 45.36)])
+play: ISSUE offscreen [zone step 32]: FancyButton 'Settings' (Menu_Settings) runs off the screen ([P: (1699.015, 784.905), S: (225.855, 45.36)])
+play:   [33] click FancyButton 'Character (C)' (Menu_Character)
+play:   [34] click Button '' (ItemSlot_3)
+play:   [35] click Button '' (EquipSlot_weapon)
+load_timing: heap_zone 7833 ms (slowest step: zone: builder 2418 ms); worst frame in the first 5 s after the fade-in: 181 ms (at 3.9 s)
+play:   [36] click Button '' (ItemSlot_1)
+play:   [37] click Button '' (EquipSlot_helm)
+play:   [38] click Button '' (EquipSlot_relic)
+play:   [39] click Button '' (ItemSlot_3)
+play:   [40] click Button '' (ItemSlot_2)
+play:   [41] click Button '' (Inventory_hearty_pie)
+play:   [42] key J
+play:   [43] click Button '' (EquipSlot_boots)
+play:   [44] click FancyButton '' (@Button@5313)
+play:   [45] click Button '' (Badge_Overgrowth)
+play:   [46] click FancyButton 'Menu' (MenuButton)
+play: soak: done, 46 steps, 9 distinct issues
+play: play: done
+ERROR: 4 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 28 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 4 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: 17 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 2 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 8 RIDs of type "StorageBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 29 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 92 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

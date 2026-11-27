@@ -1,0 +1,63 @@
+   0.0 soak: seed 101, limit 180 s, window (1280, 720), loading screens true
+   4.3   [2] click FancyButton 'Settings' (@Button@113)
+   5.0   [3] click OptionButton '1280 x 720' (ResolutionOptions)
+   5.6   [4] click FancyButton 'Text' (TabText)
+   6.0   [5] key K
+   6.7   [6] click FancyButton 'Accessibility' (TabAccessibility)
+   7.3   [7] click FancyButton 'Text' (TabText)
+   7.8   [8] click OptionButton 'Normal' (TooltipTextOptions)
+   8.4   [9] click FancyButton 'Text' (TabText)
+   9.0   [10] click OptionButton 'Normal' (TooltipTextOptions)
+   9.6   [11] click OptionButton 'Normal' (DialogueTextOptions)
+  10.0   [12] click OptionButton 'Normal' (CardTextOptions)
+  10.5   [13] click OptionButton 'Wait for click' (OpponentCardsOptions)
+  10.9   [14] click OptionButton '1x' (BattleSpeedOptions)
+  11.4   [15] click FancyButton 'Accessibility' (TabAccessibility)
+  11.7   [16] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+  12.4   [17] click FancyButton 'Accessibility' (TabAccessibility)
+  12.9   [18] click FancyButton 'Audio' (TabAudio)
+  13.4 soak: segment dungeon (1) at 13 s
+  13.5   state: Beefcake level 19 gold 432
+  13.5   Travel: D-LAB
+  17.6   [23] click MapNodeButton 'Room_14' (Room_14)
+  18.0   [24] click MapNodeButton 'Room_3' (Room_3)
+  18.4   [25] click FancyButton 'Continue' (BriefContinue)
+  19.6   [26] battle: Escaped Specimen
+  21.0 ISSUE offscreen [dungeon step 26]: Label '@Label@936' (@Label@936) runs off the screen ([P: (650.574, 1054.017), S: (84.68, 31.9)])
+  32.8   [26] battle extra: FancyButton 'End / Turn' (@Button@810)
+  74.0   battle: decided by decree (win)
+  76.0   [27] battle: Escaped Specimen
+ 100.0   battle: decided by decree (win)
+ 102.0   [28] battle: Escaped Specimen
+ 123.8   battle: decided by decree (win)
+ 125.8   [29] battle: Escaped Specimen
+ 159.3   battle: decided by decree (loss)
+ 161.3 soak: segment zone (1) at 161 s
+ 161.4   state: Beefcake level 21 gold 2414
+ 161.4   zone refusemancer
+ 170.4   spot animal_2: goto animal_2 at (33.0, 0.0, 133.3)
+ 172.4   [32] click FancyButton 'Menu' (MenuButton)
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Character (C)' (Menu_Character) runs off the screen ([P: (1699.015, 427.695), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Deck (B)' (Menu_Deck) runs off the screen ([P: (1699.015, 478.725), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Quests (J)' (Menu_Quests) runs off the screen ([P: (1699.015, 529.755), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Packs (P)' (Menu_Packs) runs off the screen ([P: (1699.015, 580.785), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Wardrobe (T)' (Menu_Wardrobe) runs off the screen ([P: (1699.015, 631.815), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Glossary' (Menu_Glossary) runs off the screen ([P: (1699.015, 682.845), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Feats' (Menu_Feats) runs off the screen ([P: (1699.015, 733.875), S: (225.855, 45.36)])
+ 173.1 ISSUE offscreen [zone step 32]: FancyButton 'Settings' (Menu_Settings) runs off the screen ([P: (1699.015, 784.905), S: (225.855, 45.36)])
+ 173.3   [33] click FancyButton 'Character (C)' (Menu_Character)
+ 173.7   [34] click Button '' (ItemSlot_3)
+ 174.2   [35] click Button '' (EquipSlot_weapon)
+ 174.8   [36] click Button '' (ItemSlot_1)
+ 175.5   [37] click Button '' (EquipSlot_helm)
+ 175.8   [38] click Button '' (EquipSlot_relic)
+ 176.3   [39] click Button '' (ItemSlot_3)
+ 176.8   [40] click Button '' (ItemSlot_2)
+ 177.4   [41] click Button '' (Inventory_hearty_pie)
+ 178.0   [42] key J
+ 178.4   [43] click Button '' (EquipSlot_boots)
+ 179.0   [44] click FancyButton '' (@Button@5313)
+ 179.6   [45] click Button '' (Badge_Overgrowth)
+ 179.9   [46] click FancyButton 'Menu' (MenuButton)
+ 180.5 soak: done, 46 steps, 9 distinct issues
+ 180.5 play: done

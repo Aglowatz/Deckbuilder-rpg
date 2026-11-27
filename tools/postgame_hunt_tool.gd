@@ -94,7 +94,19 @@ func player(build: String, level: int) -> PlayerSpec:
 	else:
 		deck = ZoneDecks.from_recipe(content, str((LATE_DECKS[parts[0]] as Dictionary)["label"]), (LATE_DECKS[parts[0]] as Dictionary)["cards"] as Dictionary)
 	var spec: PlayerSpec = PlayerSpec.make(deck, level, build)
-	spec.equipment_ids = ProgressionModel.equipment_for(level) if parts[1] == "model" else _kit(KITS[parts[1]] as Array)
+	# Nov 27 day (Part B): a kit name ending "_pocket" is that kit with the Extra Pocket first in its slot (aggro_pocket, model_pocket)
+	var kit_name: String = parts[1].trim_suffix("_pocket")
+	spec.equipment_ids = ProgressionModel.equipment_for(level) if kit_name == "model" else _kit(KITS[kit_name] as Array)
+	if parts[1].ends_with("_pocket"):
+		var pocket_slot: int = int(content.equipment_piece("extra_pocket").slot)
+		var worn: Array[String] = ["extra_pocket"]
+		for id: String in spec.equipment_ids:
+			var piece: EquipmentData = content.equipment_piece(id)
+			if id != "extra_pocket" and piece != null and int(piece.slot) != pocket_slot:
+				worn.append(id)
+		spec.equipment_ids = worn
+	else:
+		spec.equipment_ids.erase("extra_pocket")  # the paired run without it
 	spec.items = ProgressionModel.items_for(level) if parts.size() < 3 or parts[2] == "model" else (ITEMS[parts[2]] as Dictionary).duplicate()
 	return spec
 
@@ -138,6 +150,21 @@ func _fights() -> bool:
 			won, total, "; ".join(winners.slice(0, 8)) if not winners.is_empty() else "**none**", int((Time.get_ticks_msec() - started) / 1000.0)]
 		print(line)
 		_append(out_path, line, "| Fight | Foe | L | Builds | Best build | All | Builds winning half or more (top 8) | Took |\n|---|---|---:|---:|---|---|---|---:|")
+		if args.has("by_kit"):
+			# Nov 27 day (Part B): the totals of each kit and item set over every deck (paired: the same decks and seeds)
+			var sums: Dictionary = {}
+			for row: Array in rows:
+				var parts: PackedStringArray = str(row[0]).split("/")
+				var key: String = "%s/%s" % [parts[1], parts[2] if parts.size() > 2 else "model"]
+				var sum: Array = sums.get(key, [0, 0]) as Array
+				sums[key] = [int(sum[0]) + int(row[1]), int(sum[1]) + int(row[2])]
+			var keys: Array = sums.keys()
+			keys.sort()
+			for key: Variant in keys:
+				var pair: Array = sums[key] as Array
+				var kit_line: String = "| %s | %s | %s | %d/%d | %d%% |" % [spec.id, spec.enemy_name, str(key), int(pair[0]), int(pair[1]), int(round(100.0 * float(pair[0]) / float(maxi(1, int(pair[1])))))]
+				print(kit_line)
+				_append(out_path.replace(".md", "_by_kit.md"), kit_line, "| Fight | Foe | Kit / items | Wins | Rate |\n|---|---|---|---:|---:|")
 	return true
 
 

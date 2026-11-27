@@ -111,6 +111,8 @@ func run() -> bool:
 		var seen: int = int(reached.get(encounter.id, 0))
 		per_fight.append("%s %s" % [encounter.enemy_name.get_slice(",", 0), ("%d/%d" % [int(won.get(encounter.id, 0)), seen]) if seen > 0 else "-"])
 	var label: String = str(args.get("label", boon if boon != "" else "-"))
+	if args.has("pocket") or args.has("items"):
+		label += " (pocket %s, items %s)" % [str(args.get("pocket", "model")), str(args.get("items", "model"))]
 	if not BalanceSim.full_opponent_hands:
 		label += " (hands as before)"
 	if extra_hp != 0:
@@ -142,7 +144,7 @@ func _players(last: EncounterSpec, decks: String, seed_value: int) -> Array[Play
 	var result: Array[PlayerSpec] = []
 	if decks != "draft":
 		for path: Affinity.Type in Affinity.colored_types():
-			result.append(ProgressionModel.player_for(content, last, path))
+			result.append(_kit_up(ProgressionModel.player_for(content, last, path)))
 		return result
 	var index: int = 0
 	for pair: Array in DRAFT_PAIRS:
@@ -183,6 +185,35 @@ func _players(last: EncounterSpec, decks: String, seed_value: int) -> Array[Play
 			spec.items[str(id)] = 1
 		result.append(spec)
 	return result
+
+
+## Nov 27 day (Part B, the Extra Pocket measured): `--items=heal|burn` replaces the model's items with a set (as the postgame hunt's), and
+## `--pocket=on|off` wears the Extra Pocket in its slot (in place of whatever the model wears there) or takes it off (the slot's next
+## piece, the Dog-Eared Bookmark, in its place). Without these flags the model's kit is kept.
+const ITEM_SETS: Dictionary = {
+	"heal": {"hearty_pie": 2, "healing_salve": 2},
+	"burn": {"firebrand_charm": 2, "sharpening_stone": 1, "hearty_pie": 1},
+}
+
+
+func _kit_up(spec: PlayerSpec) -> PlayerSpec:
+	var item_set: String = str(args.get("items", "model"))
+	if ITEM_SETS.has(item_set):
+		spec.items = (ITEM_SETS[item_set] as Dictionary).duplicate()
+	var pocket: String = str(args.get("pocket", ""))
+	if pocket.is_empty():
+		return spec
+	var pocket_piece: EquipmentData = content.equipment_piece("extra_pocket")
+	var kept: Array[String] = []
+	for id: String in spec.equipment_ids:
+		var piece: EquipmentData = content.equipment_piece(id)
+		if id == "extra_pocket" or (piece != null and pocket_piece != null and int(piece.slot) == int(pocket_piece.slot)):
+			continue
+		kept.append(id)
+	kept.append("extra_pocket" if pocket == "on" else "dog_eared_bookmark")
+	spec.equipment_ids = kept
+	spec.label += " +pocket" if pocket == "on" else " -pocket"
+	return spec
 
 
 func _path_of(word: String) -> int:
