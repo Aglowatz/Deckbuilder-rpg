@@ -897,6 +897,7 @@ func _refresh_ui() -> void:
 	if primary_enabled and _SPACE_ADVANCE_MODES.has(mode):
 		primary += "  [%s]" % Keybinds.first_key(&"battle_advance")
 	hud.primary_button.text = primary
+	hud.fit_primary()
 	hud.primary_button.disabled = not primary_enabled
 	# Fresh eyes round 2 (Oct 31): a gold button reading "..." (the mulligan, the end of the fight) read as broken; it is hidden while it has nothing to say.
 	hud.primary_button.visible = primary != "..."

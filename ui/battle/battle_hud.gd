@@ -640,8 +640,36 @@ func set_prompt(text: String) -> void:
 	_prompt.text = text
 
 
+## Nov 27 day (the soak bot): the right edge every width of the gold primary button keeps ("Confirm Blocks (1)  [Space]" grew 84 px
+## past the screen's right edge at x 1640 + 334), the banner's box and its largest and smallest font size.
+const PRIMARY_RIGHT: float = 1890.0
+const BANNER_WIDTH: float = 1200.0
+const BANNER_FONT: int = 92
+const BANNER_FONT_MIN: int = 40
+
+
+## The gold primary button's width for its text, growing to the left so its right edge stays at PRIMARY_RIGHT.
+func fit_primary() -> void:
+	var width: float = maxf(250.0, primary_button.get_combined_minimum_size().x)
+	primary_button.size = Vector2(width, primary_button.size.y)
+	primary_button.position.x = PRIMARY_RIGHT - width
+
+
+## Nov 27 day (the soak bot): the font size that fits `text` in the banner's box. A rule banner with a long card name ("MIRRORS COPIED
+## COURIER PIGEON") ran off both sides of the screen at 92 px; it now shrinks (to 40 px at most) to stay inside the 1200 px box.
+func banner_font_size(text: String) -> int:
+	var font: Font = _banner.get_theme_font("font")
+	var size_px: int = BANNER_FONT
+	while size_px > BANNER_FONT_MIN and font != null and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x + 28.0 > BANNER_WIDTH:
+		size_px -= 4
+	return size_px
+
+
 func show_banner(text: String, color: Color, hold: float = 0.5) -> void:
 	_banner.text = text.to_upper()
+	_banner.add_theme_font_size_override("font_size", banner_font_size(_banner.text))
+	_banner.size = Vector2(BANNER_WIDTH, 120)
+	_banner.position = Vector2(360, 440)
 	_banner.add_theme_color_override("font_color", color)
 	_banner.pivot_offset = _banner.size * 0.5
 	_banner.scale = Vector2(0.7, 0.7)

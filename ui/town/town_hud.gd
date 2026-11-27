@@ -9,6 +9,9 @@ signal wardrobe_pressed
 signal packs_pressed
 
 var _menu_button: FancyButton
+## Nov 27 day: where the menu list sits, and the gap it keeps from the right edge (see `fit_menu_x`).
+const MENU_X: float = 1650.0
+const MENU_MARGIN: float = 12.0
 var _menu_panel: PanelContainer
 var _left_column: VBoxContainer
 var _effects_panel: Control
@@ -59,7 +62,7 @@ func _ready() -> void:
 	add_child(_menu_button)
 	_menu_panel = UIKit.panel()
 	_menu_panel.name = "MenuPanel"
-	_menu_panel.position = Vector2(1650, 408)
+	_menu_panel.position = Vector2(MENU_X, 408)
 	_menu_panel.visible = false
 	add_child(_menu_panel)
 	var menu_column: VBoxContainer = UIKit.vbox(6)
@@ -91,6 +94,7 @@ func _ready() -> void:
 			opener.call())
 		menu_column.add_child(page)
 	PadFocus.register(_menu_panel)
+	_menu_panel.resized.connect(fit_menu_x)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -392,6 +396,7 @@ func toast_text() -> String:
 
 func toggle_menu() -> void:
 	_menu_panel.visible = not _menu_panel.visible
+	fit_menu_x()
 	Audio.sfx(&"ui_tick")
 	_sync_pack_count()
 
@@ -413,6 +418,15 @@ func _move_keys_text() -> String:
 	if secondary != PackedStringArray(["Up", "Left", "Down", "Right"]):
 		return text + (" / " + " ".join(secondary) if secondary != PackedStringArray(["-", "-", "-", "-"]) else "")
 	return text + " / arrows"
+
+
+## Nov 27 day (the soak bot): the menu list's right edge stays on the screen. At x 1650 its buttons ("Character (C)" 226 px wide) and the
+## panel's margins ended past 1920, so the frame was cut at the right edge in every zone, dungeon and Crosspath; the list now moves left.
+func fit_menu_x() -> void:
+	if _menu_panel == null:
+		return
+	var screen_width: float = get_viewport().get_visible_rect().size.x if is_inside_tree() else 1920.0
+	_menu_panel.position.x = minf(MENU_X, screen_width - MENU_MARGIN - _menu_panel.size.x * _menu_panel.scale.x)
 
 
 ## Moves the gold counter, the Menu button and its list down by what the (scaled) minimap and the panels above them gained, so nothing overlaps.

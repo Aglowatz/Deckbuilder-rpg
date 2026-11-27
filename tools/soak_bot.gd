@@ -733,7 +733,7 @@ func _check_layout() -> void:
 			var rect: Rect2 = control.get_global_rect()
 			var has_text: bool = (control is Button and not (control as Button).text.strip_edges().is_empty()) or (control is Label and not (control as Label).text.strip_edges().is_empty())
 			if has_text and rect.size.x > 2.0 and not view.encloses(rect) and rect.intersects(view):
-				_issue("offscreen", "%s runs off the screen (%s)" % [_describe(control), str(rect)], "off:" + _key_path(control))
+				_issue("offscreen", "%s runs off the screen (%s)" % [_describe(control), str(rect)], "off:" + _key_path(control.get_parent()))
 			elif has_text and rect.size.x > 2.0 and not rect.intersects(view) and control is Button and not (control as Button).disabled:
 				_issue("offscreen", "%s is entirely off the screen (%s)" % [_describe(control), str(rect)], "off:" + _key_path(control))
 			if control is Label:
@@ -754,12 +754,30 @@ func _check_layout() -> void:
 		for j: int in range(i + 1, buttons.size()):
 			var a: Control = buttons[i]
 			var b: Control = buttons[j]
-			if a.is_ancestor_of(b) or b.is_ancestor_of(a):
+			if a.is_ancestor_of(b) or b.is_ancestor_of(a) or not _near_relatives(a, b):
 				continue
 			var overlap: Rect2 = a.get_global_rect().intersection(b.get_global_rect())
 			var smaller: float = minf(a.get_global_rect().get_area(), b.get_global_rect().get_area())
 			if smaller > 1.0 and overlap.get_area() > smaller * 0.4:
 				_issue("overlap", "%s and %s overlap (%d%% of the smaller)" % [_describe(a), _describe(b), int(overlap.get_area() / smaller * 100.0)], "overlap:" + _key_path(a) + "+" + _key_path(b))
+
+
+## Two buttons of one panel (their common ancestor at most three levels above each): a panel stacked over another (the Load page over
+## the pause menu) hides what is under it, so buttons of different panels are not judged as overlapping.
+func _near_relatives(a: Node, b: Node) -> bool:
+	var up: Node = a.get_parent()
+	for depth: int in range(3):
+		if up == null:
+			return false
+		if up.is_ancestor_of(b):
+			var walk: Node = b.get_parent()
+			for other: int in range(3):
+				if walk == up:
+					return true
+				walk = walk.get_parent() if walk != null else null
+			return false
+		up = up.get_parent()
+	return false
 
 
 func _in_scroll(control: Control) -> bool:
