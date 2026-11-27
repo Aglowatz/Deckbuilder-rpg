@@ -1,3 +1,186 @@
+# Nov 26 day - straight map lines, the Extra Pocket for real, a rule set for every zone dungeon fight, event hints that fit, a better sim player
+
+Brief: `docs/prompts/opus_nov26_day.md` (tag `pre-nov26`). Shots: `docs/overnight_shots/nov26/`. Sims: `docs/design/sim/nov26/`.
+Fight list: `docs/design/zone_fight_rules.md`. Your decisions: `docs/overnight_inbox.md`, "Nov 26 day" (summarised at the end of this section).
+Start: the working tree was clean (nothing to commit or discard); tagged `pre-nov26`.
+
+**In one paragraph.** Every part is done, A to F, including E. Every dungeon map now draws each link as one straight line; the curve data
+is kept but no longer read for drawing. The Extra Pocket now really gives each item two uses per fight with one copy or more, in
+drafts and the main game, and the item button counts down 2, 1, Used. Nineteen ordinary fights in the four zone dungeons and Primm's
+Castle got a rule set of their own: a deck check plus something to use, and five got a new scripted beat. The House of Gains' third
+`beefcake_bruisers` is gone, and the whole-run sims stay within 10 points everywhere. Long event hints are shortened and wrap inside
+their button. The sim's player uses its items better and drafts gear that suits its deck. Checks: **all tests pass** (full sharded
+run 3,923 of 3,927; the two failures came from Part C and are fixed and passing), the draft smoke, the eight walk smokes, three of
+four probes (see "What's left"), **all four story bots (119 of 119 each)**, and the scripted plays. Export: see Part F.
+
+## Part A - straight lines on every dungeon map: done
+
+- `MapPaths.FOLLOW_CURVES = false` (`ui/dungeon/map_paths.gd`): each link is drawn from node to node as one straight segment
+  (`MapPaths.straight_points`). The traced curves (`DungeonCatalog.drawn_links()` / `curves()`) stay in the data but are not read when
+  drawing; the map screen reads them only when the switch is on. Fog, question marks, the route highlight and controller focus are unchanged.
+- Tests: `tests/test_nov26_straight_lines.gd` covers ten maps, including the castle, the Shuffled Halls, the Forgotten Vault, the Gallery and
+  the Lab. It checks that every link is collinear and that no curve data is read (`DungeonCatalog.curve_reads` stays unchanged).
+  `tests/test_map_curves.gd` is updated to match.
+- Before/after shots: `docs/overnight_shots/nov26/maps/` (the Forgotten Vault, the castle, the Shuffled Halls, the House of Gains, the Test
+  Kitchen, the Rotheart, the Gallery), plus `pF_castle_lines_01_gate.jpg` and `_03_after_room_6.jpg` from a scripted play.
+
+## Part B - each item twice per fight with the Extra Pocket: done
+
+- The **Extra Pocket** is the only equipment that lets you use an item twice; it is the one source of `ITEM_USES_PER_BATTLE` (I checked
+  every piece of gear, draft gear included). Before, a single copy vanished on its first use, so using it twice needed two copies.
+- Now the first use spends one copy, and the second is free even if that was the last copy. The item stays in its slot until the fight
+  ends (`PlayerProfile.held_for_battle`); `Session.end_item_battle()` frees it at the end of any fight, on a retry, or when a new fight
+  starts. Draft fights work the same way, for both the stand-in profile and the real one. A save made mid-fight never brings back a
+  0-charge item.
+- With the Pocket, the item button shows the uses left in the fight: **2**, then **1**, then **Used**, and the tooltip says the same.
+  Outside a fight, or without the Pocket, it shows copies (`x2`) as before. I checked the other item effects: the energy toast now
+  fires only when a use counted.
+- Text: the Pocket's description now reads "You can use each equipped item twice per battle. The first use spends one copy; the second
+  is free, even if it was your last copy."
+- Tests: `tests/test_nov26_items_twice.gd`, 7 tests: the main game with one copy, the fight ending after one use, two copies, no Pocket, a
+  mid-fight save, **a draft fight**, and the text. Scripted play: `pF_draft_pocket_01_two_uses.jpg`, `_03_one_use_left.jpg`, `_04_spent.jpg`.
+
+## Part C - a rule set for every zone dungeon fight: done
+
+Before today, only the elites and bosses of the four zone dungeons and the castle had rules. The 19 ordinary fights now each have **a
+rule that tests how the deck was built, plus something the player can use**. Five also have a new scripted beat, each with a spoken
+line and a one-line warning the turn before. Elites, bosses and Primm keep their sets.
+
+Two decks were swapped to break repeats: House of Gains room 8 now plays `necrocrat_beefcake` (so the third `beefcake_bruisers` is gone),
+and castle room 5 plays `gourmand_refusemancer`. No rule is on more than half of a dungeon's fights, and no dungeon has the same deck and
+rules more than twice. Every rule shows in the "Before the fight" panel.
+
+Data: `tools/nov26_zone_fight_rules.py`. Test: `tests/test_nov26_zone_fight_rules.gd` (10 tests). The full list, with every rule's text,
+is in `docs/design/zone_fight_rules.md`.
+
+**Whole runs, clear rate before -> after.** The sims use each Path's reference deck, gear and items at the boss's level, with one HP pool
+along the route and 25 runs per Path and route. For the castle the figure is "beat Primm".
+
+| Dungeon | Route A | Route B | More routes |
+|---|---|---|---|
+| House of Gains | 14 % -> 7 % | 24 % -> 24 % | |
+| Test Kitchen | 41 % -> 43 % | 50 % -> 50 % | |
+| Hall of Final Approvals | 36 % -> 34 % | 45 % -> 45 % | |
+| Rotheart | 41 % -> 41 % | 52 % -> 51 % | |
+| Primm's Castle | 17 % -> 14 % | 3 % -> 3 % | C 45 -> 43, D 4 -> 4, E 20 -> 20 |
+
+**The fights.** "Won" counts wins out of the times the fight was reached, both routes together. The castle sims count whole routes, not
+single rooms.
+
+| Dungeon | Room | Foe | New rules (and beat) | Won before -> after |
+|---|---:|---|---|---|
+| House of Gains | 2 | Treadmill Sprinter | Treadmill (its units have Hustle), Interval Training (your Hustle units +1 attack) | 91 % -> 85 % |
+| House of Gains | 3 | Courtyard Lifter | Heavy Plates (its units +0/+2), Free Weights (your Beefcake cards cost 1 less) | 96 % -> 90 % |
+| House of Gains | 8 | Cell Block Brawler | Lights Out (you play at most 2 cards a turn), Care Package (+1 opening card) | 70 % -> 70 % |
+| House of Gains | 11 | Trophy Hall Honor Guard | Display Case (a 0/4 Trophy Case), Hall of Fame (your flyers +1 attack) | 78 % -> 58 % |
+| Test Kitchen | 2 | Prep Station Sous-Chef | Prepped, Staff Meal (both sides start with 2 Ingredients) | 97 % -> 95 % |
+| Test Kitchen | 3 | Frozen Line Cook | Walk-In Cooler (two 0/4 Ice Blocks), Defrost (+1 opening card) | 99 % -> 99 % |
+| Test Kitchen | 8 | Assembly Line Golem | Quality Control (retaliate 1), Overtime Shift (an extra first-turn draw) | 100 % -> 100 % |
+| Test Kitchen | 12 | Expediter of the Pass | Plate Up (+1/+0), Tasting Spoon (heal 1 more); beat **Staff Meal** (turn 4, you heal 3) | 95 % -> 95 % |
+| Final Approvals | 3 | Intake Clerk | Forms Only (no Tools), Expedited (your units +1/+0) | 95 % -> 95 % |
+| Final Approvals | 4 | Returns Clerk | Refund Policy (it heals 1 a turn), Receipt Kept (you start with a Contract) | 97 % -> 99 % |
+| Final Approvals | 9 | Resurrection Permits Zombie | Burial Fees Waived (your Necrocrat cards cost 1 less); beat **Permit Granted** (two Zombie Temps when two of its units die) | 95 % -> 92 % |
+| Final Approvals | 13 | Executive Elevator Operator | Express Lift (your flyers +1 attack); beat **Going Up** (turn 4, its units +1/+1) | 100 % -> 99 % |
+| Rotheart | 2 | Overgrown Scarecrow | Crows (a 1/1 flying Crow every 3rd turn), Shoo! (your Swat units +1 attack) | 100 % -> 100 % |
+| Rotheart | 3 | Mutant Mushroom Troop | Spore Cloud (1 damage to you each of its turns), Fungal Feast (your tokens +1/+1) | 100 % -> 96 % |
+| Rotheart | 8 | Thorn Maze Stalker | Thorns (retaliate 1), Hedge Cutter (your Bulldoze units +1 attack); beat **A Clearing** (turn 5, you heal 3) | 95 % -> 96 % |
+| Rotheart | 11 | Rot Tunnel Horror | Bad Air (no one can use Garbage), Fresh Draught (you heal 1 a turn) | 97 % -> 99 % |
+| Primm's Castle | 3 | Hedge Trimmer Guard | Pruning Shears (its units have Sucker Punch), Overgrowth (your units +0/+1) | route-level only |
+| Primm's Castle | 5 | Gallery Curator | Do Not Touch (no Wonders), Audio Guide (an extra first-turn draw); beat **Restoration** (at half health it heals 3) | route-level only |
+| Primm's Castle | 12 | Ministry Clerk | Correction Quota (at most 3 cards a turn), Approved Stamp (your Pathless cards cost 1 less) | route-level only |
+
+New lines go in `docs/dialogue/nov26_lines.csv` (98 rows) and `nov26_lines_ids.txt`: the rule names and texts, the beat names, warnings
+and banners, the foes' spoken lines, and the Pocket's text.
+
+Shots, one "Before the fight" panel per dungeon: `pC_before_the_fight_hog_8_cell_block.jpg`, `_ttk_3_frozen_cook`, `_ttk_12_expediter`,
+`_hfa_3_intake`, `_hfa_13_elevator`, `_rot_2_scarecrow`, `_rot_11_tunnel`, `_castle_5_curator`. In battle: `pF_zone_hog_cell_block_brawler`,
+`pF_zone_ttk_frozen_line_cook` (the two Ice Blocks), `pF_zone_hfa_intake_clerk`, `pF_zone_rot_scarecrow_later` (a Crow on its side), and
+`pF_zone_ttk_expediter_staff_meal`. The story bots stay green.
+
+## Part D - event hints that fit, and the rest of Nov 25's list: done
+
+1. **Hints.** A choice too wide for one line now wraps inside its button (`EventScreen.fit_choice`). A long built hint (over 110
+   characters, mostly the boon-or-curse gambles) drops the boons' names and shortens the stock phrases, e.g. "for the rest of the
+   dungeon" becomes "for the dungeon" (`DungeonEvent.compact`). Test: `tests/test_nov26_choice_hints.gd` checks that every event choice in
+   every dungeon fits in three lines at the panel's width (11 did not before), that a long choice wraps, and that a short one stays on one
+   line. Shot: `pD_event_ttk_head_chef_wrapped.jpg`.
+2. **The rest of Nov 25's "What's left":** every item there was either decided by you in today's brief or covered by Parts C and D1.
+   Nothing was left that needed no decision and no new art.
+
+## Part E - a better sim player: done (the postgame unchanged)
+
+These changes affect only the sim (`core/sim/sim_item_policy.gd`, `tools/postgame_runs_nov25n_tool.gd`; test `tests/test_nov26_sim_player.gd`,
+4 tests):
+
+- It drinks a heal whenever none of it would be wasted. HP carries between fights; it used to save heals for half health.
+- A damage item now finishes the foe when it can.
+- It uses the Energy Draught when one more energy makes a card in hand playable. Before, it never used the Draught.
+- A drafted deck takes gear that suits its Paths; it used to take the rarest piece.
+- In the Gallery it takes the **best of the three Silver Reserve boons it is offered** (`--boon=best`).
+
+Event boons along the way are still not modelled.
+
+The postgame was re-measured for information only. 12 runs each; Nov 25 night's numbers are in brackets:
+
+| Run | Cleared | Fights won on average |
+|---|---:|---|
+| Shattered Gallery, reference decks, best offered boon | 0 % | 2.0 of 8 (2.2 with the plain HP boon) |
+| Shattered Gallery, drafted decks, best offered boon | 0 % | 1.3 of 8 (1.4) |
+| The Lab, route A, reference / drafted | 0 % / 0 % | 0.9 / 1.6 of 7 (0.9 / 1.2) |
+| The Lab, route B, reference | 0 % | 0.5 of 3 (0.5) |
+| Swolympus, reference / drafted | 0 % / 0 % | 1.6 / 1.1 of 3 (1.6 / 1.3) |
+| The Warden of the Four Seals | 50 % | (50 %) |
+
+The better player barely moves the postgame numbers: it stays out of the sim's reach, which fits your view that it is for strong players.
+Nothing in the postgame was changed.
+
+## Part F - checks, plays, export
+
+| Check | Result |
+|---|---|
+| GUT, full sharded run (shards of 10, `--min-free=1200`) | 3,923 of 3,927 passed, 2 failing, 2 risky/pending. Both failures came from Part C: two new turn beats lacked their one-line warning, and the Brawler's new two-Path deck failed the "zone Path only" deck test (it is now listed with the other two-Path foes). Both are fixed, and those files and every Nov 26 test pass. I also relaxed one older count-only check (castle max-HP curses, 3 since Nov 25 night) to "at least 3". |
+| Draft smoke | OK, 593 checks, 0 failed |
+| Walk smokes (8) | All OK. The Capital one missed a single walk step by 2.4 m on the first run and passed on the rerun; nothing today touches the world. |
+| NPC visibility probe | 158 checks, **1 failed** on both runs: Brother Bramble's name plate (at the Dump stream) is hidden by the bridge bunting at the low camera. This is not from today (no world change since Nov 25 night); see "What's left". |
+| Fade probe | 7 places, nothing but tall occluders fades, 0 script errors |
+| Quest hand-in probe | 32 passed, 0 failed |
+| Sign walkway probe | The same two D.N.A. signs as before (you said leave them) |
+| Story bots (4, one after another) | **119 of 119 steps each** (Beefcake, Gourmand, Necrocrat, Refusemancer) |
+| Scripted plays | `docs/review/play_scripts/nov26/`: `draft_pocket.txt`, `zone_rules.txt`, `castle_lines.txt` (shots `pF_*`) |
+| Export | `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0`: **EXPORT OK**, `builds/TheWaywardPath-v1.0.0-windows.zip`, **826 MB** (no other Godot open) |
+| Exported smoke | `run_release_smoke_exported.sh`: **PASSED (1.0.0)** |
+| Exported plays | `play_exported.sh` rc1 a, b, c on a fresh test pack: all done, 0 script errors; the same skipped buttons as on Nov 25 (b skips 6 menu buttons as before, a and c skip 1). |
+
+No public upload.
+
+## What's left
+
+- **Brother Bramble's name plate** (Dump, by the stream): the bridge bunting hides it at the low camera. The NPC probe fails on it twice;
+  nothing today touched the world, so it dates from Nov 25 night or is a camera change. The fix is about half a metre (move the bunting up or
+  Bramble aside); I left it rather than move world pieces outside this brief (decision 5).
+- The castle sims measure whole routes, not single rooms, so the three castle fights have no per-room before/after rate.
+- The sim still does not take event boons along the way. Its absolute clear rates are low (a weaker player than a careful human).
+- Batch 22 waits, as you said; no new art needs (`docs/art/batch22.csv` unchanged).
+
+## Reverting the new lines
+
+No line the dialogue importer owns was changed (`docs/dialogue/nov26_lines_ids.txt` lists none). The new lines come with their rules:
+`git checkout pre-nov26 -- data/encounters/modifiers.json data/encounters/encounter_scripts.json` drops Part C's rules and beats with their
+lines (and `data/dungeons/dungeon_content.json` the two deck swaps); `git checkout pre-nov26 -- data/equipment/extra_pocket.tres
+core/data/progression_content.gd` restores the Pocket's old text.
+
+## Your decisions (also in `docs/overnight_inbox.md`, "Nov 26 day")
+
+1. **The Pocket with one copy:** the first use spends it, the second is free. *Recommend: keep* (the one reading where one copy works twice).
+2. **Elites and bosses kept their sets**; the ordinary fights got the new rules, two elites a new beat. *Recommend: keep.*
+3. **Two decks swapped** (House of Gains room 8, castle room 5) to break repeats. *Recommend: keep.*
+4. **House of Gains route A fell 14 % -> 7 %** in the sims (inside the 10 points); most of it is the Honor Guard's Trophy Case (78 -> 58 %).
+   *Recommend: keep; if playtests find room 11 too stiff, drop the Trophy Case to 0/3.*
+5. **Brother Bramble's hidden name plate:** *Recommend: let the next pass lift the bunting by half a metre.*
+6. **Long event hints drop the boons' names** (the effects stay; short hints are unchanged). *Recommend: keep.*
+
+---
+
 # Fable Nov 25 + Nov 25 night - one report: Batch 21, the castle map, the 3D Shuffle House, music and cards; then full foe hands, the Gallery, postgame teeth, health for every Path, the encounter library
 
 Briefs: `docs/prompts/fable_nov25_castle_shufflehouse.md` (tag `pre-nov25`, shots `docs/overnight_shots/nov25/`) and
