@@ -134,7 +134,10 @@ static func _add_when_quiet(scene: Node, card: ZoneTitleCard, waited: float = 0.
 		card.queue_free()
 		return
 	if QuestNoticeLayer.dialogue_open(scene.get_tree()) and waited < 60.0:
-		scene.get_tree().create_timer(0.25).timeout.connect(func() -> void: _add_when_quiet(scene, card, waited + 0.25))
+		# Nov 27 day (the soak bot): the wait holds a weak reference. A fight started while a conversation held the banner freed the scene,
+		# and the timer's lambda then called back with a freed capture ("Lambda capture at index 0 was freed" - an engine error each time).
+		var scene_ref: WeakRef = weakref(scene)
+		scene.get_tree().create_timer(0.25).timeout.connect(func() -> void: _add_when_quiet(scene_ref.get_ref() as Node, card, waited + 0.25))
 		return
 	scene.add_child(card)
 

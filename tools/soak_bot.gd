@@ -11,7 +11,7 @@ extends PlayScript
 ##   bash tools/soak_bot.sh <seed> [minutes] [WxH]   -> docs/overnight_shots/nov27/soak/seed<seed>_<WxH>/ (soak.log, issues.md, *.jpg)
 ## Never writes the player's saves or settings (--no-save); snapshots go to user://dev_saves/soak_*.json and are deleted at the end.
 
-const LOGGER_SCRIPT: String = "res://tools/tour_bot_logger.gd"
+const LOGGER_SCRIPT: String = "res://tools/soak_bot_logger.gd"
 ## Button texts the bot never presses (leaving the game, files on disk, the window itself, key capture).
 const DENY: Array[String] = ["copy", "restore", "rename", "start over", "quit", "exit game", "exit to desktop", "delete", "erase", "overwrite", "report a problem", "folder", "rebind", "reset all", "reset to default", "fullscreen", "windowed", "borderless", "resolution", "window", "monitor", "v-sync", "vsync", "send report", "copy log", "restore defaults", "safe mode", "new game"]
 ## Words that close a screen (the bot presses these less often, so it goes deeper first).
@@ -282,10 +282,24 @@ func _save_roundtrip() -> void:
 		_issue("save", "from_dict refused a dictionary the game just wrote", "save:from_dict")
 		return
 	var again: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
-	var diffs: Array[String] = _diff(before, again, "")
+	# A first load may add flags (its one-time migrations: the story beats, the own Path); it must keep everything the player has. A
+	# second round trip must then change nothing at all.
+	var diffs: Array[String] = []
+	for line: String in _diff(_stable(before), _stable(again), ""):
+		if not (line.begins_with("flags.") and line.ends_with("(new)")):
+			diffs.append(line)
+	if not Session.from_dict(again.duplicate(true)):
+		_issue("save", "from_dict refused a dictionary it had just loaded", "save:from_dict2")
+		return
+	var third: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
+	for line: String in _diff(again, third, ""):
+		diffs.append("second load: " + line)
+	var migrated: Array[String] = _diff(before, again, "")
+	if not migrated.is_empty() and diffs.is_empty():
+		_say("  save: the first load migrated %s" % ", ".join(migrated.slice(0, 6)))
 	if not diffs.is_empty():
 		_dump_json("save_before_%d.json" % _step, before)
-		_dump_json("save_after_%d.json" % _step, again)
+		_dump_json("save_after_%d.json" % _step, third)
 		_issue("save", "to_dict -> from_dict -> to_dict differs: %s" % ", ".join(diffs.slice(0, 8)), "save:dict:" + ",".join(diffs.slice(0, 3)))
 	var name: String = "soak_%d" % seed_value
 	_say("  save: %s" % DevActions.save_snapshot(name))
@@ -582,6 +596,9 @@ func _play_battle(battle: BattleScreen) -> void:
 				continue
 			await driver.seconds(0.2)
 			still += 1
+			# the opponent's card pop-up waits for a click when Settings say "Wait for click" (the bot may have chosen that)
+			if still % 10 == 0:
+				await driver.tap_key(KEY_SPACE)
 			if still > 300:
 				_issue("softlock", "the battle stayed busy for a minute (mode %d, turn %d)" % [battle.mode, battle.game.turn if battle.game != null else -1], "battle_busy:" + str(battle.context.enemy_name if battle.context != null else ""))
 				break

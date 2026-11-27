@@ -1,0 +1,353 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+play: soak: seed 2, limit 240 s, window (1920, 1061), loading screens false
+play:   [1] key 1
+play:   [2] click FancyButton 'Credits' (@Button@110)
+play:   [3] click FancyButton 'Settings' (@Button@109)
+play:   [4] click FancyButton 'Credits' (@Button@110)
+play:   [5] click FancyButton 'Credits' (@Button@110)
+play:   [6] click FancyButton 'Credits' (@Button@110)
+play:   [7] click FancyButton 'Settings' (@Button@109)
+play:   [8] click FancyButton 'Settings' (@Button@109)
+play:   [9] click FancyButton 'Credits' (@Button@110)
+load_timing: title 638 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 379 ms (at 1.6 s)
+play:   [10] click FancyButton 'Credits' (@Button@110)
+play:   [11] click FancyButton 'Credits' (@Button@110)
+play:   [12] click FancyButton 'Close' (CloseCredits)
+play:   [13] click FancyButton 'Settings' (@Button@109)
+play:   [14] click OptionButton '1920 x 1061 (current)' (ResolutionOptions)
+play:   [15] click FancyButton 'Controls' (TabControls)
+play:   [16] click FancyButton 'Left stick left' (PadSlot)
+play:   [17] click FancyButton 'Left stick up' (PadSlot)
+play:   [18] click FancyButton 'Text' (TabText)
+play:   [19] click FancyButton 'Controls' (TabControls)
+play: soak: segment zone_draft (1) at 14 s
+play:   state: Gourmand level 6 gold 2924
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 1333 cards
+play:   Draft: table opened
+play:   [21] click FancyButton 'Start the draft' (Start_zone_refusemancer)
+play:   [22] click FancyButton 'Reroll (1 left)' (Reroll)
+play:   [23] key 2
+play:   [24] click FancyButton 'Take Rubbish Goat' (Take0)
+load_timing: heap_zone 6478 ms (slowest step: zone: builder 1988 ms); worst frame in the first 5 s after the fade-in: 174 ms (at 1.2 s)
+play:   [26] click FancyButton 'Take Poo-uid' (Take1)
+play:   [27] click FancyButton '' (@Button@1781)
+play:   [28] click Button '' (Badge_Overgrowth)
+play:   [29] click Button '' (Badge_Spoilage)
+play:   [30] click FancyButton 'Menu' (MenuButton)
+play:   [31] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [32] key C
+play:   [33] click FancyButton 'Got it' (@Button@2506)
+play:   [34] click FancyButton '' (@Button@2483)
+play:   [35] click Button '' (Badge_Overgrowth)
+play:   Draft: table opened
+play:   [36] click Button '' (Card1)
+play:   [37] click FancyButton '' (@Button@2523)
+play:   [38] click Button '' (Badge_Spoilage)
+play:   [39] key Enter
+play:   [40] click FancyButton 'Menu' (MenuButton)
+play:   [41] click FancyButton 'Glossary' (Menu_Glossary)
+play:   [42] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [43] click FancyButton 'Statuses' (Tab_Statuses)
+play:   Draft: table opened
+play:   [44] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [45] click FancyButton 'Terms' (Tab_Terms)
+play:   [46] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [47] key 1
+play:   [48] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [49] click FancyButton 'Resources' (Tab_Resources)
+play:   [50] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [51] click FancyButton 'Resources' (Tab_Resources)
+play:   [52] click FancyButton 'Zones' (Tab_Zones)
+play:   [53] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [55] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [56] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [58] click FancyButton 'Resources' (Tab_Resources)
+play:   [59] click FancyButton 'Back' (GlossaryBack)
+play:   [60] key M
+play:   [61] click Button '' (Card1)
+play:   [62] click FancyButton 'Take Mercenary Captain' (Take2)
+play:   [63] click FancyButton 'Take Wandering Medic' (Take1)
+play:   [64] click FancyButton 'Credits' (@Button@3540)
+play:   [65] click FancyButton 'Close' (CloseCredits)
+play:   [66] click FancyButton 'Settings' (@Button@3539)
+play:   [67] click FancyButton 'Text' (TabText)
+play:   [68] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [69] click OptionButton 'Normal' (TextSizeOptions)
+play:   [70] click FancyButton 'Text' (TabText)
+play:   [71] click FancyButton 'Controls' (TabControls)
+play:   Draft: no table in this scene
+load_timing: title 777 ms (slowest step: fade out 313 ms); worst frame in the first 5 s after the fade-in: 279 ms (at 0.3 s)
+play:   [72] click OptionButton 'Auto (from the controller)' (PadPromptOptions)
+play:   [73] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [74] key M
+play:   [75] key 2
+play:   [76] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [77] click FancyButton 'Audio' (TabAudio)
+play:   [78] click FancyButton 'Display' (TabDisplay)
+play:   [79] click FancyButton 'Controls' (TabControls)
+play:   [80] click FancyButton 'A' (Slot0)
+play:   Draft: no table in this scene
+play:   [81] click FancyButton 'Text' (TabText)
+play:   [82] click OptionButton 'Normal' (DialogueTextOptions)
+play:   [83] click FancyButton 'Text' (TabText)
+play:   [84] key Tab
+play:   [85] key Q
+play:   [86] click OptionButton 'Normal' (DialogueSpeedOptions)
+play:   [87] click OptionButton 'Normal' (TooltipTextOptions)
+play:   [88] click OptionButton '1x' (BattleSpeedOptions)
+play:   Draft: no table in this scene
+play:   [89] click OptionButton 'Normal' (CardTextOptions)
+play:   [90] key I
+play:   [91] click FancyButton 'Text' (TabText)
+play:   [92] click FancyButton 'Audio' (TabAudio)
+play:   [93] click FancyButton 'Audio' (TabAudio)
+play:   [94] click FancyButton 'Text' (TabText)
+play:   [95] click FancyButton 'Done' (SettingsBack)
+play:   [96] click FancyButton 'Credits' (@Button@3540)
+play:   [97] click FancyButton 'Close' (CloseCredits)
+play:   [98] click FancyButton 'Credits' (@Button@3540)
+play:   [100] key J
+play:   [101] click FancyButton 'Credits' (@Button@3540)
+play:   [102] click FancyButton 'Credits' (@Button@3540)
+play:   Draft: no table in this scene
+play:   [103] click FancyButton 'Close' (CloseCredits)
+play:   [104] click FancyButton 'Credits' (@Button@3540)
+play:   [105] click FancyButton 'Credits' (@Button@3540)
+play:   [106] click FancyButton 'Credits' (@Button@3540)
+play:   [107] click FancyButton 'Close' (CloseCredits)
+play:   [108] click FancyButton 'Settings' (@Button@3539)
+play:   [109] click OptionButton '1920 x 1061 (current)' (ResolutionOptions)
+play:   [110] click FancyButton 'Text' (TabText)
+play:   [111] click OptionButton '1x' (BattleSpeedOptions)
+play:   [112] click OptionButton 'Extra large' (TooltipTextOptions)
+play:   [113] click FancyButton 'Text' (TabText)
+play:   [114] click FancyButton 'Controls' (TabControls)
+play:   Draft: no table in this scene
+play:   [115] click FancyButton 'W' (Slot0)
+play:   [116] click FancyButton 'Audio' (TabAudio)
+play:   [118] click FancyButton 'Done' (SettingsBack)
+play:   [119] click FancyButton 'Settings' (@Button@3539)
+play:   [120] click FancyButton 'Controls' (TabControls)
+play:   [121] click FancyButton 'Text' (TabText)
+play:   [122] click FancyButton 'Audio' (TabAudio)
+play:   [123] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [124] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   Draft: no table in this scene
+play:   [125] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [126] click FancyButton 'Text' (TabText)
+play:   [127] click OptionButton 'Extra large' (TooltipTextOptions)
+play:   [128] click OptionButton 'Normal' (DialogueSpeedOptions)
+play:   [129] click OptionButton 'Normal' (TextSizeOptions)
+play:   [130] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [131] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [132] click FancyButton 'Text' (TabText)
+play:   [133] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [134] click FancyButton 'Display' (TabDisplay)
+play:   [135] click OptionButton 'Auto (per quality level)' (UpscalerOptions)
+play:   [136] click FancyButton 'Accessibility' (TabAccessibility)
+play:   Draft: no table in this scene
+play:   [137] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [138] click FancyButton 'Display' (TabDisplay)
+play:   [139] click OptionButton 'Light' (FogQualityOptions)
+play:   [140] click FancyButton 'Text' (TabText)
+play:   [141] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [142] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [143] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [144] key Enter
+play:   [145] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [146] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [147] click FancyButton 'Text' (TabText)
+play:   [148] click OptionButton 'Normal' (DialogueTextOptions)
+play:   [149] click FancyButton 'Text' (TabText)
+play:   [150] click FancyButton 'Audio' (TabAudio)
+play:   Draft: no table in this scene
+play:   [151] click FancyButton 'Text' (TabText)
+play:   [153] click OptionButton 'Normal' (TooltipTextOptions)
+play:   [154] click FancyButton 'Audio' (TabAudio)
+play:   [155] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [156] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [157] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [158] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [159] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [160] click FancyButton 'Audio' (TabAudio)
+play:   [161] click FancyButton 'Audio' (TabAudio)
+play:   [162] key Escape
+play:   Draft: no table in this scene
+play:   [163] click FancyButton 'Credits' (@Button@3540)
+play:   [164] click FancyButton 'Credits' (@Button@3540)
+play:   [166] click FancyButton 'Credits' (@Button@3540)
+play:   [167] click FancyButton 'Settings' (@Button@3539)
+play:   [168] click FancyButton 'Settings' (@Button@3539)
+play:   [169] click FancyButton 'Settings' (@Button@3539)
+play:   [170] click FancyButton 'Settings' (@Button@3539)
+play:   [171] click FancyButton 'Settings' (@Button@3539)
+play:   [172] click FancyButton 'Credits' (@Button@3540)
+play:   [173] click FancyButton 'Settings' (@Button@3539)
+play:   [174] click FancyButton 'Settings' (@Button@3539)
+play:   [175] click FancyButton 'Settings' (@Button@3539)
+play:   [176] click FancyButton 'Settings' (@Button@3539)
+play:   [177] click FancyButton 'Settings' (@Button@3539)
+play:   [178] click FancyButton 'Credits' (@Button@3540)
+play:   Draft: no table in this scene
+play:   [179] click FancyButton 'Close' (CloseCredits)
+play:   [180] click FancyButton 'Credits' (@Button@3540)
+play:   [181] key 1
+play:   [182] key K
+play:   [183] click FancyButton 'Credits' (@Button@3540)
+play:   [184] click FancyButton 'Settings' (@Button@3539)
+play:   [185] click FancyButton 'Settings' (@Button@3539)
+play:   [186] click FancyButton 'Credits' (@Button@3540)
+play:   [187] click FancyButton 'Settings' (@Button@3539)
+play:   Draft: no table in this scene
+play:   [188] click FancyButton 'Settings' (@Button@3539)
+play:   [189] click FancyButton 'Settings' (@Button@3539)
+play:   [190] key 1
+play:   [191] click FancyButton 'Settings' (@Button@3539)
+play:   [192] click FancyButton 'Credits' (@Button@3540)
+play:   [193] click FancyButton 'Settings' (@Button@3539)
+play:   [194] click FancyButton 'Credits' (@Button@3540)
+play:   [195] click FancyButton 'Close' (CloseCredits)
+play:   [196] click FancyButton 'Credits' (@Button@3540)
+play:   [197] click FancyButton 'Credits' (@Button@3540)
+play:   [198] click FancyButton 'Credits' (@Button@3540)
+play:   [199] click FancyButton 'Credits' (@Button@3540)
+play:   [200] click FancyButton 'Settings' (@Button@3539)
+play:   [201] click FancyButton 'Close' (CloseCredits)
+play:   [202] click FancyButton 'Settings' (@Button@3539)
+play: soak: segment fight (1) at 134 s
+play:   state: Refusemancer level 10 gold 1802
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 660 cards
+play:   fight freed:beefcake:golem (Protein Shake Golem)
+play:   Battle: Protein Shake Golem
+play:   [203] battle: Protein Shake Golem
+play:   [203] battle extra: FancyButton 'Battle log' (LogToggle)
+load_timing: battle 1017 ms (slowest step: frame 2 489 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 2.9 s)
+play:   [203] battle extra: Button '' (ItemSlot_0)
+play:   [203] battle extra: FancyButton 'Speed: 1x' (SpeedToggle)
+play:   battle: decided by decree (loss; mode 1, busy true, over false)
+play:   [204] click Button '' (ItemSlot_2)
+play:   [205] click Button '' (ItemSlot_0)
+play:   [207] click Button '' (ItemSlot_0)
+play:   [208] click Button '' (ItemSlot_2)
+play:   [209] click FancyButton 'Hide log' (LogToggle)
+play:   [210] click Button '' (ItemSlot_1)
+play:   [211] click Button '' (ItemSlot_1)
+play:   [212] click FancyButton 'Speed: 1.5x' (SpeedToggle)
+play:   [213] key Escape
+play:   [214] click FancyButton 'Battle log' (LogToggle)
+play:   [215] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [216] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [217] click FancyButton 'Load Game' (LoadButton)
+play:   [218] key Tab
+play:   [219] click FancyButton 'Settings' (@Button@27861)
+play:   [220] click FancyButton 'Battle log' (LogToggle)
+play:   [221] click Button '' (ItemSlot_1)
+play:   [222] click Button '' (ItemSlot_1)
+play:   [223] click FancyButton 'Battle log' (LogToggle)
+play:   [224] click FancyButton 'Settings' (@Button@27861)
+play:   [226] click Button '' (ItemSlot_1)
+play:   [227] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [228] click FancyButton 'Settings' (@Button@27861)
+play:   [229] click FancyButton 'Continue' (@Button@27855)
+play:   [230] click Button '' (ItemSlot_0)
+play:   [231] click FancyButton 'Settings' (@Button@27861)
+play:   [232] click FancyButton 'Continue' (@Button@27855)
+play:   [233] click FancyButton 'Continue' (@Button@27855)
+play:   [234] click FancyButton 'Continue' (@Button@27855)
+play:   [236] click FancyButton 'Continue' (@Button@27855)
+play:   [237] click FancyButton 'Continue' (@Button@27855)
+play:   [238] click FancyButton 'Battle log' (LogToggle)
+play:   [239] click Button '' (ItemSlot_0)
+play:   [240] click FancyButton 'Back' (@Button@27872)
+play:   [241] click FancyButton 'Feats' (FeatsButton)
+play:   [242] click FancyButton 'Battle log' (LogToggle)
+play:   [243] click FancyButton 'Continue' (@Button@27855)
+play:   [244] click FancyButton 'Battle log' (LogToggle)
+play:   [245] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [246] click Button '' (ItemSlot_0)
+play:   [247] click FancyButton 'Battle log' (LogToggle)
+play:   [248] click Button '' (ItemSlot_1)
+play:   [249] click Button '' (ItemSlot_1)
+play:   [250] click Button '' (ItemSlot_2)
+play:   [251] click FancyButton 'Battle log' (LogToggle)
+play:   [252] key Enter
+play:   [253] click Button '' (ItemSlot_1)
+play:   [254] click Button '' (ItemSlot_0)
+play:   [255] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [256] click FancyButton 'Continue' (@Button@27855)
+play:   [257] click FancyButton 'Back' (FeatsBack)
+play:   [258] click FancyButton 'Feats' (FeatsButton)
+play:   [259] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [260] click Button '' (ItemSlot_0)
+play:   [261] click Button '' (ItemSlot_2)
+play:   [262] key 1
+play:   [263] click Button '' (ItemSlot_0)
+play:   [264] click Button '' (ItemSlot_0)
+play:   [265] key 1
+play:   [266] click FancyButton 'Battle log' (LogToggle)
+play:   [267] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [268] key I
+play:   [269] click FancyButton 'Battle log' (LogToggle)
+play:   [270] click Button '' (ItemSlot_0)
+play:   [271] click FancyButton 'Speed: 2x' (SpeedToggle)
+play: soak: done, 271 steps, 0 distinct issues
+play: play: done
+ERROR: 4 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 4 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 3 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 44 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 5 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: 8 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 10 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 3 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 8 RIDs of type "StorageBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 4 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 8 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 54 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 142 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 11 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

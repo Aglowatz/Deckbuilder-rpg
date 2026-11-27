@@ -16,7 +16,7 @@ if [ ! -f "$cache" ] || [ -n "$(find app core ui world scenes tools -newer "$cac
 	"$CONSOLE" --headless --path . --import >/dev/null 2>&1
 	touch "$cache"
 fi
-out="docs/overnight_shots/nov27/soak/seed${seed}_${size}"
+out="docs/overnight_shots/nov27/soak/seed${seed}_${size}${TAG:+_$TAG}"
 mkdir -p "$out"
 WAYWARD_TEST_SAVES=1 timeout $((limit + 120)) "$GODOT" --path . --resolution "$size" $GODOT_ARGS res://tools/soak_bot_launcher.tscn -- --no-save "--seed=$seed" "--out=res://$out" "--limit=$limit" ${ONLY:+"--only=$ONLY"} > "$out/stdout.log" 2>&1
 code=$?

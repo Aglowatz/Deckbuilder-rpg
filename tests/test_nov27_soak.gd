@@ -130,3 +130,24 @@ func test_a_fast_forwarded_game_loads_back_the_same() -> void:
 		assert_true(CopyCaps.excess(Session.profile.owned_cards, Session.profile.level).is_empty(), "nothing over a copy cap")
 		assert_gte(Session.deck.size(), DeckValidator.MIN_DECK_SIZE, "still a legal deck")
 	Session.save_enabled = saving
+
+
+## Soak seed 2: "Lambda capture at index 0 was freed" as a fight began. An area's title banner waits (a timer, every 0.25 s) while a
+## conversation is open; when the scene was freed in between, the timer's lambda called back with the freed scene. It now holds a weak
+## reference: the freed scene arrives as null and the banner is thrown away quietly.
+func test_a_waiting_title_banner_survives_its_scene_being_freed() -> void:
+	var talk: DialogueBox = DialogueBox.new()
+	add_child_autofree(talk)
+	talk.active = true
+	talk.visible = true
+	await wait_frames(2)
+	assert_true(QuestNoticeLayer.dialogue_open(get_tree()), "a conversation holds the banner")
+	var scene: Node = Node.new()
+	add_child(scene)
+	var card: ZoneTitleCard = ZoneTitleCard.new()
+	ZoneTitleCard._add_when_quiet(scene, card)
+	assert_null(card.get_parent(), "the banner waits")
+	scene.free()
+	await wait_seconds(0.6)
+	assert_false(is_instance_valid(card), "the banner is thrown away once its scene is gone")
+	assert_true(FileAccess.get_file_as_string("res://ui/screens/zone_title_card.gd").contains("weakref(scene)"), "the wait holds a weak reference")
