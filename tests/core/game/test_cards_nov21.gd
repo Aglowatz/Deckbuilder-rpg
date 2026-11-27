@@ -118,7 +118,7 @@ func test_the_ai_finishes_the_opponent_with_yeet() -> void:
 
 func test_overdue_library_book_draws_one_extra_card_and_discards_one_at_random() -> void:
 	var book: EquipmentData = _piece("overdue_library_book")
-	assert_eq(book.description, "Draw 1 extra card each turn. Then discard 1 card at random.")
+	assert_eq(book.description, "Draw 1 extra card each turn. Then toss 1 card at random.")  # Nov 26 night: "toss", the game's word
 	var draws: int = 0
 	var tosses: int = 0
 	for modifier: Modifier in book.modifiers:

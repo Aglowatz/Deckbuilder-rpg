@@ -26,7 +26,7 @@ Layoffs (0 % below), which says more about the drafter than the cards; those are
 
 | Mode | Paths | Win rate (fights) | Note |
 |---|---|---:|---|
-| Classic (L18) | Refusemancer | **92 %** (22/24) | the outlier of the night |
+| Classic (L18) | Refusemancer | **92 %** (22/24); 81 % over 16 drafts with the proposal sims' seeds | the outlier of the night |
 | Classic | Beefcake + Necrocrat | **79 %** | the strongest pair |
 | Classic | Beefcake + Gourmand | **75 %** | |
 | Classic | Beefcake / Beefcake + Refusemancer | 62 % / 62 % | |
@@ -92,8 +92,7 @@ The 12 newer draft pieces and the rest, with offers, takes and the change (decks
   10), Pathwork Waistcoat (-14.3, 19), Booster-Wrapper Cape (-14.3, 33), Overdue Library Book (-13.4, 7), Velvet Rope (-11.5, 15).
 - **Never taken** (the drafter takes the rarer piece, and these Commons always lose that race): Cardboard Cuirass, Solid Plate, Thinking
   Cap, Wicked Dagger, Lucky Pack Wrapper, the Extra Pocket (offered 54 times). Not a verdict on the pieces.
-- **The Extra Pocket, measured on its own** (same decks and seeds, two items, each used twice with the Pocket): see `extra_pocket.md`
-  (summarised in the proposals below).
+- **The Extra Pocket, measured on its own:** see the note under the proposals.
 - **Hover Boots at High Rollers:** rivals wearing them lost more than average: the player won **58 %** against a rival in Hover Boots
   (26 fights) against 47 % at High Rollers overall. The boots' "block only flyers" costs a rival more than its flying gains; not an
   outlier, no change proposed. As the player's own piece the drafter took them 39 times, change -6.6.
@@ -122,16 +121,19 @@ Halls and the Dungeon Draft at the Nov 24 rates, not re-measured):
 ## Proposals (one number or one line each; simulated where marked)
 
 The card proposals were simulated on their own: the same configs and draft seeds with and without the change (`proposals/*.json`,
-`tools/run_nov26n_proposals.sh`). Results: see the table at the end of this file (filled in from `proposals/`).
+`tools/run_nov26n_proposals.sh`).
 
-| # | Group | Proposal | Why |
-|---|---|---|---|
-| B1 | Overperformer | **Raccoon (R-27): cost 0 -> 1 generic** (1 + R) | +22.6 over 30 decks; carries Refusemancer drafts to 92 % |
-| B2 | Overperformer | **Middle Management Zombie (N-23): 3/5 -> 3/4** | +21.5 over 30 decks |
-| B3 | Dead card | **Grand Chef Escoffina (G-33): cost 3 -> 2 generic** (2 + GG) | -20.7 over 58 decks; Gourmand is the weakest draft Path |
-| B4 | Dead card | **En Garde-Manger (G-23): 2/4 -> 3/4** | -15.1 over 38 decks |
-| B5 | Gear outlier | Crowd-Pleaser's Cape: "gain 1 HP" -> "gain 2 HP" when you declare attackers | -23.1 over 17 drafts (not simulated: gear has no override yet) |
-| B6 | Gear outlier | Red Tape Dispenser (the helm): "create 1 Red Tape" -> "create 1 Red Tape and gain 1 HP" at the start of your turn | -24.1 over 11 drafts: a Red Tape a turn does little in a draft deck (not simulated) |
-| B7 | Gear outlier | Quota's Stopwatch: Max HP +3 -> +1 | +22.2 over 10 drafts (small; not simulated) |
-| B8 | Economy | Classic replay gold +50 % (the table 20/45/80/140 -> 30/68/120/210) | 430 -> 553 an hour in the economy model (still under a main-dungeon replay, 675) |
-| B9 | Path | No direct change: B1 and B3/B4 move Refusemancer down and Gourmand up; re-measure after them | |
+| # | Group | Proposal | Why | Simulated (same configs and seeds, 16 drafts, 48 fights) |
+|---|---|---|---|---|
+| B1 | Overperformer | **Raccoon (R-27): cost 0 -> 1 generic** (1 + R) | +22.6 over 30 decks; carries Refusemancer drafts | Refusemancer Classic + High Rollers **60 % -> 50 %** (-10). **Recommended.** |
+| B2 | Overperformer | Middle Management Zombie (N-23): 3/5 -> 3/4 | +21.5 over 30 decks | Necrocrat / Beefcake + Necrocrat 60 % -> 62 % (+2, noise): **not supported; leave it.** |
+| B3 | Dead card | Grand Chef Escoffina (G-33): cost 3 -> 2 generic | -20.7 over 58 decks | Gourmand / Gourmand + Refusemancer 60 % -> 60 % (+0): **cost is not her problem; leave it** (her three Ingredients need payoffs a draft rarely has) |
+| B4 | Dead card | **En Garde-Manger (G-23): 2/4 -> 3/4** | -15.1 over 38 decks; Gourmand is the weakest draft Path | Gourmand Classic + High Rollers 60 % -> 65 % (+4). **Mildly recommended.** |
+| B5 | Gear outlier | Crowd-Pleaser's Cape: "gain 1 HP" -> "gain 2 HP" when you declare attackers | -23.1 over 17 drafts | not simulated (gear has no sim override yet) |
+| B6 | Gear outlier | Red Tape Dispenser (the helm): "create 1 Red Tape" -> "create 1 Red Tape and gain 1 HP" at the start of your turn | -24.1 over 11 drafts | not simulated |
+| B7 | Gear outlier | Quota's Stopwatch: Max HP +3 -> +1 | +22.2 over 10 drafts (small sample) | not simulated |
+| B8 | Economy | Classic replay gold +50 % (20/45/80/140 -> 30/68/120/210) | Classic replays pay least (430 an hour) | 430 -> **553** an hour in the economy model, still under a main-dungeon replay (675) |
+| B9 | Path | No direct change: B1 and B4 move Refusemancer down and Gourmand up; re-measure after them | | |
+
+The Extra Pocket's paired measurement ran over its 20-minute limit and wrote nothing; see the report for whether a smaller rerun made it.
+Raw proposal runs: `proposals/*_base.json`, `*_proposal.json`; table: `proposals/proposals.md` (`python tools/nov26n_proposal_table.py`).

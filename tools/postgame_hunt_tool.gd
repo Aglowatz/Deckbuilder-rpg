@@ -186,6 +186,8 @@ func _runs() -> bool:
 				var first: int = encounter.first_player if encounter.first_player >= 0 else (run_index + index) % 2
 				var game: GameState = BalanceSim.play_game(content, hero, encounter, 9400 + run_index * 31 + index * 7, first, hp, items, scratch)
 				max_hp = maxi(max_hp, game.players[0].max_hp)
+				if args.has("verbose"):
+					print("  run %d fight %s: turn %d, you %d/%d HP, foe %d HP, winner %d" % [run_index, encounter.id, game.turn, game.players[0].hp, game.players[0].max_hp, game.players[1].hp, game.winner])
 				if game.winner != 0:
 					alive = false
 					break

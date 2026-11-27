@@ -24,12 +24,12 @@ effect = SubResource("Resource_acpip")
 [resource]
 script = ExtResource("4_hus62")
 id = "overdue_library_book"
-description = "Draw 1 extra card each turn. Then discard 1 card at random."
+description = "Draw 1 extra card each turn. Then toss 1 card at random."
 advanced = true
 flavor_text = "Due back in 1987. The fines are now sentient."
 rarity = 2
 tier = 3
 source = "The Hall of Final Approvals (first clear)"
-drawback = "Then discard 1 card at random."
+drawback = "Then toss 1 card at random."
 source_name = "Overdue Library Book"
 modifiers = Array[ExtResource("1_vn5hd")]([SubResource("Resource_aqj60"), SubResource("Resource_2vlpo")])

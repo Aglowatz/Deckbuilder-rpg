@@ -46,7 +46,7 @@ static func starter_blade() -> EquipmentData:
 	piece.id = STARTER_BLADE
 	piece.source_name = "Starter Blade"
 	piece.slot = EquipmentData.Slot.WEAPON
-	piece.description = "The first unit you play each battle gets +1 attack."
+	piece.description = "The first unit you play each duel gets +1 attack."
 	piece.flavor_text = "Requisition form 7-B, approved in triplicate. Pointy end goes toward the enemy."
 	piece.tier = 1
 	piece.source = "Quest: Some Assembly Required (Bertram Beetsworth, level 5)"
