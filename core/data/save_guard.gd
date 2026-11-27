@@ -8,7 +8,7 @@ extends RefCounted
 ## whatever flags the run was started with.
 ##
 ## Test mode: GUT is on the command line (`gut_cmdln.gd`, or any `-gtest` / `-gdir` / `-gconfig` / `-gexit` flag), or the environment
-## variable WAYWARD_TEST_SAVES is 1 (a tool that wants the same protection: the exported-build play runs and smokes set it, so a critic
+## variable WAYWARD_TEST_SAVES is 1, or the run was started with `--no-save` (Nov 27 day; see `detects`) (a tool that wants the same protection: the exported-build play runs and smokes set it, so a critic
 ## or a check playing the exported game sees a fresh install and never the player's campaigns). It is decided once per process and
 ## cannot be switched off.
 ##
@@ -46,7 +46,15 @@ static func _detect() -> bool:
 		if arg.contains("gut_cmdln") or arg.begins_with("-gtest") or arg.begins_with("-gdir") or arg.begins_with("-gconfig") or arg.begins_with("-gexit"):
 			_gut = true
 			return true
-	return OS.get_environment("WAYWARD_TEST_SAVES") == "1"
+	return detects(OS.get_cmdline_user_args(), OS.get_environment("WAYWARD_TEST_SAVES"))
+
+
+## Nov 27 day (Part A): the non-GUT half of the test-mode rule, for the test. A scripted run started with `--no-save` (the play-script
+## driver, the soak bot, the shot tools, the e2e runs) is protected too: `--no-save` only stopped the autosave, and the soak bot's first
+## trial pressed Copy on the title's campaign screen and copied campaign 1 over the owner's campaign 3 (CampaignSlots.copy never asked
+## whether saving was on). Now every file call of the save system in such a run goes under `TEST_DIR`.
+static func detects(user_args: PackedStringArray, env_value: String) -> bool:
+	return env_value == "1" or user_args.has("--no-save")
 
 
 ## `path` as the save system may use it: unchanged in the real game, redirected under `TEST_DIR` in a test run when it points at one

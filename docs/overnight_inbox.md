@@ -4,6 +4,12 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 27 day - questions logged during the run (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov27_day.md` (tag `pre-nov27`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov27/`. Sims: `docs/design/sim/nov27/`.
+
+0. **IMPORTANT - your campaign slot 3 was overwritten (my fault).** The soak bot's first 3-minute trial (seed 102, 15:24 MST) opened Load Game on the title, pressed Copy on slot 1, "Copy here" on slot 3 and confirmed. `--no-save` only stopped the autosave; the campaign screen's Copy went straight to your real save folder. Slot 3 (Gourmand Path, level 9, The Endless Buffet, 2 h 01 m, last played Nov 16 08:35) now holds a copy of slot 1 (Necrocrat, level 30). I found no other copy of the old slot 3 anywhere on the disk (no shadow copies, no feedback copy, no older folder). Slots 1 and 2 are untouched. I left slot 3 as it is (deleting the copy is your call). Fixed so it cannot happen again: SaveGuard now treats every `--no-save` run (play scripts, the soak bot, shot tools, e2e) like a test run, redirecting every save path to `user://test_saves/`; the bot also refuses to press Copy/Delete/Restore/Start Over and refuses to run without the guard (test `tests/test_nov27_soak.gd`). If Windows File History or a backup drive holds `%APPDATA%\Deckbuilder-RPG\saves\campaign_3\`, restoring that folder brings it back.
+
 ## Nov 26 night - questions logged during the run (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov26_night_v2.md` (tag `pre-nov26-night`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov26n/`. Sims: `docs/design/sim/nov26n/`.
