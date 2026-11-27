@@ -44,13 +44,19 @@ func run() -> bool:
 			record["seconds"] = float(Time.get_ticks_msec() - tick) / 1000.0
 			records.append(record)
 			print("audit %s draft %d: %d/%d fights won in %.0f s" % [config, index, int(record["wins"]), int(record["games"]), float(record["seconds"])])
+			_write(records, level, games, started)  # after every draft: a batch killed at its time limit keeps what it measured
+	var out: String = _write(records, level, games, started)
+	print("Wrote %s (%d drafts)" % [out, records.size()])
+	return true
+
+
+func _write(records: Array, level: int, games: int, started: int) -> String:
 	var out: String = str(args.get("out", "res://docs/design/sim/nov26n/raw/audit.json"))
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.get_base_dir()))
 	var file: FileAccess = FileAccess.open(out, FileAccess.WRITE)
 	file.store_string(JSON.stringify({"level": level, "games": games, "seconds": float(Time.get_ticks_msec() - started) / 1000.0, "override": str(args.get("override", "")), "drafts": records}))
 	file.close()
-	print("Wrote %s (%d drafts)" % [out, records.size()])
-	return true
+	return out
 
 
 func _challenge(mode: String, words: String) -> String:
@@ -158,6 +164,7 @@ func _choose(state: DraftState, kind: String, options: Array) -> int:
 ## Plays one draft fight (player at Elite, the rival at the draft's skill, both deterministic); true when the player won.
 func _play(game: GameState, item_ids: Array, rival_ai: String, rival_name: String) -> bool:
 	game.options.record_events = false
+	game.options.turn_limit = mini(game.options.turn_limit, 40)  # 20 turns each: an undecided fight counts as lost (a time cap for the batches)
 	var me: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, "Balanced"), AIPlayer.Skill.ELITE)
 	me.deterministic = true
 	var foe: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, rival_ai), DraftRun.skill(), rival_name)

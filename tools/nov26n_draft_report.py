@@ -184,6 +184,27 @@ def main():
             out.append('| %s (`%s`) | %d | %d | %.0f %% | %d | %s | %s | %s |' % (gear.get(gid, gid), gid, offered[gid], taken[gid], pct(taken[gid], offered[gid]), len(h),
                                                                          '%.0f %%' % pct(w, g) if g else '-', '**%+.1f**' % change(h) if len(h) >= 4 else '(few)', where))
         out.append('')
+    # ---- the rivals' gear: the player's win rate against rivals wearing each piece (High Rollers rivals may wear anything)
+    rival = collections.defaultdict(lambda: [0, 0])
+    mode_rate = collections.defaultdict(lambda: [0, 0])
+    for d in drafts:
+        for f in d.get('fights', []):
+            if 'rival' not in f:
+                continue
+            mode_rate[d['mode']][0] += f['wins']
+            mode_rate[d['mode']][1] += f['games']
+            for gid in f.get('gear', []) or []:
+                rival[(d['mode'], gid)][0] += f['wins']
+                rival[(d['mode'], gid)][1] += f['games']
+    out.append("## The rivals' gear: your win rate against a rival wearing it")
+    out.append('')
+    out.append('| Mode | Piece the rival wore | Fights | Your win rate | Mode average |')
+    out.append('|---|---|---:|---:|---:|')
+    for (mode, gid), (w, g) in sorted(rival.items(), key=lambda kv: (kv[0][0], pct(kv[1][0], kv[1][1]))):
+        if g >= 6:
+            mw, mg = mode_rate[mode]
+            out.append('| %s | %s (`%s`) | %d | %.0f %% | %.0f %% |' % (mode, gear.get(gid, gid), gid, g, pct(w, g), pct(mw, mg)))
+    out.append('')
     text = '\n'.join(out) + '\n'
     target = os.path.join(ROOT, arg('out', 'docs/design/sim/nov26n/draft_tables.md'))
     io.open(target, 'w', encoding='utf-8', newline='\n').write(text)

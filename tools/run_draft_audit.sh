@@ -23,14 +23,19 @@ run() {
 	local code=$?
 	if [ $code -eq 124 ]; then echo "$(date +%H:%M:%S) KILLED at 20 minutes: $name" >> "$LOG"; else echo "$(date +%H:%M:%S) done $name (exit $code)" >> "$LOG"; fi
 }
-run classic_singles "$(join open $SINGLES)" 18
-run classic_pairs_a "$(join open beefcake+gourmand beefcake+necrocrat beefcake+refusemancer)" 18
-run classic_pairs_b "$(join open gourmand+necrocrat gourmand+refusemancer necrocrat+refusemancer)" 18
-run high_singles "$(join high $SINGLES)" 18
-run high_pairs_a "$(join high beefcake+gourmand beefcake+necrocrat beefcake+refusemancer)" 18
-run high_pairs_b "$(join high gourmand+necrocrat gourmand+refusemancer necrocrat+refusemancer)" 18
-run zone_drafts "$(join zone $SINGLES)" 12
+run classic_bg_bn "$(join open beefcake gourmand)" 18
+run classic_nr "$(join open necrocrat refusemancer)" 18
+run classic_pairs_a "$(join open beefcake+gourmand beefcake+necrocrat)" 18
+run classic_pairs_b "$(join open beefcake+refusemancer gourmand+necrocrat)" 18
+run classic_pairs_c "$(join open gourmand+refusemancer necrocrat+refusemancer)" 18
+run high_a "$(join high beefcake gourmand)" 18
+run high_b "$(join high necrocrat refusemancer)" 18
+run high_pairs "$(join high beefcake+necrocrat gourmand+refusemancer)" 18
+run zone_a "$(join zone beefcake gourmand)" 12
+run zone_b "$(join zone necrocrat refusemancer)" 12
 run mystery_mini "$(join mini $SINGLES)" 18
-run late_classic "$(join open $TRIOS $QUAD)" 23
-run late_high "$(join high $TRIOS $QUAD)" 23
+run late_trios_a "$(join open beefcake+gourmand+necrocrat beefcake+gourmand+refusemancer)" 23
+run late_trios_b "$(join open beefcake+necrocrat+refusemancer gourmand+necrocrat+refusemancer)" 23
+run late_quad "$(join open $QUAD),$(join high $QUAD)" 23
+run late_high "$(join high beefcake+gourmand+necrocrat gourmand+necrocrat+refusemancer)" 23
 echo "$(date +%H:%M:%S) all audit batches finished" >> "$LOG"
