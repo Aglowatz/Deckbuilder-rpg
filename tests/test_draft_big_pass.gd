@@ -265,7 +265,7 @@ func test_the_arena_quest_line_and_the_main_quest_are_registered() -> void:
 	var main: QuestData = by_id[DraftArenaQuests.MAIN_QUEST] as QuestData
 	assert_eq(main.category, QuestData.Category.MAIN, "a main quest")
 	assert_eq(main.objectives.size(), 2, "meet Octavia, then play the Shuffled Halls once")
-	assert_eq((by_id[DraftArenaQuests.PAIRS_QUEST] as QuestData).objectives.size(), 6)
+	assert_eq((by_id[DraftArenaQuests.PAIRS_QUEST] as QuestData).objectives.size(), 7, "six pairs, then (Nov 26 night) Octavia's puzzle table 4")
 	assert_eq((by_id[DraftArenaQuests.HALLS_QUEST] as QuestData).reward_card_ids, [DraftRivals.OCTAVIA_CARD] as Array[String], "Octavia's own card is the Halls' prize")
 	assert_true((by_id[DraftHost.FINALE_QUEST] as QuestData).reward_card_ids.has(DraftRivals.TREY_CARD), "Trey's own card comes with his last quest")
 	# the main quest: given at three freed zones, done by PLAYING the Halls (win or lose)

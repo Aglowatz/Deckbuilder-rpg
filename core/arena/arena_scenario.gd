@@ -62,7 +62,7 @@ static func rules_key(encounter: ArenaEncounter) -> String:
 static func build_game(content: ContentSet, encounter: ArenaEncounter, profile: PlayerProfile, own_deck: Deck, seed_value: int) -> GameState:
 	var options: GameOptions = GameOptions.new()
 	options.rng_seed = seed_value
-	options.first_player = encounter.first_player if encounter.is_puzzle() else -1
+	options.first_player = encounter.first_player if encounter.is_puzzle() or encounter.deck_puzzle else -1  # Nov 26 night: a deck puzzle is fixed too
 	if encounter.turn_limit() > 0:
 		options.turn_limit = encounter.turn_limit()
 	options.free_mulligan = not encounter.is_puzzle()

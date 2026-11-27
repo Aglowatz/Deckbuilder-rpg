@@ -1,0 +1,992 @@
+{
+	"_about": "Nov 26 night (Part A2): Octavia's deck-building puzzles (DeckPuzzles). Written by tools/nov26n_deck_puzzles.py; the rules are in data/encounters/modifiers.json and encounter_scripts.json under arena:<id>.",
+	"puzzles": {
+		"deckpuzzle_tea_garden": {
+			"order": 1,
+			"title": "The Tea Garden Grows",
+			"enemy_name": "Madame Darjeeling",
+			"enemy_hp": 56,
+			"basics": "G",
+			"ai": "Aggressive",
+			"level": 14,
+			"quest": "arena_open_table",
+			"pitch": "One sprout a turn, and every one of them grows by two. By teatime they are taller than the house.",
+			"hint": "Every great oak was a sprout once, darling. The trick is to weed the garden before it learns to bite.",
+			"lesson": "You weeded early. A garden that grows every turn is only frightening if you let it get to turn five.",
+			"weakness": "the snowball: kill the sprouts while they are small (cheap removal, Toxic blockers, bounce: a token sent back is gone)",
+			"reward": {
+				"gold": 150,
+				"xp": 120,
+				"pack": "general_1"
+			},
+			"after_primm": false,
+			"sim_decks": [
+				{
+					"label": "Exploit: Weed Whacker (Beefcake removal)",
+					"kind": "exploit",
+					"level": 14,
+					"ai": "Balanced",
+					"cards": {
+						"B-03": 3,
+						"B-36": 3,
+						"B-15": 3,
+						"B-10": 3,
+						"B-34": 3,
+						"B-24": 3,
+						"B-07": 3,
+						"B-06": 3,
+						"B-12": 3,
+						"B-19": 3,
+						"BAS-B": 16
+					}
+				},
+				{
+					"label": "Exploit: Garden Pests (Refusemancer traps)",
+					"kind": "exploit",
+					"level": 14,
+					"ai": "Balanced",
+					"cards": {
+						"R-12": 3,
+						"R-14": 3,
+						"R-15": 3,
+						"R-07": 3,
+						"R-09": 3,
+						"R-05": 3,
+						"R-06": 3,
+						"R-21": 3,
+						"R-19": 3,
+						"R-22": 3,
+						"BAS-R": 16
+					}
+				},
+				{
+					"label": "Exploit: Kitchen Traps (Gourmand)",
+					"kind": "exploit",
+					"level": 14,
+					"ai": "Balanced",
+					"cards": {
+						"G-24": 3,
+						"G-17": 3,
+						"G-16": 3,
+						"G-35": 3,
+						"G-05": 3,
+						"G-04": 3,
+						"G-23": 3,
+						"G-06": 3,
+						"G-07": 3,
+						"G-20": 2,
+						"BAS-G": 17
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Beefcake Titans (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Aggressive",
+					"cards": {
+						"B-28": 3,
+						"B-13": 3,
+						"B-38": 3,
+						"B-27": 3,
+						"B-29": 3,
+						"B-37": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-25": 3,
+						"B-21": 3,
+						"B-32": 2,
+						"B-30": 2,
+						"B-34": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Necrocrat Board Control (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 3,
+						"N-34": 3,
+						"N-15": 3,
+						"N-28": 3,
+						"N-23": 3,
+						"N-03": 3,
+						"N-07": 3,
+						"N-26": 3,
+						"N-06": 3,
+						"N-38": 3,
+						"N-35": 3,
+						"N-27": 2,
+						"N-32": 2,
+						"INF-02": 3,
+						"BAS-N": 15
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Gourmand Golem Kitchen (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"G-33": 2,
+						"G-28": 3,
+						"G-30": 2,
+						"G-32": 1,
+						"G-29": 3,
+						"G-27": 3,
+						"G-12": 3,
+						"G-22": 3,
+						"G-08": 3,
+						"G-25": 3,
+						"G-26": 2,
+						"G-20": 3,
+						"G-05": 3,
+						"BAS-G": 16
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Refusemancer Heap (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"R-33": 2,
+						"R-30": 2,
+						"R-29": 2,
+						"R-36": 3,
+						"R-28": 3,
+						"R-27": 2,
+						"R-35": 3,
+						"R-22": 3,
+						"R-25": 3,
+						"R-09": 3,
+						"R-07": 3,
+						"R-05": 3,
+						"BAS-R": 16
+					}
+				}
+			]
+		},
+		"deckpuzzle_velvet_rope": {
+			"order": 2,
+			"title": "Behind the Velvet Rope",
+			"enemy_name": "Maurice, Head of Security",
+			"enemy_hp": 40,
+			"basics": "B",
+			"ai": "Aggressive",
+			"level": 16,
+			"quest": "arena_spin_the_wheel",
+			"pitch": "Twenty-four bouncers in six turns, a cover charge every turn, and Maurice drinks for free.",
+			"hint": "Twenty-four bouncers and one velvet rope. Nobody gets past them one at a time, darling. All at once, though...",
+			"lesson": "Twenty-four bouncers, one sweep. A wall is only a wall until something hits all of it at once.",
+			"weakness": "a wall of 1/4 blockers: a board wipe (4 damage to every unit, or destroy them all) clears the lot",
+			"reward": {
+				"gold": 200,
+				"xp": 160,
+				"pack": "primary"
+			},
+			"after_primm": false,
+			"sim_decks": [
+				{
+					"label": "Exploit: Bomb Squad (Beefcake)",
+					"kind": "exploit",
+					"level": 16,
+					"ai": "Aggressive",
+					"cards": {
+						"B-38": 2,
+						"B-21": 3,
+						"B-34": 3,
+						"B-13": 3,
+						"B-12": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-06": 3,
+						"B-07": 3,
+						"B-25": 3,
+						"B-35": 2,
+						"BAS-B": 18
+					}
+				},
+				{
+					"label": "Exploit: The Layoff (Necrocrat)",
+					"kind": "exploit",
+					"level": 16,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 2,
+						"N-35": 3,
+						"N-02": 3,
+						"N-06": 3,
+						"N-26": 3,
+						"N-39": 3,
+						"N-23": 2,
+						"N-03": 3,
+						"N-07": 3,
+						"N-15": 3,
+						"N-34": 2,
+						"BAS-N": 18
+					}
+				},
+				{
+					"label": "Exploit: Velvet Gloves (Elusive scouts + Beefcake tools)",
+					"kind": "exploit",
+					"level": 16,
+					"ai": "Aggressive",
+					"cards": {
+						"C-23": 3,
+						"C-11": 3,
+						"C-26": 3,
+						"B-02": 3,
+						"B-16": 3,
+						"B-18": 3,
+						"B-14": 3,
+						"B-17": 3,
+						"B-21": 3,
+						"B-07": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Beefcake Titans (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Aggressive",
+					"cards": {
+						"B-28": 3,
+						"B-13": 3,
+						"B-38": 3,
+						"B-27": 3,
+						"B-29": 3,
+						"B-37": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-25": 3,
+						"B-21": 3,
+						"B-32": 2,
+						"B-30": 2,
+						"B-34": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Necrocrat Board Control (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 3,
+						"N-34": 3,
+						"N-15": 3,
+						"N-28": 3,
+						"N-23": 3,
+						"N-03": 3,
+						"N-07": 3,
+						"N-26": 3,
+						"N-06": 3,
+						"N-38": 3,
+						"N-35": 3,
+						"N-27": 2,
+						"N-32": 2,
+						"INF-02": 3,
+						"BAS-N": 15
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Gourmand Golem Kitchen (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"G-33": 2,
+						"G-28": 3,
+						"G-30": 2,
+						"G-32": 1,
+						"G-29": 3,
+						"G-27": 3,
+						"G-12": 3,
+						"G-22": 3,
+						"G-08": 3,
+						"G-25": 3,
+						"G-26": 2,
+						"G-20": 3,
+						"G-05": 3,
+						"BAS-G": 16
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Refusemancer Heap (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"R-33": 2,
+						"R-30": 2,
+						"R-29": 2,
+						"R-36": 3,
+						"R-28": 3,
+						"R-27": 2,
+						"R-35": 3,
+						"R-22": 3,
+						"R-25": 3,
+						"R-09": 3,
+						"R-07": 3,
+						"R-05": 3,
+						"BAS-R": 16
+					}
+				}
+			]
+		},
+		"deckpuzzle_last_ride": {
+			"order": 3,
+			"title": "The Last Ride",
+			"enemy_name": "Dizzy Lizzie, Carousel Queen",
+			"enemy_hp": 22,
+			"basics": "G",
+			"ai": "Aggressive",
+			"level": 18,
+			"quest": "arena_high_rollers",
+			"pitch": "A wall of painted ponies, a pony more every turn, and the ride ends on her seventh turn - whoever is still standing.",
+			"hint": "My ponies are lovely, sweetheart, but they never leave the ground. Mind the clock: the music always stops.",
+			"lesson": "You went over the ponies (or straight past them) before the music stopped. A wall on the ground is no wall at all from above.",
+			"weakness": "a clock and a ground wall: damage that is never blocked (Flying, Elusive, damage straight to her) wins before her turn 7",
+			"reward": {
+				"gold": 250,
+				"xp": 200,
+				"pack": "gilded_general"
+			},
+			"after_primm": false,
+			"sim_decks": [
+				{
+					"label": "Exploit: Flying Circus (Necrocrat flyers)",
+					"kind": "exploit",
+					"level": 18,
+					"ai": "Aggressive",
+					"cards": {
+						"N-06": 3,
+						"N-26": 3,
+						"N-39": 3,
+						"C-04": 3,
+						"N-08": 3,
+						"C-11": 3,
+						"C-13": 3,
+						"N-02": 3,
+						"N-01": 3,
+						"N-37": 3,
+						"BAS-N": 18
+					}
+				},
+				{
+					"label": "Exploit: Burn Notice (Beefcake burn to face)",
+					"kind": "exploit",
+					"level": 18,
+					"ai": "Aggressive",
+					"cards": {
+						"B-21": 3,
+						"B-34": 3,
+						"B-25": 3,
+						"B-13": 3,
+						"B-12": 3,
+						"B-26": 3,
+						"B-06": 3,
+						"B-10": 3,
+						"B-35": 3,
+						"B-17": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"label": "Exploit: Ghost Kitchen (Gourmand-Necrocrat flyers)",
+					"kind": "exploit",
+					"level": 18,
+					"ai": "Aggressive",
+					"cards": {
+						"GN-07": 2,
+						"GN-04": 3,
+						"GN-12": 2,
+						"G-01": 3,
+						"G-25": 3,
+						"N-06": 3,
+						"N-26": 3,
+						"N-39": 3,
+						"G-34": 3,
+						"GN-01": 3,
+						"BAS-G": 9,
+						"BAS-N": 9
+					}
+				},
+				{
+					"label": "Late: Beefcake Titans (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Aggressive",
+					"cards": {
+						"B-28": 3,
+						"B-13": 3,
+						"B-38": 3,
+						"B-27": 3,
+						"B-29": 3,
+						"B-37": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-25": 3,
+						"B-21": 3,
+						"B-32": 2,
+						"B-30": 2,
+						"B-34": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"label": "Late: Necrocrat Board Control (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 3,
+						"N-34": 3,
+						"N-15": 3,
+						"N-28": 3,
+						"N-23": 3,
+						"N-03": 3,
+						"N-07": 3,
+						"N-26": 3,
+						"N-06": 3,
+						"N-38": 3,
+						"N-35": 3,
+						"N-27": 2,
+						"N-32": 2,
+						"INF-02": 3,
+						"BAS-N": 15
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Gourmand Golem Kitchen (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"G-33": 2,
+						"G-28": 3,
+						"G-30": 2,
+						"G-32": 1,
+						"G-29": 3,
+						"G-27": 3,
+						"G-12": 3,
+						"G-22": 3,
+						"G-08": 3,
+						"G-25": 3,
+						"G-26": 2,
+						"G-20": 3,
+						"G-05": 3,
+						"BAS-G": 16
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Refusemancer Heap (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"R-33": 2,
+						"R-30": 2,
+						"R-29": 2,
+						"R-36": 3,
+						"R-28": 3,
+						"R-27": 2,
+						"R-35": 3,
+						"R-22": 3,
+						"R-25": 3,
+						"R-09": 3,
+						"R-07": 3,
+						"R-05": 3,
+						"BAS-R": 16
+					}
+				}
+			]
+		},
+		"deckpuzzle_confetti": {
+			"order": 4,
+			"title": "The Confetti Cannon",
+			"enemy_name": "Tilda Tinsel, Confetti Cannoneer",
+			"enemy_hp": 38,
+			"basics": "R",
+			"ai": "Aggressive",
+			"level": 20,
+			"quest": "arena_two_of_a_kind",
+			"pitch": "Two critters a turn, a cannon that pops every unit on the table, and a crowd that cheers every time one of hers falls.",
+			"hint": "The crowd adores a tragic exit, darling, and they're not fussy about whose. Count the curtain calls.",
+			"lesson": "Her own rule paid you. Every one of YOUR units that fell cost her the cheer she meant for herself.",
+			"weakness": "a rule that cuts both ways: the cannon kills your small units too, and every unit of yours that dies costs HER 2 HP",
+			"reward": {
+				"gold": 300,
+				"xp": 250,
+				"pack": "gilded_general"
+			},
+			"after_primm": false,
+			"sim_decks": [
+				{
+					"label": "Exploit: Rat Parade (Refusemancer tokens)",
+					"kind": "exploit",
+					"level": 20,
+					"ai": "Balanced",
+					"cards": {
+						"R-35": 3,
+						"R-05": 3,
+						"R-06": 3,
+						"R-23": 3,
+						"R-02": 3,
+						"R-01": 3,
+						"R-37": 3,
+						"R-34": 3,
+						"R-07": 3,
+						"R-09": 3,
+						"BAS-R": 18
+					}
+				},
+				{
+					"label": "Exploit: Temp Agency (Necrocrat sacrifice)",
+					"kind": "exploit",
+					"level": 20,
+					"ai": "Balanced",
+					"cards": {
+						"N-35": 3,
+						"N-14": 2,
+						"N-20": 3,
+						"N-21": 3,
+						"N-01": 3,
+						"N-02": 3,
+						"N-04": 3,
+						"N-38": 3,
+						"N-23": 3,
+						"N-07": 3,
+						"BAS-N": 18
+					}
+				},
+				{
+					"label": "Exploit: Militia Muster (Pathless tokens)",
+					"kind": "exploit",
+					"level": 20,
+					"ai": "Balanced",
+					"cards": {
+						"C-22": 3,
+						"C-17": 3,
+						"C-01": 3,
+						"C-04": 3,
+						"C-02": 3,
+						"C-03": 3,
+						"C-05": 3,
+						"C-08": 3,
+						"C-14": 3,
+						"C-13": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Beefcake Titans (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Aggressive",
+					"cards": {
+						"B-28": 3,
+						"B-13": 3,
+						"B-38": 3,
+						"B-27": 3,
+						"B-29": 3,
+						"B-37": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-25": 3,
+						"B-21": 3,
+						"B-32": 2,
+						"B-30": 2,
+						"B-34": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Necrocrat Board Control (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 3,
+						"N-34": 3,
+						"N-15": 3,
+						"N-28": 3,
+						"N-23": 3,
+						"N-03": 3,
+						"N-07": 3,
+						"N-26": 3,
+						"N-06": 3,
+						"N-38": 3,
+						"N-35": 3,
+						"N-27": 2,
+						"N-32": 2,
+						"INF-02": 3,
+						"BAS-N": 15
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Gourmand Golem Kitchen (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"G-33": 2,
+						"G-28": 3,
+						"G-30": 2,
+						"G-32": 1,
+						"G-29": 3,
+						"G-27": 3,
+						"G-12": 3,
+						"G-22": 3,
+						"G-08": 3,
+						"G-25": 3,
+						"G-26": 2,
+						"G-20": 3,
+						"G-05": 3,
+						"BAS-G": 16
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Refusemancer Heap (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"R-33": 2,
+						"R-30": 2,
+						"R-29": 2,
+						"R-36": 3,
+						"R-28": 3,
+						"R-27": 2,
+						"R-35": 3,
+						"R-22": 3,
+						"R-25": 3,
+						"R-09": 3,
+						"R-07": 3,
+						"R-05": 3,
+						"BAS-R": 16
+					}
+				}
+			]
+		},
+		"deckpuzzle_all_in": {
+			"order": 5,
+			"title": "All In",
+			"enemy_name": "\"Honest\" Hal Lowball",
+			"enemy_hp": 52,
+			"basics": "N",
+			"ai": "Aggressive",
+			"level": 23,
+			"quest": "arena_full_house",
+			"pitch": "A pit boss every turn, a sweep of the felt every turn, fifty-two HP - and a dealer who has never once sat at a full table.",
+			"hint": "Hal can't abide a crowded table, darling. He's never beaten one. Then again, he's never let one sit down.",
+			"lesson": "Seven at the table and Hal folded, fifty-two HP and all. Some fights are won by the count, not the damage.",
+			"weakness": "an alternate win: control seven units at once and Hal folds on the spot, however much HP he has left",
+			"reward": {
+				"gold": 400,
+				"xp": 300,
+				"pack": "prismatic"
+			},
+			"after_primm": true,
+			"sim_decks": [
+				{
+					"label": "Exploit: Full Table (Refusemancer-Necrocrat swarm)",
+					"kind": "exploit",
+					"level": 23,
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"ai": "Balanced",
+					"cards": {
+						"R-35": 3,
+						"NR-01": 3,
+						"NR-09": 3,
+						"NR-06": 3,
+						"R-05": 3,
+						"N-35": 3,
+						"R-06": 3,
+						"N-02": 3,
+						"R-23": 3,
+						"N-01": 3,
+						"BAS-R": 9,
+						"BAS-N": 9
+					}
+				},
+				{
+					"label": "Exploit: Brick Wall (Gourmand walls)",
+					"kind": "exploit",
+					"level": 23,
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"ai": "Balanced",
+					"cards": {
+						"G-04": 3,
+						"C-05": 3,
+						"G-23": 3,
+						"G-06": 3,
+						"G-07": 3,
+						"G-03": 3,
+						"G-12": 3,
+						"G-28": 2,
+						"G-25": 3,
+						"R-09": 3,
+						"BAS-G": 15,
+						"BAS-R": 3
+					}
+				},
+				{
+					"label": "Exploit: Mercenary Company (Pathless tokens)",
+					"kind": "exploit",
+					"level": 23,
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"ai": "Balanced",
+					"cards": {
+						"C-22": 3,
+						"C-17": 3,
+						"N-35": 3,
+						"C-05": 3,
+						"C-08": 3,
+						"C-09": 3,
+						"C-03": 3,
+						"N-23": 3,
+						"N-04": 3,
+						"N-07": 3,
+						"BAS-N": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Beefcake Titans (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Aggressive",
+					"cards": {
+						"B-28": 3,
+						"B-13": 3,
+						"B-38": 3,
+						"B-27": 3,
+						"B-29": 3,
+						"B-37": 3,
+						"B-11": 3,
+						"B-26": 3,
+						"B-25": 3,
+						"B-21": 3,
+						"B-32": 2,
+						"B-30": 2,
+						"B-34": 3,
+						"BAS-B": 18
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Necrocrat Board Control (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"N-29": 3,
+						"N-34": 3,
+						"N-15": 3,
+						"N-28": 3,
+						"N-23": 3,
+						"N-03": 3,
+						"N-07": 3,
+						"N-26": 3,
+						"N-06": 3,
+						"N-38": 3,
+						"N-35": 3,
+						"N-27": 2,
+						"N-32": 2,
+						"INF-02": 3,
+						"BAS-N": 15
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Gourmand Golem Kitchen (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"G-33": 2,
+						"G-28": 3,
+						"G-30": 2,
+						"G-32": 1,
+						"G-29": 3,
+						"G-27": 3,
+						"G-12": 3,
+						"G-22": 3,
+						"G-08": 3,
+						"G-25": 3,
+						"G-26": 2,
+						"G-20": 3,
+						"G-05": 3,
+						"BAS-G": 16
+					}
+				},
+				{
+					"equipment": [
+						"saucepan_helmet",
+						"cardboard_cuirass",
+						"glass_jaw_gauntlets",
+						"dog_eared_bookmark",
+						"travelers_boots"
+					],
+					"label": "Late: Refusemancer Heap (L25)",
+					"kind": "late",
+					"level": 25,
+					"ai": "Balanced",
+					"cards": {
+						"R-33": 2,
+						"R-30": 2,
+						"R-29": 2,
+						"R-36": 3,
+						"R-28": 3,
+						"R-27": 2,
+						"R-35": 3,
+						"R-22": 3,
+						"R-25": 3,
+						"R-09": 3,
+						"R-07": 3,
+						"R-05": 3,
+						"BAS-R": 16
+					}
+				}
+			]
+		}
+	}
+}

@@ -37,6 +37,9 @@ var preset: Dictionary = {}
 var reward: Dictionary = {}
 ## What the first-clear prize of a replayed fight is: a flat consolation (gold) so repeats are for glory.
 var replay_gold: int = Economy.ARENA_REPLAY_GOLD
+## Nov 26 night (Part A2): one of Octavia's deck-building puzzles at the Shuffle House (`DeckPuzzles`): the player's own deck against a
+## fixed opponent; it always goes second (`first_player` = 0 is kept), and it is not part of the Clashatorium's tiers.
+var deck_puzzle: bool = false
 
 
 ## Fable Nov 20 (Part 7): a puzzle carries its own words and its design notes (data/arena/arena_puzzles.json). `title_text` and

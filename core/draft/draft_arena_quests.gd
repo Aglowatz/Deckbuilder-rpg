@@ -100,7 +100,27 @@ static func quests() -> Array[QuestData]:
 	regular.reward_xp = 450
 	regular.reward_pack_ids = ["gilded_general"] as Array[String]
 	result.append(regular)
+	# Nov 26 night (Part A2): Octavia's five deck-building puzzles, one in each level of the line (easiest first: Open Table, Spin the Wheel,
+	# High Rollers, Two of a Kind, Full House). Winning the level's puzzle is the quest's last step; each table opens once the one before it is
+	# won, so a player who finished a quest before tonight can still go back and play its table (a completed quest stays completed).
+	for quest: QuestData in result:
+		var puzzle: String = DeckPuzzles.for_quest(quest.id)
+		if puzzle.is_empty():
+			continue
+		quest.summary += " %s" % puzzle_summary(puzzle)
+		var steps: Array[QuestObjective] = quest.objectives.duplicate()
+		steps.append(_step(DeckPuzzles.step_words(puzzle), Condition.flag(str(DeckPuzzles.won_flag(puzzle)))))
+		quest.objectives = steps
 	return result
+
+
+## The line a puzzle adds to its quest's summary.
+static func puzzle_summary(puzzle: String) -> String:
+	var order: int = DeckPuzzles.order_of(puzzle)
+	var title: String = str(DeckPuzzles.row(puzzle).get("title", puzzle))
+	if order <= 1:
+		return "Octavia also keeps a puzzle table at this level, \"%s\": bring your own deck and find the trick." % title
+	return "Octavia's puzzle table for this level is \"%s\" (it opens once you have won table %d): bring your own deck and find the trick." % [title, order - 1]
 
 
 ## The main quest: three zones are free, Octavia wants a word, and the Shuffled Halls want walking once (win or lose).

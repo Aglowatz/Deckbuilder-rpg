@@ -194,6 +194,10 @@ enum Kind {
 	## Nov 25 night (Part G, the boon NPC "the wizard prisoner"): the first Trap the owner sets each turn is set twice (a copy of it is set
 	## too, while there is room). See `GameState._echo_first_trap`.
 	COPY_FIRST_TRAP,
+	## Nov 26 night (Part A2, Octavia's deck-building puzzles: the bouncers, the ponies, the critters): presence means the owner's units block
+	## every attacker they legally can, every time (`AIPlayer.choose_blocks` assigns them greedily: a blocker that survives first, else the
+	## sturdiest). It makes a puzzle wall a wall, and the same wall every attempt. Added last so saved kinds keep their numbers.
+	ALWAYS_BLOCK,
 }
 
 ## `color` value meaning "matches every card".

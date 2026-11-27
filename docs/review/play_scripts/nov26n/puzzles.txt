@@ -1,0 +1,76 @@
+# Nov 26 night (Part A2): one moment of each of Octavia's puzzle tables played with its recorded winning deck by the pilot.
+#   bash tools/play.sh docs/review/play_scripts/nov26n/puzzles.txt nov26n_puzzles 1500
+wait 6
+dev newgame
+wait 9
+skip_dialogue 40
+dev puzzle 1
+wait 6
+button Keep Hand
+wait 3
+pilot 30
+shot puzzle_1_moment
+dev win
+wait 6
+button Continue
+wait 6
+key Escape
+wait 2
+key Escape
+wait 3
+dev puzzle 2
+wait 6
+button Keep Hand
+wait 3
+pilot 30
+shot puzzle_2_moment
+dev win
+wait 6
+button Continue
+wait 6
+key Escape
+wait 2
+key Escape
+wait 3
+dev puzzle 3
+wait 6
+button Keep Hand
+wait 3
+pilot 30
+shot puzzle_3_moment
+dev win
+wait 6
+button Continue
+wait 6
+key Escape
+wait 2
+key Escape
+wait 3
+dev puzzle 4
+wait 6
+button Keep Hand
+wait 3
+pilot 30
+shot puzzle_4_moment
+dev win
+wait 6
+button Continue
+wait 6
+key Escape
+wait 2
+key Escape
+wait 3
+dev puzzle 5
+wait 6
+button Keep Hand
+wait 3
+pilot 30
+shot puzzle_5_moment
+dev win
+wait 6
+button Continue
+wait 6
+key Escape
+wait 2
+key Escape
+wait 3

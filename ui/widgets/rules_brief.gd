@@ -18,11 +18,13 @@ const SCRIPTED_INK: Color = Color("6a3fa0")
 var badges: Array[RuleBadges.Badge] = []
 var card: NodeCard
 var _columns: int = 1
+## Nov 26 night (Part A2): a line under the rows (Octavia's hint at her puzzle tables); "" = none.
+var hint: String = ""
 
 
 ## Shows the card over `parent` and calls `then` on Continue (at once when there are no rules). `in_layer`: on its own canvas layer over a
 ## world scene's HUD (the default), or as a plain child (the dungeon map, which is a Control). `node`: the dungeon room, for the banner.
-static func open(parent: Node, rule_badges: Array[RuleBadges.Badge], title: String, then: Callable, in_layer: bool = true, node: DungeonMap.MapNode = null) -> RulesBrief:
+static func open(parent: Node, rule_badges: Array[RuleBadges.Badge], title: String, then: Callable, in_layer: bool = true, node: DungeonMap.MapNode = null, hint: String = "") -> RulesBrief:
 	if rule_badges.is_empty() or parent == null:
 		if then.is_valid():
 			then.call()
@@ -42,6 +44,7 @@ static func open(parent: Node, rule_badges: Array[RuleBadges.Badge], title: Stri
 		layer.add_child(brief)
 	else:
 		parent.add_child(brief)
+	brief.hint = hint
 	brief._build(title, node)
 	brief.continued.connect(func() -> void:
 		if layer != null:
@@ -122,6 +125,13 @@ func _build(title: String, node: DungeonMap.MapNode = null) -> void:
 			scripted.add_theme_constant_override("v_separation", 8)
 			card.content.add_child(scripted)
 		(scripted if badge.kind == "scripted" and scripted != null else rows).add_child(_row(badge))
+	if not hint.is_empty():
+		var hint_label: Label = UIKit.label(hint, &"", NodeCard.text_px(20), SCRIPTED_INK)
+		hint_label.name = "BriefHint"
+		hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		hint_label.custom_minimum_size = Vector2(860.0 if _columns == 1 else 1060.0, 0)
+		hint_label.add_theme_font_override("font", UIStyle.font_bold())
+		card.content.add_child(hint_label)
 	var go: FancyButton = card.button("Continue", true, "", 260.0)  # no icon: the crossed-swords glyph read as a red X (cancel)
 	go.name = "BriefContinue"
 	go.pressed.connect(func() -> void:

@@ -13,6 +13,8 @@ extends OverlayScreen
 ## The pick screen, the deck builder and the rewards are `DraftScreen`'s: when the draft moves there this screen asks to `reopen`.
 
 signal reopen
+## Nov 26 night (Part A2): one of Octavia's deck-building puzzles was chosen (the scene opens its "Before the fight" panel, then the deck check).
+signal puzzle_chosen(puzzle_id: String)
 
 ## The zone whose host opened the table ("" in Crosspath: the Shuffle House).
 var zone_id: String = ""
@@ -28,6 +30,8 @@ const PATH_TOGGLE: Vector2 = Vector2(216, 92)
 const DAILY: String = "daily"
 const HALLS: String = "halls"
 const RANDOM: String = "random"
+## Nov 26 night (Part A2): Octavia's Puzzle Tables, a door beside the Shuffled Halls'.
+const PUZZLES: String = "puzzles"
 
 ## The arena menu: the mode chosen (one of `DraftArena.MODES`, DAILY or HALLS), the Paths switched on, the Dungeon Draft's
 ## dungeon (a `MainDungeons` key, or RANDOM), and the last reason a draft could not start.
@@ -301,6 +305,8 @@ func _start(id: String) -> void:
 ## The menu: Octavia Eightfold presenting on the left; on the right a marquee, the four modes as big tiles, under them the Draft
 ## of the Day (below Classic) and the Shuffled Halls' door, and the chosen mode's choices, rewards and Start.
 func _fill_arena() -> void:
+	if result.has("deck_puzzle") and _mode.is_empty():
+		_mode = PUZZLES  # Nov 26 night: back from a puzzle bout, the Puzzle Tables are open on its outcome
 	if _mode.is_empty():
 		_mode = DraftArena.MODE_CLASSIC
 	# the layout follows the canvas: 1,920 wide at 16:9, narrower in a squarer window (the owner's is about 1,570). Octavia stands
@@ -334,7 +340,8 @@ func _fill_arena() -> void:
 	column.add_child(doors)
 	doors.add_child(_daily_tile())
 	doors.add_child(_halls_door())
-	column.add_child(_details())
+	doors.add_child(_puzzle_door())
+	column.add_child(_puzzle_details() if _mode == PUZZLES else _details())
 
 
 ## "The Shuffle House" in marquee gold between two rows of bulbs, with the Path rule of the moment under it.
@@ -364,7 +371,7 @@ func _marquee() -> Control:
 		bust.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		line.add_child(bust)
 	line.add_child(_bulbs(5))
-	var title: Label = UIKit.label("Step right up: four games and one door", &"", 34, DraftKit.MARQUEE, HORIZONTAL_ALIGNMENT_CENTER)
+	var title: Label = UIKit.label("Step right up: four games, two doors", &"", 34, DraftKit.MARQUEE, HORIZONTAL_ALIGNMENT_CENTER)
 	title.name = "MarqueeTitle"
 	title.add_theme_font_override("font", UIStyle.font_title())
 	line.add_child(title)
@@ -588,7 +595,7 @@ func _daily_tile() -> Control:
 func _halls_door() -> Control:
 	var lit: bool = _mode == HALLS
 	var cleared: bool = Session.flag(StringName(DraftChallenges.won_flag(DraftArena.HALLS_ID)))
-	var door: Button = _frame_button("Mode_halls", Vector2(_tile.x * 3.0 + 24.0, DOOR_HEIGHT), lit, false, Color("4a1030"))
+	var door: Button = _frame_button("Mode_halls", Vector2(_tile.x * 2.0 + 12.0, DOOR_HEIGHT), lit, false, Color("4a1030"))  # Nov 26 night: two tiles wide (the Puzzle Tables beside it)
 	door.tooltip_text = "The Shuffled Halls: the house's own dungeon."
 	door.pressed.connect(func() -> void: _choose_mode(HALLS))
 	var line: HBoxContainer = UIKit.hbox(18)
@@ -601,7 +608,9 @@ func _halls_door() -> Control:
 	words.alignment = BoxContainer.ALIGNMENT_CENTER
 	line.add_child(words)
 	words.add_child(_ribbon("The Shuffled Halls", 30, lit))
-	var pitch: Label = UIKit.label("The house's own dungeon: eighteen rooms, a dealer at every table, and me at the Big Wheel.%s" % ("  Cleared." if cleared else ""), &"", 20, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	var pitch: Label = UIKit.label("Eighteen rooms, a dealer at every table, and me at the Big Wheel.%s" % ("  Cleared." if cleared else ""), &"", 18, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	pitch.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	pitch.custom_minimum_size = Vector2(_tile.x * 2.0 - 180.0, 0)
 	pitch.name = "Pitch"
 	words.add_child(pitch)
 	if IconArt.has("ICON-MAP-DRAFT"):
@@ -610,9 +619,127 @@ func _halls_door() -> Control:
 	return door
 
 
+# ---- Nov 26 night (Part A2): Octavia's Puzzle Tables (DeckPuzzles) --------------------------------------------------------------
+
+
+## The Puzzle Tables' door: one tile wide, beside the Shuffled Halls', with how many of the five tables are won.
+func _puzzle_door() -> Control:
+	var lit: bool = _mode == PUZZLES
+	var door: Button = _frame_button("Mode_puzzles", Vector2(_tile.x, DOOR_HEIGHT), lit, false, Color("10304a"))
+	door.tooltip_text = "Octavia's Puzzle Tables: five fixed opponents, your own deck. Find the trick."
+	door.pressed.connect(func() -> void: _choose_mode(PUZZLES))
+	var box: VBoxContainer = UIKit.vbox(2)
+	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 6)
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	door.add_child(box)
+	var name_label: Label = UIKit.label("Puzzle Tables", &"", 24, DraftKit.MARQUEE if lit else DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	name_label.name = "Title"
+	name_label.add_theme_font_override("font", UIStyle.font_bold())
+	box.add_child(name_label)
+	var count: Label = UIKit.label("%d of %d won" % [DeckPuzzles.won_count(Session.flags), DeckPuzzles.ids().size()], &"", 19, DraftKit.CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	count.name = "WonCount"
+	box.add_child(count)
+	ignore_mouse(door)
+	return door
+
+
+## Under the tiles while the Puzzle Tables are chosen: what they are, the last bout's outcome, and the five tables in order, each with its
+## opponent, its line, its prize, whether it is won, open or locked (and why), and its Play button (the "Before the fight" panel comes next).
+func _puzzle_details() -> Control:
+	var strip: PanelContainer = DraftKit.plaque(0.94, DraftKit.NIGHT, DraftKit.MARQUEE, 20, 14.0)
+	strip.name = "PuzzleDetails"
+	strip.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var column: VBoxContainer = UIKit.vbox(6)
+	strip.add_child(column)
+	var title: Label = UIKit.label("Octavia's Puzzle Tables", &"", 34, DraftKit.MARQUEE)
+	title.name = "DetailsTitle"
+	title.add_theme_font_override("font", UIStyle.font_title())
+	column.add_child(title)
+	var intro: Label = DraftKit.text("Bring your OWN deck, gear and items. Each opponent plays no cards and does exactly the same thing, in the same order, every time: it looks unfair, and every one has a trick to find. Free to play, as often as you like; the prize is paid on the first win.", 20, DraftKit.CREAM)
+	intro.name = "PuzzleIntro"
+	column.add_child(intro)
+	if result.has("deck_puzzle"):
+		column.add_child(_puzzle_outcome(result["deck_puzzle"] as Dictionary))
+	for id: String in DeckPuzzles.ids():
+		column.add_child(_puzzle_row(id))
+	return strip
+
+
+func _puzzle_outcome(outcome: Dictionary) -> Control:
+	var id: String = str(outcome.get("id", ""))
+	var won: bool = bool(outcome.get("won", false))
+	var words: String = "\"%s\": %s" % [str(DeckPuzzles.row(id).get("title", id)), DeckPuzzles.result_line(id, won, won and not bool(outcome.get("first_clear", false)))]
+	var reward: Dictionary = outcome.get("reward", {}) as Dictionary
+	if not reward.is_empty():
+		words += "  Prize: %s." % _puzzle_prize_words(reward, false)
+	var line: Label = DraftKit.text(words, 21, GlassTheme.GOOD if won else GlassTheme.CAUTION)
+	line.name = "PuzzleOutcome"
+	return line
+
+
+func _puzzle_row(id: String) -> Control:
+	var spec: Dictionary = DeckPuzzles.row(id)
+	var locked: String = DeckPuzzles.locked_reason(id, Session.flags)
+	var won: bool = DeckPuzzles.is_won(id, Session.flags)
+	var row: PanelContainer = DraftKit.plaque(0.85, DraftKit.VELVET_DEEP if locked.is_empty() else DraftKit.NIGHT, DraftKit.MARQUEE if won else GlassTheme.GOLD_LINE, 14, 8.0)
+	row.name = "Puzzle_%d" % DeckPuzzles.order_of(id)
+	var line: HBoxContainer = UIKit.hbox(14)
+	row.add_child(line)
+	var number: Label = UIKit.label(str(DeckPuzzles.order_of(id)), &"", 34, DraftKit.MARQUEE, HORIZONTAL_ALIGNMENT_CENTER)
+	number.custom_minimum_size = Vector2(40, 0)
+	line.add_child(number)
+	var words: VBoxContainer = UIKit.vbox(0)
+	words.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.add_child(words)
+	var heading: Label = UIKit.label("%s  -  %s" % [str(spec.get("title", id)), str(spec.get("enemy_name", ""))], &"", 23, DraftKit.MARQUEE if locked.is_empty() else GlassTheme.SECONDARY)
+	heading.name = "Heading"
+	heading.add_theme_font_override("font", UIStyle.font_bold())
+	words.add_child(heading)
+	var pitch: Label = DraftKit.text(locked if not locked.is_empty() else str(spec.get("pitch", "")), 19, GlassTheme.CAUTION if not locked.is_empty() else DraftKit.CREAM)
+	pitch.name = "Pitch"
+	words.add_child(pitch)
+	var status: Label = UIKit.label("Won" if won else ("Open" if locked.is_empty() else "Locked"), &"", 21, GlassTheme.GOOD if won else (DraftKit.CREAM if locked.is_empty() else GlassTheme.SECONDARY), HORIZONTAL_ALIGNMENT_CENTER)
+	status.name = "Status"
+	status.custom_minimum_size = Vector2(90, 0)
+	line.add_child(status)
+	var prize: Label = UIKit.label(_puzzle_prize_words(spec.get("reward", {}) as Dictionary, won), &"", 18, GlassTheme.SECONDARY, HORIZONTAL_ALIGNMENT_CENTER)
+	prize.name = "Prize"
+	prize.custom_minimum_size = Vector2(230, 0)
+	prize.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	line.add_child(prize)
+	var play: FancyButton = DraftKit.button("Play again" if won else "Play", "PlayPuzzle_%d" % DeckPuzzles.order_of(id), func() -> void: _choose_puzzle(id), Vector2(170, 56))
+	play.disabled = not locked.is_empty()
+	line.add_child(play)
+	return row
+
+
+func _puzzle_prize_words(reward: Dictionary, won: bool) -> String:
+	if won:
+		return "Prize collected"
+	var parts: PackedStringArray = []
+	if reward.has("gold"):
+		parts.append("%d gold" % int(reward["gold"]))
+	if reward.has("xp"):
+		parts.append("%d XP" % int(reward["xp"]))
+	if reward.has("pack"):
+		var pack: String = str(reward["pack"])
+		parts.append("your Path's Pack" if pack == "primary" else DraftKit.pack_name(pack))
+	return ", ".join(parts)
+
+
+func _choose_puzzle(id: String) -> void:
+	if not DeckPuzzles.is_open(id, Session.flags):
+		Audio.sfx(&"ui_error")
+		return
+	Audio.sfx(&"ui_confirm")
+	puzzle_chosen.emit(id)
+
+
 ## The challenge the menu would start now ("" while the Dungeon Draft has no dungeon to offer).
 func selected_challenge() -> String:
 	match _mode:
+		PUZZLES:
+			return ""
 		HALLS:
 			return DraftArena.HALLS_ID
 		DAILY:

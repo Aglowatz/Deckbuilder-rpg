@@ -343,7 +343,45 @@ func _choose_block_action(state: GameState, who: int) -> GameAction:
 	return action
 
 
+## Nov 26 night: the "always block" house rule (Modifier.Kind.ALWAYS_BLOCK): every attacker, strongest first, gets a legal blocker while any
+## is left - one that survives the hit if there is one (the smallest such), else the sturdiest. Deterministic: the same board, the same blocks.
+static func always_blocks(state: GameState, who: int) -> Dictionary:
+	var result: Dictionary = {}
+	var free: Array[CardInstance] = CombatResolver.possible_blockers(state, who)
+	var attackers: Array[CardInstance] = []
+	for uid: int in state.attackers:
+		var attacker: CardInstance = state.find_card(uid)
+		if attacker != null:
+			attackers.append(attacker)
+	attackers.sort_custom(func(a: CardInstance, b: CardInstance) -> bool:
+		return state.get_attack(a) > state.get_attack(b) or (state.get_attack(a) == state.get_attack(b) and a.uid < b.uid))
+	for attacker: CardInstance in attackers:
+		var best: CardInstance = null
+		for blocker: CardInstance in free:
+			if not CombatResolver.can_block(state, attacker, blocker):
+				continue
+			if best == null or _better_wall(state, attacker, blocker, best):
+				best = blocker
+		if best != null:
+			result[attacker.uid] = best.uid
+			free.erase(best)
+	return result
+
+
+static func _better_wall(state: GameState, attacker: CardInstance, candidate: CardInstance, current: CardInstance) -> bool:
+	var hit: int = state.get_attack(attacker)
+	var survives: bool = state.get_defense(candidate) > hit
+	var current_survives: bool = state.get_defense(current) > hit
+	if survives != current_survives:
+		return survives
+	if survives:
+		return state.get_defense(candidate) < state.get_defense(current) or (state.get_defense(candidate) == state.get_defense(current) and candidate.uid < current.uid)
+	return state.get_defense(candidate) > state.get_defense(current) or (state.get_defense(candidate) == state.get_defense(current) and candidate.uid < current.uid)
+
+
 ## Best assignment (attacker uid -> blocker uid) for defender `who`, chosen by look-ahead.
 func choose_blocks(state: GameState, who: int) -> Dictionary:
+	if state.players[who].modifiers.has(Modifier.Kind.ALWAYS_BLOCK):
+		return always_blocks(state, who)
 	var settings: Dictionary = _settings()
 	return _combat.choose_blocks(state, who, _budget(0.5), int(settings["block_enum"]))

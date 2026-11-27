@@ -2701,6 +2701,10 @@ func _show_result() -> void:
 		if arena_encounter.is_puzzle():
 			title_label.text = "Puzzle Solved!" if won else "Puzzle Failed"
 			detail = arena_story.text("arena.puzzle.won" if won else "arena.puzzle.lost")
+		elif arena_encounter.deck_puzzle:
+			# Nov 26 night (Part A2): Octavia's deck-building puzzles
+			title_label.text = "Puzzle Solved!" if won else "Not This Time"
+			detail = DeckPuzzles.result_line(arena_encounter.id, won, DeckPuzzles.is_won(arena_encounter.id, Session.flags))
 		else:
 			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))

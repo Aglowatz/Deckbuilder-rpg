@@ -2505,5 +2505,71 @@
 			"banner": "The Curator heals 3.",
 			"line": "A dab here, a dab there... good as new. Better, even."
 		}
+	],
+	"arena:deckpuzzle_velvet_rope": [
+		{
+			"id": "last_call",
+			"name": "Last Call",
+			"icon": "lorc/padlock",
+			"when": {
+				"type": "turn",
+				"turn": 6
+			},
+			"open": true,
+			"text": "On his turn 6, once that turn's bouncers are in, the doors close: no more Velvet Bouncers arrive after it.",
+			"line": "That's capacity. Nobody else comes in. Nobody. Not even the ones already in line.",
+			"banner": "Last call: no more Velvet Bouncers.",
+			"warn": "Next turn: last call (his last four bouncers come in, then no more).",
+			"effects": [
+				{
+					"kind": "remove_rule",
+					"name": "Doors Open"
+				}
+			],
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_last_ride": [
+		{
+			"id": "ride_ends",
+			"name": "The Ride Ends",
+			"icon": "delapouite/boombox",
+			"when": {
+				"type": "turn",
+				"turn": 7
+			},
+			"open": true,
+			"text": "At the start of her 7th turn the music stops for good: if Lizzie is still standing, you lose the bout.",
+			"line": "And THAT'S the end of the ride! Everybody off! ...Oh dear, you're still on. That's a loss, I'm afraid. House rules.",
+			"banner": "The music stops: the ride is over.",
+			"warn": "Next turn: the music stops for good. Win this turn or lose the bout.",
+			"effects": [
+				{
+					"kind": "defeat_foe"
+				}
+			],
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_all_in": [
+		{
+			"id": "fold",
+			"name": "Hal Folds",
+			"icon": "lorc/poker-hand",
+			"when": {
+				"type": "foe_units_at_least",
+				"count": 7
+			},
+			"open": true,
+			"text": "The moment you control seven or more units at once, Hal folds: you win the bout on the spot, however much HP he has.",
+			"line": "Seven? SEVEN? I can't play to a table like that. I fold. I fold! Somebody fetch me a chair. A small one.",
+			"banner": "A full table: Hal folds. The pot is yours.",
+			"effects": [
+				{
+					"kind": "concede"
+				}
+			],
+			"nov26n": true
+		}
 	]
 }

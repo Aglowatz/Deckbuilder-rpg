@@ -4,6 +4,16 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 26 night - questions logged during the run (the safest choice was taken)
+
+Brief: `docs/prompts/opus_nov26_night_v2.md` (tag `pre-nov26-night`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov26n/`. Sims: `docs/design/sim/nov26n/`.
+
+1. **Which "arena quest" gets the five puzzles.** The brief says "presented by Octavia" in "the arena's carnival-casino voice", so they went to the Shuffle House's arena quest line, not the Grand Clashatorium (Announcer Grand Bellows; its four tiers would not hold five). The line has no numbered levels, so the five tables are the last step of five of its quests, easiest first: Open Table, Spin the Wheel, High Rollers, Two of a Kind, Full House. Each table opens when the one before it is won (the fifth also after Primm), not when the previous quest is finished: Two of a Kind needs six draft wins and would have locked tables 5 behind a long grind. Say if you meant the Clashatorium (the tables would move to its tiers, a data change).
+2. **"Power up to 4" for the bouncers.** Read as attack and toughness up to 4: the Velvet Bouncers are 4/4 with Sucker Punch (they hit first), so a 4-damage wipe (Bomb in the Pack, Protein Farts) or Mass Layoffs clears them and attacking one at a time loses units.
+3. **A new house rule, Always Block.** The puzzle walls needed it: the opponent's AI declined "bad trades" and let everything through, so walls were not walls. It is a new modifier (`Modifier.Kind.ALWAYS_BLOCK`), used only by three puzzle opponents.
+4. **No replay prize.** A puzzle pays its prize once; a replay pays nothing, because a deterministic bout once solved would be a free farm. Say if you want a small replay purse.
+5. **The sim decks wear gear a player would pick.** The level-23+ model gear includes the Crown of Mild Hubris (-10 max HP), which left a late deck on 11 HP; the late brute-force decks and table 5's exploit decks wear a sturdier kit (listed in `docs/design/arena_deck_puzzles.md`). The reference decks keep the model gear.
+
 ## Nov 26 day - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov26_day.md` (tag `pre-nov26`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov26/`. Sims: `docs/design/sim/nov26/`. Fight list: `docs/design/zone_fight_rules.md`.

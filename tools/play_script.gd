@@ -780,6 +780,29 @@ func _dev(parts: PackedStringArray) -> void:
 			for spec: EncounterSpec in found:
 				_say("  %s  (%s) %s" % [spec.id, spec.group, spec.enemy_name])
 			result = "%d encounters match %s" % [found.size(), arg]
+		"puzzle":
+			# Nov 26 night (Part A2): `dev puzzle <n>` - Octavia's puzzle table n with its recorded winning deck (data/arena/deck_puzzle_lines.json)
+			# at that deck's level, every table open, the bout started (the opponent is deterministic; the shuffle is the game's own)
+			var ids: Array[String] = DeckPuzzles.ids()
+			var puzzle_id: String = ids[clampi(int(arg), 1, ids.size()) - 1]
+			var lines: Dictionary = (JSON.parse_string(FileAccess.get_file_as_string("res://data/arena/deck_puzzle_lines.json")) as Dictionary).get("lines", {}) as Dictionary
+			var label: String = str((lines.get(puzzle_id, {}) as Dictionary).get("deck", ""))
+			var spec: Dictionary = {}
+			for deck_spec: Variant in DeckPuzzles.row(puzzle_id).get("sim_decks", []) as Array:
+				if str((deck_spec as Dictionary).get("label", "")) == label:
+					spec = deck_spec as Dictionary
+			if spec.is_empty():
+				result = "no recorded deck for %s" % puzzle_id
+			else:
+				DevActions.set_level(int(spec.get("level", DeckPuzzles.level_of(puzzle_id))), true)
+				Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
+				Session.set_flag(MultiPathLock.FLAG_UNLOCKED)
+				for index: int in range(ids.find(puzzle_id)):
+					Session.set_flag(DeckPuzzles.won_flag(ids[index]))
+				Session.deck = ZoneDecks.from_recipe(Session.content, label, spec.get("cards", {}) as Dictionary)
+				Session.start_arena_battle(puzzle_id)
+				result = "puzzle %s with %s" % [puzzle_id, label]
+				await driver.seconds(3.0)
 		"encounter":
 			var matches: Array[EncounterSpec] = DevActions.find_encounters(arg, 5)
 			if matches.is_empty():

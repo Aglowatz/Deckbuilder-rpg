@@ -67,6 +67,10 @@ static func find(encounter_id: String) -> ArenaEncounter:
 	for encounter: ArenaEncounter in all():
 		if encounter.id == encounter_id:
 			return encounter
+	# Nov 26 night (Part A2): Octavia's deck-building puzzles ride the arena's battle pipeline; they are not in `all()` (the tiers, the
+	# Clashatorium's screen and its clear count never see them)
+	if DeckPuzzles.is_puzzle_id(encounter_id):
+		return DeckPuzzles.find(encounter_id)
 	return null
 
 

@@ -124,6 +124,9 @@ func _collect_generated() -> void:
 		_generated["draft_won_kind:%s" % kind] = "GameSession: a draft of this kind won"
 	for challenge_id: String in [DraftArena.OPEN_ID, DraftArena.QUAD_ID, DraftArena.HALLS_ID, DraftArena.MYSTERY_ID] + DraftArena.pair_ids() + DraftArena.trio_ids() + DraftArena.high_ids():
 		_generated[DraftChallenges.won_flag(challenge_id)] = "DraftChallenges.won_flag (GameSession: the draft won)"
+	# Nov 26 night: Octavia's puzzle tables (GameSession.resolve_deck_puzzle sets the won flag)
+	for puzzle_id: String in DeckPuzzles.ids():
+		_generated[str(DeckPuzzles.won_flag(puzzle_id))] = "DeckPuzzles.won_flag (GameSession.resolve_deck_puzzle)"
 	for chest_id: String in NinjaBoss.CHEST_IDS:
 		_generated[NinjaBoss.secret_id(chest_id)] = "NinjaBoss.secret_id (Session.open_giant_chest)"
 	for zone_id: String in ZoneDefs.all_ids():

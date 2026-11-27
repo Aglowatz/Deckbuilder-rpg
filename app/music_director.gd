@@ -198,6 +198,8 @@ static func for_battle(context: BattleContext, flags: Dictionary = {}) -> String
 		return "MUS-GRAVE-BATTLE"
 	if not context.arena_id.is_empty():
 		var encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
+		if encounter != null and encounter.deck_puzzle:
+			return shuffle_battle(false)  # Nov 26 night: Octavia's puzzle tables are in the Shuffle House
 		return "MUS-ARENA-ELITE" if encounter != null and encounter.tier >= ARENA_ELITE_TIER else "MUS-ARENA-BATTLE"
 	# The four corrupted gate envoys in the town fight to their Path's own combat song ("Four corrupted gate envoys can reuse their Path combat IDs").
 	if PATHS.has(context.town_npc_id):

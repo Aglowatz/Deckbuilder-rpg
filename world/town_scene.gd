@@ -3555,6 +3555,9 @@ func _show_pending_arena_result() -> void:
 		return
 	var result: Dictionary = Session.pending_arena_result
 	Session.pending_arena_result = {}
+	if bool(result.get("deck_puzzle", false)):
+		_open_draft({"deck_puzzle": result})  # Nov 26 night: back from one of Octavia's puzzle tables
+		return
 	_open_arena(result)
 
 
@@ -3626,6 +3629,26 @@ func _open_draft(result: Dictionary) -> void:
 		_stop_shuffle_music()
 		_step_out_of_shuffle_house())
 	screen.connect(&"reopen", func() -> void: _open_draft.call_deferred({}))
+	if screen.has_signal(&"puzzle_chosen"):
+		screen.connect(&"puzzle_chosen", func(puzzle_id: String) -> void:
+			_close_overlay()
+			_stop_shuffle_music()
+			_open_deck_puzzle(puzzle_id))
+
+
+## Nov 26 night (Part A2): one of Octavia's deck-building puzzles: its "Before the fight" panel (the bout, its house rules and timed
+## moments, and her hint), then the usual deck check, then the bout. Leaving the panel or the deck check reopens the Puzzle Tables.
+func _open_deck_puzzle(puzzle_id: String) -> void:
+	var encounter: ArenaEncounter = DeckPuzzles.find(puzzle_id)
+	if encounter == null or not DeckPuzzles.is_open(puzzle_id, Session.flags):
+		return
+	_locked = true
+	var start: Callable = func() -> void:
+		DeckPicker.guard(_overlay_layer, Session.start_arena_battle.bind(puzzle_id), func() -> void:
+			_locked = false
+			_open_draft({}))
+	var hint: String = "%s: \"%s\"" % [DeckPuzzles.SPEAKER, DeckPuzzles.hint(puzzle_id)]
+	RulesBrief.open(self, DeckPuzzles.rule_badges(encounter), "Before the fight: %s" % encounter.enemy_name, start, true, null, hint)
 
 
 var _shuffle_music: int = 0
@@ -3683,6 +3706,26 @@ func _screenshot_slots(mode_name: String) -> void:
 
 
 func _screenshot_open(what: String) -> void:
+	# Nov 26 night (Part A2 shots): `--open=puzzles[:<won>]` the Shuffle House on Octavia's Puzzle Tables with the first <won> tables won;
+	# `--open=puzzle_brief:<n>` table n's "Before the fight" panel (Primm defeated, the tables before it won)
+	if what.begins_with("puzzles") or what.begins_with("puzzle_brief:"):
+		Session.set_flag(StringName(DraftChallenges.ARENA_FLAG))
+		Session.set_flag(StringName(DraftArena.MET_FLAG))
+		var ids: Array[String] = DeckPuzzles.ids()
+		var won: int = int(what.get_slice(":", 1)) if what.contains(":") else 0
+		if what.begins_with("puzzle_brief:"):
+			won = clampi(int(what.get_slice(":", 1)), 1, ids.size()) - 1
+			Session.set_flag(MultiPathLock.FLAG_UNLOCKED)
+		for index: int in range(mini(won, ids.size())):
+			Session.set_flag(DeckPuzzles.won_flag(ids[index]))
+		if what.begins_with("puzzle_brief:"):
+			_open_deck_puzzle(ids[won])
+			return
+		_open_draft({"deck_puzzle": {"id": ids[0], "won": true, "first_clear": true, "reward": (DeckPuzzles.row(ids[0]).get("reward", {}) as Dictionary)}} if won > 0 else {})
+		for child: Node in _overlay_layer.get_children():
+			if child is DraftHubScreen:
+				(child as DraftHubScreen)._choose_mode(DraftHubScreen.PUZZLES)
+		return
 	if what.begins_with("bestiary:"):
 		# Fable Nov 9 (Batch 14 shots): `--open=bestiary:Antechamber_Sentry` - that Bestiary page, met once (underscores are spaces).
 		var beast_name: String = what.trim_prefix("bestiary:").replace("_", " ")

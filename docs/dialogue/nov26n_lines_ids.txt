@@ -1,0 +1,3 @@
+# Nov 26 night: the lines of docs/dialogue/nov26n_lines.csv that existed before the pass and were changed through the dialogue importer: none
+# (every row is new: Octavia's five puzzle tables - their rule names and texts, timed moments, hints, pitches, lessons and quest steps;
+#  the rules live in data/encounters/modifiers.json and encounter_scripts.json under arena:deckpuzzle_*, the words in data/arena/deck_puzzles.json)

@@ -1571,5 +1571,252 @@
 			"amount": -1,
 			"nov26": true
 		}
+	],
+	"arena:deckpuzzle_tea_garden": [
+		{
+			"kind": "note",
+			"name": "The House Plays No Cards",
+			"icon": "faithtoken/card-random",
+			"text": "Madame Darjeeling's deck is all Infrastructure: no card is ever played from it. Everything that happens is on this list, the same way, in the same order, every time you sit down.",
+			"nov26n": true
+		},
+		{
+			"kind": "start_of_turn_buff",
+			"atk": 2,
+			"def": 2,
+			"name": "Steeping",
+			"icon": "delapouite/coffee-cup",
+			"text": "At the start of each of her turns, every unit she controls gets +2/+2 for good.",
+			"nov26n": true
+		},
+		{
+			"kind": "cannot_block",
+			"name": "Wild Growth",
+			"icon": "delapouite/plant-roots",
+			"text": "Her sprouts never block: they only grow, and charge.",
+			"nov26n": true
+		},
+		{
+			"kind": "keyword",
+			"keyword": "bulldoze",
+			"name": "Deep Roots",
+			"icon": "delapouite/tree-roots",
+			"text": "Her sprouts have Bulldoze: whatever a blocker can't soak goes through to you.",
+			"nov26n": true
+		},
+		{
+			"kind": "timed_summon",
+			"every": 1,
+			"token": "T-22",
+			"token_name": "Tea Sprout",
+			"token_stats": [
+				1,
+				1
+			],
+			"token_keywords": [],
+			"name": "Tea Time",
+			"icon": "lorc/sprout",
+			"text": "Then, each of her turns, a new 1/1 Tea Sprout comes up (it grows from her next turn on).",
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_velvet_rope": [
+		{
+			"kind": "note",
+			"name": "The House Plays No Cards",
+			"icon": "faithtoken/card-random",
+			"text": "Maurice's deck is all Infrastructure: no card is ever played from it. Everything that happens is on this list, the same way, in the same order, every time you sit down.",
+			"nov26n": true
+		},
+		{
+			"kind": "timed_summon",
+			"every": 1,
+			"count": 4,
+			"token": "T-23",
+			"token_name": "Velvet Bouncer",
+			"token_stats": [
+				4,
+				4
+			],
+			"token_keywords": [
+				"wallflower",
+				"swat",
+				"sucker_punch"
+			],
+			"token_art": "res://assets/art/cards/TOK-HOUSESECURITY.webp",
+			"name": "Doors Open",
+			"icon": "delapouite/guards",
+			"text": "For his first six turns, four 4/4 Velvet Bouncers take their places each turn (Wallflower, Swat and Sucker Punch: they block, flyers too, hit first, and never attack).",
+			"nov26n": true
+		},
+		{
+			"kind": "always_block",
+			"name": "Nobody Gets Past",
+			"icon": "delapouite/guards",
+			"text": "Maurice's bouncers block every attacker they can, every time.",
+			"nov26n": true
+		},
+		{
+			"kind": "start_of_turn_damage",
+			"amount": 2,
+			"name": "Cover Charge",
+			"icon": "delapouite/coins-pile",
+			"text": "At the start of each of his turns you pay the cover: you take 2 damage.",
+			"nov26n": true
+		},
+		{
+			"kind": "start_of_turn_heal",
+			"amount": 2,
+			"name": "Comped Drinks",
+			"icon": "lorc/potion-ball",
+			"text": "At the start of each of his turns Maurice gains 2 HP.",
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_last_ride": [
+		{
+			"kind": "note",
+			"name": "The House Plays No Cards",
+			"icon": "faithtoken/card-random",
+			"text": "Dizzy Lizzie's deck is all Infrastructure: no card is ever played from it. Everything that happens is on this list, the same way, in the same order, every time you sit down.",
+			"nov26n": true
+		},
+		{
+			"kind": "starting_tokens",
+			"count": 4,
+			"token": "T-04",
+			"token_name": "Painted Pony",
+			"token_stats": [
+				0,
+				6
+			],
+			"token_keywords": [
+				"wallflower"
+			],
+			"name": "All Aboard",
+			"icon": "delapouite/carnival-mask",
+			"text": "She starts with four 0/6 Painted Ponies (Wallflower: they block, they never attack).",
+			"nov26n": true
+		},
+		{
+			"kind": "timed_summon",
+			"every": 1,
+			"count": 2,
+			"token": "T-04",
+			"token_name": "Painted Pony",
+			"token_stats": [
+				0,
+				6
+			],
+			"token_keywords": [
+				"wallflower"
+			],
+			"name": "Round and Round",
+			"icon": "lorc/flame-spin",
+			"text": "Two more 0/6 Painted Ponies join the carousel at the start of each of her turns.",
+			"nov26n": true
+		},
+		{
+			"kind": "always_block",
+			"name": "Hold the Reins",
+			"icon": "lorc/padlock",
+			"text": "Her ponies block every attacker they can, every time.",
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_confetti": [
+		{
+			"kind": "note",
+			"name": "The House Plays No Cards",
+			"icon": "faithtoken/card-random",
+			"text": "Tilda Tinsel's deck is all Infrastructure: no card is ever played from it. Everything that happens is on this list, the same way, in the same order, every time you sit down.",
+			"nov26n": true
+		},
+		{
+			"kind": "start_of_turn_damage_units",
+			"amount": 1,
+			"whose": "all",
+			"name": "Fire the Cannon!",
+			"icon": "delapouite/party-popper",
+			"text": "At the start of each of her turns the cannon goes off: 1 damage to every unit on the table, hers and yours.",
+			"nov26n": true
+		},
+		{
+			"kind": "timed_summon",
+			"every": 1,
+			"count": 2,
+			"token": "T-02",
+			"token_name": "Confetti Critter",
+			"token_stats": [
+				1,
+				1
+			],
+			"token_keywords": [],
+			"token_art": "res://assets/art/cards/TOK-CONFETTI.webp",
+			"name": "Encore!",
+			"icon": "delapouite/sparkles",
+			"text": "Then two 1/1 Confetti Critters land on her side, each of her turns.",
+			"nov26n": true
+		},
+		{
+			"kind": "always_block",
+			"name": "Into the Breach",
+			"icon": "delapouite/party-flags",
+			"text": "Her critters throw themselves in front of every attacker they can, every time.",
+			"nov26n": true
+		},
+		{
+			"kind": "ally_death_drain",
+			"amount": 2,
+			"name": "Showstopper",
+			"icon": "delapouite/trumpet",
+			"text": "Whenever one of HER units dies, you lose 2 HP.",
+			"nov26n": true
+		},
+		{
+			"kind": "ally_death_drain",
+			"amount": 2,
+			"side": "player",
+			"name": "Showstopper (Both Ways)",
+			"icon": "delapouite/trumpet",
+			"text": "Whenever one of YOUR units dies, Tilda loses 2 HP. The crowd isn't fussy.",
+			"nov26n": true
+		}
+	],
+	"arena:deckpuzzle_all_in": [
+		{
+			"kind": "note",
+			"name": "The House Plays No Cards",
+			"icon": "faithtoken/card-random",
+			"text": "Hal's deck is all Infrastructure: no card is ever played from it. Everything that happens is on this list, the same way, in the same order, every time you sit down.",
+			"nov26n": true
+		},
+		{
+			"kind": "start_of_turn_damage_units",
+			"amount": 2,
+			"whose": "foe",
+			"name": "Sweep the Felt",
+			"icon": "delapouite/trash-can",
+			"text": "At the start of each of his turns Hal sweeps the table: 2 damage to each of your units.",
+			"nov26n": true
+		},
+		{
+			"kind": "timed_summon",
+			"every": 1,
+			"token": "T-16",
+			"token_name": "Pit Boss",
+			"token_stats": [
+				3,
+				4
+			],
+			"token_keywords": [
+				"bulldoze"
+			],
+			"token_art": "res://assets/art/cards/TOK-HOUSESECURITY.webp",
+			"name": "The Pit Boss",
+			"icon": "delapouite/strong-man",
+			"text": "Then a 3/4 Pit Boss with Bulldoze joins him, each of his turns.",
+			"nov26n": true
+		}
 	]
 }

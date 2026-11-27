@@ -15,6 +15,8 @@ extends RefCounted
 ## first_turn_draw {count} | always_first | max_plays {count} | block_resource {resource} | keyword_stat {keyword, atk} |
 ## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols) | hp_gain_bonus {amount} (Oct 21, the Old Well) |
 ## setup_turns {turns} (Fable pass Nov 1: the owner's units do not attack during its first turns; bosses get one by default, see `BossTempo`).
+## Nov 26 night: note (shown, no effect) | start_of_turn_buff {atk, def} (its units, for good) | start_of_turn_damage_units {amount, whose: all/foe} |
+## ally_death_drain {amount} (whenever a unit of this side dies, the other side loses that much HP) | cannot_block (this side's units never block).
 
 const PATH: String = "res://data/encounters/modifiers.json"
 const DEFAULT_ICON: String = "lorc/crossed-swords"
@@ -316,6 +318,24 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 				made.append(CardBuilder.modifier(Modifier.Kind.BANNED_CARD_TYPE, int(DungeonBuilder.BANNABLE_TYPES[banned])))
 		"copy_first_trap":
 			made.append(CardBuilder.modifier(Modifier.Kind.COPY_FIRST_TRAP, 1))
+		# Nov 26 night (Part A2, the Shuffle House's deck-building puzzles): a house rule shown with no effect of its own ("she plays no
+		# cards": her deck is only basic Infrastructure), the growing garden, the confetti cannon and the symmetric death drain
+		"note":
+			rule.modifiers = []
+			return rule
+		"start_of_turn_buff":
+			var grow: Modifier = _effect_modifier(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.BUFF, int(spec.get("atk", 1)), CardEnums.TargetKind.ALL_ALLY_UNITS)
+			grow.effect.amount2 = int(spec.get("def", 1))
+			made.append(grow)
+		"start_of_turn_damage_units":
+			var whose: CardEnums.TargetKind = CardEnums.TargetKind.ALL_UNITS if str(spec.get("whose", "all")) == "all" else CardEnums.TargetKind.ALL_ENEMY_UNITS
+			made.append(_effect_modifier(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.DEAL_DAMAGE, int(spec.get("amount", 1)), whose))
+		"cannot_block":
+			made.append(CardBuilder.modifier(Modifier.Kind.CANNOT_BLOCK, 1))
+		"always_block":
+			made.append(CardBuilder.modifier(Modifier.Kind.ALWAYS_BLOCK, 1))
+		"ally_death_drain":
+			made.append(_effect_modifier(Modifier.Kind.ON_ALLY_DEATH_EFFECT, CardEnums.EffectOp.LOSE_HP, int(spec.get("amount", 1)), CardEnums.TargetKind.OPPONENT))
 		_:
 			_problems.append("%s: unknown rule kind '%s'" % [key, kind])
 			return null

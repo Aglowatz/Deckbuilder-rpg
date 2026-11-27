@@ -4265,12 +4265,27 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	context.encounter_rules = EncounterModifiers.rules(ArenaScenario.rules_key(encounter))
 	context.rule_badges = ArenaScenario.player_rule_badges(encounter)  # Fable Nov 15 (Part 4): the bout's own rules first
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
+	if encounter.deck_puzzle:
+		# Nov 26 night (Part A2): Octavia's deck-building puzzle: the opponent plays the same way every time (no wall-clock cut-off in its
+		# search, no mistakes), on the Shuffle House's board
+		context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, encounter.enemy_ai), AIPlayer.Skill.BOSS, encounter.enemy_name)
+		context.ai.deterministic = true
+		context.enemy_icon = "faithtoken/card-pick"
+		context.is_boss = false
+		context.board_key = "draft"
+		context.rule_badges = DeckPuzzles.rule_badges(encounter)
 	return context
 
 
 func start_arena_battle(encounter_id: String) -> void:
 	var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
-	if encounter == null or not arena_tier_open(encounter.tier):
+	if encounter == null:
+		return
+	if encounter.deck_puzzle:
+		if DeckPuzzles.is_open(encounter_id, flags):
+			start_battle(make_arena_battle(encounter_id))
+		return
+	if not arena_tier_open(encounter.tier):
 		return  # Overnight Nov 19: a locked tier cannot be fought
 	start_battle(make_arena_battle(encounter_id))
 
@@ -4285,6 +4300,8 @@ func _complete_arena_battle(context: BattleContext) -> void:
 ## The state changes of a finished arena duel (no scene change, so tests can run it). Returns the result dictionary.
 func resolve_arena_battle(context: BattleContext) -> Dictionary:
 	var encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
+	if encounter.deck_puzzle:
+		return resolve_deck_puzzle(context, encounter)
 	var won: bool = encounter.player_won(context.game)
 	context.won = won
 	var result: Dictionary = {"id": encounter.id, "won": won, "first_clear": false, "reward": {}, "replay_gold": 0}
@@ -4308,6 +4325,29 @@ func resolve_arena_battle(context: BattleContext) -> Dictionary:
 		else:
 			result["replay_gold"] = encounter.replay_gold
 			add_gold(encounter.replay_gold)
+	pending_arena_result = result
+	EventBus.arena_fight_finished.emit(encounter.id, won)
+	save_game()
+	return result
+
+
+## Nov 26 night (Part A2): after one of Octavia's deck-building puzzles. The first win sets its flag (its arena quest step, and the next
+## table opens) and pays its prize; a replay or a loss pays nothing and can be tried again at once. The town reopens the Shuffle House on
+## the result (`pending_arena_result["deck_puzzle"]`).
+func resolve_deck_puzzle(context: BattleContext, encounter: ArenaEncounter) -> Dictionary:
+	var won: bool = encounter.player_won(context.game)
+	context.won = won
+	var result: Dictionary = {"id": encounter.id, "won": won, "first_clear": false, "reward": {}, "replay_gold": 0, "deck_puzzle": true}
+	if won and not DeckPuzzles.is_won(encounter.id, flags):
+		set_flag(DeckPuzzles.won_flag(encounter.id))
+		result["first_clear"] = true
+		var reward: Dictionary = ArenaScenario.resolve_reward(encounter, profile.primary_affinity, 0)
+		# a Prismatic Pack before Primm is paid as a Gilded one (the draft rule); the last table opens only after Primm anyway
+		if str(reward.get("pack", "")) == PackRules.PRISMATIC_ID and not flag(MultiPathLock.FLAG_UNLOCKED):
+			reward["pack"] = "gilded_general"
+		result["reward"] = reward
+		_grant_arena_reward(reward)
+		refresh_quests()
 	pending_arena_result = result
 	EventBus.arena_fight_finished.emit(encounter.id, won)
 	save_game()
