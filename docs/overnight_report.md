@@ -1,3 +1,186 @@
+# Nov 26 night - Octavia's five deck-building puzzles, the draft audit, the postgame solution hunt, the equipment audit
+
+Brief: `docs/prompts/opus_nov26_night_v2.md` (tag `pre-nov26-night`). Shots: `docs/overnight_shots/nov26n/`. Sims: `docs/design/sim/nov26n/`.
+Your decisions: `docs/overnight_inbox.md`, "Nov 26 night" (summarised at the end of this section).
+Start: the working tree held only the two briefs (committed); tagged `pre-nov26-night`.
+
+**In one paragraph.** A, A2, B, C and D are done; E (the long random-play soak) was not run; F is below. **The five puzzles are in the
+game:** a new "Puzzle Tables" door at the Shuffle House, Octavia presenting, one table in each level of the arena quest line. Each opponent
+plays no cards and does the same thing every attempt, looks unfair, and has a trick; the sims show two exploit decks and a late deck winning
+each one while the reference decks mostly lose. **The draft audit** (216 drafts) finds Refusemancer the strong draft Path and Gourmand the
+weak one, the Raccoon the card to touch, and no mode that breaks the economy (Classic replays pay too little). **The postgame hunt** finds a
+winning build for 18 of its 20 fights, mostly "aggressive gear plus burn items"; **two fights have none: the Ancient Spotter and the Echo of
+the Rotheart.** Nothing in cards, equipment, items, mode rewards or the postgame was changed; five equipment texts were reworded.
+
+| Part | Done | Where to look |
+|---|---|---|
+| A Brother Bramble's name plate | yes | below |
+| A2 Five deck-building puzzles | yes | `docs/design/arena_deck_puzzles.md`; shots `pA2_*` |
+| B Draft balance audit | yes (two three-Path sets and four High Rollers pairs not run) | `docs/design/sim/nov26n/draft_balance.md` |
+| C Equipment and item audit | yes, with a rough boss screen only | `docs/design/sim/nov26n/equipment_audit.md` |
+| D Postgame solution hunt | yes | `docs/design/postgame_strategies.md` |
+| E Bug soak | **no** (time went to A2, B and D, as the brief ranks them) | "What's left" |
+| F Checks, build, report | see "Checks and build" | below |
+
+## Part A - Brother Bramble's name plate: done
+
+The Dump's entrance bridge: the gate posts are 0.6 m taller (4.0 m) and the bunting sags 0.45 m instead of 0.7, so the lowest pennant
+hangs above the low camera's line to his plate. NPC probe on the Dump: **16 of 16** (it failed 1 on Nov 26 day). Test
+`tests/test_nov26n_bramble_plate.gd`.
+
+## Part A2 - Octavia's five deck-building puzzles: done
+
+Where: the Shuffle House menu has a fifth door, **Puzzle Tables** (beside a narrower Shuffled Halls door; the marquee now says "four games,
+two doors"). It lists the five tables, each with its opponent, its line, its prize, Won / Open / Locked (and why), and Play. Play opens the
+**"Before the fight" panel** (the bout, every house rule and timed moment, and Octavia's hint in her voice), then the usual deck check, then
+the bout with **your own deck, gear and items**. Free, unlimited retries; the prize is paid on the first win (a replay pays nothing: a
+solved deterministic bout would be a farm). Back from a bout, the house reopens on the tables with the outcome.
+
+The rules of every table: the opponent's deck is 60 basic Infrastructure, so it never plays a card; everything it does is its listed house
+rules and timed moments, in the same order every time; its AI has no time cut-off and makes no mistakes; you always go first. A new house
+rule, **Always Block** (`Modifier.Kind.ALWAYS_BLOCK`), makes three of the walls block every attacker they can (the AI had been letting
+"bad trades" through, so walls were not walls). New rule kinds: note, start-of-turn buff, start-of-turn damage to units, the death drain,
+cannot block, always block.
+
+| # | Table (opponent) | Quest level | Player level | The rules | The trick | Prize |
+|---|---|---|---:|---|---|---|
+| 1 | **The Tea Garden Grows** (Madame Darjeeling, 56 HP) | Open Table | 14 | a 1/1 Tea Sprout each turn; all her units +2/+2 each turn; sprouts never block, and have Bulldoze | weed early: cheap removal, traps that hit attackers or entering units, bounce (a token sent back is gone) | 150 gold, 120 XP, a General Pack |
+| 2 | **Behind the Velvet Rope** (Maurice, 40 HP) | Spin the Wheel | 16 | four 4/4 Velvet Bouncers a turn for six turns (Wallflower, Swat, Sucker Punch, always block); 2 cover charge to you and +2 HP to him each turn | one sweep: Bomb in the Pack, Protein Farts, Mass Layoffs; or Elusive units with tools | 200 gold, 160 XP, your Path's Pack |
+| 3 | **The Last Ride** (Dizzy Lizzie, 22 HP) | High Rollers | 18 | four 0/6 Painted Ponies, two more each turn, always block; on her 7th turn you lose | the ponies never leave the ground: Flying (or anything unblockable) wins before the clock | 250 gold, 200 XP, a Gilded Pack |
+| 4 | **The Confetti Cannon** (Tilda Tinsel, 38 HP) | Two of a Kind | 20 | two 1/1 critters a turn that always block; her cannon hits every unit for 1 each turn; whenever one of HER units dies you lose 2 - and whenever one of YOURS dies, she loses 2 | turn her rule around: cheap tokens and sacrifice, whose deaths cost her | 300 gold, 250 XP, a Gilded Pack |
+| 5 | **All In** ("Honest" Hal Lowball, 52 HP; after Primm) | Full House | 23 | a 3/4 Bulldoze Pit Boss each turn; 2 damage to each of your units each turn; **Hal folds the moment you control seven units** | win by the count, not the damage: walls with 3+ toughness or token bursts | 400 gold, 300 XP, a Prismatic Pack |
+
+**The sims** (`tools/deck_puzzle_sim.gd`; 12 games a deck, 8 for table 2; the full tables and every decklist are in the design doc):
+
+| Table | Exploit decks (early cards) | Late brute force (L25) | Path reference decks at its level |
+|---|---|---|---|
+| 1 | Weed Whacker 83 %, Garden Pests 58 %, Kitchen Traps 33 % | Necrocrat Control 100 %, Refusemancer Heap 100 %, Gourmand Golems 92 % | **35 %** (17 of 48) |
+| 2 | Bomb Squad 100 %, Velvet Gloves (Elusive) 75 %, The Layoff 25 % | Beefcake Titans, Gourmand Golems, Refusemancer Heap 100 % | **41 %** (13 of 32) |
+| 3 | Ghost Kitchen 100 %, Flying Circus 92 %, Burn Notice 8 % | Necrocrat Control 83 %, Beefcake Titans 67 % | **4 %** (2 of 48) |
+| 4 | Rat Parade 92 %, Temp Agency 58 %, Militia Muster 42 % | Beefcake Titans 92 %, Gourmand Golems 83 % | **42 %** (20 of 48) |
+| 5 | Brick Wall 50 %, Mercenary Company 50 %, Full Table 0 % | Beefcake Titans 75 %, Gourmand Golems 75 % | **42 %** (20 of 48; the Necrocrat and Gourmand references 67 % each) |
+
+Every table: at least two exploit decks win, a late deck wins, the references mostly lose. Table 5 is the loosest fit: the exploit decks
+only win half the time (the sim does not play for the fold on purpose; a player who knows the trick will), and two reference decks reach
+seven units by accident. Decision 2 below. One recorded winning line per table is in the design doc and the test replays it.
+
+**Tests** (`tests/test_nov26n_deck_puzzles.gd`, 13): five puzzles in order in five quests, the rules load cleanly, the opponent plays no
+cards, the same sequence across runs and seeds (a passive player, three seeds) and the same game for the same deck and seed, each table's
+rules apply (sprouts grow and never block; 24 bouncers then last call; the ride ends on her 7th turn; the drain cuts both ways; Hal folds
+at seven), tables open in order and the last after Primm, a win pays once and advances its quest step (replays pay nothing, losses can be
+retried), a finished quest stays finished, and **each recorded winning line wins**. Old tests updated for the new quest steps (the quest
+audit's flag list, Two of a Kind's step count, step length). The test caught one wrong text (bouncers arrive on six turns, not five),
+fixed.
+
+**Shots:** `pA2_puzzle_tables_new.jpg`, `pA2_puzzle_tables_one_won.jpg` (the board), `pA2_before_the_fight_1..5.jpg` (each panel with
+Octavia's hint), `pA2_moment_1..5.jpg` (each table mid-bout with its recorded exploit deck, piloted; play script
+`docs/review/play_scripts/nov26n/puzzles.txt`, new `dev puzzle <n>` command). **Lines:** `docs/dialogue/nov26n_lines.csv` (90 rows) and
+`_ids.txt` (no importer-owned line changed). **Art:** three token rows in `docs/art/batch22.csv` (Tea Sprout, Painted Pony - the pony
+uses the goat's art meanwhile - and an optional Pit Boss).
+
+## Part B - the draft balance audit: done (proposals only)
+
+`docs/design/sim/nov26n/draft_balance.md`; tables `draft_tables.md`; economy `modes_economy.md`. 216 drafts, 584 fights, played as the
+game builds them.
+
+## Part C - the equipment and item audit: done (text fixes only)
+
+`docs/design/sim/nov26n/equipment_audit.md`; the full inventory `equipment_inventory.md`.
+
+## Part D - the postgame solution hunt: done (nothing changed)
+
+`docs/design/postgame_strategies.md`; tables `postgame_fights.md`, `postgame_deep.md`, `postgame_runs.md`.
+
+**Winning builds found for 18 of 20 postgame fights.** Swolympus 1-2, the Warden, all eight Lab fights, seven of eight Gallery fights.
+**No winning build: the Ancient Spotter** (Swolympus 3; 10 wins in 240 games over 80 builds) **and the Echo of the Rotheart** (Gallery
+11; 4 in 180). Narrow (one strategy, about 2 in 3): Echo of Percival Plume and the Perfect Copy.
+
+The strategies: (1) **aggressive gear + burn items** (Glass Jaw Gauntlets, Earned Blade, Elastic Waistband, Curve-Topper Boots,
+Compliance Clipboard; two Firebrand Charms and a Sharpening Stone) beats the Warden (4 runs in 4), Siphon, Plume, the Perfect Copy;
+(2) **sturdy gear + burn** carries the Gallery's middle; (3) **wide decks of drafted two-Path cards** handle Swolympus 1-2 and the Lab's
+middle. Whole dungeons on one HP pool with a single build: the Lab's short route 1 in 4, the rest 0 in 4 (the HP carried over ends runs).
+
+## Bugs found and fixed
+
+- **Brother Bramble's name plate** hidden by the Dump bridge bunting at the low camera (Part A; NPC probe).
+- **Puzzle walls that let everything through:** the AI declined "bad trades" with its blockers; the new Always Block rule fixes it for the
+  puzzle walls (nothing else uses it).
+- **A wrong puzzle text** (the bouncers arrive on six turns, not five; caught by the new test).
+- **Six unclear or inconsistent equipment texts** reworded (Part C; the Extra Pocket's own text was caught by the new text test).
+- **No bug** was found in the Echo of the Rotheart's three same-named rules: three different effects under one name, shown once.
+- Tools: the draft audit now writes after every draft (a batch killed at its time limit kept nothing at first).
+
+## The five headline balance findings, in plain words
+
+1. **Two postgame fights cannot be won by any build the sim tried:** the Ancient Spotter (its units get +5/+4 and Hustle) and the Echo of
+   the Rotheart (it heals 2 every turn behind +2/+3 units). Everything else in the postgame has at least one winning strategy.
+2. **Burn items are the postgame's key.** Two Firebrand Charms and a Sharpening Stone with aggressive gear beat the Warden 4 times in 4
+   and crack Siphon, Plume and the Perfect Copy; heals alone lose. A player who works this out will find the postgame "hard but beatable".
+3. **Refusemancer is the strongest draft Path and Gourmand the weakest.** Classic Refusemancer won 81 % over 16 drafts; Gourmand 42 % in
+   Classic and 29 % in High Rollers. The Raccoon is the card behind Refusemancer (+1 cost: its drafts 60 % -> 50 %).
+4. **No Shuffle House mode breaks the economy;** replayed side dungeons stay the best gold per hour. **Classic replays pay too little**
+   (430 an hour against 675 for a replayed main dungeon).
+5. **The zone bosses barely care about equipment** (a rough screen: no piece moved them by more than two wins in ten); gear decides drafts
+   and the postgame instead, where the aggro kit (Glass Jaw Gauntlets, Curve-Topper Boots, Elastic Waistband, Earned Blade) is the
+   must-take and the HP-only Commons are dead weight after level 10.
+
+## Proposals, grouped (answer yes or no to each group; none applied)
+
+1. **The two postgame walls** (`postgame_strategies.md`): the Ancient Spotter's "Ancient Form" +5/+4 -> +3/+3; the Echo of the Rotheart
+   loses "heals 2 at the start of each of its turns".
+2. **Draft cards** (`draft_balance.md`, simulated): **Raccoon cost 0 -> 1** (-10 on its drafts); **En Garde-Manger 2/4 -> 3/4** (+4 on
+   Gourmand drafts). Not recommended after the sims: Middle Management Zombie 3/4 (+2, noise) and Escoffina cost 2 (+0).
+3. **Draft and main-game gear** (`equipment_audit.md`, `draft_balance.md`; not simulated): Red Tape Dispenser helm adds "gain 1 HP";
+   Crowd-Pleaser's Cape 1 -> 2 HP; Pathwork Waistcoat adds Max HP +2; Steady Sandals +1/+2 -> +2/+3; Bin Lid Helm adds a starting Garbage;
+   Quota's Stopwatch Max HP +3 -> +1; Vitality Charm heals 3.
+4. **The Classic replay purse +50 %** (20/45/80/140 -> 30/68/120/210 gold): 430 -> 553 an hour, still under a main-dungeon replay.
+5. **Table 5 (All In)** (`arena_deck_puzzles.md`): if two reference decks winning 2 in 3 by accident is too easy, the fold at seven units
+   moves to eight, or the sweep to 3 damage. Recommend: play it first.
+
+## What's left
+
+- **Part E, the bug soak, was not run.** The Part F story bots and exported plays are tonight's only long play. A random-play bot over
+  every screen remains to be written.
+- **The Extra Pocket was not measured.** Two paired runs ran over their time limits. Part D suggests it is the likely combo (with burn
+  items); `tools/draft_sim.gd --what=pocket` is ready for a longer run.
+- Part B did not reach two three-Path Classic sets, four High Rollers pairs, or High Rollers with three Paths.
+- Part C's boss screen is one game per Path and boss for 33 of 81 pieces: a rough screen, not a measurement.
+- The puzzle tokens use stand-in art (the Painted Pony is a goat); rows are in `docs/art/batch22.csv`.
+
+## Checks and build
+
+| Check | Result |
+|---|---|
+| GUT, full sharded run (shards of 10, `--min-free=1200`, 38 min) | 3,938 of 3,944 passed, 4 failing, 2 risky/pending. All four came from tonight and are fixed and passing: two old Shuffle House tests expected the old menu and Two of a Kind's six steps; the encounter-rules test wanted modifiers on every rule (a "note" rule has none by design; `Rule.note` added); and tonight's own text test caught the Extra Pocket's wording (reworded). Reruns of those files and of every Nov 26 night test: all pass. |
+| Draft smoke | OK, 553 checks, 0 failed |
+| Walk smokes (8) | all OK (Crosspath, hub, reach 38/38, Gainlands, D.N.A., Buffet, Dump, Capital) |
+| NPC visibility probe | **158 checks, 0 failed** (Bramble's plate fixed; it failed 1 on Nov 26 day) |
+| Fade probe | 7 places, nothing but tall occluders fades, 0 script errors |
+| Quest hand-in probe | 32 passed, 0 failed |
+| Sign walkway probe | the same two D.N.A. signs (you said leave them) |
+| Story bots (4, one after another) | **119 of 119 each** (Beefcake, Gourmand, Necrocrat, Refusemancer), 0 script errors |
+| Export | `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0`: **EXPORT OK**, `builds/TheWaywardPath-v1.0.0-windows.zip`, **826 MB** |
+| Exported smoke | `run_release_smoke_exported.sh`: **PASSED (1.0.0)** |
+| Exported plays | fresh test pack; `play_exported.sh` rc1 a, b, c: all done, 0 script errors, 0 skipped buttons |
+
+No public upload. One Godot at a time throughout (two tool runners overlapped for about 15 minutes around 23:45 by my mistake; the
+data from that window was discarded and re-measured).
+
+## Your decisions (also in `docs/overnight_inbox.md`, "Nov 26 night")
+
+1. **The puzzles went to the Shuffle House's arena line** (Octavia, carnival voice), as the last step of five of its quests, opening in
+   order. *Recommend: keep* (say if you meant the Clashatorium; it is a data move).
+2. **Table 5, All In:** two reference decks win 2 in 3 by reaching seven units by accident, and the exploit decks only half the time.
+   *Recommend: play it once; if it is too soft, the fold moves from seven units to eight.*
+3. **The two postgame walls** (the Ancient Spotter, the Echo of the Rotheart): *Recommend: yes to proposal group 1* (Spotter +5/+4 ->
+   +3/+3; the Echo loses its 2-a-turn heal) - they are the only fights with no winning strategy, which is not "hard but beatable".
+4. **Draft cards:** *Recommend: yes to the Raccoon at 1 + R and En Garde-Manger at 3/4; no to the Zombie and Escoffina changes* (the sims
+   found no effect).
+5. **The Classic replay purse +50 %:** *Recommend: yes* (it is the one mode that pays less than playing the main game).
+6. **A puzzle pays once; replays pay nothing.** *Recommend: keep* (a solved fixed bout is a free farm otherwise).
+
+---
+
 # Nov 26 day - straight map lines, the Extra Pocket for real, a rule set for every zone dungeon fight, event hints that fit, a better sim player
 
 Brief: `docs/prompts/opus_nov26_day.md` (tag `pre-nov26`). Shots: `docs/overnight_shots/nov26/`. Sims: `docs/design/sim/nov26/`.

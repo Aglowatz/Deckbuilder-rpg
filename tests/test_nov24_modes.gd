@@ -134,7 +134,7 @@ func test_the_separate_tables_are_gone() -> void:
 	for node: Node in screen.find_children("Mode_*", "Button", true, false):
 		tiles.append(str(node.name))
 	tiles.sort()
-	assert_eq(tiles, ["Mode_classic", "Mode_daily", "Mode_dungeon", "Mode_halls", "Mode_high", "Mode_mystery"] as Array[String])
+	assert_eq(tiles, ["Mode_classic", "Mode_daily", "Mode_dungeon", "Mode_halls", "Mode_high", "Mode_mystery", "Mode_puzzles"] as Array[String], "Nov 26 night: and Octavia's Puzzle Tables")
 	assert_eq(screen.find_children("Tile_*", "", true, false).size(), 0, "the grid of tiles is gone")
 
 
@@ -320,9 +320,10 @@ func test_the_arena_quest_line_points_at_the_four_modes_and_the_halls() -> void:
 	var open: QuestData = by_id[DraftArenaQuests.OPEN_QUEST] as QuestData
 	assert_string_contains(open.objectives[0].text, "Classic Draft")
 	var pairs: QuestData = by_id[DraftArenaQuests.PAIRS_QUEST] as QuestData
-	assert_eq(pairs.objectives.size(), 6, "one goal for each pair of Paths, inside Classic")
-	for step: QuestObjective in pairs.objectives:
+	assert_eq(pairs.objectives.size(), 7, "one goal for each pair of Paths, inside Classic, then (Nov 26 night) Octavia's puzzle table")
+	for step: QuestObjective in pairs.objectives.slice(0, 6):
 		assert_string_contains(step.text, "Classic")
+	assert_string_contains(pairs.objectives[6].text, "puzzle table")
 	assert_eq((by_id[DraftArenaQuests.TRIOS_QUEST] as QuestData).objectives.size(), 1)
 	assert_string_contains((by_id[DraftArenaQuests.HIGH_QUEST] as QuestData).objectives[0].text, "High Rollers Draft")
 	assert_string_contains((by_id[DraftArenaQuests.DUNGEON_QUEST] as QuestData).objectives[0].text, "Dungeon Draft")

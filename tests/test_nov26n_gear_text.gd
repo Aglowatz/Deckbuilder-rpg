@@ -11,6 +11,7 @@ func test_the_reworded_pieces() -> void:
 		"thorned_loincloth": "Max HP -2. Whenever an enemy unit attacks you, it takes 1 damage.",
 		"big_brain_beret": "Draw an extra card each turn, but you can play only one non-infrastructure card per turn. Max HP -2.",
 		"xray_goggles": "The opponent's hand is revealed to you (its face-down traps stay hidden).",
+		"extra_pocket": "You can use each equipped item twice per duel. The first use spends one copy, and the second is free, even if it was your last copy.",
 	}
 	for id: String in expected.keys():
 		var piece: EquipmentData = content.equipment_piece(id)
@@ -22,6 +23,6 @@ func test_the_reworded_pieces() -> void:
 func test_no_piece_uses_the_old_words() -> void:
 	var content: ContentSet = ContentLibrary.load_all()
 	for piece: EquipmentData in GearCatalog.all_pieces(content):
-		assert_false(piece.description.contains(" each battle "), "%s says duel, not battle" % piece.id)
+		assert_false(piece.description.contains(" each battle ") or piece.description.contains(" per battle"), "%s says duel, not battle" % piece.id)
 		assert_false(piece.description.to_lower().contains("discard"), "%s says toss, not discard" % piece.id)
 		assert_false(piece.description.contains(";"), "%s: sentences, not semicolons" % piece.id)

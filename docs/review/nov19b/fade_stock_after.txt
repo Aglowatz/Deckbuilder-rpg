@@ -108,7 +108,7 @@ fadecat | Sails/SailsBody | tall_occluder | (10.7, 11.7, 6.8) | pieces 1
 fadecat | @Node3D@2808 (6) | low_blocker | (4.2, 1.3, 2.5) | pieces 0
 fadecat | @Node3D@2809 (34) | tall_occluder | (9.8, 9.8, 2.6) | pieces 6
 fadecat | @Node3D@2851 (41) | tall_occluder | (4.8, 4.8, 3.8) | pieces 10
-fadecat | @Node3D@2852 (34) | tall_occluder | (8.400001, 8.400001, 2.2) | pieces 6
+fadecat | @Node3D@2852 (34) | tall_occluder | (8.3, 8.3, 2.2) | pieces 6
 fadecat | @Node3D@2899 (45) | tall_occluder | (4.1, 4.1, 3.2) | pieces 10
 fadecat | @Node3D@2900 (34) | tall_occluder | (7.4, 7.4, 2.0) | pieces 6
 fadecat | @Node3D@2947 (45) | tall_occluder | (3.6, 3.6, 2.8) | pieces 10
@@ -158,7 +158,7 @@ fadescan row | TowerMill1 (2) | tall_occluder | (7.9, 14.0, 7.9) | 126 cells | c
 fadescan row | TowerMill2 (2) | tall_occluder | (7.9, 13.9, 7.9) | 90 cells | cams [0, 3]
 fadescan row | StoneGateway/Body | tall_occluder | (15.0, 5.8, 1.7) | 84 cells | cams [0, 3]
 fadescan row | ChampionsArch/Body | tall_occluder | (12.0, 7.0, 2.3) | 70 cells | cams [0, 3]
-fadescan row | Sails/SailsBody | tall_occluder | (13.0, 14.4, 8.1) | 62 cells | cams [0]
+fadescan row | Sails/SailsBody | tall_occluder | (12.9, 14.3, 8.1) | 61 cells | cams [0]
 fadescan row | Gainlands/IronCrag | tall_occluder | (9.0, 8.0, 9.6) | 59 cells | cams [0, 3]
 fadescan row | @Node3D@2801 (22) | tall_occluder | (6.0, 3.6, 0.3) | 56 cells | cams [0, 3]
 fadescan row | GymHall/Body | tall_occluder | (14.4, 8.900001, 10.3) | 54 cells | cams [0, 3]
@@ -215,8 +215,8 @@ fadecat | BuffetZone/@MeshInstance3D@4036 | tall_occluder | (1.2, 4.0, 1.2) | pi
 fadecat | BuffetZone/@MeshInstance3D@4039 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
 fadecat | BuffetZone/@MeshInstance3D@4042 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
 fadecat | shaker-salt2/shaker-salt | low_blocker | (0.7, 1.4, 0.7) | pieces 0
-fadecat | paprika2/paprika | low_blocker | (1.0, 1.2, 1.0) | pieces 0
-fadecat | honey2/honey | low_blocker | (1.1, 1.1, 1.1) | pieces 0
+fadecat | paprika2/paprika | low_blocker | (1.1, 1.2, 1.1) | pieces 0
+fadecat | honey2/honey | low_blocker | (1.2, 1.1, 1.2) | pieces 0
 fadecat | @Node3D@4099 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
 fadecat | BuffetZone/@MeshInstance3D@4125 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
 fadecat | RulerStatue (3) | tall_occluder | (1.5, 3.3, 0.0) | pieces 1
@@ -326,12 +326,13 @@ fadecat | @Node3D@4816 (2) | small_prop | (0.8, 1.6, 0.2) | pieces 0
 fadecat | HeapZone/@MeshInstance3D@4884 | tall_occluder | (1.2, 4.0, 1.2) | pieces 1
 fadecat | HeapZone/@MeshInstance3D@4887 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
 fadecat | HeapZone/@MeshInstance3D@4890 | tall_occluder | (1.2, 5.0, 1.2) | pieces 1
-fadecat | root (5) | tall_occluder | (2.1, 2.0, 1.8) | pieces 1
-fadecat | root (7) | small_prop | (1.9, 1.6, 1.8) | pieces 0
+fadecat | root (5) | tall_occluder | (2.2, 2.1, 1.8) | pieces 1
+fadecat | root (7) | tall_occluder | (2.0, 1.7, 1.9) | pieces 1
 fadecat | body (2) | low_blocker | (0.6, 1.0, 0.5) | pieces 0
 fadecat | @Node3D@4998 (24) | tall_occluder | (2.3, 2.5, 0.0) | pieces 1
 fadecat | HeapZone/@MeshInstance3D@5024 | tall_occluder | (1.2, 6.0, 1.2) | pieces 1
 fadecat | root (7) | low_blocker | (1.4, 1.1, 1.4) | pieces 0
+fadecat | root (5) | low_blocker | (1.0, 1.0, 1.0) | pieces 0
 fadecat | root (7) | low_blocker | (1.7, 1.4, 1.6) | pieces 0
 fadecat | root (6) | low_blocker | (1.4, 1.1, 1.4) | pieces 0
 fadecat | RulerStatue (3) | tall_occluder | (1.7, 3.3, 0.0) | pieces 1
@@ -574,11 +575,11 @@ fadecat | @Node3D@6369 (3) | small_prop | (0.8, 1.6, 0.1) | pieces 0
 fadecat | Rift_out_a (5) | tall_occluder | (8.7, 1.9, 9.2) | pieces 3
 fadecat | Orbit/Shards | tall_occluder | (4.4, 3.9, 4.5) | pieces 1
 fadecat | Rift_out_b (5) | tall_occluder | (8.8, 1.6, 9.0) | pieces 3
-fadecat | Orbit/Shards | tall_occluder | (3.0, 3.0, 3.8) | pieces 1
+fadecat | Orbit/Shards | tall_occluder | (3.1, 3.0, 3.9) | pieces 1
 fadecat | Rift_reek (5) | tall_occluder | (8.6, 1.7, 8.8) | pieces 3
 fadecat | Orbit/Shards | tall_occluder | (4.2, 3.6, 4.2) | pieces 1
 fadecat | Rift_grave (5) | low_blocker | (7.6, 1.3, 7.3) | pieces 0
-fadecat | Orbit/Shards | tall_occluder | (3.1, 3.2, 3.7) | pieces 1
+fadecat | Orbit/Shards | tall_occluder | (3.2, 3.2, 3.7) | pieces 1
 fadecat | Rift_transit (5) | tall_occluder | (10.0, 2.6, 9.900001) | pieces 3
 fadecat | Orbit/Shards | tall_occluder | (6.2, 5.5, 6.9) | pieces 1
 fadecat | Rift_hungry (5) | tall_occluder | (8.7, 1.7, 8.7) | pieces 3

@@ -12,7 +12,7 @@ value = 1
 [resource]
 script = ExtResource("3_s4513")
 id = "extra_pocket"
-description = "You can use each equipped item twice per battle. The first use spends one copy; the second is free, even if it was your last copy."
+description = "You can use each equipped item twice per duel. The first use spends one copy, and the second is free, even if it was your last copy."
 flavor_text = "Sewn in where no one thinks to look."
 source_name = "Extra Pocket"
 modifiers = Array[ExtResource("1_vsrvy")]([SubResource("Resource_c7ovm")])

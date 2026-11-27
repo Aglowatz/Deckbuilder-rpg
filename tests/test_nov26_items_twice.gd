@@ -136,7 +136,7 @@ func test_draft_fight_one_copy_with_the_pocket_is_used_twice() -> void:
 
 func test_the_text_says_so() -> void:
 	var pocket: EquipmentData = Session.content.equipment_piece("extra_pocket")
-	assert_string_contains(pocket.description, "twice per battle")
+	assert_string_contains(pocket.description, "twice per duel")  # Nov 26 night: "duel", as on every piece
 	assert_string_contains(pocket.description, "second is free")
 	assert_string_contains(BattleScreen.why_item_spent(2), "twice")
 	assert_eq(BattleScreen.why_item_spent(1), "Each item works once per battle")

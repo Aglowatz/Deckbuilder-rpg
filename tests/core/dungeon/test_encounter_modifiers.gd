@@ -22,7 +22,7 @@ func test_the_data_loads_with_no_problems_and_every_rule_is_described() -> void:
 				continue  # Oct 23: scripted events are display rules (tests/core/dungeon/test_encounter_scripts.gd)
 			assert_false(rule.name.is_empty(), "%s: a rule has a name" % key)
 			assert_false(rule.text.is_empty(), "%s: %s has a text" % [key, rule.name])
-			assert_false(rule.modifiers.is_empty(), "%s: %s has modifiers" % [key, rule.name])
+			assert_false(rule.modifiers.is_empty() and not rule.note, "%s: %s has modifiers (or is a note)" % [key, rule.name])
 			assert_true(rule.tooltip().contains("Applies to"), "the tooltip says which side")
 
 

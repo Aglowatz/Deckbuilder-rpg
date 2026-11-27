@@ -14,6 +14,12 @@ Brief: `docs/prompts/opus_nov26_night_v2.md` (tag `pre-nov26-night`). Report: to
 4. **No replay prize.** A puzzle pays its prize once; a replay pays nothing, because a deterministic bout once solved would be a free farm. Say if you want a small replay purse.
 5. **The sim decks wear gear a player would pick.** The level-23+ model gear includes the Crown of Mild Hubris (-10 max HP), which left a late deck on 11 HP; the late brute-force decks and table 5's exploit decks wear a sturdier kit (listed in `docs/design/arena_deck_puzzles.md`). The reference decks keep the model gear.
 
+**The six decisions of the report** (each with a recommendation; details at the top of `docs/overnight_report.md`):
+A. The puzzles in the Shuffle House's arena line - recommend keep. B. Table 5's fold at seven units - recommend play it first, eight if
+too soft. C. The two postgame walls (Spotter +5/+4 -> +3/+3; the Echo of the Rotheart loses its heal) - recommend yes. D. Raccoon 1 + R
+and En Garde-Manger 3/4 - recommend yes; Zombie and Escoffina - no. E. Classic replay purse +50 % - recommend yes. F. Puzzles pay once -
+recommend keep.
+
 ## Nov 26 day - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/opus_nov26_day.md` (tag `pre-nov26`). Report: top of `docs/overnight_report.md`. Shots: `docs/overnight_shots/nov26/`. Sims: `docs/design/sim/nov26/`. Fight list: `docs/design/zone_fight_rules.md`.

@@ -36,6 +36,8 @@ class Rule:
 	## Overnight Nov 3-4, Part B7: the scripted trigger behind this rule ("key|id"), and whether it is still hidden in this save.
 	var trigger_ref: String = ""
 	var hidden: bool = false
+	## Nov 26 night: a house rule shown for information only (kind "note"; no modifiers).
+	var note: bool = false
 	var modifiers: Array[Modifier] = []
 
 	func is_enemy_side() -> bool:
@@ -322,6 +324,7 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 		# cards": her deck is only basic Infrastructure), the growing garden, the confetti cannon and the symmetric death drain
 		"note":
 			rule.modifiers = []
+			rule.note = true
 			return rule
 		"start_of_turn_buff":
 			var grow: Modifier = _effect_modifier(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.BUFF, int(spec.get("atk", 1)), CardEnums.TargetKind.ALL_ALLY_UNITS)
