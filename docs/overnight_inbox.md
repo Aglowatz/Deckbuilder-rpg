@@ -14,7 +14,7 @@ Brief: `docs/prompts/opus_nov27_day.md` (tag `pre-nov27`). Report: top of `docs/
 2. **`--no-save` runs now see test saves, not your campaigns.** The fix for item 0 means the play-script driver, the shot tools and the critics' scripted runs show a fresh install's title and slots (`user://test_saves/`), like the exported-build runs already did. Safest; say if a tool ever needs to read your real slots (it would need an explicit read-only path).
 3. **The fast-forwarded game (`Session.ensure_game`) now obeys the copy caps.** Tools, bots and tests that skip the opening get 45-47-card decks instead of 48 for some Paths (the fourth copy of a card no longer appears). The full GUT run and the Beefcake story bot stayed green.
 
-**The decisions of the report** (each with a recommendation): A. Slot 3 - restore it from a backup if you have one; otherwise delete the duplicate of slot 1 in it (*recommend: check File History first*). B. Protected `--no-save` runs - *recommend keep*. C. The Extra Pocket unchanged - *recommend keep*.
+**The decisions of the report** (each with a recommendation): A. Slot 3 - it now holds the new game you started this evening (19:32, level 3); the old Gourmand save is gone unless a backup holds it (*recommend: check File History first*). B. Protected `--no-save` runs - *recommend keep*. C. The Extra Pocket unchanged - *recommend keep*.
 
 ## Nov 26 night - questions logged during the run (the safest choice was taken)
 
