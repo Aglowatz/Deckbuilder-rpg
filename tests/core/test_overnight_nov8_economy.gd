@@ -63,7 +63,7 @@ func test_late_fights_pay_more_by_level() -> void:
 func test_the_extra_pocket_lets_each_item_be_used_twice() -> void:
 	var pocket: EquipmentData = Session.content.equipment_piece("extra_pocket")
 	assert_not_null(pocket)
-	assert_string_contains(pocket.description, "twice per battle")
+	assert_string_contains(pocket.description, "twice per duel")  # Nov 27 day: the Nov 26 night wording
 	assert_eq(pocket.modifiers[0].kind, Modifier.Kind.ITEM_USES_PER_BATTLE)
 	var game: GameState = GameState.new()
 	game.players = [PlayerState.new(), PlayerState.new()]
