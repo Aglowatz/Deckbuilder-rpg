@@ -1,0 +1,1859 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+play: soak: seed 3, limit 1500 s, window (1280, 720), loading screens true
+play:   [1] click FancyButton 'Credits' (@Button@110)
+play:   [2] click FancyButton 'Settings' (@Button@109)
+play:   [3] click FancyButton 'Credits' (@Button@110)
+play:   [4] click FancyButton 'Close' (CloseCredits)
+play:   [5] click FancyButton 'Settings' (@Button@109)
+play:   [6] click FancyButton 'Audio' (TabAudio)
+play:   [7] click FancyButton 'Display' (TabDisplay)
+play:   [8] click FancyButton 'Controls' (TabControls)
+load_timing: title 625 ms (slowest step: fade out 296 ms); worst frame in the first 5 s after the fade-in: 442 ms (at 0.9 s)
+play:   [9] click FancyButton 'Left stick down' (PadSlot)
+play:   [10] click FancyButton 'Up' (Slot1)
+play:   [11] click OptionButton 'Auto (from the controller)' (PadPromptOptions)
+play:   [12] click FancyButton 'W' (Slot0)
+play:   [13] click FancyButton 'Left stick up' (PadSlot)
+play:   [14] click OptionButton 'Auto (from the controller)' (PadPromptOptions)
+play:   [15] click FancyButton 'Display' (TabDisplay)
+play:   [16] click OptionButton 'Unlimited' (FrameCapOptions)
+play:   [17] click OptionButton 'Medium' (QualityOptions)
+play:   [18] click FancyButton 'Audio' (TabAudio)
+play:   [19] click FancyButton 'Audio' (TabAudio)
+play:   [20] click FancyButton 'Controls' (TabControls)
+play:   [21] click FancyButton 'Reset' (ResetAction)
+play: soak: segment save (1) at 15 s
+play:   state: Beefcake level 19 gold 2472
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   [24] click Button '] ▸' (QuestNext)
+play:   save: the first load migrated flags.maren_path_direction (new), flags.own_path_beefcake (new)
+play:   save: Snapshot saved: soak_3
+play:   load: Snapshot loaded: soak_3
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   [25] click Button '] ▸' (QuestNext)
+play:   [26] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   save: round trip ok
+play:   [27] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [28] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [29] click FancyButton 'Menu' (MenuButton)
+play: soak: segment shuffle (1) at 36 s
+play:   state: Gourmand level 21 gold 408
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   goto: goto shuffle_house at (47.4, 0.0, -8.7)
+load_timing: town 5392 ms (slowest step: look rig: scenery 1043 ms); worst frame in the first 5 s after the fade-in: 427 ms (at 4.6 s)
+play:   [34] click Button '' (Mode_high)
+play:   [35] key C
+play:   [36] click Button '' (Mode_dungeon)
+play:   [37] click Button 'The House of Gains' (Dungeon_beefcake)
+play:   [38] click Button 'The House of Gains' (Dungeon_beefcake)
+play:   [39] click Button '' (PathToggle_random)
+play:   [40] click Button '' (PathToggle_random)
+play:   [41] click Button '' (Mode_puzzles)
+play:   [42] click Button '' (Mode_puzzles)
+play:   [43] click Button '' (Mode_dungeon)
+play:   [44] click Button 'Random dungeon' (Dungeon_random)
+play:   [45] click Button '' (PathToggle_random)
+play:   [46] click Button '' (Mode_daily)
+play:   [47] click Button '' (Mode_classic)
+play:   [48] click Button '' (PathToggle_4)
+play:   [49] click Button '' (PathToggle_4)
+play:   [50] click FancyButton 'Start' (Start)
+play:   [52] click FancyButton '' (@Button@5759)
+play:   [53] click FancyButton 'Continue' (@Button@5947)
+play:   [62] click FancyButton 'Reroll (1 left)' (Reroll)
+play:   [63] click Button '' (Card1)
+play:   [64] click FancyButton 'Take The Wanderer' (Take2)
+play:   [65] click FancyButton 'Reroll (1 left)' (Reroll)
+play:   [66] click Button '' (Card0)
+play:   [67] click FancyButton '' (@Button@6016)
+play:   [68] click FancyButton '' (@Button@6016)
+play:   [69] click Button '' (Card1)
+play:   [70] click Button '' (Card0)
+play:   [71] click Button '' (Card1)
+play:   [72] click FancyButton 'Reroll (1 left)' (Reroll)
+play:   [73] key J
+play:   [74] click FancyButton 'Take The Wanderer' (Take2)
+play:   [75] key 2
+play:   [76] click FancyButton '' (@Button@6016)
+play:   [77] click FancyButton 'Reroll (1 left)' (Reroll)
+play:   [78] click Button '' (Card1)
+play:   [79] click Button '' (Card2)
+play:   [80] click FancyButton '' (@Button@6016)
+play:   [81] click FancyButton 'Take Tavern Regular' (Take1)
+play:   [82] click FancyButton 'Take Tavern Regular' (Take1)
+play:   [83] click FancyButton 'Take The Wanderer' (Take2)
+play:   [84] click Button '' (Card2)
+play:   [85] click Button '' (Card2)
+play:   [86] click Button '' (Card2)
+play:   [87] click FancyButton 'Continue' (@Button@6220)
+play:   [88] click FancyButton 'Continue' (@Button@6220)
+play:   [89] click FancyButton 'Continue' (@Button@6246)
+play:   [90] click FancyButton 'Continue' (@Button@6246)
+play:   [91] click FancyButton 'Continue' (@Button@6282)
+play:   [92] click FancyButton 'Continue' (@Button@6282)
+play:   [93] click FancyButton 'Continue' (@Button@6318)
+play:   [94] click FancyButton 'Continue' (@Button@6318)
+play:   [95] click FancyButton 'Continue' (ContinueButton)
+play:   [100] click FancyButton '' (@Button@6376)
+play:   [101] click FancyButton 'Continue' (ContinueButton)
+play:   [102] click Button '] ▸' (QuestNext)
+play:   [103] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [106] click Button '' (Card0)
+play:   [107] key K
+play:   [108] click Button '' (Card0)
+play:   [109] click FancyButton 'Take Stock The Pantry' (Take2)
+play:   [110] click FancyButton 'Take The Cullinator' (Take2)
+play:   [111] click FancyButton 'Take Steady Sandals' (Take0)
+play:   [112] key J
+play:   [113] click Button '' (Card0)
+play:   [114] click FancyButton '' (@Button@6595)
+play:   [115] key C
+play:   [116] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [117] click Button '] ▸' (QuestNext)
+play:   [118] click FancyButton 'Menu' (MenuButton)
+play:   [119] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [120] click Button '] ▸' (QuestNext)
+play:   [121] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [122] key Escape
+play:   [123] click Button '◂ [' (QuestPrev)
+play:   [124] click FancyButton 'Feats' (FeatsButton)
+play: soak: segment fight (1) at 180 s
+play:   state: Refusemancer level 23 gold 1480
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   fight S-IRON:3 (Baron Quadzilla)
+play:   Battle: Baron Quadzilla
+play:   [263] battle: Baron Quadzilla
+load_timing: battle 1030 ms (slowest step: frame 2 431 ms); worst frame in the first 5 s after the fade-in: 95 ms (at 4.7 s)
+play:   [263] battle extra: FancyButton 'Battle log' (LogToggle)
+play:   battle: decided by decree (win; mode 0, busy true, over false)
+play:   [264] click Button '' (ItemSlot_2)
+play:   [265] click Button '' (ItemSlot_2)
+play:   [267] click FancyButton 'Hide log' (LogToggle)
+play:   [268] click FancyButton 'Battle log' (LogToggle)
+play:   [269] click Button '' (ItemSlot_1)
+play:   [270] click Button '' (ItemSlot_2)
+play:   [271] click FancyButton 'Continue' (@Button@10656)
+play:   [272] key I
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+play: soak: segment zone_draft (1) at 211 s
+play:   state: Necrocrat level 7 gold 1172
+world_look: foliage 658 cards
+play:   Draft: table opened
+play:   [273] click FancyButton '' (@Button@11553)
+play:   [274] click FancyButton 'Continue' (@Button@11657)
+play:   [275] click FancyButton 'Continue' (@Button@11657)
+play:   [276] key C
+play:   [277] click Button '◂ [' (QuestPrev)
+load_timing: town 5000 ms (slowest step: look rig: scenery 1013 ms); worst frame in the first 5 s after the fade-in: 99 ms (at 1.3 s)
+play:   [278] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [279] click Button '◂ [' (QuestPrev)
+play:   [280] click FancyButton 'Menu' (MenuButton)
+play:   [281] click Button '◂ [' (QuestPrev)
+play:   [282] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [283] click Button '◂ [' (QuestPrev)
+play:   [284] click Button '◂ [' (QuestPrev)
+play:   [285] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [286] click FancyButton 'Menu' (MenuButton)
+play:   [287] click FancyButton 'Menu' (MenuButton)
+play:   [288] click Button '] ▸' (QuestNext)
+play:   Draft: table opened
+play:   [289] click Button '' (PathToggle_1)
+play:   [290] click Button '' (Mode_puzzles)
+play:   [291] click Button '' (Mode_puzzles)
+play:   [292] click Button '' (Mode_puzzles)
+play:   [293] click Button '' (Mode_mystery)
+play:   [294] click FancyButton '' (@Button@11692)
+play:   [295] click Button '◂ [' (QuestPrev)
+play:   [296] click FancyButton 'Continue' (ContinueButton)
+play:   [297] click FancyButton 'Continue' (ContinueButton)
+play:   [298] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [299] key J
+play:   Draft: table opened
+play:   [300] click FancyButton '' (@Button@12075)
+play:   [302] click Button '] ▸' (QuestNext)
+play:   [303] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [304] click FancyButton 'Menu' (MenuButton)
+play:   [305] click FancyButton 'Menu' (MenuButton)
+play:   [306] click Button '◂ [' (QuestPrev)
+play:   [307] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [308] click FancyButton 'Continue' (ContinueButton)
+play:   [309] click Button '◂ [' (QuestPrev)
+play:   [310] click Button '▾ Root Cause' (TrackerHeader)
+play:   [311] click Button '] ▸' (QuestNext)
+play:   Draft: table opened
+play:   [312] click FancyButton '' (@Button@12196)
+play:   [314] click Button '] ▸' (QuestNext)
+play:   [316] click Button '◂ [' (QuestPrev)
+play:   [317] click Button '] ▸' (QuestNext)
+play:   [318] click Button '▸ Fragments' (TrackerHeader)
+play:   [319] click Button '▾ Fragments' (TrackerHeader)
+play:   [320] click Button '] ▸' (QuestNext)
+play:   [321] click Button '] ▸' (QuestNext)
+play:   [322] click Button '] ▸' (QuestNext)
+play:   [323] click Button '] ▸' (QuestNext)
+play:   [325] key Q
+play:   [326] click Button '◂ [' (QuestPrev)
+play:   Draft: table opened
+play:   [327] click FancyButton '' (@Button@12357)
+play:   [328] click FancyButton 'Menu' (MenuButton)
+play:   [329] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [330] click FancyButton 'Got it' (@Button@12495)
+play:   [331] click FancyButton '' (@Button@12457)
+play:   [332] click Button '◂ [' (QuestPrev)
+play:   [333] click Button '▸ Raise the Bar' (TrackerHeader)
+play:   [334] click Button '◂ [' (QuestPrev)
+play:   [335] click FancyButton 'Menu' (MenuButton)
+play:   [336] click Button '◂ [' (QuestPrev)
+play:   Draft: table opened
+play:   [337] click Button '' (Mode_high)
+play:   [338] click Button '' (PathToggle_2)
+play:   [339] click Button '' (Mode_daily)
+play:   [340] click Button '' (Mode_classic)
+play:   [341] click Button '' (Mode_classic)
+play:   [342] click Button '' (PathToggle_random)
+play:   [343] click Button '' (Mode_classic)
+play:   [344] click Button '' (Mode_daily)
+play:   [345] click Button '' (Mode_halls)
+play:   [346] click Button '' (Mode_daily)
+play:   [348] click Button '' (Mode_mystery)
+play:   [349] click Button '' (Mode_classic)
+play:   [350] click Button '' (PathToggle_random)
+play:   [351] click Button '' (PathToggle_random)
+play:   [352] click Button '' (Mode_classic)
+play:   [353] click Button '' (Mode_dungeon)
+play:   [354] click Button '' (Mode_dungeon)
+play:   [355] click Button '' (PathToggle_random)
+play:   [356] click FancyButton 'Start' (Start)
+play:   [357] click FancyButton '' (@Button@12534)
+play:   [358] click FancyButton 'Settings' (Menu_Settings)
+play:   [359] click CheckButton 'Bloom (soft glow around bright things)' (BloomCheck)
+play:   [360] click FancyButton 'Display' (TabDisplay)
+play:   [361] click OptionButton 'Auto (per quality level)' (UpscalerOptions)
+play:   [362] click FancyButton 'Controls' (TabControls)
+play:   [363] key Space
+play:   Draft: table opened
+play:   [364] click CheckButton 'Always sprint (holding Sprint then walks)' (AlwaysSprintCheck)
+play:   [365] click FancyButton 'Text' (TabText)
+play:   [366] click OptionButton 'Normal' (DialogueTextOptions)
+play:   [367] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [368] click FancyButton 'Done' (SettingsBack)
+play:   [370] click Button '' (Mode_daily)
+play:   [372] click Button '' (Mode_mystery)
+play:   [373] click Button '' (Mode_classic)
+play:   [374] click Button '' (Mode_classic)
+play:   [375] click Button '' (Mode_halls)
+play:   [376] key J
+play:   [378] click Button '' (Mode_high)
+play:   [379] click FancyButton '' (@Button@14442)
+play:   [380] click Button '' (PathToggle_3)
+play:   [381] click FancyButton '' (@Button@14442)
+play:   [382] click Button '' (PathToggle_4)
+play:   [383] click Button '' (PathToggle_random)
+play:   [384] click Button '' (PathToggle_2)
+play:   [385] click Button '' (Mode_classic)
+play:   [386] click Button '' (Mode_puzzles)
+play:   [387] click Button '' (Mode_puzzles)
+play:   [389] click Button '' (Mode_daily)
+play:   [390] click Button '' (PathToggle_1)
+play:   [391] click Button '' (Mode_puzzles)
+play:   [392] click Button '' (PathToggle_2)
+play:   [393] click Button '' (Mode_daily)
+play:   [394] click Button '' (PathToggle_4)
+play:   [395] click Button '' (PathToggle_4)
+play:   [396] click Button '' (PathToggle_2)
+play:   [397] click Button '' (Mode_classic)
+play:   [398] click FancyButton '' (@Button@14442)
+play:   [399] key Escape
+play:   [400] click Button '◂ [' (QuestPrev)
+play:   [402] click FancyButton 'Load Game' (LoadButton)
+play:   [403] click FancyButton 'Save Game' (SaveButton)
+play:   [404] click FancyButton 'Glossary' (GlossaryButton)
+play:   [405] click FancyButton 'Load Game' (LoadButton)
+play:   [407] click FancyButton 'Glossary' (GlossaryButton)
+play:   [408] key Space
+play:   [409] click FancyButton 'Feats' (FeatsButton)
+play:   Draft: table opened
+play:   [410] click Button '' (PathToggle_random)
+play:   [411] click Button '' (PathToggle_4)
+play:   [412] click Button '' (Mode_dungeon)
+play:   [413] click Button '' (Mode_mystery)
+play:   [414] key Space
+play:   [415] click Button '' (Mode_puzzles)
+play:   [416] click Button '' (Mode_puzzles)
+play:   [417] click Button '' (PathToggle_1)
+play:   [418] click Button '' (Mode_dungeon)
+play:   [419] click Button '' (Mode_puzzles)
+play:   [420] click Button '' (PathToggle_4)
+play:   [421] click Button '' (PathToggle_random)
+play:   [422] key Q
+play:   [424] click Button '' (PathToggle_4)
+play:   [425] click Button '' (Mode_daily)
+play:   [426] click Button '' (Mode_halls)
+play:   [427] click Button '' (PathToggle_1)
+play:   [428] click Button '' (PathToggle_2)
+play:   [429] click Button '' (Mode_daily)
+play:   [430] click Button '' (Mode_classic)
+play:   [431] key M
+play:   [432] click FancyButton '' (@Button@15058)
+play:   [433] click Button '' (Mode_halls)
+play:   [434] key 1
+play:   [435] click Button '' (Mode_high)
+play:   [436] click Button '' (Mode_puzzles)
+play:   [437] click Button '' (PathToggle_3)
+play:   [438] click Button '' (PathToggle_3)
+play:   [439] click Button '' (Mode_puzzles)
+play:   [440] click Button '' (Mode_dungeon)
+play:   [441] click Button '' (Mode_classic)
+play:   [442] click Button '' (Mode_classic)
+play:   [443] click Button '' (Mode_daily)
+play:   [444] click Button '' (Mode_puzzles)
+play:   [445] click Button '' (Mode_high)
+play:   [446] key 2
+play:   [447] click Button '' (PathToggle_2)
+play:   [448] click Button '' (PathToggle_4)
+play:   [449] click Button '' (Mode_puzzles)
+play:   [450] click Button '' (Mode_dungeon)
+play:   [451] click Button '' (Mode_dungeon)
+play: soak: segment dungeon (1) at 329 s
+play:   state: Refusemancer level 7 gold 2159
+play:   Travel: S-NECRO
+play:   [452] key 1
+play:   [453] click MapNodeButton 'Room_2' (Room_2)
+play:   [454] click FancyButton 'Retreat' (@Button@15411)
+play:   [455] click FancyButton 'Stay' (@Button@15479)
+play:   [456] click MapNodeButton 'Room_3' (Room_3)
+play:   [457] click FancyButton 'Tip: The dungeon map' (@Button@15469)
+play:   [458] click MapNodeButton 'Room_3' (Room_3)
+load_timing: dungeon_map 1947 ms (slowest step: change_scene_to_file 957 ms); worst frame in the first 5 s after the fade-in: 43 ms (at 5.0 s)
+play:   [459] click FancyButton 'Tip: The dungeon map' (@Button@15469)
+play:   [460] click MapNodeButton 'Room_1' (Room_1)
+play:   [461] click FancyButton 'Continue' (BriefContinue)
+play:   [462] battle: Receptionist of Number One
+load_timing: battle 861 ms (slowest step: fade in 277 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 1.9 s)
+play:   [462] battle extra: FancyButton 'Speed: 1x' (SpeedToggle)
+play:   [462] battle extra: Button '' (ItemSlot_2)
+play:   [462] battle extra: Button '' (Badge_Please_Wait)
+play:   battle: decided by decree (win; mode 0, busy true, over false)
+play:   [463] click Button '' (Badge_Approved_Procedure)
+play:   [464] click FancyButton 'Battle log' (LogToggle)
+play:   [465] click Button '' (ItemSlot_2)
+play:   [466] click FancyButton 'Hide log' (LogToggle)
+play:   [467] click FancyButton 'Battle log' (LogToggle)
+play:   [468] click FancyButton 'Speed: 1.5x' (SpeedToggle)
+play:   [469] click Button '' (ItemSlot_0)
+play:   [470] click Button '' (Badge_Unauthorized_Activity)
+play:   [471] click Button '' (ItemSlot_0)
+play:   [472] click FancyButton 'Hide log' (LogToggle)
+play:   [473] click Button '' (Badge_Approved_Procedure)
+play:   [474] click Button '' (Badge_Please_Wait)
+play:   [476] click Button '' (ItemSlot_2)
+play:   [477] click FancyButton 'Speed: 2x' (SpeedToggle)
+play:   [479] click Button '' (ItemSlot_0)
+play:   [480] click FancyButton 'Battle log' (LogToggle)
+play:   [481] click Button '' (ItemSlot_0)
+play:   [482] click FancyButton 'Hide log' (LogToggle)
+play:   [483] click Button '' (ItemSlot_1)
+play:   [484] click Button '' (ItemSlot_2)
+play:   [485] click Button '' (Badge_Unauthorized_Activity)
+play:   [486] click Button '' (ItemSlot_0)
+play:   [487] click Button '' (ItemSlot_1)
+play:   [488] click Button '' (ItemSlot_2)
+play:   [489] click FancyButton 'Battle log' (LogToggle)
+play:   [490] click Button '' (ItemSlot_0)
+play:   [491] click FancyButton 'Speed: 4x' (SpeedToggle)
+play:   [492] click FancyButton 'Hide log' (LogToggle)
+play:   [493] key 1
+play:   [494] click Button '' (Badge_Approved_Procedure)
+play:   [495] click FancyButton 'Continue' (@Button@18207)
+play:   [496] click FancyButton 'Continue' (@Button@18245)
+play:   [497] click FancyButton 'Continue' (@Button@18245)
+play:   [498] click MapNodeButton 'Room_1' (Room_1)
+play:   [500] click FancyButton 'Retreat' (@Button@18263)
+play:   [501] click FancyButton 'Retreat' (@Button@18319)
+world_look: generic scenery at (45.0, 0.0, 36.0), scale 1.00
+play:   [502] click FancyButton 'Menu' (MenuButton)
+play:   [503] click FancyButton 'Continue' (@Button@18759)
+play:   [504] key 1
+play:   [505] key J
+play:   [506] click FancyButton 'Continue' (@Button@18759)
+play:   [507] click FancyButton 'Continue' (@Button@18825)
+play:   [508] click FancyButton 'Continue' (@Button@18825)
+play:   [509] click FancyButton 'Continue' (@Button@18861)
+play:   [511] click FancyButton 'Continue' (@Button@18861)
+load_timing: dna_zone 5796 ms (slowest step: zone: builder 1628 ms); worst frame in the first 5 s after the fade-in: 78 ms (at 4.2 s)
+play:   [512] key M
+play:   [513] click FancyButton 'Continue' (@Button@18887)
+play:   [514] click FancyButton 'Continue' (@Button@18923)
+play:   [515] click FancyButton 'Continue' (@Button@18923)
+play:   [516] click FancyButton 'Continue' (@Button@18959)
+play:   [517] click FancyButton 'Continue' (@Button@18959)
+play:   [518] key 1
+play:   [519] click FancyButton 'Continue' (@Button@18985)
+play:   [520] click FancyButton 'Continue' (@Button@19011)
+play:   [521] click FancyButton 'Continue' (@Button@19011)
+play:   [522] click Button '▾ The City Gathers' (TrackerHeader)
+play:   [529] click Button '' (Badge_Approved_Procedure)
+play:   [530] click Button '▸ The City Gathers' (TrackerHeader)
+play:   [532] click Button '◂ [' (QuestPrev)
+play:   [533] key C
+play:   [534] key Tab
+play:   [535] key Enter
+play:   [537] key J
+play:   [538] click Button '' (Inventory_binding_chains)
+play:   [539] click FancyButton 'Open' (Open_path_necrocrat)
+play:   [540] click FancyButton 'Open' (Open_path_refusemancer)
+play:   [541] click Button '' (ItemSlot_3)
+play:   [542] key C
+play:   [543] click Button '] ▸' (QuestNext)
+play:   [544] click Button '' (Badge_Unauthorized_Activity)
+play:   [546] click FancyButton 'Menu' (MenuButton)
+play:   [547] click FancyButton 'Quests (J)' (Menu_Quests)
+play:   [548] click FancyButton '' (@Button@19245)
+play:   [549] click FancyButton 'Menu' (MenuButton)
+play:   [550] click FancyButton 'Feats' (Menu_Feats)
+play:   [551] click Button '◂ [' (QuestPrev)
+play:   [552] click Button '] ▸' (QuestNext)
+play:   [553] click FancyButton 'Back' (FeatsBack)
+play:   [554] click FancyButton 'Load Game' (LoadButton)
+play:   [555] click FancyButton 'Menu' (MenuButton)
+play:   [556] click FancyButton 'Save Game' (SaveButton)
+play:   [557] click FancyButton 'Settings' (@Button@19561)
+play:   [558] click FancyButton 'Resume' (@Button@19560)
+play:   [559] click Button '' (Badge_Unauthorized_Activity)
+play:   [560] click Button '' (Badge_Approved_Procedure)
+play:   [561] click FancyButton 'Feats' (FeatsButton)
+play:   [562] click FancyButton 'Save Game' (SaveButton)
+play:   [563] click Button '' (Badge_Unauthorized_Activity)
+play:   [564] key I
+play:   [565] click FancyButton 'Feats' (FeatsButton)
+play:   [566] click FancyButton 'Save Game' (SaveButton)
+play:   [567] click FancyButton 'Menu' (MenuButton)
+play:   [568] click Button '▾ The City Gathers' (TrackerHeader)
+play:   [569] click Button '] ▸' (QuestNext)
+play:   [571] click FancyButton 'Back' (@Button@19572)
+play:   [572] click Button '◂ [' (QuestPrev)
+play:   [573] key E
+play:   [574] click FancyButton 'Glossary' (GlossaryButton)
+play:   [575] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [576] click FancyButton 'Terms' (Tab_Terms)
+play:   [577] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [578] click FancyButton 'Terms' (Tab_Terms)
+play:   [579] click FancyButton 'Terms' (Tab_Terms)
+play:   [580] click FancyButton 'Card types' (Tab_Card_types)
+play:   [581] click FancyButton 'Terms' (Tab_Terms)
+play:   [582] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [583] click FancyButton 'Resources' (Tab_Resources)
+play:   [584] click FancyButton 'Resources' (Tab_Resources)
+play:   [585] key Tab
+play:   [586] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [587] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [588] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [589] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [590] key Space
+play:   [591] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [592] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [593] click FancyButton 'Back' (GlossaryBack)
+play:   [595] key Tab
+play:   [596] click FancyButton 'Menu' (MenuButton)
+play:   [597] click Button '' (Badge_Unauthorized_Activity)
+play:   [598] click FancyButton 'Resume' (@Button@20237)
+play:   [599] click Button '] ▸' (QuestNext)
+play:   [600] key Tab
+play:   [602] click Button '' (Badge_Unauthorized_Activity)
+play:   [603] click Button '] ▸' (QuestNext)
+play:   [604] click FancyButton 'Menu' (MenuButton)
+play:   [605] click FancyButton 'Feats' (Menu_Feats)
+play:   [606] click Button '' (Badge_Unauthorized_Activity)
+play:   [607] click Button '◂ [' (QuestPrev)
+play:   [608] click Button '◂ [' (QuestPrev)
+play:   [609] click FancyButton 'Menu' (MenuButton)
+play:   [610] click Button '' (Badge_Unauthorized_Activity)
+play:   [611] click Button '] ▸' (QuestNext)
+play:   [612] click Button '' (Badge_Unauthorized_Activity)
+play:   [613] click Button '' (Badge_Approved_Procedure)
+play:   [614] click Button '] ▸' (QuestNext)
+play:   [615] click Button '▾ Fragments' (TrackerHeader)
+play:   [616] click Button '' (Badge_Unauthorized_Activity)
+play:   [617] key Space
+play:   [618] click Button '] ▸' (QuestNext)
+play:   [619] key Tab
+play:   [620] click Button '' (Badge_Approved_Procedure)
+play:   [621] click FancyButton 'Back' (FeatsBack)
+play:   [622] click FancyButton 'Load Game' (LoadButton)
+play:   [623] click FancyButton 'Glossary' (GlossaryButton)
+play:   [624] key M
+play:   [625] click FancyButton 'Feats' (FeatsButton)
+play:   [626] click FancyButton 'Save Game' (SaveButton)
+play:   [628] click FancyButton 'Feats' (FeatsButton)
+play:   [629] click FancyButton 'Save Game' (SaveButton)
+play:   [630] key I
+play:   [631] click FancyButton 'Back' (@Button@20563)
+play:   [632] click Button '▾ Fragments' (TrackerHeader)
+play:   [633] click Button '▾ Fragments' (TrackerHeader)
+play:   [634] click FancyButton 'Feats' (FeatsButton)
+play:   [635] click Button '' (Badge_Unauthorized_Activity)
+play:   [636] click Button '◂ [' (QuestPrev)
+play:   [637] key M
+play:   [638] click FancyButton 'Menu' (MenuButton)
+play:   [639] click Button '▾ Fragments' (TrackerHeader)
+play:   [640] click Button '] ▸' (QuestNext)
+play:   [641] key K
+play:   [642] key Space
+play:   [643] click Button '◂ [' (QuestPrev)
+play: soak: segment town (1) at 489 s
+play:   state: Gourmand level 5 gold 442
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   spot equipment_vendor: goto equipment_vendor at (14.15, 0.0, 19.6)
+play:   [645] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [646] key M
+play:   [647] click Button '◂ [' (QuestPrev)
+play:   [648] click Button '◂ [' (QuestPrev)
+load_timing: town 6570 ms (slowest step: look rig: scenery 1182 ms); worst frame in the first 5 s after the fade-in: 153 ms (at 2.6 s)
+play:   [649] click FancyButton 'Menu' (MenuButton)
+play:   [650] click FancyButton 'Menu' (MenuButton)
+play:   [655] click Button '] ▸' (QuestNext)
+play:   [656] click Button '▾ Fragments' (TrackerHeader)
+play:   [657] click FancyButton 'Menu' (MenuButton)
+play:   [658] click Button '▾ Fragments' (TrackerHeader)
+play:   [659] click FancyButton 'Continue' (ContinueButton)
+play:   [662] click FancyButton 'Continue' (@Button@21810)
+play:   [663] click FancyButton 'Continue' (@Button@21810)
+play:   spot npc_refusemancer: goto npc_refusemancer at (-18.3, 0.0, 11.17076)
+play:   [664] click Button '] ▸' (QuestNext)
+play:   [665] click FancyButton 'Continue' (ContinueButton)
+play:   [666] click Button '] ▸' (QuestNext)
+play:   [667] click Button '] ▸' (QuestNext)
+play:   [668] click FancyButton 'Menu' (MenuButton)
+play:   [669] click FancyButton 'Continue' (ContinueButton)
+play:   [670] click Button '] ▸' (QuestNext)
+play:   [671] click FancyButton 'Continue' (ContinueButton)
+play:   [672] click FancyButton 'Menu' (MenuButton)
+play:   [673] click FancyButton 'Wardrobe (T)' (Menu_Wardrobe)
+play:   [674] click Button '' (Tile_cloak_cloak_tattered)
+play:   [675] click Button '' (Tile_cloak_cloak_royal)
+play:   [676] click Button '' (Tile_hat_hat_leaf_crown)
+play:   [677] click Button '' (Tile_hat_hat_chef)
+play:   [679] click Button '' (Tile_hat_none)
+play:   [680] click Button '' (Tile_cloak_cloak_tattered)
+play:   [681] key I
+play:   [682] click Button '' (Tile_hat_hat_bowler)
+play:   [683] click Button '' (Tile_hat_hat_wide_brim)
+play:   [684] click Button '' (Tile_cloak_cloak_red_cape)
+play:   [685] click Button '' (Tile_cloak_cloak_royal)
+play:   [686] click Button '' (Tile_hat_hat_chef)
+play:   [687] click Button '' (Tile_cloak_none)
+play:   [688] click Button '' (Tile_cloak_none)
+play:   [689] key I
+play:   [690] click Button 'A' (Dye_cloak_-1)
+play:   [691] click Button '' (Tile_hat_none)
+play:   [692] click Button '' (Tile_hat_hat_wide_brim)
+play:   [693] click Button '' (Tile_cloak_cloak_patchwork)
+play:   [694] key M
+play:   [695] click Button '' (Tile_cloak_cloak_red_cape)
+play:   [696] click Button '' (Tile_hat_hat_bowler)
+play:   [697] click Button '' (Tile_cloak_cloak_royal)
+play:   [698] click Button 'A' (Dye_cloak_-1)
+play:   [699] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [700] click Button '▸ A Pinch of Everything' (TrackerHeader)
+play:   [701] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [702] click Button '] ▸' (QuestNext)
+play:   [703] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [704] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [705] click FancyButton 'Menu' (MenuButton)
+play:   [706] click FancyButton 'Settings' (Menu_Settings)
+play:   [707] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [708] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [709] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [710] click OptionButton 'Auto (per quality level)' (UpscalerOptions)
+play:   [711] click FancyButton 'Text' (TabText)
+play:   [712] click OptionButton 'Normal' (CardTextOptions)
+play:   spot shuffle_house: goto shuffle_house at (47.4, 0.0, -8.7)
+play:   [713] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [714] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [715] click FancyButton 'Done' (SettingsBack)
+play:   [716] click FancyButton 'Feats' (FeatsButton)
+play:   [718] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [719] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [720] click FancyButton 'Menu' (MenuButton)
+play:   [721] click FancyButton 'Menu' (MenuButton)
+play:   [723] click Button '◂ [' (QuestPrev)
+play:   [724] key Space
+play:   [725] click Button '◂ [' (QuestPrev)
+play:   [726] key Q
+play:   [727] click Button '] ▸' (QuestNext)
+play:   [728] click FancyButton 'Menu' (MenuButton)
+play:   [729] click FancyButton 'Back' (FeatsBack)
+play:   [730] click FancyButton 'Feats' (FeatsButton)
+play:   [731] click Button '] ▸' (QuestNext)
+play:   [732] click Button '◂ [' (QuestPrev)
+play:   [733] click FancyButton 'Menu' (MenuButton)
+play:   [735] key Escape
+play:   [736] click Button '] ▸' (QuestNext)
+play:   [737] key C
+play:   [738] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   spot signpost_1: goto signpost_1 at (36.8, 0.0, 16.7)
+play:   [739] click FancyButton 'Glossary' (GlossaryButton)
+play:   [740] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [741] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [742] click FancyButton 'Zones' (Tab_Zones)
+play:   [743] click FancyButton 'Resources' (Tab_Resources)
+play:   [744] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [745] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [746] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [747] click FancyButton 'Resources' (Tab_Resources)
+play:   [748] click FancyButton 'Terms' (Tab_Terms)
+play:   [749] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [750] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   spot chest_back: goto chest_back at (64.89999, 0.0, 35.9123)
+play:   [751] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [752] key Q
+play:   [753] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [754] click FancyButton 'Zones' (Tab_Zones)
+play:   [755] click FancyButton 'Card types' (Tab_Card_types)
+play:   [757] key Space
+play:   [758] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [759] click FancyButton 'Card types' (Tab_Card_types)
+play:   [760] click FancyButton 'Zones' (Tab_Zones)
+play:   [761] click FancyButton 'Zones' (Tab_Zones)
+play:   [762] click FancyButton 'Back' (GlossaryBack)
+play:   [763] click FancyButton 'Resume' (@Button@23381)
+play:   [764] key Space
+play:   [765] click FancyButton 'Menu' (MenuButton)
+play:   spot item_vendor: goto item_vendor at (20.3, 0.0, 1.42)
+play:   [769] click FancyButton 'Quests (J)' (Menu_Quests)
+play:   [770] click FancyButton 'Menu' (MenuButton)
+play:   [771] click FancyButton 'Deck (B)' (Menu_Deck)
+play:   [773] key E
+play:   [774] click FancyButton '-' (Minus)
+play:   [775] click FancyButton '' (@Button@24309)
+play:   [776] click FancyButton 'Discard changes' (@Button@24366)
+play:   [777] click FancyButton '' (Slot4)
+play:   [778] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [779] click CardView '@Control@23646' (@Control@23646)
+play:   [780] click Button 'Epic' (@Button@23441)
+play:   [781] click CardView '@Control@23572' (@Control@23572)
+play:   [782] click Button 'Infrastructure' (@Button@23430)
+play:   [783] click CardView '@Control@23908' (@Control@23908)
+play:   [784] click Button 'Any' (@Button@23444)
+play:   [785] click CardView '@Control@23908' (@Control@23908)
+play:   [786] click Button 'Any' (@Button@23444)
+play:   [787] click CardView '@Control@23948' (@Control@23948)
+play:   [788] click Button 'Any cost' (@Button@23432)
+play:   [789] click Button 'Tool' (@Button@23429)
+play:   [790] click FancyButton '' (@Button@24431)
+play:   [791] click FancyButton '' (@Button@24443)
+play:   [792] key Escape
+play:   [793] click CardView '@Control@24053' (@Control@24053)
+play:   [794] click Button 'Epic' (@Button@23441)
+play:   [795] click Button 'New' (@Button@23445)
+play:   [796] click Button 'Spell' (@Button@23426)
+play:   [797] click Button 'Tool' (@Button@23429)
+play:   [798] click Button 'Epic' (@Button@23441)
+play:   [799] click Button 'Tool' (@Button@23429)
+play:   [800] click FancyButton 'Reset' (@Button@23458)
+play:   [801] click FancyButton 'Cover' (BoxCoverCard)
+play:   [802] click FancyButton 'Fill Infrastructure' (@Button@23459)
+play:   [803] click FancyButton '' (Slot8)
+play:   [804] click FancyButton 'Discard changes' (@Button@24650)
+play:   [805] key E
+play:   [806] click FancyButton '' (@Button@23407)
+play:   [808] click Button '◂ [' (QuestPrev)
+play:   [809] click Button '] ▸' (QuestNext)
+play:   [810] click Button '] ▸' (QuestNext)
+play:   [811] click Button '◂ [' (QuestPrev)
+play:   [812] key Escape
+play:   [813] click Button '] ▸' (QuestNext)
+play:   [814] click FancyButton 'Feats' (FeatsButton)
+play:   [815] click Button '◂ [' (QuestPrev)
+play:   [816] key 2
+play:   [817] key Enter
+play:   [818] click FancyButton 'Menu' (MenuButton)
+play:   [819] click Button '◂ [' (QuestPrev)
+play:   [820] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   spot pack_vendor: goto pack_vendor at (31.6, 0.0, 1.42)
+play:   [821] click Button '◂ [' (QuestPrev)
+play:   [822] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [823] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [824] key Space
+play:   [825] click Button '] ▸' (QuestNext)
+play:   [826] click Button '] ▸' (QuestNext)
+play:   [827] click FancyButton 'Back' (FeatsBack)
+play:   [828] click FancyButton 'Feats' (FeatsButton)
+play:   [829] click FancyButton 'Menu' (MenuButton)
+play:   [830] key C
+play:   [831] click Button '] ▸' (QuestNext)
+play:   [832] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   spot codex: goto codex at (47.2, 0.0, 9.97)
+play:   [833] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [834] key Tab
+play:   [835] click FancyButton 'Menu' (MenuButton)
+play:   [836] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   spot notice_board: goto notice_board at (16.95148, 0.0, 21.37302)
+play:   [837] click Button '◂ [' (QuestPrev)
+play:   [838] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [839] click Button '] ▸' (QuestNext)
+play:   [840] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [841] click Button '] ▸' (QuestNext)
+play:   [842] click FancyButton 'Back' (FeatsBack)
+play:   [844] click FancyButton 'Save Game' (SaveButton)
+play:   [845] click Button '◂ [' (QuestPrev)
+play:   [846] click FancyButton 'Save here' (SaveButton)
+play:   [847] click FancyButton 'Save here' (SaveButton)
+play:   [848] click FancyButton 'Save here' (SaveButton)
+play:   [849] click FancyButton 'Settings' (@Button@25291)
+play:   [850] click FancyButton 'Back' (@Button@25302)
+play:   [851] click FancyButton 'Resume' (@Button@25290)
+play:   [852] click Button '◂ [' (QuestPrev)
+play:   [853] click Button '] ▸' (QuestNext)
+play:   spot gate: goto gate at (30.0, 0.0, -22.6)
+play:   [854] click FancyButton 'Not yet' (@Button@25433)
+play:   [855] click Button '▸ Meet the Merchants' (TrackerHeader)
+play:   [856] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [857] click FancyButton 'Menu' (MenuButton)
+play:   [858] click FancyButton 'Wardrobe (T)' (Menu_Wardrobe)
+play:   [859] click Button '' (Tile_hat_none)
+play:   [860] click Button '' (Tile_cloak_cloak_red_cape)
+play:   [861] click Button '' (Tile_hat_none)
+play:   [862] click Button '' (Tile_cloak_cloak_royal)
+play:   [863] click Button '' (Tile_hat_hat_tricorn)
+play:   [864] click Button '' (Tile_cloak_cloak_red_cape)
+play:   [865] click Button '' (Tile_cloak_cloak_patchwork)
+play:   [866] click Button '' (Tile_hat_hat_wizard)
+play:   [867] click Button '' (Tile_hat_hat_wizard)
+play:   [868] key K
+play:   [869] key I
+play:   [870] click FancyButton '' (@Button@25447)
+play:   [871] click Button '◂ [' (QuestPrev)
+play:   [872] click Button '▸ The Oldest Trick in the Book' (TrackerHeader)
+play:   [873] click Button '▾ The Oldest Trick in the Book' (TrackerHeader)
+play:   [874] click Button '◂ [' (QuestPrev)
+play:   [875] click FancyButton 'Menu' (MenuButton)
+play:   [876] click FancyButton 'Quests (J)' (Menu_Quests)
+play:   [877] click FancyButton 'Fragments   2/8' (Quest_fragments)
+play:   [878] click FancyButton 'Raise the Bar   0/4' (@Button@25549)
+play:   [879] key 2
+play:   [880] click FancyButton '' (@Button@25484)
+play:   spot shuffle_house: goto shuffle_house at (47.4, 0.0, -8.7)
+play:   [881] click Button '▸ Raise the Bar' (TrackerHeader)
+play:   [882] click Button '] ▸' (QuestNext)
+play:   [883] click FancyButton 'Menu' (MenuButton)
+play:   [884] click FancyButton 'Menu' (MenuButton)
+play:   [885] click Button '] ▸' (QuestNext)
+play:   [886] click Button '] ▸' (QuestNext)
+play:   [887] click Button '◂ [' (QuestPrev)
+play:   [888] click FancyButton 'Menu' (MenuButton)
+play:   [889] click FancyButton 'Continue' (ContinueButton)
+play:   [890] click Button '] ▸' (QuestNext)
+play:   [891] click Button '▸ Take a Number' (TrackerHeader)
+play:   [892] click Button '] ▸' (QuestNext)
+play:   [893] click FancyButton 'Menu' (MenuButton)
+play:   [894] click FancyButton 'Packs (P)' (Menu_Packs)
+play: soak: segment dungeon (2) at 672 s
+play:   state: Gourmand level 18 gold 2082
+play:   Travel: S-BEEF
+play:   [895] click MapNodeButton 'Room_2' (Room_2)
+play:   [896] click MapNodeButton 'Room_1' (Room_1)
+play:   [897] click FancyButton 'Continue' (BriefContinue)
+play:   [898] battle: Rival Lifter at Base Camp
+load_timing: battle 855 ms (slowest step: fade in 267 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 3.4 s)
+play:   [898] battle extra: Button '' (ItemSlot_2)
+play:   [898] battle extra: Button '' (ItemSlot_3)
+play:   battle: decided by decree (loss; mode 0, busy true, over false)
+play:   [899] click CardView '@Control@26318' (@Control@26318)
+play:   [900] click FancyButton 'Continue' (@Button@33639)
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 574 cards
+play:   [907] click Button '' (Badge_Out_of_Breath)
+play:   [908] click Button '' (Badge_Out_of_Breath)
+play:   [909] click Button '' (Badge_Out_of_Breath)
+play:   [910] click Button '' (Badge_Pump_It_Up)
+play:   [911] click FancyButton 'Menu' (MenuButton)
+play:   [912] click FancyButton 'Glossary' (Menu_Glossary)
+play:   [913] click FancyButton 'Resources' (Tab_Resources)
+play:   [914] click FancyButton 'Zones' (Tab_Zones)
+play:   [915] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [916] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [917] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [918] click FancyButton 'Terms' (Tab_Terms)
+play:   [919] click FancyButton 'Back' (GlossaryBack)
+play:   [920] click FancyButton 'Feats' (FeatsButton)
+play:   [921] click Button '' (Badge_Out_of_Breath)
+play:   [922] click Button '' (Badge_Out_of_Breath)
+play:   [923] click FancyButton 'Menu' (MenuButton)
+play:   [925] click Button '' (Badge_Pump_It_Up)
+play:   [926] click FancyButton 'Menu' (MenuButton)
+play:   [927] click Button '' (Badge_Out_of_Breath)
+play:   [928] click Button '' (Badge_Pump_It_Up)
+play:   [929] key 1
+play:   [930] key Escape
+play:   [931] click FancyButton 'Settings' (@Button@35106)
+play:   [933] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [935] click FancyButton 'Display' (TabDisplay)
+play:   [937] click FancyButton 'Display' (TabDisplay)
+play:   [938] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [939] click FancyButton 'Display' (TabDisplay)
+play:   [940] click FancyButton 'Controls' (TabControls)
+play:   [941] click FancyButton 'W' (Slot0)
+play:   [942] key Space
+play:   [943] click FancyButton 'Down' (Slot1)
+play:   [944] click FancyButton 'Reset' (ResetAction)
+play:   [945] click FancyButton 'Display' (TabDisplay)
+play:   [946] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [947] click FancyButton 'Done' (SettingsBack)
+play:   [949] click FancyButton 'Resume' (@Button@35991)
+load_timing: gainlands_zone 4549 ms (slowest step: zone: builder 1436 ms); worst frame in the first 5 s after the fade-in: 62 ms (at 1.4 s)
+play:   [950] click Button '' (Badge_Pump_It_Up)
+play:   [951] click Button '' (Badge_Out_of_Breath)
+play:   [952] click FancyButton 'Menu' (MenuButton)
+play:   [953] click FancyButton 'Character (C)' (Menu_Character)
+play:   [954] click Button '' (EquipSlot_relic)
+play:   [955] click Button '' (EquipSlot_relic)
+play:   [956] click FancyButton '' (@Button@36010)
+play:   [957] click Button '' (Badge_Pump_It_Up)
+play:   [958] click Button '' (Badge_Pump_It_Up)
+play:   [959] click Button '' (Badge_Pump_It_Up)
+play:   [960] click Button '' (Badge_Pump_It_Up)
+play:   [961] click Button '' (Badge_Out_of_Breath)
+play:   [962] click Button '' (Badge_Out_of_Breath)
+play:   [963] click Button '' (Badge_Out_of_Breath)
+play:   [964] click Button '' (Badge_Out_of_Breath)
+play:   [965] click Button '' (Badge_Pump_It_Up)
+play:   [966] click Button '' (Badge_Pump_It_Up)
+play:   [968] click FancyButton 'Menu' (MenuButton)
+play:   [969] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [970] click FancyButton '' (@Button@36086)
+play:   [971] click Button '' (Badge_Pump_It_Up)
+play:   [972] click Button '' (Badge_Pump_It_Up)
+play:   [973] key J
+play:   [974] click FancyButton 'Main' (TabMain)
+play:   [975] click FancyButton 'Main' (TabMain)
+play:   [976] click FancyButton 'Side' (TabSide)
+play:   [977] click FancyButton 'Side' (TabSide)
+play:   [978] click FancyButton 'Side' (TabSide)
+play:   [979] click FancyButton 'Side' (TabSide)
+play:   [980] click FancyButton 'Main' (TabMain)
+play:   [981] click FancyButton '' (@Button@36127)
+play:   [982] click Button '' (Badge_Out_of_Breath)
+play:   [983] click Button '' (Badge_Out_of_Breath)
+play:   [984] click FancyButton 'Menu' (MenuButton)
+play:   [985] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [986] click FancyButton '' (@Button@36161)
+play:   [987] click Button '' (Badge_Out_of_Breath)
+play:   [988] click Button '' (Badge_Pump_It_Up)
+play:   [989] click Button '' (Badge_Out_of_Breath)
+play:   [990] click FancyButton 'Menu' (MenuButton)
+play:   [991] click FancyButton 'Packs (P)' (Menu_Packs)
+play:   [992] click FancyButton '' (@Button@36200)
+play:   [993] click FancyButton 'Menu' (MenuButton)
+play:   [994] click FancyButton 'Menu' (MenuButton)
+play:   [995] click Button '' (Badge_Pump_It_Up)
+play:   [996] key I
+play:   [997] click Button '' (Badge_Out_of_Breath)
+play:   [998] click FancyButton 'Menu' (MenuButton)
+play:   [999] click FancyButton 'Feats' (Menu_Feats)
+play:   [1000] key 1
+play:   [1001] click FancyButton 'Menu' (MenuButton)
+play:   [1002] click Button '' (Badge_Out_of_Breath)
+play:   [1003] click FancyButton 'Menu' (MenuButton)
+play:   [1004] click Button '' (Badge_Pump_It_Up)
+play:   [1005] click FancyButton 'Menu' (MenuButton)
+play:   [1007] click Button '' (Badge_Out_of_Breath)
+play:   [1008] click FancyButton 'Back' (FeatsBack)
+play:   [1009] click FancyButton 'Resume' (@Button@36522)
+play:   [1010] click Button '' (Badge_Pump_It_Up)
+play:   [1011] click FancyButton 'Menu' (MenuButton)
+play:   [1012] click FancyButton 'Settings' (Menu_Settings)
+play:   [1014] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [1015] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1016] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1017] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1018] click FancyButton 'Display' (TabDisplay)
+play:   [1019] click OptionButton '30 fps' (FrameCapOptions)
+play:   [1020] click FancyButton 'Text' (TabText)
+play:   [1021] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [1022] click FancyButton 'Display' (TabDisplay)
+play:   [1023] click FancyButton 'Done' (SettingsBack)
+play:   [1024] click FancyButton 'Load Game' (LoadButton)
+play:   [1025] click Button '' (Badge_Out_of_Breath)
+play:   [1026] click FancyButton 'Load' (LoadButton)
+play:   [1027] click FancyButton 'Cancel' (@Button@37212)
+play:   [1028] click Button '' (Badge_Pump_It_Up)
+play:   [1029] click FancyButton 'Load' (LoadButton)
+play:   [1030] click FancyButton 'Load' (@Button@37221)
+play:   [1031] key Q
+play:   [1032] key Q
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   [1033] key I
+play:   [1034] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [1035] click Button '] ▸' (QuestNext)
+play:   [1036] click Button '] ▸' (QuestNext)
+play:   [1037] click Button '◂ [' (QuestPrev)
+play: soak: segment zone (1) at 808 s
+play:   state: Gourmand level 10 gold 1282
+play:   zone beefcake
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 566 cards
+play:   [1041] click Button '' (Badge_Pump_It_Up)
+play:   [1042] click FancyButton 'Menu' (MenuButton)
+play:   [1043] click Button '' (Badge_Out_of_Breath)
+play:   [1044] key I
+play:   [1045] click Button '' (Badge_Out_of_Breath)
+load_timing: gainlands_zone 3855 ms (slowest step: zone: builder 1140 ms); worst frame in the first 5 s after the fade-in: 94 ms (at 1.2 s)
+play:   [1047] click FancyButton 'Character (C)' (Menu_Character)
+play:   [1048] click Button '' (EquipSlot_boots)
+play:   [1049] click Button '' (EquipSlot_armor)
+play:   [1050] click Button '' (EquipSlot_relic)
+play:   [1051] click Button '' (ItemSlot_0)
+play:   [1052] click Button '' (EquipSlot_helm)
+play:   [1053] click FancyButton '' (@Button@38956)
+play:   [1054] click FancyButton 'Menu' (MenuButton)
+play:   spot giant_chest: goto giant_chest at (14.0, 4.0, 72.0)
+play:   [1055] click FancyButton 'Settings' (Menu_Settings)
+play:   spot vault_lever: goto vault_lever at (104.5, 4.151954, 48.5)
+play:   spot flex_mirror_pec: goto flex_mirror_pec at (-17.1, 12.0, 2.0)
+play:   spot rift_station: goto rift_station at (42.0, 4.114522, 76.6)
+play:   spot cardsharp: goto cardsharp at (20.8, 4.0, 69.8)
+play:   spot sign_3: goto sign_3 at (66.0, 0.0, 73.5)
+play:   spot heal: goto heal at (68.0, 3.986644, 78.1)
+play:   spot sign_6: goto sign_6 at (60.5, 0.0, -2.5)
+play:   spot spot_me: goto spot_me at (78.9, 4.0, 80.5)
+play:   spot sign_3: goto sign_3 at (66.0, 0.0, 73.5)
+play:   spot heal: goto heal at (68.0, 3.986644, 78.1)
+play:   spot main_dungeon: goto main_dungeon at (56.0, 7.6, -2.9)
+play:   spot exit: goto exit at (56.0, 4.224167, 103.2)
+play:   spot exit: goto exit at (56.0, 4.224167, 103.2)
+play: soak: segment fight (2) at 916 s
+play:   state: Gourmand level 18 gold 1703
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 661 cards
+play:   fight D-PC:3 (Hedge Trimmer Guard)
+play:   Battle: Hedge Trimmer Guard
+play:   [1206] battle: Hedge Trimmer Guard
+load_timing: battle 844 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 41 ms (at 3.6 s)
+play:   battle: decided by decree (win; mode 0, busy true, over false)
+play:   [1207] click CardView '@Control@41501' (@Control@41501)
+play:   [1208] click FancyButton 'Speed: 1x' (SpeedToggle)
+play:   [1209] click FancyButton 'Battle log' (LogToggle)
+play:   [1210] click Button '' (ItemSlot_1)
+play:   [1211] click Button '' (ItemSlot_3)
+play:   [1212] click FancyButton 'Continue' (@Button@45034)
+play:   [1213] key J
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 661 cards
+play:   [1214] key 1
+play:   [1215] click CardView '@Control@45776' (@Control@45776)
+play:   [1216] click FancyButton 'Continue' (@Button@45828)
+play:   [1217] click FancyButton 'Continue' (@Button@45828)
+play:   [1218] click FancyButton 'Continue' (@Button@45854)
+play:   [1219] click FancyButton 'Continue' (@Button@45854)
+play:   [1220] click FancyButton 'Continue' (@Button@45890)
+play:   [1221] click FancyButton 'Continue' (@Button@45890)
+play:   [1222] click Button '] ▸' (QuestNext)
+play: soak: segment title (1) at 972 s
+play:   [1223] click FancyButton 'Credits' (@Button@45923)
+play:   [1224] click FancyButton 'Credits' (@Button@45923)
+play:   [1225] click FancyButton 'Continue' (@Button@45919)
+play:   [1226] click FancyButton 'Settings' (@Button@45922)
+play:   [1227] click FancyButton 'Settings' (@Button@45922)
+play:   [1228] click FancyButton 'Credits' (@Button@45923)
+load_timing: title 890 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 315 ms (at 0.7 s)
+play:   [1230] click FancyButton 'Continue' (@Button@45919)
+play:   [1231] click FancyButton 'Settings' (@Button@45922)
+play:   [1232] click FancyButton 'Load Game' (@Button@45921)
+play:   [1233] click FancyButton 'Credits' (@Button@45923)
+play:   [1234] click FancyButton 'Credits' (@Button@45923)
+play:   [1235] key C
+play:   [1236] click FancyButton 'Load Game' (@Button@45921)
+play:   [1237] click FancyButton 'Settings' (@Button@45922)
+play:   [1238] click FancyButton 'Close' (CloseCredits)
+play:   [1239] click FancyButton 'Credits' (@Button@45923)
+play:   [1240] click FancyButton 'Load Game' (@Button@45921)
+play:   [1241] click FancyButton 'Settings' (@Button@45922)
+play:   [1242] key E
+play:   [1243] click FancyButton 'Load Game' (@Button@45921)
+play:   [1244] click FancyButton 'Continue' (@Button@45919)
+play:   [1245] click FancyButton 'Settings' (@Button@45922)
+play: soak: segment save (2) at 988 s
+play:   [1246] click FancyButton 'Credits' (@Button@45923)
+play:   [1247] click FancyButton 'Close' (CloseCredits)
+play:   [1248] click FancyButton 'Credits' (@Button@45923)
+play:   save: the first load migrated flags.maren_path_direction (new), flags.own_path_gourmand (new)
+play:   save: Snapshot saved: soak_3
+play:   load: Snapshot loaded: soak_3
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 661 cards
+play:   [1250] click Button '] ▸' (QuestNext)
+play:   [1251] click Button '◂ [' (QuestPrev)
+play: ISSUE save [save step 1251]: a snapshot loaded back differently: flags.title_seen_town (new)
+play:   [1252] click Button '▾ Free the Four Zones' (TrackerHeader)
+play:   [1253] click Button '] ▸' (QuestNext)
+play:   [1254] click FancyButton 'Menu' (MenuButton)
+play:   [1255] click Button '] ▸' (QuestNext)
+play:   [1257] click Button '] ▸' (QuestNext)
+load_timing: town 5676 ms (slowest step: look rig: scenery 1129 ms); worst frame in the first 5 s after the fade-in: 66 ms (at 3.1 s)
+play: soak: segment newgame (1) at 1001 s
+world_look: generic scenery at (3.95, 0.0, -8.2), scale 1.00
+load_timing: starting_area 3708 ms (slowest step: painted: base material 2581 ms); worst frame in the first 5 s after the fade-in: 40 ms (at 3.3 s)
+play:   [1273] click FancyButton 'More' (@Button@47620)
+play:   [1274] click Button '' (@Button@47512)
+play:   [1275] key Escape
+play:   [1276] click FancyButton 'Less' (@Button@47620)
+play:   [1277] click Button '' (@Button@47282)
+play:   [1278] click FancyButton 'Begin as Gourmand' (@Button@47621)
+play:   [1283] click FancyButton 'Deck (B)' (@Button@47119)
+play:   [1284] click CardView '@Control@48099' (@Control@48099)
+play:   [1285] click FancyButton 'Fill Infrastructure' (@Button@47688)
+play:   [1286] click FancyButton 'Cover' (BoxCoverCard)
+play:   [1290] click FancyButton '+' (Plus)
+play:   [1291] click CardView '@Control@48282' (@Control@48282)
+play:   [1292] click FancyButton '-' (Minus)
+play:   [1293] click FancyButton '' (@Button@48675)
+play:   [1294] click FancyButton 'Back' (@Button@49034)
+play:   [1295] click CardView '@Control@48348' (@Control@48348)
+play:   [1296] key Tab
+play:   [1297] click FancyButton 'OK' (@Button@49084)
+play:   [1298] click FancyButton '-' (Minus)
+play:   [1299] click Button 'Any' (@Button@47673)
+play:   [1300] key Escape
+play:   [1301] click FancyButton 'Discard' (AlternativeButton)
+play:   [1305] key C
+play:   [1306] click FancyButton 'Deck (B)' (@Button@47119)
+play:   [1307] click Button 'Gourmand' (@Button@49254)
+play:   [1308] click CardView '@Control@49658' (@Control@49658)
+play:   [1309] click FancyButton '-' (Minus)
+play:   [1310] click Button '4+' (@Button@49270)
+play:   [1311] click FancyButton '-' (Minus)
+play:   [1312] click FancyButton '-' (Minus)
+play:   [1313] click Button 'Epic' (@Button@49275)
+play:   [1314] key Tab
+play:   [1315] click FancyButton '+' (Plus)
+play:   [1316] click FancyButton '+' (Plus)
+play:   [1317] click FancyButton '+' (Plus)
+play:   [1318] click Button 'Epic' (@Button@49275)
+play:   [1319] click FancyButton '' (@Button@50447)
+play:   [1320] click Button 'Wonder' (@Button@49262)
+play:   [1321] click FancyButton '' (@Button@49241)
+play:   [1323] click FancyButton 'Save' (@Button@50631)
+play:   [1324] click FancyButton 'Deck (B)' (@Button@47119)
+play:   [1325] click FancyButton '' (Slot1)
+play:   [1326] click Button 'Any' (@Button@50743)
+play:   [1327] click Button 'Trap' (@Button@50726)
+play:   [1328] click Button 'Any cost' (@Button@50731)
+play:   [1329] click Button '2' (@Button@50733)
+play:   [1330] click FancyButton 'Cover' (BoxCoverCard)
+play:   [1331] click FancyButton '' (@Button@51701)
+play:   [1332] click FancyButton '+' (Plus)
+play:   [1333] click CardView '@Control@51589' (@Control@51589)
+play:   [1334] click FancyButton '-' (Minus)
+play:   [1335] click FancyButton '' (@Button@50706)
+play:   [1336] key M
+play:   [1337] click FancyButton '-' (Minus)
+play:   [1338] click CardView '@Control@51550' (@Control@51550)
+play:   [1339] click Button '4+' (@Button@50735)
+play:   [1340] click FancyButton '-' (Minus)
+play:   [1341] click FancyButton '-' (Minus)
+play:   [1342] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [1343] click CardView '@Control@51700' (@Control@51700)
+play:   [1344] click FancyButton '' (@Button@51701)
+play:   [1345] key Escape
+play:   [1346] click FancyButton '-' (Minus)
+play:   [1348] click FancyButton '' (@Button@52011)
+play:   [1349] click FancyButton '' (@Button@51987)
+play:   [1350] click Button '3' (@Button@50734)
+play:   [1351] click Button 'Beefcake' (@Button@50718)
+play:   [1353] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [1354] click Button 'Tool' (@Button@50728)
+play:   [1355] click FancyButton '+' (Plus)
+play:   [1356] click Button 'Legendary' (@Button@50741)
+play:   [1357] click FancyButton '-' (Minus)
+play:   [1358] click Button 'Pathless' (@Button@50717)
+play:   [1359] click FancyButton '' (@Button@50706)
+play:   [1360] click Button 'Uncommon' (@Button@50739)
+play:   [1361] click FancyButton '' (@Button@52392)
+play:   [1362] key I
+play:   [1363] click FancyButton '-' (Minus)
+play:   [1364] click Button 'Pathless' (@Button@50717)
+play:   [1366] click Button 'Trap' (@Button@50726)
+play:   [1367] click FancyButton 'Reset' (@Button@50757)
+play:   [1368] click FancyButton '+' (Plus)
+play:   [1369] click FancyButton '' (@Button@52600)
+play:   [1370] click FancyButton 'Reset' (@Button@50757)
+play:   [1371] click Button 'All Paths' (@Button@50716)
+play:   [1372] click Button 'Legendary' (@Button@50741)
+play:   [1373] click Button 'Wonder' (@Button@50727)
+play:   [1374] click FancyButton '' (@Button@52748)
+play:   [1375] click Button 'Infrastructure' (@Button@50729)
+play:   [1376] key Enter
+play:   [1377] click FancyButton '' (@Button@52740)
+play:   [1378] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [1379] click Button 'Pathless' (@Button@50717)
+play:   [1380] click Button 'Legendary' (@Button@50741)
+play:   [1381] click FancyButton '' (@Button@50706)
+play:   [1382] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [1383] key M
+play:   [1384] click FancyButton '' (@Button@52748)
+play:   [1385] click FancyButton 'Save as new slot' (SaveAsNewSlot)
+play:   [1386] click FancyButton '' (@Button@50706)
+play:   [1387] click FancyButton '' (@Button@52752)
+play:   [1388] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [1389] click Button 'Infrastructure' (@Button@50729)
+play:   [1390] click Button 'Uncommon' (@Button@50739)
+play:   [1391] click FancyButton '' (@Button@52748)
+play:   [1392] click Button 'New' (@Button@50744)
+play:   [1393] click Button 'Gourmand' (@Button@50719)
+play:   [1394] click Button '4+' (@Button@50735)
+play:   [1395] click FancyButton '' (@Button@52740)
+play:   [1396] click FancyButton 'Reset' (@Button@50757)
+play:   [1397] click Button 'All Paths' (@Button@50716)
+play:   [1398] click Button '3' (@Button@50734)
+play:   [1400] click Button 'Tool' (@Button@50728)
+play:   [1401] click Button 'Pathless' (@Button@50717)
+play:   [1402] click FancyButton 'Suggest a deck' (SuggestDeck)
+play:   [1403] click Button 'Epic' (@Button@50740)
+play:   [1404] key Q
+play:   [1405] click Button 'Spell' (@Button@50725)
+play:   [1406] click Button 'Uncommon' (@Button@50739)
+play:   [1407] key 2
+play:   [1408] click Button 'Wonder' (@Button@50727)
+play:   [1409] click Button 'New' (@Button@50744)
+play:   [1410] key C
+play:   [1411] click FancyButton 'Cancel' (@Button@52768)
+play:   [1412] click FancyButton '' (@Button@52724)
+play:   [1413] click Button 'Beefcake' (@Button@50718)
+play:   [1414] click Button 'Any rarity' (@Button@50737)
+play:   [1415] click FancyButton '-' (Minus)
+play:   [1416] click FancyButton '+' (Plus)
+play:   [1417] click Button 'Any cost' (@Button@50731)
+play:   [1418] click Button 'Spell' (@Button@50725)
+play:   [1419] click FancyButton '+' (Plus)
+play:   [1420] click FancyButton 'Reset' (@Button@50757)
+play:   [1421] click FancyButton 'Cover' (BoxCoverCard)
+play:   [1422] key M
+play:   [1423] click CardView '@Control@53131' (@Control@53131)
+play:   [1424] click Button 'Trap' (@Button@50726)
+play:   [1425] click Button 'Legendary' (@Button@50741)
+play:   [1426] click CardView '@Control@53355' (@Control@53355)
+play:   [1427] click FancyButton '' (@Button@50706)
+play:   [1428] click LineEdit 'Search: a name, card text or a keyword (Hustle, Sw' (SearchBox)
+play:   [1429] click FancyButton '' (@Button@53393)
+play:   [1430] click Button 'Unit' (@Button@50724)
+play:   [1431] click FancyButton '-' (Minus)
+play:   [1432] click FancyButton '-' (Minus)
+play:   [1433] click FancyButton '-' (Minus)
+play:   [1434] click FancyButton '+' (Plus)
+play: soak: segment town (2) at 1115 s
+play:   state: Refusemancer level 8 gold 461
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 660 cards
+play:   [1437] click Button '▾ The City Gathers' (TrackerHeader)
+play:   [1438] click Button '] ▸' (QuestNext)
+play:   [1439] click FancyButton 'Menu' (MenuButton)
+load_timing: town 6094 ms (slowest step: look rig: scenery 1095 ms); worst frame in the first 5 s after the fade-in: 142 ms (at 2.6 s)
+play:   [1440] click Button '◂ [' (QuestPrev)
+play:   [1441] click Button '◂ [' (QuestPrev)
+play:   [1442] key Q
+play:   spot npc_beefcake: goto npc_beefcake at (23.9, 0.0, 65.28921)
+play:   [1447] click Button '▾ Fragments' (TrackerHeader)
+play:   [1448] click FancyButton 'Menu' (MenuButton)
+play:   [1449] click Button '◂ [' (QuestPrev)
+play:   [1450] key 2
+play:   [1451] click Button '▾ Fragments' (TrackerHeader)
+play:   [1452] click FancyButton 'Menu' (MenuButton)
+play:   [1453] click Button '] ▸' (QuestNext)
+play:   [1454] click FancyButton 'Menu' (MenuButton)
+play:   [1455] click Button '◂ [' (QuestPrev)
+play:   [1456] click FancyButton 'Menu' (MenuButton)
+play:   [1457] click Button '▾ Fragments' (TrackerHeader)
+play:   spot portal_refusemancer: goto portal_refusemancer at (-18.6, 0.0, 12.47077)
+play:   [1460] key Escape
+play:   [1461] click FancyButton 'Continue' (@Button@54478)
+play:   [1462] click FancyButton 'Continue' (@Button@54514)
+play:   [1464] click FancyButton 'Continue' (@Button@54540)
+play:   [1465] key 2
+play:   [1466] click FancyButton 'Continue' (@Button@54576)
+play:   [1467] click FancyButton 'Continue' (@Button@54602)
+play:   [1468] click FancyButton 'Continue' (@Button@54602)
+play:   [1469] click FancyButton 'Continue' (@Button@54628)
+play:   [1470] click FancyButton 'Menu' (MenuButton)
+play:   [1471] key K
+play:   [1472] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [1473] click Button '◂ [' (QuestPrev)
+play:   [1475] click Button '◂ [' (QuestPrev)
+play:   [1476] click Button '◂ [' (QuestPrev)
+play:   [1477] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [1478] click Button '◂ [' (QuestPrev)
+play:   [1479] click FancyButton 'Menu' (MenuButton)
+play:   [1480] click FancyButton 'Continue' (ContinueButton)
+play:   [1482] click Button '◂ [' (QuestPrev)
+play:   [1483] click Button '◂ [' (QuestPrev)
+play:   [1484] click FancyButton 'Continue' (ContinueButton)
+play:   [1485] click Button '] ▸' (QuestNext)
+play:   [1486] click FancyButton 'Menu' (MenuButton)
+play:   [1487] click FancyButton 'Continue' (ContinueButton)
+play:   [1488] click FancyButton 'Continue' (ContinueButton)
+play:   [1489] click Button '] ▸' (QuestNext)
+play:   [1490] click FancyButton 'Continue' (ContinueButton)
+play:   [1492] click Button '] ▸' (QuestNext)
+play:   [1493] click FancyButton 'Menu' (MenuButton)
+play:   [1494] click FancyButton 'Wardrobe (T)' (Menu_Wardrobe)
+play:   [1495] click Button '' (Tile_hat_none)
+play:   [1496] click Button '' (Tile_hat_hat_bowler)
+play:   [1497] click Button '' (Tile_cloak_cloak_royal)
+play:   [1498] click FancyButton '' (@Button@54710)
+play:   [1499] click Button '◂ [' (QuestPrev)
+play:   spot npc_refusemancer: goto npc_refusemancer at (-18.3, 0.0, 11.17076)
+play:   [1503] click Button '◂ [' (QuestPrev)
+play:   [1504] battle: Moss Mulligan
+load_timing: battle 984 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 40 ms (at 3.8 s)
+play:   [1504] battle extra: FancyButton 'End / Turn' (@Button@54820)
+play:   battle: decided by decree (loss; mode 0, busy true, over false)
+play:   [1505] click Button '' (ItemSlot_0)
+play:   [1506] click FancyButton 'Battle log' (LogToggle)
+play:   [1507] click FancyButton 'Hide log' (LogToggle)
+play:   [1508] key Escape
+play:   [1509] click FancyButton 'Battle log' (LogToggle)
+play:   [1510] click Button '' (Badge_Hidden_trait_?)
+play:   [1511] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1512] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1513] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1514] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1515] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1516] click FancyButton 'Back' (GlossaryBack)
+play:   [1517] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1518] click FancyButton 'Back' (GlossaryBack)
+play:   [1519] click FancyButton 'Resume' (@Button@57760)
+play:   [1520] click Button '' (ItemSlot_0)
+play:   [1521] key M
+play:   [1522] key Enter
+play:   [1523] key M
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 660 cards
+play:   [1524] key Escape
+play:   [1525] click Button '◂ [' (QuestPrev)
+play:   spot baker: goto baker at (29.8, 0.0, 12.47)
+play: soak: segment fight (3) at 1215 s
+play:   state: Gourmand level 19 gold 2488
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   fight zone:gourmand:loaf (Meatloaf Golem)
+play:   Battle: Meatloaf Golem
+play:   [1534] battle: Meatloaf Golem
+load_timing: battle 805 ms (slowest step: fade in 268 ms); worst frame in the first 5 s after the fade-in: 39 ms (at 2.2 s)
+play:   [1534] battle extra: FancyButton 'Battle log' (LogToggle)
+play:   [1534] battle extra: Button '' (ItemSlot_0)
+play:   [1534] battle extra: FancyButton 'Speed: 1.5x' (SpeedToggle)
+play:   battle: decided by decree (loss; mode 1, busy true, over false)
+play:   [1535] key J
+play:   [1536] click Button '' (ItemSlot_0)
+play:   [1538] click Button '' (ItemSlot_1)
+play:   [1539] click Button '' (ItemSlot_1)
+play:   [1540] click FancyButton 'Continue' (@Button@62041)
+play:   [1541] key 2
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 658 cards
+play:   [1542] key C
+play:   [1543] click Button '▾ Free the Four Zones' (TrackerHeader)
+play: soak: segment fight (4) at 1262 s
+play:   state: Refusemancer level 8 gold 1786
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   fight freed:refusemancer:golem (Mossy Trash Golem)
+play:   Battle: Mossy Trash Golem
+play:   [1544] battle: Mossy Trash Golem
+load_timing: battle 729 ms (slowest step: fade in 269 ms); worst frame in the first 5 s after the fade-in: 41 ms (at 4.8 s)
+play:   [1544] battle extra: FancyButton 'To Combat  [Space]' (@Button@63925)
+play:   battle: decided by decree (loss; mode 1, busy false, over false)
+play:   [1545] key Escape
+play:   [1546] key I
+play:   [1547] click FancyButton 'Settings' (@Button@65668)
+play:   [1548] click FancyButton 'Controls' (TabControls)
+play:   [1549] click FancyButton 'Down' (Slot1)
+play:   [1550] click FancyButton 'S' (Slot0)
+play:   [1551] click FancyButton 'Reset' (ResetAction)
+play:   [1552] key E
+play:   [1553] click FancyButton 'Reset' (ResetAction)
+play:   [1554] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1555] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1556] click FancyButton 'Controls' (TabControls)
+play:   [1557] click FancyButton 'Left stick left' (PadSlot)
+play:   [1558] click FancyButton 'Display' (TabDisplay)
+play:   [1559] click OptionButton 'Auto (per quality level)' (UpscalerOptions)
+play:   [1560] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1561] click FancyButton 'Text' (TabText)
+play:   [1562] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [1563] click OptionButton 'Normal' (DialogueSpeedOptions)
+play:   [1564] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [1565] click OptionButton 'Wait for click' (OpponentCardsOptions)
+play:   [1566] click OptionButton 'Normal' (TooltipTextOptions)
+play:   [1567] key 1
+play:   [1568] click CheckButton 'Warn before ending a turn with energy and playable' (ConfirmEndTurnCheck)
+play:   [1569] click OptionButton 'Normal' (CardTextOptions)
+play:   [1570] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [1571] click FancyButton 'Done' (SettingsBack)
+play:   [1572] click FancyButton 'Settings' (@Button@66238)
+play:   [1573] click FancyButton 'Display' (TabDisplay)
+play:   [1574] key Q
+play:   [1575] click OptionButton '30 fps' (FrameCapOptions)
+play:   [1576] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [1577] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [1578] click OptionButton 'Medium' (QualityOptions)
+play:   [1579] click CheckButton 'Depth of field (tilt-shift blur, Medium and High)' (DofCheck)
+play:   [1581] click OptionButton 'Light' (FogQualityOptions)
+play:   [1582] click FancyButton 'Text' (TabText)
+play:   [1583] click OptionButton 'Normal' (DialogueTextOptions)
+play:   [1584] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [1585] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [1586] click FancyButton 'Controls' (TabControls)
+play:   [1587] click FancyButton 'Text' (TabText)
+play:   [1588] click FancyButton 'Text' (TabText)
+play:   [1589] click FancyButton 'Audio' (TabAudio)
+play:   [1590] click FancyButton 'Audio' (TabAudio)
+play:   [1591] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1592] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1593] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [1594] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [1595] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1596] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [1597] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1598] click FancyButton 'Display' (TabDisplay)
+play:   [1599] click OptionButton '30 fps' (FrameCapOptions)
+play:   [1600] click OptionButton 'Light' (FogQualityOptions)
+play:   [1601] click FancyButton 'Text' (TabText)
+play:   [1602] click FancyButton 'Controls' (TabControls)
+play:   [1603] click FancyButton 'Down' (Slot1)
+play:   [1604] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1605] click FancyButton 'Controls' (TabControls)
+play:   [1606] click FancyButton 'Down' (Slot1)
+play:   [1607] click FancyButton 'Up' (Slot1)
+play:   [1608] click FancyButton 'Reset' (ResetAction)
+play:   [1609] click FancyButton 'S' (Slot0)
+play:   [1610] click FancyButton 'A' (Slot0)
+play:   [1611] click OptionButton 'Auto (from the controller)' (PadPromptOptions)
+play:   [1612] click FancyButton 'Reset' (ResetAction)
+play:   [1613] click FancyButton 'Controls' (TabControls)
+play:   [1614] click FancyButton 'A' (Slot0)
+play:   [1615] click FancyButton 'S' (Slot0)
+play:   [1616] click FancyButton 'Controls' (TabControls)
+play:   [1617] click FancyButton 'W' (Slot0)
+play:   [1618] click FancyButton 'Reset' (ResetAction)
+play:   [1619] click CheckButton 'Always sprint (holding Sprint then walks)' (AlwaysSprintCheck)
+play:   [1620] click FancyButton 'Done' (SettingsBack)
+play:   [1621] click FancyButton 'Load Game' (LoadButton)
+play:   [1622] key E
+play:   [1623] click FancyButton 'Load' (LoadButton)
+play:   [1624] click FancyButton 'Load' (@Button@67668)
+play:   [1625] click Button '' (ItemSlot_0)
+play:   [1626] key 2
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   [1627] key I
+play: soak: segment dungeon (3) at 1342 s
+play:   state: Beefcake level 24 gold 146
+play:   Travel: S-PASTE
+play:   [1628] click FancyButton 'Menu' (MenuButton)
+play:   [1630] click FancyButton 'Continue' (ContinueButton)
+play:   [1631] click FancyButton 'Menu' (MenuButton)
+play:   [1632] click FancyButton 'Glossary' (Menu_Glossary)
+play:   [1633] click FancyButton 'Resources' (Tab_Resources)
+play:   [1634] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1635] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1636] click FancyButton 'Zones' (Tab_Zones)
+play:   [1637] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1638] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1639] click FancyButton 'Zones' (Tab_Zones)
+play:   [1640] key Tab
+play:   [1641] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1642] click FancyButton 'Terms' (Tab_Terms)
+play:   [1643] click FancyButton 'Resources' (Tab_Resources)
+play:   [1644] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1645] click FancyButton 'Terms' (Tab_Terms)
+play:   [1646] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1647] click FancyButton 'Back' (GlossaryBack)
+play:   [1648] click FancyButton 'Feats' (FeatsButton)
+play:   [1649] key I
+play:   [1650] click FancyButton 'Menu' (MenuButton)
+play:   [1651] click FancyButton 'Menu' (MenuButton)
+play:   [1652] click FancyButton 'Menu' (MenuButton)
+play:   [1653] click FancyButton 'Menu' (MenuButton)
+play:   [1654] click FancyButton 'Menu' (MenuButton)
+play:   [1655] click FancyButton 'Menu' (MenuButton)
+play:   [1656] click FancyButton 'Menu' (MenuButton)
+play:   [1657] click FancyButton 'Menu' (MenuButton)
+play:   [1658] click FancyButton 'Back' (FeatsBack)
+play:   [1659] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1660] click FancyButton 'Resources' (Tab_Resources)
+play:   [1661] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1662] click FancyButton 'Resources' (Tab_Resources)
+play:   [1663] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1664] click FancyButton 'Resources' (Tab_Resources)
+play:   [1665] click FancyButton 'Resources' (Tab_Resources)
+play:   [1666] click FancyButton 'Terms' (Tab_Terms)
+play:   [1667] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1668] key Tab
+play:   [1669] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1670] click FancyButton 'Terms' (Tab_Terms)
+play:   [1671] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1672] click FancyButton 'Zones' (Tab_Zones)
+play:   [1673] click FancyButton 'Terms' (Tab_Terms)
+play:   [1674] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1675] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1677] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1678] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1679] click FancyButton 'Back' (GlossaryBack)
+play:   [1680] click FancyButton 'Load Game' (LoadButton)
+play:   [1681] click FancyButton 'Menu' (MenuButton)
+play:   [1682] click FancyButton 'Load Game' (LoadButton)
+play:   [1683] click FancyButton 'Load' (LoadButton)
+play:   [1684] click FancyButton 'Load' (@Button@69968)
+play:   [1685] key I
+play:   [1686] key K
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   [1687] key I
+play:   [1688] click Button '] ▸' (QuestNext)
+play:   [1689] click Button '◂ [' (QuestPrev)
+play:   [1690] click Button '] ▸' (QuestNext)
+play:   [1691] click Button '] ▸' (QuestNext)
+play:   [1692] click FancyButton 'Continue' (ContinueButton)
+play:   [1693] key Tab
+play:   [1694] click Button '◂ [' (QuestPrev)
+play:   [1695] click FancyButton 'Menu' (MenuButton)
+play:   [1696] click Button '] ▸' (QuestNext)
+play:   [1698] click Button '◂ [' (QuestPrev)
+load_timing: town 4877 ms (slowest step: look rig: scenery 1010 ms); worst frame in the first 5 s after the fade-in: 61 ms (at 0.1 s)
+play:   [1699] click Button '▾ The Oldest Trick in the Book' (TrackerHeader)
+play:   [1700] click FancyButton 'Deck (B)' (Menu_Deck)
+play:   [1701] click FancyButton '-' (Minus)
+play:   [1702] key E
+play:   [1703] click FancyButton '' (@Button@70781)
+play:   [1704] click FancyButton 'Discard' (AlternativeButton)
+play:   [1705] click Button '◂ [' (QuestPrev)
+play:   [1706] click Button '▸ A Pinch of Everything' (TrackerHeader)
+play:   [1709] click FancyButton 'Menu' (MenuButton)
+play:   [1710] click FancyButton 'Glossary' (Menu_Glossary)
+play:   [1711] click FancyButton 'Terms' (Tab_Terms)
+play:   [1713] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1714] click FancyButton 'Terms' (Tab_Terms)
+play:   [1715] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1716] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1718] click FancyButton 'Resources' (Tab_Resources)
+play:   [1719] click FancyButton 'Zones' (Tab_Zones)
+play:   [1720] click FancyButton 'Statuses' (Tab_Statuses)
+play:   [1721] click FancyButton 'Terms' (Tab_Terms)
+play:   [1722] click FancyButton 'Terms' (Tab_Terms)
+play:   [1723] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1724] click FancyButton 'Resources' (Tab_Resources)
+play:   [1725] click FancyButton 'Back' (GlossaryBack)
+play:   [1726] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1728] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1729] click FancyButton 'Zones' (Tab_Zones)
+play:   [1730] key Tab
+play:   [1731] click FancyButton 'Resources' (Tab_Resources)
+play:   [1732] click FancyButton 'Terms' (Tab_Terms)
+play:   [1733] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1734] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1735] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1736] click FancyButton 'Resources' (Tab_Resources)
+play:   [1737] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1738] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1739] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1740] click FancyButton 'Terms' (Tab_Terms)
+play:   [1741] click FancyButton 'Terms' (Tab_Terms)
+play:   [1742] click FancyButton 'Back' (GlossaryBack)
+play:   [1743] click FancyButton 'Save Game' (SaveButton)
+play:   [1744] click FancyButton 'Back' (@Button@72822)
+play:   [1745] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [1746] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1747] click FancyButton 'Zones' (Tab_Zones)
+play:   [1748] click FancyButton 'Terms' (Tab_Terms)
+play:   [1749] click FancyButton 'Zones' (Tab_Zones)
+play:   [1750] click FancyButton 'Resources' (Tab_Resources)
+play:   [1751] click FancyButton 'Terms' (Tab_Terms)
+play:   [1752] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1753] click FancyButton 'Zones' (Tab_Zones)
+play:   [1754] click FancyButton 'Terms' (Tab_Terms)
+play:   [1755] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1756] click FancyButton 'Resources' (Tab_Resources)
+play:   [1758] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1759] click FancyButton 'Card types' (Tab_Card_types)
+play:   [1760] click FancyButton 'Zones' (Tab_Zones)
+play:   [1761] click FancyButton 'Back' (GlossaryBack)
+play:   [1762] click Button '▾ A Pinch of Everything' (TrackerHeader)
+play:   [1763] click FancyButton 'Load Game' (LoadButton)
+play:   [1764] click FancyButton 'Resume' (@Button@73436)
+play:   [1766] click FancyButton 'Feats' (FeatsButton)
+play:   [1767] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1768] click FancyButton 'Feats' (FeatsButton)
+play:   [1769] click FancyButton 'Load' (LoadButton)
+play:   [1770] click FancyButton 'Load' (@Button@73490)
+play:   [1771] key Q
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 768 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 659 cards
+play:   [1772] key M
+play:   [1773] click Button '] ▸' (QuestNext)
+play:   [1774] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [1775] click Button '] ▸' (QuestNext)
+play:   [1776] key Q
+play:   [1777] key Escape
+play:   [1778] click FancyButton 'Glossary' (GlossaryButton)
+play:   [1779] click FancyButton 'Terms' (Tab_Terms)
+play:   [1781] click FancyButton 'Keywords' (Tab_Keywords)
+play:   [1782] click FancyButton 'Resources' (Tab_Resources)
+play:   [1783] click FancyButton 'Rule icons' (Tab_Rule_icons)
+play:   [1785] click FancyButton 'Resources' (Tab_Resources)
+play:   [1786] click FancyButton 'Back' (GlossaryBack)
+play:   [1787] click FancyButton 'Settings' (@Button@74507)
+play:   [1788] click FancyButton 'Display' (TabDisplay)
+play:   [1789] click OptionButton '240 fps' (FrameCapOptions)
+play:   [1790] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [1791] click OptionButton 'Medium' (QualityOptions)
+play:   [1792] click FancyButton 'Text' (TabText)
+play:   [1793] click CheckButton 'Auto-end the turn when nothing is playable' (AutoEndTurnCheck)
+play:   [1794] click FancyButton 'Audio' (TabAudio)
+play:   [1795] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1796] click FancyButton 'Display' (TabDisplay)
+play:   [1797] click OptionButton '1280 x 720' (ResolutionOptions)
+play:   [1798] click OptionButton 'Light' (FogQualityOptions)
+play:   [1799] click OptionButton 'Auto (per quality level)' (UpscalerOptions)
+play:   [1800] click FancyButton 'Display' (TabDisplay)
+play:   [1801] click FancyButton 'Text' (TabText)
+play:   [1802] click FancyButton 'Controls' (TabControls)
+play:   [1803] click OptionButton 'Auto (from the controller)' (PadPromptOptions)
+play:   [1804] click FancyButton 'Reset' (ResetAction)
+play:   [1805] click FancyButton 'Reset' (ResetAction)
+play:   [1806] click FancyButton 'Controls' (TabControls)
+play:   [1807] click FancyButton 'Reset' (ResetAction)
+play:   [1808] click FancyButton 'Audio' (TabAudio)
+play:   [1809] click FancyButton 'Audio' (TabAudio)
+play:   [1810] click FancyButton 'Text' (TabText)
+play:   [1811] key M
+play:   [1812] click FancyButton 'Display' (TabDisplay)
+play:   [1813] click OptionButton '240 fps' (FrameCapOptions)
+play:   [1814] click FancyButton 'Audio' (TabAudio)
+play:   [1815] click FancyButton 'Audio' (TabAudio)
+play:   [1816] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1817] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1818] key J
+play:   [1819] click CheckButton 'Reduce flashing effects' (ReduceFlashingCheck)
+play:   [1820] key K
+play:   [1821] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1822] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [1823] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [1824] click FancyButton 'Display' (TabDisplay)
+play:   [1826] click FancyButton 'Display' (TabDisplay)
+play:   [1827] click OptionButton 'Light' (FogQualityOptions)
+play:   [1828] click OptionButton '240 fps' (FrameCapOptions)
+play:   [1829] click OptionButton '240 fps' (FrameCapOptions)
+play:   [1830] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1831] click CheckButton 'Reduce flashing effects' (ReduceFlashingCheck)
+play:   [1832] click CheckButton 'Reduce motion' (ReduceMotionCheck)
+play:   [1833] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1834] click CheckButton 'Reduce screen shake' (ReduceShakeCheck)
+play:   [1835] click FancyButton 'Controls' (TabControls)
+play:   [1836] click FancyButton 'Left' (Slot1)
+play:   [1837] click FancyButton 'Controls' (TabControls)
+play:   [1838] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1839] click CheckButton 'Reduce flashing effects' (ReduceFlashingCheck)
+play:   [1840] click FancyButton 'Display' (TabDisplay)
+play:   [1841] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1842] click FancyButton 'Controls' (TabControls)
+play:   [1843] click FancyButton 'Audio' (TabAudio)
+play:   [1844] click FancyButton 'Display' (TabDisplay)
+play:   [1845] click OptionButton 'Medium' (QualityOptions)
+play:   [1846] click CheckButton 'Bloom (soft glow around bright things)' (BloomCheck)
+play:   [1847] click FancyButton 'Controls' (TabControls)
+play:   [1848] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1849] click CheckButton 'Colour-blind friendly: show Path symbols' (ColorblindCheck)
+play:   [1850] click CheckButton 'Reduce flashing effects' (ReduceFlashingCheck)
+play:   [1851] click FancyButton 'Audio' (TabAudio)
+play:   [1852] click FancyButton 'Accessibility' (TabAccessibility)
+play:   [1853] click FancyButton 'Done' (SettingsBack)
+play:   [1854] click FancyButton 'Feats' (FeatsButton)
+play:   [1855] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [1856] key Enter
+play:   [1857] click FancyButton 'Menu' (MenuButton)
+play:   [1858] click Button '◂ [' (QuestPrev)
+play:   [1859] click FancyButton 'Menu' (MenuButton)
+play:   [1860] click FancyButton 'Menu' (MenuButton)
+play:   [1861] click Button '◂ [' (QuestPrev)
+play:   [1862] click Button '] ▸' (QuestNext)
+play:   [1863] click FancyButton 'Menu' (MenuButton)
+play:   [1864] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [1865] click FancyButton 'Menu' (MenuButton)
+play:   [1866] click Button '] ▸' (QuestNext)
+play:   [1867] click FancyButton 'Menu' (MenuButton)
+play:   [1868] click FancyButton 'Continue' (ContinueButton)
+play:   [1869] click FancyButton 'Back' (FeatsBack)
+play:   [1871] click Button '◂ [' (QuestPrev)
+play:   [1872] click Button '◂ [' (QuestPrev)
+play:   [1873] click FancyButton 'Save Game' (SaveButton)
+play:   [1874] click FancyButton 'Feats' (FeatsButton)
+play:   [1875] click FancyButton 'Menu' (MenuButton)
+play:   [1876] click FancyButton 'Resume' (@Button@77258)
+play:   [1877] click FancyButton 'Menu' (MenuButton)
+play:   [1878] key Space
+play:   [1879] click FancyButton 'Menu' (MenuButton)
+play:   [1880] click FancyButton 'Save Game' (SaveButton)
+play:   [1881] click FancyButton 'Settings' (@Button@77259)
+play:   [1882] click FancyButton 'Feats' (FeatsButton)
+play:   [1883] key Q
+play:   [1884] click FancyButton 'Menu' (MenuButton)
+play:   [1885] click FancyButton 'Save here' (SaveButton)
+play:   [1886] click FancyButton 'Cancel' (@Button@77310)
+play:   [1887] click Button '◂ [' (QuestPrev)
+play:   [1888] click FancyButton 'Load Game' (LoadButton)
+play:   [1889] click LineEdit 'Name this save' (NameEdit2)
+play:   [1890] click Button '▾ Meet the Merchants' (TrackerHeader)
+play:   [1891] click FancyButton 'Load Game' (LoadButton)
+play:   [1892] click LineEdit 'Name this save' (NameEdit4)
+play:   [1893] click Button '] ▸' (QuestNext)
+play:   [1894] key Space
+play:   [1895] click FancyButton 'Load Game' (LoadButton)
+play:   [1896] click Button '] ▸' (QuestNext)
+play: soak: done, 1896 steps, 1 distinct issues
+play: play: done
+WARNING: 28 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 3 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.ERROR: 18 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 24 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 3 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 40 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 18 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: 61 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 24 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 144 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 45 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 905 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 52 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

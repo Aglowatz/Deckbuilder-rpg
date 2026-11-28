@@ -65,6 +65,19 @@ func clear_arrows() -> void:
 
 
 ## A number or word that floats up from `pos` and fades.
+## Nov 27 day (the soak bot): where a floating text of `text_size` centred on `pos` starts, kept on the screen. "+3 HP (Nourish)" over the
+## opponent's plate (top left) started 37 px off the left edge; a text also starts low enough that its 70 px rise stays on screen.
+const FLOAT_EDGE: float = 12.0
+const FLOAT_RISE: float = 70.0
+
+
+static func placed(pos: Vector2, text_size: Vector2, view: Vector2) -> Vector2:
+	var at: Vector2 = pos - text_size * 0.5
+	at.x = clampf(at.x, FLOAT_EDGE, maxf(FLOAT_EDGE, view.x - FLOAT_EDGE - text_size.x))
+	at.y = clampf(at.y, FLOAT_EDGE + FLOAT_RISE, maxf(FLOAT_EDGE + FLOAT_RISE, view.y - FLOAT_EDGE - text_size.y))
+	return at
+
+
 func floating_text(pos: Vector2, text: String, color: Color, size: int = 44) -> void:
 	var label: Label = Label.new()
 	label.text = text
@@ -77,7 +90,7 @@ func floating_text(pos: Vector2, text: String, color: Color, size: int = 44) -> 
 	label.z_index = 300
 	add_child(label)
 	label.reset_size()
-	label.position = pos - label.size * 0.5
+	label.position = placed(pos, label.size, get_viewport_rect().size if is_inside_tree() else Vector2(1920, 1080))
 	label.pivot_offset = label.size * 0.5
 	label.scale = Vector2(0.4, 0.4)
 	var tween: Tween = create_tween().set_parallel(true)

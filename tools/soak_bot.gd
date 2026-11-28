@@ -229,7 +229,13 @@ func _segment_zone_draft() -> void:
 	while _time_left():
 		await _explore(rng.randi_range(8, 16))
 		if not _overlay_open() and _time_left():
-			_say("  %s" % DevActions.draft("open", "", get_tree().current_scene))
+			var opened: String = DevActions.draft("open", "", get_tree().current_scene)
+			if opened.contains("no table"):
+				# the bot wandered out of the zone (map travel, a menu): back to it
+				DevActions.travel_zone(zone_id)
+				await _wait_scene(10.0)
+				opened = DevActions.draft("open", "", get_tree().current_scene)
+			_say("  %s" % opened)
 			await driver.seconds(1.0)
 
 
@@ -308,7 +314,11 @@ func _save_roundtrip() -> void:
 	await _wait_scene(12.0)
 	await _explore(2)
 	var stable_after: Dictionary = _stable(Session.to_dict())
-	var load_diffs: Array[String] = _diff(stable_before, stable_after, "")
+	var load_diffs: Array[String] = []
+	for line: String in _diff(stable_before, stable_after, ""):
+		# arriving after the load sets flags (a banner seen) and, in a zone, tracks that zone's main line (by design): play, not loss
+		if not (line.begins_with("flags.") and line.ends_with("(new)")) and not line.begins_with("quests.tracked"):
+			load_diffs.append(line)
 	if not load_diffs.is_empty():
 		_issue("save", "a snapshot loaded back differently: %s" % ", ".join(load_diffs.slice(0, 8)), "save:snapshot:" + ",".join(load_diffs.slice(0, 3)))
 	else:

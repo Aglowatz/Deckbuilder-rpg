@@ -151,3 +151,17 @@ func test_a_waiting_title_banner_survives_its_scene_being_freed() -> void:
 	await wait_seconds(0.6)
 	assert_false(is_instance_valid(card), "the banner is thrown away once its scene is gone")
 	assert_true(FileAccess.get_file_as_string("res://ui/screens/zone_title_card.gd").contains("weakref(scene)"), "the wait holds a weak reference")
+
+
+## Soak seed 4: "+3 HP (Nourish)" floated up from the opponent's plate at the top left and started 37 px off the screen's left edge.
+## Floating texts now start inside the screen (12 px from each side) and low enough that their 70 px rise stays on it.
+func test_floating_battle_text_stays_on_the_screen() -> void:
+	var view: Vector2 = Vector2(1920, 1080)
+	var size: Vector2 = Vector2(440, 74)
+	var at: Vector2 = BattleFX.placed(Vector2(180, 100), size, view)
+	assert_gte(at.x, BattleFX.FLOAT_EDGE, "not off the left edge")
+	assert_gte(at.y - BattleFX.FLOAT_RISE, BattleFX.FLOAT_EDGE - 0.1, "its rise stays below the top edge")
+	var right: Vector2 = BattleFX.placed(Vector2(1900, 540), size, view)
+	assert_lte(right.x + size.x, view.x - BattleFX.FLOAT_EDGE + 0.1, "not off the right edge")
+	var middle: Vector2 = BattleFX.placed(Vector2(960, 540), size, view)
+	assert_eq(middle, Vector2(960, 540) - size * 0.5, "a text in the middle stays centred on its spot")
