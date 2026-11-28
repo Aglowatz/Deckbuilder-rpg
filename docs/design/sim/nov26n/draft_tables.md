@@ -1,17 +1,25 @@
 # Draft audit tables (Nov 26 night)
 
-224 drafts, 608 fights (Mystery Mini: runs), from 13 raw files. A "change" compares decks of the same configs with and without the card (or piece), weighted by games; a positive change means decks holding it won more often.
+300 drafts, 836 fights (Mystery Mini: runs), from 18 raw files. A "change" compares decks of the same configs with and without the card (or piece), weighted by games; a positive change means decks holding it won more often.
 
 ## Win rates by mode and Path set
 
 | Mode | Paths | Drafts | Fights won | Win rate |
 |---|---|---:|---:|---:|
 | high | beefcake | 8 | 13/24 | **54 %** |
+| high | beefcake + gourmand | 8 | 13/24 | **54 %** |
+| high | beefcake + gourmand + necrocrat | 8 | 14/24 | **58 %** |
 | high | beefcake + gourmand + necrocrat + refusemancer | 8 | 6/24 | **25 %** |
+| high | beefcake + gourmand + refusemancer | 8 | 9/24 | **38 %** |
 | high | beefcake + necrocrat | 8 | 12/24 | **50 %** |
+| high | beefcake + necrocrat + refusemancer | 8 | 15/24 | **62 %** |
+| high | beefcake + refusemancer | 8 | 14/24 | **58 %** |
 | high | gourmand | 8 | 7/24 | **29 %** |
+| high | gourmand + necrocrat | 8 | 8/24 | **33 %** |
+| high | gourmand + necrocrat + refusemancer | 8 | 12/24 | **50 %** |
 | high | gourmand + refusemancer | 8 | 11/24 | **46 %** |
 | high | necrocrat | 8 | 13/24 | **54 %** |
+| high | necrocrat + refusemancer | 8 | 14/24 | **58 %** |
 | high | refusemancer | 8 | 11/24 | **46 %** |
 | mini | beefcake | 8 | 3/8 | **38 %** |
 | mini | gourmand | 8 | 3/8 | **38 %** |
@@ -23,9 +31,11 @@
 | open | beefcake + gourmand + necrocrat + refusemancer | 8 | 11/24 | **46 %** |
 | open | beefcake + gourmand + refusemancer | 8 | 13/24 | **54 %** |
 | open | beefcake + necrocrat | 8 | 19/24 | **79 %** |
+| open | beefcake + necrocrat + refusemancer | 8 | 13/24 | **54 %** |
 | open | beefcake + refusemancer | 8 | 15/24 | **62 %** |
 | open | gourmand | 8 | 10/24 | **42 %** |
 | open | gourmand + necrocrat | 8 | 11/24 | **46 %** |
+| open | gourmand + necrocrat + refusemancer | 4 | 8/12 | **67 %** |
 | open | gourmand + refusemancer | 8 | 11/24 | **46 %** |
 | open | necrocrat | 8 | 8/24 | **33 %** |
 | open | necrocrat + refusemancer | 8 | 11/24 | **46 %** |
@@ -39,257 +49,266 @@
 
 | Card | Rarity | Offered | Pick rate | Decks | Win rate with it | Change |
 |---|---|---:|---:|---:|---:|---:|
-| Notary Wraith (`N-06`) | C | 44 | 41 % | 11 | 62 % | **+22.7** |
-| Raccoon (`R-27`) | E | 58 | 81 % | 33 | 65 % | **+20.5** |
-| Middle Management Zombie (`N-23`) | U | 53 | 96 % | 31 | 58 % | **+19.6** |
-| Spice Bazaar (`INF-03`) | U | 91 | 37 % | 22 | 45 % | **+19.1** |
-| Bone-afide Strongman (`NB-14`) | E | 17 | 76 % | 11 | 70 % | **+18.2** |
-| Body-builder (`N-04`) | C | 42 | 60 % | 15 | 59 % | **+17.4** |
-| Millstone Pusher (`B-04`) | C | 51 | 59 % | 23 | 65 % | **+17.1** |
-| Hammer Thrower (`B-34`) | C | 43 | 49 % | 11 | 62 % | **+14.7** |
-| Dumpster Diver (`R-02`) | C | 50 | 66 % | 27 | 63 % | **+14.2** |
-| Lich of Accounts Payable (`N-28`) | E | 65 | 49 % | 25 | 57 % | **+13.6** |
-| Corpseified Public Accountant (`N-05`) | C | 38 | 68 % | 17 | 51 % | **+13.3** |
-| Wandering Medic (`C-07`) | C | 107 | 36 % | 18 | 67 % | **+13.2** |
-| Personal Trainer (`B-09`) | C | 39 | 28 % | 9 | 56 % | **+13.1** |
-| Bone Broth Cook (`G-36`) | C | 47 | 47 % | 15 | 63 % | **+13.0** |
-| Second-Hand Life (`R-24`) | U | 74 | 23 % | 13 | 66 % | **+12.9** |
+| Madame Mortadella, Eternal Restaurateur (`GN-16`) | L | 38 | 21 % | 8 | 67 % | **+24.4** |
+| Waste Manager (`NR-02`) | U | 29 | 62 % | 15 | 64 % | **+21.5** |
+| Middle Management Zombie (`N-23`) | U | 74 | 93 % | 38 | 62 % | **+20.6** |
+| Millstone Pusher (`B-04`) | C | 62 | 56 % | 28 | 67 % | **+19.1** |
+| Sewer Rat Courier (`NR-01`) | U | 26 | 85 % | 18 | 59 % | **+16.8** |
+| Bone-afide Strongman (`NB-14`) | E | 26 | 58 % | 13 | 69 % | **+16.5** |
+| Barbell of the Ancients (`B-30`) | E | 70 | 13 % | 8 | 68 % | **+16.4** |
+| The Ghost Express Depot (`INF-05`) | E | 24 | 42 % | 10 | 70 % | **+16.0** |
+| Sir Loin, Prime Cut (`GB-13`) | E | 34 | 74 % | 21 | 59 % | **+15.7** |
+| Spice Bazaar (`INF-03`) | U | 113 | 34 % | 24 | 42 % | **+15.3** |
+| Bone Broth Brewer (`GN-03`) | U | 15 | 73 % | 10 | 63 % | **+14.2** |
+| Wandering Medic (`C-07`) | C | 125 | 36 % | 23 | 65 % | **+13.9** |
+| Leg Day Survivor (`B-12`) | C | 70 | 43 % | 14 | 68 % | **+13.4** |
+| Raccoon (`R-27`) | E | 76 | 83 % | 47 | 61 % | **+13.3** |
+| Dead Weight (`NB-04`) | U | 29 | 31 % | 9 | 74 % | **+13.2** |
 
 ## Cards: the weakest (held by 8+ decks)
 
 | Card | Rarity | Offered | Pick rate | Decks | Win rate with it | Change |
 |---|---|---:|---:|---:|---:|---:|
-| Farm-to-Table Chef (`GR-01`) | U | 12 | 92 % | 10 | 27 % | **-29.7** |
-| Recyc-lops (`GR-12`) | E | 15 | 87 % | 11 | 33 % | **-24.7** |
-| Grim Repper (`NB-15`) | E | 16 | 62 % | 9 | 33 % | **-21.3** |
-| Grand Chef Escoffina (`G-33`) | L | 103 | 82 % | 60 | 45 % | **-18.5** |
-| Possum Prowler (`R-08`) | C | 35 | 97 % | 23 | 46 % | **-18.3** |
-| Rubbish Goat (`R-04`) | C | 31 | 55 % | 8 | 45 % | **-17.9** |
-| Snack Bar (`B-23`) | U | 65 | 22 % | 11 | 34 % | **-16.7** |
-| Spotter (`B-08`) | C | 38 | 47 % | 14 | 45 % | **-15.5** |
-| Line Cook (`G-01`) | C | 54 | 81 % | 31 | 33 % | **-13.4** |
-| En Garde-Manger (`G-23`) | U | 74 | 84 % | 40 | 39 % | **-13.4** |
-| Mount Trashmore (`R-29`) | E | 67 | 97 % | 38 | 59 % | **-12.9** |
-| Traveling Brawler (`C-06`) | C | 120 | 42 % | 25 | 39 % | **-12.1** |
-| Cartographer's Table (`C-28`) | U | 242 | 20 % | 25 | 48 % | **-11.9** |
-| Kitchen Porter (`G-09`) | C | 50 | 78 % | 31 | 38 % | **-11.2** |
-| Landfill Ox (`R-03`) | C | 38 | 63 % | 15 | 49 % | **-10.8** |
+| Rat Swarm (`NR-06`) | U | 24 | 38 % | 8 | 42 % | **-29.0** |
+| Trash Panda Powerlifter (`BR-13`) | E | 22 | 64 % | 10 | 33 % | **-25.6** |
+| Rodent De Cuisine (`GR-16`) | L | 33 | 30 % | 10 | 20 % | **-22.7** |
+| Conscripted Constrictor (`NR-12`) | E | 31 | 71 % | 16 | 42 % | **-20.8** |
+| Recyc-lops (`GR-12`) | E | 24 | 83 % | 17 | 37 % | **-17.7** |
+| Leftovers (`GR-06`) | U | 22 | 41 % | 8 | 42 % | **-16.1** |
+| Freegan Forager (`GR-02`) | U | 15 | 80 % | 10 | 40 % | **-15.7** |
+| Grand Chef Escoffina (`G-33`) | L | 128 | 84 % | 80 | 44 % | **-15.7** |
+| Big Bertha, Blue Ribbon Behemoth (`GRB-08`) | L | 13 | 92 % | 9 | 30 % | **-15.6** |
+| Grave Shift Worker (`N-07`) | C | 65 | 55 % | 11 | 39 % | **-14.8** |
+| Farm-to-Table Chef (`GR-01`) | U | 18 | 94 % | 16 | 40 % | **-14.0** |
+| Food Fight (`GR-04`) | U | 25 | 40 % | 8 | 38 % | **-12.9** |
+| Kitchen Porter (`G-09`) | C | 74 | 77 % | 43 | 37 % | **-12.8** |
+| Traveling Brawler (`C-06`) | C | 149 | 46 % | 36 | 41 % | **-11.7** |
+| Final Meal Request (`GN-10`) | U | 23 | 39 % | 9 | 37 % | **-11.5** |
 
 ## Cards nobody takes (offered 12+ times, lowest pick rate)
 
 | Card | Rarity | Offered | Picked | Pick rate |
 |---|---|---:|---:|---:|
-| Desperate Measures (`C-15`) | C | 116 | 0 | 0 % |
-| Mass Layoffs (`N-29`) | E | 56 | 0 | 0 % |
-| Windowsill Herb Garden (`G-15`) | C | 53 | 0 | 0 % |
-| Counterweight (`B-19`) | C | 51 | 0 | 0 % |
-| Pink Slip (`N-15`) | C | 49 | 0 | 0 % |
-| Compliance Review (`N-37`) | C | 48 | 0 | 0 % |
-| Flex on 'Em (`B-21`) | C | 46 | 0 | 0 % |
-| Recycling Day (`R-16`) | C | 43 | 0 | 0 % |
-| Buried in Paperwork (`N-17`) | C | 42 | 0 | 0 % |
-| Reclaimed Land (`R-13`) | C | 33 | 0 | 0 % |
-| The Verdant Vines (`GR-13`) | E | 23 | 0 | 0 % |
-| Membership Cancellation (`NB-06`) | U | 21 | 0 | 0 % |
-| To Die For (`GN-09`) | U | 17 | 0 | 0 % |
-| Spirit-Lifting Belt (`NB-09`) | U | 16 | 0 | 0 % |
-| Scrapyard Gauntlets (`BR-14`) | E | 13 | 0 | 0 % |
+| Desperate Measures (`C-15`) | C | 148 | 0 | 0 % |
+| Mass Layoffs (`N-29`) | E | 80 | 0 | 0 % |
+| Counterweight (`B-19`) | C | 67 | 0 | 0 % |
+| Flex on 'Em (`B-21`) | C | 66 | 0 | 0 % |
+| Buried in Paperwork (`N-17`) | C | 66 | 0 | 0 % |
+| Pink Slip (`N-15`) | C | 63 | 0 | 0 % |
+| Recycling Day (`R-16`) | C | 63 | 0 | 0 % |
+| Windowsill Herb Garden (`G-15`) | C | 63 | 0 | 0 % |
+| Compliance Review (`N-37`) | C | 62 | 0 | 0 % |
+| Reclaimed Land (`R-13`) | C | 50 | 0 | 0 % |
+| The Verdant Vines (`GR-13`) | E | 32 | 0 | 0 % |
+| Hostile Takeover (`NB-12`) | E | 28 | 0 | 0 % |
+| Plague of Rats (`NR-09`) | U | 27 | 0 | 0 % |
+| Plague Season (`NR-14`) | E | 26 | 0 | 0 % |
+| Decomposition Notice (`NR-10`) | U | 22 | 0 | 0 % |
 
 ## Equipment in the draft pool
 
 | Piece | Offered | Taken | Take rate | Drafts with it | Win rate with it | Change | Offered in |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Quota's Stopwatch (`quotas_stopwatch`) | 13 | 11 | 85 % | 11 | 69 % | **+26.3** | open 4, high 4, zone 3, mini 2 |
-| Pantry Apron (`pantry_apron`) | 21 | 14 | 67 % | 14 | 55 % | **+19.9** | open 11, high 7, zone 3 |
-| Sideboard Satchel (`sideboard_satchel`) | 20 | 13 | 65 % | 13 | 67 % | **+18.0** | open 9, mini 6, zone 4, high 1 |
-| Mystery-Stain Bib (`mystery_stain_bib`) | 26 | 23 | 88 % | 23 | 70 % | **+17.3** | open 15, zone 5, high 3, mini 3 |
-| Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | 18 | 15 | 83 % | 15 | 74 % | **+16.7** | open 11, zone 4, high 2, mini 1 |
-| Elastic Waistband of Victory (`elastic_waistband`) | 44 | 22 | 50 % | 22 | 55 % | **+15.9** | high 17, open 16, mini 8, zone 3 |
-| Curve-Topper Boots (`curve_topper_boots`) | 31 | 30 | 97 % | 30 | 64 % | **+14.5** | open 15, mini 7, high 5, zone 4 |
-| Protein Shaker Bandolier (`protein_bandolier`) | 33 | 28 | 85 % | 28 | 55 % | **+12.0** | open 18, high 6, mini 6, zone 3 |
-| Draft Champion's Laurels (`draft_champions_laurels`) | 6 | 6 | 100 % | 6 | 64 % | **+11.2** | open 2, mini 2, high 1, zone 1 |
-| Notarized Seal of Unlife (`notary_seal`) | 15 | 14 | 93 % | 14 | 55 % | **+10.3** | open 9, high 3, mini 2, zone 1 |
-| Kettlebell Locket (`kettlebell_locket`) | 40 | 10 | 25 % | 10 | 60 % | **+9.2** | open 12, high 11, mini 9, zone 8 |
-| Side-Hustle Headband (`hustle_headband`) | 31 | 29 | 94 % | 29 | 61 % | **+8.2** | open 21, high 5, zone 3, mini 2 |
-| Clerk's Stamp (`clerks_stamp`) | 38 | 12 | 32 % | 12 | 64 % | **+7.9** | open 18, high 11, zone 6, mini 3 |
-| Refusemancer Seed Satchel (`seed_satchel`) | 25 | 20 | 80 % | 20 | 58 % | **+7.6** | open 9, high 6, mini 5, zone 5 |
-| Champion's Laurels (`champions_laurels`) | 79 | 36 | 46 % | 36 | 57 % | **+7.6** | open 40, high 21, zone 11, mini 7 |
-| Paper-Plane Cape (`paper_plane_cape`) | 28 | 26 | 93 % | 26 | 59 % | **+6.5** | open 14, high 6, mini 4, zone 4 |
-| Bloodsand Boots (`bloodsand_boots`) | 80 | 51 | 64 % | 51 | 58 % | **+6.4** | open 41, high 15, mini 13, zone 11 |
-| Pocket Hourglass (`pocket_hourglass`) | 29 | 13 | 45 % | 13 | 60 % | **+6.3** | open 12, high 9, mini 4, zone 4 |
-| Plume's Notary Quill (`plumes_quill`) | 11 | 8 | 73 % | 8 | 46 % | **+5.2** | open 5, high 3, zone 2, mini 1 |
-| The Bomb Rare (`the_bomb_rare`) | 27 | 21 | 78 % | 21 | 56 % | **+5.0** | open 13, high 7, zone 5, mini 2 |
-| Dumpster Diving Gloves (`dumpster_gloves`) | 18 | 5 | 28 % | 5 | 53 % | **+4.8** | open 10, high 5, zone 2, mini 1 |
-| Grandma's Rolling Pin (`rolling_pin`) | 15 | 15 | 100 % | 15 | 49 % | **+4.6** | open 9, high 3, zone 2, mini 1 |
-| Spotter's Barbell (`spotters_barbell`) | 9 | 9 | 100 % | 9 | 56 % | **+4.0** | open 4, high 4, mini 1 |
-| Tinker's Wrench (`tinkers_wrench`) | 51 | 28 | 55 % | 28 | 51 % | **+3.5** | open 22, high 12, zone 11, mini 6 |
-| Big Brain Beret (`big_brain_beret`) | 39 | 33 | 85 % | 33 | 45 % | **+3.2** | open 14, high 10, mini 8, zone 7 |
+| Quota's Stopwatch (`quotas_stopwatch`) | 20 | 17 | 85 % | 17 | 74 % | **+31.1** | high 10, open 5, zone 3, mini 2 |
+| Dumpster Diving Gloves (`dumpster_gloves`) | 29 | 9 | 31 % | 9 | 67 % | **+21.9** | high 15, open 11, zone 2, mini 1 |
+| Pantry Apron (`pantry_apron`) | 29 | 17 | 59 % | 17 | 55 % | **+18.9** | high 15, open 11, zone 3 |
+| Elastic Waistband of Victory (`elastic_waistband`) | 57 | 29 | 51 % | 29 | 60 % | **+17.9** | high 28, open 18, mini 8, zone 3 |
+| Protein Shaker Bandolier (`protein_bandolier`) | 53 | 45 | 85 % | 45 | 58 % | **+13.5** | high 24, open 20, mini 6, zone 3 |
+| Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | 25 | 22 | 88 % | 22 | 69 % | **+12.9** | open 11, high 9, zone 4, mini 1 |
+| Draft Champion's Laurels (`draft_champions_laurels`) | 10 | 10 | 100 % | 10 | 65 % | **+12.1** | high 4, open 3, mini 2, zone 1 |
+| Curve-Topper Boots (`curve_topper_boots`) | 40 | 39 | 98 % | 39 | 60 % | **+9.2** | open 17, high 12, mini 7, zone 4 |
+| Bloodsand Boots (`bloodsand_boots`) | 100 | 66 | 66 % | 66 | 59 % | **+9.0** | open 43, high 33, mini 13, zone 11 |
+| The Bomb Rare (`the_bomb_rare`) | 32 | 24 | 75 % | 24 | 57 % | **+8.5** | open 15, high 10, zone 5, mini 2 |
+| Paper-Plane Cape (`paper_plane_cape`) | 42 | 36 | 86 % | 36 | 60 % | **+8.3** | open 18, high 16, mini 4, zone 4 |
+| Sideboard Satchel (`sideboard_satchel`) | 26 | 17 | 65 % | 17 | 62 % | **+8.2** | open 10, high 6, mini 6, zone 4 |
+| Pocket Hourglass (`pocket_hourglass`) | 38 | 17 | 45 % | 17 | 60 % | **+7.8** | high 18, open 12, mini 4, zone 4 |
+| Kettlebell Locket (`kettlebell_locket`) | 49 | 11 | 22 % | 11 | 58 % | **+6.6** | high 18, open 14, mini 9, zone 8 |
+| Champion's Laurels (`champions_laurels`) | 105 | 39 | 37 % | 39 | 56 % | **+6.6** | high 44, open 43, zone 11, mini 7 |
+| Big Brain Beret (`big_brain_beret`) | 60 | 47 | 78 % | 47 | 50 % | **+6.6** | high 30, open 15, mini 8, zone 7 |
+| Plume's Notary Quill (`plumes_quill`) | 19 | 13 | 68 % | 13 | 54 % | **+5.7** | high 9, open 7, zone 2, mini 1 |
+| First-Pick Fedora (`first_pick_fedora`) | 104 | 41 | 39 % | 41 | 52 % | **+4.7** | open 46, high 41, mini 10, zone 7 |
+| Shuffle Slippers (`shuffle_slippers`) | 118 | 10 | 8 % | 10 | 61 % | **+3.7** | open 56, high 39, zone 14, mini 9 |
+| Notarized Seal of Unlife (`notary_seal`) | 20 | 19 | 95 % | 19 | 51 % | **+3.5** | open 11, high 6, mini 2, zone 1 |
+| Compost Boots (`compost_boots`) | 93 | 54 | 58 % | 54 | 51 % | **+3.2** | high 40, open 34, mini 11, zone 8 |
+| Refusemancer Seed Satchel (`seed_satchel`) | 34 | 28 | 82 % | 28 | 53 % | **+3.1** | high 13, open 11, mini 5, zone 5 |
 | Phial of First Water (`first_water_phial`) | 8 | 7 | 88 % | 7 | 53 % | **+2.8** | open 5, high 2, mini 1 |
-| Traveler's Boots (`travelers_boots`) | 95 | 12 | 13 % | 12 | 53 % | **+2.5** | open 42, high 28, zone 14, mini 11 |
-| Sucker Punch Mitts (`sucker_punch_mitts`) | 45 | 19 | 42 % | 19 | 47 % | **+1.8** | open 22, high 10, mini 7, zone 6 |
-| First-Pick Fedora (`first_pick_fedora`) | 82 | 32 | 39 % | 32 | 49 % | **+1.7** | open 43, high 22, mini 10, zone 7 |
-| Trash Panda Tiara (`raccoon_crown`) | 25 | 22 | 88 % | 22 | 50 % | **+0.4** | open 11, high 8, mini 5, zone 1 |
-| Thinking Cap (`thinking_cap`) | 84 | 0 | 0 % | 0 | - | (few) | open 37, zone 18, mini 16, high 13 |
-| Dealer's Visor (`dealers_visor`) | 79 | 1 | 1 % | 1 | 100 % | (few) | open 31, high 25, mini 16, zone 7 |
-| Cardboard Cuirass (`cardboard_cuirass`) | 114 | 0 | 0 % | 0 | - | (few) | open 51, high 27, mini 18, zone 18 |
-| Lucky Dice (`lucky_dice`) | 58 | 1 | 2 % | 1 | 33 % | (few) | open 29, high 16, zone 7, mini 6 |
-| Starter Blade (`starter_blade`) | 73 | 1 | 1 % | 1 | 0 % | (few) | open 36, high 19, mini 9, zone 9 |
-| Wicked Dagger (`wicked_dagger`) | 47 | 0 | 0 % | 0 | - | (few) | open 24, high 12, mini 6, zone 5 |
-| Solid Plate (`solid_plate`) | 94 | 0 | 0 % | 0 | - | (few) | open 37, high 28, zone 16, mini 13 |
-| Flip-Flops of Fortitude (`flip_flops`) | 98 | 2 | 2 % | 2 | 25 % | (few) | open 42, high 25, zone 18, mini 13 |
-| Lucky Sock (`lucky_sock`) | 49 | 1 | 2 % | 1 | 33 % | (few) | open 27, high 13, mini 6, zone 3 |
-| Lucky Pack Wrapper (`lucky_pack_wrapper`) | 57 | 1 | 2 % | 1 | 0 % | (few) | open 26, high 17, zone 11, mini 3 |
-| Practice Foil (`practice_foil`) | 55 | 3 | 5 % | 3 | 43 % | (few) | open 28, high 15, mini 6, zone 6 |
-| Extra Pocket (`extra_pocket`) | 59 | 0 | 0 % | 0 | - | (few) | open 32, high 13, mini 9, zone 5 |
-| Fair-Play Badge (`fair_play_badge`) | 49 | 2 | 4 % | 2 | 75 % | (few) | open 17, high 12, zone 12, mini 8 |
-| A Very Pointy Stick (`pointy_stick`) | 60 | 3 | 5 % | 3 | 44 % | (few) | open 23, mini 14, high 13, zone 10 |
-| Saucepan Helmet (`saucepan_helmet`) | 81 | 1 | 1 % | 1 | 0 % | (few) | open 34, high 20, zone 14, mini 13 |
-| Soul Courier's Lanyard (`courier_lanyard`) | 39 | 18 | 46 % | 18 | 48 % | **-0.1** | open 21, high 10, zone 6, mini 2 |
-| Rolled-Up Rulebook (`rolled_rulebook`) | 46 | 20 | 43 % | 20 | 44 % | **-1.1** | open 17, zone 13, high 10, mini 6 |
-| Compost Boots (`compost_boots`) | 66 | 39 | 59 % | 39 | 48 % | **-1.9** | open 30, high 17, mini 11, zone 8 |
-| Shuffle Slippers (`shuffle_slippers`) | 94 | 9 | 10 % | 9 | 56 % | **-2.1** | open 51, high 20, zone 14, mini 9 |
-| Blade of Earned Reputation (`earned_blade`) | 24 | 22 | 92 % | 22 | 47 % | **-2.2** | open 10, high 7, mini 4, zone 3 |
-| The Colonel's Ladle (`colonels_ladle`) | 20 | 17 | 85 % | 17 | 47 % | **-2.4** | high 11, open 6, zone 2, mini 1 |
-| Crown of Mild Hubris (`hubris_crown`) | 11 | 11 | 100 % | 11 | 52 % | **-2.5** | open 8, zone 2, mini 1 |
-| Dog-Eared Bookmark (`dog_eared_bookmark`) | 27 | 8 | 30 % | 8 | 45 % | **-2.6** | open 12, high 8, mini 4, zone 3 |
-| Head Chef's Toque (`head_chef_toque`) | 57 | 20 | 35 % | 20 | 44 % | **-2.8** | open 25, high 17, zone 9, mini 6 |
-| Compliance Clipboard (`compliance_clipboard`) | 18 | 15 | 83 % | 15 | 46 % | **-3.5** | open 6, high 6, mini 3, zone 3 |
-| Gainsmith's Lifting Belt (`swole_belt`) | 35 | 32 | 91 % | 32 | 49 % | **-3.9** | open 18, high 12, zone 3, mini 2 |
-| Dex's Matching Pair (`dex_matching_pair`) | 29 | 28 | 97 % | 28 | 44 % | **-6.1** | open 11, high 8, mini 8, zone 2 |
-| Doggy Bag (`doggy_bag`) | 40 | 8 | 20 % | 8 | 35 % | **-6.9** | open 23, high 9, mini 5, zone 3 |
+| Soul Courier's Lanyard (`courier_lanyard`) | 48 | 22 | 46 % | 22 | 52 % | **+2.5** | open 22, high 18, zone 6, mini 2 |
+| Tinker's Wrench (`tinkers_wrench`) | 68 | 36 | 53 % | 36 | 51 % | **+2.4** | high 28, open 23, zone 11, mini 6 |
+| Blade of Earned Reputation (`earned_blade`) | 31 | 29 | 94 % | 29 | 52 % | **+2.2** | open 13, high 11, mini 4, zone 3 |
+| Side-Hustle Headband (`hustle_headband`) | 44 | 41 | 93 % | 41 | 57 % | **+2.1** | open 25, high 14, zone 3, mini 2 |
+| Grandma's Rolling Pin (`rolling_pin`) | 17 | 17 | 100 % | 17 | 47 % | **+1.1** | open 9, high 5, zone 2, mini 1 |
+| Cheater's Dice (`cheaters_dice`) | 49 | 21 | 43 % | 21 | 51 % | **+0.8** | high 22, open 15, mini 9, zone 3 |
+| Crown of Mild Hubris (`hubris_crown`) | 14 | 14 | 100 % | 14 | 55 % | **+0.6** | open 8, high 3, zone 2, mini 1 |
+| Siphon's Lens (`siphons_lens`) | 27 | 16 | 59 % | 16 | 50 % | **+0.5** | high 11, open 10, zone 4, mini 2 |
+| Traveler's Boots (`travelers_boots`) | 129 | 13 | 10 % | 13 | 51 % | **+0.4** | high 57, open 47, zone 14, mini 11 |
+| Thinking Cap (`thinking_cap`) | 106 | 0 | 0 % | 0 | - | (few) | open 43, high 29, zone 18, mini 16 |
+| Dealer's Visor (`dealers_visor`) | 108 | 1 | 1 % | 1 | 100 % | (few) | high 49, open 36, mini 16, zone 7 |
+| Cardboard Cuirass (`cardboard_cuirass`) | 150 | 0 | 0 % | 0 | - | (few) | open 57, high 57, mini 18, zone 18 |
+| Lucky Dice (`lucky_dice`) | 74 | 1 | 1 % | 1 | 33 % | (few) | open 33, high 28, zone 7, mini 6 |
+| Starter Blade (`starter_blade`) | 95 | 3 | 3 % | 3 | 14 % | (few) | open 41, high 36, mini 9, zone 9 |
+| Wicked Dagger (`wicked_dagger`) | 69 | 0 | 0 % | 0 | - | (few) | high 30, open 28, mini 6, zone 5 |
+| Solid Plate (`solid_plate`) | 126 | 0 | 0 % | 0 | - | (few) | high 56, open 41, zone 16, mini 13 |
+| Lucky Sock (`lucky_sock`) | 71 | 2 | 3 % | 2 | 50 % | (few) | high 32, open 30, mini 6, zone 3 |
+| Lucky Pack Wrapper (`lucky_pack_wrapper`) | 65 | 1 | 2 % | 1 | 0 % | (few) | open 26, high 25, zone 11, mini 3 |
+| Extra Pocket (`extra_pocket`) | 77 | 1 | 1 % | 1 | 33 % | (few) | open 37, high 26, mini 9, zone 5 |
+| Fair-Play Badge (`fair_play_badge`) | 65 | 2 | 3 % | 2 | 75 % | (few) | high 27, open 18, zone 12, mini 8 |
+| A Very Pointy Stick (`pointy_stick`) | 78 | 3 | 4 % | 3 | 44 % | (few) | high 28, open 26, mini 14, zone 10 |
+| Saucepan Helmet (`saucepan_helmet`) | 106 | 2 | 2 % | 2 | 50 % | (few) | high 42, open 37, zone 14, mini 13 |
+| Clerk's Stamp (`clerks_stamp`) | 52 | 16 | 31 % | 16 | 56 % | **-0.8** | high 24, open 19, zone 6, mini 3 |
+| Mystery-Stain Bib (`mystery_stain_bib`) | 40 | 36 | 90 % | 36 | 57 % | **-1.3** | open 17, high 15, zone 5, mini 3 |
+| The Colonel's Ladle (`colonels_ladle`) | 31 | 27 | 87 % | 27 | 49 % | **-1.7** | high 20, open 8, zone 2, mini 1 |
+| Spotter's Barbell (`spotters_barbell`) | 12 | 12 | 100 % | 12 | 50 % | **-2.8** | high 7, open 4, mini 1 |
+| Sucker Punch Mitts (`sucker_punch_mitts`) | 61 | 25 | 41 % | 25 | 43 % | **-2.9** | high 25, open 23, mini 7, zone 6 |
+| Rolled-Up Rulebook (`rolled_rulebook`) | 57 | 24 | 42 % | 24 | 44 % | **-2.9** | high 20, open 18, zone 13, mini 6 |
+| Dex's Matching Pair (`dex_matching_pair`) | 43 | 42 | 98 % | 42 | 47 % | **-3.5** | high 20, open 13, mini 8, zone 2 |
+| Bin Lid Helm (`bin_lid`) | 27 | 8 | 30 % | 8 | 50 % | **-4.1** | high 16, open 8, mini 2, zone 1 |
+| Trash Panda Tiara (`raccoon_crown`) | 40 | 36 | 90 % | 36 | 50 % | **-4.5** | high 21, open 13, mini 5, zone 1 |
+| Dog-Eared Bookmark (`dog_eared_bookmark`) | 42 | 10 | 24 % | 10 | 43 % | **-4.6** | high 21, open 14, mini 4, zone 3 |
+| Gainsmith's Lifting Belt (`swole_belt`) | 48 | 41 | 85 % | 41 | 49 % | **-4.7** | open 22, high 21, zone 3, mini 2 |
+| Compliance Clipboard (`compliance_clipboard`) | 27 | 22 | 81 % | 22 | 48 % | **-4.8** | high 12, open 9, mini 3, zone 3 |
+| Steady Sandals (`steady_sandals`) | 142 | 15 | 11 % | 15 | 51 % | **-5.7** | high 64, open 50, mini 15, zone 13 |
+| Iron Knuckles (`iron_knuckles`) | 63 | 28 | 44 % | 28 | 43 % | **-6.2** | high 28, open 22, mini 9, zone 4 |
 | Four-Seal Signet (`four_seal_signet`) | 6 | 6 | 100 % | 6 | 50 % | **-7.1** | open 4, high 2 |
-| Iron Knuckles (`iron_knuckles`) | 46 | 22 | 48 % | 22 | 41 % | **-7.4** | open 21, high 12, mini 9, zone 4 |
-| Hover Boots (`hover_boots`) | 74 | 43 | 58 % | 43 | 39 % | **-8.4** | open 35, high 18, zone 12, mini 9 |
-| Cheater's Dice (`cheaters_dice`) | 35 | 17 | 49 % | 17 | 44 % | **-8.7** | open 14, high 9, mini 9, zone 3 |
-| Card-Sleeve Gauntlets (`card_sleeve_gauntlets`) | 72 | 4 | 6 % | 4 | 58 % | **-9.1** | open 30, mini 17, high 14, zone 11 |
-| Head Chef's Ladle (`head_chef_ladle`) | 46 | 20 | 43 % | 20 | 48 % | **-10.3** | open 26, high 12, mini 5, zone 3 |
-| X-Ray Goggles (`xray_goggles`) | 80 | 29 | 36 % | 29 | 41 % | **-10.4** | open 38, high 19, zone 15, mini 8 |
-| Siphon's Lens (`siphons_lens`) | 17 | 11 | 65 % | 11 | 38 % | **-11.0** | open 9, zone 4, high 2, mini 2 |
-| Velvet Rope (`velvet_rope`) | 17 | 17 | 100 % | 17 | 36 % | **-12.8** | open 10, high 3, mini 2, zone 2 |
-| Overdue Library Book (`overdue_library_book`) | 12 | 8 | 67 % | 8 | 40 % | **-13.6** | open 6, mini 3, zone 2, high 1 |
-| Booster-Wrapper Cape (`booster_wrapper_cape`) | 50 | 34 | 68 % | 34 | 40 % | **-14.3** | open 22, high 12, mini 8, zone 8 |
-| Pathwork Waistcoat (`pathwork_waistcoat`) | 104 | 20 | 19 % | 20 | 37 % | **-14.3** | open 52, high 25, zone 14, mini 13 |
-| Steady Sandals (`steady_sandals`) | 105 | 10 | 10 % | 10 | 43 % | **-15.2** | open 45, high 32, mini 15, zone 13 |
-| Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 83 | 17 | 20 % | 17 | 38 % | **-23.1** | open 35, high 16, mini 16, zone 16 |
-| Red Tape Dispenser (`red_tape_dispenser`) | 30 | 11 | 37 % | 11 | 33 % | **-24.1** | open 16, high 6, mini 6, zone 2 |
-| Bin Lid Helm (`bin_lid`) | 18 | 4 | 22 % | 4 | 40 % | **-25.7** | open 8, high 7, mini 2, zone 1 |
+| Head Chef's Toque (`head_chef_toque`) | 74 | 25 | 34 % | 25 | 41 % | **-7.2** | high 31, open 28, zone 9, mini 6 |
+| Head Chef's Ladle (`head_chef_ladle`) | 67 | 30 | 45 % | 30 | 51 % | **-7.3** | open 30, high 29, mini 5, zone 3 |
+| Card-Sleeve Gauntlets (`card_sleeve_gauntlets`) | 89 | 5 | 6 % | 5 | 60 % | **-7.3** | open 36, high 25, mini 17, zone 11 |
+| Doggy Bag (`doggy_bag`) | 55 | 13 | 24 % | 13 | 34 % | **-10.6** | high 24, open 23, mini 5, zone 3 |
+| Practice Foil (`practice_foil`) | 76 | 6 | 8 % | 6 | 50 % | **-10.7** | high 34, open 30, mini 6, zone 6 |
+| X-Ray Goggles (`xray_goggles`) | 102 | 36 | 35 % | 36 | 41 % | **-11.1** | open 43, high 36, zone 15, mini 8 |
+| Hover Boots (`hover_boots`) | 104 | 57 | 55 % | 57 | 38 % | **-11.5** | high 44, open 39, zone 12, mini 9 |
+| Booster-Wrapper Cape (`booster_wrapper_cape`) | 64 | 40 | 62 % | 40 | 40 % | **-12.4** | high 25, open 23, mini 8, zone 8 |
+| Overdue Library Book (`overdue_library_book`) | 15 | 11 | 73 % | 11 | 38 % | **-13.5** | open 6, high 4, mini 3, zone 2 |
+| Pathwork Waistcoat (`pathwork_waistcoat`) | 128 | 22 | 17 % | 22 | 37 % | **-15.2** | open 56, high 45, zone 14, mini 13 |
+| Flip-Flops of Fortitude (`flip_flops`) | 131 | 4 | 3 % | 4 | 30 % | **-15.7** | high 51, open 49, zone 18, mini 13 |
+| Velvet Rope (`velvet_rope`) | 25 | 25 | 100 % | 25 | 35 % | **-16.5** | high 11, open 10, mini 2, zone 2 |
+| Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 108 | 21 | 19 % | 21 | 40 % | **-18.6** | open 42, high 34, mini 16, zone 16 |
+| Red Tape Dispenser (`red_tape_dispenser`) | 43 | 15 | 35 % | 15 | 38 % | **-21.2** | open 20, high 15, mini 6, zone 2 |
 
 ## Items in the draft pool
 
 | Piece | Offered | Taken | Take rate | Drafts with it | Win rate with it | Change | Offered in |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Scroll of Insight (`scroll_of_insight`) | 84 | 6 | 7 % | 6 | 56 % | **+13.8** | open 37, high 21, zone 15, mini 11 |
-| Power Wraps (`power_wraps`) | 72 | 7 | 10 % | 7 | 62 % | **+9.5** | open 33, high 23, mini 9, zone 7 |
-| Binding Chains (`binding_chains`) | 75 | 15 | 20 % | 15 | 63 % | **+9.4** | open 37, high 19, mini 13, zone 6 |
-| Hearty Pot Pie (`hearty_pie`) | 74 | 59 | 80 % | 59 | 57 % | **+7.8** | open 32, high 15, mini 14, zone 13 |
-| Sharpening Stone (`sharpening_stone`) | 78 | 12 | 15 % | 12 | 59 % | **+5.7** | open 38, high 18, mini 12, zone 10 |
-| Grave Dust (`grave_dust`) | 78 | 14 | 18 % | 14 | 57 % | **+5.1** | open 39, high 18, zone 11, mini 10 |
-| Silence Powder (`silence_powder`) | 73 | 7 | 10 % | 7 | 53 % | **+3.0** | open 31, high 17, zone 15, mini 10 |
-| Energy Draught (`energy_draught`) | 75 | 12 | 16 % | 12 | 53 % | **+2.7** | open 35, high 22, mini 14, zone 4 |
-| Reckless Tonic (`reckless_tonic`) | 73 | 59 | 81 % | 59 | 52 % | **+1.5** | open 29, high 22, mini 11, zone 11 |
-| Firebrand Charm (`firebrand_charm`) | 67 | 45 | 67 % | 45 | 49 % | **+1.2** | open 34, high 18, zone 8, mini 7 |
-| Healing Salve (`healing_salve`) | 74 | 69 | 93 % | 69 | 51 % | **-0.1** | open 39, high 16, mini 10, zone 9 |
-| Ward Sigil (`ward_sigil`) | 89 | 19 | 21 % | 19 | 44 % | **-0.1** | open 46, high 20, mini 14, zone 9 |
-| Iron Ration (`iron_ration`) | 81 | 11 | 14 % | 11 | 59 % | **-1.6** | open 32, high 26, mini 14, zone 9 |
-| Spice Pouch (`spice_pouch`) | 78 | 15 | 19 % | 15 | 51 % | **-2.2** | open 40, high 18, zone 15, mini 5 |
-| Summoning Charm (`summoning_charm`) | 66 | 20 | 30 % | 20 | 43 % | **-3.4** | open 30, high 17, mini 11, zone 8 |
-| Blank Form (`blank_form`) | 76 | 10 | 13 % | 10 | 40 % | **-5.6** | open 36, zone 16, high 15, mini 9 |
-| Vitality Charm (`vitality_charm`) | 69 | 55 | 80 % | 55 | 40 % | **-12.4** | open 35, high 13, zone 13, mini 8 |
-| Bag of Rubbish (`bag_of_rubbish`) | 62 | 13 | 21 % | 13 | 31 % | **-15.8** | open 21, high 18, zone 13, mini 10 |
+| Hearty Pot Pie (`hearty_pie`) | 94 | 75 | 80 % | 75 | 57 % | **+8.0** | high 34, open 33, mini 14, zone 13 |
+| Binding Chains (`binding_chains`) | 99 | 21 | 21 % | 21 | 59 % | **+6.2** | open 42, high 38, mini 13, zone 6 |
+| Grave Dust (`grave_dust`) | 104 | 20 | 19 % | 20 | 57 % | **+5.7** | open 42, high 41, zone 11, mini 10 |
+| Power Wraps (`power_wraps`) | 107 | 15 | 14 % | 15 | 58 % | **+4.8** | high 55, open 36, mini 9, zone 7 |
+| Energy Draught (`energy_draught`) | 95 | 12 | 13 % | 12 | 53 % | **+2.7** | high 41, open 36, mini 14, zone 4 |
+| Healing Salve (`healing_salve`) | 94 | 86 | 91 % | 86 | 54 % | **+2.5** | open 44, high 31, mini 10, zone 9 |
+| Sharpening Stone (`sharpening_stone`) | 102 | 16 | 16 % | 16 | 54 % | **+1.2** | open 42, high 38, mini 12, zone 10 |
+| Blank Form (`blank_form`) | 100 | 14 | 14 % | 14 | 45 % | **+0.3** | open 41, high 34, zone 16, mini 9 |
+| Firebrand Charm (`firebrand_charm`) | 87 | 57 | 66 % | 57 | 48 % | **-0.7** | open 38, high 34, zone 8, mini 7 |
+| Reckless Tonic (`reckless_tonic`) | 97 | 79 | 81 % | 79 | 52 % | **-1.2** | high 44, open 31, mini 11, zone 11 |
+| Ward Sigil (`ward_sigil`) | 116 | 23 | 20 % | 23 | 46 % | **-1.6** | open 48, high 45, mini 14, zone 9 |
+| Scroll of Insight (`scroll_of_insight`) | 111 | 10 | 9 % | 10 | 47 % | **-2.2** | high 43, open 42, zone 15, mini 11 |
+| Silence Powder (`silence_powder`) | 93 | 11 | 12 % | 11 | 52 % | **-2.3** | open 37, high 31, zone 15, mini 10 |
+| Summoning Charm (`summoning_charm`) | 97 | 24 | 25 % | 24 | 42 % | **-3.5** | high 44, open 34, mini 11, zone 8 |
+| Spice Pouch (`spice_pouch`) | 102 | 19 | 19 % | 19 | 47 % | **-4.7** | open 42, high 40, zone 15, mini 5 |
+| Vitality Charm (`vitality_charm`) | 96 | 79 | 82 % | 79 | 45 % | **-5.4** | open 43, high 32, zone 13, mini 8 |
+| Iron Ration (`iron_ration`) | 116 | 18 | 16 % | 18 | 52 % | **-10.0** | high 53, open 40, mini 14, zone 9 |
+| Bag of Rubbish (`bag_of_rubbish`) | 90 | 21 | 23 % | 21 | 40 % | **-11.1** | high 42, open 25, zone 13, mini 10 |
 
 ## The rivals' gear: your win rate against a rival wearing it
 
 | Mode | Piece the rival wore | Fights | Your win rate | Mode average |
 |---|---|---:|---:|---:|
-| high | The Bomb Rare (`the_bomb_rare`) | 13 | 23 % | 43 % |
-| high | Draft Champion's Laurels (`draft_champions_laurels`) | 8 | 25 % | 43 % |
-| high | Clerk's Stamp (`clerks_stamp`) | 8 | 25 % | 43 % |
-| high | Wicked Dagger (`wicked_dagger`) | 19 | 26 % | 43 % |
-| high | Trash Panda Tiara (`raccoon_crown`) | 15 | 27 % | 43 % |
-| high | Mystery-Stain Bib (`mystery_stain_bib`) | 11 | 27 % | 43 % |
-| high | Blade of Earned Reputation (`earned_blade`) | 14 | 29 % | 43 % |
-| high | Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | 14 | 29 % | 43 % |
-| high | Kettlebell Locket (`kettlebell_locket`) | 7 | 29 % | 43 % |
-| high | Pocket Hourglass (`pocket_hourglass`) | 17 | 29 % | 43 % |
-| high | Elastic Waistband of Victory (`elastic_waistband`) | 40 | 30 % | 43 % |
-| high | Crown of Mild Hubris (`hubris_crown`) | 10 | 30 % | 43 % |
-| high | Compost Boots (`compost_boots`) | 29 | 31 % | 43 % |
-| high | Quota's Stopwatch (`quotas_stopwatch`) | 18 | 33 % | 43 % |
-| high | Grandma's Rolling Pin (`rolling_pin`) | 6 | 33 % | 43 % |
-| high | Overdue Library Book (`overdue_library_book`) | 9 | 33 % | 43 % |
-| high | X-Ray Goggles (`xray_goggles`) | 22 | 36 % | 43 % |
-| high | Refusemancer Seed Satchel (`seed_satchel`) | 11 | 36 % | 43 % |
-| high | Pantry Apron (`pantry_apron`) | 8 | 38 % | 43 % |
-| high | Side-Hustle Headband (`hustle_headband`) | 13 | 38 % | 43 % |
-| high | Cheater's Dice (`cheaters_dice`) | 13 | 38 % | 43 % |
-| high | Bloodsand Boots (`bloodsand_boots`) | 31 | 39 % | 43 % |
-| high | Sideboard Satchel (`sideboard_satchel`) | 10 | 40 % | 43 % |
-| high | The Colonel's Ladle (`colonels_ladle`) | 15 | 40 % | 43 % |
-| high | Booster-Wrapper Cape (`booster_wrapper_cape`) | 27 | 41 % | 43 % |
-| high | Curve-Topper Boots (`curve_topper_boots`) | 34 | 41 % | 43 % |
-| high | Dog-Eared Bookmark (`dog_eared_bookmark`) | 14 | 43 % | 43 % |
-| high | Compliance Clipboard (`compliance_clipboard`) | 7 | 43 % | 43 % |
-| high | Paper-Plane Cape (`paper_plane_cape`) | 7 | 43 % | 43 % |
-| high | Big Brain Beret (`big_brain_beret`) | 23 | 43 % | 43 % |
-| high | First-Pick Fedora (`first_pick_fedora`) | 27 | 44 % | 43 % |
-| high | Dex's Matching Pair (`dex_matching_pair`) | 24 | 50 % | 43 % |
-| high | Head Chef's Ladle (`head_chef_ladle`) | 10 | 50 % | 43 % |
-| high | Solid Plate (`solid_plate`) | 22 | 50 % | 43 % |
-| high | Doggy Bag (`doggy_bag`) | 8 | 50 % | 43 % |
-| high | Head Chef's Toque (`head_chef_toque`) | 20 | 50 % | 43 % |
-| high | Sucker Punch Mitts (`sucker_punch_mitts`) | 17 | 53 % | 43 % |
-| high | Rolled-Up Rulebook (`rolled_rulebook`) | 17 | 53 % | 43 % |
-| high | Siphon's Lens (`siphons_lens`) | 15 | 53 % | 43 % |
-| high | Steady Sandals (`steady_sandals`) | 9 | 56 % | 43 % |
-| high | Gainsmith's Lifting Belt (`swole_belt`) | 9 | 56 % | 43 % |
-| high | Hover Boots (`hover_boots`) | 32 | 56 % | 43 % |
-| high | Tinker's Wrench (`tinkers_wrench`) | 12 | 58 % | 43 % |
-| high | Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 15 | 60 % | 43 % |
-| high | Champion's Laurels (`champions_laurels`) | 18 | 61 % | 43 % |
-| high | Pathwork Waistcoat (`pathwork_waistcoat`) | 16 | 62 % | 43 % |
-| high | Plume's Notary Quill (`plumes_quill`) | 6 | 67 % | 43 % |
-| high | Iron Knuckles (`iron_knuckles`) | 15 | 73 % | 43 % |
-| high | Red Tape Dispenser (`red_tape_dispenser`) | 11 | 82 % | 43 % |
-| high | Dumpster Diving Gloves (`dumpster_gloves`) | 8 | 88 % | 43 % |
-| high | Bin Lid Helm (`bin_lid`) | 6 | 100 % | 43 % |
+| high | Thinking Cap (`thinking_cap`) | 6 | 17 % | 48 % |
+| high | The Bomb Rare (`the_bomb_rare`) | 25 | 20 % | 48 % |
+| high | Pocket Hourglass (`pocket_hourglass`) | 31 | 26 % | 48 % |
+| high | Elastic Waistband of Victory (`elastic_waistband`) | 64 | 28 % | 48 % |
+| high | Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | 28 | 32 % | 48 % |
+| high | Trash Panda Tiara (`raccoon_crown`) | 24 | 33 % | 48 % |
+| high | Shuffle Slippers (`shuffle_slippers`) | 9 | 33 % | 48 % |
+| high | Clerk's Stamp (`clerks_stamp`) | 21 | 33 % | 48 % |
+| high | Crown of Mild Hubris (`hubris_crown`) | 17 | 35 % | 48 % |
+| high | Spotter's Barbell (`spotters_barbell`) | 11 | 36 % | 48 % |
+| high | Draft Champion's Laurels (`draft_champions_laurels`) | 16 | 38 % | 48 % |
+| high | Bloodsand Boots (`bloodsand_boots`) | 74 | 38 % | 48 % |
+| high | Dog-Eared Bookmark (`dog_eared_bookmark`) | 23 | 39 % | 48 % |
+| high | Siphon's Lens (`siphons_lens`) | 25 | 40 % | 48 % |
+| high | Pantry Apron (`pantry_apron`) | 20 | 40 % | 48 % |
+| high | The Colonel's Ladle (`colonels_ladle`) | 32 | 41 % | 48 % |
+| high | Refusemancer Seed Satchel (`seed_satchel`) | 24 | 42 % | 48 % |
+| high | Quota's Stopwatch (`quotas_stopwatch`) | 26 | 42 % | 48 % |
+| high | Wicked Dagger (`wicked_dagger`) | 48 | 44 % | 48 % |
+| high | Curve-Topper Boots (`curve_topper_boots`) | 59 | 44 % | 48 % |
+| high | Mystery-Stain Bib (`mystery_stain_bib`) | 18 | 44 % | 48 % |
+| high | Blade of Earned Reputation (`earned_blade`) | 29 | 45 % | 48 % |
+| high | Booster-Wrapper Cape (`booster_wrapper_cape`) | 59 | 46 % | 48 % |
+| high | Grandma's Rolling Pin (`rolling_pin`) | 15 | 47 % | 48 % |
+| high | X-Ray Goggles (`xray_goggles`) | 51 | 47 % | 48 % |
+| high | Big Brain Beret (`big_brain_beret`) | 42 | 48 % | 48 % |
+| high | Sideboard Satchel (`sideboard_satchel`) | 23 | 48 % | 48 % |
+| high | Side-Hustle Headband (`hustle_headband`) | 25 | 48 % | 48 % |
+| high | Cheater's Dice (`cheaters_dice`) | 29 | 48 % | 48 % |
+| high | Champion's Laurels (`champions_laurels`) | 53 | 49 % | 48 % |
+| high | Compost Boots (`compost_boots`) | 73 | 49 % | 48 % |
+| high | Plume's Notary Quill (`plumes_quill`) | 18 | 50 % | 48 % |
+| high | Card-Sleeve Gauntlets (`card_sleeve_gauntlets`) | 6 | 50 % | 48 % |
+| high | Protein Shaker Bandolier (`protein_bandolier`) | 12 | 50 % | 48 % |
+| high | Doggy Bag (`doggy_bag`) | 16 | 50 % | 48 % |
+| high | Dex's Matching Pair (`dex_matching_pair`) | 61 | 51 % | 48 % |
+| high | First-Pick Fedora (`first_pick_fedora`) | 57 | 51 % | 48 % |
+| high | Head Chef's Toque (`head_chef_toque`) | 47 | 51 % | 48 % |
+| high | Head Chef's Ladle (`head_chef_ladle`) | 21 | 52 % | 48 % |
+| high | Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 42 | 52 % | 48 % |
+| high | Kettlebell Locket (`kettlebell_locket`) | 21 | 52 % | 48 % |
+| high | Gainsmith's Lifting Belt (`swole_belt`) | 19 | 53 % | 48 % |
+| high | Overdue Library Book (`overdue_library_book`) | 19 | 53 % | 48 % |
+| high | Sucker Punch Mitts (`sucker_punch_mitts`) | 34 | 53 % | 48 % |
+| high | Rolled-Up Rulebook (`rolled_rulebook`) | 34 | 53 % | 48 % |
+| high | Phial of First Water (`first_water_phial`) | 11 | 55 % | 48 % |
+| high | Solid Plate (`solid_plate`) | 45 | 56 % | 48 % |
+| high | Steady Sandals (`steady_sandals`) | 16 | 56 % | 48 % |
+| high | Paper-Plane Cape (`paper_plane_cape`) | 14 | 57 % | 48 % |
+| high | Hover Boots (`hover_boots`) | 56 | 59 % | 48 % |
+| high | Tinker's Wrench (`tinkers_wrench`) | 22 | 59 % | 48 % |
+| high | Flip-Flops of Fortitude (`flip_flops`) | 8 | 62 % | 48 % |
+| high | Four-Seal Signet (`four_seal_signet`) | 8 | 62 % | 48 % |
+| high | Pathwork Waistcoat (`pathwork_waistcoat`) | 51 | 63 % | 48 % |
+| high | Soul Courier's Lanyard (`courier_lanyard`) | 14 | 64 % | 48 % |
+| high | Compliance Clipboard (`compliance_clipboard`) | 23 | 65 % | 48 % |
+| high | Iron Knuckles (`iron_knuckles`) | 27 | 67 % | 48 % |
+| high | Red Tape Dispenser (`red_tape_dispenser`) | 21 | 71 % | 48 % |
+| high | Bin Lid Helm (`bin_lid`) | 16 | 75 % | 48 % |
+| high | Dumpster Diving Gloves (`dumpster_gloves`) | 18 | 83 % | 48 % |
 | open | Protein Shaker Bandolier (`protein_bandolier`) | 20 | 25 % | 56 % |
-| open | Side-Hustle Headband (`hustle_headband`) | 15 | 33 % | 56 % |
-| open | Mystery-Stain Bib (`mystery_stain_bib`) | 34 | 38 % | 56 % |
-| open | Notarized Seal of Unlife (`notary_seal`) | 13 | 38 % | 56 % |
-| open | Soul Courier's Lanyard (`courier_lanyard`) | 34 | 44 % | 56 % |
-| open | Head Chef's Ladle (`head_chef_ladle`) | 38 | 47 % | 56 % |
-| open | Bloodsand Boots (`bloodsand_boots`) | 112 | 50 % | 56 % |
-| open | Gainsmith's Lifting Belt (`swole_belt`) | 22 | 50 % | 56 % |
-| open | Lucky Pack Wrapper (`lucky_pack_wrapper`) | 8 | 50 % | 56 % |
-| open | Doggy Bag (`doggy_bag`) | 31 | 52 % | 56 % |
-| open | Head Chef's Toque (`head_chef_toque`) | 58 | 52 % | 56 % |
-| open | Kettlebell Locket (`kettlebell_locket`) | 40 | 52 % | 56 % |
-| open | X-Ray Goggles (`xray_goggles`) | 59 | 53 % | 56 % |
-| open | Dumpster Diving Gloves (`dumpster_gloves`) | 19 | 53 % | 56 % |
-| open | Trash Panda Tiara (`raccoon_crown`) | 19 | 53 % | 56 % |
-| open | Tinker's Wrench (`tinkers_wrench`) | 55 | 53 % | 56 % |
-| open | Compost Boots (`compost_boots`) | 93 | 54 % | 56 % |
-| open | Pocket Hourglass (`pocket_hourglass`) | 52 | 54 % | 56 % |
-| open | Sucker Punch Mitts (`sucker_punch_mitts`) | 50 | 54 % | 56 % |
-| open | Dog-Eared Bookmark (`dog_eared_bookmark`) | 43 | 56 % | 56 % |
-| open | Wicked Dagger (`wicked_dagger`) | 51 | 57 % | 56 % |
-| open | Solid Plate (`solid_plate`) | 49 | 57 % | 56 % |
-| open | Steady Sandals (`steady_sandals`) | 21 | 57 % | 56 % |
-| open | Bin Lid Helm (`bin_lid`) | 24 | 58 % | 56 % |
-| open | Red Tape Dispenser (`red_tape_dispenser`) | 35 | 60 % | 56 % |
-| open | Rolled-Up Rulebook (`rolled_rulebook`) | 43 | 60 % | 56 % |
-| open | Paper-Plane Cape (`paper_plane_cape`) | 33 | 61 % | 56 % |
-| open | Clerk's Stamp (`clerks_stamp`) | 37 | 62 % | 56 % |
-| open | Champion's Laurels (`champions_laurels`) | 58 | 64 % | 56 % |
-| open | Pathwork Waistcoat (`pathwork_waistcoat`) | 63 | 65 % | 56 % |
-| open | First-Pick Fedora (`first_pick_fedora`) | 69 | 65 % | 56 % |
-| open | Shuffle Slippers (`shuffle_slippers`) | 26 | 65 % | 56 % |
-| open | Flip-Flops of Fortitude (`flip_flops`) | 27 | 67 % | 56 % |
-| open | Traveler's Boots (`travelers_boots`) | 33 | 67 % | 56 % |
-| open | Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 60 | 68 % | 56 % |
-| open | Iron Knuckles (`iron_knuckles`) | 41 | 71 % | 56 % |
-| open | Cheater's Dice (`cheaters_dice`) | 31 | 71 % | 56 % |
-| open | Velvet Rope (`velvet_rope`) | 9 | 78 % | 56 % |
+| open | Side-Hustle Headband (`hustle_headband`) | 18 | 33 % | 56 % |
+| open | Mystery-Stain Bib (`mystery_stain_bib`) | 39 | 36 % | 56 % |
+| open | Soul Courier's Lanyard (`courier_lanyard`) | 41 | 44 % | 56 % |
+| open | Head Chef's Ladle (`head_chef_ladle`) | 43 | 47 % | 56 % |
+| open | Notarized Seal of Unlife (`notary_seal`) | 17 | 47 % | 56 % |
+| open | Bloodsand Boots (`bloodsand_boots`) | 128 | 48 % | 56 % |
+| open | Doggy Bag (`doggy_bag`) | 33 | 52 % | 56 % |
+| open | X-Ray Goggles (`xray_goggles`) | 64 | 52 % | 56 % |
+| open | Gainsmith's Lifting Belt (`swole_belt`) | 23 | 52 % | 56 % |
+| open | Dumpster Diving Gloves (`dumpster_gloves`) | 23 | 52 % | 56 % |
+| open | Kettlebell Locket (`kettlebell_locket`) | 42 | 52 % | 56 % |
+| open | Trash Panda Tiara (`raccoon_crown`) | 21 | 52 % | 56 % |
+| open | Tinker's Wrench (`tinkers_wrench`) | 61 | 54 % | 56 % |
+| open | Sucker Punch Mitts (`sucker_punch_mitts`) | 60 | 55 % | 56 % |
+| open | Bin Lid Helm (`bin_lid`) | 29 | 55 % | 56 % |
+| open | Head Chef's Toque (`head_chef_toque`) | 65 | 55 % | 56 % |
+| open | Compost Boots (`compost_boots`) | 101 | 55 % | 56 % |
+| open | Pocket Hourglass (`pocket_hourglass`) | 54 | 56 % | 56 % |
+| open | Lucky Pack Wrapper (`lucky_pack_wrapper`) | 9 | 56 % | 56 % |
+| open | Solid Plate (`solid_plate`) | 55 | 56 % | 56 % |
+| open | Dog-Eared Bookmark (`dog_eared_bookmark`) | 44 | 57 % | 56 % |
+| open | Wicked Dagger (`wicked_dagger`) | 56 | 59 % | 56 % |
+| open | Paper-Plane Cape (`paper_plane_cape`) | 35 | 60 % | 56 % |
+| open | Red Tape Dispenser (`red_tape_dispenser`) | 41 | 61 % | 56 % |
+| open | Rolled-Up Rulebook (`rolled_rulebook`) | 44 | 61 % | 56 % |
+| open | Clerk's Stamp (`clerks_stamp`) | 39 | 62 % | 56 % |
+| open | Champion's Laurels (`champions_laurels`) | 61 | 62 % | 56 % |
+| open | Steady Sandals (`steady_sandals`) | 27 | 63 % | 56 % |
+| open | Shuffle Slippers (`shuffle_slippers`) | 28 | 64 % | 56 % |
+| open | First-Pick Fedora (`first_pick_fedora`) | 78 | 65 % | 56 % |
+| open | Pathwork Waistcoat (`pathwork_waistcoat`) | 81 | 65 % | 56 % |
+| open | Traveler's Boots (`travelers_boots`) | 36 | 67 % | 56 % |
+| open | Iron Knuckles (`iron_knuckles`) | 46 | 67 % | 56 % |
+| open | Cheater's Dice (`cheaters_dice`) | 37 | 68 % | 56 % |
+| open | Flip-Flops of Fortitude (`flip_flops`) | 28 | 68 % | 56 % |
+| open | Crowd-Pleaser's Cape (`crowd_pleasers_cape`) | 62 | 69 % | 56 % |
+| open | Velvet Rope (`velvet_rope`) | 12 | 75 % | 56 % |
 | zone | Iron Knuckles (`iron_knuckles`) | 13 | 23 % | 44 % |
 | zone | Soul Courier's Lanyard (`courier_lanyard`) | 13 | 23 % | 44 % |
 | zone | Pocket Hourglass (`pocket_hourglass`) | 12 | 25 % | 44 % |

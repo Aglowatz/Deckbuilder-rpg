@@ -14,8 +14,8 @@ and the card proposals were simulated with a sim-only override (`tools/draft_aud
 - **Volume:** 216 drafts, 584 fights: Classic with each single Path and each pair (8 drafts each, level 18), three-Path and four-Path
   Classic (level 23; two of the four trios), High Rollers with each single Path, two pairs and all four Paths, Mystery Mini with each Path,
   and the four zone drafts (level 12). One game per rival per draft; a fight undecided after 20 turns each counts as lost.
-- **Not measured** (time): four High Rollers pairs, two three-Path Classic sets, High Rollers with three Paths. Their cards and gear are
-  still counted wherever they appear in the other modes.
+- **Not measured on Nov 26 night** (time): four High Rollers pairs, two three-Path Classic sets, High Rollers with three Paths. **All
+  measured on Nov 27 day** (68 more drafts, 204 fights; see "Nov 27 day" at the end); `draft_tables.md` now holds all 284 drafts.
 
 **How to read it.** A row of 8 drafts is 24 fights: about +/-20 points of noise, so only big gaps mean something. The card and gear
 "change" compares decks of the same configs with and without the card or piece; it is a lead, not a verdict, which is why each proposal
@@ -137,3 +137,48 @@ The card proposals were simulated on their own: the same configs and draft seeds
 
 The Extra Pocket's paired measurement ran over its 20-minute limit and wrote nothing; see the report for whether a smaller rerun made it.
 Raw proposal runs: `proposals/*_base.json`, `*_proposal.json`; table: `proposals/proposals.md` (`python tools/nov26n_proposal_table.py`).
+
+## Nov 27 day: the sets Nov 26 night did not reach (Part C)
+
+Same tool and settings (`bash tools/run_draft_audit.sh 8 1 <batch>`: 8 drafts a config, one game a rival, the 40-turn cap); batches
+`late_trios_b`, `high_pairs_b`, `high_pairs_c`, `late_high`, `late_high_b` in `raw/`. `late_trios_b` hit its 20-minute limit after 12 of
+its 16 drafts (kept: the audit writes after each draft). 68 drafts, 204 fights. Nothing was changed in the game.
+
+| Mode | Paths | Level | Drafts | Fights won | Win rate |
+|---|---|---:|---:|---:|---:|
+| Classic | Beefcake + Necrocrat + Refusemancer | 23 | 8 | 13/24 | 54 % |
+| Classic | Gourmand + Necrocrat + Refusemancer | 23 | 4 | 8/12 | 67 % |
+| High Rollers | Beefcake + Gourmand | 18 | 8 | 13/24 | 54 % |
+| High Rollers | Beefcake + Refusemancer | 18 | 8 | 14/24 | 58 % |
+| High Rollers | Gourmand + Necrocrat | 18 | 8 | 8/24 | **33 %** |
+| High Rollers | Necrocrat + Refusemancer | 18 | 8 | 14/24 | 58 % |
+| High Rollers | Beefcake + Gourmand + Necrocrat | 23 | 8 | 14/24 | 58 % |
+| High Rollers | Beefcake + Gourmand + Refusemancer | 23 | 8 | 9/24 | **38 %** |
+| High Rollers | Beefcake + Necrocrat + Refusemancer | 23 | 8 | 15/24 | 62 % |
+| High Rollers | Gourmand + Necrocrat + Refusemancer | 23 | 8 | 12/24 | 50 % |
+
+**By Path, every draft a Path is in** (fights won; before -> after adding today's drafts):
+
+| | Classic | High Rollers | All modes |
+|---|---:|---:|---:|
+| Beefcake | 61 % -> 60 % | 43 % -> 50 % | 53 % -> 53 % |
+| Gourmand | 51 % -> 52 % | **33 % -> 42 %** | 45 % -> 46 % |
+| Necrocrat | 49 % -> 51 % | 43 % -> 49 % | 48 % -> 50 % |
+| Refusemancer | 58 % -> 58 % | 39 % -> 48 % | 52 % -> 53 % |
+| Mode overall | 56 % -> 56 % | 43 % -> 48 % | |
+
+**What changes in the findings above:**
+
+1. **High Rollers is a little easier than it looked:** 48 % a fight over all its configs (it read 47 % before, from singles, two pairs
+   and the four-Path set); its pairs and trios sit at 50-60 % except those holding Gourmand.
+2. **Gourmand is still the weak draft Path, and High Rollers shows it most:** the two lowest new rows both hold Gourmand (Gourmand +
+   Necrocrat 33 %, Beefcake + Gourmand + Refusemancer 38 %). Proposal B4 (En Garde-Manger 3/4) stands; Grand Chef Escoffina is still
+   the most-drafted card with the worst record (80 decks, -15.7).
+3. **Refusemancer's edge is a Classic single-Path thing:** in High Rollers pairs and trios it is at par (48 %). The Raccoon's lift shrinks
+   with more decks (**+20.5 over 33 decks -> +13.3 over 47**): proposal B1 (Raccoon 1 + R) is still supported, less strongly.
+4. **Three-Path Classic after Primm holds up** (54 % and 67 %, against 49 % for the late Classic sets before): no set is out of line.
+5. New names in the top overperformers come from the multi-Path cards the trios draft (Madame Mortadella +24.4 over 8 decks, Waste
+   Manager +21.5 over 15, Sewer Rat Courier +16.8): small samples, noted only. En Garde-Manger has left the ten weakest.
+
+No new proposal.
+
