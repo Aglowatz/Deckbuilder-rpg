@@ -336,19 +336,24 @@ func _items() -> void:
 ## Nov 26 night (Part B): the Extra Pocket now that it really works - the same draft decks and seeds with two drafted items (--items=a,b,
 ## default a Healing Salve and a Hearty Pot Pie) and without / with the Pocket (and, for scale, with no items at all).
 func _pocket() -> void:
-	var items: Array[String] = []
-	for id: String in str(args.get("items", "healing_salve,hearty_pie")).split(",", false):
-		items.append(id)
+	# Nov 27 day (Part B): several item sets in one process (--items=a,b;c,d), the bare deck taken from the baselines (it was played twice).
+	# The sim's item policy makes the Pocket's free second use itself (SimItemPolicy.second_use_free), so the Pocket is simply worn.
 	var baselines: Array[Dictionary] = _baselines()
-	var bare: Array[int] = _measure(baselines, [] as Array[String], [] as Array[String])
-	var plain: Array[int] = _measure(baselines, [] as Array[String], items)
-	# Nov 27 day: the sim's item policy now makes the Pocket's free second use itself (SimItemPolicy.second_use_free), so the Pocket is
-	# simply worn with the same items
-	var pocket: Array[int] = _measure(baselines, ["extra_pocket"] as Array[String], items)
-	lines.append("The same draft decks and rivals on the same seeds; items: %s (one copy each)." % ", ".join(items))
+	var bare: Array[int] = [0, 0]
+	for base: Dictionary in baselines:
+		bare[0] += int(base["wins"])
+		bare[1] += int(base["games"])
+	lines.append("The same draft decks and rivals on the same seeds; each item one copy. Paths: %s." % ", ".join(_path_names()))
 	lines.append("")
-	lines.append("| Kit | Win rate | Games |")
-	lines.append("|---|---:|---:|")
-	lines.append("| no gear, no items | %d%% | %d |" % [_pct(bare[0], bare[1]), bare[1]])
-	lines.append("| the two items | %d%% | %d |" % [_pct(plain[0], plain[1]), plain[1]])
-	lines.append("| the two items + the Extra Pocket (each used twice) | %d%% | %d |" % [_pct(pocket[0], pocket[1]), pocket[1]])
+	lines.append("| Items | Kit | Wins | Games | Win rate |")
+	lines.append("|---|---|---:|---:|---:|")
+	lines.append("| none | no gear, no items | %d | %d | %d%% |" % [bare[0], bare[1], _pct(bare[0], bare[1])])
+	for set_text: String in str(args.get("items", "healing_salve,hearty_pie")).split(";", false):
+		var items: Array[String] = []
+		for id: String in set_text.split(",", false):
+			items.append(id)
+		var plain: Array[int] = _measure(baselines, [] as Array[String], items)
+		var pocket: Array[int] = _measure(baselines, ["extra_pocket"] as Array[String], items)
+		lines.append("| %s | the items | %d | %d | %d%% |" % [", ".join(items), plain[0], plain[1], _pct(plain[0], plain[1])])
+		lines.append("| %s | the items + the Extra Pocket | %d | %d | %d%% |" % [", ".join(items), pocket[0], pocket[1], _pct(pocket[0], pocket[1])])
+		print("pocket %s done" % set_text)

@@ -23,8 +23,7 @@ run() {
 if [ "$WHAT" = "draft" ] || [ "$WHAT" = "all" ]; then
 	# Trey's zone drafts (level 12): each Path, the bare deck / two items / two items + the Pocket
 	for p in beefcake gourmand necrocrat refusemancer; do
-		run "draft_heal_$p" -s res://tools/draft_sim.gd -- --what=pocket --paths=$p --items=healing_salve,hearty_pie --games=3 --out=res://$OUT/pocket_draft_heal_$p.md
-		run "draft_burn_$p" -s res://tools/draft_sim.gd -- --what=pocket --paths=$p --items=firebrand_charm,sharpening_stone --games=3 --out=res://$OUT/pocket_draft_burn_$p.md
+		run "draft_$p" -s res://tools/draft_sim.gd -- --what=pocket --paths=$p "--items=healing_salve,hearty_pie;firebrand_charm,sharpening_stone" --games=${DRAFT_GAMES:-5} --out=res://$OUT/pocket_draft_$p.md
 	done
 fi
 if [ "$WHAT" = "zone" ] || [ "$WHAT" = "all" ]; then

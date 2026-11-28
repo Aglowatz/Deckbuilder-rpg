@@ -188,8 +188,8 @@ func _players(last: EncounterSpec, decks: String, seed_value: int) -> Array[Play
 
 
 ## Nov 27 day (Part B, the Extra Pocket measured): `--items=heal|burn` replaces the model's items with a set (as the postgame hunt's), and
-## `--pocket=on|off` wears the Extra Pocket in its slot (in place of whatever the model wears there) or takes it off (the slot's next
-## piece, the Dog-Eared Bookmark, in its place). Without these flags the model's kit is kept.
+## `--pocket=on|off|none` wears the Extra Pocket in its slot (the relic, in place of whatever the model wears there), or the slot's other
+## mid-game piece, the Dog-Eared Bookmark ("off"), or nothing ("none"). Without these flags the model's kit is kept.
 const ITEM_SETS: Dictionary = {
 	"heal": {"hearty_pie": 2, "healing_salve": 2},
 	"burn": {"firebrand_charm": 2, "sharpening_stone": 1, "hearty_pie": 1},
@@ -210,9 +210,10 @@ func _kit_up(spec: PlayerSpec) -> PlayerSpec:
 		if id == "extra_pocket" or (piece != null and pocket_piece != null and int(piece.slot) == int(pocket_piece.slot)):
 			continue
 		kept.append(id)
-	kept.append("extra_pocket" if pocket == "on" else "dog_eared_bookmark")
+	if pocket != "none":  # "none": the relic slot left empty (the Pocket against nothing, for scale)
+		kept.append("extra_pocket" if pocket == "on" else "dog_eared_bookmark")
 	spec.equipment_ids = kept
-	spec.label += " +pocket" if pocket == "on" else " -pocket"
+	spec.label += " +pocket" if pocket == "on" else (" no relic" if pocket == "none" else " bookmark")
 	return spec
 
 
