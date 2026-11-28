@@ -1,3 +1,138 @@
+# Nov 27 day - the bug soak, the Extra Pocket measured, the draft audit finished
+
+Brief: `docs/prompts/opus_nov27_day.md` (tag `pre-nov27`). Shots: `docs/overnight_shots/nov27/` (soak: `soak/`). Sims: `docs/design/sim/nov27/`.
+Your decisions: `docs/overnight_inbox.md`, "Nov 27 day" (summarised at the end of this section).
+Start: the working tree held only the brief (committed); tagged `pre-nov27`. No Godot of yours was open.
+
+> **First, an apology: your campaign slot 3 was overwritten by my soak bot's first trial run.** At 15:24 the bot (seed 102, a
+> 3-minute trial) opened Load Game on the title, pressed Copy on slot 1, "Copy here" on slot 3, and confirmed. `--no-save` only stopped
+> the autosave; the campaign screen's Copy wrote straight into your save folder. **Slot 3 (Gourmand Path, level 9, The Endless Buffet,
+> 2 h 01 m, last played Nov 16) now holds a copy of slot 1** (Necrocrat, level 30). Slots 1 and 2 are untouched. I found no other copy of
+> the old slot 3 on the disk (no shadow copies, no feedback copy, no older folder) and left slot 3 as it is. If Windows File History or
+> a backup drive holds `%APPDATA%\Deckbuilder-RPG\saves\campaign_3\`, restoring that folder brings it back. **Fixed so it cannot happen
+> again:** SaveGuard now treats every `--no-save` run (play scripts, the soak bot, the shot tools, e2e) like a test run and redirects
+> every save path to `user://test_saves/`; the bot refuses Copy / Delete / Restore / Start Over / Overwrite and refuses to run without
+> the guard. Every later run checked your real save folder before and after: unchanged each time.
+
+**In one paragraph.** A, B, C and D are done. **The soak bot** (`tools/soak_bot.*`) played about two hours (8,800 random steps over
+every screen and mode, at 1280x720 and 1920x1080) and found **seven real problems, all fixed with tests**, and no softlock in the game
+itself. **The Extra Pocket is not a must-take and breaks no fight:** over an empty relic slot it adds +2 (heal items) to +5 (burn items)
+points in the zone dungeons, while the Dog-Eared Bookmark in the same slot adds +16; its best use is the postgame with burn items (+11).
+**The draft audit is finished:** Gourmand is still the weak draft Path (High Rollers shows it most), the Raccoon's lift shrinks with more
+data (+20 -> +13), High Rollers reads a little easier (48 %). No balance number was changed.
+
+| Part | Done | Where to look |
+|---|---|---|
+| A Bug soak | yes (~2 h, 4 seeds + trials) | `docs/overnight_shots/nov27/soak/README.md` |
+| B Extra Pocket | yes (drafts, zone dungeons, postgame; paired) | `docs/design/sim/nov27/extra_pocket.md` |
+| C Draft audit finished | yes (68 drafts) | `docs/design/sim/nov26n/draft_balance.md`, "Nov 27 day" |
+| D Checks, build, report | see "Checks and build" | below |
+
+## Part A - the bug soak
+
+**The bot.** `bash tools/soak_bot.sh <seed> [minutes] [WxH]` plays the real game with random but valid choices, in segments: the title
+(settings, load, credits), a new game, Crosspath (every spot - people, shops, Auntie Alembic, Pip, the deck station, the Bestiary, the
+Shuffle House), the four zones and the Capital, the Shuffle House (its four modes, the Shuffled Halls, the Puzzle Tables), zone drafts,
+dungeons and their events, single fights (played at random, then won or lost so both result screens are seen), and save -> load round
+trips. Every step it checks for script errors (an engine logger, with backtraces), softlocks, UI off the screen, overlapping buttons,
+cut-off text, placeholder art (the Godot icon, "placeholder"/"missing" textures, pure magenta) and saves that come back different. Each
+problem keeps its first frame; seeds, logs and frames are in `docs/overnight_shots/nov27/soak/`.
+
+| Run | Window | Steps | Script errors | Problems |
+|---|---|---:|---:|---|
+| seed 1 | 1280x720 | 2,181 | 0 | a save lost a card on load |
+| seed 2 | 1920x1080 | 1,725 | 1 | "Lambda capture was freed"; a hang that was the bot's own setting |
+| seed 3 | 1280x720 | 1,896 | 0 | none (one benign flag) |
+| seed 4 | 1920x1080 | 2,001 | 0 | heal text off the screen |
+| trials (101-103, traces) | both | ~1,000 | 1 -> 0 | three layout bugs; the slot copy |
+
+**Found and fixed** (tests in `tests/test_nov27_soak.gd`, 10):
+1. **A `--no-save` run could change your campaign slots** (above). SaveGuard protects every `--no-save` run.
+2. **The battle's gold button ran off the right edge** ("Confirm Blocks (1)  [Space]" grew from x 1640 to 1974). It now grows to the
+   left, its right edge fixed.
+3. **Long battle banners ran off both sides** ("MIRRORS COPIED COURIER PIGEON" at 92 px). They shrink to fit the 1200 px box.
+4. **The world Menu list's frame was cut at the right edge** in every zone, dungeon and Crosspath. It moves left to keep 12 px.
+5. **A save lost a card on its first load** (deck 48 -> 47, collection 29 -> 28): the fast-forwarded game (`Session.ensure_game`, used
+   by the tools, bots and most tests) went past the copy cap with the trial's sample picks. The real game was not affected (`add_cards`
+   converts an extra copy); the shortcut now gives only what the caps allow.
+6. **"Lambda capture at index 0 was freed"** when a fight began while a conversation held an area's title banner: the banner's wait timer
+   called back with the freed scene. It holds a weak reference now; the same seed and steps give no error.
+7. **Floating battle text off the screen** ("+3 HP (Nourish)" over the opponent's plate started 37 px off the left edge). Clamped.
+
+**Looked at, not bugs:** the "duel that never finished" (the opponent-card pop-up waiting for a click - the bot had set Opponent cards to
+"Wait for click"); first-load flag migrations and the town banner's "seen" flag after a load; the tracker following the zone's main line
+after resuming in a zone (by design).
+
+**Left (minor):** a battle rule's tooltip stays over the defeat panel while the pointer rests where the rule badge was (it goes when the
+pointer moves); an unidentified label 50 px below the bottom-left corner on a Puzzle Table result (not visible). **No placeholder art or
+magenta** was seen in ~8,800 steps. Run the bot again before release: `bash tools/soak_bot.sh 5 25 1920x1080`.
+
+## Part B - the Extra Pocket, measured
+
+`docs/design/sim/nov27/extra_pocket.md`. **The sim now plays the Pocket as the game does** (its free second use; the sim used to charge a
+copy for both uses, so with one copy the second use never happened). Paired runs: the same decks, rivals and seeds with and without it.
+
+| Where | Heal items: without -> with | Burn items: without -> with |
+|---|---|---|
+| Zone dungeons (4, route B; relic slot empty -> Pocket) | 46 % -> 48 % | 48 % -> 53 % |
+| Zone dungeons, the Dog-Eared Bookmark in that slot instead | 62 % | 64 % |
+| Postgame (Lab 8 and 16, Gallery 10, Swolympus 2, the Warden; aggro kit) | 50 % -> 58 % | 52 % -> 63 % |
+| Zone drafts (4 Paths, 54 games a kit) | 19 % -> 19 % | 22 % -> 28 % |
+
+**Verdict: not a must-take, breaks no fight.** The Bookmark beats it in its own slot in every zone dungeon. Its best case is the
+postgame with burn items (+11; the Warden 42 % -> 58 %), which lifts hard fights without making any of them easy. **No proposal.**
+
+## Part C - the draft audit, finished
+
+`docs/design/sim/nov26n/draft_balance.md`, new section "Nov 27 day"; `draft_tables.md` regenerated over all 284 drafts. New: two
+three-Path Classic sets (54 %, 67 %), the four other High Rollers pairs (33-58 %), all four High Rollers trios (38-62 %).
+**Changes to the findings:** High Rollers is a little easier than it looked (48 % a fight); Gourmand is still the weak draft Path and
+High Rollers shows it most (the two lowest new rows both hold Gourmand); Refusemancer's edge is a Classic single-Path thing; the
+Raccoon's lift shrinks with more decks (+20.5 -> +13.3; proposal B1 still supported, less strongly). No new proposal.
+
+## Checks and build
+
+| Check | Result |
+|---|---|
+| GUT, full sharded run (shards of 10, `--min-free=1200`, 37 min) | **3,951 of 3,954 passed**, 1 failing, 2 risky/pending. The failure was an old test (Nov 8) still expecting the Pocket's wording before Nov 26 night ("twice per battle"); updated, passing. Real saves untouched. |
+| New tests | `tests/test_nov27_soak.gd`: 10 of 10 |
+| Draft smoke | OK, 600 checks, 0 failed |
+| Walk smokes (8) | all OK (Crosspath, hub, reach 38/38, Gainlands, D.N.A., Buffet, Dump, Capital) |
+| NPC visibility probe | 158 checks, 0 failed |
+| Fade probe | 7 places, nothing but tall occluders fades, 0 script errors |
+| Quest hand-in probe | 32 passed, 0 failed |
+| Sign walkway probe | the same two D.N.A. signs (you said leave them) |
+| Story bot (Beefcake; the world changes were UI only) | **119 of 119**, 0 script errors, real saves unchanged |
+| Export | `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0`: **EXPORT OK**, `builds/TheWaywardPath-v1.0.0-windows.zip`, **826 MB** |
+| Exported smoke | `run_release_smoke_exported.sh`: **PASSED (1.0.0)** |
+| Exported plays | fresh test pack; `play_exported.sh` rc1 a, b, c: all ran to the end |
+
+No public upload. One Godot at a time throughout. Your save folder was checked before and after every soak batch, the story bot and the
+exported checks: unchanged (the exported suite copies your settings.cfg back afterwards, so only its file time moves). **You played
+while the Part B sims ran** (about 19:10-19:54: campaign 1 +20 minutes at the Buffet, and a new game started in slot 3, replacing the
+copy); none of that was touched.
+
+## Your decisions (also in `docs/overnight_inbox.md`, "Nov 27 day")
+
+1. **Slot 3.** It now holds the new game you started this evening (level 3). The old Gourmand save is gone unless a backup exists.
+   *Recommend: check Windows File History / any backup drive for `%APPDATA%\Deckbuilder-RPG\saves\campaign_3\` before playing
+   slot 3 further.*
+2. **`--no-save` runs are protected** (play scripts, shot tools and the critics' scripted runs now see a fresh install's slots, as the
+   exported runs already did). *Recommend: keep.*
+3. **The Extra Pocket stays as it is** (not a must-take, breaks no fight). *Recommend: keep; if you want it to rival the Bookmark,
+   that is a design change, not a number.*
+
+## What's left
+
+- Two minor soak finds not fixed (a rule tooltip that lingers until the pointer moves; an invisible label below a Puzzle Table result).
+- Three story bots (Gourmand, Necrocrat, Refusemancer) were not run today; the Beefcake one was (the game changes were UI and a test
+  shortcut). The Nov 26 night proposals still wait for you; nothing in them changed except the Raccoon's evidence (weaker).
+- The soak covered Classic/High Rollers/Mini drafts through random clicks only; a run that plays a whole Shuffle House draft to its
+  end is a good next soak segment.
+
+---
+
+
 # Nov 26 night - Octavia's five deck-building puzzles, the draft audit, the postgame solution hunt, the equipment audit
 
 Brief: `docs/prompts/opus_nov26_night_v2.md` (tag `pre-nov26-night`). Shots: `docs/overnight_shots/nov26n/`. Sims: `docs/design/sim/nov26n/`.
